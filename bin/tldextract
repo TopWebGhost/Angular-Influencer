@@ -1,0 +1,10 @@
+#!/home/merida/Downloads/work/new/Atul/bin/python
+# EASY-INSTALL-ENTRY-SCRIPT: 'tldextract==2.0.1','console_scripts','tldextract'
+__requires__ = 'tldextract==2.0.1'
+import sys
+from pkg_resources import load_entry_point
+
+if __name__ == '__main__':
+    sys.exit(
+        load_entry_point('tldextract==2.0.1', 'console_scripts', 'tldextract')()
+    )

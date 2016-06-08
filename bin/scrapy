@@ -1,0 +1,4 @@
+#!/home/merida/Downloads/work/new/Atul/bin/python
+
+from scrapy.cmdline import execute
+execute()
