@@ -1,0 +1,14 @@
+How the shelf button works:
+  clicking "Shelf-It" calls 
+    /mymedia/site_folder/js/shelfit_getshelf.js?r=2195430.2898214892 
+  which if it's a supported store, then calls:
+    /shelfit?u=http%3A%2F%2Fwww.gap.com%2Fbrowse%2Fproduct.do%3Fcid%3D8998%26vid%3D1%26pid%3D252530%26scid%3D252530012&s=L%3BTall%3Btall&c=spectrum%20blue&q=1&imgurl=http%3A%2F%2Fwww1.assets-gap.com%2Fwebcontent%2F0005%2F363%2F052%2Fcn5363052.jpg&name=Wide-stripe%20sweater&price=%2439.95&gender=Women&category1=Sweaters&category2=Crewnecks%20%26amp%3B%20V-Necks&category3=Nil 
+    maps to debra.modify_shelf.add_item()
+    
+    
+    
+How to manually run the spider:
+  cd harry
+  scrapy crawl express -a new_arrivals=1  -a store_name="Express" -a start_url="http://www.express.com/"
+  you can see how it formats in harry/dexter/fetch_new_arrivals 
+

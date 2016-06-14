@@ -1,0 +1,94 @@
+#!/bin/sh
+# theshelf run helper. Calls Django using the appropriate environment.
+# NOTE: Make sure the manage.py invocation uses exec so this script is runnable in Upstart jobs too!
+set -e
+SCRIPT=$(readlink -f $0 2>/dev/null)
+PROJECT_DIR=$(dirname $SCRIPT)
+VENV=${VENV:-$PROJECT_DIR/venv}
+DEFAULT_E=local
+
+debug_echo() {
+    if [ ! -z "$DEBUG" ] ; then
+        echo $@
+    fi
+}
+
+discover_settings() {
+    if [ -z "$DJANGO_SETTINGS_MODULE" ] ; then
+        if [ -z "$E" ] ; then
+            export DJANGO_SETTINGS_MODULE=settings_$DEFAULT_E
+        else
+            export DJANGO_SETTINGS_MODULE=settings_$E
+        fi
+    fi
+    debug_echo "DJANGO_SETTINGS_MODULE: $DJANGO_SETTINGS_MODULE"
+}
+
+psql() {
+    DB_SETTING=${1:-default}
+    PSQL=$(which psql)
+    PSQL_VARS=$(cat <<EOF | python - 2>/dev/null | sed -n -e '/PGPASSWORD/p'
+import os
+import miami_metro.$DJANGO_SETTINGS_MODULE as s
+db_name = "$DB_SETTING"
+db = s.DATABASES[db_name]
+vars = "export PGPASSWORD='%(PASSWORD)s'; export PGUSER='%(USER)s'; export PGHOST='%(HOST)s'; export PGDB='%(NAME)s'; export PGPORT=%(PORT)s" % db
+print(vars)
+EOF
+)
+    eval "$PSQL_VARS"
+    exec $PSQL -U "$PGUSER" -h "$PGHOST" -d "$PGDB" -p "$PGPORT" "$@"
+}
+
+activate_venv() {
+    if [ ! -d "$VENV" ] ; then
+        # Try to fall back to the project dir
+        if [ -f $PROJECT_DIR/bin/activate ] ; then
+            VENV=$PROJECT_DIR
+        else
+            echo "virtualenv not found in '$VENV' and in project dir. Aborting..."
+            exit 1
+        fi
+    fi
+
+    debug_echo "VIRTUALENV: $VENV"
+    . $VENV/bin/activate
+}
+
+debug_echo "PROJECT_DIR: $PROJECT_DIR"
+
+discover_settings
+activate_venv
+
+case "$1" in
+    "psql")
+        shift
+        psql $@
+        ;;
+    "python")
+        shift
+        cd "$PROJECT_DIR/miami_metro"
+        python "$@"
+        ;;
+    "test")
+        shift
+        cd "$PROJECT_DIR/miami_metro"
+        python -m unittest "$@"
+        ;;
+    "celery")
+        shift
+        cd "$PROJECT_DIR/miami_metro"
+        exec celery -A celery_theshelf "$@"
+        ;;
+    "pip")
+        shift
+        cd "$PROJECT_DIR/miami_metro"
+        exec pip "$@"
+        ;;
+    *)
+        cd "$PROJECT_DIR/miami_metro"
+        exec python manage.py "$@"
+        ;;
+esac
+
+# vim: set filetype=sh ts=4 sw=4 et:

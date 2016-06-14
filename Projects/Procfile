@@ -1,0 +1,2 @@
+#web: ./theshelf collectstatic --noinput --ignore css; E=rackspace ./theshelf run_gunicorn -b 0.0.0.0:$PORT -w 4 -c gunicorn_conf.py
+web: python miami_metro/manage.py collectstatic --noinput --ignore css; bin/start-pgbouncer-stunnel python miami_metro/manage.py run_gunicorn -b 0.0.0.0:$PORT -w 1 -c gunicorn_conf.py
