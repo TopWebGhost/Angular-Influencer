@@ -1,0 +1,34 @@
+{% extends 'widgets/base.html' %}
+<!-- A simple template file for showing a list of shelves -->
+
+{% block widget_content %}
+<!-- shelves list -->
+<div class="bar_bottom bar_sect content">
+	<ul>
+	{% for shelf in shelves %}
+	    <li class="bar_element user_shelf{% if filter and filter == shelf.id %} active{% endif %} clearfix" id="{{ shelf.id }}" data-shelf-url="http://app.theshelf.com{% url debra.shelf_views.shelf_home shelf_user.id %}?q={{ shelf.id }}" data-shelf-name="{{ shelf.name }}">
+		    <div class="pic_label">
+		        <div class="sidebar_shelf_img circ_pic">{%  if shelf.shelf_img %}<img src="{{ shelf.shelf_img }}" />{% endif %}</div>
+		        <div class="bar_elem_txt">
+		            <p class="sans_type xsmall uppercase shelf_name dotdot">{{ shelf.name }}</p>
+		            <p class="serif_ital xxsmall">{{ shelf.num_items }} items</p>
+		        </div>
+		    </div>
+		</li>
+	{% endfor %}
+	</ul>
+</div>
+
+<script id="new_shelf_tpl" type="text/template">
+<li class="bar_element user_shelf clearfix" id="<%= shelf.id %>" data-shelf-url="http://app.theshelf.com{% url debra.shelf_views.shelf_home shelf_user.id %}?q=<%= shelf.id %>" data-shelf-name="<%= shelf.name %>">
+    <div class="pic_label">
+        <div class="sidebar_shelf_img circ_pic"><img src="<%= shelf.img %>" /></div>
+        <div class="bar_elem_txt">
+            <p class="sans_type xsmall uppercase shelf_name dotdot"><%= shelf.name %></p>
+            <p class="serif_ital xxsmall"><%= shelf.num_items %> items</p>
+        </div>
+    </div>
+</li>
+</script>
+
+{% endblock %}

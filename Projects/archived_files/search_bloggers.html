@@ -1,0 +1,11 @@
+{% extends 'widgets/base.html' %}
+{% load endless %}
+{% load custom_filters %}
+
+{% block widget_content %}
+{% lazy_paginate 10 users %}
+{% for user in users %}
+
+{% endfor %}
+{% show_more %}
+{% endblock %}

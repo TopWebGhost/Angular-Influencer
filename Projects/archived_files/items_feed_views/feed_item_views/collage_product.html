@@ -1,0 +1,11 @@
+{% load custom_filters %}
+
+<div class="img_container feed_item_thumbnail" data-item-id="{{ item.id }}">
+    <img src="{{ item.img_url_feed_view }}" data-analytics-url="http://app.theshelf.com{% url debra.item_views.ga_tracking shelf_user.id item.id %}" />
+    <span class="image_meta calculated_price">
+    {% if item.calculated_price > 0 %}
+        <p class="price">${{item.calculated_price|floatformat:2}}</p>
+    {% endif %}
+    </span>
+    <span class="image_meta brand_name">{{item.product_model.brand.name|remove_dot_com}}</span>
+</div>

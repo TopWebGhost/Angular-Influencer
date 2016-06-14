@@ -1,0 +1,42 @@
+{% load widget_tweaks %}
+{% load custom_filters %}
+
+<div id="shelf_content_container">
+    <div class="adding_a_shelf" style="display:none;">
+        <div class="basic_form">
+            <form class="create_shelf_form" action="{% url debra.shelf_views.create_shelf shelf_user.id %}" method="post">{% csrf_token %}
+                <fieldset class="typical_form larger_field px300">
+                    <div class="required">
+                        {{ create_shelf_form.name|add_class:"req add_shelf"|attr:"placeholder:Create a new shelf" }}
+                    </div>
+                </fieldset>
+                <div class="x_space x_50"></div>
+                <a href="#"class="text_link hint_italics center_text add_new_shelf_cancel toggle_shelf_form">Cancel</a>
+                <a class="teal_display_btn center_text small_version new_shelf_save" style="padding-top:27px;"><span style="font-weight:600!important;">SUBMIT</span></a>
+            </form>
+        </div>
+    </div>
+    <div class="shelf_content">
+        <div class="my_label display_book" style="position:fixed; font-size:18px; ">Where should we shelve this? </div>
+        <div class="content_wrapper">
+            <div class="c_box_column">
+                <div class="shelves">
+                    {% for shelf in all_shelves %}
+                        {% if shelf|is_like_shelf %}
+                            <!-- Not showing like shelf because we don't want the user to delete the item from the Like shelf.
+                            This is because if a user 'unselects' the Like shelf, the item will be deleted from that shelf and the
+                            reference id of the ProductModelShelf map will be gone, causing a crash when the item is tried to be shelved to a different Shelf.-->
+
+                        {% else %}
+                        <div class="users_shelf checkbox_btn{% if shelf in added_shelves %} check_on{% endif %}" data-shelf-id="{{ shelf.id }}">{{shelf.name|capfirst}}</div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                <a style="display:block; height:40px; padding-top:8px;" href="#" class="teal_display_btn lighter xsmall_version toggle_shelf_form"><span><b>✚</b> New Shelf</span></a>
+            </div>
+        </div>
+    </div>
+</div>
+<form class="add_to_shelves_form" action="{% url debra.item_views.add_item_to_shelves shelf_user.id item.id %}">
+    {{ add_to_shelves_form.shelves }}
+</form>

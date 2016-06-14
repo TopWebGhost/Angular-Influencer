@@ -1,0 +1,52 @@
+<div class="shelves_container">
+    {% if shelf_user and shelf_user.id == page_user_prof.id %}
+    <div class="a_shelf_container clearfix launch-popup" data-popup-type="create_shelf">
+        <div class="add_shelf_btn"><div class="icon-letter_plus04"></div><div class="btn_txt">Add Shelf</div></div>
+    </div>
+    {% endif %}
+    {% for shelf in shelves %}
+    {% if shelf_user and shelf_user.id == page_user_prof.id %}
+    <div class="a_shelf_container clearfix{% if not shelf_user.widgets_privileges %} no_widgets{% endif %}{% if shelf.images|length == 0 %} no_items{% endif %}" data-edit-url="{% url debra.shelf_views.modify_shelf shelf_user.id shelf.obj.id %}?next={{ request.path }}">
+    {% else %}
+    <div class="a_shelf_container clearfix no_widgets">
+    {% endif %}
+        <div class="no_items_overlay"></div>
+        <div class="img_row_hover_wrapper">
+            <a class="view_details_btn" href="{% url debra.shelf_views.shelf_home page_user_prof.id %}?q={{ shelf.obj.id }}"><div class="icon-misc_magnify2"></div><div class="btn_txt">View</div></a>
+            <div class="img_row clearfix">
+                {% for img in shelf.images %}
+                <div class="img_container"><img class="imgfit" src="{{ img }}"/></div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="title_row">
+            <div class="title_txt">{{ shelf.obj.name }}</div>
+            {% if shelf_user and shelf_user.id == page_user_prof.id %}
+            <div class="edit_title">
+                <span class="icon-misc_files_pencil3 edit_shelf"></span>
+                <span class="icon-misc_files_trash4 delete_shelf" data-delete-url="{% url debra.shelf_views.modify_shelf shelf_user.id shelf.obj.id %}"></span>
+            </div>
+            {% endif %}
+        </div>
+        <!-- if the user is the logged in user and they have sufficient privileges, then they can see the widgets bar -->
+        {% if shelf_user and shelf_user.id == page_user_prof.id and shelf_user.widgets_privileges %}
+        <div class="button_row clearfix">
+            <a class="widget_button" href="{% url scrollable_collage shelf_user.id %}?q={{ shelf.obj.id }}">
+                <div class="outer-center">
+                    <div class="inner-center">
+                        <span class="icon-misc_widget_rotator"></span><span class="btn_txt">Make Rotator</span>
+                    </div>
+                </div>
+            </a>
+            <a class="widget_button last_child" href="{% url grid_collage shelf_user.id %}?q={{ shelf.obj.id }}">
+                <div class="outer-center">
+                    <div class="inner-center">
+                        <span class="icon-misc_widget_collage" style="font-size:25px;"></span><span class="btn_txt">Make Collage</span>
+                    </div>
+                </div>
+            </a>
+        </div>
+        {% endif %}
+    </div>
+    {% endfor %}
+</div>

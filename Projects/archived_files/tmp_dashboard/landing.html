@@ -1,0 +1,121 @@
+{% extends 'pages/brand_dashboard/index.html' %} {% block content %}
+
+<div class="row">
+    {% for influencer in influencers %}
+    <div class="col-md-6 col-vlg-2 col-sm-4 m-b-20">
+        <div class="widget-item narrow-margin blogger-details-body">
+            <div class="tiles green  overflow-hidden" style="height: 220px;">
+                <div class="overlayer bottom-right">
+                    <div class="overlay_button more_info bs_tooltip" title="View More Info" data-placement="right" blogger-more-info ng-click="show('{{influencer.details_url}}')">
+                        <span class="icon-misc_magnify2"></span>
+                    </div>
+                    {% if influencer.can_favorite %}
+                    <div class="follow_prof overlay_button bs_tooltip" title="Add to Favorites List" data-placement="right" ng-click="doOpenFavoritePopup({{influencer.id}})">
+                        <span class="follow icon-misc_value_star2"></span>
+                    </div>
+                    {% else %}
+                    <div class="follow_prof overlay_button bs_tooltip" title="Add to Favorites List" data-placement="right" click-emitter="featureLocked">
+                        <span class="follow icon-misc_value_star2"></span>
+                    </div>
+                    {% endif %}
+
+                </div>
+                <img src="{{influencer.profile_pic_url}}" alt="" class="lazy hover-effect-img imgfit">
+            </div>
+            <div class="tiles white ">
+                <div class="tiles-body">
+                    <div class="row">
+                        <div class="col-md-12 no-padding">
+                            <div class="user-comment-wrapper">
+                                <div class="comment">
+                                    <div class="user-name text-black bold">
+                                        {{influencer.blogname}}
+                                    </div>
+                                    <div class="preview-wrapper">{{influencer.name}}</div>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 col-vlg-12">
+                        {% if influencer.average_num_posts > 0 %}
+                            <span class="icon-social_speech2"></span>
+                            <span class="title">{{ influencer.average_num_posts }} <span>posts/month</span></span>
+                        {% endif %}
+                        &nbsp;
+                        </div>
+                        <div class="col-md-12 col-vlg-12">
+                        {% if influencer.average_num_comments_per_post > 0 %}
+                            <span class="icon-letter_quotes"></span>
+                            <span class="title">{{influencer.average_num_comments_per_post|floatformat }} <span>comments/post</span></span>
+                        {% endif %}
+                        &nbsp;
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 no-padding">
+                            <div class="post p-t-10 p-b-10">
+                                <ul class="action-bar no-margin p-b-20">
+                                    {% for platform in influencer.platforms %} {% if platform.show_on_feed %}
+                                        {% if platform.platform_name == 'Twitter' and platform.num_followers > 0 %}
+                                        <li class="col-md-6 col-vlg-6"><i class="icon-social_twitter"></i>
+                                        {{ platform.num_followers|floatformat }} </li>
+                                        {% endif %}
+                                        {% if platform.platform_name == 'Facebook' and platform.num_followers > 0 %}
+                                        <li class="col-md-6 col-vlg-6"><i class="icon-social_facebook"></i>
+                                        {{ platform.num_followers|floatformat }} </li>
+                                        {% endif %}
+                                        {% if platform.platform_name == 'Instagram' and platform.num_followers > 0 %}
+                                        <li class="col-md-6 col-vlg-6"><i class="icon-social_instagram2"></i>
+                                        {{ platform.num_followers|floatformat }} </li>
+                                        {% endif %}
+                                        {% if platform.platform_name == 'Pinterest' and platform.num_followers > 0 %}
+                                        <li class="col-md-6 col-vlg-6"><i class="icon-social_pinterest"></i>
+                                        {{ platform.num_followers|floatformat }} </li> {% endif %}
+                                    {% endif %} {% endfor %}
+                                </ul>
+                                <div class="clearfix"></div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<div class="row">
+    <div class="col-md-11 col-md-offset-1">
+        <ul class="pagination">
+          {% if page.has_previous %}
+          <li><a href="{% url debra.brand_dashboard.mentioning_influencers page.previous_page_number %}">&laquo;</a></li>
+          {% else %}
+          <li><a class="disabled" href>&laquo;</a></li>
+          {% endif %}
+          {% for pn in pages1 %}
+          <li><a class="{% if pn == page.number %}active{% endif %}" href="{% url debra.brand_dashboard.mentioning_influencers pn %}">{{pn}}</a></li>
+          {% endfor %}
+          {% if sep1 %}
+          <li><a class="disabled" href>...</a></li>
+          {% endif %}
+          {% for pn in pages2 %}
+          <li><a class="{% if pn == page.number %}active{% endif %}" href="{% url debra.brand_dashboard.mentioning_influencers pn %}">{{pn}}</a></li>
+          {% endfor %}
+          {% if sep2 %}
+          <li><a class="disabled" href>...</a></li>
+          {% endif %}
+          {% for pn in pages3 %}
+          <li><a class="{% if pn == page.number %}active{% endif %}" href="{% url debra.brand_dashboard.mentioning_influencers pn %}">{{pn}}</a></li>
+          {% endfor %}
+          {% if page.has_next %}
+          <li><a href="{% url debra.brand_dashboard.mentioning_influencers page.next_page_number %}">&raquo;</a></li>
+          {% else %}
+          <li><a class="disabled" href>&raquo;</a></li>
+          {% endif %}
+        </ul>
+    </div>
+</div>
+{% endblock %}

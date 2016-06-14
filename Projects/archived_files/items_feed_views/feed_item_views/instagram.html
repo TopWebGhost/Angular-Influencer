@@ -1,0 +1,12 @@
+{% load custom_filters %}
+
+<div class="new_feed_itm feed_instagram">
+    <a class="hoverable_area clearfix" href="{{ user.blog_page }}" data-src="{{ item.url }}" target="_blank">
+        <div class="hoverable_contents clearfix">
+		    <div class="corner_icon"><span class="icon-social_instagram"></span></div>
+		    <div class="instagram_pic"><img src="{{ item|post_pic }}"/></div>
+		</div>
+        <div class="view_details_btn"><div class="outer-center"><div class="inner-center"><div class="icon-misc_magnify2"></div><div class="btn_txt">{{ user.blog_name }}</div></div></div></div>
+	</a>
+    {% include 'snippets/feed_item_footer.html' %}
+</div>

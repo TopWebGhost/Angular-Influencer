@@ -1,0 +1,69 @@
+{% load custom_filters %}
+
+{% block content %}
+<div class="new_feed_itm feed_product" data-ajax-path="{% url debra.item_views.item_info item.user_prof.id item.id %}">
+    <!-- overlay after an item has been quick shelved -->
+    <div class="shelved_overlay" style="display:none;">
+        <div class="overlay_text fashion_light medium">
+            This is being
+            <br/>added to your
+            <br/>Like Shelf.
+        </div>
+    </div>
+
+    <div class="hoverable_area clearfix">
+        {% if shelf_user %}
+        <div class="shelf_it_btn add_to_shelves" data-post-url="{% url debra.item_views.add_item_to_shelves shelf_user.id item.id %}">
+        {% else %}
+        <div class="shelf_it_btn add_to_shelves unregistered" click-emitter="openSignupPopup">
+        {% endif %}
+            <div class="outer-center">
+                <div class="inner-center"><span class="icon-social_0_shelf_shelf_middle"></span><span class="shelf_it_txt">: this item</span>
+                </div>
+            </div>
+        </div>
+        <div class="view_details_btn"><div class="outer-center"><div class="inner-center"><div class="icon-misc_magnify2"></div><div class="btn_txt">Details</div></div></div></div>
+        <div class="hoverable_contents clearfix">
+            <div class="corner_icon">
+            {% if shelf_user %}
+                <span class="icon-social_0_shelf_icon3 add_to_shelves" data-post-url="{% url debra.item_views.add_item_to_shelves shelf_user.id item.id %}"></span>
+            {% else %}
+                <span class="icon-social_0_shelf_icon3" click-emitter="openSignupPopup"></span>
+            {% endif %}
+            </div>
+            <img skip class="product_img" src="{{item.img_url_panel_view}}" data-img-url-panel-view="{{ item.img_url_panel_view }}" alt="inspiration item" />
+        </div>
+        <!-- the feed might be viewable by a user not signed up / in -->
+        {% if shelf_user %}
+            <!-- only give the logged in user the ability to modify items on their own feed -->
+            {% if users_feed %}
+                <a href="{% url remove_from_all_shelves shelf_user.id item.id %}" class="delete_btn">
+                    <span class="icon-misc_files_trash2"></span>
+                </a>
+            {% else %}
+                {% if logged_in_brand_feed %}
+                <a href="{% url debra.item_views.hide_from_feed shelf_user.id item.id %}" class="delete_btn">
+                    <span class="icon-misc_very_view"></span>
+                </a>
+                {% endif %}
+            {% endif %}
+        {% endif %}
+    </div>
+    <div class="product_info_row">
+        <div class="store info_item">{{item.product_model.brand.name|remove_dot_com}}</div>
+        <div class="price info_item">
+            {% if item.current_product_price.price > 0 %}
+                {%  if item.current_product_price.orig_price > item.current_product_price.price %}
+                <span class="sale">${{item.current_product_price.price|floatformat:2}}</span>
+                <span class="discount">${{item.current_product_price.orig_price|floatformat:2}}</span>
+                {% else %}
+                <span class="regular">${{item.current_product_price.price|floatformat:2}}</span>
+                {%  endif %}
+            {%  endif %}
+        </div>
+    </div>
+
+
+    {% include 'snippets/feed_item_footer.html' with user=item_owner %}
+</div>
+{% endblock %}

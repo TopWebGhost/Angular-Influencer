@@ -1,0 +1,77 @@
+{% extends 'widgets/base.html' %}
+{% load endless %}
+{% load custom_filters %}
+
+<!-- THIS IS THE STUFF FOR THE OPPORTUNITIES -->
+<!-- THIS IS THE STUFF FOR THE OPPORTUNITIES -->
+<!-- THIS IS THE STUFF FOR THE OPPORTUNITIES -->
+<!-- THIS IS THE STUFF FOR THE OPPORTUNITIES -->
+<!-- THIS IS THE STUFF FOR THE OPPORTUNITIES
+<div class="opportunity_item masonry_item hidden">
+    <div class="op_header">
+        <div class="op_header_img" style="background:url('https://scontent-b-sjc.xx.fbcdn.net/hphotos-frc3/q71/s720x720/999578_10151974792017090_1448599912_n.jpg') top center no-repeat"></div>
+        <div class="icon-00_brand_jcrew"></div>
+    </div>
+    <div class="op_img_row_cont">
+        <div class="op_img_row">
+            <div class="op_img">
+                <img src="http://s7.jcrew.com/is/image/jcrew/07589_WN9325_m?$pdp_fs418$" />
+            </div>
+            <div class="op_img">
+                <img src="http://s7.jcrew.com/is/image/jcrew/07688_NA5939?$pdp_fs418$" />
+            </div>
+            <div class="op_img">
+                <img src="http://s7.jcrew.com/is/image/jcrew/82043_BL6536_m?$pdp_fs418$" />
+            </div>
+            <div class="op_img">
+                <img src="http://s7.jcrew.com/is/image/jcrew/06226_BL7712?$pdp_fs418$" />
+            </div>
+            <div class="op_img">
+                <img src="http://s7.jcrew.com/is/image/jcrew/07190_WO3306_m?$pdp_fs418$" />
+            </div>
+        </div>
+    </div>
+    <div class="op_txt_section">
+        <div class="op_txt_bk">
+            <div class="op_brand">J. Crew</div>
+            <div class="op_title dotdot">Winter Favorites Campaign</div>
+            <div class="op_summary">We're launching a new collection of clothing with a focus on gem colors.  These items look great when mixed with our Shimmer Jewel Collection and our Sparkle Shoe Collection.  We'd welcome all trendsetters who love all things sparkly!!</div>
+        </div>
+        <div class="op_txt_bk last_child">
+            <div class="op_subheader">Compensation</div>
+            <ul class="op_bullets">
+                <li>Pay per social-media interactions</li>
+                <li>Pay per click-thrus to site</li>
+                <li>Percentage of each purchase made</li>
+            </ul>
+        </div>
+    </div>
+</div>
+-->
+
+{% block widget_content %}
+{% if not empty %}
+    {% lazy_paginate 50 feed_items %}
+    {% for item in feed_items %}
+        {{ item.render }}
+    {% endfor %}
+    {% show_more %}
+{% else %}
+    <div class="blank_pg_filler">
+        <div class="content_area clearfix">
+            <div class="blank_title">You haven't {% if likes_page %}liked{% else %}shelved{% endif %} any items yet.</div>
+            <div class="double_bucket">
+                <div class="the_bucket">
+                    <div class="txt">You can find items shelved by our trendsetters on the inspiration feed...</div>
+                    <div class="centerer"><a href="{% url debra.explore_views.inspiration %}" class="square_bt teal_bt lg">View Feed</a></div>
+                </div>
+                <div class="the_bucket last_child">
+                    <div class="txt">You can Shelve items from store websites if you use our bookmarklet while shopping...</div>
+                    <div class="centerer"><a href="{% url debra.company_views.get_shelfit_button %}" class="square_bt teal_bt lg">Get Bookmarklet</a></div>
+                </div>
+            </div>
+            <div class="bottom_image"></div>
+        </div>
+    </div>
+{% endif %}
+{% endblock %}

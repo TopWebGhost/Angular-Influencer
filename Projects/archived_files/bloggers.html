@@ -1,0 +1,135 @@
+{% extends 'pages/search/base.html' %}
+{% load custom_filters compressed %}
+
+{% block page_js %}
+{% compressed_js 'search' %}
+{% endblock %}
+
+{% block search_content %}
+<!-- The individual blogger blocks are under widgets > users_feed_views > search_bloggers.html -->
+<!-- The individual blogger blocks are under widgets > users_feed_views > search_bloggers.html -->
+<!-- The individual blogger blocks are under widgets > users_feed_views > search_bloggers.html -->
+<!-- The individual blogger blocks are under widgets > users_feed_views > search_bloggers.html -->
+
+<div class="blogger_search_page">
+    <div class="faceted_search_wrapper" style="margin-top:75px;">
+        <div class="top_filter_bar hidden">
+            <div class="section title">Filter by : </div>
+            <div class="hint_txt"><div class="filter_tags">Currently showing all bloggers...</div></div>
+            <div class="btn_pre_filters">
+                <div class="square_bt green_bt sm add_filter_btn">Add Filters</div>
+            </div>
+        </div>
+        <div class="filter_section">
+            <!-- Endorsed Brands -->
+            <div class="filter_row clearfix">
+                <div class="left_content">
+                    <div class="question"><span class="icon-letter_question2"></span></div>
+                    <div class="title">Endorsed Brands</div>
+                </div>
+                <div class="middle_content">
+                    <div class="row_of_filters expand">
+                        {% for brand in brands_for_filter %}
+                        <div class="filt" data-filter-type="brand_name">
+                            <span class="filter_val">{{ brand.brand__domain_name }}</span><span class="count">{{ brand.sum_endorsed }}</span>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="right_content expand_btn_container">
+                </div>
+            </div>
+
+            <!-- Categories -->
+            <div class="filter_row clearfix">
+                <div class="left_content">
+                    <div class="question"><span class="icon-letter_question2"></span></div>
+                    <div class="title">Categories</div>
+                </div>
+                <div class="middle_content">
+                    <div class="row_of_filters expand">
+                        {% for cat in cats_for_filter %}
+                        <div class="filt" data-filter-type="product_category">
+                            <span class="filter_val">{{ cat.category }}</span><span class="count">{{ cat.sum_cat }}</span>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="right_content expand_btn_container">
+                </div>
+            </div>
+
+            <!-- Popularity -->
+            <div class="filter_row clearfix">
+                <div class="left_content">
+                    <div class="question"><span class="icon-letter_question2"></span></div>
+                    <div class="title">Popularity</div>
+                </div>
+                <div class="middle_content">
+                    <span class="low">low</span>
+                    <div class="popularity_slider slider" data-filter-type="popularity" data-slider-high="{{ highest_popularity }}" data-slider-step="{{ popularity_step }}"></div>
+                    <span class="high">high</span>
+                </div>
+            </div>
+
+            <!-- Engagement -->
+            <div class="filter_row clearfix">
+                <div class="left_content">
+                    <div class="question"><span class="icon-letter_question2"></span></div>
+                    <div class="title">Engagement</div>
+                </div>
+                <div class="middle_content">
+                    <span class="low">low</span>
+                    <div class="engagement_slider slider" data-filter-type="engagement" data-slider-high="{{ highest_engagement }}" data-slider-step="{{ popularity_step }}"></div>
+                    <span class="high">high</span>
+                </div>
+            </div>
+
+            <!-- Location
+            <div class="filter_row clearfix">
+                <div class="left_content">
+                    <div class="question"><span class="icon-letter_question2"></span></div>
+                    <div class="title">Location</div>
+                </div>
+                <div class="middle_content">
+                    <div class="row_of_filters">
+                        {% for loc in locations_for_filter %}
+                        <div class="filt" data-filter-type="location"><span class="filter_val">{{ loc.demographics_location }}</span> <span class="count">{{ loc.num_in_loc }}</span></div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="right_content expand_btn_container">
+                </div>
+            </div-->
+
+
+            <!-- Blogger Autocomplete -->
+{#            <div class="filter_row typical_form lighter_field larger_field search_box open clearfix">#}
+{#                <fieldset>#}
+{#                    <input type="text" class="blogger_autocomplete" data-ajax-url="{% url debra.query_views.blogger_autocomplete %}" placeholder="Search for bloggers" />#}
+{#                    <div class="autocomplete_results styled_dropdown_wrapper">#}
+{#                        <ul class="styled_dropdown_list">#}
+{#                        </ul>#}
+{#                    </div>#}
+{#                </fieldset>#}
+{#            </div>#}
+
+            <div class="filter_row w_btn">
+                <div class="centerer">
+                    <div class="square_bt teal_bt apply_btn center_text filter_row clearfix apply_filters_btn">Apply Filters</div>
+                    <div class="square_bt gray_bt apply_close_btn center_text filter_row clearfix close_filters_btn">Close Filters</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    {% include 'snippets/loader.html' with hidden=1 %}
+    <div class="salvattore_grid bloggers_container clearfix" data-columns>
+        {{ bloggers }}
+    </div>
+</div>
+
+<!-- JS VIEWS -->
+{% include 'js_views/expand_button.html' %}
+{% endblock %}

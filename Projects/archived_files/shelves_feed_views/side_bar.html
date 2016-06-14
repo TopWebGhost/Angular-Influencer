@@ -1,0 +1,113 @@
+{% extends 'widgets/base.html' %}
+{% load custom_filters %}
+{% load widget_tweaks %}
+
+<!-- This will later be the Followers Sidebar -->
+{% block widget_content %}
+    <div class="bar_top bar_sect">
+        <div class="bar_header all_shelves">{% if shelf_user.id == page_user_prof.id %}My Shelves{% else %}Shelf List{% endif %} {% if shelf_user.id == page_user_prof.id %}<a class="square_bt gray_bt xxs float_right launch-popup" data-popup-type="create_shelf"><span class="icon-letter_plus06"></span></a>{% endif %}</div>
+    </div>
+    <div class="bar_bottom bar_sect content">
+        <div class="bar_element{% if not filter %} active{% endif %} clearfix" id="all_items" data-ajax-url="{% if shelf_user.brand %}{% url debra.brand_views.brand_home page_user_prof.id %}{% else %}{% url debra.shelf_views.shelf_home page_user_prof.id %}{% endif %}">
+            <div class="pic_label">
+                <div class="sidebar_shelf_img circ_pic"><div class="icon-social_0_shelf_icon"></div></div>
+                <div class="bar_elem_txt">
+                    <p class="sans_type xsmall dotdot">{% if page_user_prof.brand %}Popular Items{% else %}All Items{% endif %}</p>
+                    <p class="serif_ital xxsmall">{{ total_num_items }} items</p>
+                </div>                
+            </div>
+        </div>
+    
+        <!-- Show a shelf for a user if either they are looking at their own page or the shelf is public and has more then 0 items -->
+        {% for shelf in shelves %}
+        {% if shelf_user.id == page_user_prof.id or shelf.is_public and shelf.num_items > 0 %}
+        <div class="bar_element user_shelf{% if filter and filter == shelf.id %} active{% endif %} clearfix" id="{{ shelf.id }}">
+            <div class="pic_label remove_on_edit">
+                <div class="sidebar_shelf_img circ_pic">{%  if shelf.shelf_img %}<img src="{{ shelf.shelf_img }}" />{% endif %}</div>
+                <div class="bar_elem_txt">
+                    <p class="sans_type xsmall shelf_name dotdot">{{ shelf.name }}</p>
+                    <p class="serif_ital xxsmall num_items">{{ shelf.num_items }} items</p>
+                </div>
+            </div>
+            <!-- only give additional shelf options to the logged in user -->
+            {% if shelf_user.id == page_user_prof.id %}
+            <form method="post" action="{% url debra.shelf_views.modify_shelf page_user_prof.id shelf.id %}">{% csrf_token %}
+                <span class="sidebar_delete_shelf icon-misc_files_trash2 bs_tooltip" title="Delete this Shelf." data-placement="left"></span>
+                <div class="selected_element_options hidden">
+                    <span class="edit_btn remove_on_edit icon-misc_files_pencil3 bs_tooltip" title="Edit this Shelf." data-placement="left"></span>
+                    <div class="expandent clearfix sidebar_widgets_container remove_on_edit">
+                        {% if shelf_user.widgets_privileges %}
+                        <a class="square_bt on_teal sm low_type less_pad create_blogger_widget" href="{% url debra.widget_views.collage shelf_user.id %}?q={{ shelf.id }}">Collage / Widgets</a>
+                        {% endif %}
+                        <!--NOT yET IMPLEMENTED <div class="square_bt on_teal sm low_type less_pad">Share</div>-->
+                    </div>
+                    <div class="edit_shelf hidden">
+                        <div class="shelf_name_edit">
+                            <fieldset class="typical_form smaller_field name_input required">
+                                <div class="control-group">
+                                    <div class="controls">
+                                        {{ shelf.form_for_self.name|add_class:"req name_input" }}
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </div>
+                        <div class="bar_elem_edit_txt">
+                            <div class="sidebar_shelf_img circ_pic editable">{%  if shelf.shelf_img %}<img src="{{ shelf.shelf_img }}" />{% endif %}</div>
+                            <p class="instruction_txt">Drag image from your Shelf to replace circle image</p>
+                            {{ shelf.form_for_self.shelf_img }}
+                        </div>
+                        <div class="expandent clearfix">
+                            <div class="square_bt on_teal xs low_type less_pad sidebar_save_shelf hidden pink_select"><span class="icon-letter_check3"></span><span>Save</span></div>
+                            <div class="square_bt on_teal xs low_type less_pad sidebar_cancel"><span>cancel</span></div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            {% endif %}
+        </div>
+        {% endif %}
+        {% endfor %}
+
+        <!-- the users auto imported shelves -->
+        {% for shelf in auto_created %}
+        <div class="bar_element user_shelf{% if filter and filter == shelf.id %} active{% endif %} clearfix" id="{{ shelf.id }}">
+            <div class="pic_label">
+                <div class="circ_pic">{%  if shelf.shelf_img %}<img src="{{ shelf.shelf_img }}" />{% endif %}</div>
+                <div class="bar_elem_txt">
+                    <p class="sans_type xsmall shelf_name dotdot">{{ shelf.name }}</p>
+                    <p class="serif_ital xxsmall num_items">{{ shelf.num_items }} items</p>
+                </div>
+            </div>
+            {% if shelf_user.id == page_user_prof.id %}
+            <span class="fake_delete_shelf icon-misc_files_trash2 bs_tooltip launch-popup" data-popup-type="generic_message"></span>
+            {% endif %}
+        </div>
+        {% endfor %}
+
+        <!-- the users deleted shelf -->
+        {% if shelf_user.id == page_user_prof.id and deleted_shelf %}
+        <div class="bar_element user_shelf clearfix deleted_shelf" id="{{ deleted_shelf.id }}">
+            <div class="pic_label">
+                <div class="sidebar_shelf_img circ_pic">{%  if deleted_shelf.shelf_img %}<img src="{{ deleted_shelf.shelf_img }}" />{% endif %}</div>
+                <div class="bar_elem_txt">
+                    <p class="sans_type xsmall shelf_name dotdot">{{ deleted_shelf.name }}</p>
+                    <p class="serif_ital xxsmall">{{ deleted_shelf.num_items }} items</p>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- the users my likes shelf -->
+        {% if likes_shelf %}
+        <div class="bar_element user_shelf clearfix likes_shelf" id="{{ likes_shelf.id }}">
+            <div class="pic_label">
+                <div class="sidebar_shelf_img circ_pic">{%  if likes_shelf.shelf_img %}<img src="{{ likes_shelf.shelf_img }}" />{% endif %}</div>
+                <div class="bar_elem_txt">
+                    <p class="sans_type xsmall shelf_name dotdot">{{ likes_shelf.name }}</p>
+                    <p class="serif_ital xxsmall">{{ likes_shelf.num_items }} items</p>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+{% endblock %}

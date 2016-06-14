@@ -1,0 +1,16 @@
+{% load custom_filters %}
+
+
+<div class="new_feed_itm feed_tweet">
+    <a class="hoverable_area clearfix" href="{{ item.url }}" target="_blank">
+        <div class="hoverable_contents clearfix">
+		    <div class="corner_icon"><span class="icon-social_twitter"></span></div>
+		    <div class="twitter_content">
+		        <div class="tweet_container">{{ item|post_title_or_content }}</div>
+		        {% if item.img_urls %}<div class="tweet_pic"><img src="{{ item|post_pic }}" /></div>{% endif %}
+		    </div>
+		</div>
+	</a>
+
+    {% include 'snippets/feed_item_footer.html' %}
+</div>

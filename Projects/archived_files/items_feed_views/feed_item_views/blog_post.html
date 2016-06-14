@@ -1,0 +1,29 @@
+{% load custom_filters %}
+
+<div class="new_feed_itm feed_post" data-id="{{ item.id }}">
+    <a class="hoverable_area clearfix" href="{{ user.blog_page }}" target="_blank">
+        <div class="hoverable_contents clearfix">
+            <div class="corner_icon"><span class="icon-letter_quotes"></span></div>
+            <div class="post_content">
+                <div class="post_title">{{ item.title }}</div>
+                <div class="post_date">{{ item.create_date }}</div>
+                <div class="post_text">{{ item.content|striptags|cut:"&nbsp;"|safe }}</div>
+                <!--div class="post_tags">
+                    {% for tag in post_tags %}
+                    <div class="tag">{{ tag }}</div>
+                    {% endfor %}
+                </div-->
+            </div>
+            <div class="post_pic"><img skip src="{{ item|post_pic }}"/></div>
+        </div>
+        <div class="view_details_btn"><div class="outer-center"><div class="inner-center"><div class="icon-misc_magnify2"></div><div class="btn_txt">{{ user.blog_name }}</div></div></div></div>
+    </a>
+
+    {% if products %}
+    <div class="post_carousel">
+        {% include 'snippets/scrollable_collage.html' with collage_name='blog_product_collage' products=products %}
+    </div>
+    {% endif %}
+
+    {% include 'snippets/feed_item_footer.html' %}
+</div>

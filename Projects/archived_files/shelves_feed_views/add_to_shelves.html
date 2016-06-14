@@ -1,0 +1,83 @@
+{% extends 'widgets/base.html' %}
+{% load custom_filters %}
+{% load widget_tweaks %}
+
+{% block widget_content %}
+<div class="btn_container centerer">
+    <div class="square_bt blk_outline_white_inside rounded md create_shelf">Create New Shelf</div>
+</div>
+<form id="create_shelf_form" action="{% url debra.shelf_views.create_shelf shelf_user.id %}" method="post" class="hidden">{% csrf_token %}
+    <fieldset class="typical_form larger_field">
+        <div>
+            {{ create_shelf_form.name|add_class:"req add_shelf"|attr:"placeholder:Create a new shelf" }}
+        </div>
+        <button type="submit" class="square_bt md pink_bt_w_teal">Save &amp; Add</button>
+    </fieldset>
+</form>
+<form id="add_item_to_shelves" method="post" action="{% url debra.item_views.add_item_to_shelves shelf_user.id item.id %}">{% csrf_token %}
+    <div class="bars not_yet_added">
+        {% for shelf in unadded_shelves %}
+        <div class="element_wrapper" data-shelf-id="{{ shelf.id }}">
+            <div class="bar_element">
+                <div class="square_pic">
+                    {% if shelf.shelf_img %}<img src="{{ shelf.shelf_img }}"/>{% endif %}
+                </div>
+                <div class="shelf_name"><p>{{ shelf.name }}</p></div>
+                <!--div class="overlay">
+                    <div class="overlay_txt">Shelve it here.</div>
+                </div-->
+            </div>
+        </div>
+        {% endfor %}
+        {% for shelf in added_shelves %}
+        <div class="element_wrapper allow-propagation" data-shelf-id="{{ shelf.id }}">
+            <div class="bar_element active">
+                <div class="square_pic">
+                    {% if shelf.shelf_img %}<img src="{{ shelf.shelf_img }}"/>{% endif %}
+                </div>
+                <p class="shelf_name">{{ shelf.name }}</p>
+<!--                 <div class="overlay">
+                    <div class="overlay_txt">Remove from this shelf.</div>
+                </div>
+ -->            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {{ add_to_shelves_form.shelves }}
+</form>
+<div class="centerer">
+    <div class="square_bt teal_bt xl_plus done_btn">Done</div>
+</div>
+
+<!-- ALREADY ADDED TO THESE SHELVES
+<div class="already_added_bar clearfix">
+    <div class="added_content_header">Added To</div>
+    <div class="no_shelf_message{% if added_shelves %} hidden{% endif %}">Click on a Shelf below to add this item to it.</div>
+    {% for shelf in added_shelves %}
+    <div class="element_wrapper allow-propagation" data-shelf-id="{{ shelf.id }}">
+        <div class="bar_element">
+            <div class="square_pic">
+                {% if shelf.shelf_img %}<img src="{{ shelf.shelf_img }}"/>{% endif %}
+            </div>
+            <p class="shelf_name">{{ shelf.name }}</p>
+            <div class="overlay">
+                <div class="overlay_txt">Remove from this shelf.</div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>-->
+
+<script type="text/template" id="new_shelf_tpl">
+    <div class="element_wrapper" data-shelf-id="<%= id %>">
+        <div class="bar_element">
+            <div class="square_pic">
+            </div>
+            <p class="shelf_name"><%= name %></p>
+            <div class="overlay">
+                <div class="overlay_txt">Shelve it here.</div>
+            </div>
+        </div>
+    </div>
+</script>x
+{% endblock %}

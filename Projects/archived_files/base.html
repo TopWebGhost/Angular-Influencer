@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load compressed %}
+
+{% block title %}
+{{ page_title }}
+{% endblock %}
+
+{% block meta_description %}
+<meta name="description" content="{{ meta_description }}">
+{% endblock %}
+
+{% block page_js %}
+<script src="https://checkout.stripe.com/checkout.js"></script>
+{% compressed_js 'search' %}
+{% compressed_js 'pricing' %}
+
+<script type="text/javascript">
+    var stripe_client = stripe.init("{{ stripe_key }}", "{% url debra.payment_views.brand_payment %}?next={% url debra.search_views.blogger_search %}");
+</script>
+{% endblock %}
+
+{% block page_css %}
+<link href="/mymedia/site_folder/css/jquery.nouislider.min.css" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block custom_header %}
+    {% if not brand_subscribed %}
+    {% include 'widgets/landing_nav_header.html' with page="trial" %}
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    <!-- Generic Message Lightbox for if no entries in lottery -->
+    {% include "popups/generic_message_lb.html" with popup_type="generic-message-popup" title="No Entries Yet.." message="Sorry, this page isn't accessible because there are no entries currently.  Check back once your giveaway is up and running." %}
+    <!-- Generic Confirmation Lightbox -->
+    {% include "popups/generic_confirmation_lb.html" with popup_type="generic-confirmation-popup" %}
+    <!-- Affiliate Link Shelf LightBox -->
+    {% include "popups/affiliate_link_shelf_lb.html" with popup_type="affiliate-link-shelf-popup" %}
+    {% block search_content %}
+    {% endblock %}
+
+    {% if not brand_subscribed %}
+    {% include 'snippets/pricing_options.html' %}
+    {% endif %}
+{% endblock %}
+
+{% block uservoice %}
+{% endblock %}
+
+
+
+
+
+
