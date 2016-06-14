@@ -1,0 +1,222 @@
+#!/bin/sh
+SCRIPT=$(readlink -f $0 2>/dev/null || echo "$(pwd)/bootstrap")
+SCRIPT_DIR=$(dirname $SCRIPT)
+VENV=${VENV:-$SCRIPT_DIR/venv}
+
+# Color helpers
+export TERM=${TERM:-vt100} # avoid tput complaining when TERM is not set.
+RED=$(tput setaf 1)
+YELLOW=$(tput setaf 3)
+BLUE=$(tput setaf 4)
+BOLD=$(tput bold)
+NORMAL=$(tput sgr0)
+
+COMMON_SYS_PACKAGES="deployments/common/requirements.system.txt"
+LOCAL_SYS_PACKAGES="deployments/local/requirements.system.txt"
+
+
+all() { # Configure everything on a new machine.
+    install_packages $COMMON_SYS_PACKAGES && \
+        install_firefox && \
+        setup_virtualenv
+}
+
+install_firefox() { # Install the correct Firefox version from a Mozilla-published release.
+    # IceWeasel, Firefox, and co needed for their dependencies mainly -- we install a specific
+    # FF version later in bootstrap/install_firefox
+    sudo apt-get -qy install iceweasel firefox
+    # Probably the clumsiest way to install the dependencies and then remove the root packages...
+    sudo apt-get -qy purge firefox iceweasel
+
+    # install the Mozilla release
+    VERSION="33.1.1"
+    FILENAME="firefox-$VERSION.tar.bz2"
+    TARGET_OS="linux-x86_64"
+    URL="https://ftp.mozilla.org/pub/mozilla.org/firefox/releases/$VERSION/$TARGET_OS/en-US/$FILENAME"
+
+    cd /tmp && wget "$URL"
+
+    sudo rm -rf /opt/firefox
+    cd /opt && sudo tar jxvf /tmp/$FILENAME
+
+    # Set up as the default firefox binary by symlinking in /usr/local/bin
+    sudo rm /usr/local/bin/firefox
+    sudo ln -s /opt/firefox/firefox /usr/local/bin
+}
+
+update_local() { # Update local system packages
+    update_packages "common" $COMMON_SYS_PACKAGES
+    update_packages "local" $LOCAL_SYS_PACKAGES
+}
+
+md5() {
+    md5sum $1 | cut -b 1-32
+}
+
+has_changed() {
+    role=$1
+    if [ -z "$role" ] ; then
+        role_prefix=""
+    else
+        role_prefix="_$role"
+    fi
+
+    target_file=$2
+    base_name=$(basename $target_file)
+    checksum_file=".${role_prefix}_$base_name.md5"
+    touch $checksum_file
+    last_package_checksum=$(cat "$checksum_file" || echo "first run")
+    package_checksum=$(md5 "$target_file")
+    echo -n "$package_checksum" > $checksum_file
+    if [ "$last_package_checksum" = "$package_checksum" ] ; then
+        return 1
+    else
+        return 0
+    fi
+}
+
+apt_update() { # Update apt package info, adding repositories if needed.
+    # postgresql 9.3
+    PGREPO_CONFIG="/etc/apt/sources.list.d/postgresql.list"
+    CODENAME=$(lsb_release -sc)
+    if [ ! -f "$PGREPO_CONFIG" ] ; then
+        echo "deb http://apt.postgresql.org/pub/repos/apt/ $CODENAME-pgdg main" | sudo tee $PGREPO_CONFIG
+        wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+    fi
+    echo "${YELLOW}Updating apt cache...${NORMAL}"
+    sudo apt-get update -yqq
+}
+
+update_packages() { # Update system packages if changed since last time
+    role=${1:-common}
+    package_file="deployments/$role/requirements.system.txt"
+    if has_changed $role $package_file ; then
+        echo "Change detected in '$package_file'. Installing packages..."
+        install_packages $package_file
+    else
+        echo "$role packages up to date."
+    fi
+}
+
+update_virtualenv() { # Update Python packages in the virtualenv if changed
+    package_file=requirements.txt
+    if has_changed "" $package_file ; then
+        echo "Change detected in '$package_file'. Installing packages..."
+        venv
+        pip_install -r $package_file
+    else
+        echo "Python packages up to date."
+    fi
+}
+
+setup_PIL() {
+    PIL_VER="1.1.7"
+    PIL_BASE="PIL-$PIL_VER"
+    PIL_ARCHIVE="$PIL_BASE.tar.gz"
+
+    CURRENT_DIR=$(pwd)
+
+    mkdir -p tmp
+    cd tmp
+    rm -rf PIL*
+
+    # Try the latest pip with external/unverified options. If that fails, assume we're
+    # running with an older version (Ubuntu 12.04)
+    pip_install --download . "PIL==$PIL_VER"
+
+    tar zxf $PIL_ARCHIVE
+    cd "$PIL_BASE"
+
+    # Beat PIL's setup.py into accepting our lib paths
+    sed -i 's/^JPEG_ROOT.*/JPEG_ROOT = "\/usr\/lib\/x86_64-linux-gnu"/' setup.py
+    sed -i 's/^ZLIB_ROOT.*/ZLIB_ROOT = "\/usr\/lib\/x86_64-linux-gnu"/' setup.py
+
+    # Ubuntu 12.04 has /usr/include/freetype2/freetype/*.h
+    # While Ubuntu 14.04 has it in /usr/include/freetype2/*.h
+    # Make #include <freetype/*.h> work for PIL by symlinking it...
+    if [ ! -d /usr/include/freetype2/freetype ] ; then
+        if [ ! -d /usr/include/freetype ] ; then
+            sudo ln -s /usr/include/freetype2 /usr/include/freetype
+        fi
+    fi
+
+    python setup.py build_ext -i
+    python setup.py install
+
+    cd "$CURRENT_DIR"
+}
+
+# Install server packages. Tested on Ubuntu 12.04 (LTS).
+install_dev_server() { # Install and configure dev server packages needed by our Python code.
+    install_packages $COMMON_SYS_PACKAGES
+    install_packages $LOCAL_SYS_PACKAGES
+}
+
+install_packages() {
+    apt_update
+    packages_file=$SCRIPT_DIR/$1
+    sed -r -e 's/#.*$//g' -e '/^\s*$/d' $packages_file | while read package ; do
+        echo "${YELLOW}Installing package: ${RED}$package${YELLOW}...${NORMAL}"
+        sudo apt-get install -yqq $package
+    done
+}
+
+setup_virtualenv() { # Create virtualenv and install Python packages.
+    sudo sh <<-EOF
+    mkdir -p $VENV
+    chown ubuntu.ubuntu $VENV || true
+    chown vagrant.vagrant $VENV || true
+    chown $USER.$GROUP $VENV || true
+EOF
+
+    virtualenv $VENV
+    venv
+
+    pip install --upgrade pip
+
+    pip_install --upgrade setuptools
+    pip_install --upgrade distribute
+
+    python_packages_file=$SCRIPT_DIR/requirements.txt
+    pip_install -r $python_packages_file
+
+    #setup_PIL
+}
+
+venv() { # Activate the project virtualenv. Dot-source this one: . ./bootstrap venv
+    . $VENV/bin/activate
+}
+
+pip_install() {
+    if pip -V > /dev/null 2>&1  ; then
+        # newer pips require explicitly allowing external and unverified packages
+        UNVERIFIED_PACKAGES="django-endless-pagination"
+        INSTALL_PARAMS=" --allow-all-external"
+        for unverified in $UNVERIFIED_PACKAGES ; do
+            INSTALL_PARAMS="$INSTALL_PARAMS --allow-unverified $unverified"
+        done
+        pip install $INSTALL_PARAMS "$@"
+    else
+        # older pips just work.
+        pip install "$@"
+    fi
+}
+
+help() { # This help
+    echo "Manage a local development server or VM that can run the app and connect to SAP HANA instances."
+    echo
+    echo "Usage: ${YELLOW}$0${NORMAL} <command> <arg1> ..."
+    echo
+	echo "Commands:"
+    sed -r -n "s/([a-z_]+)\(\)+ *\{ *#(.*)$/  $BOLD\1$NORMAL:\2/gp" $0
+}
+
+cmd=$1
+if [ -z "$cmd" ] ; then
+    help
+    exit 1
+fi
+shift
+$cmd "$@"
+
+# vim: set filetype=sh ts=4 sw=4 et:
