@@ -1,0 +1,38 @@
+// dot 2.36.0 on Linux 3.17.0-rc4-a1
+// SchemaSpy rev 590
+digraph "debra_operationstatus" {
+  graph [
+    rankdir="RL"
+    bgcolor="#f7f7f7"
+    nodesep="0.18"
+    ranksep="0.46"
+    fontname="Helvetica"
+    fontsize="11"
+  ];
+  node [
+    fontname="Helvetica"
+    fontsize="11"
+    shape="plaintext"
+  ];
+  edge [
+    arrowsize="0.8"
+  ];
+  "debra_operationstatus" [
+    label=<
+    <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" BGCOLOR="#ffffff">
+      <TR><TD COLSPAN="3" BGCOLOR="#9bab96" ALIGN="CENTER">debra_operationstatus</TD></TR>
+      <TR><TD PORT="id" COLSPAN="3" BGCOLOR="#bed1b8" ALIGN="LEFT">id</TD></TR>
+      <TR><TD PORT="object_type" COLSPAN="3" BGCOLOR="#f4f7da" ALIGN="LEFT">object_type</TD></TR>
+      <TR><TD PORT="object_spec" COLSPAN="3" BGCOLOR="#f4f7da" ALIGN="LEFT">object_spec</TD></TR>
+      <TR><TD PORT="op" COLSPAN="3" BGCOLOR="#f4f7da" ALIGN="LEFT">op</TD></TR>
+      <TR><TD PORT="op_status" COLSPAN="3" BGCOLOR="#f4f7da" ALIGN="LEFT">op_status</TD></TR>
+      <TR><TD PORT="op_msg" COLSPAN="3" BGCOLOR="#f4f7da" ALIGN="LEFT">op_msg</TD></TR>
+      <TR><TD PORT="op_date" COLSPAN="3" BGCOLOR="#f4f7da" ALIGN="LEFT">op_date</TD></TR>
+      <TR><TD PORT="op_hour" COLSPAN="3" BGCOLOR="#f4f7da" ALIGN="LEFT">op_hour</TD></TR>
+      <TR><TD PORT="op_count" COLSPAN="3" ALIGN="LEFT">op_count</TD></TR>
+      <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">  </TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">  </TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">  </TD></TR>
+    </TABLE>>
+    URL="tables/debra_operationstatus.html"
+    tooltip="debra_operationstatus"
+  ];
+}

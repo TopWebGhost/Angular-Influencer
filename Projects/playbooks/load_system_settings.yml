@@ -1,0 +1,10 @@
+---
+- name: Set system/kernel settings.
+  hosts: all
+  remote_user: ubuntu
+  sudo: yes
+  tasks:
+     - name: Enlarge port range
+       shell: sysctl -w net.ipv4.ip_local_port_range="25000 65000"
+     - name: Recycle sockets faster
+       shell: sysctl -w net.ipv4.tcp_fin_timeout=15

@@ -1,0 +1,10 @@
+- hosts: Postprocessing
+  user: ubuntu
+  sudo: True
+  tasks:
+  - script: /usr/local/bin/ps_mem.py
+    register: result
+    changed_when: result.stdout_lines
+  - debug: msg="{{ item }}"
+    with_items: result.stdout_lines
+    when: result.stdout_lines

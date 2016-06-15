@@ -1,0 +1,49 @@
+// dot 2.36.0 on Linux 3.17.0-rc4-a1
+// SchemaSpy rev 590
+digraph "dump_debra_brands" {
+  graph [
+    rankdir="RL"
+    bgcolor="#f7f7f7"
+    nodesep="0.18"
+    ranksep="0.46"
+    fontname="Helvetica"
+    fontsize="11"
+  ];
+  node [
+    fontname="Helvetica"
+    fontsize="11"
+    shape="plaintext"
+  ];
+  edge [
+    arrowsize="0.8"
+  ];
+  "dump_debra_brands" [
+    label=<
+    <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" BGCOLOR="#ffffff">
+      <TR><TD COLSPAN="3" BGCOLOR="#9bab96" ALIGN="CENTER">dump_debra_brands</TD></TR>
+      <TR><TD PORT="id" COLSPAN="3" ALIGN="LEFT">id</TD></TR>
+      <TR><TD PORT="name" COLSPAN="3" ALIGN="LEFT">name</TD></TR>
+      <TR><TD PORT="shopstyle_id" COLSPAN="3" ALIGN="LEFT">shopstyle_id</TD></TR>
+      <TR><TD PORT="domain_name" COLSPAN="3" ALIGN="LEFT">domain_name</TD></TR>
+      <TR><TD PORT="logo_img_url" COLSPAN="3" ALIGN="LEFT">logo_img_url</TD></TR>
+      <TR><TD PORT="logo_blueimg_url" COLSPAN="3" ALIGN="LEFT">logo_blueimg_url</TD></TR>
+      <TR><TD PORT="supported" COLSPAN="3" ALIGN="LEFT">supported</TD></TR>
+      <TR><TD PORT="promo_discovery_support" COLSPAN="3" ALIGN="LEFT">promo_discovery_support</TD></TR>
+      <TR><TD PORT="icon_id" COLSPAN="3" ALIGN="LEFT">icon_id</TD></TR>
+      <TR><TD PORT="crawler_name" COLSPAN="3" ALIGN="LEFT">crawler_name</TD></TR>
+      <TR><TD PORT="start_url" COLSPAN="3" ALIGN="LEFT">start_url</TD></TR>
+      <TR><TD PORT="disable_tracking_temporarily" COLSPAN="3" ALIGN="LEFT">disable_tracking_temporarily</TD></TR>
+      <TR><TD PORT="partially_supported" COLSPAN="3" ALIGN="LEFT">partially_supported</TD></TR>
+      <TR><TD PORT="num_items_have_price_alerts" COLSPAN="3" ALIGN="LEFT">num_items_have_price_alerts</TD></TR>
+      <TR><TD PORT="product_name_xpath" COLSPAN="3" ALIGN="LEFT">product_name_xpath</TD></TR>
+      <TR><TD PORT="product_price_xpath" COLSPAN="3" ALIGN="LEFT">product_price_xpath</TD></TR>
+      <TR><TD PORT="product_img_xpath" COLSPAN="3" ALIGN="LEFT">product_img_xpath</TD></TR>
+      <TR><TD PORT="num_items_shelved" COLSPAN="3" ALIGN="LEFT">num_items_shelved</TD></TR>
+      <TR><TD PORT="num_shelfers" COLSPAN="3" ALIGN="LEFT">num_shelfers</TD></TR>
+      <TR><TD PORT="is_active" COLSPAN="3" ALIGN="LEFT">is_active</TD></TR>
+      <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">  </TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">  </TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">  </TD></TR>
+    </TABLE>>
+    URL="tables/dump_debra_brands.html"
+    tooltip="dump_debra_brands"
+  ];
+}

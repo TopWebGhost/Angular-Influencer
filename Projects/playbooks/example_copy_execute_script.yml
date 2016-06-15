@@ -1,0 +1,18 @@
+---
+- name: Transfer and execute a script.
+  hosts: Postprocessing
+  remote_user: ubuntu
+  sudo: yes
+  tasks:
+     - name: Creates directory
+       file: path=/home/ubuntu/ascripts state=directory
+
+     - name: Transfer the script
+       copy: src=/usr/local/bin/ps_mem.py dest=/home/ubuntu/ascripts/ps_mem.py mode=0777
+
+     - name: Execute the script
+       shell: /home/ubuntu/ascripts/ps_mem.py
+       register: result
+       changed_when: result.stdout
+     - debug: msg="{{result.stdout}}"
+       when: result.stdout
