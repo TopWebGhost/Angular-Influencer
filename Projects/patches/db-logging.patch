@@ -1,0 +1,18 @@
+diff --git a/miami_metro/settings.py b/miami_metro/settings.py
+index e48e1c0..2f1a047 100644
+--- a/miami_metro/settings.py
++++ b/miami_metro/settings.py
+@@ -266,10 +266,10 @@ LOGGING = {
+             'level': 'ERROR',
+             'propagate': True,
+         },
+-        'django.db.backends': {
++        'django.db': {
+             'handlers': ['console'],
+-            'level': 'ERROR',
+-            'propagate': False,
++            'level': 'DEBUG',
++            'propagate': True,
+         },
+         'miami_metro': { # I keep all my apps here, but you can also add them one by one
+             'handlers': ['console'],
