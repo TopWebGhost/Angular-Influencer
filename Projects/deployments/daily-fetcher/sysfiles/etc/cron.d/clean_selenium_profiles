@@ -1,0 +1,1 @@
+*/15 * * * *    root    find /tmp -maxdepth 1 -type d -wholename '*/tmp[a-zA-Z0-9_]*' -mmin +32 -exec rm -fr {} \;
