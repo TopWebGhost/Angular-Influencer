@@ -1,0 +1,1 @@
+*/10 * * * *   root    LC_ALL=C /home/ubuntu/Projects_DEFAULT/scripts/aws-scripts-mon/mon-put-instance-data.pl --disk-space-avail  --verbose --aws-access-key-id=AKIAJYJDNH3B4757RTRA --aws-secret-key=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  --disk-path=/dev/xvda1 >> /var/log/aws-scripts-mon.log 2>&1

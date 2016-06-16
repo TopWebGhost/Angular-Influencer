@@ -1,0 +1,1 @@
+*/10 * * * *   root    killall -KILL -o 1860s firefox
