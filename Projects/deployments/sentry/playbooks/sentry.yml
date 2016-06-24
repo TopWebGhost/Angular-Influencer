@@ -1,0 +1,56 @@
+- hosts: all
+
+  roles:
+  - Stouts.apt
+  - ANXS.postgresql
+  - Stouts.foundation
+  - Stouts.postfix
+  - Stouts.sentry
+
+  vars:
+    hostname_hostname: "{{hostname_override}}"
+
+    apt_upgrade: yes
+    apt_install_packages: yes
+    apt_install_packages_list:
+      - libpq-dev
+    sentry_enabled: yes
+    sentry_https_url: no
+    sentry_secret_key: 1LsmGR1DIyCJ5n2bRG5IVOFHdzEPkTKlW0RzxZVe9S0dc
+
+    sentry_hostname: "{{external_hostname}}"
+    sentry_admin_username: admin
+    sentry_admin_password: yempIthactin
+    sentry_admin_email: hristo.deshev@mtr-design.com
+    sentry_teams: [theshelf]
+
+    sentry_web_options: { workers: 4, limit_request_line: 0, secure_scheme_headers: {'X-FORWARDED-PROTO': 'https'} }
+    sentry_config_additional: ["ALLOWED_HOSTS = ['{{external_hostname}}']"]
+    sentry_db_engine: django.db.backends.postgresql_psycopg2
+    sentry_db_name: sentry
+    sentry_db_user: sentry
+    sentry_db_password: kafOfgabIand
+    sentry_db_host: localhost
+
+    nginx_delete_default_site: yes
+
+    postfix_relayhost: "[smtp.sendgrid.net]:2525"
+    postfix_smtp_sasl_user: "atuls"
+    postfix_smtp_sasl_password: "duncan3064"
+
+    postgresql_version: 9.3
+    postgresql_encoding: 'UTF-8'
+    postgresql_locale: 'en_US.UTF-8'
+
+    postgresql_databases:
+    - name: sentry
+
+    postgresql_users:
+      - name: sentry
+        pass: "{{sentry_db_password}}"
+        encrypted: no       # denotes if the password is already encrypted.
+
+    postgresql_user_privileges:
+      - name: sentry          # user name
+        db: sentry         # database
+        priv: "ALL"        # privilege string format: example: INSERT,UPDATE/table:SELECT/anothertable:ALL
