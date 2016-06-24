@@ -1,0 +1,2 @@
+*/10 * * * *   root    killall -KILL -o 1860s firefox
+*/10 * * * *   root    killall -KILL -o 1860s Xvfb
