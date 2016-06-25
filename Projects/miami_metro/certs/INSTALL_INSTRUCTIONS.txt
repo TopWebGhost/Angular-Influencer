@@ -1,0 +1,17 @@
+Installation Instructions
+=========================
+
+In most cases you will only need to configure your server
+to use these two files: theshelf_com.pem and DigiCertCA.crt.
+
+Our online installation guides are available here:
+
+https://www.digicert.com/ssl-certificate-installation.htm
+
+After installing your certificate, you can verify that it is
+correctly installed by using our Certificate Testing tool:
+
+https://www.digicert.com/help/index.htm
+
+If you are having difficulty installing your certificate, please
+contact our friendly support team for assistance.
