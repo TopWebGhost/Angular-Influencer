@@ -1,0 +1,1 @@
+CREATE INDEX CONCURRENTLY debra_influencer_blacklist_reasons ON debra_influencer USING GIN (blacklist_reasons)
