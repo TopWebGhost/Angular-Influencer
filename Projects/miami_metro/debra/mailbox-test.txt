@@ -1,0 +1,63 @@
+What to check when testing mailbox stuff?
+
+Each invitation should create new mailbox, no matter how it was sent.
+
+About invitation popup. We should check that all brand's campaigns are listed 
+in campaign links select input. If this influencer has been invited to some campaign,
+it should be noted in list  option with '(already invited)'.
+
+First of all, we have multiple places from which we can send invitation messages.
+1) From ViewProfile popup (which we can call from search page, campaign's page, 
+collection's page, messages page). Here we have button on the right side called 'Message'.
+2) Using 'Message or Invite' button for particular influencer on search page.
+3) Using 'Send Message' button for particular influencer on collection's page.
+
+However, as we use cache for fetching blogger json, when we have invited somebody
+to campaign, '(already invited)' sign may not be visible for this campaign in
+links dropdown on blogger's info popup. It should take some time.
+
+If blogger has been already invited to particular campaign and we try to attach
+link to this campaign to invitation, we should see warning below campaign links
+dropdown and special popup with 'Back' button when we try to send such invitation.
+
+When we've specified campaign for invitation or invited blogger from particular
+collection's page, newly created mailbox with this invitation as first message
+should appear in corresponding section in messages tab (you can choose to watch
+messages from particular category).
+
+In collection's page, we should see two lists at the right side: 'Campaigns',
+which is list of campaigns of current brand that this blogger has been invited to,
+and 'Collections', which is all brand's collections except current one, that user
+belongs to. Each item in a list is link.
+
+In campaign preview and invite pages we should see 'Other campaigns', where <=4
+other campaigns of this same brand are listed.
+
+Messages in messages tab should be ordered by last reply, so that the first mailbox
+in a list is the one that has most recent reply (or has been sent last). And this
+should be like that in all sections (collections, campaigns and so on). The same
+applies to messages list in collection's campaign's page.
+
+After removing particular collection or campaign it should be marked as 'Archived'
+in messages tab. However, all regular operations like sending reply to mailbox
+associated with archived campaign or viewing invite page by blogger should be
+working as usual.
+
+Attachments. Try to delete particular attachmnent from list while it's loading.
+Try to attach the same file more than once and so on.
+
+Try to send messages from and to different mail clients or even operating systems
+(Windows/Mac). See if there are no encoding issues. See that initial message
+doesn't get trimmed/truncated/modified in some way.
+
+About displaying messages in messages tab (when you click to expand conversation).
+First of all, messages in mailbox should be properly ordered. Each message should
+contain only reply part of displayed message (different mail clients add some
+quoted content to the message body, this should not be rendered).
+
+Try to send messages back and forth using reply functionality, both from
+/messages page and from mail client, try to mix them both in your conversation.
+
+Opened counters in messages tab should be increased each time user opens message
+in his mail client. Maybe it will take some time (not too much). The same about
+'Delievered' sign, it should appears some time ago after we sent message.
