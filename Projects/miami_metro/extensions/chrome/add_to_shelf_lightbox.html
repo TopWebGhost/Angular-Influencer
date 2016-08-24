@@ -1,0 +1,435 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Add item to your shelf | Shelf Inc. </title>
+
+
+
+<!-- the shit ton of scripts needed for the dropdown -->
+<link rel="stylesheet" type="text/css" href="//ajax.googleapis.com/ajax/libs/jqueryui/1/themes/ui-lightness/jquery-ui.css" />
+
+<link rel="stylesheet" type="text/css" href="popup_style2.css" />
+
+
+
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.js"></script>
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1/jquery-ui.min.js"></script>
+<script type="text/javascript" src="jquery.multiselect.js"></script>
+<script src="jquery.autoellipsis-1.0.3.min.js"></script>
+<script src="tinybox.js"></script> 
+<script src="on_imgload.js"></script>
+
+<script type="text/javascript">
+$(function(){
+    $("select").multiselect({
+            selectedList: 4
+    });
+
+});
+</script>
+<!-- SCRIPT FOR GOOGLE FONTS -->
+<script type="text/javascript">
+WebFontConfig = {
+    google: { families: [       'Dosis:400,200,600:latin' ] }
+  };
+  (function() {
+    var wf = document.createElement('script');
+    wf.src = ('https:' == document.location.protocol ? 'https' : 'http') +
+      '://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js';
+    wf.type = 'text/javascript';
+    wf.async = 'true';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(wf, s);
+})(); </script>
+
+<script>
+function add_new_shelf(){
+    //$('.background_fill').show();
+    $('#black_overlay').show();
+    $('#add_shelf_lb').css('display', 'table');
+    $('.new_category_create_btn').find('span').text("Submit");
+}
+
+function close_new_shelf_button(){
+    //alert("Closing the button");
+    //$('.background_fill').hide();
+    $('#add_shelf_lb').find('.validation_box').css('display', 'none');
+    $('#black_overlay').hide();
+    $('#add_shelf_lb').hide();
+    
+}
+$(function(){
+    //alert("Got here");
+
+    $("#input_price").focus(function(){
+        //alert("inside input_price focus ");
+        
+
+        $(this).addClass("active");
+        if($("#input_price").attr("value") == "Enter Price Here") $("#input_price").attr("value", "");
+    });
+    $('#input_price').blur(function(){
+        $(this).removeClass("active");
+        if($(this).attr("value") == "" || $(this).attr("value") == "0") $(this).attr("value", "Enter Price Here");
+    });
+
+    $("#input_item_name").focus(function(){
+        $(this).addClass("active");
+        if($(this).attr("value") == "Enter Name Here") $(this).attr("value", "");
+    });
+    $('#input_item_name').blur(function(){
+        $(this).removeClass("active");
+        if($(this).attr("value") == "") $(this).attr("value", "Enter Name Here");
+    });
+
+    $("#input_extra_info").focus(function(){
+        $(this).addClass("active");
+        if($(this).attr("value") == "Enter Size/Color Here") $(this).attr("value", "");
+    });
+    $('#input_extra_info').blur(function(){
+        $(this).removeClass("active");
+        if($(this).attr("value") == "") $(this).attr("value", "Enter Size/Color Here");
+    });
+    $('.available_cats').change(function() {
+//          alert('Handler for .change() called.');
+          $('#cat_pick_button').css('display', 'block');
+        });
+    $("#price_alert").keyup(function(){
+        $('.btn_cont').css('display', 'block');
+    });
+    $("#input_price").keyup(function(){
+        $('.btn_cont').css('display', 'block');
+    });
+    $("#input_item_name").keyup(function(){
+        $('.btn_cont').css('display', 'block');
+    });
+	$(".panel_save").click(function(e) {	
+        var supported = {{store_supported}};
+        var price_alert_val = "Optional : $ amount";
+        var affiliate_link = '';
+        if($('.affiliate_link')){
+            //alert("I can create an affiliate link");
+            affiliate_link = $('.affiliate_link').val();
+        }
+        if(supported){
+            price_alert_val = $('#price_alert').val();
+            if(!$('#shelf_content_container').hasClass('categories_modified') && price_alert_val === "" && affiliate_link === ""){
+                
+                return;
+            }
+        }
+        e.preventDefault();
+        
+		var id = $('#shelf_content_container').attr("combid");
+		
+		var params = '';
+		var user_friendly_check_string = '';
+		if (!supported){
+			var item_name = $('#input_item_name').val();//document.getElementById('input_item_name').value;
+			var item_price = $('#input_price').val();//document.getElementById('input_price').value;
+			var item_extra = "_"; //document.getElementById('input_extra_info').value;
+            //alert("item_name '" + item_name + "'' item_price '" + item_price + "'");
+			if (item_name.length == 0 || item_name == 'null'){
+				alert("Please fill in a valid name for the item.");
+				return;
+			}
+			if (item_price.length == 0){
+				alert("please fill in a valid price for the item.");
+				return;
+			}
+			if (item_extra.length == 0){
+				item_extra = "_";
+			}
+			params = 'unsupported=1&name=' + item_name + '&price=' + item_price + '&extra=' + item_extra + '&';
+			//alert(item_name + " " + item_price + " " + item_extra);
+			user_friendly_check_string = 'Name="' + item_name + '" Price=' + item_price + ' Optional info="' + item_extra + '"';
+			
+		}
+		//alert($('#cat_pick_button_span').html());
+		//$('#cat_pick_button_span').text('Saving...');
+        var dataString = params + 'combid=' + id;
+        var num_cats = $("div.check_on").length;
+        if (num_cats>0){
+            var cats = '';
+            $("div.check_on").each(function(){
+            
+                var selection = $(this).text();
+                cats = cats + selection + ',';
+            });
+            //alert(cats);
+            
+            cats = encodeURIComponent(cats);
+            cats_selected =  '&catval=' + cats;
+            dataString = dataString + '&numcat=' + num_cats + '&catval=' + cats;
+            //alert(cats_selected);         
+        }
+
+		
+        if(price_alert_val != "Optional : $ amount" && price_alert_val != ''){
+            if (isNaN(price_alert_val / 1) == true) {
+                alert("Please enter a numeric value for the price alert.");
+                return;
+            }
+            //alert("I'm here, price_alert_val " + price_alert_val);
+            //alert("set price alert to " + price_alert_val);
+            dataString = dataString + "&price_alert="+ price_alert_val;
+        }
+		if(affiliate_link != ''){
+            //alert("affiliate " + affiliate_link + " encoded: " + encodeURIComponent(affiliate_link));
+            dataString = dataString + "&affiliate_link=" + encodeURIComponent(affiliate_link);
+
+        }
+		var answer = 1;//confirm('OK to send this to Shelf? '+user_friendly_check_string);
+		//alert("Datastring " + dataString);
+        $('.panel_save').text('Saving...');
+		if (answer) {
+			$.ajax({
+				type: "GET",
+				url: "/categorize_item/",
+				data: dataString,
+				cache: false,
+				success: function(html_resp){
+					//$('#cat_pick_button_span').text('Saved!');
+                    //parent.hide();
+					$('.panel_save').text('Success!');
+				},
+				error: function(html_resp) {
+				    //$('#cat_pick_button_span').text('Problem :-(');
+                    alert("there was a problem saving the categories and price alert, ");
+				}
+		    });
+		} 
+		
+    });
+
+    $(document).on('click','div.checkbox_btn',function(e){
+        //alert("checkbox clicks on " + $(this).attr('id') + " " + $(this).attr('name'));
+        if ($(this).hasClass('check_on')){
+            $(this).removeClass('check_on');
+        } else {
+            $(this).addClass('check_on');
+        }
+        $('.btn_cont').css('display', 'block');
+        if($('#shelf_content_container').hasClass('categories_modified')) return;
+
+        $('#shelf_content_container').addClass('categories_modified');
+        
+    });
+
+    $('.affiliate_link').click(function(e){
+        $('.btn_cont').css('display', 'block');
+    });
+
+    $('.add_new_shelf').click(function(){
+        $('.adding_a_shelf').toggle();
+        
+        $('.new_category_create_btn').find('span').text('SUBMIT');
+    });
+    $('.add_new_shelf_cancel').click(function(){
+        $('.adding_a_shelf').toggle();
+    });
+    $('.new_category_create_btn').click(function(){
+        
+       var val = $('#shelf_name').val();
+       if (val.length == 0 || val == "Shelf Name"){
+        //alert("Enter a valid name for your shelf.");
+        $('#add_shelf_lb').find('.validation_box').css('display', 'block');
+        return;
+       }
+       var dataString = "new_cat_name=" + val;
+        $('.new_category_create_btn').find('span').text("SAVING...");
+        $.ajax({
+                    type: "GET",
+                    url: "/createshelf/",
+                    data: dataString,
+                    cache: false,
+                    success: function(html_resp){
+                        $('.new_category_create_btn').find('span').text("SUCCESS!!");
+                        var num_shelves = $('.checkbox_btn').length;
+
+                        var new_content = '<div class="checkbox_btn">'+val+'</div>';
+                        $(new_content).insertAfter($('.checkbox_btn').last());
+
+                        $('.add_new_shelf').click();    
+                        $('.checkbox_btn').last().click();
+                        //$('.btn_cont').css('display', 'block');
+                        //alert('turned on btn_cont');
+                        return true;
+                    },
+                    error: function(html_resp) {
+                        alert("Ooops, there was a failure, please try again!");
+                    }
+                });
+    });	
+});
+	
+</script>
+
+
+
+
+
+
+</head>
+
+<body id="add_to_shelf">
+
+
+
+{% if user.is_authenticated %}
+<!-- LIGHTBOX CONTENT --> 
+<!-- LIGHTBOX CONTENT --> 
+<!-- LIGHTBOX CONTENT --> 
+<!-- LIGHTBOX CONTENT -->
+
+<div id="add_lightbox_container" class="supported clearfix">
+    <div class="img_container">
+        {% if user_can_set_affiliate_links %}
+        <fieldset class="typical_form" style="position:absolute; bottom:60px; z-index:40; display:block">
+            <input style="width:130px;" class="center_text affiliate_link" type="text" placeholder="Your affiliate link" />
+        </fieldset>
+        {% endif %}
+        <div class="inner_img_cont">
+            <img src="{{prod_img_url}}"/>
+        </div>
+    </div>
+
+    <!-- SIZE / COLOR CONTAINER -->
+    <div class="size_color">
+        {% if store_supported %}
+        <div class="cont_block">
+            <div class="my_label section_label center_text xsmall lightgray" style="margin-top:14px">Set a price alert?</div>
+            <fieldset class="typical_form">
+                <input class="center_text" id="price_alert" type="text" placeholder="Optional : $ amount" />
+            </fieldset>
+            <!--{% if prod_price > 0 %}
+            <div class="my_label section_label center_text xxsmall lightgray" style="margin-top:5px">Last calculated price: ${{prod_price|floatformat:2}} (may be inaccuate)</div>
+            {% else %}
+            <div class="my_label section_label center_text xxsmall lightgray" style="margin-top:5px">Lowest price is being calculated...</div>
+            {% endif %}-->
+        </div>
+        <div class="cont_block red_headed_step">
+            <div class="inner_cont" >
+                <p class=" lightgray center_text my_panel_tooltip"><span class="section_label">Size</span> <!--span class="my_cool_tooltip bottom_arr">You can edit the size back on Shelf.<br/> When you Shelve your next item, you can select your size BEFORE clicking the shelf-it bookmarklet.</span>
+                    <span class="q_mark">?</span--></p>
+                {% if prod_size %}
+                <p class="display_book more_medium lightgray center_text shelf_name">{{prod_size}}</p>
+                {% else %}
+
+                <p class="display_book more_medium lightgray center_text shelf_name">None selected</p>
+                {% endif %}
+                <p class=" lightgray center_text my_panel_tooltip"><span class="section_label">(You can pick a different size<br/>later from your Shelf account.)</span>
+            </div>
+            
+        </div>
+        {% else %}
+        <div class="cont_block">
+            <div class="my_label section_label center_text xsmall lightgray" style="margin-top:14px">Item name</div>
+            <fieldset class="typical_form">
+                <input class="center_text" id="input_item_name" type="text" value="{{product_obj.name}}" />
+            </fieldset>
+        </div>
+        <div class="cont_block red_headed_step">
+            
+            <div class="inner_cont" style="display:block;">
+                <div class="my_label section_label center_text xsmall lightgray" style="margin-top:14px">Item Price</div>
+                <fieldset class="typical_form">
+                    <input class="center_text" id="input_price" type="text" value="{{prod_price|floatformat:2}}" />
+                </fieldset>
+            </div>
+        </div>
+        {% endif%}
+    </div>
+    
+
+    <div id="shelf_content_container" combid="{{combination_id}}">
+        <div class="adding_a_shelf" style="display:none;">
+            <div class="basic_form">
+                <div class="center_text medium white display_book white">What do you want to name<br/>your new Shelf?</div>
+                <input type="text" class="basic_form_field larger_field center_text add_shelf" id="shelf_name"  type="text" placeholder="Shelf Name"> 
+            </div>
+            <a href="#"class="text_link hint_italics center_text add_new_shelf_cancel">Cancel</a>
+            <a class="teal_display_btn center_text small_version new_category_create_btn" style="padding-top:27px;"><span style="font-weight:600!important;">SUBMIT</span></a>
+
+        </div>
+        <div class="shelf_content">
+            <div class="my_label display_book" style="position:fixed; font-size:18px; ">Where should we shelve this? </div>
+            <div class="content_wrapper">
+                <div class="c_box_column">
+                    {% for key, exists in categories %}
+                        {% if exists %}
+                            <div class="checkbox_btn check_on">{{key|capfirst}}</div>
+                        {% else %}
+                            <div class="checkbox_btn">{{key|capfirst}}</div>
+                        {% endif %}
+                    {% endfor %}
+                    
+                    <a style="display:block; height:40px; padding-top:8px;" href="#" class="teal_display_btn lighter xsmall_version add_new_shelf"><span><b>✚</b> New Shelf</span></a>
+                </div>
+                        
+            </div>
+        </div>
+    </div>  
+    
+    <!-- BUTTON CONTAINER -->
+    <div class="btn_cont" style="display:none;">
+        <div class="btm_btn panel_save">Save</div>   
+    </div>
+
+</div>
+
+{% else %}
+
+<div id="teaser">
+<div id="login_blue_bar">
+<div class="right"> 
+    <div id="login_panel">
+
+        <div class="content">
+                <!-- login button -->
+                <div class="display_light large white center_text login_title">You're not logged in.</div>
+            <form action="{% url facebook_connect %}?facebook_login=1" method="post">
+                    <input type="submit" onclick="F.connect(this.parentNode); return false;"  value="Sign Up with Facebook" class="fb_btn" />
+                    <input type="hidden" name="next" value="{{ next }}"/>
+	            	<input type="hidden" name="register_next" value="{{ next }}" />
+            </form>
+            
+            <div class="divider_row">
+                <p class="hint_italics center_text white_on_blue"><span>or</span></p>
+            </div>
+            <form action="/our_login/?next={{ redirect_to }}" method="post">{% csrf_token %}
+                <fieldset>
+                    <div class="left_side">
+                        <input type="text" class="homepage_formfield email_login" id="email" name="login_email" value="Email Address"/>
+                    	{% if form_login.login_email.errors %}
+                    	<div id="email_field2" class="validation_box">{{form_login.login_email.errors}}</div>
+                    	{% endif %}
+                    </div>
+                    <div class="right_side">
+                        <input type="password" class="homepage_formfield pwd_login" id="password"/ name="login_password">
+                        {%if form_login.login_password.errors %}
+                        <div id="password_field2" class="validation_box">{{form_login.login_password.errors}}</div>
+                        {% endif %}
+                        <input type="text" class="homepage_formfield pwd_login_visible" id="password"/ name="login_password_visible">
+
+                    </div>
+                    <div class="divider_row">
+                        <p class="hint_italics center_text white_on_blue" style="padding: 0 0 10px;";><span>Or, did you <a href="#" onclick="password_reset_form_show();">forget</a> your password?</span></p>
+                    </div>
+                    <input type="submit"  value="Submit!" class="gen_button small_version center_text" />
+                </fieldset>
+            </form>
+            
+        </div>
+    </div>
+</div>
+</div>
+</div>
+
+
+
+{% endif %}
+</body>
+
+</html>
