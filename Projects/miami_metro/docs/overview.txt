@@ -1,0 +1,551 @@
+OVERVIEW
+========
+
+Our project "miami_metro" has following directories:
+
+1. angel:
+	-- retail brand specific pricing tasks
+
+2. debra
+	-- all of our views (home, promotion, item info, shelfit) start here
+
+3. doakes
+	-- fetching data from Shopstyle using their API (not used anymore)
+
+4. docs
+
+5. harrison
+	-- code to match an item to the promotion running at the store
+
+6. harry
+	-- scraper to fetch promotion related information from websites
+
+7. jamie
+	-- JS code for the Shelfit bookmarklet. Inspired by Pinterest/Wantworthy
+	
+8. laguerta
+	-- Fetch promotion emails from our email account, analyze them to get code and other detailed info 
+	
+9. masuka
+	-- item categorization
+	
+10. mymedia
+	-- Design, CSS, JS, staticfiles
+	
+11. rita
+	-- Google's graphic visualization library integration for plotting price curves
+	
+12. templates
+	-- for each view, the templates are stored here
+
+Our naming is inspired by Dexter TV show that we all love here at Shelf.
+
+==============================================================================
+
+ARCHITECTURE:
+============
+
+We have 3 main components:
+	1. Bookmarking system: user visits different stores and adds items to shelf account.
+	2. Promotion system: fetch promotion related information from emails or from store's web pages + analyze promotions to figure
+		out the codes, categories it is applicable to etc.
+	3. Price system: periodically calculates the price of all items and also identifies if the item is available
+	
+	NOTE: All three components need to be extended when we want to support a new store.
+
+Main Database models: debra/models.py
+	Promoinfo: contains structured information about promotion (code, validity, availability, etc)
+	PromoRawText: simple plain text of the promotion
+	
+	WishlistItem: 
+	
+	PricingTasks
+	
+	Combination
+	
+	UserOperations
+	
+	ProductModel
+	
+
+Periodic tasks are implemented using Celery.
+
+
+DEPLOYMENT:
+==========
+
+We have three machines. 
+	1. Our front web server is hosted on Heroku.
+	2. DB is hosted on a small EC2 instance. DB is backed up nightly and stored on a S3 bucket. DB is
+		stored on a EBS volume that is replicated on the same availability zone.
+	3. Periodic pricing tasks are running on a separate small EC2 instance. 
+	
+	
+ADDING A NEW STORE:
+==================
+
+	1. Extending the bookmarklet for that store
+	
+	2. Promotion analysis for that store
+	
+	3. Pricing tasks for that store
+
+
+PROMOTION FETCHING
+==================
+We use two sources:
+	1. Emails
+		--- our rootofsavvypurse@gmail.com doesn't always all the store emails. 
+	2. Website of the brand
+		--- not sure if all promotions sent over the email appear on the website: need to double check this.
+
+
+
+
+
+
+ADD ITEM TO SHELF ALGO
+======================
+
+1. Authenticate user
+
+2. Parse request to get the params 
+
+ERROR_CODE = 'NONE'
+try
+
+	3. if store is supported (based on the productURL param):
+			
+		a) Find rest of the parameters
+			1) color/size selection by the user 2) price (preferably also the lowest price we can scrape) 3) product ID 4) image URL
+
+			ERROR HANDLING: all of these params should be present. Else, raise an error and respond with ERROR_CODE: PARAM_MISSING
+
+		b) Find the product in the DB
+			1) if exists: use the latest price calculated as the price that is reflected back
+			2) if doesn't exist: 
+				-- create a new productmodel entry with the price, prod url, image url, prod ID provided in the URLs
+				-- categorize the item
+
+	4. else (i.e., store is not supported)
+		a) Find rest of the parameters
+			1) URL of the product
+		b) Find the product based on the URL in the DB
+			1) if exists, use that one
+			2) else, create a new one
+
+	5. Create a WishlistItem object if one doesn't exist
+
+catch:
+
+	-- if CODE=PARAM_MISSING
+		Store the request/params in the logs, create a response and return
+	-- else:
+		Not sure what went wrong. Return an appropriate response to the user and store the params/request in the logs.
+
+6. success, provide a form for the user to categorize item.
+
+Total DB calls: get_or_create for productModel, get_or_create for wishlistitem: 2
+
+Changes: 
+	remove Userops pointer from wishlistitem
+	move color/size from Userops to wishlistitem
+
+
+
+
+
+==========================================================
+
+Handling products that have variable pricing (either based on color or sizes (e.g.: rugs))
+
+Proposal: 
+	1. ProductModel needs to be extended with two fields:
+		a) variable_pricing: [ none / color / size / both ]
+		b) price_update_agent: [ user_id / admin / crawler ]
+
+	2. ColorSizeModel needs to be extended with a price field
+
+	3. Price trackers needs to be updated:
+
+		#part 1 where color/size dictionary is filled
+		if prices are different for different color/sizes =: set product.variable_pricing 
+
+		if product.variable_pricing == none:
+			price a random color/size (current method)
+		elif product.variable_pricing == color:
+			pick every color and a random size and add to the cart & then apply promo 
+		elif product.variable_pricing == size:
+			pick every size and a random color and add to the cart & then apply promo
+		else: // both
+			pick every color/size combination //NOTE THIS PRODUCT ID
+			
+
+	4. View_shelf:
+		if product.variable_pricing != none:
+			find prices for the specific CSM and the applicable promos
+		else:
+			do what we're currently doing
+
+	5. Shelfit:
+		if our shelfit JS can't figure out the price, we should use ask the user to provide us the price
+		and then create the productmodel and set price_update_agent = USER
+
+	6. Product crawlers:
+
+
+	Algo:
+
+	1. Visit product.URL
+	
+	2. if product.variable_pricing == TBD:
+		- Check if product price is fixed or is a range (this needs to be a store specific test)
+			- If fixed price then product.variable_price = False
+
+	3. Build colorsize_dictionary 
+		3.1 Click on each color.
+   		3.2 Record available sizes of the color 
+
+	4. If product.variable_pricing == TBD
+		for each color:
+			for each available size:
+				find_price(color, size, promo_code)
+
+	5. elif product.variable_pricing = ColorType
+		for each color:
+			size = pick_random(available sizes for this color)
+			find_price(color, size, promo_code)
+
+	6 elif product.variable_pricing = SizeType
+		for each size:
+			color = pick_random(available colors for this size)
+			find_price(color, size, promo_code)
+
+	8. else: // product.variable_pricing = False
+		pick a random color and a random size for this color
+		find_price(color, size, promo_code)
+
+	// At this point, we have found prices but we need to make sure that if the product has variable pricing
+	// then we should identify what causes the variable pricing: does the price change on size or color?
+	// good thing is that step (4) forces us to add each color/size combination to the cart and find the final
+	// price. Now, we can go over these prices and check how prices are changing. Also, step (7) needs to be done
+	// only once and then we'll remember this info.
+	7 if product.variable_pricing == True:
+		pick two colors: c1 and c2 and a common size s
+		price[c1][s] != price[c2][s] ==> price is varying with color ==> product.variable_pricing = ColorType
+		now, pick two sizes for the same color
+		price[c][s1] != price[c][s2] ==> price is varying with size ==> product.variable_pricing = SizeType
+
+
+	// this function is also store-specific. Some stores reveal prices on the item page while others
+	// may require you to add item to the cart (just like urban outfitters)
+	func find_price(color, size, promo_code):
+		click on the color and wait_special()
+		click on the size and wait_special()
+
+		click on add_to_bag() and wait_special()
+
+		if price_updated_here: store price in the DB;
+		else:
+			click on checkout page link and wait()
+			add email address
+			if price obtained here: store price in the DB;
+
+				
+Our models:
+
+ProductModel:
+	URL: string 
+	Name: string 
+	Store: ForeignKey to Brand
+	Category: string 
+	VariablePricing: string [False, TBD, Color, Size] default is TBD
+
+ColorSizeModel:
+	Prod: ForeignKey to ProductModel
+	Color: string
+	Size: string
+	Price: float
+
+ProductPrice:
+	Prod: ForeignKey to ColorSizeModel
+	price: float
+	finish_time: time
+
+ProductAvailability:
+	Prod: ForeignKey to ColorSizeModel
+	Avail: bool
+	finish_time: time
+
+
+=========================================================
+
+Detect changes on page after we click on an element: seems like we have quite a bit of random waits
+
+We have 5 actions:
+	1. Select a color
+	2. Select a size
+	3. Add to the cart
+	4. Go to the cart page
+	5. If promo_code:
+		a. if necessary, add personal info
+		b. enter code
+
+After each action, how long should we wait for its effect to take place?
+	For (1) and (2) above: make sure the clicked value is actually selected. No arbitrary wait needed
+	For (3): check if the item is in the cart or number of items shown on the cart has increased. Again, no arbitrary wait needed
+	For (4): need to go to a new page, so this is easy. webdriver will block.
+	For (5): based on the store type, use one of the above solutions to avoid arbitrary wait
+
+
+
+=========================================================
+
+Promodashboard v1
+
+Goal: promotion have richer information: code, dates, shareable, category, instore/online
+
+New model: PromoDashboardElement
+			-- PromoRawText
+			-- Promoinfo
+			-- User
+			-- UpdatedText
+			-- Checked
+
+Algorithm for /mypromos/:
+	- if non-admin
+		- show all PromoDashboardElement for today
+	- if admin
+		- show all PromoRawText.checked = False for today
+			- show them as editable form.
+		- 'add new promo' so that admin can add a new promo that we're entirely missing
+
+		- if admin clicks on an editable promo's submit button:
+			- find the id of the text area (this is the ID of the associated PromoDashboardElement)
+			- find the text of all text areas associated with this id
+			- send an AJAX query to the server with the new data & ID (to /editpromo/?...)
+
+
+
+Algorithm for /editpromo/:
+	- make sure user has admin priviliges
+	- find all params in the request & then the corresponding promodashboardelement
+		- params: id, store_name, date, promo_text, promo_code, promo_validity, promo_category, promo_location, new_promo
+	- if new_promo:
+		- create a PromoRawText()
+		- create a Promoinfo()
+		- create a PromoDashboardElement
+		- mark promoRawtext.checked
+		- return
+
+	promorawtext = PromoRawText(id=id)
+	promorawtext.checked = True
+	
+	// duplicate promo
+	- if promo_text == None:
+		- return
+
+	create promodashboardelement
+	create promoinfo
+	set promoinfo parameters
+	return
+
+==========================================================
+
+Product categorization v0.2
+
+- top-level categories: shirts, pants, outerwear, footwear, home, kids, accessories, bags, denim, sleepwear, innerware, skirts, sweaters
+
+- manually find keywords that map to these top-level categories
+	E.g.: pants, shorts, bottoms, cargo, capri => pants
+
+Algorithm for mapping a product to a unique top-level category:
+	1. cat = map_string_to_top_cat(product.name)
+	2. if cat == 'uncategorized':
+			cat = map_string_top_cat(product.url)
+	3. return cat
+
+function map_string_to_top_cat(input_str):
+	// first find all the keywords
+	 for each keyword in logical_categories_reverse_mapping.keys():
+	 	keyword_singular = find_singular(keyword)
+	 	keyword_plural = find_plural(keyword)
+	 	input_split_in_words = input_str.split()
+	 	length = len(input_split_in_words)
+	 	last_word = input_split_in_words[length-1]
+        if (keyword_plural == last_word or keyword_singular == last_word):
+        	return logical_categories_reverse_mapping[keyword]
+
+    // now check if the keywords at least exist somewhere in the input string
+    // do the same as above but don't split the strings in words & check for existence rather than equality
+
+
+// for a given user
+view_shelf_category_based:
+	top_level_cats = set(logical_categories_reverse_mappings.values())
+	all_wishlist = WishlistItems.objects.filter(this_user)
+	mappings = []
+	user_cats = UserAssignedCats.objects.filter(this_user)
+	for wi in all_wishlist:
+		// first check the system level cats
+		if not w.item.cat in mappings.keys():
+			mappings[w.item.cat] = []
+		mappings[w.item.cat].append(w)
+
+	// same item can be in multiple categories
+	// now look at items that are present in user_cats
+	items_in_user_cats = [Wishlist, UserAssignedCats]
+	for item in items_in_user_cats:
+		u_cats = item.UserAssignedCats.categoryName
+		if not u_cats in mappings.keys():
+			mappings[u_cats] = []
+		mappings[u_cats].append(item)
+
+modify_category(wishlist, string_of_category_names):
+	
+
+
+create_category()
+
+
+
+============================================================
+
+events we want to track:
+
+# For an active user
+1. click on buy item on item info
+2. click on item info
+3. how many shelves
+4. how many items
+5. click on price alert setting
+6. click on promo dashboard
+7. click on store based or category 
+8. Install bookmarklet
+9. View tutorial
+10. Go to Help
+
+# On the home page
+1. Click on the
+
+Funnel analysis
+=============== 
+
+
+                    
+Making a store "supported"
+==========================
+1. Update quinn/manager
+	-- paths to the new price trackers
+2. Update debra/view_pricing
+3. Update Brands model for that store
+	- supported = True
+	- promo_dashboard_support = True
+	- update start_url 
+4. Update the Brands.name (unsupported store has domain name as their name)
+	- update the Shelf objects with that name
+	- cleanup: 
+		- check for each user:
+			- If there are multiple Shelfs with that name for a user
+			- point all WishlistItemShelfMap.shelf to the first shelf object & then delete remaining shelf objects
+5. Add paths to the store's angel.task_ to the settings.py of shelf-neev-partitioned as well as projects's settings
+
+
+Updating prices // view_shelf.py
+================================
+- Input: wishlist_item, time_when_pricer_started
+
+Algo:
+	- find CSMs corresponding to the from wishlist_item.prod.c_idx and wishlist_item.item.brand and color/size based on wishlist_item
+	- 
+
+Invariants for ProductModel
+=============================
+	- Avoid duplicates
+
+
+
+MailChimp notes:
+================
+
+For templates: we upload our own that have style code in one place on top. Then we run mailchimp's own code to turn into in-line css.
+
+
+
+Handling "Don't cares in sizes and color":
+	normalization happens when an item is shelved
+	if color is not provided or is 'nil' or 'null' or '' or '_': => replace by "don't care"
+	same with size
+
+Need to also handle unicode characters in color/size and make sure they are consistently hanlded in the back-end as well
+
+During price & availability updating:
+
+
+
+Caching
+=================
+
+
+=> Items on feed need to be on cache
+=> Items on popular shelves need to be on cache
+
+When are they updated:
+======================
+--- nightly, after running the pricer
+	--- both the price and availability (though availability can be done more frequently)
+	--- popularity field: need to be updated whenever an item is shelved
+
+
+Price Updating
+==============
+
+Should only be triggered after collecting the logs and making sure that
+price trackers actually ran. This can be verified by checking the logs to see how many
+STARTING_URL lines exist for today.
+
+
+A potential bug fix:
+====================
+
+Suppose you read a DB model object.
+You then pass the id of the object to another function.
+The function then reads the same object from the DB and then updates few entries.
+Your original object doesn't reflect the change.
+
+
+South problem
+=================
+I just got this same error, and found this question by search.
+
+My problem was that my second migration I'd created using the --initial flag, i.e.
+
+$ ./manage.py startapp foo
+$ ./manage.py schemamigration --initial foo
+$ ./manage.py migrate foo
+
+... make some changes to foo ...
+
+$ ./manage.py schemamigration --initial foo
+
+(oops!)
+
+$ ./manage.py migrate foo
+
+... and I get the error, and the migration fails because in the second migration, South is trying to create a table its already created.
+Solution
+
+In my migrations folder:
+
+$ ls foo/migrations
+0001_initial.py   0002_initial.py
+
+remove that second migration and re-export the second migration with the correct --auto flag:
+
+$ rm foo/migrations/0002_initial.py
+$ ./manage.py schemamigration --auto foo
+$ ./manage.py migrate foo
+
+Success!
+
+There may be other things that cause this error, but that was my bad!
