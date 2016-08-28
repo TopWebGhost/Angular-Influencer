@@ -1,0 +1,42 @@
+An EC2 task/instance manager that tries to meet our goal and satisfies our constraints
+======================================================================================
+Constraints:
+	1. Same IP doesn't do more than Y fraction of all products for the same store on any given day.
+	2. Total number of sessions for each store < X fraction of all visitors a store sees from the world.
+	3. Rate limit the tasks so that we don't show up as a peak
+		-- Spread it out on multiple hours
+	4. Do it during normal work hours or in the evenings
+		-- Avoid sleeping hours
+		
+	
+Goal:
+	1. Track price/availability of all items at all stores.
+
+Given:
+	1. p_i = Total number of products at store i.
+	2. uv_i= #unique visitors to store i.
+	3. Throughput: A EC2 micro-instance can do n number of products per day.
+
+
+Design:
+
+	For each store i:
+		
+		our_load_i = X.uv_i
+		
+		pps_i = # products per session = p_i/(our_load_i) = p_i/(X.uv_i)
+				
+		ip_i = # of ip's required: each IP should do less than Y % of our_load_i
+			   So, load per ip = Y . our_load_i
+			   Throughput of an IP in a day = n
+			   load =  min(n, Y.our_load_i)
+			   Number of ips needed = our_load/load
+
+
+Algo for price tracking all items at all stores:
+	1. For each store
+		find out number of servers needed
+		start those many EC2 instances, each a celery worker, ready to consume workers on the "store_name" queue
+		fire off "our_load_i" number of tasks for this store on celery:
+			each task has pps_i number of items to track
+		
