@@ -1,0 +1,79 @@
+body {
+    font-family: arial, sans-serif;
+    font-size: 16px;
+    background-color: #fff;
+}
+
+.task-container {
+    height: 500px;
+    overflow: scroll;
+}
+
+.task-result {
+    float: left;
+    margin-left: 10px;
+    margin-right: 50px;
+}
+
+.task-executed {
+    clear: left;
+    float: left;
+    width: 200px;
+}
+
+.task-status {
+    float: left;
+    margin-left: 15px;
+}
+
+.status-ok {
+    color: green;
+}
+
+.status-fail {
+    color: red;
+}
+
+.tables-container {
+    float: left;
+    clear: left;
+    margin-bottom: 50px;
+}
+
+th, td {
+    text-align: left;
+}
+
+.queue-container {
+    margin-top: 50px;
+    float: left;
+}
+
+.shelfstats-container {
+    margin-top: 50px;
+    margin-left: 100px;
+    float: left;
+}
+
+.shelfstats-table2 td {
+    width: 150px;
+}
+
+.pmsm-images-table td {
+    /*width: 150px;*/
+}
+
+.platform-table {
+    margin-bottom: 50px;
+}
+
+.platform-table th {
+    padding-right: 20px;
+}
+
+.links {
+    float: left;
+    clear: left;
+    font-size: 18px;
+    margin-top: 50px;
+}

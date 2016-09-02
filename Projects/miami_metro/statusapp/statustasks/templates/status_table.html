@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+<h2>Results from last {{hours_ago}} hours</h2>
+
+<div class=task-container>
+{% for task, results in recent_by_task.items %}
+<div class=task-result>
+
+<h3>{{task|title}}</h3>
+    {% for tr in results %}
+        <p>
+            <div class=task-executed>{{tr.executed}}</div>
+            <div class="task-status status-{{tr.result}}">{{tr.result}}</div>
+        </p>
+    {% endfor %}
+</div>
+{% endfor %}
+
+</div>
+
+<div class=links>
+
+    <p>
+    <a href="{% url 'statustasks.views.platform_stats' %}">Platform stats</a>
+    </p>
+
+    <p>
+    <a href="{% url 'statustasks.views.fetcherdata_stats' %}?hours=24&for-search=1">Fetched data for the last day [hours and for-search params]</a>
+    </p>
+
+    <p>
+    <a href="{% url 'statustasks.views.shelf_stats' %}?hours=24&max_image_size=20000">ProductModelShelfMap Stats [hours and max_image_size params]</a>
+    </p>
+
+    <p>
+    <a href="{% url 'statustasks.views.pmsm_images_stats' %}?hours=24&max_image_size=20000">ProductModelShelfMap small images [hours and max_image_size params]</a>
+    </p>
+
+    <p>
+    <a href="{% url 'statustasks.views.influencer_stats' %}">Influencer stats</a>
+    </p>
+
+    {% comment %}
+    <p>
+    <a href="{% url 'statustasks.views.execute_sql' %}?sql=SQL_COUNT_INFLUENCERS">Count influencers</a>
+    </p>
+    {% endcomment %}
+
+    <p>
+    <a href="{% url 'statustasks.views.execute_sql' %}?sql=SQL_LATEST_POST">Latest blog post</a>
+    </p>
+
+    <p>
+    <a href="{% url 'statustasks.views.execute_sql' %}?sql=SQL_POSTS_COUNTS">Posts counts stats</a>
+    </p>
+
+</div>
+
+<div class=tables-container>
+
+<div class=queue-container>
+    <h2>Queues</h2>
+    <table class=queue-table>
+    <thead>
+        <th>name</th>
+        <th>messages</th>
+        <th>rate</th>
+        <th>unacked</th>
+    </thead>
+    {% for qd in queue_data %}
+        <tr>
+            <td>{{qd.name}}</td>
+            <td>{{qd.messages|default:"?"}}</td>
+            <td>{{qd.messages_details.rate|default:"?"}}</td>
+            <td>{{qd.messages_unacknowledged|default:"0"}}</td>
+        </tr>
+    {% endfor %}
+    </table>
+</div>
+
+</div>
+
+{% endblock %}

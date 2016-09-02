@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% load basefilters %}
+
+{% block content %}
+
+<div class=platform-container>
+
+    <p>Influencers: {{influencer_count}}</p>
+    <p>Influencers with location: {{influencer_with_location_count}}</p>
+
+    {% for user_spec, data in by_platform %}
+
+    Influencers: <strong>{{user_spec}}</strong> {{totals|dget:user_spec}} total
+    <table class=platform-table>
+        <thead>
+            <th>platform_name</th>
+            {% for k in datakeys %}
+                <th>{{k}}</th>
+            {% endfor %}
+        </thead>
+        {% for platform_name, data_lst in data.items %}
+            <tr>
+            <td>{{platform_name}}</td>
+            {% for v, p in data_lst %}
+                <td>{{v}} ({{p|stringformat:".2f"}}%)</td>
+            {% endfor %}
+            </tr>
+        {% endfor %}
+    </table>
+
+    {% endfor %}
+
+</div>
+
+{% endblock %}

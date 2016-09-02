@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>Influencer Stats</h2>
+
+<dl>
+{% for key, value in data.items %}
+    <dt>{{key}}</dt>
+    <dd>{{value}}</dd>
+{% endfor %}
+</dl>
+
+{% endblock %}

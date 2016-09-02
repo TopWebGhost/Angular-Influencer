@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>Images smaller than {{max_image_size}} (about {{max_image_size_sqrt|floatformat:"0"}} × {{max_image_size_sqrt|floatformat:"0"}}) for the last {{hours_ago}} hours</h2>
+<table class=pmsm-images-table>
+<thead>
+    <th>prod_url</th>
+    <th>product_model_id</th>
+    <th>size</th>
+    <th>value_json</th>
+    <th></th>
+</thead>
+{% for row in pmsm_stats %}
+    <tr>
+        <td>{{row.prod_url}}</td>
+        <td>{{row.product_model_id}}</td>
+        <td>{{row.size}}</td>
+        <td>{{row.value_json}}</td>
+        <td></td>
+    </tr>
+{% endfor %}
+</table>
+
+{% endblock %}

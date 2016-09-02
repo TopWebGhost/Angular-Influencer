@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>ProductModelShelfMap Stats for the last {{hours_ago}} hours</h2>
+<table class=shelfstats-table2>
+<thead>
+    <th>date and hour</th>
+    <th>total items</th>
+    <th>img_url<br>isnull</th>
+    <th>img_url_shelf_view<br>isnull</th>
+    <th>small_image_exists</th>
+</thead>
+{% for day_hour, hour_data in shelf_stats %}
+    <tr>
+        <td>{{day_hour.0.year}}-{{day_hour.0.month}}-{{day_hour.0.day}} {{day_hour.1}}h</td>
+        <td>{{hour_data.items}}</td>
+        <td>{{hour_data.img_url__isnull}}</td>
+        <td>{{hour_data.img_url_shelf_view__isnull}}</td>
+        <td>{{hour_data.small_image_exists}}</td>
+    </tr>
+{% endfor %}
+</table>
+
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+
+<h2>Stats for last {{hours}} hours</h2>
+
+<div class=platform-container>
+
+    <table class=platform-table>
+        <thead>
+            <th>platform_name</th>
+            {% for k in datakeys %}
+                <th>{{k}}</th>
+            {% endfor %}
+        </thead>
+        {% for platform_name, data_lst in by_platform.items %}
+            <tr>
+            <td>{{platform_name}}</td>
+            {% for v in data_lst %}
+                <td>{{v}}</td>
+            {% endfor %}
+            </tr>
+        {% endfor %}
+    </table>
+
+
+</div>
+
+{% endblock %}
