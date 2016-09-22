@@ -1,0 +1,232 @@
+﻿{% load compressed %}
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="google-site-verification" content="F0qqrs5108pI7wDKCZplwh3WGy3zrb1J5ZiDR3qoObQ" />
+
+    <title>Buy smartly -- Blog smartly -- Network with fellow Bloggers -- TheShelf</title>
+    <meta name="description" content="Tools to help you grow your blog, find interesting brand campaigns to work on, inspire and be inspired by other bloggers. ">
+    <!--** Global CSS **-->
+    <link href="/mymedia/site_folder/css/global.less" media="screen" rel="stylesheet/less" />
+    <link href="/mymedia/site_folder/css/laurens_font.less" media="screen" rel="stylesheet/less"  />
+    {% if flavour == "mobile" %}
+    <link href="/mymedia/site_folder/css/mobile.less" media="screen" rel="stylesheet/less"  />
+    {% endif %}
+
+    <!--** Global Js **-->
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+
+    <!-- Google Fonts -->
+    <script type="text/javascript">
+    WebFontConfig = {
+      google: { families: [ 'Raleway:400,200,100,300,500,600,700,800,900' ] }
+    };
+    (function() {
+      var wf = document.createElement('script');
+      wf.src = ('https:' == document.location.protocol ? 'https' : 'http') +
+              '://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js';
+      wf.type = 'text/javascript';
+      wf.async = 'true';
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(wf, s);
+
+    })();
+    </script>
+
+    <!-- Global Vendor Js -->
+    <script type="text/javascript" src="//www.google.com/jsapi"></script>
+    {% compressed_js 'core' %}
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-36724948-1', 'theshelf.com');
+      ga('require', 'displayfeatures');
+      ga('send', 'pageview');
+
+    </script>
+
+    <!-- start Mixpanel -->
+    <script type="text/javascript">
+        (function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+mixpanel.init("73ebaff77d34512063b2f3bef46039a9");
+    </script>
+    <!-- end Mixpanel -->
+    <script>
+        $(document).ready(function() {
+
+             /*
+             MIXPANEL ANALYTICS
+             -- this should happen after we have loaded the MIXPANEL JS
+             */
+            mixpanel.track('visited', {'cur_page': $(location).attr('href')});
+            console.log('Sending tracking event to Mixpanel: '+$(location).attr('href'));
+
+
+            $("a[data-popup-type='login']").click(function(){
+                console.log('login popup clicked');
+                mixpanel.track('Login Popup Clicked', {'cur_page': $(location).attr('href')});
+            });
+
+            $("a[data-popup-type='signup']").click(function(){
+                console.log('signup popup clicked');
+                mixpanel.track('Signup Popup Clicked', {'cur_page': $(location).attr('href')});
+            });
+
+            $('.nav_wrapper .link_row').find('a').click(function(){
+                console.log('clicked on nav link ' + $(this).attr('href'));
+                mixpanel.track("Clicked Nav Link", {'cur_page': $(location).attr('href'), 'nav_link': $(this).attr('href')});
+            });
+        });
+    </script>
+    <!-- Google Vis Library -->
+    <script type="text/javascript">
+    google.load("visualization", "1", {packages:["corechart"]});
+    </script>
+</head>
+
+
+<body class="home_body {% if flavour == "mobile" %} ipad_body{% endif %}">
+    <span  ng-app="theshelf" ng-cloak>
+    <!-- Brand Signup Success Lightbox -->
+    {% include 'popups/generic_message_lb.html' with popup_type="generic-message-popup" %}
+    <!-- Contact Us Lightbox -->
+    {% include 'popups/contact_us_lb.html' with popup_type="contact-us-popup" %}
+    <!-- Login Lb / Signup Lb -->
+    {% include 'popups/login_lb.html' with popup_type="login-popup" %}
+    {% include 'popups/signup_lb.html' with popup_type="signup-popup" %}
+    <!-- Image Upload Lb -->
+    {% include 'popups/image_upload_lb.html' with popup_type="image-upload-popup" %}
+    <!-- Forgot Password -->
+    {% include 'popups/forgot_password_lb.html' with popup_type="forgot-password-popup" %}
+    {% include 'django_facebook/_facebook_js.html' %}
+
+    <div class="white_overlay" style="display:none;"></div>
+    <div class="black_overlay" style="display:none;"></div>
+    <!-- nav header -->
+    {% include 'widgets/landing_nav_header.html' %}
+
+    <div class="header">
+        <div class="header_txt">
+            <div class="main">Shop, Blog, Network</div>
+            <div class="sub">a community for shoppers, bloggers, and brands</div>
+        </div>
+        <div class="button_container">
+            <a href="#" class="button signup" click-emitter="openSignupPopup">Sign Up</a>
+            <a href="#" class="button launch-popup" data-popup-type="login">Log In</a>
+        </div>
+        <div class="photo_credits">Photography by : <a href="http://streetscout.me/street-style/fashion" target="_blank" class="link">StreetScout.me</a></div>
+    </div>
+    <div class="body_row gray_row clearfix">
+        <div class="content_area triple center_text">
+            <div class="content_bucket">
+                <div class="icon_img"><span class="icon-compound_grid_2"></span></div>
+                <h1 class="subtitle">Shop</h1>
+                <p class="body_text">Keep track of items you like as well as any price drops!  It’s always more fun to buy stuff when it goes on sale.</p>
+            </div>
+            <div class="content_bucket">
+                <div class="icon_img"><span class="icon-compound_girl_plus_dress"></span></div>
+                <h1 class="subtitle">Blog</h1>
+                <p class="body_text">Create a visually stunning storefront for your readers to browse.  Use custom widgets to showcase top editorial picks and giveaways, so readers can engage with your blog!</p>
+            </div>
+            <div class="content_bucket last_child">
+                <div class="icon_img"><span class="icon-compound_girl_row"></span></div>
+                <h1 class="subtitle">Network</h1>
+                <p class="body_text">A community for bloggers and trendsetters to connect with relevant brands, shop their shelves, and collaborate on campaigns like giveaways and sponsored posts.</p>
+            </div>
+        </div>
+    </div>
+    <div class="body_row clearfix">
+        <div class="title">Trending Bloggers</div>
+        <div class="subtext">Browse the shelves of trending fashion bloggers.  Curate your own must-have looks and get inspiration for your blog and outfit posts.</div>
+        <div class="content_area">
+            <div class="content_callout left"><img src="../../../mymedia/site_folder/images/page_graphics/home/new/blogger_callout_1.png" /></div>
+            <div class="content_callout middle"><img src="../../../mymedia/site_folder/images/page_graphics/home/new/blogger_callout_2.png" /></div>
+            <div class="content_callout right"><img src="../../../mymedia/site_folder/images/page_graphics/home/new/blogger_callout_3.png" /></div>
+        </div>
+    </div>
+    <div class="body_row gray_row clearfix">
+        <div class="title">Trending Brands &amp; Boutiques</div>
+        <div class="subtext">Browse the shelves of brands and boutiques you love.  Shelve the latest trends for outfit inspiration...  and then, go shopping right on our site!</div>
+        <div class="center_text" style="margin-bottom:80px;"><img src="../../../mymedia/site_folder/images/page_graphics/home/new/stores.png" /></div>
+    </div>
+    <div class="body_row w_img clearfix">
+        <div class="img_txt">
+            Promote your blog to style enthusiasts,<br/>
+            connect with other fashion bloggers, <br/>
+            and grow your readership... <br/>
+            all in one place.
+        </div>
+        <div class="button_container">
+            <a href="#" class="button signup" click-emitter="openSignupPopup">Sign Up</a>
+            <a href="#" class="button launch-popup" data-popup-type="login">Log In</a>
+        </div>
+    </div>
+    <div class="body_row hp_footer clearfix">
+        <p class="footer_nav">
+            <a href="{% url debra.company_views.about_us %}">About</a>
+            <a href="#" class="launch-popup" data-popup-type="contact_us">Contact</a>
+            <a href="{% url debra.company_views.hiring %}">Careers</a>
+            <a href="{% url debra.company_views.bloggers %}">Bloggers</a>
+        </p>
+        <div class="footer_social_row">
+            <a href="https://www.facebook.com/ShelfInc" class="icon-social_facebook bs_tooltip"></a>
+            <a href="https://twitter.com/shelfinc" class="icon-social_twitter bs_tooltip"></a>
+            <a href="http://www.pinterest.com/shelfinc/" class="icon-social_pinterest bs_tooltip"></a>
+        </div>
+        <div class="footer_credits">
+            Photography c/o &nbsp; &nbsp; &nbsp;: &nbsp; &nbsp; &nbsp;
+            <a class="lightergray txt_link" href="http://www.pennypincherfashion.com/" target="_blank">Penny Pincher Fashion</a>
+             &nbsp; &amp; &nbsp;
+            <a class="lightergray txt_link" href="http://streetscout.me/" target="_blank">Street Scout</a>
+        </div>
+    </div>
+    </span>
+
+
+
+
+
+    <!-- HOME CONTENT
+    <a class="home_brand_btn txt_link_round lightergray launch-popup" data-popup-type="brand_signup" data-signup-type="brand" data-analytics-source="HOME">Brand Signup</a>
+    <div class="shelf_home">
+        <div class="home_content">
+            <div class="logo_container">
+                <div class="icon-social_0_shelf_the_bottom the_word"></div>
+                <div class="icon-social_0_shelf_shelf shelf_word"></div>
+            </div>
+            <div class="home_tag">Shopping &nbsp;/&nbsp; Inspiration &nbsp;/&nbsp; Blogging Tools</div>
+            <div class="home_btns">
+                <a id="signup_btn" class="launch-popup square_bt xl on_teal" data-popup-type="signup" data-signup-type="shopper" data-analytics-source="HOME"><span>Sign Up</span></a>
+                <a id="login_btn" class="launch-popup square_bt xl on_teal" data-popup-type="login" data-analytics-source="HOME"><span>Login</span></a>
+            </div>
+        </div>
+    </div>-->
+    {% compressed_js 'angular_core' %}
+    {% block bottom_js %}
+    {% endblock %}
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

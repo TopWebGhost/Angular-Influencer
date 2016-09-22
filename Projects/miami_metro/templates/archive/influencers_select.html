@@ -1,0 +1,320 @@
+{% extends 'pages/admin/base.html' %} {% load compressed %} {% block page_js %} {% compressed_js 'angular_admin' %} {% endblock %} {% block content %}
+<div ng-app="theshelfadmin">
+    <div class="admin_landing">
+        <div class="main_header">Select Your Admin Panel</div>
+        <div class="admin_selector_block" ng-controller="AdminTableSelectCtl">
+            <div class="admin_bk_header clearfix">
+                <div class="left_content">
+                    <div class="title">Hello Dead/Non-Blogs</div>
+                    <br/>
+
+                    <div>
+                        <span class="subheader">Purpose</span>
+                        <span class="the_purpose">The first step of cleaning the URLs is blacklisting URLs that are dead, not blogs, stores, squatter sites, or not URLs.</span>
+                    </div>
+                    <div>
+                        <span class="subheader">Columns</span>
+                        <span class="column">URL</span>
+                        <span class="column">Blog Platform</span>
+                        <span class="column">Blacklist (yes/no)</span>
+                        <span class="column">Problem (why it was blacklisted)</span>
+                    </div>
+                </div>
+                <div class="right_content">
+                    <div class="square_bt rounded lg solid_blk" ng-click="open(selected)">View Table</div>
+                </div>
+            </div>
+            <div class="admin_bk_content">
+                <div class="salvattore_grid clearfix" data-columns>
+                    <div class="admin_column">
+                        <div class="cb_or_rb_wrap cle">
+                            <input type="radio" id="r11" ng-model="selected" value="{% url upgrade_admin:influencers_list_nonvalidated %}" />
+                            <label for="r11">
+                                <span class="graphic"></span>Non-validated</label>
+                            <div class="col_hint">This only shows rows that are NOT validated.</div>
+                        </div>
+                    </div>
+                    <div class="admin_column">
+                        <div class="cb_or_rb_wrap cle">
+                            <input type="radio" id="r12" ng-model="selected" value="{% url upgrade_admin:influencers_list_validated %}" />
+                            <label for="r12">
+                                <span class="graphic"></span>Validated</label>
+                            <div class="col_hint">Only shows rows that have been validated</div>
+                        </div>
+                    </div>
+                    <div class="admin_column">
+                        <div class="cb_or_rb_wrap cle">
+                            <input type="radio" id="r13" ng-model="selected" value="{% url upgrade_admin:influencers_list_debug %}" />
+                            <label for="r13">
+                                <span class="graphic"></span>Debug Mode</label>
+                            <div class="col_hint">Only shows rows that have been edited.</div>
+                        </div>
+                    </div>
+                    <div class="admin_column">
+                        <div class="cb_or_rb_wrap cle">
+                            <input type="radio" id="r14" ng-model="selected" value="{% url upgrade_admin:influencers_list_summary %}" />
+                            <label for="r14">
+                                <span class="graphic"></span>Summary Table</label>
+                            <div class="col_hint"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="admin_selector_block" ng-controller="AdminTableSelectCtl">
+            <div class="admin_bk_header clearfix">
+                <div class="left_content">
+                    <div class="title">Eliminate Non-Fashion Blogs</div>
+                    <br/>
+
+                    <div>
+                        <span class="subheader">Purpose</span>
+                        <span class="the_purpose">We want to remove any sites that should NOT show up on our search page. They must be fashion and active.</span>
+                    </div>
+                    <div>
+                        <span class="subheader">Columns</span>
+                        <span class="column">URL</span>
+                        <span class="column">Blog Platform</span>
+                        <span class="column">Active (yes/no)</span>
+                        <span class="column">Fashion Links (yes/no)</span>
+                        <span class="column">Fashion Store Mentions (yes/no)</span>
+                        <span class="column">Fashion Widgets (yes/no)</span>
+                        <span class="column">Images (yes/no)</span>
+                        <span class="column">Comments (yes/no)</span>
+                        <span class="column">Confidence Level</span>
+                        <span class="column">Show on Search</span>
+                    </div>
+                </div>
+                <div class="right_content">
+                    <div class="square_bt rounded lg solid_blk" ng-click="open(selected)">View Table</div>
+                </div>
+            </div>
+            <div class="admin_bk_content">
+                <div class="salvattore_grid clearfix" data-columns>
+
+                    <div class="admin_column">
+                        <div class="cb_or_rb_wrap cle">
+                            <input type="radio" id="r21" name="rr" ng-model="selected" value="{% url upgrade_admin:influencers_fashion_nonvalidated %}" />
+                            <label for="r21">
+                                <span class="graphic"></span>Non-validated</label>
+                            <div class="col_hint">This only shows rows that are NOT validated.</div>
+                        </div>
+                    </div>
+                    <div class="admin_column">
+                        <div class="cb_or_rb_wrap cle">
+                            <input type="radio" id="r22" name="rr" ng-model="selected" value="{% url upgrade_admin:influencers_fashion_validated %}" />
+                            <label for="r22">
+                                <span class="graphic"></span>Validated</label>
+                            <div class="col_hint">Only shows rows that have been validated</div>
+                        </div>
+                    </div>
+                    <div class="admin_column">
+                        <div class="cb_or_rb_wrap cle">
+                            <input type="radio" id="r23" name="rr" ng-model="selected" value="{% url upgrade_admin:influencers_fashion_debug %}" />
+                            <label for="r23">
+                                <span class="graphic"></span>Debug Mode</label>
+                            <div class="col_hint">Only shows rows that have been edited.</div>
+                        </div>
+                    </div>
+                    <div class="admin_column">
+                        <div class="cb_or_rb_wrap cle">
+                            <input type="radio" id="r24" ng-model="selected" value="{% url upgrade_admin:influencers_fashion_summary %}" />
+                            <label for="r24">
+                                <span class="graphic"></span>Summary Table</label>
+                            <div class="col_hint"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="admin_selector_block" ng-controller="AdminTableSelectCtl">
+            <div class="admin_bk_header clearfix">
+                <div class="left_content">
+                    <div class="title">Social Handle Table</div>
+                    <br/>
+
+                    <div><span class="subheader">Purpose</span><span class="the_purpose">This collects all social handles Info.</span></div>
+                    <div>
+                        <span class="subheader">Columns</span>
+                        <span class="column"></span>
+                    </div>
+                </div>
+                <div class="right_content"><div class="square_bt rounded lg solid_blk" ng-click="open(selected)">View Table</div></div>
+            </div>
+            <div class="admin_bk_content">
+                <div class="salvattore_grid clearfix" data-columns>
+
+                    <div class="admin_column">
+                        <div class="cb_or_rb_wrap cle">
+                            <input type="radio" id="r31" name="rr" ng-model="selected" value="{% url upgrade_admin:influencers_social_handles_nonvalidated %}" />
+                            <label for="r31"><span class="graphic"></span>Non-validated</label>
+                            <div class="col_hint">This only shows rows that are NOT validated.</div>
+                        </div>
+                    </div>
+                    <div class="admin_column">
+                        <div class="cb_or_rb_wrap cle">
+                            <input type="radio" id="r32" name="rr" ng-model="selected" value="{% url upgrade_admin:influencers_social_handles_validated %}" />
+                            <label for="r32"><span class="graphic"></span>Validated</label>
+                            <div class="col_hint">Only shows rows that have been validated</div>
+                        </div>
+                    </div>
+                    <div class="admin_column">
+                        <div class="cb_or_rb_wrap cle">
+                            <input type="radio" id="r33" name="rr" ng-model="selected" value="{% url upgrade_admin:influencers_social_handles_debug %}" />
+                            <label for="r33"><span class="graphic"></span>Debug Mode</label>
+                            <div class="col_hint">Only shows rows that have been edited.</div>
+                        </div>
+                    </div>
+                    <div class="admin_column">
+                        <div class="cb_or_rb_wrap cle">
+                            <input type="radio" id="r34" ng-model="selected" value="{% url upgrade_admin:influencers_social_handles_summary %}" />
+                            <label for="r34">
+                                <span class="graphic"></span>Summary Table</label>
+                            <div class="col_hint"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="admin_selector_block" ng-controller="AdminTableSelectCtl">
+            <div class="admin_bk_header clearfix">
+                <div class="left_content">
+                    <div class="title">Static Information Table</div>
+                    <br/>
+
+                    <div><span class="subheader">Purpose</span><span class="the_purpose">This collects all NON changing Info.</span></div>
+                    <div>
+                        <span class="subheader">Columns</span>
+                        <span class="column"></span>
+                    </div>
+                </div>
+                <div class="right_content"><div class="square_bt rounded lg solid_blk" ng-click="open(selected)">View Table</div></div>
+            </div>
+            <div class="admin_bk_content">
+                <div class="salvattore_grid clearfix" data-columns>
+
+                    <div class="admin_column">
+                        <div class="cb_or_rb_wrap cle">
+                            <input type="radio" id="r51" name="rr" ng-model="selected" value="{% url upgrade_admin:influencers_informations_nonvalidated %}" />
+                            <label for="r51"><span class="graphic"></span>Non-validated</label>
+                            <div class="col_hint">This only shows rows that are NOT validated.</div>
+                        </div>
+                    </div>
+                    <div class="admin_column">
+                        <div class="cb_or_rb_wrap cle">
+                            <input type="radio" id="r52" name="rr" ng-model="selected" value="{% url upgrade_admin:influencers_informations_validated %}" />
+                            <label for="r52"><span class="graphic"></span>Validated</label>
+                            <div class="col_hint">Only shows rows that have been validated</div>
+                        </div>
+                    </div>
+                    <div class="admin_column">
+                        <div class="cb_or_rb_wrap cle">
+                            <input type="radio" id="r53" name="rr" ng-model="selected" value="{% url upgrade_admin:influencers_informations_debug %}" />
+                            <label for="r53"><span class="graphic"></span>Debug Mode</label>
+                            <div class="col_hint">Only shows rows that have been edited.</div>
+                        </div>
+                    </div>
+                    <div class="admin_column">
+                        <div class="cb_or_rb_wrap cle">
+                            <input type="radio" id="r54" ng-model="selected" value="{% url upgrade_admin:influencers_informations_summary %}" />
+                            <label for="r54">
+                                <span class="graphic"></span>Summary Table</label>
+                            <div class="col_hint"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="admin_selector_block" ng-controller="AdminTableSelectCtl">
+            <div class="admin_bk_header clearfix">
+                <div class="left_content">
+                    <div class="title">Summary tables</div>
+                    <br/>
+
+                    <div><span class="subheader">Purpose</span><span class="the_purpose"></span></div>
+                    <div>
+                        <span class="subheader">Columns</span>
+                        <span class="column"></span>
+                    </div>
+                </div>
+                <div class="right_content"><div class="square_bt rounded lg solid_blk" ng-click="open(selected)">View Table</div></div>
+            </div>
+            <div class="admin_bk_content">
+                <div class="salvattore_grid clearfix" data-columns>
+
+                    <div class="admin_column">
+                        <div class="cb_or_rb_wrap cle">
+                            <input type="radio" id="r41" name="rr" ng-model="selected" value="{% url upgrade_admin:report_main_summary %}" />
+                            <label for="r41"><span class="graphic"></span>Main</label>
+                            <div class="col_hint"></div>
+                        </div>
+                    </div>
+                    <div class="admin_column">
+                        <div class="cb_or_rb_wrap cle">
+                            <input type="radio" id="r42" name="rr" ng-model="selected" value="{% url upgrade_admin:report_pipeline_summary %}" />
+                            <label for="r42"><span class="graphic"></span>Pipeline</label>
+                            <div class="col_hint"></div>
+                        </div>
+                    </div>
+                    <div class="admin_column">
+                        <div class="cb_or_rb_wrap cle">
+                            <input type="radio" id="r43" name="rr" ng-model="selected" value="{% url upgrade_admin:report_daily_stats %}" />
+                            <label for="r43"><span class="graphic"></span>Daily stats</label>
+                            <div class="col_hint"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="admin_selector_block" ng-controller="AdminTableSelectCtl">
+            <div class="admin_bk_header clearfix">
+                <div class="left_content">
+                    <div class="title">Misc admin</div>
+                    <br/>
+
+                    <div><span class="subheader">Purpose</span><span class="the_purpose"></span></div>
+                    <div>
+                        <span class="subheader">Columns</span>
+                        <span class="column"></span>
+                    </div>
+                </div>
+                <div class="right_content"><div class="square_bt rounded lg solid_blk" ng-click="open(selected)">View Table</div></div>
+            </div>
+            <div class="admin_bk_content">
+                <div class="salvattore_grid clearfix" data-columns>
+
+                    <div class="admin_column">
+                        <div class="cb_or_rb_wrap cle">
+                            <input type="radio" id="r61" name="rr" ng-model="selected" value="{% url upgrade_admin:remove_user_account 'atul' %}" />
+                            <label for="r61"><span class="graphic"></span>Delete Atul's account</label>
+                            <div class="col_hint"></div>
+                        </div>
+                    </div>
+                    <div class="admin_column">
+                        <div class="cb_or_rb_wrap cle">
+                            <input type="radio" id="r63" name="rr" ng-model="selected" value="{% url upgrade_admin:remove_user_account 'lauren' %}" />
+                            <label for="r63"><span class="graphic"></span>Delete Lauren's account</label>
+                            <div class="col_hint"></div>
+                        </div>
+                    </div>
+                    <div class="admin_column">
+                        <div class="cb_or_rb_wrap cle">
+                            <input type="radio" id="r62" name="rr" ng-model="selected" value="{% url upgrade_admin:brands_list %}" />
+                            <label for="r62"><span class="graphic"></span>Stores</label>
+                            <div class="col_hint"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

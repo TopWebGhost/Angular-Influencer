@@ -1,0 +1,1020 @@
+{% extends 'pages/job_posts/base.html' %}
+{% load compressed %}
+{% load custom_filters %}
+
+{% block title %}Post Analytics | connecting top fashion bloggers and brands{% endblock %}
+{% block body_class %}lt_gray_bg{% endblock %}
+
+{% block main_controller %}ng-controller="CampaignCreateCtrl as campaignCreateCtrl"{% endblock main_controller %}
+
+{% block bottom_js %}
+{% compressed_js 'angular_saved_searches' %}
+<script type="text/javascript">
+(function(){
+angular.module("theshelf")
+    .value('nav_config', {
+        tab: "{{selected_tab}}",
+        sub_tab: "{{sub_page}}",
+        visible: {% if hide_sidenav %}false{% else %}true{% endif %},
+    })
+    .value('dashboard_brand', null)
+    .value('campaignCreateData', {
+        'approvalReportColumns': {{ approval_report_columns|jsonify|safe }},
+        'viewPipelineUrl': {% if campaign %}'{% url debra.job_posts_views.campaign_setup campaign.id %}'{% else %}null{% endif %},
+        'viewClientPreviewUrl': {% if campaign.report_id %}'{% url debra.search_views.blogger_approval_report campaign.report_id %}'{% else %}null{% endif %},
+        'sendTestEmailUrl': '{% url debra.job_posts_views.send_invitation %}',
+        'campaignId': {% if campaign %}{{ campaign.id }}{% else %}null{% endif %},
+        'reportId': {% if campaign.report_id %}{{ campaign.report_id }}{% else %}null{% endif %},
+        'campaignSections': {{ campaign_switcher.to_dict|jsonify|safe }},
+        'campaignSectionSelected': {{ campaign_switcher.selected_section.to_dict|jsonify|safe }},
+        'afterCreate': {% if request.GET.after_create %}true{% else %}false{% endif %},
+        'loadInfluencersURL': '{% url debra.job_posts_views.campaign_load_influencers campaign.id %}',
+        'uploadCampaignCoverUrl': '{% url masuka.image_manipulator.upload_campaign_cover %}',
+        'uploadLogoUrl': '{% url masuka.image_manipulator.image_upload %}?profile_img=1&campaign={{ campaign.id }}',
+        'coverImageSizeW': {{ image_sizes.cover.0}}{{image_sizes.cover.1}},
+        'coverImageSizeH': {{image_sizes.cover.1}},
+        'coverImageSize': '{{ image_sizes.cover.0}}:{{image_sizes.cover.1}}',
+        'profileImageSize': '{{image_sizes.profile.0}}:{{image_sizes.profile.1}}',
+        'reassignCampaignCoverUrl': '{% url debra.job_posts_views.reassign_campaign_cover campaign.id %}',
+        {% if campaign %}
+        'defaults': {
+            'profileImage': {% if campaign.profile_img_url %}"{{ campaign.profile_img_url|safe|escapejs }}"{% else %}null{% endif %},
+            'coverImage': {% if campaign.cover_img_url %}"{{ campaign.cover_img_url|safe|escapejs }}"{% else %}null{% endif %},
+            {% if campaign.date_start %}
+            'dateStart': "{{ campaign.date_start|default_if_none:''|safe|escapejs }}",
+            {% endif %}
+            {% if campaign.date_end %}
+            'dateEnd': "{{ campaign.date_end|default_if_none:''|safe|escapejs }}",
+            {% endif %}
+            'campaignName': "{{ campaign.title|default_if_none:''|safe|escapejs }}",
+            'clientName': "{{ campaign.client_name|default_if_none:''|safe|escapejs }}",
+            'clientURL': "{{ campaign.client_url|default_if_none:''|safe|escapejs }}",
+            'approvalEnabled': {% if campaign.info_json.approval_report_enabled %}true{% else %}false{% endif %},
+            'outreachTemplate': {{ campaign.outreach_template_json|jsonify|safe }},
+            'info': {{ campaign.info_json|jsonify|safe }},
+            'deliverables': {{ campaign.info_json.deliverables|jsonify|safe }},
+            'description': "{{ campaign.description|default_if_none:''|safe|escapejs }}",
+            'whoShouldApply': "{{ campaign.who_should_apply|default_if_none:''|safe|escapejs }}",
+            'postRequirements': "{{ campaign.post_requirements|default_if_none:''|safe|escapejs }}",
+            'hashtagsRequired': "{{ campaign.hashtags_required|default_if_none:''|safe|escapejs }}",
+            'mentionsRequired': "{{ campaign.mentions_required|default_if_none:''|safe|escapejs }}",
+            'details': "{{ campaign.details|default_if_none:''|safe|escapejs }}",
+            {% if campaign.report_id %}
+            'sendApprovalReportUrl': '{% url debra.search_views.client_approval_invite_send campaign.report_id %}',
+            'recipients': {{ campaign.report.info_json.recipients|jsonify|safe }},
+            'columnsHidden': {{ campaign.report.info_json.blogger_approval_report_columns_hidden|jsonify|safe }},
+            {% endif %}
+        },
+        {% else %}
+        'defaults': {},
+        {% endif %}
+    });
+})();
+</script>
+{% endblock %}
+
+{% block extra_directives %}
+    {% if campaign %}
+    <div blogger-approval-popup
+        client-approval-invite-url="{% url debra.search_views.client_approval_invite_send campaign.report_id %}"
+        approval-status-change-url="{% url debra.search_views.blogger_approval_status_change visitor.base_brand.id campaign.report_id visitor.auth_user.id %}"
+    ></div>
+    {% endif %}
+{% endblock extra_directives %}
+
+{% block search_content %}
+    <div>
+        {% comment %}
+        <div class="campaign_tab_row_container" affixed>
+            <div class="campaign_tab_row clearfix">
+                {% for key, section in campaign_switcher.sections %}
+                    {% if section.visible %}
+                        <a href="{{ section.url }}">
+                            <div class="campaign_tab{% if section.selected %} selected{% endif %}">{{ section.text }}</div>
+                        </a>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+        {% endcomment %}
+
+        
+        {% verbatim %}
+        <div class="campaign_tab_row_container">
+            <div class="campaign_tab_row clearfix" data-spy="affix" data-offset-top="0">
+                <a ng-show="section.visible" ng-href="{{ section.url }}" ng-repeat="section in campaignCreateData.campaignSections">
+                    <div class="campaign_tab" ng-class="{selected: section.selected }">{{ section.text }}</div>
+                </a>
+            </div>
+        </div>
+        {% endverbatim %}
+        
+        <div class="dashboard_top_section transparent_bar">
+            <div class="search_name_row clearfix">
+                <div class="right_header_section post_analtyics_drillin_right">
+                    <form name="form" novalidate>
+                        <fieldset class="typical_form search_keyword lighter_field">
+                            {% comment %}
+                            <a href="{% url debra.search_views.post_analytics_collections %}" ng-hide="state == 'saving'" ng-class="{disabled: !isChanged()}" class="add_post_btn left" ng-click="cancelChanged($event)"><span>Cancel Changes</span></a>
+                            {% endcomment %}
+                            {% comment %}
+                            <button class="add_post_btn" ng-class="{disabled: !canSave()}" ng-click="canSave() && save('{% url debra.job_posts_views.update_model %}')">
+                                <span ng-hide="saving">Save</span>
+                                <span ng-show="saving">Saving...</span>
+                            </button>
+                            {% endcomment %}
+                        </fieldset>
+                    </form>
+                </div>
+                <div class="name_section">
+                    <div class="page_title">
+                        {% verbatim %}
+                            <span class="brand_name"><span>{{ campaignCreateData.defaults.campaignName }} : {{ campaignCreateData.campaignSectionSelected.text }}</span></span>
+                        {% endverbatim %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    
+
+        {% comment %}
+        <div class="breadcrumb_container campaign_drillin">
+            <a class="breadcrumb_nav_item" href="{% url debra.search_views.post_analytics_collections %}">
+                <span class="bread_text">All Post Analytics Collections</span>
+            </a>
+
+            <div class="breadcrumb_nav_item"><span class="icon-arrow_l_arr_2"></span></div>
+
+            <div class="breadcrumb_nav_item" href="">
+                <span class="bread_text">Create</span>
+            </div>
+        </div>
+        {% endcomment %}
+
+        <div id="post_analytics_root">
+            {% verbatim %}
+            <div class="centered_block setup_wizard">
+
+                <div ng-if="state == 'error'">
+                    <h1 class="lb_title lg">{{ errorMessage }}</h1>
+                </div>
+
+                <div ng-if="state == 'display_message'">
+                    <h1 class="lb_title lg">{{ message_text }}</h1>
+                </div>
+
+                <div ng-if="state == 'loading'">
+                    <div main-loader></div>
+                </div>
+
+                <div ng-if="state == 'saving'">
+                    <div main-loader></div>
+                </div>
+
+                <div ng-if="state == 'after_report_added'">
+                    <h1 class="lb_title lg">{{ afterReportAddedText }}</h1>
+                    <a href="/">Go to the Main Search</a>
+                </div>
+
+                <div ng-if="state == 'opened'">
+                    <div class="report-edit-content">
+                        <div class="report-wizard">
+                            <accordion close-others="oneAtATime">
+                            
+
+
+
+
+                                <!-- TOP INSTRUCTIONS -->
+                                <!-- TOP INSTRUCTIONS -->
+                                <div class="a_form_group ">
+                                    <div class="form_instruction main_instructions">This is your campaign setup page. You can fill in as much or as little as you'd like. And you can revisit this page at any point during your campaign. If you have questions about anything, it's best to get in touch with your account manager, or just click on the Green Help button in the lower right corner.</div>
+                                </div>
+                                <div class="x_space x_30"></div>
+
+
+
+
+
+
+                                <!-- CAMPAIGN GLOBAL DETAILS -->
+                                <!-- CAMPAIGN GLOBAL DETAILS -->
+                                <!-- CAMPAIGN GLOBAL DETAILS -->
+                                <!-- CAMPAIGN GLOBAL DETAILS -->
+                                <!-- CAMPAIGN GLOBAL DETAILS -->
+                                <accordion-group is-open="status[0]['is_open']" is-disabled="status[0]['can_edit'] == false" ng-class="{ 'current-step': current_step == 0, 'completed-step': status[0]['is_completed'] }" id="accordion_group_0">
+                                    <accordion-heading>
+                                        <div class="wizard-head-wrapper" ng-click="moveStep(0)">
+                                            <span class="step-number">1</span>
+                                            <span class="step_name">Global Campaign Details</span>
+                                        </div>
+                                    </accordion-heading>
+                                    
+
+                                    
+
+
+                                    <div class="a_form_group padding_40_all clearfix">
+                                        <div class="form_instruction main_instructions">It’s time to get started with your campaign! Be sure to fill in all of the details. Miss something or need to change it? No worries. You can revisit this page at any point in the campaign. 
+                                        <br/><span class="small_hint">We’re here to help. Get in touch with your account manager or simply click on the green help button in the lower right corner. We got you.</span></div>
+                                    </div>
+                                    
+
+
+                                    <div class="form_divider w_30_0_pad_mag"></div>
+
+
+
+
+
+                                     <div class="a_form_group padding_40_all clearfix">
+                                        <div class="form_mid_title">Brand Details</div>
+                                        <div class="form_instruction">Are you running this campaign for your own brand? Or for a client? If so, the info below needs to reflect the information that you wish to provide to the influencer. This will show up on their overview panel.</div>
+
+
+                                        <form class="inner_section" name="nameSectionForm" novalidate form-handler>
+                                            <fieldset class="typical_form third left">
+                                                <label>Campaign Name : </label>
+                                                <input ng-model="nameSection.campaignName" type="name" required class="" placeholder="Campaign Name" name="campaignName">
+                                                <span ng-show="nameSectionForm.campaignName.$error.required" class="pav_validation">Enter non-empty name</span>
+                                            </fieldset>
+                                            <fieldset class="typical_form third left">
+                                                <label>Client Name : </label>
+                                                <input ng-model="nameSection.clientName" type="name" class="" placeholder="Client Name" name="clientName">
+                                                <span ng-hide="true" class="pav_validation">Enter non-empty name</span>
+                                            </fieldset>
+                                            <fieldset class="typical_form third right">
+                                                <label>Client URL : </label>
+                                                <input ng-model="nameSection.clientURL" type="url" class="" placeholder="Client URL" name="clientURL">
+                                                <span ng-show="nameSectionForm.clientURL.$error.url" class="pav_validation">Enter a valid URL</span>
+                                            </fieldset>
+                                        </form>
+                                    </div>
+                                        
+
+                                    <div class="form_divider w_0_30_pad_mag"></div>
+
+                                        
+                                    <div class="a_form_group padding_40_sides clearfix">
+                                        <div class="flex_row_steps">
+                                            <fieldset class="typical_form step_container halfer left">
+                                                <div class="step_section">
+                                                    <div class="form_mid_title">Description of Objective</div>
+                                                    <div class="form_instruction">Give the influencer an idea of what you're trying to achieve. Your goals.</div>
+                                                    <div ng-model="campaignSpecificsSection.description" wysiwyg-editor tabindex="7"></div>
+                                                </div>
+                                                <div class="x_space x_30"></div>
+                                            </fieldset>
+                                            <fieldset class="typical_form step_container halfer right">
+                                                <div class="step_section">
+                                                    <div class="form_mid_title">Info About Your Company</div>
+                                                    <div class="form_instruction">Explain to them your selling points. Indicate which ones you'd like worked in.</div>
+                                                    <div ng-model="campaignSpecificsSection.whoShouldApply" wysiwyg-editor tabindex="8"></div>
+                                                </div>
+                                                <div class="x_space x_30"></div>
+                                            </fieldset>
+                                        </div>
+                                    </div>
+
+
+
+                                    <div class="form_divider"></div>
+
+
+
+                                    <div class="a_form_group padding_40_sides clearfix">
+                                        <div class="flex_row_steps">
+                                            <fieldset class="typical_form step_container halfer left">
+                                                <div class="step_section">
+                                                    <div class="form_mid_title">@Mentions</div>
+                                                    <div class="form_instruction">Which @mention do you want the influencers to use where applicable? (If more than one, comma separate them.)</div>
+                                                    <fieldset class="typical_form">
+                                                        <!--label>Mentions Required (comma-separated) :</label-->
+                                                        <input type="text" ng-model="campaignSpecificsSection.mentionsRequired" placeholder="@mention1, @mention2" tabindex="9">
+                                                    </fieldset>
+                                                </div>
+                                                
+                                            </fieldset>
+
+                                            <!-- <fieldset class="typical_form step_container third left">
+                                                <div class="step_section">
+                                                    <div class="form_mid_title">Product Selection Criteria</div>
+                                                    <div class="form_instruction">Describe how the influencer should select their products. And what info you need from them... Product URL? Size? Color? Etc.</div>
+                                                    <div ng-model="campaignSpecificsSection.details" wysiwyg-editor tabindex="2"></div>
+                                                </div>
+                                            </fieldset> -->
+
+                                            <fieldset class="typical_form step_container halfer right">
+                                                <div class="step_section">
+                                                    <div class="form_mid_title">#Hashtags</div>
+                                                    <div class="form_instruction">Which branded #hashtags do you want the influencers to use where applicable? (If more than one, comma separate them.)</div>
+                                                    <fieldset class="typical_form">
+                                                        <input type="text" ng-model="campaignSpecificsSection.hashtagsRequired" placeholder="#hashtag1, #hashtag2" tabindex="10">
+                                                    </fieldset>
+                                                    <br/><br/>
+                                                    <!-- <fieldset class="typical_form">
+                                                        <label>Full Brand URL</label>
+                                                        <input type="text" ng-model="campaignSpecificsSection.domainUrl" placeholder="Domain URL">
+                                                    </fieldset> -->
+                                                </div>
+
+                                            </fieldset>
+                                        </div>
+                                    </div>
+
+
+
+                                    <div class="form_divider w_30_0_pad_mag"></div>
+
+
+                                    <div class="a_form_group padding_40_all clearfix">
+                                        <div class="form_mid_title">Your Campaign Images</div>
+                                        <div class="form_instruction">As soon as you start outreach, the campaign overview page can be made available to your prospective influencers to fill them in on the details that you don't want to cover in your email. These images show up on that page. </div>
+                                        <div class="x_space x_30"></div>
+                                        <div class="flex_row_steps">
+                                            <fieldset class="typical_form step_container quarter left">
+                                                <div class="step_section padding_40_right_only">
+                                                    <div class="form_caps_title">Your Logo</div>
+                                                    <!-- <div class="form_instruction form_instruct_less_margin">Do you want to include your logo? If so, upload it here, and it will replace the textual version of your brand's name.</div> -->
+                                                    <div class="picture_sub_section">
+
+                                                        <div class="profile_pic" ng-class="{default: !campaignSpecificsSection.profileImage}">
+                                                            <div class="text_logo" ng-if="!campaignSpecificsSection.profileImage">{{ campaignCreateData.defaults.clientName }}</div>
+                                                        </div>
+
+                                                        <div class="normal_bt sm gray_bt" image-upload ng-click="upload(campaignCreateData.uploadLogoUrl, campaignCreateData.profileImageSize)" no-reload success-bc="profileImageSet">Replace With Logo</div>
+                                                    </div>
+                                                </div>
+                                                <div class="x_space x_30"></div>
+                                            </fieldset>
+                                            <fieldset class="typical_form step_container three_quarter right">
+                                                <div class="step_section padding_40_sides">
+                                                    <div class="form_caps_title">Cover Image</div>
+                                                    <!-- <div class="form_instruction form_instruct_less_margin">You can replace the current background image with one of your branded image. A slight blur is applied to the iamge that will appear on the influencer's campaign overview page. So keep that in mind.</div> -->
+                                                    <div class="picture_sub_section">
+                                                        <!--div class="cover_img" default-image="https://s3.amazonaws.com/theshelf-email-marketing-images/site/home/new_home_sept_2015/headers/misc_headers/misc_header_floral.jpg" bg-image="{{ campaignSpecificsSection.coverImage }}"></div-->
+                                                        <div class="cover_img" ng-class="{default: !campaignSpecificsSection.coverImage}"></div>
+
+                                                        <div class="normal_bt sm gray_bt" image-upload ng-click="upload(campaignCreateData.uploadCampaignCoverUrl, campaignCreateData.coverImageSize)" no-reload success-bc="coverImageSet">Replace Image</div>
+                                                    </div>
+                                                </div>
+                                                <div class="x_space x_30"></div>
+                                            </fieldset>
+                                        </div>
+                                    </div>
+
+
+
+                                    
+
+
+
+                                    <!--
+                                    <div class="form_divider w_60_0_pad_mag"></div>
+                                    <div class="a_form_group padding_40_sides clearfix">
+                                        <div class="inner_section">
+                                            <div class="form_mid_title">Campaign Overview Page</div>
+                                            <div class="form_instruction">Check out the campaign overview page to make sure you are all set with the info being sent to the blogger. They will use this as their guide when setting up their post, so it should contain all necessary info.</div>
+                                            <div class="square_bt md teal_bt">View Campaign Overview</div>
+                                        </div>
+                                    </div>
+                                    -->
+
+
+
+                                    <div class="x_space x_60"></div>
+
+                                    
+
+                                    <div class="form_divider"></div>
+                                    <button class="next-step-button" type="button" ng-show="status[0]['is_open']" ng-click="$event.stopPropagation(); $event.preventDefault(); moveNextStep()" ><span>Next Step</span></button>
+                                </accordion-group>
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                <!-- REQUIREMENTS AND DETAILS -->
+                                <!-- REQUIREMENTS AND DETAILS -->
+                                <!-- REQUIREMENTS AND DETAILS -->
+                                <accordion-group is-open="status[1]['is_open']" is-disabled="status[1]['can_edit'] == false" ng-class="{ 'current-step': current_step == 1, 'completed-step': status[1]['is_completed'] }" id="accordion_group_1">
+                                    <accordion-heading>
+                                        <div class="wizard-head-wrapper" ng-click="moveStep(1)">
+                                            <span class="step-number">2</span>
+                                            <span class="step_name">Influencer Requirements</span>
+                                            <!-- <span>Changed: {{ sections[2].changed }}</span>
+                                            <span>Completed: {{ status[3].is_completed }}</span> -->
+                                        </div>
+                                    </accordion-heading>
+
+                                    
+
+                                    <div class="a_form_group padding_40_all clearfix">
+                                        <div class="form_instruction main_instructions">Next, fill in your campaign guidelines and requirements. These fields can be edited later on an individual basis. (By filling them in now, you're basically setting your default settings for the campaign. And you can customize them later after you begin discussing logistics with the individual influencers<br/><span class="small_hint">The details you fill in here can be edited at any point before the influencers sign contracts. If you make a change here, to the setup page, it will update all influencers whose requirements have NOT been edited on an individual basis. Influencers whose requirements have been edited will not reflect changes made to that particular section in this setup page.</span></div>
+                                    </div>
+                                    
+
+
+                                    <div class="form_divider w_30_0_pad_mag"></div>
+
+
+
+                                    <div class="a_form_group padding_40_all clearfix">
+                                        <div class="form_mid_title">Deliverables</div>
+                                        <div class="form_instruction">Select the post types / counts in order to set post requirements for each person.</div>
+                                        <div class="x_space x_10"></div>
+
+                                        <div class="inner_section clearfix">
+                                            <fieldset class="typical_form w_100">
+                                                <div deliverables-form deliverables="campaignSpecificsSection.deliverables"></div>
+                                            </fieldset>
+                                        </div>
+                                    </div>
+
+
+
+                                    <div class="form_divider w_60_30_pad_mag"></div>
+
+
+
+
+                                    <div class="a_form_group padding_40_sides clearfix">
+                                        <div class="inner_section">
+                                            <div class="form_mid_title">Post Requirements</div>
+                                            <div class="form_instruction">List out the requirements for your post(s). This could be things like : the influencer must actually use/wear the items you send. Etc. These requirments will be included in your contract.</div>
+                                            <fieldset class="typical_form two_third">
+                                                <textarea rows="6" cols="60" ng-model="campaignSpecificsSection.postRequirements" tabindex="12"></textarea>
+                                            </fieldset>
+                                        </div>
+                                    </div>
+
+
+
+                                     <div class="form_divider w_0_60_pad_mag"></div>
+
+
+
+                                    <div class="a_form_group padding_40_sides clearfix">
+                                        <div class="flex_row_steps">
+                                            <fieldset class="typical_form step_container halfer left">
+                                                <div class="step_section">
+                                                    <div class="form_mid_title">Date Range</div>
+                                                    <div class="form_instruction">Do you have Date Requirements, that the post must go up by?</div>
+                                                    <div ng-if="campaignSpecificsSection.dateStart && campaignSpecificsSection.dateEnd" ng-date-range bind="dateRangeModel" start-date="{{ campaignSpecificsSection.dateStart }}" end-date="{{ campaignSpecificsSection.dateEnd }}" opens="center" class="date_range_field" no-max-date="" tabindex="11"></div>
+                                                    <div ng-if="!(campaignSpecificsSection.dateStart && campaignSpecificsSection.dateEnd)" ng-date-range bind="dateRangeModel" opens="center" class="date_range_field" no-max-date="" tabindex="11"></div>
+                                                </div>
+                                            </fieldset>
+
+                                            <fieldset class="typical_form step_container halfer right">
+                                                <div class="step_section">
+                                                    <div class="form_mid_title">Date Requirements</div>
+                                                    <div class="form_instruction">Do you want to require the blogger to enter in a date for their first major posting (not the supplemental social posts)?</div>
+                                                    <div class="form_instruction">If you select Yes, our system will automatically send out a reminder 3 days in advance along with a checklist of requirements.</div>
+                                                    <div class="switch-small" toggle-switch ng-model="campaignSpecificsSection.dateRequirementsOn"></div>
+                                                </div>
+                                                <div class="x_space x_30"></div>
+                                            </fieldset>
+                                        </div>
+                                    </div>
+
+
+
+
+
+
+                                    
+
+
+
+                                    
+
+
+
+                                    <div class="form_divider "></div>
+                                    <button type="button" ng-show="status[1]['is_open']" ng-click="$event.stopPropagation(); $event.preventDefault(); moveNextStep()" class="next-step-button">
+                                        <span>Next Step</span>
+                                    </button>
+                                </accordion-group>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                <!-- CAMPAIGN SPECIFICS -->
+                                <!-- CAMPAIGN SPECIFICS -->
+                                <!-- CAMPAIGN SPECIFICS -->
+                                <accordion-group is-open="status[2]['is_open']" is-disabled="status[2]['can_edit'] == false" ng-class="{ 'current-step': current_step == 2, 'completed-step': status[2]['is_completed'] }" id="accordion_group_2">
+                                    <accordion-heading>
+                                        <div class="wizard-head-wrapper" ng-click="moveStep(2)">
+                                            <span class="step-number">3</span>
+                                            <span class="step_name">Messaging Templates and Approval Forms</span>
+                                            <!-- <span>Changed: {{ sections[3].changed }}</span>
+                                            <span>Completed: {{ status[3].is_completed }}</span> -->
+                                        </div>
+                                    </accordion-heading>
+
+
+
+
+                                    
+                                    <div class="a_form_group padding_40_not_bottom clearfix">
+                                        <div class="form_instruction main_instructions">There are three types of emails that you will be sending out to influencers that can utilize a template. These three templates use guided-automation. You will have the ability to review the template and change it for particular influencers, but in most cases, you'll utilize the templates as is. All edits made on this page will become your default templates.</div>
+                                    </div>
+
+
+                                    <div class="form_divider"></div>
+                                    <div class="training_wheels">Please be careful about the "merge tags". Merge tags are the words contained in double brackets. These function like variables and will load in things like the influencer's name, their blog name, links to their contract and campaign overview. All of these merge tags fill in data that is specific to the influencer. They can be moved. But if they are edited, they will no longer work. (Please ask your account manager to review anything that you might be unsure about.)</div>
+
+
+
+
+                                    <div class="form_divider w_45_0_pad_mag"></div>
+
+
+                                    <div class="a_form_group padding_40_all clearfix">
+                                        <div class="x_space x_10"></div>
+                                        <div class="typical_form third left">
+                                            <div class="form_mid_title">Initial Outreach</div>
+                                            <div class="form_instruction" style="padding-right:50px;">This template will be the first email sent to influencers asking them if they would be interested in collaborating. The template to the right is very generic and we encourage you to rewrite it with more specific details.<br/><br/> If you are new to influencer marketing, your account manager can send you over example templates as well as review whatever you write before you begin sending it out. Initial impressions are everything.</div>
+                                        </div>
+                                        
+
+
+                                        <div class="typical_form two_third right">
+                                            <form name="outreachConfigurationSectionForm" class="clearfix" form-handler novalidate>
+                                                <div class="form_row_30 clearfix">
+                                                    <fieldset class="typical_form smaller_field halfer">
+                                                        <label>Email Subject : </label>
+                                                        <input ng-model="outreachConfigurationSection.subject" type="text" name="subject" tabindex="1" />
+                                                    </fieldset>
+                                                </div>
+                                                <div class="wysiwyg_editor wysiwyg_editor_on_wizard" wysiwyg-editor ng-model="outreachConfigurationSection.template" name="template" tabindex="2"></div>
+                                                <div class="x_space x_20"></div>
+                                                <div upload-panel>
+                                                    <button class="square_bt sm teal_bt" ng-class="{'inactive': uploader.isUploading }" ng-disabled="{{ uploader.isUploading }}" ng-click="!uploader.isUploading && outreachConfigurationSection.sendTestEmail()">
+                                                        <span ng-hide="outreachConfigurationSection.sendingTestEmail">Send Test Email</span>
+                                                        <span ng-show="outreachConfigurationSection.sendingTestEmail">Sending...</span>
+                                                    </button>
+                                                    <button ng-if="false" class="square_bt sm teal_bt" ng-click="selectFile()"><span>Add Attachment</span></button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+
+
+
+                                    <!--
+                                    <div class="form_divider w_30_30_pad_mag"></div>
+
+
+
+                                    <div class="a_form_group padding_40_all clearfix">
+                                        <div class="x_space x_10"></div>
+                                        <div class="typical_form third left">
+                                            <div class="form_mid_title">Details + Contracts</div>
+                                            <div class="form_instruction" style="padding-right:50px;">Once the logistics of your campaign have been decided upon, it's time to collect details from the influencer. The details you collect from them are determined by your settings below, but in most cases the details collected will feed into your contracts, their overview page, and their product selections. <br/><br/>The template shown should work well for most campaigns, but please review it and make whatever edits you need.</div>
+                                        </div>
+
+                                        <div class="typical_form two_third right">
+                                            <form name="outreachConfigurationSectionForm" class="clearfix" form-handler novalidate>
+                                                <div class="form_row_30 clearfix">
+                                                    <fieldset class="typical_form smaller_field halfer">
+                                                        <label>Email Subject : </label>
+                                                        <input ng-model="outreachConfigurationSection.subject" type="text" name="subject" tabindex="1" />
+                                                    </fieldset>
+                                                </div>
+                                                <div class="wysiwyg_editor wysiwyg_editor_on_wizard" wysiwyg-editor ng-model="outreachConfigurationSection.template" name="template" tabindex="2"></div>
+                                                <div class="x_space x_20"></div>
+                                                <div upload-panel>
+                                                    <button class="square_bt sm teal_bt" ng-class="{'inactive': uploader.isUploading }" ng-disabled="{{ uploader.isUploading }}" ng-click="!uploader.isUploading && outreachConfigurationSection.sendTestEmail()">
+                                                        <span ng-hide="outreachConfigurationSection.sendingTestEmail">Send Test Email</span>
+                                                        <span ng-show="outreachConfigurationSection.sendingTestEmail">Sending...</span>
+                                                    </button>
+                                                    <button ng-if="false" class="square_bt sm teal_bt" ng-click="selectFile()"><span>Add Attachment</span></button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+
+
+
+                                    <div class="form_divider w_30_30_pad_mag"></div>
+
+
+
+                                    <div class="a_form_group padding_40_all clearfix">
+                                        <div class="x_space x_10"></div>
+                                        <div class="typical_form third left">
+                                            <div class="form_mid_title">Reminder + Tracking Links</div>
+                                            <div class="form_instruction" style="padding-right:50px;">Before your campaign goes live you can send your influencers an email with a few last-minute reminders. This email should encourage them to re-review their campaign overview page that has all details and requirements.<br/><br/>Additionally, it provides them with a link to their tracking codes (if you decide to enable these below). Tracking codes are required for us to track blog engagement, impressions, and click-throughs.</div>
+                                        </div>
+
+                                        <div class="typical_form two_third right">
+                                            <form name="outreachConfigurationSectionForm" class="clearfix" form-handler novalidate>
+                                                <div class="form_row_30 clearfix">
+                                                    <fieldset class="typical_form smaller_field halfer">
+                                                        <label>Email Subject : </label>
+                                                        <input ng-model="outreachConfigurationSection.subject" type="text" name="subject" tabindex="1" />
+                                                    </fieldset>
+                                                </div>
+                                                <div class="wysiwyg_editor wysiwyg_editor_on_wizard" wysiwyg-editor ng-model="outreachConfigurationSection.template" name="template" tabindex="2"></div>
+                                                <div class="x_space x_20"></div>
+                                                <div upload-panel>
+                                                    <button class="square_bt sm teal_bt" ng-class="{'inactive': uploader.isUploading }" ng-disabled="{{ uploader.isUploading }}" ng-click="!uploader.isUploading && outreachConfigurationSection.sendTestEmail()">
+                                                        <span ng-hide="outreachConfigurationSection.sendingTestEmail">Send Test Email</span>
+                                                        <span ng-show="outreachConfigurationSection.sendingTestEmail">Sending...</span>
+                                                    </button>
+                                                    <button ng-if="false" class="square_bt sm teal_bt" ng-click="selectFile()"><span>Add Attachment</span></button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    -->
+                                        <!--fieldset class="typical_form halfer right" style="display: none;">
+                                            <h2>Click to Add More Merge Tags</h2>
+                                            <button class="square_bt md teal_bt">
+                                                <span>Influencer's Name</span>
+                                            </button>
+                                            <button class="square_bt md teal_bt">
+                                                <span>Blog Name</span>
+                                            </button>
+                                        </fieldset-->
+                                 
+                                    <div class="form_divider w_30_30_pad_mag"></div>
+
+
+                                    <div class="a_form_group padding_40_all clearfix">
+                                    <!-- section for approval report -->
+                                        <div class="form_mid_title">Influencer Approval Form</div>
+                                        <div class="form_instruction">Before you start outreach, do you need anyone to approve your list of influencers? This setting will typically be off for most people, but if you're an agency (or if you have a micro-manager for a boss), you can use this feature to send them a quick yes/no form for them to review and send back to you with their final selections. Please contact us using the circular button in the corner if you need any help with this.</div>
+                                        <!--p class="step_instruction_txt">You'll use the influencer approval report to get your client's sign-off on the influencers you've chosen. And you can view your list within the <span ng-show="campaignId"><a class="txt_link darker_teal" target="_blank" ng-href="{{ campaignCreateData.viewPipelineUrl }}">first stage</a></span><span ng-hide="campaignId">first stage</span> of your campaign pipeline. Use this Setup box to configure it. When you are ready to send, use the link above to view your final list, as well as preview your report. When you are satisfied you will Send the report from there. Not here.</p-->
+                                        <fieldset class="typical_form clearfix">
+                                            <div class="floated_left"><div class="switch-large" toggle-switch ng-model="nameSection.enabled"></div></div>
+                                            <p class="form_instruction small_hint floated_left next_to_toggle_large" ng-hide="nameSection.enabled">You haven't enabled this feature. If you want to utilize this approval report, you need to turn it on.</p>
+                                            <p class="form_instruction small_hint floated_left next_to_toggle_large" ng-show="nameSection.enabled">You have enabled this step. If you wish to disable this step:</p>
+                                        </fieldset>
+                                    </div>
+                                    
+
+
+                                    <div class="form_divider w_0_30_pad_mag"></div>
+                                    <button class="next-step-button type="button" ng-show="status[2]['is_open']" ng-click="$event.stopPropagation(); $event.preventDefault(); moveNextStep()" ">
+                                        <span>Next Step</span>
+                                    </button>
+                                </accordion-group>
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                <!-- CONTRACTS -->
+                                <!-- CONTRACTS -->
+                                <!-- CONTRACTS -->
+                                <accordion-group is-open="status[3]['is_open']" is-disabled="status[3]['can_edit'] == false" ng-class="{ 'current-step': current_step == 3, 'completed-step': status[3]['is_completed'] }" id="accordion_group_3">
+                                    <accordion-heading>
+                                        <div class="wizard-head-wrapper" ng-click="moveStep(3)">
+                                            <span class="step-number">4</span>
+                                            <span class="step_name">Contracts</span>
+                                            <!-- <span>Changed: {{ sections[0].changed }}</span>
+                                            <span>Completed: {{ status[0].is_completed }}</span> -->
+                                        </div>
+                                    </accordion-heading>
+                                    <div class="a_form_group padding_40_all clearfix">
+                                        <div class="form_instruction main_instructions">If you're paying money to your influencers, you should probably have a contract in place. It might not seem likely, but we've seen influencers do a number of things that aren't exactly the nicest... they might take down the post within a few days... they might not include your required hashtags, links, or mentions... they might take your money and products and never even post. There's a slew of things that the contracts protect you against, and it's a good idea to use them if you're paying bloggers more than a small amount. You can view the contract <a href="" class="txt_link darker_teal">here</a>. All contracts are signed via electronic signature. If you need an alternate solution please contact your account manager for some work-arounds.</div>
+                                        <div class="switch-large" toggle-switch ng-model="contractsSection.signing_contract_on"></div>
+                                    </div>
+                                    <div class="form_divider w_0_30_pad_mag"></div>
+                                    <button type="button" ng-show="status[3]['is_open']" ng-click="$event.stopPropagation(); $event.preventDefault(); moveNextStep()" class="next-step-button">
+                                        <span>Next Step</span>
+                                    </button>
+                                </accordion-group>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                <!-- PRODUCTS -->
+                                <!-- PRODUCTS -->
+                                <!-- PRODUCTS -->
+                                <accordion-group is-open="status[4]['is_open']" is-disabled="status[4]['can_edit'] == false" ng-class="{ 'current-step': current_step == 4, 'completed-step': status[4]['is_completed'] }" id="accordion_group_4">
+                                    <accordion-heading>
+                                        <div class="wizard-head-wrapper" ng-click="moveStep(4)">
+                                            <span class="step-number">5</span>
+                                            <span class="step_name">Product Sending</span>
+                                            <!-- <span>Changed: {{ sections[0].changed }}</span>
+                                            <span>Completed: {{ status[0].is_completed }}</span> -->
+                                        </div>
+                                    </accordion-heading>
+
+                                    
+
+
+                                    <div ng-repeat="(name, option) in productSendingSection.options">
+                                        <fieldset>
+                                            <div class="a_form_group padding_40_all clearfix">
+                                                <div class="form_instruction main_instructions">Turning on the Product feature allows you to collect data pertaining to product selection automatically from each blogger (without requiring involvement from you). If you're not sending a physical product, then you probably don't need this feature.<br/><br/>Will you be sending a physical product to the influencer?</div>
+                                                <!--div class="form_instruction">{{ option.text }}</div-->
+                                                <div class="switch-large" toggle-switch ng-model="option.value"></div>
+                                            </div>
+
+                                            <div class="form_divider w_0_30_pad_mag"></div>
+
+                                            <!-- If the button is turned on... this stuff shows -->
+                                            <!-- If the button is turned on... this stuff shows -->
+                                            <div ng-if="name == 'sending_product_on' && option.value">
+
+
+
+                                                <div class="a_form_group padding_40_all clearfix">
+                                                    
+
+
+
+
+                                                    <div class="form_mid_title"></div>
+                                                    <!-- product preferences -->
+                                                    <!-- product preferences -->
+                                                    <!-- product preferences -->
+                                                    <fieldset class="typical_form w_100 clearfix">
+                                                        
+
+                                                        <div class="inner_section w_100">
+                                                            <div class="switch-small floated_left" toggle-switch ng-model="productSendingSection.bloggerAdditionalInfoOn"></div>
+                                                            <div class="form_instruction floated_left next_to_toggle_small">Do you need to collect any info from the blogger about product preferences?<br/><span class="small_hint">Color/size  |  Dietary requirements  |  Other preferences that might affect what you send them?</span></div>
+                                                            
+                                                        </div>
+
+
+                                                        <!-- form field for product preferences -->
+                                                        <!-- form field for product preferences -->
+                                                        <fieldset class="typical_form two_third inner_section" ng-if="productSendingSection.bloggerAdditionalInfoOn">
+                                                            <div class="x_space x_30"></div>
+                                                            <div class="form_instruction form_instruct_lesser_margin">Product Preferences Instructions for the influencer</div>
+                                                            <textarea cols="25" rows="3" style="resize: none;" ng-model="productSendingSection.bloggerAdditionalInfo"></textarea>
+                                                        </fieldset>
+                                                        <div class="form_divider w_45_45_pad_mag"></div>
+
+
+                                                        
+                                                    </fieldset>
+
+                                                    <fieldset class="typical_form w_100 clearfix">
+                                                        
+
+                                                        <!-- first mini toggle switch -->
+                                                        <!-- first mini toggle switch -->
+                                                        <div class="inner_section w_100">
+                                                            <div class="switch-small floated_left" toggle-switch ng-model="productSendingSection.productLinksOn"></div>
+                                                            <div class="form_instruction floated_left next_to_toggle_small">Will your sponsored posts include a product url in addition to the main url?</div>
+                                                            <div class="form_divider w_45_45_pad_mag"></div>
+                                                        </div>
+                                                        
+
+
+
+                                                        <!-- 2nd mini toggle section -->
+                                                        <!-- 2nd mini toggle section -->
+                                                        <div class="inner_section w_100" ng-if="productSendingSection.productLinksOn">
+                                                            <div class="switch-small floated_left" toggle-switch ng-model="productSendingSection.sameProductUrl"></div>
+                                                            <div class="form_instruction floated_left next_to_toggle_small">Will all influencers use the same product url?</div>
+
+                                                            <!-- 3rd mini section -- form if there is going to be one unique url. -->
+                                                            <!-- 3rd mini section -- form if there is going to be one unique url. -->
+                                                            <div class="inner_section w_100" ng-if="productSendingSection.sameProductUrl">
+                                                                <div class="x_space x_30"></div>
+                                                                <div class="form_instruction form_instruct_lesser_margin">
+                                                                    What is the product URL that every influencer should use?
+                                                                    <span class="small_hint">(They will not get the option to change this. Only you will have editing priveledges.)</span>
+                                                                </div>
+                                                                <fieldset class="typical_form two_third">
+                                                                    <input type="url" ng-model="productSendingSection.productUrl" placeholder="Product URL">
+                                                                    <div class="normal_bt sm gray_bt" style="display: none;">Add Another URL</div>
+                                                                </fieldset>
+                                                            </div>
+                                                            <div class="form_divider w_45_45_pad_mag"></div>
+                                                        </div>
+                                                        
+
+
+
+                                                        
+
+
+
+
+                                                        <!-- 4th mini -- section on whether or no the influencer should enter in their url -->
+                                                        <!-- 4th mini -- section on whether or no the influencer should enter in their url -->
+                                                        <div class="inner_section w_100" ng-if="productSendingSection.productLinksOn && !productSendingSection.sameProductUrl">
+                                                            <!-- <fieldset class="typical_form" ng-class="{halfer: productSendingSection.doSelectUrl, left: productSendingSection.doSelectUrl}"> -->
+                                                            <fieldset class="typical_form ">
+                                                                <div class="switch-small floated_left" toggle-switch ng-model="productSendingSection.doSelectUrl"></div>
+                                                                <div class="form_instruction floated_left next_to_toggle_small">
+                                                                    Do you want to require the influencer to enter in a product URL?   <br/> 
+                                                                    <span class="small_hint">(If yes, they will be able to enter the URL into a form on their Campaign Dashboard. If no, you will need to handle this over email. And enter it in for them within the Pipeline table.)</span>
+                                                                </div>
+
+                                                                <fieldset class="typical_form two_third" ng-if="productSendingSection.doSelectUrl">
+                                                                    <div class="x_space x_30"></div>
+                                                                    <div class="form_instruction form_instruct_lesser_margin">Product selection criteria <span class="small_hint">Are you focusing on a particular product line or launch? Are there any types of products that are off limits?</span></div>
+                                                                    <textarea cols="25" rows="3" placeholder="" style="resize: none;" ng-model="productSendingSection.restrictions"></textarea>
+                                                                </fieldset>
+                                                            </fieldset>
+                                                        </div>
+                                                    </fieldset>
+
+
+
+
+                                                </div>
+
+                                            
+                                            </div>
+                                            <div class="form_divider" ng-hide="$last"></div>
+                                        </fieldset>
+                                    </div>
+                                    <div class="form_divider w_0_30_pad_mag"></div>
+                                    <button type="button" ng-show="status[4]['is_open']" ng-click="$event.stopPropagation(); $event.preventDefault(); moveNextStep()" class="next-step-button">
+                                        <span>Next Step</span>
+                                    </button>
+                                </accordion-group>
+
+
+
+
+
+
+                                <accordion-group is-open="status[5]['is_open']" is-disabled="status[5]['can_edit'] == false" ng-class="{ 'current-step': current_step == 5, 'completed-step': status[5]['is_completed'] }" id="accordion_group_5">
+                                    <accordion-heading>
+                                        <div class="wizard-head-wrapper" ng-click="moveStep(5)">
+                                            <span class="step-number">6</span>
+                                            <span class="step_name">Tracking Codes</span>
+                                            <!-- <span>Changed: {{ sections[0].changed }}</span>
+                                            <span>Completed: {{ status[0].is_completed }}</span> -->
+                                        </div>
+                                    </accordion-heading>
+
+                                    <div class="a_form_group padding_40_all clearfix">
+                                        <div class="form_instruction main_instructions">Tracking codes are great if you're trying to measure impressions and clickthroughs back to your site from a BLOG. (These do not work on social networks, however, we'll use your branded hashtags and mentions to obtain engagement metrics.) It's extremely minimal effort on the blogger's side of things. One snippet to copy-paste into their blog posts.</div>
+                                        <div class="switch-large" toggle-switch ng-model="trackingCodesSection.tracking_codes_on"></div>
+                                    </div>
+
+                                    <div class="form_divider w_0_30_pad_mag"></div>
+                                    <button type="button" ng-show="status[5]['is_open']" ng-click="$event.stopPropagation(); $event.preventDefault(); moveNextStep()" class="next-step-button">
+                                        <span>Done</span>
+                                    </button>
+                                </accordion-group>
+
+                            </accordion>
+                        </div>
+                    </div>
+                    <div class="x_space x_40"></div>
+                    <div class="a_form_group padding_40_all">
+                        <div class="form_instruction main_instructions">If you're ready to start your outreach, click Load Influencers. You can return to this setup page at any point in time to finish or edit what you have started.</div>
+                        <br/>
+                        <button class="square_bt md teal_bt" a-href="{{ campaignCreateData.loadInfluencersURL }}"><span>Load Influencers</span></button>
+                        <button class="square_bt md teal_bt" ng-class="{inactive: !canSave()}" ng-click="canSave() && save('{% url debra.job_posts_views.update_model %}')">
+                            <span ng-hide="saving">Save</span>
+                            <span ng-show="saving">Saving...</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            {% endverbatim %}
+        </div>
+    </div>
+{% endblock %}
+
+{% comment %}
+
+<!--accordion-group is-open="status[1]['is_open']" is-disabled="status[1]['can_edit'] == false" ng-class="{ 'current-step': current_step == 1, 'completed-step': status[1]['is_completed'] }">
+
+    <accordion-heading>
+        <div class="wizard-head-wrapper" ng-click="moveStep(1)">
+            <span class="step-number">2</span>
+            <span class="step_name">Influencer Approval Report</span>
+            <button type="button" ng-show="status[1]['is_open']" ng-click="$event.stopPropagation(); $event.preventDefault(); moveNextStep(1)" class="next-step-button">
+                <span>Next Step</span>
+            </button>
+            -->
+            <!-- <span>Changed: {{ sections[1].changed }}</span>
+            <span>Completed: {{ status[1].is_completed }}</span> -->
+        <!--</div>
+    </accordion-heading>
+
+    <p class="step_instruction_txt">You'll use the influencer approval report to get your client's sign-off on the influencers you've chosen. And you can view your list within the <span ng-show="campaignId"><a class="txt_link darker_teal" target="_blank" ng-href="{{ campaignCreateData.viewPipelineUrl }}">first stage</a></span><span ng-hide="campaignId">first stage</span> of your campaign pipeline. Use this Setup box to configure it. When you are ready to send, use the link above to view your final list, as well as preview your report. When you are satisfied you will Send the report from there. Not here.</p>
+
+    <fieldset class="typical_form" ng-hide="approvalReportSection.enabled">
+        <p class="step_instruction_txt">You haven't enabled this feature. If you want to utilize this approval report, you need to turn it on.</p>
+        <button class="square_bt md teal_bt" ng-click="approvalReportSection.toggle()">
+            <span>Turn on this feature</span>
+        </button>
+    </fieldset>
+
+    <fieldset class="typical_form" ng-show="approvalReportSection.enabled">
+        <p class="step_instruction_txt">You have enabled this step. If you wish to disable this step: </p>
+        <button class="square_bt md teal_bt" style="background-color: #F5154B;" ng-click="approvalReportSection.toggle()">
+            <span>Turn off this feature</span>
+        </button>
+    </fieldset>
+
+    <fieldset class="typical_form" ng-show="approvalReportSection.enabled">
+        <fieldset class="typical_form third left" ng-show="false">
+            <h2>Add Recipients</h2>
+            <input
+                ng-model="approvalReportSection.newRecipient"
+                ng-keypress="$event.keyCode == 13 && approvalReportSection.addRecipient()"
+                type="email" placeholder="Recipient Email">
+            <button class="square_bt md teal_bt" ng-click="approvalReportSection.addRecipient()">
+                <span>+</span>
+            </button>
+            <div ng-repeat="recipient in approvalReportSection.recipients track by $index">
+                <span>{{ recipient }}</span><span ng-click="approvalReportSection.removeRecipient($index)" style="margin: 5px;">x</span>
+            </div>
+        </fieldset>
+
+        <fieldset class="typical_form third left">
+            <h2>Settings</h2>
+            <div>
+                <div ng-repeat="setting in approvalReportSection.settings">
+                    <label>{{ setting.text }}</label>
+                    <div class="cb_or_rb_wrap">
+                        <input type="radio" id="{{ setting.name }}_yes" name="{{ setting.name }}" ng-click="setting.value = true" ng-checked="setting.value">
+                        <label for="{{ setting.name }}_yes">
+                            <span class="graphic plus_btn"></span>Yes
+                        </label>
+                        <input type="radio" id="{{ setting.name }}_no" name="{{ setting.name }}" ng-click="setting.value = false" ng-checked="!setting.value">
+                        <label for="{{ setting.name }}_no">
+                            <span class="graphic plus_btn"></span>No
+                        </label>
+                    </div>
+                </div>
+        </fieldset>
+
+        <fieldset class="typical_form third right">
+            <h2>Column Visibility</h2>
+            <div>
+                <div class="cb_or_rb_wrap" ng-repeat="column in approvalReportSection.columns">
+                    <input type="checkbox" id="{{ column.name }}" name="{{ column.name }}" ng-checked="column.visible" ng-click="column.visible = !column.visible" />
+                    <label for="{{ column.name }}">
+                        <span class="graphic plus_btn"></span>{{ column.title }}
+                    </label>
+                </div>
+            </div>
+        </fieldset>
+    </fieldset>
+
+    <fieldset class="typical_form" ng-show="approvalReportSection.enabled && campaignId">
+        <a class="square_bt md teal_bt" ng-href="{{ campaignCreateData.viewPipelineUrl }}" target="_blank">
+            <span>View Pipeline Stage</span>
+        </a>
+        <a class="square_bt md teal_bt" ng-href="{{ campaignCreateData.viewClientPreviewUrl }}" target="_blank">
+            <span>View Client Preview</span>
+        </a>
+        <button>
+            <span ng-hide="loading">Send Approval Report</span>
+            <span ng-show="loading">Sending...</span>
+        </button>
+    </fieldset>
+
+</accordion-group>-->
+
+{% endcomment %}
