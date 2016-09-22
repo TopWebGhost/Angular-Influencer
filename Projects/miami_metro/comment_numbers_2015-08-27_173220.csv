@@ -1,0 +1,4 @@
+Influencer_Id;Post_Id;Post_URL;Number_of_comments
+1583410;137506000;http://lodoesmakeup.com/2015/08/wanted-3-nouvelles-palettes-pour-la-rentree-bon-plan-sephora/;regexp_match;15
+1295014;141577536;http://www.perfeitabeleza.com/2015/08/como-tirar-o-preto-do-cabelo-e-deixar.html;regexp_match;0
+1051169;---;---;---;Exception: Invalid expression

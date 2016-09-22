@@ -1,0 +1,13 @@
+*.pyc
+*/*.pyc
+*/*/*.pyc
+venv
+!/.pydevproject
+.DS_Store
+.html.BASE
+.html.LOCAL
+.html.REMOTE
+.html.BACKUP
+local_settings.py
+# Mac OS X hidden files
+.DS_Store
