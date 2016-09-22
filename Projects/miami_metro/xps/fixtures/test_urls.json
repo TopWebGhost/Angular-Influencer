@@ -1,0 +1,3544 @@
+[
+  {
+    "pk": 1, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.loveculture.com/Item/ItemDetailView.aspx?StyleId=1000004587"
+    }
+  }, 
+  {
+    "pk": 2, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.stelladot.com/shop/en_us/p/whats-new/new-arrivals/sea-life-charm-necklace"
+    }
+  }, 
+  {
+    "pk": 3, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://bananarepublic.gap.com/browse/product.do?pid=556670022&tid=braff2178999&ap=2&siteID=brafcid105"
+    }
+  }, 
+  {
+    "pk": 4, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.loft.com/loft/product/product%3A301197/LOFT-promo-bucket-spring-1-exclusions/Petite-Curvy-Cropped-Jeans-in-White/301197"
+    }
+  }, 
+  {
+    "pk": 5, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.shopbop.com/peplum-pullover-rebecca-taylor/vp/v=1/845524441955912.htm?folderID=2534374302024636&fm=other-shopbysize&colorId=12894"
+    }
+  }, 
+  {
+    "pk": 6, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://us.asos.com/ASOS-Midi-Skirt-in-Ponte-Stripe/zur1u/?iid=2807453&MID=35719&affid=2135&WT.tsrc=Affiliate&siteID=J84DHJLQkR4-rp4MJ1L8jVGc_FxgTheFLQ&r=2&mporgp=L0FTT1MvQVNPUy1NaWRpLVNraXJ0LWluLVBvbnRlLVN0cmlwZS9Qcm9kLw.."
+    }
+  }, 
+  {
+    "pk": 7, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://oldnavy.gap.com/browse/product.do?cid=79765&vid=1&pid=329526042"
+    }
+  }, 
+  {
+    "pk": 8, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.toryburch.com/LUCILLE-TOP/21131142,default,pd.html?dwvar_21131142_size=0&dwvar_21131142_color=115&start=4&cgid=newarrivals-clothing"
+    }
+  }, 
+  {
+    "pk": 9, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.net-a-porter.com/product/329104?cm_mmc=LinkshareUS-_-QFGLnEolOWg-_-Custom-_-LinkBuilder&siteID=QFGLnEolOWg-EXXdmoUVowPU1QroL4oqVQ"
+    }
+  }, 
+  {
+    "pk": 10, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.hm.com/us/product/08745?article=08745-B#article=08745-A"
+    }
+  }, 
+  {
+    "pk": 11, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.worldmarket.com/product/white+scalloped+taryn+boxes.do?&from=fn"
+    }
+  }, 
+  {
+    "pk": 12, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.jcrew.com/womens_category/accessories/oddsandends/PRDOVR~06489/ENE~1+2+3+22+4294967294+20~~~17~15~all~mode+matchallany~~~~~iphone+case/06489.jsp"
+    }
+  }, 
+  {
+    "pk": 13, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://shop.nordstrom.com/s/emporio-armani-meccanico-automatic-round-watch/3430533"
+    }
+  }, 
+  {
+    "pk": 14, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://piperlime.gap.com/browse/product.do?pid=955569002&tid=plsp1r&kwid=1&ap=14"
+    }
+  }, 
+  {
+    "pk": 15, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.anthropologie.com/anthro/product/clothes-petite/27611532.jsp"
+    }
+  }, 
+  {
+    "pk": 16, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://factory.jcrew.com/womens-clothing/skirts/pencil/PRDOVR~37532/37532.jsp?srcCode=FAAFFI00001&siteId=Hy3bqNL2jtQ-KeCI2b6.XwMOdI9Rg7depw"
+    }
+  }, 
+  {
+    "pk": 17, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.gap.com/browse/product.do?cid=11962&vid=1&pid=298146002"
+    }
+  }, 
+  {
+    "pk": 18, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.modcloth.com/shop/dresses/any-color-will-do-dress"
+    }
+  }, 
+  {
+    "pk": 19, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.anntaylor.com/ann/product/AT-Shoes/AT-Perfects/Perfect-Leather-Flats/303935"
+    }
+  }, 
+  {
+    "pk": 20, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.forever21.com/Product/Product.aspx?Br=F21&Category=DRESS&ProductID=2036506176&VariantID="
+    }
+  }, 
+  {
+    "pk": 21, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www1.bloomingdales.com/shop/product/basler-leni-straight-leg-jeans?ID=606055&cm_mmc=FrPL-_-fb-_-n-_-n"
+    }
+  }, 
+  {
+    "pk": 22, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.urbanoutfitters.com/urban/catalog/productdetail.jsp?id=23550783&parentid=A_DEC_BEDDING"
+    }
+  }, 
+  {
+    "pk": 23, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.madewell.com/newarrivals/denim/PRDOVR~01717/01717.jsp"
+    }
+  }, 
+  {
+    "pk": 24, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.express.com/clothing/lace+and+sequin+stripe+racerback+tank/pro/6447955/cat290002"
+    }
+  }, 
+  {
+    "pk": 25, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.zara.com/webapp/wcs/stores/servlet/product/us/en/zara-nam-S2013/358055/1048181/STRUCTURED%20FANTASY%20POLO%20SHIRT"
+    }
+  }, 
+  {
+    "pk": 26, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.neimanmarcus.com/p/Burberry-Check-Messenger-Bag-Small/prod143150024/"
+    }
+  }, 
+  {
+    "pk": 27, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.target.com/p/mossimo-supply-co-thread-braid-tri-color-tan/-/A-14364682?ref=tgt_adv_XSC10001&AFID=shopping_df&LNM=|14361474&CPNG=Accessories&ci_src=13736960&ci_sku=14361474&"
+    }
+  }, 
+  {
+    "pk": 28, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.dsw.com/shoe/earth+origins+marla+pump?prodId=250520"
+    }
+  }, 
+  {
+    "pk": 29, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.katespade.com/gingham-broome-street-jacket/NJMU2355,en_US,pd.html?dwvar_NJMU2355_color=487"
+    }
+  }, 
+  {
+    "pk": 30, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.ae.com/factory/browse/product.jsp?productId=0534_6967_301&catId=cat5650090"
+    }
+  }, 
+  {
+    "pk": 31, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.theshelf.com/tutorial_step4/"
+    }
+  }, 
+  {
+    "pk": 32, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.saksfifthavenue.com/main/ProductDetail.jsp?PRODUCT<>prd_id=845524446544940"
+    }
+  }, 
+  {
+    "pk": 33, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.zappos.com/lucky-brand-parlei-bootie-black?zlfid=2"
+    }
+  }, 
+  {
+    "pk": 34, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.nastygal.com/shoes/candela%2Dcutout%2Dplatform"
+    }
+  }, 
+  {
+    "pk": 35, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.amazon.com/Chinese-Laundry-Womens-Danger-Zone/dp/B0085IPUBI/ref=sr_1_1?ie=UTF8&qid=1359228384&sr=8-1&keywords=danger+zone+pump"
+    }
+  }, 
+  {
+    "pk": 36, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.thelimited.com/Geometric-Print-Halter-Dress/3278541,default,pd.html?dwvar_3278541_colorCode=337&start=13&ppid=c13&cgid=outback-red"
+    }
+  }, 
+  {
+    "pk": 37, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www1.macys.com/shop/product/michael-kors-watch-womens-chronograph-tribeca-pink-silicone-gold-tone-stainless-steel-bracelet-43mm-mk5745-first-macys?ID=766140&PseudoCat=se-xx-xx-xx.esn_results"
+    }
+  }, 
+  {
+    "pk": 38, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.revolveclothing.com/DisplayProduct.jsp?product=AMAN-WD162&c=Amanda+Uprichard&defaultcolor=Poppy&AID=10568535&PID=4441350&utm_content=10568535&utm_medium=affiliate&utm_campaign=4441350&utm_source=cj&cvosrc=affiliate.cj.4441350&referrerURL=http%3A%2F%2Frstyle.me%2Fwt%2Fn%2Ftsdgrqpe&colorchng=&frmcolor=Poppy&tocolor=Grape&"
+    }
+  }, 
+  {
+    "pk": 39, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.sephora.com/poppy-flower-gift-set-P376526"
+    }
+  }, 
+  {
+    "pk": 40, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.6pm.com/cole-haan-village-travel-zip-black?zfcTest=mat%3A1"
+    }
+  }, 
+  {
+    "pk": 41, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.lillypulitzer.com/product/Accessories-Shoes/Bags/entity/pc/61/c/67/5089.uts?swatchName=Orchid+Pink+Spike+The+Punch+Small"
+    }
+  }, 
+  {
+    "pk": 42, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://us.topshop.com/webapp/wcs/stores/servlet/ProductDisplay?catalogId=33060&categoryId=208645&productId=5922867&parent_categoryId=208580&beginIndex=61&sort_field=Relevance&langId=-1&pageSize=20&storeId=13052&geoip=noredirect"
+    }
+  }, 
+  {
+    "pk": 43, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.lulus.com/products/mona-mia-trinidad-tan-woven-platform-heels/51987.html?utm_source=pinterest"
+    }
+  }, 
+  {
+    "pk": 44, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.etsy.com/listing/85845948/wedding-dress-in-white-long-sleeve"
+    }
+  }, 
+  {
+    "pk": 45, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.jcpenney.com/dotcom//women/brands/i-jeans-by-buffalo/i-jeans-by-buffalo-finn-ankle-sanded-skinny-jeans/prod.jump?sisearchengine=186&siproduct=AFFILIATE&cm_mmc=LinkShare-_-AFF-_-Mktg-_-Ad&ppId=pp5001631510&catId=cat100250096&deptId=dept20000013&Nao=96&pN=5&dimCombo=null&dimComboVal=null"
+    }
+  }, 
+  {
+    "pk": 46, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.freepeople.com/sale-new-sale/mara-hoffman-astrid-tote-26269928/"
+    }
+  }, 
+  {
+    "pk": 47, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.cwonder.com/home-decor/shop-by-category/view-all/ikat-tea-for-one-set.html"
+    }
+  }, 
+  {
+    "pk": 48, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.kohls.com/upgrade/webstore/product_page.jsp?PRODUCT%3C%3Eprd_id=845524893081477&pfx=pfx_shopcompare&cid=shopping3&src=k108283&clickid=0004d74402d95aee0ae01c4f5100554a"
+    }
+  }, 
+  {
+    "pk": 49, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.sheinside.com/Black-Soft-PU-Slim-Jacket-p-79680-cat-1776.html"
+    }
+  }, 
+  {
+    "pk": 50, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.ilycouture.com/product_p/ptb.htm"
+    }
+  }, 
+  {
+    "pk": 51, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://us.dorothyperkins.com/webapp/wcs/stores/servlet/ProductDisplay?beginIndex=0&viewAllFlag=&catalogId=34072&storeId=13065&productId=9288790&langId=-1&categoryId=&parent_category_rn=&searchTerm=49811957&resultCount=1&geoip=home"
+    }
+  }, 
+  {
+    "pk": 52, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.baublebar.com/anniversary-collection/pave-links-bracelet.html"
+    }
+  }, 
+  {
+    "pk": 53, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://shop.mango.com/US/p0/mango/clothing/contrast-panel-t-shirt/?id=83208101_G5&n=1&s=prendas&ie=0&m=&ts=1367216330519"
+    }
+  }, 
+  {
+    "pk": 54, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.dillards.com/product/COACH-LEGACY-LEATHER-MINI-TANNER_301_-1_663_503787433"
+    }
+  }, 
+  {
+    "pk": 55, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://athleta.gap.com/browse/product.do?cid=46716&vid=1&pid=895107002"
+    }
+  }, 
+  {
+    "pk": 56, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.shoplesnouvelles.com/jenni-kayne-suede-dorsay-flat-citron.html?source=pjn&subid=73861"
+    }
+  }, 
+  {
+    "pk": 57, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://daisyraeboutique.com/shop/tops/timeless-striped-cardigan/"
+    }
+  }, 
+  {
+    "pk": 58, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.wayfair.com/Wildon-Home-%C2%AE-Alexa-Velvet-Sofa-615402-615502-CST12488.html?piid%5B%5D=9599633"
+    }
+  }, 
+  {
+    "pk": 59, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.countryroad.com.au/shop/woman/footwear/heels/60152952/Layla-Hair-On-Heel.html?utm_source=shopstyle&utm_medium=cpc&utm_campaign=shopstyle"
+    }
+  }, 
+  {
+    "pk": 60, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.gojane.com/85210-shoes-caged-wedges.html"
+    }
+  }, 
+  {
+    "pk": 61, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.stylelately.com/latest-finds/tops/wake-up-shirty-dress"
+    }
+  }, 
+  {
+    "pk": 62, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.saturday.com/Three-Pocket-Tank-Dress-in-Stripe/4CMU0105,en_US,pd.html?dwvar_4CMU0105_color=007"
+    }
+  }, 
+  {
+    "pk": 63, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.newlook.com/shop/shoe-gallery/boots/stone-cut-out-buckle-platform-boots-_290577621"
+    }
+  }, 
+  {
+    "pk": 64, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.calypsostbarth.com/clothing/jackets/robyn-denim-jacket"
+    }
+  }, 
+  {
+    "pk": 65, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.topshop.com/webapp/wcs/stores/servlet/ProductDisplay?beginIndex=0&viewAllFlag=&catalogId=33057&storeId=12556&productId=10678731&langId=-1&categoryId=&parent_category_rn=&searchTerm=32K01ENUD&resultCount=1&geoip=home"
+    }
+  }, 
+  {
+    "pk": 66, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "https://saboskirt.com/product_info.php?cPath=9&products_id=1284"
+    }
+  }, 
+  {
+    "pk": 67, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.sammydress.com/product233062.html"
+    }
+  }, 
+  {
+    "pk": 68, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.dynamite.ca/ProductsDetail.aspx?pId=23119&pfId=80"
+    }
+  }, 
+  {
+    "pk": 69, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "https://31bits.com/shop/necklaces/kendria-falls.html"
+    }
+  }, 
+  {
+    "pk": 70, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.anthropologie.eu/anthro/product/clothing-dresses/7130602220033.jsp"
+    }
+  }, 
+  {
+    "pk": 71, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.olivelaneshop.com/product/floral-bangle"
+    }
+  }, 
+  {
+    "pk": 72, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.jbrandjeans.com/910_LowRise_Skinny_Leg_in_Pure/pd/cl/4843/np/310/p/2851.html"
+    }
+  }, 
+  {
+    "pk": 73, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.lascana.de/bh/grosse-groessen/buegel-bh-lascana-10020494202.html?so=direct"
+    }
+  }, 
+  {
+    "pk": 74, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.lascana.de/bh/grosse-groessen/schalen-bh-lascana-10021834697.html?so=direct"
+    }
+  }, 
+  {
+    "pk": 75, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.utsavfashion.com/salwar/dark-navy-blue-faux-georgette-churidar-kameez/kts70-itemcode"
+    }
+  }, 
+  {
+    "pk": 76, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.utsavfashion.com/salwar/whitechiffon-churidar-kameez/ksx997b-icode"
+    }
+  }, 
+  {
+    "pk": 77, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.efello.com/indianethnic/salwar-kameez-Baby-Pink-Nett--Anarkali--Churidar-kameez-67605"
+    }
+  }, 
+  {
+    "pk": 78, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.efello.com/indianethnic/salwar-kameez-Baby-Pink-Nett--Anarkali--Churidar-kameez-67605"
+    }
+  }, 
+  {
+    "pk": 79, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.sneakoutfitters.com/Dress-Shirts/Long-Sleeve-Dress-Shirts/Slim-Fit-Military-Field-Shirt-p4363.html"
+    }
+  }, 
+  {
+    "pk": 80, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.sneakoutfitters.com/Sportswear/New-Style-Design-Sport-Pants-p1994.html"
+    }
+  }, 
+  {
+    "pk": 81, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.lushfox.com/way-cool-crop-top-affordable-styles-latest-trends-p-100978.html"
+    }
+  }, 
+  {
+    "pk": 82, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.yeswalker.com/zip-satchel/info.html/pid.1031990044"
+    }
+  }, 
+  {
+    "pk": 83, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.yeswalker.com/t-strap-flats/info.html/pid.1032215935"
+    }
+  }, 
+  {
+    "pk": 84, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.anthropologie.eu/anthro/product/clothing-dresses/7130602220033.jsp"
+    }
+  }, 
+  {
+    "pk": 85, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.anthropologie.eu/anthro/product/clothing-coatsjackets/7133445181303.jsp"
+    }
+  }, 
+  {
+    "pk": 86, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.jbrandjeans.com/910_LowRise_Skinny_Leg_in_Pure/pd/cl/4843/np/310/p/2851.html"
+    }
+  }, 
+  {
+    "pk": 87, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.jbrandjeans.com/811_MidRise_Skinny_Leg_in_Impression/pd/cl/4936/np/1292/p/2867.html"
+    }
+  }, 
+  {
+    "pk": 88, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.newlook.com/shop/shoe-gallery/boots/stone-cut-out-buckle-platform-boots-_290577621"
+    }
+  }, 
+  {
+    "pk": 89, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.newlook.com/shop/womens/tops/tokyo-doll-grey-wrap-back-blouse-_292084104"
+    }
+  }, 
+  {
+    "pk": 90, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.calypsostbarth.com/clothing/jackets/robyn-denim-jacket"
+    }
+  }, 
+  {
+    "pk": 91, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.calypsostbarth.com/accessories/jewelry/view-all/elephant-bangle"
+    }
+  }, 
+  {
+    "pk": 92, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.chloeandisabel.com/products/B079PY/bead-chain-multi-wrap-bracelet"
+    }
+  }, 
+  {
+    "pk": 93, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.stelladot.com/shop/en_us/p/whats-new/new-arrivals/sea-life-charm-necklace"
+    }
+  }, 
+  {
+    "pk": 94, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.stelladot.com/shop/en_us/p/whats-new/new-arrivals/sea-life-charm-necklace"
+    }
+  }, 
+  {
+    "pk": 95, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.birchbox.com/shop/oscar-blandi-heat-protect-spray"
+    }
+  }, 
+  {
+    "pk": 96, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.birchbox.com/shop/oscar-blandi-hair-lift-mousse"
+    }
+  }, 
+  {
+    "pk": 97, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.dogeared.com/best-friends-reminder-necklace-with-gold-dipped-wishbone"
+    }
+  }, 
+  {
+    "pk": 98, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.dogeared.com/ohio-state-necklace-gold-dipped"
+    }
+  }, 
+  {
+    "pk": 99, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.julievos.com/collections/necklaces/products/geneva-necklace"
+    }
+  }, 
+  {
+    "pk": 100, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.julievos.com/products/geneva-necklace"
+    }
+  }, 
+  {
+    "pk": 101, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.alexandani.com/bangles/fleur-de-lis-expandable-wire-bangle-4406.html"
+    }
+  }, 
+  {
+    "pk": 102, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.alexandani.com/collections/spring-summer-2013/bohemian-jewel-wrap-grape.html"
+    }
+  }, 
+  {
+    "pk": 103, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.vincecamuto.com/product/9033628/painted-stripe-burnout-tee.html"
+    }
+  }, 
+  {
+    "pk": 104, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.vincecamuto.com/product/9033628/painted-stripe-burnout-tee.html?siteID=je6NUbpObpQ-oHNsYxX6chS.VRlcn4iC1g"
+    }
+  }, 
+  {
+    "pk": 105, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://us.asos.com/ASOS-Articulated-Arrow-Earring/zm404/?iid=2790427&cid=4175&sh=0&pge=0&pgesize=200&sort=-1&clr=Gold&mporgp=L0FTT1MvQVNPUy1BcnRpY3VsYXRlZC1BcnJvdy1FYXJyaW5nL1Byb2Qv"
+    }
+  }, 
+  {
+    "pk": 106, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://us.asos.com/ASOS-Articulated-Arrow-Earring/zm404/?iid=2790427&cid=4175&sh=0&pge=0&pgesize=200&sort=-1&clr=Gold&mporgp=L0FTT1MvQVNPUy1BcnRpY3VsYXRlZC1BcnJvdy1FYXJyaW5nL1Byb2Qv"
+    }
+  }, 
+  {
+    "pk": 107, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://oldnavy.gap.com/browse/product.do?cid=79765&vid=1&pid=329526042"
+    }
+  }, 
+  {
+    "pk": 108, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://oldnavy.gap.com/browse/product.do?cid=79556&vid=1&pid=255089002"
+    }
+  }, 
+  {
+    "pk": 109, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.toryburch.com/LUCILLE-TOP/21131142,default,pd.html?dwvar_21131142_size=0&dwvar_21131142_color=115&start=4&cgid=newarrivals-clothing"
+    }
+  }, 
+  {
+    "pk": 110, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.toryburch.com/LUCILLE-TOP/21131142,default,pd.html?dwvar_21131142_size=0&dwvar_21131142_color=115&start=4&cgid=newarrivals-clothing"
+    }
+  }, 
+  {
+    "pk": 111, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.net-a-porter.com/product/329104?cm_mmc=LinkshareUS-_-QFGLnEolOWg-_-Custom-_-LinkBuilder&siteID=QFGLnEolOWg-EXXdmoUVowPU1QroL4oqVQ"
+    }
+  }, 
+  {
+    "pk": 112, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.net-a-porter.com/product/329480?cm_mmc=LinkshareUS-_-oGj7akNVsTg-_-Custom-_-LinkBuilder&siteID=oGj7akNVsTg-PO2cxdE4B._R8gYbSu3jdQ"
+    }
+  }, 
+  {
+    "pk": 113, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://canada.forever21.com/Product/Product.aspx?BR=F21&Category=whatsnew_all&ProductID=1038950867&VariantID="
+    }
+  }, 
+  {
+    "pk": 114, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://canada.forever21.com/Product/Product.aspx?BR=F21&Category=whatsnew_all&ProductID=1000050165&VariantID="
+    }
+  }, 
+  {
+    "pk": 115, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.clubmonaco.com/product/index.jsp?productId=13251301&cp=12243596.12280986.12280989.12494936&ab=ln_sale_apparel_skirts"
+    }
+  }, 
+  {
+    "pk": 116, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.clubmonaco.com/product/index.jsp?productId=15703186&cp=12243590.12266442.12454411&ab=viewall"
+    }
+  }, 
+  {
+    "pk": 117, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://usa.frenchconnection.com/product/woman+Collections+sale/70AC9/Simply+Divine+Coat.htm??siteID=BolFSqx4S4U-ryUjjXbUPwuIczKS8GDMkA"
+    }
+  }, 
+  {
+    "pk": 118, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://usa.frenchconnection.com/product/woman+Collections+sale/78CG9/Mozart+Knitted+Jumper.htm??siteID=BolFSqx4S4U-PoayNiw8okzp7bU_Xsvobw"
+    }
+  }, 
+  {
+    "pk": 119, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://pinkpineappleshop.com/collections/necklaces/products/chateaux-teardrop-1"
+    }
+  }, 
+  {
+    "pk": 120, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://pinkpineappleshop.com/collections/frontpage/products/3-piece-bangle"
+    }
+  }, 
+  {
+    "pk": 121, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.gorjana-griffin.com/gorjana/jewelry/rings/alphabet-stackable-ring.html?85=426#85=426"
+    }
+  }, 
+  {
+    "pk": 122, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.gorjana-griffin.com/gorjana/jewelry/rings/alphabet-stackable-ring.html?85=426#85=426"
+    }
+  }, 
+  {
+    "pk": 123, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.bhldn.com/shop%2dshoes%2daccessories%2djewelry/sea%2dnectar%2dearrings/productoptionids/342632d7-5f2a-429b-89ef-5b539083fa5b"
+    }
+  }, 
+  {
+    "pk": 124, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.bhldn.com/shop-sale/minty-crinoline-skirt/productoptionids/4d1bb595-74cf-4c15-b890-0801c63f7a9e"
+    }
+  }, 
+  {
+    "pk": 125, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.venus.com/viewproduct.aspx?BRANCH=7~69~&ProductDisplayID=15934&cm_mmc=ProductSearch-_-Google-_-XWEBGPS12-_-goobase_filler&sc=XWEBGPS12"
+    }
+  }, 
+  {
+    "pk": 126, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.venus.com/viewproduct.aspx?BRANCH=7~73~&ProductDisplayID=15934&dept=Venus+Clothing-Jackets+%26+Coats&prod=sweater+coat"
+    }
+  }, 
+  {
+    "pk": 127, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.stylebop.com/product_details.php?id=333831&partner=shopstyle&campaign=Kooperation/shopstyle/usd/&utm_source=affiliate&utm_medium=shopstyle&utm_campaign=productfeed&ia-pmtrack=56971310&campaign=affiliate/linkshare/usa/&utm_source=affiliate&utm_medium=linkshare&utm_campaign=adsus&siteID=J84DHJLQkR4-K2snUa5TLWwBJC5Ipok7ZA"
+    }
+  }, 
+  {
+    "pk": 128, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.stylebop.com/product_details.php?id=394601&partner=shopstyle&campaign=Kooperation%2Fshopstyle%2Fusd%2F&utm_source=affiliate&utm_medium=shopstyle&utm_campaign=productfeed&ia-pmtrack=56971310&campaign=affiliate/linkshare/usa/&utm_source=affiliate&utm_medium=linkshare&utm_campaign=adsus&siteID=J84DHJLQkR4-8YEpQBXuoFpbKaM3vIsirA"
+    }
+  }, 
+  {
+    "pk": 129, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.hm.com/us/product/08745?article=08745-B#article=08745-A"
+    }
+  }, 
+  {
+    "pk": 130, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.hm.com/us/product/98810?article=98810-D"
+    }
+  }, 
+  {
+    "pk": 131, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.bebe.com/Dresses/View-All/Hourglass-Dress/pc/197/c/0/sc/198/49223.pro"
+    }
+  }, 
+  {
+    "pk": 132, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.bebe.com/Dresses/View-All/Hourglass-Dress/pc/197/c/0/sc/198/49223.pro"
+    }
+  }, 
+  {
+    "pk": 133, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://shop.guess.com/en/Catalog/View/Women/Dresses/Gina%20Half-Sleeve%20Dress/W35K61A7400"
+    }
+  }, 
+  {
+    "pk": 134, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://shop.guess.com/en/Catalog/View/Women's%20Accessories/Gold-Tone%20Cross%20Ring/288755G-21?CMP=AFC-GANGES_Polyvore"
+    }
+  }, 
+  {
+    "pk": 135, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://store.delias.com/product/embroidered+flower+mesh+dress+305990.do?sortby=ourPicks&carousel=true"
+    }
+  }, 
+  {
+    "pk": 136, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://store.delias.com/product/emily+pointelle+tunic+sweater+304950.do?sortby=ourPicks"
+    }
+  }, 
+  {
+    "pk": 137, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.bergdorfgoodman.com/p/Paige-Denim-Paloma-Leather-Leggings/prod81140084/"
+    }
+  }, 
+  {
+    "pk": 138, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.bergdorfgoodman.com/p/Adrienne-Landau-Rabbit-Fur-Vest-Adrienne-Landau/prod79930041_cat408203_cat408120_/?isEditorial=false&index=0&cmCat=cat000000cat408107cat408108cat408120cat408203"
+    }
+  }, 
+  {
+    "pk": 139, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://us.anthropologie.com/anthro/product/clothes-dresses/26808212.jsp"
+    }
+  }, 
+  {
+    "pk": 140, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://us.anthropologie.com/anthro/product/27952365.jsp"
+    }
+  }, 
+  {
+    "pk": 141, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.boohoo.com/restofworld/clothing/new-in/icat/newin/evening-dresses/ivy-all-over-lace-34-sleeve-fit---flare-dress/invt/azz58993"
+    }
+  }, 
+  {
+    "pk": 142, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.boohoo.com/usa/clothing/dresses/icat/dresses/day-dresses/rachel-zip-back-belted-dress/invt/azz48337?utm_source=AWIN&utm_medium=AFF&cm_mmc=Affiliates-_-Affiliate_Window-_-92295-_-0&awc=2319_1370289910_7d98e3a555507123c2d46955dec00839&utm_source=AWIN&utm_medium=AFF&cm_mmc=Affiliates-_-Affiliate_Window-_-136348-_-0&awc=2319_1370980121_d9c8acfa64baa5622365b815e5513e76"
+    }
+  }, 
+  {
+    "pk": 143, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.michaelkors.com/p/MICHAEL-Michael-Kors-MICHAEL-Michael-Kors-Large-Weston-Pebbled-Shoulder-Bag-SHOULDER-BAGS/prod21130027_cat8518_cat8501_/?index=3&cmCat=cat000000cat8501cat8518&isEditorial=false"
+    }
+  }, 
+  {
+    "pk": 144, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.michaelkors.com/p/MICHAEL-Michael-Kors-MICHAEL-Michael-Kors-Large-Selma-Stud-Trim-Satchel-VIEW-ALL-HANDBAGS/prod21150008_cat3003_cat8501_/?index=11&cmCat=cat000000cat8501cat3003&isEditorial=false"
+    }
+  }, 
+  {
+    "pk": 145, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.thefryecompany.com/products/77495/taylor-short?color=SMK"
+    }
+  }, 
+  {
+    "pk": 146, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.thefryecompany.com/womens-boots/view-all/76985/lindsay-spur?color=BMU"
+    }
+  }, 
+  {
+    "pk": 147, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.ebags.com/product/lauren-ralph-lauren/chandler-triple-compartment-satchel/251196?productid=10235366"
+    }
+  }, 
+  {
+    "pk": 148, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.ebags.com/product/ebags/mother-lode-tls-junior-25-wheeled-duffel/125548?productid=1325228&sourceid=ADWPRODUCT&couponid=55583734&gclid=COuDupLVjrgCFUKd4AodOC4AEQ&kwid=productads-plaid^32913388458-sku^1325228-adType^PLA-device^c-adid^22368615498"
+    }
+  }, 
+  {
+    "pk": 149, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.charlotterusse.com/product/Clothes/Tops/entity/pc/2114/c/0/sc/2131/228797.uts?affiliateCustomId=679818586&source=PJ_AD%3Az%3ACHIC&clickId=589968345&affiliateId=20648&cid=afl"
+    }
+  }, 
+  {
+    "pk": 150, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.charlotterusse.com/product/Clothes/Tops/entity/pc/2114/c/0/sc/2131/228797.uts?affiliateCustomId=679826920&source=PJ_AD%3Az%3ACHIC&clickId=589970740&affiliateId=20648&cid=afl"
+    }
+  }, 
+  {
+    "pk": 151, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.brooksbrothers.com/Flower-Print-Chambray-Shirt/WX00140,default,pd.html?dwvar_WX00140_Color=LTPU&contentpos=2&cgid=women"
+    }
+  }, 
+  {
+    "pk": 152, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.brooksbrothers.com/Knot-Stud-Earrings/WA00226,default,pd.html?dwvar_WA00226_Color=GOLD&cmp=AFC_CJ_Polyvore_Brooks+Brothers+Product+Catalog"
+    }
+  }, 
+  {
+    "pk": 153, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.joie.com/joie/tops/marru-top-dark-navy"
+    }
+  }, 
+  {
+    "pk": 154, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.joie.com/joie/sale/mystic-b-color-block-top-porcelain"
+    }
+  }, 
+  {
+    "pk": 155, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.stevenalan.com/PISTOL-SHORT-BOOT/50523,default,pd.html#cgid=womens-shoes-and-accessories-shoes&start=0&hitcount=39"
+    }
+  }, 
+  {
+    "pk": 156, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.stevenalan.com/PISTOL-SHORT-BOOT/50523,default,pd.html#cgid=womens-shoes-and-accessories-shoes&start=0&hitcount=39"
+    }
+  }, 
+  {
+    "pk": 157, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://society6.com/katnawlins/CITY-JADORE--LOS-ANGELES_iPhone-Case#9=43"
+    }
+  }, 
+  {
+    "pk": 158, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://society6.com/product/Fun-II-photo-print_iPhone-Case"
+    }
+  }, 
+  {
+    "pk": 159, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.maurices.com/product/index.jsp?expcsl=1117584%7C%7C&productId=13343714"
+    }
+  }, 
+  {
+    "pk": 160, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.maurices.com/product/index.jsp?expcsl=1212180%7C%7C&productId=19496766"
+    }
+  }, 
+  {
+    "pk": 161, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.tandjdesigns.com/view-all/jeweled-collar-necklace/"
+    }
+  }, 
+  {
+    "pk": 162, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.tandjdesigns.com/view-all/silver-clasp-bangle-with-gold-accents/"
+    }
+  }, 
+  {
+    "pk": 163, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.farfetch.com/shopping/women/carven-ruffled-jersey-top-item-10244525.aspx"
+    }
+  }, 
+  {
+    "pk": 164, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.farfetch.com/shopping/women/msgm-strapless-maxi-dress-item-10383427.aspx?storeid=9258"
+    }
+  }, 
+  {
+    "pk": 165, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.shopstyle.com/browse?fts=Polka%20Dots&utm_medium=widget&utm_source=Search+Widget&pid=uid1049-22647243-56"
+    }
+  }, 
+  {
+    "pk": 166, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.shopstyle.com/action/viewProduct?id=394948699&em_campaign=Direct+-+ShareProduct&pid=uid25-8355995-0"
+    }
+  }, 
+  {
+    "pk": 167, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.jewelmint.com/jewelry/layered-ice-ring"
+    }
+  }, 
+  {
+    "pk": 168, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.jewelmint.com/jewelry/geo-triad-necklace"
+    }
+  }, 
+  {
+    "pk": 169, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://store.americanapparel.net/product/?productId=rsacp4se"
+    }
+  }, 
+  {
+    "pk": 170, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.loefflerrandall.com/LRProduct.aspx?ProductID=685&CategoryID=180"
+    }
+  }, 
+  {
+    "pk": 171, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.loefflerrandall.com/LRProduct.aspx?ProductID=551&CategoryID=181"
+    }
+  }, 
+  {
+    "pk": 172, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.oasap.com/handbags/6929-sweet-square-bowknot-embellished-handbag.html"
+    }
+  }, 
+  {
+    "pk": 173, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.oasap.com/belts/18116-kissing-dog-pu-slim-belt.html?siteID=QFGLnEolOWg-0Xv1BNUvWYgsoGyT5KGfOA"
+    }
+  }, 
+  {
+    "pk": 174, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.inpink.com/bracelets/lavender-rhinestone-bauble-stretch-bracelet.html"
+    }
+  }, 
+  {
+    "pk": 175, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.inpink.com/bracelets/lavender-rhinestone-bauble-stretch-bracelet.html"
+    }
+  }, 
+  {
+    "pk": 176, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.rachelroy.com/Peplum-dress/110408434,default,pd.html?variantSizeClass=&variantColor=JJ224XX&cgid=110216054&prefn1=catalog-id&prefv1=rachelroy-catalog"
+    }
+  }, 
+  {
+    "pk": 177, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.rachelroy.com/Medium-Flap-Shoulder-Bag/110231099,default,pd.html?variantSizeClass=&variantColor=JJ372A7&cgid=110359374&prefn1=catalog-id&prefv1=rachelroy-catalog"
+    }
+  }, 
+  {
+    "pk": 178, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.buckle.com/rock-revival-vivian-boot-stretch-jean/prd-78435E8377B11/sku-1029653234"
+    }
+  }, 
+  {
+    "pk": 179, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.buckle.com/almost-famous-striped-blazer/prd-95550ZH2910343/sku-7588880400"
+    }
+  }, 
+  {
+    "pk": 180, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.splendid.com/pd/p/5839.html"
+    }
+  }, 
+  {
+    "pk": 181, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.splendid.com/Scoop_Neck_Dress/pd/np/101/p/7429.html"
+    }
+  }, 
+  {
+    "pk": 182, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.clarksusa.com/eng/product/dunbar_racer/63824"
+    }
+  }, 
+  {
+    "pk": 183, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.clarksusa.com/eng/product/wessex_eider/64405"
+    }
+  }, 
+  {
+    "pk": 184, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "https://outragefashion.com/jewelry/sarah-bracelet.html"
+    }
+  }, 
+  {
+    "pk": 185, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "https://outragefashion.com/new-arrivals/silver-stacked-necklace.html"
+    }
+  }, 
+  {
+    "pk": 186, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.ray-ban.com/usa/sunglasses/rb3044/l0207"
+    }
+  }, 
+  {
+    "pk": 187, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.ray-ban.com/usa/sunglasses/rb2140/889"
+    }
+  }, 
+  {
+    "pk": 188, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.belk.com/AST/Main/Belk_Primary/Handbags_and_accessories/shop/handbagswallets/shoulder_bags/PRD~260036848894/COACH+LEGACY+LEATHER+MINI+TANNER.jsp?cm_mmc=SearchDex-_-Product+Pages-_-Shoulder+Bags-_-coach-legacy-leather-mini-tanner-P260036848894"
+    }
+  }, 
+  {
+    "pk": 189, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.belk.com/AST/Main/Belk_Primary/Women/Shop/Intimates/Bras/Average_Figure/PRD~2100931853191/Embrace+Lace+Contour+Bra+++853191.jsp?cm_mmc=Search%20-%20Google-_-PLA%20Basic%20Campaign-_-PLA%20Primary%20AdGroup-_-AutoTargets&ktid=311-000000"
+    }
+  }, 
+  {
+    "pk": 190, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.shoshanna.com/shop/new-arrivals/eryn-dress"
+    }
+  }, 
+  {
+    "pk": 191, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.shoshanna.com/shop/new-arrivals/louise-dress-1"
+    }
+  }, 
+  {
+    "pk": 192, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://us.aritzia.com/Wilfred-MEDEA-BLOUSE/44826,default,pd.html?dwvar_44826_color=1275#sz=110&start=11"
+    }
+  }, 
+  {
+    "pk": 193, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://us.aritzia.com/Talula-TROOPER-JACKET/35276,default,pd.html?dwvar_35276_color=2251"
+    }
+  }, 
+  {
+    "pk": 194, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.lagarconne.com/store/item.htm?itemid=18498&sid=&pid="
+    }
+  }, 
+  {
+    "pk": 195, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.lagarconne.com/store/item.htm?itemid=19873&sid=24&pid="
+    }
+  }, 
+  {
+    "pk": 196, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.heels.com/womens-shoes/ravesh-blush-patent.html?utm_source=google&utm_medium=pla&utm_campaign=standard&gclid=CKK87s7z0bUCFQaznQod7lMAyg"
+    }
+  }, 
+  {
+    "pk": 197, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.heels.com/womens-shoes/doheny-orange.html?CA_6C15C=1922514392"
+    }
+  }, 
+  {
+    "pk": 198, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.warbyparker.com/women/sunwear/everett-gimlet-tortoise-sun-f"
+    }
+  }, 
+  {
+    "pk": 199, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.warbyparker.com/summer-collection-2013"
+    }
+  }, 
+  {
+    "pk": 200, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.ssense.com/women/product/t_by_alexander_wang/white_chunky_cotton_cropped_sweater/64586?origin=pla&gclid=COTav-Oq2bYCFWbhQgodwiYATA"
+    }
+  }, 
+  {
+    "pk": 201, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.ssense.com/women/product/dsquared2/faded_indigo_fluorescent_and_paint_super_slim_jeans/63771?origin=pla&gclid=CMGS56m347UCFQk4nAodCzgApw"
+    }
+  }, 
+  {
+    "pk": 202, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.beso.com/my/collections/create"
+    }
+  }, 
+  {
+    "pk": 203, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.beso.com/productNotFound"
+    }
+  }, 
+  {
+    "pk": 204, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.bedbathandbeyond.com/product.asp?SKU=40757810&RN=2507&"
+    }
+  }, 
+  {
+    "pk": 205, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.bedbathandbeyond.com/product.asp?SKU=206595&COL=404&RN=2507&"
+    }
+  }, 
+  {
+    "pk": 206, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.tands.com/collections/new-arrivals/products/genoa-bag"
+    }
+  }, 
+  {
+    "pk": 207, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.tands.com/collections/new-arrivals/products/genoa-bag"
+    }
+  }, 
+  {
+    "pk": 208, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.zgallerie.com/p-8948-deer-head-1575.aspx"
+    }
+  }, 
+  {
+    "pk": 209, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.zgallerie.com/p-14212-cocktail-rings.aspx"
+    }
+  }, 
+  {
+    "pk": 210, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.furbishstudio.com/mint-julep-vase/#.UeSXS421G6M"
+    }
+  }, 
+  {
+    "pk": 211, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.furbishstudio.com/blue-floral-cereal-bowls-s-4/#.UdHgpmYpCo9"
+    }
+  }, 
+  {
+    "pk": 212, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://oliviaandjoy.com/item/1593374"
+    }
+  }, 
+  {
+    "pk": 213, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://oliviaandjoy.com/item/1593374"
+    }
+  }, 
+  {
+    "pk": 214, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.carters.com/carters/3-Pack-Knit-Socks/V_24093,default,pd.html?dwvar_V__24093_color=MultipleColorsinPack&cgid=carters-baby-boy-collections-ss-cutie&start="
+    }
+  }, 
+  {
+    "pk": 215, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.carters.com/null/2-Piece-Bodysuit-Pant-Set/886149333694,default,pd.html?cgid=carters-baby-baby-boy-sets&start="
+    }
+  }, 
+  {
+    "pk": 216, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.swell.com/!U8cQjx-sxFnpqDV-4OTy5Q!/Womens-Apparel-New-Products/EIGHT-SIXTY-BLACK-AND-GOLD-JUMPSUIT?cs=BL"
+    }
+  }, 
+  {
+    "pk": 217, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.swell.com/Womens-Shorts-Rompers/ONEILL-CRAZE-DENIM-SHORT?cs=BU"
+    }
+  }, 
+  {
+    "pk": 218, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.choies.com/product/locomotive-zipper-wool-black-coat-with-leather-splicing"
+    }
+  }, 
+  {
+    "pk": 219, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.choies.com/product/trend-pointed-martin-leather-motorcycle-boots"
+    }
+  }, 
+  {
+    "pk": 220, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://siramara.com/?page_id=3036"
+    }
+  }, 
+  {
+    "pk": 221, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://siramara.com/?page_id=3036"
+    }
+  }, 
+  {
+    "pk": 222, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.rag-bone.com/Split_Skinny__BlackWhite/pd/cl/6381/np/302/p/2996.html"
+    }
+  }, 
+  {
+    "pk": 223, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.rag-bone.com/Split_Skinny__BlackWhite/pd/cl/6381/np/302/p/2996.html"
+    }
+  }, 
+  {
+    "pk": 224, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.shoemint.com/shoes/shiva?aid=4$internal-email$p1081$c3943$8541&userid=1104324_e326b4efd6ce9aed8bca9cdebaa6e0b17e7efaa4"
+    }
+  }, 
+  {
+    "pk": 225, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.shoemint.com/shoes/superga-cotu-classic?id=15202"
+    }
+  }, 
+  {
+    "pk": 226, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.ruelala.com/event"
+    }
+  }, 
+  {
+    "pk": 227, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.ruelala.com/event/product/76533/1411125252/0/DEFAULT"
+    }
+  }, 
+  {
+    "pk": 228, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.justfab.com/index.cfm?action=shop.viewproduct&displayVideoTab=1&tab=shoe&featured_product_location_id=168&product_id=198148&psrc=Boot_Shop_Pages_Boot_Shop_Casual_Cute&master_product_id=198139&original_master_product_id=198139"
+    }
+  }, 
+  {
+    "pk": 229, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.justfab.com/index.cfm?action=shop.viewproduct&displayVideoTab=1&tab=bag&featured_product_location_id=0&product_id=376501&psrc=shopping_pages_bags&master_product_id=376501&original_master_product_id=376501"
+    }
+  }, 
+  {
+    "pk": 230, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.chicwish.com/faux-fur-drape-cape-jacket-in-navy.html"
+    }
+  }, 
+  {
+    "pk": 231, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.chicwish.com/amygreen-military-style-hooded-parka-coat.html"
+    }
+  }, 
+  {
+    "pk": 232, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.clubmonaco.ca/product/index.jsp?productId=15702826&cp=12249921.12266416.12454893&ab=ln_women_apparel_dresses"
+    }
+  }, 
+  {
+    "pk": 233, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.clubmonaco.ca/product/?productId=19139796&prodFindSrc=mc"
+    }
+  }, 
+  {
+    "pk": 234, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.worldmarket.com/product/white+scalloped+taryn+boxes.do?&from=fn"
+    }
+  }, 
+  {
+    "pk": 235, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.worldmarket.com/product/white-bird-bath-jewelry-stand.do?&from=fn"
+    }
+  }, 
+  {
+    "pk": 236, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://wanelo.com/p/4321490/501580850?ref=af_"
+    }
+  }, 
+  {
+    "pk": 237, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://wanelo.com/p/5883699/1015984899"
+    }
+  }, 
+  {
+    "pk": 238, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.chicnova.com/v-neck-skater-dress-with-flower-shoulder-details.html?SSAID=256758#"
+    }
+  }, 
+  {
+    "pk": 239, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.chicnova.com/black-full-length-knit-leggings.html"
+    }
+  }, 
+  {
+    "pk": 240, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.jcrew.com/womens_category/accessories/oddsandends/PRDOVR~06489/ENE~1+2+3+22+4294967294+20~~~17~15~all~mode+matchallany~~~~~iphone+case/06489.jsp"
+    }
+  }, 
+  {
+    "pk": 241, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.jcrew.com/womens_category/accessories/oddsandends/PRDOVR~06489/ENE~1+2+3+22+4294967294+20~~~17~15~all~mode+matchallany~~~~~iphone+case/06489.jsp"
+    }
+  }, 
+  {
+    "pk": 242, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://shop.nordstrom.com/s/t-by-alexander-wang-knit-tank/3159504"
+    }
+  }, 
+  {
+    "pk": 243, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://shop.nordstrom.com/s/t-by-alexander-wang-knit-tank/3159504"
+    }
+  }, 
+  {
+    "pk": 244, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://piperlime.gap.com/browse/product.do?pid=955569002&tid=plsp1r&kwid=1&ap=14"
+    }
+  }, 
+  {
+    "pk": 245, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://piperlime.gap.com/browse/product.do?pid=955569002&tid=plsp1r&kwid=1&ap=14"
+    }
+  }, 
+  {
+    "pk": 246, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.anthropologie.com/anthro/product/clothes-petite/27611532.jsp"
+    }
+  }, 
+  {
+    "pk": 247, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.anthropologie.com/anthro/product/clothes-petite/27611532.jsp"
+    }
+  }, 
+  {
+    "pk": 248, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://factory.jcrew.com/womens-clothing/skirts/pencil/PRDOVR~37532/37532.jsp?srcCode=FAAFFI00001&siteId=Hy3bqNL2jtQ-KeCI2b6.XwMOdI9Rg7depw"
+    }
+  }, 
+  {
+    "pk": 249, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://factory.jcrew.com/womens-clothing/skirts/pencil/PRDOVR~37532/37532.jsp?srcCode=FAAFFI00001&siteId=Hy3bqNL2jtQ-KeCI2b6.XwMOdI9Rg7depw"
+    }
+  }, 
+  {
+    "pk": 250, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.gap.com/browse/product.do?cid=8798&vid=1&pid=606952002"
+    }
+  }, 
+  {
+    "pk": 251, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.gap.com/browse/product.do?pid=599809012&tid=goaff4441350&ap=2&siteID=goafcid150"
+    }
+  }, 
+  {
+    "pk": 252, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.modcloth.com/shop/basic-tops/new-to-the-colorblock-top-in-grey?SSAID=256758&utm_medium=ad&utm_source=affiliateprogram_sas&utm_campaign=sas_feed&utm_content=256758"
+    }
+  }, 
+  {
+    "pk": 253, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.modcloth.com/shop/basic-tops/new-to-the-colorblock-top-in-grey?SSAID=256758&utm_medium=ad&utm_source=affiliateprogram_sas&utm_campaign=sas_feed&utm_content=256758"
+    }
+  }, 
+  {
+    "pk": 254, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.anntaylor.com/ann/product/AT-Accessories/AT-View-All/Mosaic-Stretch-Bracelet/310748"
+    }
+  }, 
+  {
+    "pk": 255, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.anntaylor.com/ann/product/AT-Accessories/AT-View-All/Mosaic-Stretch-Bracelet/310748"
+    }
+  }, 
+  {
+    "pk": 256, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.forever21.com/Product/Product.aspx?Br=F21&Category=DRESS&ProductID=2036506176&VariantID="
+    }
+  }, 
+  {
+    "pk": 257, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.forever21.com/Product/Product.aspx?BR=f21&Category=top_picks&ProductID=2034468506&VariantID="
+    }
+  }, 
+  {
+    "pk": 258, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www1.bloomingdales.com/shop/product/marc-by-marc-jacobs-flats-mouse-slingback?ID=696910&PseudoCat=se-xx-xx-xx.esn_results"
+    }
+  }, 
+  {
+    "pk": 259, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www1.bloomingdales.com/shop/product/tory-burch-logo-thong-sandals-miller-2?ID=660461&PseudoCat=se-xx-xx-xx.esn_results"
+    }
+  }, 
+  {
+    "pk": 260, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.urbanoutfitters.com/urban/catalog/productdetail.jsp?id=30485205&parentid=W_NEWARRIVALS"
+    }
+  }, 
+  {
+    "pk": 261, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.urbanoutfitters.com/urban/catalog/productdetail.jsp?id=25543653&parentid=SALE_W"
+    }
+  }, 
+  {
+    "pk": 262, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.madewell.com/madewell_category/SHOESANDBOOTS/sneakers/PRDOVR~43270/43270.jsp"
+    }
+  }, 
+  {
+    "pk": 263, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.madewell.com/madewell_category/SHOESANDBOOTS/sneakers/PRDOVR~43270/43270.jsp"
+    }
+  }, 
+  {
+    "pk": 264, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.express.com/clothing/limited+edition+extra+slim+1mx+shirt+to+tonal+trim/pro/0308785/cat270001"
+    }
+  }, 
+  {
+    "pk": 265, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.express.com/clothing/limited+edition+extra+slim+1mx+shirt+to+tonal+trim/pro/0308785/cat270001"
+    }
+  }, 
+  {
+    "pk": 266, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.zara.com/webapp/wcs/stores/servlet/product/us/en/zara-nam-S2013/367501/1088539/COAT+WITH+GATHERING+ON+THE+SHOULDER"
+    }
+  }, 
+  {
+    "pk": 267, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.zara.com/webapp/wcs/stores/servlet/product/us/en/zara-nam-S2013/358107/1104516/floral%20print%20jacket"
+    }
+  }, 
+  {
+    "pk": 268, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.neimanmarcus.com/p/Manolo-Blahnik-Susa-Flat-Leather-Sandal-Blue-Vanity-Fair-Must-Haves/prod152450124_cat46400779_cat41020734_/;jsessionid=59BED100E2B593DA1B3E9224738F8690?isEditorial=false&index=15&cmCat=cat000000cat000001cat41020734cat46400779"
+    }
+  }, 
+  {
+    "pk": 269, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.neimanmarcus.com/p/Joie-Marru-Silk-Blouse-Bright-Blue/prod153570276_cat46520839__/?icid=&searchType=EndecaDrivenCat&rte=%252Fcategory.service%253FitemId%253Dcat46520839%2526pageSize%253D30%2526No%253D90%2526refinements%253D&eItemId=prod153570276&cmCat=product"
+    }
+  }, 
+  {
+    "pk": 270, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.target.com/p/mossimo-supply-co-thread-braid-tri-color-tan/-/A-14364682?ref=tgt_adv_XSC10001&AFID=shopping_df&LNM=|14361474&CPNG=Accessories&ci_src=13736960&ci_sku=14361474&"
+    }
+  }, 
+  {
+    "pk": 271, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.target.com/p/mb-5-5-inseam-denim-shorts/-/A-14369963?ref=tgt_adv_xasd0001&AFID=Performics_rewardStyle_0004db89db5f2d6b0ae035895d0035f5&LNM=Primary#prodSlot=medium_2_11"
+    }
+  }, 
+  {
+    "pk": 272, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.dsw.com/shoe/earth+origins+marla+pump?prodId=250520"
+    }
+  }, 
+  {
+    "pk": 273, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.dsw.com/shoe/zigi+soho+brilliant+flat+sandal?prodId=265420&cm_mmc=affil-_-ShopStyle.com-_-main-_-main"
+    }
+  }, 
+  {
+    "pk": 274, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.katespade.com/gingham-broome-street-jacket/NJMU2355,en_US,pd.html?dwvar_NJMU2355_color=487"
+    }
+  }, 
+  {
+    "pk": 275, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.katespade.com/gingham-broome-street-jacket/NJMU2355,en_US,pd.html?dwvar_NJMU2355_color=487"
+    }
+  }, 
+  {
+    "pk": 276, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.ae.com/factory/browse/product.jsp?productId=0534_6967_301&catId=cat5650090"
+    }
+  }, 
+  {
+    "pk": 277, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.ae.com/aerie/browse/product.jsp?productId=6495_7231_933&catId=cat5260031"
+    }
+  }, 
+  {
+    "pk": 278, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.saksfifthavenue.com/main/ProductDetail.jsp?PRODUCT%3C%3Eprd_id=845524446554556&CAWELAID=1818001576&cagpspn=pla&site_refer=GGLPRADS001&site_refer=AFF001&mid=13816&siteID=QFGLnEolOWg-cEjZzMexKTILllnpG_WP8w&LScreativeid=1&LSlinkid=15&LSoid=255390"
+    }
+  }, 
+  {
+    "pk": 279, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.saksfifthavenue.com/main/ProductDetail.jsp?PRODUCT%3C%3Eprd_id=845524446554556&CAWELAID=1818001576&cagpspn=pla&site_refer=GGLPRADS001&site_refer=AFF001&mid=13816&siteID=QFGLnEolOWg-cEjZzMexKTILllnpG_WP8w&LScreativeid=1&LSlinkid=15&LSoid=255390"
+    }
+  }, 
+  {
+    "pk": 280, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.zappos.com/wanted-amarillo-tan"
+    }
+  }, 
+  {
+    "pk": 281, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.zappos.com/wanted-amarillo-tan"
+    }
+  }, 
+  {
+    "pk": 282, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.nastygal.com/clothes/day%2Dtripper%2Dmaxi%2Ddress"
+    }
+  }, 
+  {
+    "pk": 283, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.nastygal.com/clothes/electric%2Dgarden%2Djacket"
+    }
+  }, 
+  {
+    "pk": 284, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.amazon.com/Lilly-Pulitzer-Womens-Thyme-Skirt/dp/B00BLGJI82"
+    }
+  }, 
+  {
+    "pk": 285, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.amazon.com/Chinese-Laundry-Womens-Getter-Sandal/dp/B005OAG1XG/ref=sr_1_2925?s=shoes&ie=UTF8&qid=1366055075&sr=1-2925"
+    }
+  }, 
+  {
+    "pk": 286, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.thelimited.com/Geometric-Print-Halter-Dress/3278541,default,pd.html?dwvar_3278541_colorCode=337&start=13&ppid=c13&cgid=outback-red"
+    }
+  }, 
+  {
+    "pk": 287, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.thelimited.com/Back-Chain-Pullover-Sweater/5503528,default,pd.html?dwvar_5503528_colorCode=356&start=2&ppid=c2&cgid=new-arrivals"
+    }
+  }, 
+  {
+    "pk": 288, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://shop.lululemon.com/products/clothes-accessories/top-rated-women/Power-Y-Tank-Luon-Light?cc=7208&skuId=3492351&catId=top-rated-women"
+    }
+  }, 
+  {
+    "pk": 289, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://shop.lululemon.com/products/clothes-accessories/women-jackets-and-hoodies/Forme-Jacket?cc=8985&skuId=3466098&catId=women-jackets-and-hoodies"
+    }
+  }, 
+  {
+    "pk": 290, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www1.macys.com/shop/product/inc-international-concepts-jacket-single-button-blazer?ID=777325&CategoryID=10066&LinkType=#fn=sp%3D1%26spc%3D4533%26ruleId%3D65%26slotId%3D68"
+    }
+  }, 
+  {
+    "pk": 291, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www1.macys.com/shop/product/wacoal-bra-embrace-lace-contour-bra-853191?ID=580047&CategoryID=225&LinkType=PDPZ1"
+    }
+  }, 
+  {
+    "pk": 292, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.revolveclothing.com/DisplayProduct.jsp?product=AMAN-WD162&c=Amanda+Uprichard&defaultcolor=Poppy&AID=10568535&PID=4441350&utm_content=10568535&utm_medium=affiliate&utm_campaign=4441350&utm_source=cj&cvosrc=affiliate.cj.4441350&referrerURL=http%3A%2F%2Frstyle.me%2Fwt%2Fn%2Ftsdgrqpe&colorchng=&frmcolor=Poppy&tocolor=Grape&"
+    }
+  }, 
+  {
+    "pk": 293, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.revolveclothing.com/DisplayProduct.jsp?product=AMAN-WQ12&c=&AID=10568535&PID=4441350&utm_content=10568535&utm_medium=affiliate&utm_campaign=4441350&utm_source=cj&cvosrc=affiliate.cj.4441350&referrerURL=http%3A%2F%2Frstyle.me%2Fwt%2Fn%2Frjaqrqpe&colorchng=&frmcolor=Nu+Blu&tocolor=Poppy&"
+    }
+  }, 
+  {
+    "pk": 294, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.sephora.com/perfect-pink-brush-set-value-150-P291404"
+    }
+  }, 
+  {
+    "pk": 295, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.sephora.com/perfect-pink-brush-set-value-150-P291404"
+    }
+  }, 
+  {
+    "pk": 296, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.6pm.com/cole-haan-village-travel-zip-black?zfcTest=mat%3A1"
+    }
+  }, 
+  {
+    "pk": 297, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.6pm.com/rebecca-taylor-tweed-v-neck-peplum-top-cream-optic-white"
+    }
+  }, 
+  {
+    "pk": 298, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.bodenusa.com/en-US/Womens-Dresses/Above-Knee-Dresses/WH452/Womens-Hotchpotch-Cotton-Dress.html?NavGroupID=4"
+    }
+  }, 
+  {
+    "pk": 299, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.bodenusa.com/en-US/Womens-Dresses/Knee-Length-Dresses/WH445/Womens-Embroidered--Shift.html?NavGroupID=4"
+    }
+  }, 
+  {
+    "pk": 300, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.lillypulitzer.com/product/Accessories-Shoes/Bags/entity/pc/61/c/67/5089.uts?swatchName=Orchid+Pink+Spike+The+Punch+Small"
+    }
+  }, 
+  {
+    "pk": 301, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.lillypulitzer.com/product/Dresses/entity/c/38/5203.uts?swatchName=Snorkel+Blue+Hold+Your+Horses"
+    }
+  }, 
+  {
+    "pk": 302, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.ralphlauren.com/product/index.jsp?productId=17534856&cp=1760782.1760895.1760927&view=99&ab=ln_women_cs1_crewnecks&parentPage=family"
+    }
+  }, 
+  {
+    "pk": 303, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.ralphlauren.com/product/index.jsp?productId=11211511&sProdEvar=Wishlist"
+    }
+  }, 
+  {
+    "pk": 304, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://us.topshop.com/webapp/wcs/stores/servlet/ProductDisplay?catalogId=33060&categoryId=222061&productId=9344015&parent_categoryId=459525&beginIndex=1&sort_field=Relevance&langId=-1&pageSize=20&storeId=13052&geoip=noredirect"
+    }
+  }, 
+  {
+    "pk": 305, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://us.topshop.com/webapp/wcs/stores/servlet/ProductDisplay?beginIndex=0&viewAllFlag=&catalogId=33060&storeId=13052&productId=10373761&langId=-1&categoryId=&parent_category_rn=&searchTerm=25T09EBLK&resultCount=1&geoip=home"
+    }
+  }, 
+  {
+    "pk": 306, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.lulus.com/products/mona-mia-trinidad-tan-woven-platform-heels/51987.html?utm_source=pinterest"
+    }
+  }, 
+  {
+    "pk": 307, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.lulus.com/products/rays-the-roof-gold-and-black-sunglasses/80466.html"
+    }
+  }, 
+  {
+    "pk": 308, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.etsy.com/listing/85845948/wedding-dress-in-white-long-sleeve"
+    }
+  }, 
+  {
+    "pk": 309, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.etsy.com/listing/86788007/lets-dancedresswinterlong-sleevesflowing?utm_campaign=Share&utm_medium=PageTools&utm_source=Pinterest"
+    }
+  }, 
+  {
+    "pk": 310, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.jcpenney.com/dotcom/gifts/for-her/tops/jcp%25e2%2584%25a2-colorblock-boatneck-tee/prod.jump?ppId=pp5001940217&catId=cat100210006&deptId=dept20000013&Nao=96&pageSize=96&pN=2&dimCombo=null&dimComboVal=null"
+    }
+  }, 
+  {
+    "pk": 311, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.jcpenney.com/dotcom/women/fair-square-prices/best-prices/dresses/colorblock-knit-dress/prod.jump?ppId=pp5001600013&catId=cat100210008&deptId=dept20000013&N=4294967128&Ns=RHL&pageSize=96&topDim=Occasion&topDimvalue=casual&dimCombo=Occasion%7C&dimComboVal=casual%7C&currentDim=Occasion&curre"
+    }
+  }, 
+  {
+    "pk": 312, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.freepeople.com/sale-new-sale/mara-hoffman-astrid-tote-26269928/"
+    }
+  }, 
+  {
+    "pk": 313, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.freepeople.com/heels-wedges/blakely-heel/"
+    }
+  }, 
+  {
+    "pk": 314, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://shop.stelladot.com/style/b2c_en_us/shop/bracelets/wraps/radiance-coil-bracelet.html?SSAID=687298"
+    }
+  }, 
+  {
+    "pk": 315, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://shop.stelladot.com/style/b2c_en_us/shop/rings/rings-all/moraley-flower-stackable-bands.html"
+    }
+  }, 
+  {
+    "pk": 316, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.cwonder.com/home-decor/shop-by-category/view-all/ikat-tea-for-one-set.html"
+    }
+  }, 
+  {
+    "pk": 317, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.cwonder.com/home-decor/shop-by-category/view-all/ikat-iphoner-4-4s-case.html"
+    }
+  }, 
+  {
+    "pk": 318, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.lastcall.com/p/Foley-Corinna-Disco-City-Crossbody-Bag-Honey-Handbags/prod15050044_cat000001__/?icid=homemain+Hers&searchType=GUIDED&rte=%252Fetemplate%252Fp3E.jsp%253FparentId%253Dcat000001%2526itemId%253Dcat000001%2526N%253D4294967142%252B4294967276%2526icid%253Dhomemain%252BHers&eItemId"
+    }
+  }, 
+  {
+    "pk": 319, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.lastcall.com/p/Aidan-Mattox-Peplum-Lace-Dress-Navy-Just-In/prod14880002_cat000001__/?icid=&searchType=GUIDED&rte=%252Fetemplate%252Fp3E.jsp%253FitemId%253Dcat000001%2526parentId%253Dcat000001%2526N%253D4294967142%252B4294961614%2526menuPath%253Dcat000000_cat000001_cat000001%2526ncx%253Dn&"
+    }
+  }, 
+  {
+    "pk": 320, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://theshelf.com/mymedia/site_folder/html/company_about_features.html"
+    }
+  }, 
+  {
+    "pk": 321, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://theshelf.com/mymedia/site_folder/html/company_help_gettingstarted.html"
+    }
+  }, 
+  {
+    "pk": 322, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.gapcanada.ca/browse/product.do?cid=54987&vid=1&pid=249255003"
+    }
+  }, 
+  {
+    "pk": 323, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.gapcanada.ca/browse/product.do?cid=54987&vid=1&pid=249255003"
+    }
+  }, 
+  {
+    "pk": 324, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.kohls.com/upgrade/webstore/product_page.jsp?PRODUCT%3C%3Eprd_id=845524893081477&pfx=pfx_shopcompare&cid=shopping3&src=k108283&clickid=0004d74402d95aee0ae01c4f5100554a"
+    }
+  }, 
+  {
+    "pk": 325, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.kohls.com/product/prd-654595/farberware-cayenne-20-pc-flatware-set.jsp"
+    }
+  }, 
+  {
+    "pk": 326, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.barneys.com/Bobbi-Brown-Desert-Twilight-Eye-Palette/00505020739492,default,pd.html?cgid=womens-cosmetics&index=12&utm_source=GAN&utm_medium=rewardStyle&utm_campaign=Primary"
+    }
+  }, 
+  {
+    "pk": 327, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.barneys.com/10-Crosby-Derek-Lam-Side-Zip-Slim-Pants/502373911,default,pd.html?index=0"
+    }
+  }, 
+  {
+    "pk": 328, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.google.com/reader/view/?hl=en&tab=wy#overview-page"
+    }
+  }, 
+  {
+    "pk": 329, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.google.com/reader/view/#stream/feed%2Fhttp%3A%2F%2Fwww.wendyslookbook.com%2Ffeed%2F"
+    }
+  }, 
+  {
+    "pk": 330, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.sheinside.com/Black-Soft-PU-Slim-Jacket-p-79680-cat-1776.html"
+    }
+  }, 
+  {
+    "pk": 331, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.sheinside.com/Black-Long-Sleeve-Contrast-Leather-Epaulet-Coat-p-106332-cat-1735.html"
+    }
+  }, 
+  {
+    "pk": 332, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.ulta.com/ulta/browse/productDetail.jsp?skuId=2167477&productId=xlsImpprod1020032&navAction=push&navCount=1&categoryId=cat80058"
+    }
+  }, 
+  {
+    "pk": 333, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.ulta.com/ulta/browse/productDetail.jsp?skuId=2247004&productId=xlsImpprod4410269&navAction=push&navCount=1&categoryId=cat80062?cmpid=PSGO&CAWELAID=1381239004&catargetid=1542183334&cagpspn=pla"
+    }
+  }, 
+  {
+    "pk": 334, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.ilycouture.com/product_p/ptb.htm"
+    }
+  }, 
+  {
+    "pk": 335, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.ilycouture.com/product_p/ptb.htm"
+    }
+  }, 
+  {
+    "pk": 336, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.nyandcompany.com/nyco/prod/Apparel/New-Arrivals/Sweaters/Elbow-Sleeve-Sweater-with-Goldtone-Zipper"
+    }
+  }, 
+  {
+    "pk": 337, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.nyandcompany.com/nyco/prod/Sale/Clearance/Slim-Slouch-Jean-Ormond-Wash"
+    }
+  }, 
+  {
+    "pk": 338, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://shopruche.com/falling-for-glitter-bow-heels.html"
+    }
+  }, 
+  {
+    "pk": 339, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://shopruche.com/sweetest-love-sweater.html"
+    }
+  }, 
+  {
+    "pk": 340, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.janieandjack.com/shop/dept_item.jsp?PRODUCT%3C%3Eprd_id=845524443471687&FOLDER%3C%3Efolder_id=2534374303720146&bmUID=1360079520928&productSizeSelected=0"
+    }
+  }, 
+  {
+    "pk": 341, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.janieandjack.com/shop/dept_item.jsp?PRODUCT%3C%3Eprd_id=845524443471852&FOLDER%3C%3Efolder_id=2534374303720186&bmUID=1360079385063&productSizeSelected=0"
+    }
+  }, 
+  {
+    "pk": 342, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.talbots.com/online/browse/product_details.jsp?id=prdi30283&rootCategory=cat70010&catId=cat1250051&sortKey=Default&section=Regular&conceptIdUnderSale=cat70010"
+    }
+  }, 
+  {
+    "pk": 343, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.talbots.com/online/browse/product_details.jsp?id=prdi30226&rootCategory=cat70008&catId=cat630049&sortKey=Default&section=Regular&conceptIdUnderSale=cat70008"
+    }
+  }, 
+  {
+    "pk": 344, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.theoutnet.com/product/367130"
+    }
+  }, 
+  {
+    "pk": 345, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.theoutnet.com/product/315969"
+    }
+  }, 
+  {
+    "pk": 346, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://us.dorothyperkins.com/webapp/wcs/stores/servlet/ProductDisplay?beginIndex=0&viewAllFlag=&catalogId=34072&storeId=13065&productId=9288790&langId=-1&categoryId=&parent_category_rn=&searchTerm=49811957&resultCount=1&geoip=home"
+    }
+  }, 
+  {
+    "pk": 347, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://us.dorothyperkins.com/webapp/wcs/stores/servlet/ProductDisplay?beginIndex=0&viewAllFlag=&catalogId=34072&storeId=13065&productId=9288790&langId=-1&categoryId=&parent_category_rn=&searchTerm=49811957&resultCount=1&geoip=home"
+    }
+  }, 
+  {
+    "pk": 348, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.baublebar.com/anniversary-collection/pave-links-bracelet.html"
+    }
+  }, 
+  {
+    "pk": 349, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.baublebar.com/fashion-jewelry/jewelry-necklaces/silver-duo-fringe-bib.html"
+    }
+  }, 
+  {
+    "pk": 350, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.llbean.com/llb/shop/70414?feat=510464-GN2&page=fleece-lined-trail-model-rain-jacket"
+    }
+  }, 
+  {
+    "pk": 351, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.llbean.com/llb/shop/72431?feat=0-ppxs&dds=y"
+    }
+  }, 
+  {
+    "pk": 352, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.abercrombie.com/webapp/wcs/stores/servlet/ProductDisplay?catalogId=10901&storeId=10051&langId=-1&categoryId=120216&parentCategoryId=120216&topCategoryId=12203&productId=1078769&seq=01"
+    }
+  }, 
+  {
+    "pk": 353, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.abercrombie.com/webapp/wcs/stores/servlet/ProductDisplay?catalogId=10901&storeId=10051&langId=-1&categoryId=120216&parentCategoryId=120216&topCategoryId=12203&productId=1078769&seq=01"
+    }
+  }, 
+  {
+    "pk": 354, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.ninewest.com/Comfty/10965942,default,pd.html?variantSizeClass=&variantColor=JJB43D9_1&cgid=8346267&prefn1=catalog-id&prefv1=ninewest-catalog"
+    }
+  }, 
+  {
+    "pk": 355, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.ninewest.com/Comfty/10965942,default,pd.html?variantSizeClass=&variantColor=JJB43D9_1&cgid=8346267&prefn1=catalog-id&prefv1=ninewest-catalog"
+    }
+  }, 
+  {
+    "pk": 356, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://store.nike.com/us/en_us/?l=shop,pdp,ctr-inline/cid-1/pid-653923/pgid-653918"
+    }
+  }, 
+  {
+    "pk": 357, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://store.nike.com/us/en_us/?l=shop,pdp,ctr-inline/cid-100701/pid-677972/pgid-727916"
+    }
+  }, 
+  {
+    "pk": 358, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.misskl.com/product/The-Pop-Art-Crossbody-Clutch-in-Neon-Pink/353735?siteID=J84DHJLQkR4-inWYQW.2X9IUIfF1Y57Gvg"
+    }
+  }, 
+  {
+    "pk": 359, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.misskl.com/product/The-Pop-Art-Crossbody-Clutch-in-Neon-Pink/353735?siteID=J84DHJLQkR4-inWYQW.2X9IUIfF1Y57Gvg"
+    }
+  }, 
+  {
+    "pk": 360, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.stevemadden.com/Item.aspx?om_mid=_BQ7FCUB8wOagcD&om_rid=NSvZhH&omid=email&id=95588"
+    }
+  }, 
+  {
+    "pk": 361, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.stevemadden.com/Item.aspx?id=98314&np=710"
+    }
+  }, 
+  {
+    "pk": 362, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.bcbg.com/product/index.jsp?productId=17883586&cp=2769162.2768993&clickid=cat_leftnav_txt&parentPage=family"
+    }
+  }, 
+  {
+    "pk": 363, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.bcbg.com/Greer-Printed-Wrap-Dress/YZT6V414-B57,default,pd.html?dwvar_YZT6V414-B57_color=B57&cgid=dresses#start=94&sz=40"
+    }
+  }, 
+  {
+    "pk": 364, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.lorenhope.com/products/roxy-necklace-in-rose-quartz.html"
+    }
+  }, 
+  {
+    "pk": 365, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.lorenhope.com/products/collette-necklace.html"
+    }
+  }, 
+  {
+    "pk": 366, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.shopsosie.com/military-drawstring-anorak-8482.html"
+    }
+  }, 
+  {
+    "pk": 367, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.shopsosie.com/essential-camo-jacket-11068.html"
+    }
+  }, 
+  {
+    "pk": 368, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://shop.mango.com/US/p0/mango/clothing/contrast-panel-t-shirt/?id=83208101_G5&n=1&s=prendas&ie=0&m=&ts=1367216330519"
+    }
+  }, 
+  {
+    "pk": 369, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://shop.mango.com/US/p0/mango/clothing/contrast-panel-t-shirt/?id=83208101_G5&n=1&s=prendas&ie=0&m=&ts=1367216330519"
+    }
+  }, 
+  {
+    "pk": 370, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.renttherunway.com/shop/designers/badgleymischka_dresses/screensirengown"
+    }
+  }, 
+  {
+    "pk": 371, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.renttherunway.com/shop/designers/lelarose_dresses/stampapprovaldress"
+    }
+  }, 
+  {
+    "pk": 372, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.aeropostale.com/product/index.jsp?productId=13249189"
+    }
+  }, 
+  {
+    "pk": 373, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.aeropostale.com/product/index.jsp?productId=13373475&cp=3534618.3534619.3534624.3542203.2038774"
+    }
+  }, 
+  {
+    "pk": 374, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://needsupply.com/womens/new/jana.html?affiliate_id=20648&click_id={clickid}&utm_source=pepperjam"
+    }
+  }, 
+  {
+    "pk": 375, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://needsupply.com/womens/new/jana.html?affiliate_id=20648&click_id={clickid}&utm_source=pepperjam"
+    }
+  }, 
+  {
+    "pk": 376, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.vince.com/feather-weight-cashmere-hoodie/invt/vnm11717875/&bklist=icat,4,shop,men,menfeaturedstyles3"
+    }
+  }, 
+  {
+    "pk": 377, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.vince.com/pigment-dyed-zip-up-hoodie-/invt/vnm11658639/&bklist=icat,4,shop,men,menfeaturedstyles3"
+    }
+  }, 
+  {
+    "pk": 378, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.kiyonna.com/plus-size-clothing/Lace_Dresses/12060902"
+    }
+  }, 
+  {
+    "pk": 379, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.kiyonna.com/plus-size-clothing/Lace_Dresses/11122608"
+    }
+  }, 
+  {
+    "pk": 380, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.toryburch.de/Reva-Ballerina-aus-Walkleder/51128003,de_DE,pd.html?dwvar_51128003_size=5&dwvar_51128003_color=446&start=8&cgid=shoes-flats"
+    }
+  }, 
+  {
+    "pk": 381, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.toryburch.de/HEART-T-JACQUARD-BRIGITTE/41129490,de_DE,pd.html?dwvar_41129490_color=650&start=6&cgid=accessories-small-accessories"
+    }
+  }, 
+  {
+    "pk": 382, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://charles-emerson-designs.myshopify.com/products/the-thea"
+    }
+  }, 
+  {
+    "pk": 383, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.ebay.com/itm/150979966254?hlp=false&var="
+    }
+  }, 
+  {
+    "pk": 384, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.ebay.com/itm/Steve-Madden-Tangerine-Bscoot-Large-Crossbody-/400384109950?pt=US_CSA_WH_Handbags&hash=item5d38c0ad7e"
+    }
+  }, 
+  {
+    "pk": 385, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.dillards.com/product/COACH-LEGACY-LEATHER-MINI-TANNER_301_-1_663_503787433"
+    }
+  }, 
+  {
+    "pk": 386, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.jcrew.com/mens_feature/NewArrivals/shirts/PRDOVR~06791/|06791.jsp?color_name=hthr-oatmeal"
+    }
+  }, 
+  {
+    "pk": 387, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "https://www.chloeandisabel.com/products/N102G/sculpted-feather-multi-drop-necklace?m=annajames"
+    }
+  }, 
+  {
+    "pk": 388, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.hm.com/us/product/21306?article=21306-B"
+    }
+  }, 
+  {
+    "pk": 389, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://shop.nordstrom.com/s/eliza-j-dot-jacquard-fit-flare-dress-regular-petite/3625183?origin=category-personalizedsort&contextualcategoryid=0&fashionColor=&resultback=399&cm_sp=personalizedsort-_-browseresults-_-1_1_A"
+    }
+  }, 
+  {
+    "pk": 390, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://shop.nordstrom.com/s/astr-sequin-bodice-cutout-back-maxi-dress/3619868?origin=keywordsearch-personalizedsort&contextualcategoryid=2374331&fashionColor=&resultback=0&cm_sp=personalizedsort-_-searchresults-_-1_1_A"
+    }
+  }, 
+  {
+    "pk": 391, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://shop.nordstrom.com/s/ugg-australia-bailey-bow-boot-women/3556141?origin=category-personalizedsort&contextualcategoryid=0&fashionColor=Sangria&resultback=513&cm_sp=personalizedsort-_-browseresults-_-1_1_A"
+    }
+  }, 
+  {
+    "pk": 392, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://shop.nordstrom.com/s/7-for-all-mankind-austyn-straight-leg-jeans-washed-out/3472296?origin=category-personalizedsort&contextualcategoryid=0&fashionColor=&resultback=342&cm_sp=personalizedsort-_-browseresults-_-1_1_B"
+    }
+  }, 
+  {
+    "pk": 393, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://shop.nordstrom.com/s/franco-sarto-dover-boot-special-purchase/3582925?origin=category-personalizedsort&contextualcategoryid=0&fashionColor=Black&resultback=171&cm_sp=personalizedsort-_-browseresults-_-1_1_C"
+    }
+  }, 
+  {
+    "pk": 394, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://shop.nordstrom.com/s/herschel-supply-co-oxford-wallet/3661763?origin=category-personalizedsort&contextualcategoryid=0&fashionColor=Tan+Pebble&resultback=2565&cm_sp=personalizedsort-_-browseresults-_-1_7_B"
+    }
+  }, 
+  {
+    "pk": 395, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.jcrew.com/womens_feature/NewArrivals/sweaters/PRDOVR~08873/08873.jsp"
+    }
+  }, 
+  {
+    "pk": 396, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.anthropologie.com/anthro/product/clothes-blouses/29484144.jsp?cm_sp=Fluid-_-29484144-_-Regular_9"
+    }
+  }, 
+  {
+    "pk": 397, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.anthropologie.com/anthro/product/accessories-eyewear/29575651.jsp?cm_sp=Fluid-_-29575651-_-Large_0"
+    }
+  }, 
+  {
+    "pk": 398, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.anthropologie.com/anthro/product/shopsale-freshcuts/29293248.jsp?cm_sp=Fluid-_-29293248-_-Regular_1"
+    }
+  }, 
+  {
+    "pk": 399, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://us.asos.com/ASOS-Ridley-Supersoft-High-Waist-Ultra-Skinny-Jeans-in-Busted-Blue-with-Busted-Knee/11tcvp/?iid=3546295&cid=3630&sh=0&pge=0&pgesize=36&sort=-1&clr=Busted+blue&mporgp=L0FTT1MvQVNPUy1SaWRsZXktU3VwZXJzb2Z0LUhpZ2gtV2Fpc3QtVWx0cmEtU2tpbm55LUplYW5zLWluLUJ1c3RlZC1CbHVlLXdpdGgtQnVzdGVkLUtuZWUvUHJvZC8."
+    }
+  }, 
+  {
+    "pk": 400, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://us.asos.com/ASOS-Ridley-Supersoft-High-Waist-Ultra-Skinny-Jeans-in-Busted-Blue-with-Busted-Knee/11tcvp/?iid=3546295&cid=3630&sh=0&pge=0&pgesize=36&sort=-1&clr=Busted+blue&mporgp=L0FTT1MvQVNPUy1SaWRsZXktU3VwZXJzb2Z0LUhpZ2gtV2Fpc3QtVWx0cmEtU2tpbm55LUplYW5zLWluLUJ1c3RlZC1CbHVlLXdpdGgtQnVzdGVkLUtuZWUvUHJvZC8."
+    }
+  }, 
+  {
+    "pk": 401, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://piperlime.gap.com/browse/product.do?vid=1&pid=935028002"
+    }
+  }, 
+  {
+    "pk": 402, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.shopbop.com/speed-stitch-short-sleeve-raglan/vp/v=1/1532027071.htm?folderID=2534374302029428&fm=other-shopbysize&colorId=14121"
+    }
+  }, 
+  {
+    "pk": 403, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.shopbop.com/open-toed-stamped-leather-bootie/vp/v=1/1508744107.htm?folderID=2534374302112431&fm=other-shopbysize&colorId=12345"
+    }
+  }, 
+  {
+    "pk": 404, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.shopbop.com/cherry-lane-darla-wallet-kate/vp/v=1/1537050522.htm?folderID=2534374302062839&fm=other-shopbysize&colorId=11784"
+    }
+  }, 
+  {
+    "pk": 405, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.shopbop.com/cade-dress-soft-joie/vp/v=1/1576935181.htm?folderID=2534374302029887&fm=other-shopbysize&colorId=20063"
+    }
+  }, 
+  {
+    "pk": 406, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.target.com/p/chnnl-qltd-puffer/-/A-14613058#prodSlot=medium_1_1"
+    }
+  }, 
+  {
+    "pk": 407, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.target.com/p/women-s-sam-libby-kamila-thong-sandal-with-back-strap-metallic/-/A-14410005#prodSlot=medium_1_8"
+    }
+  }, 
+  {
+    "pk": 408, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.target.com/p/merona-women-s-bootcut-jeans-classic-fit-assorted-colors/-/A-14625654#prodSlot=medium_1_10"
+    }
+  }, 
+  {
+    "pk": 409, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.forever21.com/Product/Product.aspx?BR=f21&Category=whatsnew_all&ProductID=2000091095&VariantID="
+    }
+  }, 
+  {
+    "pk": 410, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.forever21.com/Product/Product.aspx?BR=f21&Category=shoes_high-heels&ProductID=2040496824&VariantID="
+    }
+  }, 
+  {
+    "pk": 411, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.forever21.com/Product/Product.aspx?BR=f21&Category=acc_jewelry&ProductID=1000126518&VariantID="
+    }
+  }, 
+  {
+    "pk": 412, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.modcloth.com/shop/dresses/ore-my-darling-dress-in-plus-size"
+    }
+  }, 
+  {
+    "pk": 413, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.modcloth.com/shop/necklaces/on-the-bauble-necklace-in-teal"
+    }
+  }, 
+  {
+    "pk": 414, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.maybelline.com/Products/Lip-Makeup/Lip-Color/Color-Elixir-by-Color-Sensational.aspx"
+    }
+  }, 
+  {
+    "pk": 415, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.sheinside.com/Grey-Contrast-Trims-Double-Pockets-Long-Sleeve-Suit-p-93802-cat-1739.html"
+    }
+  }, 
+  {
+    "pk": 416, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.express.com/clothing/limited+edition+extra+slim+1mx+shirt+to+tonal+trim/pro/0308785/cat1007?isSessionExpired=true&_requestid=35658990"
+    }
+  }, 
+  {
+    "pk": 417, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.express.com/clothing/limited+edition+extra+slim+1mx+shirt+to+tonal+trim/pro/0308785/cat1007?isSessionExpired=true&_requestid=35658990"
+    }
+  }, 
+  {
+    "pk": 418, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.jcrew.com/mens_feature/NewArrivals/shirts/PRDOVR~93810/93810.jsp"
+    }
+  }, 
+  {
+    "pk": 419, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.loft.com/pencil-skirt-in-loft-scuba/316705?colorExplode=true&skuId=14618161&catid=catl000017&productPageType=fullPriceProducts&defaultColor=9370&CID=aff_7078679"
+    }
+  }, 
+  {
+    "pk": 420, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.ae.com/web/browse/product.jsp?productId=7411_7721_001&catId=cat6470546&clickid=wU80LTXHA0aDTid2VT0pFRh3UkWWdSVt2zsWQI0&cid=AEO_AFF_57486"
+    }
+  }, 
+  {
+    "pk": 421, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.express.com/clothing/stretch+cotton+producer+dress+pant/pro/3832691/cat280012"
+    }
+  }, 
+  {
+    "pk": 422, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.calvinklein.com/webapp/wcs/stores/servlet/SearchDisplay?camp=PJ_AD&clickId=774660136&affiliateId=20648&showResultsPage=true&langId=-1&beginIndex=0&productId=390546&sType=SimpleSearch&pageSize=16&target=Z&pageView=image&catalogId=12101&errorViewName=ProductDisplayErrorView&affiliateCustomId=842359979&categoryId=48699&source=PJ_AD%3AZ%3ACKI&storeId=10751&viewAll=N&ddkey=http:en/ck/womens-gift-guide-holiday2013/12024121"
+    }
+  }, 
+  {
+    "pk": 423, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.katespade.com/villa-dress/NJMU3096,en_US,pd.html?dwvar_NJMU3096_color=408&dwvar_NJMU3096_size=0&cgid=ks-new-arrivals-clothing#start=1&cgid=ks-new-arrivals-clothing"
+    }
+  }, 
+  {
+    "pk": 424, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.anthropologie.com/anthro/catalog/productdetail.jsp?navAction=jump&id=28621472&color=061&cm_sp=PRODUCT_DETAIL-_-RECOMMENDATIONS-_-28621472"
+    }
+  }, 
+  {
+    "pk": 425, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.calvinklein.com/webapp/wcs/stores/servlet/SearchDisplay?camp=PJ_AD&clickId=774660136&affiliateId=20648&showResultsPage=true&langId=-1&beginIndex=0&productId=390546&sType=SimpleSearch&pageSize=16&target=Z&pageView=image&catalogId=12101&errorViewName=ProductDisplayErrorView&affiliateCustomId=842359979&categoryId=48699&source=PJ_AD%3AZ%3ACKI&storeId=10751&viewAll=N&ddkey=http:en/ck/womens-gift-guide-holiday2013/12024121"
+    }
+  }, 
+  {
+    "pk": 426, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.baublebar.com/gilded-elephant-bangle.html?publisherId=73861&clickId=780862209"
+    }
+  }, 
+  {
+    "pk": 427, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.loehmanns.com/?utm_medium=affiliate&utm_source=2178999"
+    }
+  }, 
+  {
+    "pk": 428, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.baublebar.com/opal-galactic-drop.html?publisherId=73861&clickId=780864292"
+    }
+  }, 
+  {
+    "pk": 429, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://space46boutique.com/shoptulleskirts/wendy-midi-tulle-skirt-black-1"
+    }
+  }, 
+  {
+    "pk": 430, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.cwonder.com/Categories/Clothing/Sweaters/Chevron-Bateau-Sweater/product/CWW-H13-SW640.html"
+    }
+  }, 
+  {
+    "pk": 431, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.express.com/clothing/modern+fit+small+lion+pique+polo/pro/4795141/cat1006"
+    }
+  }, 
+  {
+    "pk": 432, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.anthropologie.com/anthro/product/shoes-new/30457808.jsp?cm_sp=Fluid-_-30457808-_-Regular_0"
+    }
+  }, 
+  {
+    "pk": 433, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.express.com/clothing/extra+slim+striped+dress+shirt/pro/6038690/cat1007?isSessionExpired=true&_requestid=50834435"
+    }
+  }, 
+  {
+    "pk": 434, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.freepeople.com/super-six-under-sixty/nightingale-dress/_/PRODUCTOPTIONIDS/07E81D1B-A61E-4777-9A28-EAC907DEEDC1/"
+    }
+  }, 
+  {
+    "pk": 435, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.zappos.com/nike-roshe-run-black-gamma-grey-hyper-blue-medium-grey?zlfid=191&ref=pd_zc1_g"
+    }
+  }, 
+  {
+    "pk": 436, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.ae.com/web/browse/product.jsp?productId=1354_5951_615&catId=cat6050047"
+    }
+  }, 
+  {
+    "pk": 437, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.express.com/clothing/fitted+anchor+print+shirt/pro/5508579/cat1007?isSessionExpired=true&_requestid=8294647"
+    }
+  }, 
+  {
+    "pk": 438, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://modaoperandi.com/peter-pilotto/springsummer-2013/rtw-1262/item/carolina-top-162464?utm_medium=Linkshare&utm_source=Linkshare&utm_content=QFGLnEolOWg&siteID=QFGLnEolOWg-ozSm7hJRhYCXo.iGWxuXqw"
+    }
+  }, 
+  {
+    "pk": 439, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.inpink.com/rings/flat-rhinestone-disk-stretch-cocktail-ring.html"
+    }
+  }, 
+  {
+    "pk": 440, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.asos.com/ASOS/ASOS-Clutch-Bag-With-Radiator-Quilting/Prod/pgeproduct.aspx?iid=3511676&cid=8730&Rf-200=9,3,6&sh=0&pge=0&pgesize=36&sort=-1&clr=Nude&utm_source=Affiliate&utm_medium=LinkShare&utm_content=USNetwork.1&utm_campaign=QFGLnEolOWg&cvosrc=Affiliate.LinkShare.QFGLnEolOWg&link=15&promo=307314&source=linkshare&MID=35719&affid=2135&WT.tsrc=Affiliate&siteID=QFGLnEolOWg-2jBeWadaTyME9_T8V9LhTg&r=2"
+    }
+  }, 
+  {
+    "pk": 441, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://us.topshop.com/webapp/wcs/stores/servlet/ProductDisplay?langId=-1&storeId=13052&catalogId=33060&productId=13499356&categoryId=210034&parent_category_rn=208705&geoip=noredirect&network=linkshare&utm_source=linkshare&utm_medium=affiliate&utm_campaign=QFGLnEolOWg&siteID=QFGLnEolOWg-527WFBCRuXvGDmHXvDSjGQ&cmpid=aff_ls_tsus&_$ja=tsid:21416|prd:QFGLnEolOWg"
+    }
+  }, 
+  {
+    "pk": 442, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.express.com/clothing/fitted+plaid+shirt/pro/5508582/cat1007"
+    }
+  }, 
+  {
+    "pk": 443, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.express.com/clothing/fitted+plaid+shirt/pro/5508582/cat1007"
+    }
+  }, 
+  {
+    "pk": 444, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.asos.com/ASOS/ASOS-Duffle-Bag-With-Contrast-Insert-Panels/Prod/pgeproduct.aspx?iid=3597433&SearchQuery=duffle+bag&sh=0&pge=0&pgesize=36&sort=-1&clr=Tan&utm_source=Affiliate&utm_medium=LinkShare&utm_content=USNetwork.1&utm_campaign=QFGLnEolOWg&cvosrc=Affiliate.LinkShare.QFGLnEolOWg&link=15&promo=307314&source=linkshare&MID=35719&affid=2135&WT.tsrc=Affiliate&siteID=QFGLnEolOWg-v8WU_GUCYC3MmdfvvCVXOw"
+    }
+  }, 
+  {
+    "pk": 445, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.amazon.com/LeSportsac-Classic-Hobo-Zinc-Size/dp/B0023SDW7A/ref=sr_1_5?s=shoes&ie=UTF8&qid=1391022073&sr=1-5"
+    }
+  }, 
+  {
+    "pk": 446, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.lulus.com/products/roomy-mate-oversized-burgundy-handbag/114250.html?utm_source=affiliatetraction&amp;utm_medium=pepperjam&amp;utm_campaign=AffiliateTraction&amp;utm_source=unity&amp;affiliate_id=2845&amp;click_id=746211837"
+    }
+  }, 
+  {
+    "pk": 447, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.lulus.com/products/just-what-the-doctor-ordered-black-purse/128538.html"
+    }
+  }, 
+  {
+    "pk": 448, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://us.topshop.com/en/tsus/product/new-in-this-week-2169940/new-in-this-week-70543/merino-duffle-bag-2627414?bi=261&ps=20&geoip=noredirect&network=linkshare&utm_source=linkshare&utm_medium=affiliate&utm_campaign=J84DHJLQkR4&siteID=J84DHJLQkR4-HS89sVUpioKk4zOrp5W5QA&cmpid=aff_ls_tsus&_$ja=tsid:21416|prd:J84DHJLQkR4"
+    }
+  }, 
+  {
+    "pk": 449, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://piperlime.gap.com/browse/product.do?cid=70537&vid=1&pid=988101002"
+    }
+  }, 
+  {
+    "pk": 450, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.ulta.com/ulta/browse/productDetail.jsp?productId=xlsImpprod4180679"
+    }
+  }, 
+  {
+    "pk": 451, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.ulta.com/ulta/browse/productDetail.jsp?productId=xlsImpprod4180679"
+    }
+  }, 
+  {
+    "pk": 452, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.express.com/clothing/fitted+anchor+print+shirt/pro/5508579/cat1007"
+    }
+  }, 
+  {
+    "pk": 453, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://couture.zappos.com/kate-spade-new-york-2-park-avenue-beau-bag-cream-french-navy"
+    }
+  }, 
+  {
+    "pk": 454, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "https://www.jcrew.com/mens_category/pantsbyfit/Chino/484/PRDOVR~03226/03226.jsp"
+    }
+  }, 
+  {
+    "pk": 455, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "https://www.jcrew.com/flatpages/catalog_google.jsp"
+    }
+  }, 
+  {
+    "pk": 456, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "https://www.jcrew.com/search/searchNavigation.jsp?eneQuery=Nk=all&Ne=1+2+3+22+4294967294+20&Nu=P_productid&N=17+4294966792&NUM_ITEMS=90&bmUID=k1kF29T&srcCode=AFFI00001&siteId=QFGLnEolOWg-KeULjBtXNZI/*TNkFATlDg"
+    }
+  }, 
+  {
+    "pk": 457, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "https://www.jcrew.com/AST/DynamicAsst/Gift_Guide/ForHim/PRDOVR~22022/22022.jsp"
+    }
+  }, 
+  {
+    "pk": 458, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.horchow.com/templates/categoryNotFound.jsp"
+    }
+  }, 
+  {
+    "pk": 459, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.zappos.com/converse-chuck-taylor-all-star-core-ox-optical-white?PID=4441350&Pub_Name=rewardStyle&AID=10273706&utm_source=2975314&zlfid=2"
+    }
+  }, 
+  {
+    "pk": 460, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.sephora.com/upside-down-mascara-P384881?SKUID=1544097&om_mmc=aff-linkshare-redirect-J84DHJLQkR4&c3ch=Linkshare&c3nid=J84DHJLQkR4"
+    }
+  }, 
+  {
+    "pk": 461, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.lamalu.com/collections/jewelry-accessories/products/jj-bird-earrings"
+    }
+  }, 
+  {
+    "pk": 462, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.6pm.com/betsey-johnson-remixx-black-suede"
+    }
+  }, 
+  {
+    "pk": 463, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://jewelerswife.reeds.com/designer-jewelry/Kendra-Scott-Rayne-Necklace-in-Cobalt-plu19350792.html"
+    }
+  }, 
+  {
+    "pk": 464, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.lastcall.com/Pour-la-Victoire-Maia-Suede-Wedge-Pump-Navy/prod19370036/p.prod?ecid=LCALRFeedQFGLnEolOWg...&ncx=n&uEm=%%affiliates%%&ci_src=14110925&ci_sku=prod19370036sku"
+    }
+  }, 
+  {
+    "pk": 465, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.urban-philosophy.com/collections/skirts/products/candy-yellow-skirt"
+    }
+  }, 
+  {
+    "pk": 466, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.winterlennon.com/collections/hats/products/paris-hat"
+    }
+  }, 
+  {
+    "pk": 467, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www1.macys.com/shop/product/fossil-explorer-leather-mini-crossbody?ID=1008446&PartnerID=LINKSHARE&cm_mmc=LINKSHARE-_-2-_-20-_-MP220&LinkshareID=QFGLnEolOWg-WNMuOSkJDJwr3NKrVbNONw"
+    }
+  }, 
+  {
+    "pk": 468, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.shoemint.com/shoes/elizabeth?id=13183"
+    }
+  }, 
+  {
+    "pk": 469, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.giginewyork.com/Magenta-Uber-Clutch-Embossed-Python-p/obl-pyy-mag.htm?utm_content=4441350&utm_campaign=cj_affiliate_sale&utm_medium=affiliate&utm_source=cj&utm_term=11358495"
+    }
+  }, 
+  {
+    "pk": 470, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.favery.com/products/750"
+    }
+  }, 
+  {
+    "pk": 471, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://mallofstyle.com/shop/shaped-rhinestones-cuff-bracelet-bangle-golden-p-387.html"
+    }
+  }, 
+  {
+    "pk": 472, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.personalizedfrommetoyou.com/cut-out-monogram-necklace.html"
+    }
+  }, 
+  {
+    "pk": 473, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.cusp.com/p/NeuLash-by-Skin-Research-Laboratories-NeuLash-Lash-Enhancing-Serum-6mL/prod3250429/?ecid=CUALRQFGLnEolOWg&ci_src=14110925&ci_sku=prod3250429sku"
+    }
+  }, 
+  {
+    "pk": 474, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.albionfit.com/bottoms/sweet-stripe-capri"
+    }
+  }, 
+  {
+    "pk": 475, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.theoutnet.com/am/product/393414?cm_mmc=LinkshareUS-_-QFGLnEolOWg-_-ProductFeed-_-RED_Valentino&siteID=QFGLnEolOWg-NTOKrHZPcNHd2e4zmR2UNA"
+    }
+  }, 
+  {
+    "pk": 476, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.ulta.com/ulta/browse/productDetail.jsp?productId=xlsImpprod5050035"
+    }
+  }, 
+  {
+    "pk": 477, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.albionfit.com/bottoms/lounge-crop-black"
+    }
+  }, 
+  {
+    "pk": 478, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.amazon.com/Flat-Kabuki-Brush-Beauty-Junkees/dp/B00F008GFQ/ref=pd_sim_bt_1"
+    }
+  }, 
+  {
+    "pk": 479, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.amazon.com/Real-Techniques-RLT-1401-Powder-Brush/dp/B004TSF8R4/ref=pd_sim_bt_4?ie=UTF8&refRID=0Q26WAGPBDWVKE70GAZ1"
+    }
+  }, 
+  {
+    "pk": 480, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.gap.com/browse/product.do?cid=1006270&vid=1&pid=918348032"
+    }
+  }, 
+  {
+    "pk": 481, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://massi.com/category/product-type-25"
+    }
+  }, 
+  {
+    "pk": 482, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://jewelerswife.reeds.com/watches/Ladies-Michael-Kors-Chronograph-Watch-plu19124932.html"
+    }
+  }, 
+  {
+    "pk": 483, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.surfdome.com/rvca_playsuits_-_rvca_cito_rat_playsuit_-_tan-120057"
+    }
+  }, 
+  {
+    "pk": 484, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.cusp.com/Rebecca-Minkoff-Mini-MAC-Core-Crossbody-Bag-Almond/prod5020027/p.prod?ecid=CUALRQFGLnEolOWg&ci_src=14110925&ci_sku=prod5020027skuALMOND"
+    }
+  }, 
+  {
+    "pk": 485, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.giginewyork.com/Aqua-All-in-One-Bag-Embossed-Python-p/oba-pyy-aqu.htm?utm_content=4441350&utm_campaign=cj_affiliate_sale&utm_medium=affiliate&utm_source=cj&utm_term=11358495"
+    }
+  }, 
+  {
+    "pk": 486, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.zappos.com/corso-como-sutton-black-calf?Pub_Name=rewardStyle&Pub_CID=2975314&AID=10273706&utm_source=4441350&zlfid=2"
+    }
+  }, 
+  {
+    "pk": 487, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://theshineproject.storenvy.com/products/927771-my-thread"
+    }
+  }, 
+  {
+    "pk": 488, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "https://www.chicpeek.com/product/malibu-necklace/"
+    }
+  }, 
+  {
+    "pk": 489, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://shop.nordstrom.com/s/hinge-addison-bootie/3540203?siteId=J84DHJLQkR4-pVeN4GhQI0PG8SWxNKqEaQ"
+    }
+  }, 
+  {
+    "pk": 490, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.dsw.com/shoe/chinese+laundry+strawberry+field+bootie?prodId=dsw12prod4460193&_-_-all-_-ChineseLaundry-_-dsw12prod4460193&mr:trackingCode=15FAF051-B9D3-E211-86F0-001B2163195C&mr:referralID=NA&cm_mmc=affil-_-ShopStyle.com-_-1909792-_-2178999-_-DSW+Product+Catalog-_-11398186"
+    }
+  }, 
+  {
+    "pk": 491, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.dsw.com/shoe/seychelles+stick+your+neck+out+bootie?prodId=dsw12prod4170164&_-_-all-_-Seychelles-_-dsw12prod4170164&mr:trackingCode=9A2F7551-B9D3-E211-86F0-001B2163195C&mr:referralID=NA&cm_mmc=affil-_-ShopStyle.com-_-1909792-_-2178999-_-DSW+Product+Catalog-_-11398186"
+    }
+  }, 
+  {
+    "pk": 492, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "https://www.chicpeek.com/product/hale-pendant-necklace/"
+    }
+  }, 
+  {
+    "pk": 493, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.lastcall.com/Carmen-by-Carmen-Marc-Valvo-Faux-Leather-Sleeve-Ponte-Blazer-Black/prod18380109/p.prod?ecid=LCALRFeedJ84DHJLQkR4...&ncx=n&uEm=%%affiliates%%&ci_src=14110925&ci_sku=prod18380109skuBLACK"
+    }
+  }, 
+  {
+    "pk": 494, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://us.topshop.com/en/tsus/product/shoes-70484/heels-70512/high-heels-70668/gwenda-leather-courts-2354619?refinements=category~[210015|208692]&bi=121&ps=20&geoip=noredirect&network=linkshare&utm_source=linkshare&utm_medium=affiliate&utm_campaign=J84DHJLQkR4&siteID=J84DHJLQkR4-YlnVFA274cIC9qqx5cC__A&cmpid=aff_ls_tsus&_=tsid:21416|prd:J84DHJLQkR4"
+    }
+  }, 
+  {
+    "pk": 495, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.millers.com.au/Floral-Print-Harem-Pant.aspx?p6192019&cr=j3ps__050119"
+    }
+  }, 
+  {
+    "pk": 496, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.cusp.com/House-of-Harlow-Sunburst-Button-Stud-Earrings-Cream-Stylist-Pick/prod9660056/p.prod?ecid=CUALRQFGLnEolOWg&ci_src=14110925&ci_sku=prod9660056sku"
+    }
+  }, 
+  {
+    "pk": 497, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.amazon.com/Eat-Yolks-Liz-Wolfe/dp/1628600195/ref=cm_cr_pr_product_top?tag=wwwshopstylec-20&ascsubtag=912654766&tag=wwwshopstylec-20"
+    }
+  }, 
+  {
+    "pk": 498, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www1.macys.com/shop/product/michael-michael-kors-mk-flex-pumps?ID=537735&PartnerID=LINKSHARE&cm_mmc=LINKSHARE-_-2-_-21-_-MP221&LinkshareID=QFGLnEolOWg-7gbur3C4CSt.KiVQWsGhoQ"
+    }
+  }, 
+  {
+    "pk": 499, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.sephora.com/naked3-P384099?skuId=1573336&om_mmc=aff-linkshare-redirect-QFGLnEolOWg&c3ch=Linkshare&c3nid=QFGLnEolOWg"
+    }
+  }, 
+  {
+    "pk": 500, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.sears.com/metaphor-women-s-single-breasted-blazer/p-007VA65858612P?prdNo=1&blockNo=1&blockType=G1"
+    }
+  }, 
+  {
+    "pk": 501, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "https://www.jcrew.com/mens_category/sweaters/cottoncashmere/PRDOVR~29235/29235.jsp"
+    }
+  }, 
+  {
+    "pk": 502, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "https://www.jcrew.com/mens_category/sweaters/cottoncashmere/PRDOVR~29235/29235.jsp"
+    }
+  }, 
+  {
+    "pk": 503, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.anntaylor.com/3-4-sleeve-ann-cardigan/320628?colorExplode=false&skuId=15856470&catid=cata00008&productPageType=fullPriceProducts&defaultColor=1886"
+    }
+  }, 
+  {
+    "pk": 504, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.nyandcompany.com/nyco/prod/pants/petite-pants/7th-avenue-bootcut-pant-stripe-petite/A-prod530016/"
+    }
+  }, 
+  {
+    "pk": 505, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.zara.com/us/en/woman/accessories/scarves/two-sided-soft-scarf-c271013p1399041.html"
+    }
+  }, 
+  {
+    "pk": 506, 
+    "model": "debra.ProductModel", 
+    "fields": {
+      "prod_url": "http://www.lillypulitzer.com/product/Tops-Bottoms/Shorts-Rompers/entity/pc/243/c/49/7172.uts?swatchName=Pb+Pink+A+Delicacy"
+    }
+  }
+]
