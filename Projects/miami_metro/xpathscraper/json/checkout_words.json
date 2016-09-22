@@ -1,0 +1,9 @@
+{
+  "checkout": 0.5,
+  "basket": 1.0,
+  "cart": 0.5,
+  "shopping bag": 1.0,
+  "my bag": 1.0,
+  "add to bag": -1,
+  "add bag": -1
+}
