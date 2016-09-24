@@ -1,0 +1,180 @@
+{% extends 'company/base.html' %}
+
+{% block content %}
+<div class="main_section">
+
+
+
+
+
+
+    <!-- HEADER -->
+    <!-- HEADER -->
+    <!-- HEADER -->
+    <div class="comp_header" style="background:url(/mymedia/site_folder/images/page_graphics/company/headers/header_help2.jpg);">
+        <h1 class="header_title">GETTING STARTED</h1>
+        <p class="header_italic">This walk-through should get you up and running, but feel free to reach out directly with questions!</p>
+    </div>
+
+
+
+
+
+    
+    <!-- Feature Overview -->
+    <!-- Feature Overview -->
+    <!-- Feature Overview -->
+    <div class="container w_shad_bord_top w_shad_bord_bot clearfix"> 
+        <!-- Title -->
+        <div class="title_block w_margin">
+            <h1 class="co_title">Overview of Shopping Features</h1>
+        </div>
+        <!-- Content -->
+        <div class="content_area quad center_text"> 
+            <div class="content_bucket">
+                <div class="bene_icon" ><img src="/mymedia/site_folder/images/page_graphics/company/about/shelf_icon_4.png" /></div>
+                <h1 class="co_subtitle">Deal Aggregation</h1>
+                <p class="co_body_text">We pull all running promos into a filterable dashboard of color-coded promos.</p>
+            </div>
+            <div class="content_bucket">
+                <div class="bene_icon"><img src="/mymedia/site_folder/images/page_graphics/company/about/shelf_icon_3.png" /></div>
+                <h1 class="co_subtitle">Historical Prices</h1>
+                <p class="co_body_text">We apply these promotions to the items a user is watching in order to tell them the lowest price at any point in time as well as provide them with historical price tracking charts so that users can set up smart price alerts.  </p>
+            </div>
+            <div class="content_bucket">
+                <div class="bene_icon"><img src="/mymedia/site_folder/images/page_graphics/company/about/shelf_icon_2.png" /></div>
+                <h1 class="co_subtitle">Price Alerts</h1>
+                <p class="co_body_text">Users can set up price alerts on items they like.  Then when the price drops, we'll let them know.</p>
+            </div>
+            <div class="content_bucket last_child">
+                <div class="bene_icon"><img src="/mymedia/site_folder/images/page_graphics/company/about/shelf_icon_1.png" /></div>
+                <h1 class="co_subtitle">Size Availability</h1>
+                <p class="co_body_text">We keep up with the availibility of a user's size and color preferences...  so that they're not keeping up with items that have long since been in stock.</p>
+            </div>
+        </div>      
+    </div>   
+
+
+
+
+
+
+    
+    <!-- TEAL DIVIDER -->
+    <div class="teal_bg_header">GETTING STARTED</div>
+
+
+
+
+
+
+
+    <!-- INSTALLING BOOKMARKLET -->
+    <div class="container w_shad_bord_bot clearfix bookmarklet_install gray_grad">
+        <!-- IMPORTANT : TO GET THE BOOKMARKLET WORKING AND THE VIDEO, YOU NEED TO UPDATE COMPANY_VIEWS.PY IN DEBRA...  COPY AND PASTE THE EXTRA CODE INTO THE NEW PAGE. -->
+        <div class="content_area">
+            <h2 class="co_title">First Install Your Bookmarklet</h2>
+            <p class="co_body_text">
+                A bookmarklet is a tool that you can use to "Shelve" items that you like while shopping.  They are easy to use, and if you've ever used one before (like on Pinterest, or something...) then you'll know what to do.  Just drag the bookmarklet up to your bookmarks bar.
+                <br/>If you haven't used a bookmarklet before, you can watch the video below to see how to do it on your browser.  
+            </p>
+            <p class="centerer">
+                <a href="{{ js_code }}" onclick="return false;" \
+                    oncontextmenu="if(window.navigator.userAgent.indexOf(\'WebKit\')!=-1) return false;"
+                    onClick="_gaq.push(['_trackEvent', 'Button', 'Click', 'Bookmarklet']);" >
+                    <img src="/mymedia/site_folder/images/global/bookmarklet_large.png" alt="Shelf-It"/>
+                </a>
+            </p>
+        </div>
+        <!-- IMPORTANT : TO GET THE BOOKMARKLET WORKING AND THE VIDEO, YOU NEED TO UPDATE COMPANY_VIEWS.PY IN DEBRA...  COPY AND PASTE THE EXTRA CODE INTO THE NEW PAGE. -->
+        <div class="video_container">
+            <div class="inner-center">
+                <!-- FIREFOX -->
+                {% if browser == "firefox"%}
+                <div class="iframe_container">
+                    <iframe src="http://player.vimeo.com/video/50815718?title=0&amp;byline=0&amp;portrait=0" width="750" height="422" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
+                </div>
+                {% endif%}
+                {% if browser == "chrome" %}
+                <!-- GOOGLE CHROME --> 
+                <div class="iframe_container">
+                    <iframe src="http://player.vimeo.com/video/50816133?title=0&amp;byline=0&amp;portrait=0" width="750" height="422" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe> 
+                </div>
+                {%endif%}
+                <!-- SAFARI --> 
+                {% if browser == "safari"%}
+                <div class="iframe_container">
+                    <iframe src="http://player.vimeo.com/video/50816135?title=0&amp;byline=0&amp;portrait=0" width="750" height="422" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe> 
+                </div>
+                {% endif%}
+                <!-- OPERA --> 
+                {% if browser == "opera"%}
+                <div class="iframe_container">
+                    <iframe src="http://player.vimeo.com/video/50816136?title=0&amp;byline=0&amp;portrait=0" width="750" height="422" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe> 
+                </div>
+                {% endif %}
+                <!--INTERNET EXPLORER --> 
+                {% if browser == "msie"%}
+                <div class="iframe_container">
+                    <iframe src="http://player.vimeo.com/video/50816134?title=0&amp;byline=0&amp;portrait=0" width="750" height="422" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe> 
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+        
+
+
+
+
+
+
+
+    <!-- How To Shelve an Item -->
+    <!-- How To Shelve an Item -->
+    <!-- How To Shelve an Item -->
+    <div class="container w_shad_bord_bot clearfix">
+        <!-- Title -->
+        <div class="title_block w_margin">
+            <h1 class="co_title">How To Shelf an Item While Shopping</h1>
+        </div>
+        <!-- Content -->
+        <div class="content_area side_layout"> 
+            <div class="content_bucket with_margins with_border clearfix"> 
+                <div class="text_block">
+                    <h2 class="co_sm_title">Select Size</h2>
+                    <p class="co_body_text">Whenever you're shopping, and you see something you like...  you can bookmark that item using our bookmarklet.  If you care about a particular size...  you can select YOUR SIZE before you click the bookmarklet...  And then we'll keep track of the availibility for you.  (You can edit the size later, if you forget to do it here.)</p>
+                </div>
+                <div class="dl_image"><img src="/mymedia/site_folder/images/page_graphics/company/press/screenshots/how_size.png"/></div>
+            </div>
+            <div class="content_bucket with_margins with_border clearfix"> 
+                <div class="text_block">
+                    <h2 class="co_sm_title">Click Bookmarklet</h2>
+                    <p class="co_body_text">To add an item to your Shelves, just click the Shelf-it Bookmarklet (that you installed using the Bookmarklet Section above).  Remember to select your size beforehand if you want to track the availibilty for your size.</p>
+                </div>
+                <div class="dl_image"><img src="/mymedia/site_folder/images/page_graphics/company/press/screenshots/how_bookmark.png"/></div>
+            </div>
+            <div class="content_bucket with_margins with_border clearfix"> 
+                <div class="text_block">
+                    <h2 class="co_sm_title">Confirmation</h2>
+                    <p class="co_body_text">After you click the bookmarklet, you'll see a confirmation popup.  Before click Save, you can configure a few things.</p>
+                </div>
+                <div class="dl_image"><img src="/mymedia/site_folder/images/page_graphics/company/press/screenshots/how_bookmarklet.png"/></div>
+            </div>
+            <div class="content_bucket with_margins clearfix"> 
+                <div class="text_block">
+                    <h2 class="co_sm_title">Settings &amp; Save</h2>
+                    <p class="co_body_text">If you want to go ahead and set up a price alert (so that you get notified when the item goes on sale, you can do that here.  You should also choose a Shelf for this item to show up on.  (If you don't select a Shelf, you can still find it in the My Favorites Shelf.) Then make sure to click SAVE!</p>
+                </div>
+                <div class="dl_image"><img src="/mymedia/site_folder/images/page_graphics/company/press/screenshots/how_settings.png"/></div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+</div>
+
+{% endblock %}

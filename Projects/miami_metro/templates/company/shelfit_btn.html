@@ -1,0 +1,71 @@
+{% extends 'company/base.html' %}
+
+{% block content %}
+<div class="main_section">
+
+    <!-- HEADER -->
+    <!-- HEADER -->
+    <!-- HEADER -->
+    <div class="comp_header" style="background:url(/mymedia/site_folder/images/page_graphics/company/headers/header_button.jpg);">
+        <h1 class="header_title">SHELF-IT BUTTON</h1>
+        <p class="header_italic">how to install your Shelf-It bookmarklet</p>
+    </div>
+    
+
+
+        <!-- INSTALLING BOOKMARKLET -->
+    <div class="container w_shad_bord_bot clearfix bookmarklet_install">
+        <!-- IMPORTANT : TO GET THE BOOKMARKLET WORKING AND THE VIDEO, YOU NEED TO UPDATE COMPANY_VIEWS.PY IN DEBRA...  COPY AND PASTE THE EXTRA CODE INTO THE NEW PAGE. -->
+        <div class="content_area">
+            <h2 class="co_title">First Install Your Bookmarklet</h2>
+            <p class="co_body_text">
+                A bookmarklet is a tool that you can use to "Shelve" items that you like while shopping.  They are easy to use, and if you've ever used one before (like on Pinterest, or something...) then you'll know what to do.  Just drag the bookmarklet up to your bookmarks bar.
+                <br/>If you haven't used a bookmarklet before, you can watch the video below to see how to do it on your browser.  
+            </p>
+            <p class="centerer">
+                <a href="{{ js_code }}" onclick="return false;" \
+                    oncontextmenu="if(window.navigator.userAgent.indexOf(\'WebKit\')!=-1) return false;"
+                    onClick="_gaq.push(['_trackEvent', 'Button', 'Click', 'Bookmarklet']);" >
+                    <img src="/mymedia/site_folder/images/global/bookmarklet_large.png" alt="Shelf-It"/>
+                </a>
+            </p>
+        </div>
+        <!-- IMPORTANT : TO GET THE BOOKMARKLET WORKING AND THE VIDEO, YOU NEED TO UPDATE COMPANY_VIEWS.PY IN DEBRA...  COPY AND PASTE THE EXTRA CODE INTO THE NEW PAGE. -->
+        <div class="video_container">
+            <div class="inner-center">
+                <!-- FIREFOX -->
+                {% if browser == "firefox"%}
+                <div class="iframe_container">
+                    <iframe src="http://player.vimeo.com/video/50815718?title=0&amp;byline=0&amp;portrait=0" width="750" height="422" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
+                </div>
+                {% endif%}
+                {% if browser == "chrome" %}
+                <!-- GOOGLE CHROME --> 
+                <div class="iframe_container">
+                    <iframe src="http://player.vimeo.com/video/50816133?title=0&amp;byline=0&amp;portrait=0" width="750" height="422" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe> 
+                </div>
+                {%endif%}
+                <!-- SAFARI --> 
+                {% if browser == "safari"%}
+                <div class="iframe_container">
+                    <iframe src="http://player.vimeo.com/video/50816135?title=0&amp;byline=0&amp;portrait=0" width="750" height="422" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe> 
+                </div>
+                {% endif%}
+                <!-- OPERA --> 
+                {% if browser == "opera"%}
+                <div class="iframe_container">
+                    <iframe src="http://player.vimeo.com/video/50816136?title=0&amp;byline=0&amp;portrait=0" width="750" height="422" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe> 
+                </div>
+                {% endif %}
+                <!--INTERNET EXPLORER --> 
+                {% if browser == "msie"%}
+                <div class="iframe_container">
+                    <iframe src="http://player.vimeo.com/video/50816134?title=0&amp;byline=0&amp;portrait=0" width="750" height="422" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe> 
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

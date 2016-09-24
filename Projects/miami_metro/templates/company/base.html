@@ -1,0 +1,110 @@
+{% load compressed %}
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <LINK REL="SHORTCUT ICON" HREF="/mymedia/site_folder/images/global/favicon.ico">
+    <meta http-equiv="content-type" content="text/html;charset=iso-8859-1" />
+    <!-- Required CSS -->
+    <link href="/mymedia/site_folder/css/style.css" media="screen" rel="stylesheet">
+    <link href="/mymedia/site_folder/css/global.less" media="screen" rel="stylesheet/less">
+    <link href="/mymedia/site_folder/css/laurens_font.less" media="screen" rel="stylesheet/less">
+
+
+    <title>{% block title %}Company page{% endblock %}</title>
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script src="https://checkout.stripe.com/checkout.js"></script>
+    {% compressed_js 'core_head' %}
+    {% compressed_js 'company' %}
+
+    <!-- SCRIPT FOR GOOGLE FONTS -->
+    <script type="text/javascript">
+        WebFontConfig = {
+            google: { families: [ 'Raleway:400,200,100,300,500,600,700,800,900' ] }
+        };
+        (function() {
+            var wf = document.createElement('script');
+            wf.src = ('https:' == document.location.protocol ? 'https' : 'http') +
+              '://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js';
+            wf.type = 'text/javascript';
+            wf.async = 'true';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(wf, s);
+        })();
+    </script>
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-36724948-1', 'theshelf.com');
+      ga('require', 'displayfeatures');
+      ga('send', 'pageview');
+
+    </script>
+    {% block head_extra %}
+    {% endblock %}
+</head>
+<body class="company_page {{ page }}">
+<!-- NAVIGATION BAR -->
+<!-- NAVIGATIONBAR -->
+<div id="comp_nav_bar">
+    <!-- holds top section 100% -->
+    <div class="top_sect clearfix">
+        <!-- width:1024 -->
+        <div class="nav_wrapper">
+            <div class="logo_wrapper">
+                <a href="{% url debra.account_views.home %}" class="icon-social_0_shelf_shelf3a"></a>
+            </div>
+            <ul class="sec_nav">
+                <li class="w_dd{% if page == 'about_us' or page == 'hiring' or page == 'contact' or page == 'bloggers' %} selected{% endif %}"><a href="">About</a><br/><span></span>
+                    <ul class="comp_dd">
+                        <a href=""><li class="first_child">Who We Are</li></a>
+                        <a href=""><li>Careers</li></a>
+                        <a href=""><li>Contact Us</li></a>
+                        <a href=""><li>For Bloggers</li></a>
+                    </ul>
+                </li>
+                <li><a href="">Press</a><br/><span></span></li>
+                <li class="w_dd{% if page == 'support' or page == 'shelfit_btn' %} selected{% endif %}"><a href="">Support</a><br/><span></span>
+                    <ul class="comp_dd">
+                        <a href="" class="first_child"><li>Shelf-it Button</li></a>
+                        <a href=""><li>Getting Started</li></a>
+                        <a href=""><li>Contact Us</li></a>
+                    </ul>
+                </li>
+            </ul>
+
+        </div>
+    </div>
+    <div class="bot_sect">
+        <div class="nav_wrapper">
+            {% if page == 'press_kit' %}
+            {% else %}
+                {% if page == 'about_us' or page == 'hiring' or page == 'contact' or page == 'bloggers' %}
+                <ul class="ter_nav">
+                    <li class="ter_nav_items{% if page == 'bloggers' %} selected{% endif %}"><a href="">For Bloggers</a></li>
+                    <li class="ter_nav_items{% if page == 'hiring' %} selected{% endif %}"><a href="">Careers</a></li>
+                    <li class="ter_nav_items{% if page == 'contact' %} selected{% endif %}"><a href="">Contact Us</a></li>
+                    <li class="ter_nav_items{% if page == 'about_us' %} selected{% endif %}"><a href="">Who We Are</a></li>
+                </ul>
+                {% else %}
+                <ul class="ter_nav">
+                    <li class="ter_nav_items{% if page == 'contact' %} selected{% endif %}"><a href="">Contact Us</a></li>
+                    <li class="ter_nav_items{% if page == 'support' %} selected{% endif %}"><a href="">Getting Started</a></li>
+                    <li class="ter_nav_items{% if page == 'shelfit_btn' %} selected{% endif %}"><a href="">Shelf-it Button</a></li>
+                </ul>
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
+</div>
+<div class="white_overlay" style="display:none;"></div>
+<div class="black_overlay" style="display:none;"></div>
+<!-- Page content goes here -->
+{% block content %}
+{% endblock %}
+{% compressed_js 'core' %}
+</body>
+</html>

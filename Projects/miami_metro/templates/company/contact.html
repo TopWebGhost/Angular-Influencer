@@ -1,0 +1,72 @@
+{% extends 'company/base.html' %}
+{% load widget_tweaks %}
+
+{% block content %}
+<div class="main_section">
+    <!-- HEADER -->
+    <!-- HEADER -->
+    <!-- HEADER -->
+    <div class="comp_header" style="background:url(/mymedia/site_folder/images/page_graphics/company/headers/header_contact.jpg);">
+        <h1 class="header_title">CONTACT US</h1>
+        <p class="header_italic">questions, feedback, collaborations, etc.</p>
+    </div>
+    
+
+    <div class="container w_shad_bord_top w_shad_bord_bot clearfix">
+        <!-- Title -->
+        <div class="title_block w_margin">
+            <h1 class="co_title">Contact Form</h1>
+        </div>
+
+        <!-- Form -->
+        <div class="content_area triple center_text"> 
+            <form id="comment_form" class="clearfix" action="{% url debra.account_views.contact_us %}?next={% url debra.company_views.contact %}" method="post">{% csrf_token %}
+                <div class="three_column clearfix">
+                    <fieldset class="typical_form">
+                        <div class="required">
+                            <label class="section_label">Your Name</label>
+                            {{ contact_form.name|add_class:"req" }}
+                        </div>
+                    </fieldset>
+                    <fieldset class="typical_form">
+                        <div class="required">
+                            <label class="section_label">Your email address</label>
+                            {{ contact_form.email|add_class:"req email" }}
+                        </div>
+                    </fieldset>
+                    <fieldset class="typical_form last_child">
+                        <div class="required">
+                            <label class="section_label">Subject</label>
+                            {{ contact_form.subject|add_class:"req" }}
+                        </div>
+                    </fieldset>
+                </div>
+                <div class="bottom_form">
+                    <fieldset class="typical_form">
+                        <div class="required">
+                            <label class="section_label">Your Message</label>
+                            {{ contact_form.message|add_class:"req" }}
+                        </div>
+                    </fieldset>
+                </div>
+                <p class="center_text"><input type="submit" value="Submit!" class="square_bt xl teal_bt submit_button" id="comment_submit"></p>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="main_section">
+    <div class="teal_bg_header"> 
+        Or find us on...
+        <!-- SOCIAL BOX -->
+        <div class="social_box clearfix">
+            <div class="row_o_icons">
+                <a class="icon-social_facebook" href="https://www.facebook.com/ShelfInc"></a>
+                <a class="icon-social_twitter" href="https://twitter.com/shelfinc"></a>
+                <a class="icon-social_pinterest" href="http://www.pinterest.com/shelfinc/"></a>
+                <a class="icon-social_globe3" href="http://shelfteam.tumblr.com/"></a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
