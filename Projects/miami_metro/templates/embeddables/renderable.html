@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{ page_title }}
+{% endblock %}
+
+{% block page_js %}
+    {% if embeddable_type == "lottery_widget" %}
+    <script type="text/javascript" src="/mymedia/site_folder/js/app/embeddable/lottery.js"></script>
+    {% else %}
+    <script type="text/javascript" src="/mymedia/site_folder/js/app/embeddable/collage.js"></script>
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    <!-- Login Lb -->
+    {% include 'popups/login_lb.html' with popup_type="login-popup" next=next popup_container=embeddable_type %}
+    <!-- Forgot Password -->
+    {% include 'popups/forgot_password_lb.html' with popup_type="forgot-password-popup" popup_container=embeddable_type %}
+
+    {% if renderable_404 %}
+        <h1>This lottery is over</h1>
+    {% else %}
+        {% if flavour == "mobile" %}
+        <div class="mobile">
+            {{ html|safe }}
+        </div>
+        {% else %}
+            {{ html|safe }}
+        {% endif %}
+    {% endif %}
+
+    <div data-embeddable-id="{{ embeddable_id }}" data-embeddable-type="{{ embeddable_type }}"></div>
+{% endblock %}
+
+
+
+{% block googanalytics %}
+{% endblock %}
+
+{% block mixpanel %}
+{% endblock %}
+

@@ -1,0 +1,15 @@
+{{ html|safe }}
+
+<div class="shelf_branded_bar">
+    <div class="shelf_logo_block">
+        <a target="_blank" href="{% url debra.account_views.home %}" class="shelf_link">
+            <span class="txt">a</span><span class="icon-social_0_shelf_shelf_bottom"></span><span class="txt">collage</span>
+        </a>
+    </div>
+    <!-----$$$$$ TESTING REMOVAL $$$$$----->
+    {% if not testing_removal %}
+    <div class="shelf_id">
+        <a class="shelf_name" target="_blank"></a>
+    </div>
+    {% endif %}
+</div>

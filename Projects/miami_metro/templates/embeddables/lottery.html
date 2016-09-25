@@ -1,0 +1,183 @@
+{% load widget_tweaks %}
+{% load custom_filters %}
+
+<div class="lottery_container {{ lottery.theme }}">
+    <div class="widget_header">
+        <div class="timer">
+            {% if lottery.hasnt_started %}
+                <span class="segment last_child">starts on: {{ lottery.start_date|date_format:"%B %d, %Y" }}</span>
+            {% else %}
+                {% if lottery.is_running %}
+                <span class="segment">{{ time_remaining.days }} Day{{ time_remaining.days|pluralize }}</span>
+                <span class="segment">{{ time_remaining.hours }} Hour{{ time_remaining.hours|pluralize }}</span>
+                <span class="segment last_child">{{ time_remaining.minutes }} Minute{{ time_remaining.minutes|pluralize }}</span>
+                {% else %}
+                <span class="segment last_child">Giveaway Closed</span>
+                {% endif %}
+            {% endif %}
+
+        </div>
+        <div class="entry_count"><span class="sans_type">Total Entries : <span class="sans_bold">{{ all_points_completed }}</span></span></div>
+        <div class="title_block">
+            <div class="title dotdot">{{ lottery.name }}</div>
+            {% for prize in prizes %}
+            <div class="the_prize">
+                <span class="count">{{ prize.quantity }}</span>
+                <span class="prize">{{ prize.description }}</span>
+                {% if prize.brand %}
+                    <span class="default_txt extra">&nbsp; &nbsp; &bull; &nbsp; &nbsp;from</span>
+                    <span class="brand">{{ prize.brand }}</span>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+        <div class="bottom_row">{{ points_available }} entries &nbsp; &nbsp; &plus; &nbsp; &nbsp; {{ bonus_points_available }} bonus entries</div>
+    </div>
+    {% if not lottery.has_ended %}
+    <div class="widget_progress_bar">
+        {% for task in tasks %}
+        {% if task in completed_tasks %}
+        <div class="prog_tab completed bs_tooltip" title="You've completed this task."></div>
+        {% else %}
+            {% if task.mandatory or finished_mandatory %}
+            <div class="prog_tab selectable" data-for-task="{{ task.id }}">
+                <span class="task_point_value">{{ task.point_value }}</span>
+                <span class="icon-letter_check3"></span>
+                <span class="count_complete"><span class="completed_points">{{ completed_points }}</span> of {{ all_points_available }}</span>
+            </div>
+            {% else %}
+            <div class="prog_tab bonus bs_tooltip" title="{{ task.point_value }} bonus points"></div>
+            {% endif %}
+        {% endif %}
+        {% endfor %}
+    </div>
+    {% endif %}
+    <div class="widget_body">
+        {% if finished_everything and not lottery.has_ended %}
+        <div class="task_container show_always">
+            <div class="task_text">
+                <div class="title">Yay!  You're all finished!</div>
+                <span class="instructions">Check back here in a week to see who won!</span>
+            </div>
+            <div class="cta_btn_row">
+                <a href="{% url debra.company_views.bloggers %}" class="widget_cta_btn" target="_blank">Get<br/>Involved!<br/><span class="icon-compound_grid_2"></span></a>
+                <a href="{% url debra.explore_views.trendsetters %}" class="widget_cta_btn" target="_blank">Check out Trendsetters<br/><span class="icon-compound_girl_row"></span></a>
+                <a href="{% url debra.shelf_views.about_me user.id %}" class="widget_cta_btn" target="_blank">Design Your Profile<br/><span class="icon-compound_girl_plus_dress"></span></a>
+            </div>
+        </div>
+        {% else %}
+            {% if lottery.has_ended %}
+            <div class="task_container show_always">
+                <div class="task_text">
+                    <div class="title">And the winners are...</div>
+                    {% for winner in winners %}
+                    <span class="instructions">{{ winner.entry.user|user_name_or_email }}, #{{ winner.task_num }}</span><br />
+                    {% endfor %}
+                </div>
+                <div class="cta_btn_row">
+                    <a href="{% url debra.company_views.bloggers %}" class="widget_cta_btn" target="_blank">Get<br/>Involved!<br/><span class="icon-compound_grid_2"></span></a>
+                    <a href="{% url debra.explore_views.trendsetters %}" class="widget_cta_btn" target="_blank">Check out Trendsetters<br/><span class="icon-compound_girl_row"></span></a>
+                    {% if user %}
+                    <a href="{% url debra.shelf_views.about_me user.id %}" class="widget_cta_btn" target="_blank">Design Your Profile<br/><span class="icon-compound_girl_plus_dress"></span></a>
+                    {% else %}
+                    <a href="#" class="widget_cta_btn launch-popup" data-popup-type="login">Design Your Profile<br/><span class="icon-compound_girl_plus_dress"></span></a>
+                    {% endif %}
+                </div>
+            </div>
+            {% else %}
+                {% for task in tasks %}
+                    {% if task not in completed_tasks and not lottery.has_ended %}
+                        {% if task.mandatory or finished_mandatory %}
+                        <div class="task_container hidden" id="{{ task.id }}">
+                            <form class="enter_lottery_form" method="post" {% if user %}action="{% url debra.widget_views.enter_lottery_task user.id embeddable.id %}"{% endif %}>{% csrf_token %}
+                            {% if task.task_dict == task.CUSTOM %}
+                                <div class="task_text">
+                                    <div class="title">{{ task.url_target_name }} </div>
+                                    <!--<span class="instructions"><a target="_blank" href="{{ task.url_to_visit }}">{{ task|task_rendered_value }}</a></span>-->
+                                    <span class="instructions">{{ task|task_rendered_value|safe }}</span>
+                                </div>
+                                {% if task.custom_option == "text_field" %}
+                                <fieldset class="typical_form">
+                                    <div class="required">
+                                        {{ enter_lottery_form.custom_task_response|add_class:"req extra" }}
+                                    </div>
+                                </fieldset>
+                                {% endif %}
+                            {% else %}
+                                <div class="task_text">
+                                    <div class="title">{{ task|task_rendered_value }} </div>
+                                    <span class="instructions">{% if task.validation_required %}{{ task.task_dict.meta.instructions }}{% endif %}</span>
+                                </div>
+                                <div class="social_media_stuff">
+                                {% if task.task == task.TWITTER_TWEET.name %}
+                                    <a class="square_bt social_bt lg rounded social_twitter" href="https://twitter.com/share?url=%20&text={{ task.requirement_text|urlencode }}" title="Twitter" data-lang="en" target="_blank">Tweet</a>
+                                {% endif %}
+                                {% if task.task == task.TWITTER_FOLLOW.name %}
+                                    <a href="{{ task.requirement_url }}" class="square_bt social_bt lg rounded social_twitter" data-show-count="false" data-size="large" data-lang="en" target="_blank">Follow {% if task.url_target_name %}@{{ task.url_target_name }}{% else %}on Twitter{% endif %}</a>
+                                {% endif %}
+                                {% if task.task == task.PINTEREST_PIN.name %}
+                                    <a class="square_bt social_bt lg rounded social_pinterest" href="http://www.pinterest.com/pin/create/button/?url=app.theshelf.com{{lottery.creator.profile_url|urlencode}}&media={{task.requirement_url|urlencode}}&description={{ task.task_dict.meta.social_description|urlencode }}" data-pin-do="buttonPin" data-pin-config="above" target="_blank"></a>
+                                {% endif %}
+                                {% if task.task == task.PINTEREST_FOLLOW.name %}
+                                    <a class="square_bt social_bt lg rounded social_pinterest" href="{{ task.requirement_url }}" target="_blank">Follow {% if task.url_target_name %}{{ task.url_target_name }}{% else %}on Pinterest{% endif %}</a>
+                                {% endif %}
+                                {% if task.task == task.FACEBOOK_FOLLOW.name %}
+                                    <a class="square_bt social_bt lg rounded social_facebook" href="{{ task.requirement_url }}" target="_blank">Follow {% if task.url_target_name %}{{ task.url_target_name }}{% else %}on Facebook{% endif %}</a>
+                                {% endif %}
+                                {% if task.task == task.FACEBOOK_POST.name %}
+                                    <a class="square_bt social_bt lg rounded social_facebook" href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fapp.theshelf.com" target="_blank">Share on Facebook</a>
+                                {% endif %}
+                                {% if task.task == task.INSTAGRAM_FOLLOW.name %}
+                                    <a href="{{ task.requirement_url }}" target="_blank" class="square_bt social_bt lg rounded social_instagram2">Follow {% if task.url_target_name %}{{ task.url_target_name }}{% else %}on Instagram{% endif %}</a>
+                                {% endif %}
+                                {% if task.task == task.BLOGLOVIN_FOLLOW.name %}
+                                    <a href="{{ task.requirement_url }}" class="square_bt social_bt lg rounded social_blog_lovin" target="_blank">
+                                        Follow {% if task.url_target_name %}{{ task.url_target_name }}{% else %}on BlogLovin{% endif %}
+                                    </a>
+                                {% endif %}
+                                {% if task.task == task.BLOG_COMMENT.name %}
+                                    <a href="{{ task.requirement_url }}" target="_blank">Blog Link</a>
+                                {% endif %}
+                                </div>
+                                {% if task.validation_required %}
+                                <fieldset class="typical_form">
+                                    <div class="required">
+                                        {% render_field enter_lottery_form.validation_url placeholder=task.task_dict.meta.validation_placeholder class="req extra" %}
+                                    </div>
+                                </fieldset>
+                                {% endif %}
+                            {% endif %}
+                                <div class="centerer">
+                                {% if user %}
+                                    <a class="add_task_button">Did it!</a>
+                                    {% if not task.mandatory and task != last_incomplete_task %}<a class="txt_link serif_ital darker_teal small skip">Skip</a>{% endif %}
+                                {% else %}
+                                    <a class="launch-popup add_task_button" data-popup-type="login">Did it!</a>
+                                {% endif %}
+                                </div>
+                            </form>
+                        </div>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        {% endif %}
+        <div class="lottery_footer">
+            <a href="#" class="terms_link">Terms &amp; Conditions</a>
+            <a href="{% url debra.account_views.home %}" class="shelf_link" target="_blank">
+                <span class="txt">a</span><span class="icon-social_0_shelf_shelf_bottom"></span><span class="txt">lottery</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- TERMS -->
+    <!-- TERMS -->
+    <div class="terms" style="display: none;">
+        <div class="terms_header">Terms &amp; Conditions</div>
+        <div class="the_terms">
+            {{ lottery.terms }}
+        </div>
+        <div class="close_button"><p class="icon-letter_x02"></p></div>
+    </div>
+</div>
+
