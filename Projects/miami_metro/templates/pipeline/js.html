@@ -1,0 +1,2 @@
+{% load custom_filters %}
+<script{% if async %} async{% endif %}{% if defer %} defer{% endif %} type="{{ type }}" src="{{ url }}{% if DEBUG %}?r={% run_time %}{% endif %}" charset="utf-8"></script>
