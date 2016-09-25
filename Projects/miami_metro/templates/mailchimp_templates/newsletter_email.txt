@@ -1,0 +1,6 @@
+Hello  {{user.email}}, 
+    
+Here is a summary of promotions from your favorite stores:
+    
+--
+The Shelf Team.

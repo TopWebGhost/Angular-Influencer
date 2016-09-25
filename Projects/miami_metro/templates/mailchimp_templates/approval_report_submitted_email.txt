@@ -1,0 +1,16 @@
+<p>Hi{% if user.first_name %} {{ user.first_name }}{% endif %},</p></br>
+
+<p>One of your clients has filled in their influencer approval form.</p></br>
+
+<p>All of the influencers that they approved have automatically been loaded into the Outreach stage of your pipeline (where you can now send out your emails).</p></br>
+
+<p>If you are logged in, you can access that page <a href="{{ main_domain }}{% url debra.job_posts_views.campaign_setup campaign.id %}?campaign_stage=0">here</a>.</p></br>
+
+<p>It's also a good idea to review the selections that have been made. To do this, just click back on the Approval tab within your campaign pipeline. Your client's selections will show up in the relevant subtabs (YES, NO, MAYBE) for easy organization. You can also review any notes that they may have left you, which can help improve your targeting (in the event that you need to do another round of approvals with them later).</p><br/>
+
+<p>Let me know if you have any questions!</p></br>
+
+<p>Lauren</p>
+<p><a href="{{ blog_domain }}">The Shelf</a></br></p>
+
+<p>P.S. If you need to send another round of influencers to your client, you can simply load your new selections into the Load Influencers tab. We will not import duplicates, so you can bookmark the new influencers into the same Tag group, then import.</p></br>

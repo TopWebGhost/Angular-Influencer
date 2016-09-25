@@ -1,0 +1,25 @@
+<p> Hello  {{user.first_name}} {{user.last_name}}, </p>
+    
+<p>Prices for some items have dropped within your desired range. But keep in mind, price may GO UP, and item may go OUT OF STOCK. So, if you don't want to miss out on this sale, buy soon!</p>
+
+{% for wishlist_item in items%}
+    <hr></hr>
+        
+    <p><strong>{{wishlist_item.user_selection.item.brand.name}} </strong> <img src="{{wishlist_item.user_selection.img_url}}" width='120' height='120'></p>
+    <p>Current price: ${{wishlist_item.calculated_price}} Your desired price: ${{wishlist_item.notify_lower_bound}}</p> 
+    <p>Click <a href="{{wishlist_item.user_selection.item.prod_url}}">here</a> to buy.
+    	{% if wishlist_item.promo_applied %}
+            Don't forget to use CODE: {{wishlist_item.promo_applied.code}}.
+    	{% endif %}	
+    </p>
+    
+    <p>
+        We'll send you a reminder tomorrow as long as this sale price continues and item is not sold out. You can disable receiving notification for this item by clicking <a href='http://{{current_site}}/notify_enable/?combid={{wishlist_item.combination_id}}&snooze=0'>OFF</a>.
+    	
+    </p>
+    
+    
+        
+{% endfor %}     
+        
+<p>--<br>The Shelf Team.</p>

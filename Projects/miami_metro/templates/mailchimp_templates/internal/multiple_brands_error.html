@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+    <h3>These brands have the same url:</h3>
+    <table>
+        {% for brand in bad_brands %}
+        <tr>
+            <td>
+                {{ brand.id }}
+            </td>
+            <td>
+                {{ brand.domain_name }}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

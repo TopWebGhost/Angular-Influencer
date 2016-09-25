@@ -1,0 +1,19 @@
+Hello  {{user.first_name}} {{user.last_name}}, 
+    
+Prices for some items have dropped within your desired range. But keep in mind, price may go up again.
+
+{%for wishlist_item in items%}
+    ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+    {{wishlist_item.user_selection.item.brand.name}}: {{wishlist_item.user_selection.item.name}}
+
+    Current price: ${{wishlist_item.calculated_price}} Your desired price: ${{wishlist_item.notify_lower_bound}}
+    
+    {%if wishlist_item.promo_applied %}
+        Use code: {{wishlist_item.promo_applied.code}}
+    {%endif %}
+    URL to buy: {{wishlist_item.user_selection.item.prod_url}}
+{% endfor %}
+    
+--
+The Shelf Team.

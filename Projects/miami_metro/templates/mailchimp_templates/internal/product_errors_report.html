@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Daily Errors Email</title>
+</head>
+<body>
+    <table style="width:80%; margin:auto;">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>URL</th>
+                <th>Name</th>
+                <th>Problems</th>
+            </tr>
+        </thead>
+        {% for product in products %}
+        <tr>
+            <td>{{ product.id }}</td>
+            <td>{{ product.prod_url }}</td>
+            <td>{{ product.name }}</td>
+            <td>{{ product.problems }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
