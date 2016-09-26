@@ -1,0 +1,57 @@
+{% extends 'popups/base.html' %}
+
+{% block popup_content %}
+{% load widget_tweaks %}
+<div class="content_area_container px800 contact" contact-form>
+    <h1 class="lb_title xxlarge">Contact Us!</h1>
+    <div ng-hide="loaded">
+<!--         <div class="co_loader_non_ajax">
+    <ul class="bokeh"><li></li><li></li><li></li><li></li></ul>
+</div> -->
+        <div main-loader></div>
+    </div>
+    <div ng-show="loaded">
+        <form id="comment_form" class="clearfix" action="{% url debra.account_views.contact_us %}" method="post">
+            <div style="display:none">
+                <input type="hidden" name="csrfmiddlewaretoken" ng-value="token"/>
+            </div>
+            <div class="three_column clearfix">
+                <fieldset class="typical_form">
+                    <div class="required">
+                        <label class="section_label white">Your Name</label>
+                        <span ng-bind-html="name"></span>
+                    </div>
+                </fieldset>
+                <fieldset class="typical_form">
+                    <div class="required">
+                        <label class="section_label white">Your email address</label>
+                        <span ng-bind-html="email"></span>
+                    </div>
+                </fieldset>
+                <fieldset class="typical_form last_child">
+                    <div class="required">
+                        <label class="section_label white">Subject</label>
+                        <span ng-bind-html="subject"></span>
+                    </div>
+                </fieldset>
+            </div>
+            <div class="bottom_form">
+                <fieldset class="typical_form">
+                    <div class="required">
+                        <label class="section_label white">Your Message</label>
+                        <span ng-bind-html="message"></span>
+                    </div>
+                </fieldset>
+                <fieldset class="typical_form">
+                    <div class="required">
+                        <label class="section_label white">Captcha</label>
+                        <br/>
+                        <span ng-bind-html="captcha"></span>
+                    </div>
+                </fieldset>
+            </div>
+            <p class="center_text"><input type="submit" value="Submit!" class="square_bt lg teal_bt submit_button" id="comment_submit"></p>
+        </form>
+    </div>
+</div>
+{% endblock %}

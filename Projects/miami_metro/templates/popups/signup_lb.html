@@ -1,0 +1,219 @@
+<div signup-popup signup-blogger-url="{% url debra.account_views.blogger_signup %}" signup-brand-url="{% url debra.account_views.brand_signup %}" {% if from_admin %}from-admin{% endif %}></div>
+{% comment %}
+{% extends 'popups/base.html' %}
+{% load widget_tweaks %}
+<div request-demo-popup {% if visitor.brand %}name="{{visitor.user.name}}" email="{{visitor.auth_user.email}}" brand="{{visitor.brand.name}}" brandurl="{{visitor.brand.domain_name}}"{% endif %} source="{% url debra.dynamicforms_views.contact_us_form %}" target="{% url debra.account_views.contact_us_demo %}" after="{% url debra.account_views.demo_requested %}"></div>
+
+
+{% block popup_content %}
+
+<!-- ................ Type of User .................. -->
+<!-- ................ Type of User .................. -->
+<div class="content_area_container px800 login_lb" data-step="1">
+    <h1 class="lb_title xxlarge" style="font-size:45px;">Are you a...</h1>
+    <div class="user_type_row sign_log_row clearfix">
+        <div class="user_type_itm next_btn" data-signup-type="blogger" style="margin-left: 130px;">
+            <div class="user_title">Blogger</div>
+            <div class="user_sub">Do you have a blog?<br/>Is your blog about fashion?</div>
+        </div>
+        <div class="user_type_itm next_btn" data-signup-type="brand">
+            <div class="user_title">Brand</div>
+            <div class="user_sub">Are you looking for bloggers<br/>to work with?</div>
+        </div>
+    </div>
+    <div class="user_type_row sign_log_row clearfix center_text serif_ital xxsmall">
+        <a href="#" class="txt_link gray launch-popup" data-popup-type="login">or, login here if you are already signed up</a>
+    </div>
+</div>
+
+
+<!-- ................ Signup .................. -->
+<!-- ................ Signup .................. -->
+<div class="content_area_container px700 login_lb hidden" data-step="2">
+
+    <!-- Blogger Signup row -->
+    <div class="blogger_signup_form form_container hidden">
+        <h1 class="lb_title xxlarge login_title">Add Your Blog</h1>
+        <form class="sign_log_form blogger" action="{% url debra.account_views.blogger_signup %}" data-next-steps="{% url debra.account_views.blogger_next_steps %}" method="post">{% csrf_token %}
+            <div class="sign_log_row clearfix">
+                <fieldset class="typical_form super_field darkest_field third left">
+                    <div class="required">
+                        {{ blogger_signup_form.name|attr:"placeholder:Name"|add_class:"req" }}
+                    </div>
+                </fieldset>
+                <fieldset class="typical_form super_field darkest_field third left">
+                    <div class="required">
+                        {{ blogger_signup_form.email|attr:"placeholder:email@gmail.com"|add_class:"req email" }}
+                    </div>
+                </fieldset>
+                <fieldset class="typical_form super_field darkest_field third right">
+                    <div class="required">
+                        {{ blogger_signup_form.password|attr:"placeholder:password"|add_class:"req" }}
+                    </div>
+                </fieldset>
+            </div>
+            <div class="sign_log_row clearfix">
+                <fieldset class="typical_form super_field darkest_field third left">
+                    <div class="required">
+                        {{ blogger_signup_form.blog_name|attr:"placeholder:Blog Name"|add_class:"req" }}
+                    </div>
+                </fieldset>
+                <fieldset class="typical_form super_field darkest_field third">
+                    <div class="required">
+                        {{ blogger_signup_form.blog_url|attr:"placeholder:Blog URL"|add_class:"req req-url" }}
+                    </div>
+                </fieldset>
+                <fieldset class="typical_form terms third right">
+                    <p class="serif_ital lessgray xxsmall">
+                        <input type="checkbox" class="terms_agree" checked />
+                        <span>Agree to <a href="{% url debra.account_views.terms %}" class="txt_link gray" target="_blank">terms</a></span>
+                    </p>
+                </fieldset>
+            </div>
+            <div class="sign_log_row clearfix">
+                <div class="outer-center">
+                    <div class="inner-center">
+                        <fieldset class="typical_form super_field center_text">
+                            <input type="submit" value="Submit!" class="square_bt xl cyan_bt submit_button">
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
+            <div class="sign_log_row">
+                <fieldset class="typical_form hidden">
+                    <div>
+                        <label class="server_error"></label>
+                    </div>
+                </fieldset>
+            </div>
+        </form>
+    </div>
+
+    <!-- Brand Signup row -->
+    <div class="brand_signup_form form_container hidden">
+        <h1 class="lb_title xxlarge login_title">Signup</h1>
+        <form class="sign_log_form brand" action="{% url debra.account_views.brand_signup %}" method="post">{% csrf_token %}
+            <div class="sign_log_row clearfix">
+                <fieldset class="typical_form super_field darkest_field third left">
+                    <div class="required">
+                        {{ brand_signup_form.name|attr:"placeholder:Your Name"|add_class:"req" }}
+                    </div>
+                </fieldset>
+                <fieldset class="typical_form super_field darkest_field third left">
+                    <div class="required">
+                        {{ brand_signup_form.email|attr:"placeholder:email@gmail.com"|add_class:"req email" }}
+                    </div>
+                </fieldset>
+                <fieldset class="typical_form super_field darkest_field third right">
+                    <div class="required">
+                        {{ brand_signup_form.password|attr:"placeholder:password"|add_class:"req" }}
+                    </div>
+                </fieldset>
+            </div>
+            <div class="sign_log_row clearfix">
+                <fieldset class="typical_form super_field darkest_field third left">
+                    <div class="required">
+                        {{ brand_signup_form.brand_name|attr:"placeholder:Brand Name"|add_class:"req" }}
+                    </div>
+                </fieldset>
+                <fieldset class="typical_form super_field darkest_field third">
+                    <div class="required">
+                        {{ brand_signup_form.brand_url|attr:"placeholder:Brand URL"|add_class:"req req-url" }}
+                        <div class="claim_url">
+                        </div>
+                    </div>
+                </fieldset>
+                <fieldset class="typical_form terms third right">
+                    <p class="serif_ital lessgray xxsmall center_text">
+                        <input type="checkbox" class="terms_agree" checked />
+                        <span>Agree to <a href="{% url debra.account_views.terms %}" class="txt_link gray" target="_blank">terms</a></span>
+                    </p>
+                </fieldset>
+            </div>
+            <div class="sign_log_row clearfix">
+                <div class="outer-center">
+                    <div class="inner-center">
+                        <fieldset class="typical_form super_field center_text">
+                            <input type="submit" value="Submit!" class="square_bt xl cyan_bt submit_button">
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
+            <div class="sign_log_row">
+                <fieldset class="typical_form hidden">
+                    <div>
+                        <label class="server_error"></label>
+                    </div>
+                </fieldset>
+            </div>
+        </form>
+    </div>
+
+
+    <!-- Shopper Signup row -->
+    <div class="shopper_signup_form form_container hidden">
+        <form class="sign_log_form shopper" action="{% url debra.account_views.shopper_signup %}" data-next-steps="{% url debra.account_views.blogger_next_steps %}" method="post">{% csrf_token %}
+            <div class="sign_log_row">
+                <fieldset class="typical_form super_field darkest_field third left">
+                    <div class="required">
+                        {{ shopper_signup_form.email|attr:"placeholder:email@gmail.com"|add_class:"req email" }}
+                    </div>
+                </fieldset>
+                <fieldset class="typical_form super_field darkest_field third">
+                    <div class="required">
+                        {{ shopper_signup_form.password|attr:"placeholder:password"|add_class:"req" }}
+                    </div>
+                </fieldset>
+                <fieldset class="typical_form last_child third right">
+                    <input type="submit" value="Submit!" class="square_bt xl cyan_bt submit_button"><br />
+                </fieldset>
+                <fieldset class="typical_form terms">
+                    <p class="serif_ital lessgray xxsmall center_text">
+                        <input type="checkbox" class="terms_agree" checked />
+                        <span>Agree to <a href="{% url debra.account_views.terms %}" class="txt_link gray" target="_blank">terms</a></span>
+                    </p>
+                </fieldset>
+            </div>
+            <div class="sign_log_row">
+                <fieldset class="typical_form hidden">
+                    <div>
+                        <label class="server_error"></label>
+                    </div>
+                </fieldset>
+            </div>
+        </form>
+        <!-- divider -->
+        <div class="sign_log_row">
+            <div class="or_divider"></div>
+            <div class="or_txt"><span>or</span></div>
+        </div>
+        <!-- FB Login -->
+        <div class="sign_log_row">
+            <form class="facebook_form_signup center_text" action="{% url facebook_connect %}?facebook_login=1&next={% if next %}{{ next }}{% else %}{% url debra.explore_views.inspiration %}{% endif %}" method="post">{% csrf_token%}
+                <button class="square_bt md social_bt fb social_facebook" type="submit">Use Facebook</button>
+            </form>
+        </div>
+    </div>
+
+
+</div>
+
+
+<!-- ................ Your Profile Picture .................. -->
+<!-- ................ Your Profile Picture .................. -->
+<div class="content_area_container px600 login_lb hidden" data-step="3">
+    <h1 class="lb_title xxlarge">Your Picture</h1>
+    <div class="prof_circ pic_upload">
+        <img alt="profile image" src="/mymedia/site_folder/images/global/avatar.png"/>
+        <div class="camera_btn" image-upload ng-click="upload('{% url masuka.image_manipulator.image_upload %}?next={{ request.path }}&profile_img=1', '{{image_sizes.profile.0}}:{{image_sizes.profile.1}}')"><span class="icon-misc_files_upload2"></span></div>
+    </div>
+    <div class="sign_log_row center_text">
+        <div class="skip_link"><span class="txt_link simple">Skip Until Later</span> <span class="icon-arrow_r_arr_2" style="vertical-align:middle;"></span></div>
+    </div>
+</div>
+
+<!-- The page the follows this one is in a different file -->
+<!-- inside the pages folder      :      after_signup.html -->
+<!-- to preview it go to      :      http://127.0.0.1:8000/account/next-steps/ -->
+{% endblock %}
+{% endcomment %}

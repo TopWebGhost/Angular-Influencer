@@ -1,0 +1,25 @@
+{% extends 'popups/base.html' %}
+
+{% block popup_js %}
+<!-- Submit Blog Url Lightbox Javascript -->
+<!-- Setup Form Validation -->
+<script type="text/javascript">
+$(document).ready(function() {
+    setup_validation('#submit_blog_url_form', '#submit_blog_url_button');
+});
+</script>
+{% endblock %}
+
+{% block popup_content %}
+<!-- Submit Blog Url Content -->
+<h1 class="lb_title xlarge">Submit your blog url.</h1>
+<h2 class="lb_title medium">Example: http://www.yourBlogName.com/</h2>
+<form action="{% url debra.account_views.upgrade_request %}" method="post" id="submit_blog_url_form">{% csrf_token %}
+    <fieldset class="typical_form larger_field">
+    	<div>
+        	<input class="center_text forgot_password req" name="blog_url" id="blog_url" type="text"/>
+        </div>
+    </fieldset>
+    <input type="submit" value="Submit!" class="teal_display_btn lighter center_text medium_version upgrade_request_submit" id="submit_blog_url_button" />
+</form>
+{% endblock %}

@@ -1,0 +1,72 @@
+{% extends 'popups/base.html' %}
+{% load widget_tweaks %}
+
+{% block popup_content %}
+<div class="content_area_container px700 affiliate_link_entry_form">
+    <h1 class="lb_title lg">Add Affiliate Links</h1>
+    <div class="instruction_txt small">Create a new Shelf by adding links for each item that you’d like to include in the collection.  You can use affiliate links or you don’t have to.  Each link will take about 15 seconds to fetch that product.</div>
+    <br/>
+    <!-- first section -->
+    <div class="create_shelf">
+        <form class="create_shelf_form">{% csrf_token %}
+            <fieldset class="typical_form larger_field">
+                <div class="required">
+                    <label class="sub_title">Step 1 : &nbsp; Give this Shelf collection a name</label>
+                    <input type="text" name="shelf_name" class="shelf_name req" placeholder="Your Shelf Name" />
+                </div>
+            </fieldset>
+        </form>
+        <div class="square_bt teal_bt xl next_btn">Next!</div>
+    </div>
+
+    <!-- second section -->
+    <div class="add_affiliate_links hidden">
+        <div class="added_links">
+            <ul class="links_list clearfix">
+            </ul>
+        </div>
+        <div class="square_bt teal_bt xl finish_btn">Finish</div>
+    </div>
+
+<script id="affiliate_link_item_tpl" type="text/template">
+<li>
+    <div class="affiliate_link">
+        <form id="affiliate_link_form<%= link_num %>" class="add_affiliate_link_form">{% csrf_token %}
+            <fieldset class="typical_form" style="clear:both">
+                <div class="required">
+                    <input type="text" name="link<%= link_num %>" class="affiliate_link_input req req-url" placeholder="URL" style="display:inline-block;" />
+                    <button class="btn save_affiliate_link cancel" data-post-url="{% url debra.shelf_views.create_shelf_from_links shelf_user.id %}"><span class="icon-letter_plus08"></span></button>
+                    <img src="/mymedia/site_folder/images/global/ajax-loader.gif" class="ajax_loader hidden" style="vertical-align:bottom;" />
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</li>
+</script>
+<script id="added_affiliate_link_tpl" type="text/template">
+<li>
+    <% if (status == 'failed') { %>
+    <div class="added_item">
+        <div class="element_wrapper">
+            <div class="bar_element">
+                <p class="product_name">problem adding item :(</p>
+            </div>
+        </div>
+    </div>
+    <% } else { %>
+    <div class="added_item">
+        <div class="element_wrapper">
+            <div class="bar_element">
+                <div class="square_pic">
+                    <img src="<%= img %>" />
+                </div>
+                <p class="product_name"><%= name %></p>
+                <a class="delete_btn" data-delete-url="<%= delete_url %>">x</a>
+            </div>
+        </div>
+    </div>
+    <% } %>
+</li>
+</script>
+</div>
+{% endblock %}

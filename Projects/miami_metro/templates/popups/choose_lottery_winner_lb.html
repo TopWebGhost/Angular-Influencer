@@ -1,0 +1,52 @@
+{% extends 'popups/base.html' %}
+{% load custom_filters %}
+
+{% block popup_content %}
+    <div class="content_area_container lottery_winner px800 clearfix">
+        <h1 class="lb_title xxlarge white">Choose a lottery winner</h1>
+        <div class="lottery_winners clearfix">
+            {% for winner in lottery_winners %}
+            <div class="winner_row">
+                <div class="number"></div>
+                <div class="winner_info">
+                    <div class="info_row">
+                        <div class="label">email</div>
+                        <div class="info_txt">{{ winner.entry.user.user.email }} &nbsp;
+                            <a href="{% url debra.email_views.lottery_winner shelf_user.id lottery.id %}" class="square_bt rounded white xs">Send Email</a>
+                        </div>
+                    </div>
+                    <div class="info_row">
+                        <div class="label">entry</div>
+                        <div class="info_txt">#{{ winner.task_num }} &mdash; {{ winner.task.task_dict|task_rendered_value }} &mdash; {{ winner.task.url_target_name }}</div>
+                    </div>
+                </div>
+                <div class="del_button" data-post-url="{% url debra.widget_views.delete_winner shelf_user.id lottery.id winner.id %}" data-winner-id="{{ winner.id }}">
+                    <span class="icon-letter_x05"></span>
+                </div>
+            </div>
+            {% endfor %}
+            {% include 'snippets/loader.html' with hidden=1 %}
+        </div>
+        <div class="buttons clearfix">
+            <div class="square_bt teal_bt lg add_winner" data-post-url="{% url debra.widget_views.pick_winner shelf_user.id lottery.id %}">Add a Winner</div>
+            <div class="square_bt teal_bt lg update_giveaway" data-post-url="{% url debra.widget_views.show_winners shelf_user.id lottery.id %}">Update the Giveaway</div>
+        </div>
+    </div>
+
+    <script type="text/template" id="lottery_winner_tpl">
+    <div class="winner_row">
+        <div class="number"></div>
+        <div class="winner_info">
+            <div class="info_row">
+                <div class="label">email</div>
+                <div class="info_txt"><%= email %> &nbsp; <a href="<%= email_url %>" class="square_bt rounded white xs">Send Email</a></div>
+            </div>
+            <div class="info_row">
+                <div class="label">entry</div>
+                <div class="info_txt">#<%= winning_num %> &mdash; <%= task %> &mdash; <%= target %></div>
+            </div>
+        </div>
+        <div class="del_button" data-post-url="<%= delete_url %>" data-winner-id="<%= id %>"><span class="icon-letter_x05"></span></div>
+    </div>
+    </script>
+{% endblock %}

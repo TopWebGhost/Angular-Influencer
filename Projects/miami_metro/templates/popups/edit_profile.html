@@ -1,0 +1,355 @@
+{% load widget_tweaks %}
+
+<div class="fixed lightbox edit-profile-popup" data-about-url="{% url debra.shelf_views.about_me page_user_prof.id %}">
+    <div class="container">
+        <div class="content_area">
+            <div class="content_area_container">
+                <a class="close_button lightbox_close"><p class="icon-letter_x02"></p></a>
+                <form id="edit_profile_form"  method="post" action="{% url debra.shelf_views.edit_profile page_user_prof.id %}">{% csrf_token %}
+                    <!-- My Social Media Links -->
+                    <div class="account_lb px600 my_links">
+                        <div class="lb_title">My Links</div>
+                        <div class="content_wrapper">
+                            <fieldset class="typical_form">
+                                <div>
+                                    <label for="blog"><span class="icon-globe_abstract icon_field_label"></span>Blog URL</label>
+                                    {{ account_form.blog_page|add_class:"req-url"|attr:"placeholder:Your Blog (entire URL)" }}
+                                </div>
+                            </fieldset>
+                            <fieldset class="typical_form">
+                                <div>
+                                    <label for="pinterest"><span class="icon-pinterest_circle icon_field_label"></span>Pinterest URL</label>
+                                    {{ account_form.pinterest_page|add_class:"req-url"|attr:"placeholder:Your Pinterest (entire URL)" }}
+                                </div>
+                            </fieldset>
+                            <fieldset class="typical_form">
+                                <div>
+                                    <label for="facebook"><span class="icon-facebook_solid_circle icon_field_label"></span>Facebook Page URL</label>
+                                    {{ account_form.facebook_page|add_class:"req-url"|attr:"placeholder:Your Facebook (entire URL)" }}
+                                </div>
+                            </fieldset>
+                            <fieldset class="typical_form">
+                                <div>
+                                    <label for="twitter"><span class="icon-twitter icon_field_label"></span>Twitter Handle</label>
+                                    {{ account_form.twitter_page|attr:"placeholder:Your Twitter Handle (@handle)" }}
+                                </div>
+                            </fieldset>
+                            <fieldset class="typical_form">
+                                <div>
+                                    <label for="bloglovin"><span class="icon-blog_lovin_circle icon_field_label"></span>BlogLovin URL</label>
+                                    {{ account_form.bloglovin_page|add_class:"req-url"|attr:"placeholder:Your Bloglovin (entire URL)" }}
+                                </div>
+                            </fieldset>
+                            <fieldset class="typical_form">
+                                <div>
+                                    <label for="etsy"><span class="icon_field_label"></span>Etsy URL</label>
+                                    {{ account_form.etsy_page|add_class:"req-url"|attr:"placeholder:Your Etsy (entire URL)" }}
+                                </div>
+                            </fieldset>
+                            <fieldset class="typical_form">
+                                <div>
+                                    <label for="store"><span class="icon_field_label"></span>Store URL</label>
+                                    {{ account_form.store_page|add_class:"req-url"|attr:"placeholder:Your Store (entire URL)" }}
+                                </div>
+                            </fieldset>
+                            <fieldset class="typical_form">
+                                <div>
+                                    <label for="photo"><span class="icon-camera icon_field_label"></span>Photo Site URL</label>
+                                    {{ account_form.instagram_page|add_class:"req-url"|attr:"placeholder:Your Instagram (entire URL)" }}
+                                </div>
+                            </fieldset>
+                            <fieldset class="typical_form">
+                                <div>
+                                    <label for="youtube"><span class="icon_field_label"></span>YouTube URL</label>
+                                    {{ account_form.youtube_page|add_class:"req-url"|attr:"placeholder:Your YouTube (entire URL)" }}
+                                </div>
+                            </fieldset>
+                            <button class="square_bt md teal_bt save_edit">Save</button>
+                            <button class="square_bt md teal_bt cancel_edit inactive">Cancel</button>
+                        </div>
+                    </div>
+
+                    <!-- My Story Block -->
+                    <div class="account_lb px600 my_story hidden">
+                        <div class="lb_title">My Story</div>
+                        <div class="content_wrapper">
+                            <fieldset class="typical_form halfer">
+                                <div>
+                                    <label for="id_blog_name">YOUR NAME</label>
+                                    {{ account_form.name|attr:"placeholder:Your Name" }}
+                                </div>
+                            </fieldset>
+                            <fieldset class="typical_form halfer right">
+                                <div>
+                                    <label for="id_blog_name">BLOG NAME</label>
+                                    {{ account_form.blog_name|attr:"placeholder:Your Name" }}
+                                </div>
+                            </fieldset>
+                            <fieldset class="typical_form clearit">
+                                <div>
+                                    <label>A SHORT BIO</label>
+                                    {{ account_form.aboutme|add_class:"comment_field"|attr:"placeholder:A little about yourself.." }}
+                                </div>
+                            </fieldset>
+                            <button class="square_bt md teal_bt save_edit">Save</button>
+                            <button class="square_bt md teal_bt cancel_edit inactive">Cancel</button>
+                        </div>
+                    </div>
+
+                    <!-- My Style -->
+                    <div class="account_lb px600 my_style hidden">
+                        <div class="lb_title">My Style</div>
+                        <div class="content_wrapper">
+                            <fieldset class="typical_form clearit">
+                                <div>
+                                    <label class="sub_title">Define Your Style</label>
+                                    {{ account_form.style_bio|add_class:"comment_field"|attr:"placeholder:A little bit about your style...  what you like, what inspires you, etc." }}
+                                </div>
+                            </fieldset>
+                            <div class="divider_ln"></div>
+                            <fieldset class="typical_form">
+                                <div class="sub_title">Tag Your Image</div>
+                                <div class="tag_arena">
+                                    {{ account_form.style_tags|add_class:"tagsinput" }}
+                                </div>
+                            </fieldset>
+                            <button class="square_bt md teal_bt save_edit">Save</button>
+                            <button class="square_bt md teal_bt cancel_edit inactive">Cancel</button>
+                        </div>
+                    </div>
+
+                    <!-- My Profile Picture -->
+                    <div class="account_lb px600 my_pictures hidden">
+                        <div class="lb_title">My Pictures</div>
+                        <div class="content_wrapper">
+                            <div class="sub_title">Cover Image</div>
+                            <div class="instruction_txt xsmall">Choose (or swap out) your cover photo by clicking on the image below.<br/>We will blur this photo a bit later.</div>
+                            <div class="cover_pic pic_upload" style="background:center url({% if page_user_prof.cover_img_url %}{{ page_user_prof.cover_img_url }}{% else %}{% if page_user_prof.image5 %}{{ page_user_prof.image5 }}{% else %}/mymedia/site_folder/images/global/avatar.png{% endif %}{% endif %});">
+                                <div class="camera_btn" image-upload ng-click="upload('{% url masuka.image_manipulator.image_upload %}?next={{ request.path }}&profile_img=1&cover_img=1', '{{image_sizes.cover.0}}:{{image_sizes.cover.1}}')"><span class="icon-misc_files_upload2"></span></div>
+                            </div>
+                            <div class="sub_title">Profile Image</div>
+                            <div class="instruction_txt xsmall">Choose (or swap out) your profile picture by clicking on the image below.</div>
+                            <div class="profile_pic pic_upload">
+                                {% if shelf_user.profile_img_url %}
+                                <img src="{{shelf_user.profile_img_url}}"/>
+                                {% else %}
+                                    {% if shelf_user.image2 %}
+                                    <img src="{{shelf_user.image2}}"/>
+                                    {% else %}
+                                    <img src="/mymedia/site_folder/images/global/avatar.png"/>
+                                    {% endif %}
+                                {% endif %}
+                                <div class="camera_btn"><span class="icon-misc_files_upload2" image-upload ng-click="upload('{% url masuka.image_manipulator.image_upload %}?next={{ request.path }}&profile_img=1', '{{image_sizes.profile.0}}:{{image_sizes.profile.1}}')"></span></div>
+                            </div>
+                            <button class="square_bt md teal_bt save_edit">Save</button>
+                            <button class="square_bt md teal_bt cancel_edit inactive">Cancel</button>
+                        </div>
+                    </div>
+
+                    <div class="account_lb collage_upload hidden" style="width:900px;">
+                        <div class="lb_title">My Style Collage</div>
+                        <div class="content_wrapper">
+                            <div class="instruction_txt xsmall">On the Highlighted Shelver page, we’ll have a grid of images that defines your style. It will look like the example below.  And it will be much bigger.  Use the upload form to the right to insert images that showcase your style.  (This needs to be complete before you show up)</div>
+                            <div class="x_space x_20"></div>
+                            <div class="hl_shelver_container">
+                                <div class="fd_hl_shelver" style="margin-top:0; padding-bottom:19%;">
+                                    <div class="le_bucket" style="height:100%;">
+                                        <div class="le_block block_1">
+                                            <div class="top collage-image  pic_upload">
+                                                {% if page_user_prof.image1 == None%}
+                                                <img class="collage_image1" src="/mymedia/site_folder/images/page_graphics/highlighted_shelver/fpo_342x74.jpg" alt="collage image 1" />
+                                                {% else %}
+                                                <img class="collage_image1" src="{{page_user_prof.image1}}?{{rand}}" alt="collage image 1" />
+                                                {% endif %}
+                                                <div class="camera_btn" image-upload ng-click="upload('{% url masuka.image_manipulator.image_upload %}?next={{ request.path }}&collage_image=1', '{{image_sizes.size1.0}}:{{image_sizes.size1.1}}')"><span class="icon-misc_files_upload2"></span></div>
+                                            </div>
+                                            <div class="btm collage-image  pic_upload">
+                                                {% if page_user_prof.image2 == None%}
+                                                <img class="collage_image2" src="/mymedia/site_folder/images/page_graphics/highlighted_shelver/fpo_177x352.jpg" alt="collage image 2" />
+                                                {% else %}
+                                                <img class="collage_image2" src="{{page_user_prof.image2}}?{{rand}}" alt="collage image 2" />
+                                                {% endif %}
+                                                <div class="camera_btn" image-upload ng-click="upload('{% url masuka.image_manipulator.image_upload %}?next={{ request.path }}&collage_image=2', '{{image_sizes.size2.0}}:{{image_sizes.size2.1}}')"><span class="icon-misc_files_upload2"></span></div>
+                                            </div>
+                                        </div>
+                                        <div class="le_block block_2 collage-image  pic_upload">
+                                            {% if page_user_prof.image3 == None%}
+                                                <img class="collage_image3" src="/mymedia/site_folder/images/page_graphics/highlighted_shelver/fpo_177x352.jpg" alt="collage image 3" />
+                                            {% else %}
+                                                <img class="collage_image3" src="{{page_user_prof.image3}}?{{rand}}" alt="collage image 3" />
+                                            {% endif %}
+                                            <div class="camera_btn" image-upload ng-click="upload('{% url masuka.image_manipulator.image_upload %}?next={{ request.path }}&collage_image=3', '{{image_sizes.size3.0}}:{{image_sizes.size3.1}}')"><span class="icon-misc_files_upload2"></span></div>
+                                        </div>
+                                        <div class="le_block block_3 collage-image  pic_upload">
+                                            {% if page_user_prof.image4 == None%}
+                                            <img class="collage_image4" src="/mymedia/site_folder/images/page_graphics/highlighted_shelver/fpo_276x352.jpg" alt="collage image 4" />
+                                            {% else %}
+                                            <img class="collage_image4" src="{{page_user_prof.image4}}?{{rand}}" alt="collage image 4"/>
+                                            {% endif %}
+                                            <div class="camera_btn" image-upload ng-click="upload('{% url masuka.image_manipulator.image_upload %}?next={{ request.path }}&collage_image=4', '{{image_sizes.size4.0}}:{{image_sizes.size4.1}}')"><span class="icon-misc_files_upload2"></span></div>
+                                        </div>
+                                        <div class="le_block block_4">
+                                            <div class="top collage-image{% if page_user_prof.brand %} brand_image{% else %} {% endif %} pic_upload" style="z-index:100;">
+                                            {% if page_user_prof.brand %}
+                                                {% if page_user_prof.brand.icon_id %}
+                                                <div class="hl_brand_logo fit_text icon-00_brand_{{page_user_prof.brand.icon_id}}"></div>
+                                                {% else %}
+                                                <div class="brand_missing_icon">{{ page_user_prof.brand.name }}</div>
+                                                {% endif %}
+                                            {% else %}
+                                                {% if page_user_prof.image5 == None%}
+                                                <img class="collage_image5" src="/mymedia/site_folder/images/page_graphics/highlighted_shelver/fpo_322x176.jpg" alt="collage image 5" />
+                                                {% else %}
+                                                <img class="collage_image5 pic_upload" src="{{page_user_prof.image5}}?{{rand}}" alt="collage image 5" />
+                                                {% endif %}
+                                                <div class="camera_btn" image-upload ng-click="upload('{% url masuka.image_manipulator.image_upload %}?next={{ request.path }}&collage_image=5', '{{image_sizes.size5.0}}:{{image_sizes.size5.1}}')"><span class="icon-misc_files_upload2"></span></div>
+                                            {% endif %}
+                                            </div>
+                                            <div class="btm collage-image{% if not page_user_prof.brand %} {% endif %} pic_upload">
+                                                {% if not page_user_prof.brand %}
+                                                    {% if page_user_prof.image6 == None%}
+                                                    <img class="collage_image6" src="/mymedia/site_folder/images/page_graphics/highlighted_shelver/fpo_322x176b.jpg" alt="collage image 6" />
+                                                    {% else %}
+                                                    <img class="collage_image6" src="{{page_user_prof.image6}}?{{rand}}" alt="collage image 6" />
+                                                    {% endif %}
+                                                    <div class="camera_btn" image-upload ng-click="upload('{% url masuka.image_manipulator.image_upload %}?next={{ request.path }}&collage_image=6', '{{image_sizes.size6.0}}:{{image_sizes.size6.1}}')"><span class="icon-misc_files_upload2"></span></div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                        <div class="le_block block_5 collage-image  pic_upload">
+                                            {% if page_user_prof.image7 == None%}
+                                            <img class="collage_image7" src="/mymedia/site_folder/images/page_graphics/highlighted_shelver/fpo_195x352.jpg" alt="collage image 7" />
+                                            {% else %}
+                                            <img class="collage_image7" src="{{page_user_prof.image7}}?{{rand}}" alt="collage image 7" />
+                                            {% endif %}
+                                            <div class="camera_btn" image-upload ng-click="upload('{% url masuka.image_manipulator.image_upload %}?next={{ request.path }}&collage_image=7', '{{image_sizes.size7.0}}:{{image_sizes.size7.1}}')"><span class="icon-misc_files_upload2"></span></div>
+                                        </div>
+                                        <div class="le_block block_6 collage-image  pic_upload">
+                                            {% if page_user_prof.image8 == None%}
+                                            <img class="collage_image8" src="/mymedia/site_folder/images/page_graphics/highlighted_shelver/fpo_402x352.jpg" alt="collage image 8" />
+                                            {% else %}
+                                            <img class="collage_image8" src="{{page_user_prof.image8}}?{{rand}}" alt="collage image 8" />
+                                            {% endif %}
+                                            <div class="camera_btn" image-upload ng-click="upload('{% url masuka.image_manipulator.image_upload %}?next={{ request.path }}&collage_image=8', '{{image_sizes.size8.0}}:{{image_sizes.size8.1}}')"><span class="icon-misc_files_upload2"></span></div>
+                                        </div>
+                                        <div class="le_block block_7">
+                                            <div class="top collage-image  pic_upload">
+                                                {% if page_user_prof.image9 == None%}
+                                                <img class="collage_image9" src="/mymedia/site_folder/images/page_graphics/highlighted_shelver/fpo_187x176.jpg" alt="collage image 9" />
+                                                {% else %}
+                                                <img class="collage_image9" src="{{page_user_prof.image9}}?{{rand}}" alt="collage image 9" />
+                                                {% endif %}
+                                                <div class="camera_btn" image-upload ng-click="upload('{% url masuka.image_manipulator.image_upload %}?next={{ request.path }}&collage_image=9', '{{image_sizes.size9.0}}:{{image_sizes.size9.1}}')"><span class="icon-misc_files_upload2"></span></div>
+                                            </div>
+                                            <div class="btm collage-image  pic_upload">
+                                                {% if page_user_prof.image10 == None%}
+                                                <img class="collage_image10" src="/mymedia/site_folder/images/page_graphics/highlighted_shelver/fpo_187x176b.jpg" alt="collage image 10" />
+                                                {% else %}
+                                                <img class="collage_image10" src="{{page_user_prof.image10}}?{{rand}}" alt="collage image 10" />
+                                                {% endif %}
+                                                <div class="camera_btn" image-upload ng-click="upload('{% url masuka.image_manipulator.image_upload %}?next={{ request.path }}&collage_image=10', '{{image_sizes.size10.0}}:{{image_sizes.size10.1}}')"><span class="icon-misc_files_upload2"></span></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="square_bt md teal_bt save_edit">Save</button>
+                            <button class="square_bt md teal_bt cancel_edit inactive">Cancel</button>
+                        </div>
+                    </div>.
+
+
+                    <!-- Preferences -->
+                    <div class="account_lb px600 email_preferences hidden">
+                        <div class="lb_title">Email Prefs</div>
+                        <div class="content_wrapper toggles_wrapper clearfix">
+                            <div class="toggle_block clearfix">
+                                <p>
+                                    <span class="toggle_txt">Account Management / Shelf Updates</span>
+                                </p>
+                                {{ account_form.account_management_notification|attr:"data-toggle:switch" }}
+                            </div>
+                            <div class="toggle_block clearfix">
+                                <p>
+                                    <span class="toggle_txt">Opportunity Emails</span>
+                                </p>
+                                {{ account_form.opportunity_notification|attr:"data-toggle:switch" }}
+                            </div>
+                            <div class="toggle_block clearfix">
+                                <p>
+                                    <span class="toggle_txt">Price Alerts</span></br>
+                                    <span class="more_txt">(these are set by you)</span>
+                                </p>
+                                {{ account_form.price_alerts_notification|attr:"data-toggle:switch" }}
+                            </div>
+                            <div class="toggle_block clearfix">
+                                <p>
+                                    <span class="toggle_txt">Deal Roundup Emails</span></br>
+                                    <span class="more_txt">(you choose the brands that you care about)</span>
+                                </p>
+                                {{ account_form.deal_roundup_notification|attr:"data-toggle:switch" }}
+                            </div>
+                            <div class="toggle_block clearfix">
+                                <p>
+                                    <span class="toggle_txt">Social Interactions</span><br/>
+                                    <span class="more_txt">(people follow you, comments, reshelves, etc.)</span>
+                                </p>
+                                {{ account_form.social_interaction_notification|attr:"data-toggle:switch" }}
+                            </div>
+                            <div class="x_space x_40"></div>
+                            <button class="square_bt md teal_bt save_edit">Save</button>
+                            <button class="square_bt md teal_bt cancel_edit inactive">Cancel</button>
+                        </div>
+                    </div>
+                </form>
+                <!-- Account Settings -->
+                <div class="account_lb px600 account_settings hidden">
+                    <div class="lb_title">Account Settings</div>
+                    <div class="content_wrapper">
+                        <div class="account_row">
+                            <div class="sub_title">Change Your Email</div>
+                            <div class="instruction_txt no_margin xsmall">You can edit the email that you have your account hooked up to here.</div>
+                            <button class="open_account_form square_bt lg teal_bt" data-for=".change_email_form">Change Email</button>
+                            <form class="change_email_form account_settings_form" action="{% url debra.account_views.change_email %}" style="display:none;">{% csrf_token %}
+                                <fieldset class="typical_form super_field">
+                                    <div class="required">
+                                        {{ change_email_form.email|add_class:"req email"|attr:"placeholder:new email" }}
+                                    </div>
+                                </fieldset>
+                                <div class="square_bt md teal_bt save_account_form submit_button">Save</div>
+                                <div class="square_bt md teal_bt cancel_account_form">Cancel</div>
+                                <fieldset class="typical_form larger_field floater hidden">
+                                    <div>
+                                        <label class="server_error"></label>
+                                    </div>
+                                </fieldset>
+                            </form>
+                        </div>
+                        <div class="account_row">
+                            <div class="sub_title">Change Your Password</div>
+                            <div class="instruction_txt no_margin xsmall">Click here to edit your password.</div>
+                            <button class="open_account_form square_bt lg teal_bt" data-for=".change_password_form">Change Password</button>
+                            <form class="change_password_form account_settings_form" action="{% url debra.account_views.change_password %}" style="display:none;">{% csrf_token %}
+                                <fieldset class="typical_form super_field">
+                                    <div class="required">
+                                        {{ change_password_form.password|add_class:"req password"|attr:"placeholder:new password" }}
+                                    </div>
+                                </fieldset>
+                                <div class="square_bt md teal_bt save_account_form submit_button">Save</div>
+                                <div class="square_bt md teal_bt cancel_account_form">Cancel</div>
+                            </form>
+                        </div>
+                        <div class="account_row">
+                            <div class="sub_title">Delete Your Account</div>
+                            <div class="instruction_txt no_margin xsmall">No worries, click below to delete your account.  If you feel like letting us know why, we'd love to hear what you have to say.  Click <a class="txt_link darker_teal launch-popup" href="#" data-popup-type="contact_us"><span>Here</span></a> to send us a note real quick before clicking delete.</div>
+                            <a class="square_bt lg teal_bt delete_account" href="{% url debra.account_views.unregister %}?next={% url debra.account_views.home %}">Delete Account</a>
+                        </div>
+                        <button class="square_bt md teal_bt cancel_edit inactive">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

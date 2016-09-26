@@ -1,0 +1,17 @@
+{% extends 'popups/base.html' %}
+{% load widget_tweaks %}
+
+{% block popup_content %}
+<div class="content_area_container px600">
+    <h1 class="lb_title lg">Edit Your Shelf</h1>
+    <form id="edit_shelf_form" method="post">{% csrf_token %}
+        <fieldset class="typical_form larger_field px300">
+            <div class="required">
+                {{ modify_shelf_form.name|add_class:"req edit_shelf_name"|attr:"placeholder:Modify shelf name" }}
+            </div>
+        </fieldset>
+        <div class="x_space x_50"></div>
+        <input type="submit" value="Submit!" class="square_bt md teal_bt submit_button edit_shelf_submit" />
+    </form>
+</div>
+{% endblock %}

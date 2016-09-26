@@ -1,0 +1,18 @@
+{% if popup_container %}
+<div class="{{ popup_container }}">
+ {% endif %}
+    <div class="lightbox {{ popup_type }}"{% if auto_open %} data-auto-open="true"{% endif %}>
+        <div class="container">
+            <div class="content_area">
+                {% if not hide_close %}<a class="close_button lightbox_close"><p class="icon-letter_x02"></p></a>{% endif %}
+                {% block popup_content %}{% endblock %}
+                {% block popup_js %}{% endblock %}
+            </div>
+        </div>
+    </div>
+{% if popup_container %}
+</div>
+{% endif %}
+
+
+

@@ -1,0 +1,17 @@
+{% extends 'popups/base.html' %}
+
+{% block popup_content %}
+<div class="content_area_container px400">
+	<h1 class="lb_title">Please Confirm</h1>
+	<p class="instruction_txt"> 
+		<span class="small message">{{ message }}</span>
+	</p>
+	<br/>
+	<div class="button_row">
+		<button class="square_bt teal_bt sm confirm_selection allow-propagation">Yes</button>
+    	<button class="square_bt teal_bt sm negate_selection allow-propagation">No</button>
+    </div>
+</div>
+
+
+{% endblock %}

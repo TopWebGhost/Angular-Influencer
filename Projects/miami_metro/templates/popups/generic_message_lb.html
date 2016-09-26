@@ -1,0 +1,17 @@
+{% extends 'popups/base.html' %}
+
+{% block popup_content %}
+    <!-- used when the analytics section of lottery is clicked, but there are no analytics to view -->
+    <div class="content_area_container px500">
+        <h1 class="lb_title xxlarge white">{% if title %}{{ title }}{% else %}Awesome!{% endif %}</h1>
+        <p class="message instruction_txt">
+            {% if message %}
+            {{ message }}
+            {% else %}
+            We're currently running alpha tests...<br/>but a Shelf team member will be in touch with you soon!
+            {% endif %}
+        </p>
+        <br/>
+        <div class="square_bt md teal_bt accept_button">OK</div>
+    </div>
+{% endblock %}

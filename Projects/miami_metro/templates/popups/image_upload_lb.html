@@ -1,0 +1,38 @@
+{% extends 'popups/base.html' %}
+
+{% block popup_content %}
+<div class="content_area_container px800 signup-choice center_box">
+    <div class="jcrop_wrapper">
+        <div class="bbody">
+            <span class="image-aspect-ratio" style="display:none;"></span>
+            <form name="upload_image_form" id="upload_form" enctype="multipart/form-data" method="post" action="/default/" class="clearfix dropzone">{% csrf_token %}
+                <!-- hidden crop params -->
+                <input type="hidden" id="x1" name="x1" class="req" />
+                <input type="hidden" id="y1" name="y1" class="req" />
+                <input type="hidden" id="x2" name="x2" class="req" />
+                <input type="hidden" id="y2" name="y2" class="req" />
+                <input type="hidden" id="scaling" name="scaling_factor" />
+                <input type="submit" value="Upload" class="image-upload-submit hidden" />
+                <div class="control-group error hidden bad_signup_submit">
+                    <div class="validation_box pink nod_msg">Please crop first</div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+    
+    <script type="text/javascript">
+    Dropzone.options.uploadForm = {
+        autoProcessQueue: false,
+        dictDefaultMessage:  "<h2 class='upload_instructions first'><span class='title'>Browse for a photo on your computer</span><br/><br/><br><span class='up_button'>Browse for photo</span></h2> <h2 class='upload_instructions second'><span class='title'>Now crop your photo</span><br><span class='instruct'>By clicking and dragging over the image until its the desired dimensions.  Then click upload.</span></h2>",
+        dictRemoveFile: "remove file",
+        dictCancelUpload: '',
+        paramName: 'image_file',
+        addRemoveLinks: true,
+        maxFiles: 1,
+        resize: dropzone_resize_callback,
+        init: dropzone_init_callback
+    }
+    </script>
+</div>
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends 'popups/base.html' %}
+
+{% block popup_content %}
+    {% load widget_tweaks %}
+    <div class="content_area_container px600">
+        <h1 class="lb_title lg">Create a Shelf</h1>
+        <p class="instruction_txt">
+            <span class="smallermedium">A shelf is just a way to organize your stuff...</span><br/>
+            <span class="xsmall">You can name this anything, sleek and sophisticated or soft and snuggly, it's up to you!</span>
+        </p>
+        <form id="create_shelf_form" action="{% url debra.shelf_views.create_shelf shelf_user.id %}?next={{ request.get_full_path }}" method="post">{% csrf_token %}
+            <fieldset class="typical_form larger_field px300">
+                <div class="required">
+                    {{ create_shelf_form.name|add_class:"req add_shelf"|attr:"placeholder:Create a new shelf" }}
+                </div>
+            </fieldset>
+            <div class="x_space x_50"></div>
+            <input type="submit" value="Submit!" class="square_bt md teal_bt submit_button" id="create_shelf_submit"/>
+        </form>
+    </div>
+{% endblock %}
