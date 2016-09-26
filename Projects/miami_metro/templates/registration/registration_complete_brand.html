@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block custom_header %}{% include "widgets/landing_nav_header.html" %}{% endblock %}
+
+{% block body_class %}fun_bg_color whole_page{% endblock body_class %}
+
+{% block main_controller %}ng-controller="BrandHomeCtrl"{% endblock main_controller %}
+
+{% block content %}
+    <div class="lightbox main dynamic bl_bg_lb w_logo">
+        <div class="container">
+            <div class="content_area">
+                <div class="content_area_container px800 login_lb">
+                    <h1 class="lb_title lessgray xxl white">Awesome, now let's pick a time for the demo!</h1>
+                    <!--h1 class="lb_title lessgray xxl white">We'll be in touch!</h1>
+                    <div class="subti gray">
+                        Want to get the most out of your demo?<br/><br/>
+                        <a class="square_bt on_teal xl" href="http://www.theshelf.com/demo-customization">Customize Your Demo Now!</a>
+                    </div>
+                    <br>
+                    <br>
+                    <div class="subti gray">We'll be in touch very soon. Or, if you're in a huge rush, you can chat with us below using the chat widget (if we're online...  which we usually are.)</div-->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Google Code for Brand Signup Conversion Page -->
+    <script type="text/javascript">
+    /* <![CDATA[ */
+    var google_conversion_id = 968527062;
+    var google_conversion_language = "en";
+    var google_conversion_format = "2";
+    var google_conversion_color = "ffffff";
+    var google_conversion_label = "zHbwCMKxtQkQ1pnqzQM";
+    var google_conversion_value = 1.00;
+    var google_conversion_currency = "USD";
+    var google_remarketing_only = false;
+    /* ]]> */
+    </script>
+    <script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js">
+    </script>
+    <noscript>
+    <div style="display:inline;">
+    <img height="1" width="1" style="border-style:none;" alt="" src="//www.googleadservices.com/pagead/conversion/968527062/?value=1.00&amp;currency_code=USD&amp;label=zHbwCMKxtQkQ1pnqzQM&amp;guid=ON&amp;script=0"/>
+    </div>
+    </noscript>
+    <!-- start KissMetrics -->
+    <script type="text/javascript">
+        var _kmq = _kmq || [];
+        var _kmk = _kmk || '{{ visitor.kissmetrics_key }}';
+        function _kms(u){
+            setTimeout(function(){
+                var d = document, f = d.getElementsByTagName('script')[0], s = d.createElement('script'); s.type = 'text/javascript';
+                s.async = true;
+                s.src = u;
+                f.parentNode.insertBefore(s, f);
+            }, 1);
+        }
+        _kms('//i.kissmetrics.com/i.js'); _kms('//doug1izaerwt3.cloudfront.net/' + _kmk + '.1.js');
+    </script>
+    <script type="text/javascript">
+        window.location.href = "http://www.theshelf.com/thanks-for-signing-up"
+    </script>
+{% endblock content %}

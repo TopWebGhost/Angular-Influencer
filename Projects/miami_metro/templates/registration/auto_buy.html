@@ -1,0 +1,168 @@
+{% load compressed intercom %}
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="google-site-verification" content="4ihQ4JGXsbdOEzzh8udPXAsHyQr68MmLa5KXFRsIZpo" />
+
+    <title>The Shelf: Fashion Blogger Outreach</title>
+    <meta name="description" content="The Shelf: Blogger outreach to meet your needs. Ask about being a beta customer!">
+    <!--** Global CSS **-->
+    <link href="/mymedia/site_folder/css/global.less" media="screen" rel="stylesheet/less" />
+    <link href="/mymedia/site_folder/css/laurens_font.less" media="screen" rel="stylesheet/less"  />
+    {% if flavour == "mobile" %}
+    <link href="/mymedia/site_folder/css/mobile.less" media="screen" rel="stylesheet/less"  />
+    {% endif %}
+
+    <!--link rel="stylesheet" href="/mymedia/site_folder/css/dropdowns.css" /-->
+
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script src="https://checkout.stripe.com/checkout.js"></script>
+    <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+
+    <!-- Google Fonts -->
+    <script type="text/javascript">
+    WebFontConfig = {
+      google: { families: [ 'Raleway:400,200,100,300,500,600,700,800,900' ] }
+    };
+    (function() {
+      var wf = document.createElement('script');
+      wf.src = ('https:' == document.location.protocol ? 'https' : 'http') +
+              '://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js';
+      wf.type = 'text/javascript';
+      wf.async = 'true';
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(wf, s);
+
+    })();
+    </script>
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-36724948-1', 'theshelf.com');
+      ga('require', 'displayfeatures');
+      ga('send', 'pageview');
+
+    </script>
+    <script type="text/javascript">
+      (function() {
+        window._pa = window._pa || {};
+        // _pa.orderId = "myOrderId"; // OPTIONAL: attach unique conversion identifier to conversions
+        // _pa.revenue = "19.99"; // OPTIONAL: attach dynamic purchase values to conversions
+        // _pa.productId = "myProductId"; // OPTIONAL: Include product ID for use with dynamic ads
+        var pa = document.createElement('script'); pa.type = 'text/javascript'; pa.async = true;
+        pa.src = ('https:' == document.location.protocol ? 'https:' : 'http:') + "//tag.perfectaudience.com/serve/5395c402170a7c95e800007c.js";
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(pa, s);
+      })();
+    </script>
+    <!-- start Mixpanel -->
+    <script type="text/javascript">
+        (function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+mixpanel.init("73ebaff77d34512063b2f3bef46039a9");
+    </script>
+    <!-- end Mixpanel -->
+
+    <!-- Global Vendor Js -->
+    <script type="text/javascript" src="//www.google.com/jsapi"></script>
+    {% compressed_js 'core_head' %}
+    {% compressed_js 'pricing' %}
+
+    <!-- Google Vis Library -->
+    <script type="text/javascript">
+    google.load("visualization", "1", {packages:["corechart"]});
+    </script>
+    <script>
+        $(document).ready(function() {
+
+             /*
+             MIXPANEL ANALYTICS
+             -- this should happen after we have loaded the MIXPANEL JS
+             */
+            mixpanel.track('visited', {'cur_page': $(location).attr('href')});
+            console.log('Sending tracking event to Mixpanel: '+$(location).attr('href'));
+
+
+            $("a[data-popup-type='login']").click(function(){
+                console.log('login popup clicked');
+                mixpanel.track('Login Popup Clicked', {'cur_page': $(location).attr('href')});
+            });
+
+            $("a[data-popup-type='signup']").click(function(){
+                console.log('signup popup clicked');
+                mixpanel.track('Signup Popup Clicked', {'cur_page': $(location).attr('href')});
+            });
+
+            $('.nav_wrapper .link_row').find('a').click(function(){
+                console.log('clicked on nav link ' + $(this).attr('href'));
+                mixpanel.track("Clicked Nav Link", {'cur_page': $(location).attr('href'), 'nav_link': $(this).attr('href')});
+            });
+            $('.nav_wrapper').find('a.upgrade').click(function(){
+                console.log('clicked on upgrade ' + $(this).attr('href'));
+                mixpanel.track('Clicked on Upgrade Button', {'cur_page': $(location).attr('href')})
+            });
+        });
+    </script>
+</head>
+
+{% if brand.stripe_id %}
+<body class="fun_bg_color">
+    <div class="lightbox dynamic bl_bg_lb w_logo">
+        <div class="logo_centerer">
+            <div class="icon-social_0_shelf_shelf3a"></div>
+        </div>
+        <div class="container">
+            <div class="content_area">
+                <div class="content_area_container px1000 login_lb">
+                    <h1 class="lb_title gray xxlarge white">Oops.</h1>
+                    <div class="subti gray">
+                        Brand you claimed you are member is already registered and your email doesnt seems to be from its domain. Please contact {{owner.name}} to get access to account.
+                    </div>
+                    <br/>
+                    <br/>
+                    <br/>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% intercom_tag %}
+</body>
+</html>
+{% else %}
+<body class="home_body pricing_page{% if flavour == "mobile" %} ipad_body{% endif %}">
+
+    <span  ng-app="theshelf" ng-cloak>
+    <span ng-controller="AutoBuyCtrl">
+    <div stripe-popup key="{{ stripe_key }}" payment-url="{% url debra.payment_views.brand_payment %}?next={% url debra.search_views.blogger_search %}" promo-url="{% url debra.payment_views.check_coupon %}"></div>
+    </span>
+    </span>
+    <script type="text/javascript">
+        var stripe_client = stripe.init("{{ stripe_key }}", "{% url debra.payment_views.brand_payment %}?next={% url debra.search_views.blogger_search %}");
+    </script>
+    {% compressed_js 'core' %}
+    {% compressed_js 'angular_core' %}
+    {% include "snippets/angular_sentry_conf.html" %}
+    {% compressed_js 'angular_app' %}
+    {% block bottom_js %}
+    {% endblock %}
+    {% intercom_tag %}
+
+    <script>
+    angular.module('theshelf').controller('AutoBuyCtrl', ['$scope', '$timeout',
+        function($scope, $timeout) {
+            $timeout(function(){
+                $scope.$broadcast("openStripePopup", 'startup', false, true);
+            }, 1000);
+        }
+    ]);
+    </script>
+
+</body>
+{% endif %}

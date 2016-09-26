@@ -1,0 +1,63 @@
+{% load i18n %}
+{% load compressed %}
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta charset="utf-8">
+        <title>{% block title %}{% endblock %}</title>
+        <LINK REL="SHORTCUT ICON" HREF="/mymedia/site_folder/images/global/favicon.ico">
+        <!--This is for hosting email on google. They need to verify we own this domain theshelf.com -->
+
+        <!--** Global CSS **-->
+        <link href="/mymedia/site_folder/css/jquery.Jcrop.css" type="text/css" rel="stylesheet"  />
+        <link href="/mymedia/site_folder/css/old/introjs.min.css" text="text/css" rel="stylesheet" />
+        <link href="/mymedia/site_folder/css/style.css" media="screen" rel="stylesheet" />
+        <link href="/mymedia/site_folder/css/global.less" media="screen" rel="stylesheet/less" />
+        <link href="/mymedia/site_folder/css/laurens_font.less" media="screen" rel="stylesheet/less"  />
+
+        <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+        {% compressed_js 'core_head' %}
+    </head>
+
+    <body class="lt_gray_bg">
+        <span ng-app="theshelf">
+        <div class="white_overlay" style="display:none;"></div>
+        {% include 'popups/login_lb.html' with popup_type='login-popup' %}
+        <div class="lightbox dynamic bl_bg_lb w_logo activation_lb">
+            <div class="logo_centerer">
+                <div class="icon-social_0_shelf_shelf3a"></div>
+            </div>
+            <div class="container">
+                <div class="content_area">
+                    <div class="content_area_container px800 login_lb">
+                        <h1 class="lb_title lessgray xxlarge white">Done &amp; Done!</h1>
+                        <div class="subti">You're all set!  You can now log in and start using The Shelf!  Great to have you on board and feel free to contact us about anything!</div>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <p class="centerer"><a href="#" class="square_bt teal_bt lg" click-emitter="openLoginPopup">Login</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </span>
+    {% compressed_js 'core' %}
+    {% compressed_js 'angular_core' %}
+    {% include "snippets/angular_sentry_conf.html" %}
+    {% compressed_js 'angular_app' %}
+    <script type="text/javascript">
+    (function() {
+        angular.module("theshelf").value("popup_auto_open", {
+            "login_popup": '{{ login_popup_auto_open }}' === 'True',
+            "brand_signup_popup": '{{ brand_signup_popup_auto_open}}' === 'True',
+            "blogger_signup_popup": '{{ blogger_signup_popup_auto_open}}' === 'True',
+        });
+    })();
+    </script>
+    </body>
+</html>
+
+

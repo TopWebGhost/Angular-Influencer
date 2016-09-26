@@ -1,0 +1,8 @@
+{% load i18n %}
+{% trans "Welcome to " %} {{ site.domain }}:
+
+Boom! Here’s your verification code: https://{{site.domain}}/accounts/activate/{{activation_key}}/
+
+Click it, and you’re confirmed. Welcome to the club!
+
+The Shelf Team.

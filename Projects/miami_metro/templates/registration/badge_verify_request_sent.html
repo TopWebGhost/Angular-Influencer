@@ -1,0 +1,41 @@
+{% load i18n intercom %}
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <title>{% block title %}{% endblock %}</title>
+    <LINK REL="SHORTCUT ICON" HREF="/mymedia/site_folder/images/global/favicon.ico">
+    <!--This is for hosting email on google. They need to verify we own this domain theshelf.com -->
+
+    <!--** Global CSS **-->
+    <link href="/mymedia/site_folder/css/jquery.Jcrop.css" type="text/css" rel="stylesheet"  />
+    <link href="/mymedia/site_folder/css/old/introjs.min.css" text="text/css" rel="stylesheet" />
+    <link href="/mymedia/site_folder/css/style.css" media="screen" rel="stylesheet" />
+    <link href="/mymedia/site_folder/css/global.less" media="screen" rel="stylesheet/less" />
+    <link href="/mymedia/site_folder/css/laurens_font.less" media="screen" rel="stylesheet/less"  />
+
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script type="text/javascript" src="/mymedia/site_folder/js/vendor/less-1.4.1.js"></script>
+</head>
+<body class="fun_bg_color">
+    <div class="lightbox dynamic bl_bg_lb w_logo">
+        <div class="logo_centerer">
+            <div class="icon-social_0_shelf_shelf3a"></div>
+        </div>
+        <div class="container">
+            <div class="content_area">
+                <div class="content_area_container px1000 login_lb">
+                    <h1 class="lb_title gray xxlarge white">Done! We will check your blog again!</h1>
+                    <br/>
+                    <br/>
+                    <br/>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% intercom_tag %}
+</body>
+</html>

@@ -1,0 +1,103 @@
+{% load i18n %}
+{% load compressed %}
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta charset="utf-8">
+        <title>{% block title %}{% endblock %}</title>
+        <LINK REL="SHORTCUT ICON" HREF="/mymedia/site_folder/images/global/favicon.ico">
+        <!--This is for hosting email on google. They need to verify we own this domain theshelf.com -->
+
+        <!--** Global CSS **-->
+        <link href="/mymedia/site_folder/css/jquery.Jcrop.css" type="text/css" rel="stylesheet"  />
+        <link href="/mymedia/site_folder/css/old/introjs.min.css" text="text/css" rel="stylesheet" />
+        <link href="/mymedia/site_folder/css/style.css" media="screen" rel="stylesheet" />
+        <link href="/mymedia/site_folder/css/global.less" media="screen" rel="stylesheet/less" />
+        <link href="/mymedia/site_folder/css/laurens_font.less" media="screen" rel="stylesheet/less"  />
+
+        <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+        <!-- start KissMetrics -->
+        <script type="text/javascript">
+            var _kmq = _kmq || [];
+            var _kmk = _kmk || '{{ visitor.kissmetrics_key }}';
+            function _kms(u){
+                setTimeout(function(){
+                    var d = document, f = d.getElementsByTagName('script')[0], s = d.createElement('script'); s.type = 'text/javascript';
+                    s.async = true;
+                    s.src = u;
+                    f.parentNode.insertBefore(s, f);
+                }, 1);
+            }
+            _kms('//i.kissmetrics.com/i.js'); _kms('//doug1izaerwt3.cloudfront.net/' + _kmk + '.1.js');
+        </script>
+        {% compressed_js 'core_head' %}
+        <!-- Google Code for Brand Payed Conversion Page -->
+        <script type="text/javascript">
+        /* <![CDATA[ */
+        var google_conversion_id = 968527062;
+        var google_conversion_language = "en";
+        var google_conversion_format = "2";
+        var google_conversion_color = "ffffff";
+        var google_conversion_label = "-vo_CIqCuAkQ1pnqzQM";
+        var google_remarketing_only = false;
+        /* ]]> */
+        </script>
+        <script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js">
+        </script>
+        <noscript>
+        <div style="display:inline;">
+        <img height="1" width="1" style="border-style:none;" alt="" src="//www.googleadservices.com/pagead/conversion/968527062/?label=-vo_CIqCuAkQ1pnqzQM&amp;guid=ON&amp;script=0"/>
+        </div>
+        </noscript>
+        <script>
+          (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+          })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+          ga('create', 'UA-36724948-1', 'theshelf.com');
+          ga('require', 'displayfeatures');
+          ga('send', 'pageview');
+
+        </script>
+    </head>
+
+    <body class="fun_bg_color whole_page">
+        <span ng-app="theshelf">
+            <!-- no need to disply those two popups -->
+            {% comment %}
+            {% if visitor.base_brand.is_agency == None %}
+            <div pro-plan-settings-popup match-brand-url="{% url debra.search_views.search_brand_json %}" save-url="{% url debra.brand_account_views.mark_add_brand_to_agency %}" mark-as-agency="{% url debra.brand_account_views.set_as_agency %}"></div>
+            {% elif visitor.base_brand.is_agency and  not visitor.managed_brands %}
+            <div pro-plan-settings-popup match-brand-url="{% url debra.search_views.search_brand_json %}" save-url="{% url debra.brand_account_views.mark_add_brand_to_agency %}" mark-as-agency="{% url debra.brand_account_views.set_as_agency %}" select-brand></div>
+            {% else %}
+            {% endcomment %}
+            <div class="lightbox dynamic bl_bg_lb w_logo activation_lb">
+                <div class="logo_centerer">
+                    <div class="icon-social_0_shelf_shelf3a"></div>
+                </div>
+                <div class="container">
+                    <div class="content_area">
+                        <div class="content_area_container px800 login_lb">
+                            <h1 class="lb_title lessgray xxl white">Congrats!</h1>
+                            <div class="subti gray">
+                                You're now subscribed to the {{plan_name|title}} plan!<br/><br/>
+                                <!--a class="square_bt on_teal xl" href="{{request.user.userprofile.after_login_url}}">Continue to Search</a-->
+                                <a class="square_bt on_teal xl" href="http://www.theshelf.com/getting-started-on-the-shelf">Get Started</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </span>
+    {% compressed_js 'core' %}
+    {% compressed_js 'angular_core' %}
+    {% include "snippets/angular_sentry_conf.html" %}
+    {% compressed_js 'angular_app' %}
+    </body>
+</html>
+
+
