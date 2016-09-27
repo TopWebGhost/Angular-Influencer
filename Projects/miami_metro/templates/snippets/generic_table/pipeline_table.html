@@ -1,0 +1,13 @@
+{% extends "snippets/generic_table/messages_table.html" %}
+
+{% comment %}
+{% block extra_table_attributes %}ng-if="pipelineCtrl.sectionSelected.count > 0"{% endblock extra_table_attributes %}
+{% block extra_missing_content_attributes %}ng-if="pipelineCtrl.sectionSelected.count == 0"{% endblock extra_missing_content_attributes %}
+{% endcomment %}
+
+{% block extra_missing_content_attributes %}{% if paginated_data_list %}style="display: none;"{% endif %}{% endblock extra_missing_content_attributes %}
+{% block extra_table_attributes %}{% if not paginated_data_list %}style="display: none;"{% endif %}{% endblock extra_table_attributes %}
+
+{% block missing_content_wrapper_classes %}{% if landing_page %}public_view{% endif %}{% endblock missing_content_wrapper_classes %}
+{% block table_wrapper_classes %}{% if landing_page %}public_view{% endif %}{% endblock table_wrapper_classes %}
+

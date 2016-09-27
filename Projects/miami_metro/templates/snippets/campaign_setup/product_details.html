@@ -1,0 +1,28 @@
+{% load custom_filters %}
+
+{% with info=row_data.product_details %}
+<div class="table_edit_boxes larger_box">
+    <div>
+        {% comment %}
+        <div ng-switch-when="0" class="faux_textbox">---</div>
+        <div ng-switch-when="1" class="faux_textbox">(pending)</div>
+        {% endcomment %}
+        <div class="faux_textbox">
+            {% verbatim %}
+            <div ng-hide="showEdit">{{ values.details || "---" }}</div>
+            {% endverbatim %}
+            <div post-analytics-update class="edit_field_in_table" {% if info.contract_id %}target-url="{% url debra.job_posts_views.edit_contract info.contract_id %}"{% endif %} values-list='{"details": "{{ info.details|default_if_none:''|escapejs }}"}'>
+                <div class="editing_area clearfix">
+                    <fieldset >
+                        <textarea cols="25" rows="3" ng-model="values.details"></textarea>
+                    </fieldset>
+                    <button request-button class="update_btn" ng-click="requestButtonCtrl.doRequest({method: 'POST', url: '/update_model/', successCb: save, data: {modelName: 'Contract', id: {{ row_data.contract_id }}, json_fields: {info: {product_preferences: values.details}} }})">
+                        <span ng-hide="requestButtonCtrl.loading">Update</span>
+                        <span ng-show="requestButtonCtrl.loading">Updating...</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endwith %}

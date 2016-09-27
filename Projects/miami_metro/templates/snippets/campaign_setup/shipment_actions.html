@@ -1,0 +1,20 @@
+{% load custom_filters %}
+
+{% with info=row_data.shipment_actions %}
+
+    <div mailbox-table-cell send-url="{% url debra.job_posts_views.send_shipment_notification row_data.contract_id %}" status="{{ info.status.value }}" status-name="" status-color="" propagate-status="shipmentStatus">
+
+        <span ng-show="status.value == 2" class="icon-letter_check4"></span>
+        <span ng-show="status.value == 1">(Waiting on blogger)</span>
+        <a ng-show="status.value < 2" ng-class="{square_bt: status.value == 0, gray_bt: status.value == 0, sm: status.value == 0, send_link: status.value == 1}" ng-click="send()">
+            <span ng-hide="isDirty()">
+                <span ng-show="status.value == 0">Send Request</span>
+                <span ng-show="status.value > 0">Re-Send</span>
+            </span>
+            <span ng-show="loading">Sending...</span>
+            <span ng-show="error">Error!</span>
+        </a>
+
+    </div>
+
+{% endwith %}

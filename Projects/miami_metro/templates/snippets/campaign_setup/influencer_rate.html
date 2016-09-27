@@ -1,0 +1,22 @@
+{% load custom_filters %}
+
+{% with info=row_data.influencer_rate %}
+<div class="table_edit_boxes number_box">
+    {% verbatim %}
+    <div ng-hide="showEdit" class="faux_textbox">{{ _.isNumber(values.startingPrice) ? values.startingPrice : "---" }}</div>
+    {% endverbatim %}
+    <div post-analytics-update class="edit_field_in_table" target-url="{% url debra.job_posts_views.edit_contract info.contract_id %}" values-list='{"startingPrice": {{ info.influencer_rate }} }'>
+        <div class="editing_area clearfix">
+            <fieldset class="">
+                <input type="number" ng-model="values.startingPrice" min="0">
+            </fieldset>
+            <button ng-click="$event.stopPropagation();!loading && update({starting_price: values.startingPrice})" class="update_btn">
+                <span ng-show="loading">Updating...</span>
+                <span ng-hide="loading || error">Update</span>
+                <span ng-show="error">Error!</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+{% endwith %}

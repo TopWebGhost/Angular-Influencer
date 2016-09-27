@@ -1,0 +1,9 @@
+{% load custom_filters %}
+
+{% with info=row_data.messages_count %}
+
+    {% verbatim %}
+        <div>{{ mailboxTableRow.subjectColumn.values.messagesCount }}</div>
+    {% endverbatim %}
+
+{% endwith %}

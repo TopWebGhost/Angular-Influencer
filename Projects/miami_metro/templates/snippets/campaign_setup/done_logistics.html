@@ -1,0 +1,17 @@
+{% load custom_filters %}
+
+{% with info=row_data.done_logistics %}
+
+    <div mailbox-table-cell>
+        <div
+            request-button
+            class="lg_action_btn"
+            style="margin: 5p!important;"
+            ng-click="requestButtonCtrl.doRequest({method: 'POST', successCb: mailboxTableRow.move, successCbParams: {value: {{ info.stage }}}, url: updateUrl, data: {modelName: 'InfluencerJobMapping', id: {{ row_data.id }}, values: {campaign_stage: {{ info.stage }}, moved_manually: true}}})"
+        >
+            <span ng-hide="requestButtonCtrl.loading">Mark as Complete</span>
+            <span ng-show="requestButtonCtrl.loading">Moving...</span>
+        </div>
+    </div>
+
+{% endwith %}

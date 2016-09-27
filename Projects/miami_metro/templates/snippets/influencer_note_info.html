@@ -1,0 +1,5 @@
+{% load custom_filters %}
+
+{% with note=row_data.influencer_note_info influencer=row_data.influencer_info %}
+    <textarea class="post_analytics_note" ng-model="approvesData.notes[{{ influencer.pa_id }}]" name="" id="" cols="25" rows="3" style="resize: none;" {% if collection.approval_status == 2 or not note.editable %}readonly{% endif %}></textarea>
+{% endwith %}

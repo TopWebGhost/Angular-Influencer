@@ -1,0 +1,47 @@
+{% load custom_filters %}
+
+{% with info=row_data.contract_actions %}
+
+    <div>
+        {% comment %}
+        <div mailbox-table-cell>
+            {% verbatim %}
+            <a ng-click="openEditPopup({values: allValues, mId: mailboxId, cId: contractId, showContractInfo: false})" class="txt_link darker_teal">Documents Edit</a>
+            {% endverbatim %}
+        </div>
+        {% endcomment %}
+        <div mailbox-table-cell send-url="{% url debra.job_posts_views.send_contract info.contract_id %}" status="{{ info.contract_status.value }}" status-name="{{ info.contract_status.name }}" status-color="{{ info.contract_status.color }}" propagate-status="contractStatus">
+            <a
+                ng-show="status.value != {{ info.contract_status.signed_status }}"
+                request-button
+                class="send_link"
+                style="margin: 5px!important;"
+                ng-click="requestButtonCtrl.doRequest({method: 'POST', successCb: mailboxTableRow.move, successCbParams: {value: {{ info.next_stage }}}, url: updateUrl, data: {list: [{modelName: 'InfluencerJobMapping', id: {{ row_data.id}}, values: {campaign_stage: {{ info.next_stage }}, moved_manually: true } }]}})"
+            >
+                <span ng-hide="requestButtonCtrl.loading">Mark as Signed</span>
+                <span ng-show="requestButtonCtrl.loading">Updating...</span>
+            </a>
+
+            <a class="square_bt gray_bt sm"  href="{{ info.preview_document_url }}" target="_blank" ng-show="status.value == {{ info.contract_status.non_sent_status }}" >
+                <span>Contract Preview</span>
+            </a>
+
+            <span ng-show="status.value > {{ info.contract_status.non_sent_status }} && status.value < {{ info.contract_status.signed_status }}">(Waiting on blogger)</span>
+
+            <a ng-click="send()" ng-show="status.value < {{ info.contract_status.signed_status }}" ng-class="{square_bt: status.value == {{ info.contract_status.non_sent_status }}, gray_bt: status.value == {{ info.contract_status.non_sent_status }}, sm: status.value == {{ info.contract_status.non_sent_status }}, send_link: status.value > {{ info.contract_status.non_sent_status }}}">
+                <span ng-hide="isDirty()">
+                    <span ng-show="status.value == {{ info.contract_status.non_sent_status }}">Send</span>
+                    <span ng-hide="status.value == {{ info.contract_status.non_sent_status }}">Re-Send</span>
+                </span>
+                <span ng-show="loading">Sending...</span>
+                <span ng-show="error">Error!</span>
+            </a>
+            
+            <div ng-show="status.value == {{ info.contract_status.signed_status }}">
+                <a class="square_bt gray_bt sm"  href="{{ info.signed_document_url }}" target="_blank">Download Contract</a>
+            </div>
+
+        </div>
+    </div>
+
+{% endwith %}

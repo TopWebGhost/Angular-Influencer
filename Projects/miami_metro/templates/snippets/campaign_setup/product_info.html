@@ -1,0 +1,12 @@
+{% load custom_filters %}
+
+{% with info=row_data.discussion_requirements %}
+<div class="table_edit_boxes larger_box">
+
+    <a broadcaster ng-click="broadcasterCtrl.broadcast('openProductInfoPopup', {'restrictionsOn': {% if row_data.product_info.restrictions_on %}true{% else %}false{% endif %}, 'productUrlOn': {% if row_data.product_info.product_url_on %}true{% else %}false{% endif %}, setupUrl: '{% url debra.job_posts_views.campaign_create row_data.campaign_id %}#/3', values: values, storedValues: storedValues, preferencesOn: {% if row_data.product_details.details_on %}true{% else %}false{% endif %}, contractId: {{ row_data.contract_id }}})" class="txt_link lessergray" >Product Instructions</a>
+
+    <div post-analytics-update class="edit_field_in_table" target-url="{% url debra.job_posts_views.edit_contract row_data.contract_id %}" values-list='{"productUrl": "{{ row_data.product_url.product_url|default_if_none:''|escapejs }}", "restrictions": "{{ row_data.restrictions.restrictions|default_if_none:''|escapejs }}", "preferences": "{{ row_data.product_details.brand_details|default_if_none:''|escapejs }}"}'>
+    </div>
+
+</div>
+{% endwith %}

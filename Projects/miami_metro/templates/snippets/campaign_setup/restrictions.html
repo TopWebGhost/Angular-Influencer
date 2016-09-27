@@ -1,0 +1,22 @@
+{% load custom_filters %}
+
+{% with info=row_data.restrictions %}
+<div class="table_edit_boxes larger_box">
+    {% verbatim %}
+    <div ng-hide="showEdit" class="faux_textbox">{{ values.restrictions || "---" }}</div>
+    {% endverbatim %}
+    <div post-analytics-update class="edit_field_in_table" {% if info.contract_id %}target-url="{% url debra.job_posts_views.edit_contract info.contract_id %}"{% endif %} values-list='{"restrictions": "{{ info.restrictions|default_if_none:''|escapejs }}"}'>
+        <div class="editing_area clearfix">
+            <fieldset>
+                <textarea cols="25" rows="3" ng-model="values.restrictions"></textarea>
+            </fieldset>
+
+            <button request-button class="update_btn" ng-click="requestButtonCtrl.doRequest({method: 'POST', successCb: save, url: '/update_model/', data: {modelName: 'Contract', id: {{ row_data.contract_id }}, json_fields: {info: {restrictions: values.restrictions}} }})">
+                <span ng-hide="requestButtonCtrl.loading">Update</span>
+                <span ng-show="requestButtonCtrl.loading">Updating...</span>
+            </button>
+
+        </div>
+    </div>
+</div>
+{% endwith %}

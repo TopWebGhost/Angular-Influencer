@@ -1,0 +1,180 @@
+<script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+<div ng-controller="PricingCtrl" ng-cloak>
+    <div stripe-popup key="{{ STRIPE_KEY }}" payment-url="{% url debra.payment_views.brand_payment %}?next={% url debra.search_views.blogger_search %}" promo-url="{% url debra.payment_views.check_coupon %}" layer="3" ng-cloak></div>
+    <div borderless-black-popup event-reactor="openUpgradePopup" callback="open()" layer="2">
+        <div class="pricing_lineup"  ng-cloak>
+
+            <div class="pricing_row clearfix" style="background:#F2F2F2;">
+                <div class="pricing_block"></div>
+                <div class="pricing_block top">
+                    {% if shelf_user %}
+                    <a href="#" ng-click="openStripePopup('cheap')">
+                    {% else %}
+                    <a href="#" class="button launch-popup" data-popup-type="signup">
+                    {% endif %}
+                        <div class="block_content column_header clearfix one">
+                            <div class="title">Cheap</div>
+                            <div class="price_info">$10/month</div>
+                            <div class="outer-center">
+                                <div class="inner-center">
+                                    <div class="square_bt rounded lg">Buy</div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="pricing_block top">
+                    {% if shelf_user %}
+                    <a href="#" ng-click="openStripePopup('basic')">
+                    {% else %}
+                    <a href="#" class="button launch-popup" data-popup-type="signup">
+                    {% endif %}
+                        <div class="block_content column_header clearfix two">
+                            <div class="title">Basic</div>
+                            <div class="price_info">$30/month</div>
+                            <div class="outer-center">
+                                <div class="inner-center">
+                                    <div class="square_bt rounded lg">Buy</div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="pricing_block top">
+                    {% if shelf_user %}
+                    <a href="#" ng-click="openStripePopup('startup')">
+                    {% else %}
+                    <a href="#" class="button launch-popup" data-popup-type="signup">
+                    {% endif %}
+                        <div class="block_content column_header clearfix three">
+                            <div class="title">Expert</div>
+                            <div class="price_info">$100/month</div>
+                            <div class="outer-center">
+                                <div class="inner-center">
+                                    <div class="square_bt rounded lg">Buy</div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="pricing_block top">
+                    <a class="launch-popup" href="#" data-popup-type="contact_us" broadcaster="openContactForm">
+                        <div class="block_content column_header clearfix four">
+                            <div class="title">Enterprise</div>
+                            <div class="price_info">&nbsp;</div>
+                            <div class="outer-center">
+                                <div class="inner-center">
+                                    <div class="square_bt rounded lg">Contact Us</div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="pricing_row clearfix">
+                <div class="pricing_block">
+                    <div class="block_content row_header">
+                        <div class="row_title"># of Search Results</div>
+                    </div>
+                </div>
+                <div class="pricing_block">
+                    <div class="block_content block_mid">40 searchs w/ 20 results</div>
+                </div>
+                <div class="pricing_block">
+                    <div class="block_content block_mid">unlimited</div>
+                </div>
+                <div class="pricing_block">
+                    <div class="block_content block_mid">unlimited</div>
+                </div>
+            </div>
+
+            <div class="pricing_row clearfix">
+                <div class="pricing_block">
+                    <div class="block_content row_header">
+                        <div class="row_title">Search Filters</div>
+                    </div>
+                </div>
+                <div class="pricing_block">
+                    <div class="block_content">Category, Price Range, Popularity, Competitive Brands, Engagement</div>
+                </div>
+                <div class="pricing_block">
+                    <div class="block_content">Category, Price Range, Popularity, Competitive Brands, Engagement</div>
+                </div>
+                <div class="pricing_block">
+                    <div class="block_content">Category, Price Range, Popularity, Competitive Brands, Engagement, Location, Gender, Style Tags</div>
+                </div>
+            </div>
+
+            <div class="pricing_row clearfix">
+                <div class="pricing_block">
+                    <div class="block_content row_header">
+                        <div class="row_title">Brand Profile</div>
+                    </div>
+                </div>
+                <div class="pricing_block">
+                    <div class="block_content one">&nbsp;</div>
+                </div>
+                <div class="pricing_block">
+                    <div class="block_content two icon-letter_check3"></div>
+                </div>
+                <div class="pricing_block">
+                    <div class="block_content three icon-letter_check3"></div>
+                </div>
+            </div>
+
+            <div class="pricing_row clearfix">
+                <div class="pricing_block">
+                    <div class="block_content row_header">
+                        <div class="row_title">Create Collections</div>
+                    </div>
+                </div>
+                <div class="pricing_block">
+                    <div class="block_content">&nbsp;</div>
+                </div>
+                <div class="pricing_block">
+                    <div class="block_content block_lg">10</div>
+                </div>
+                <div class="pricing_block">
+                    <div class="block_content block_lg">unlimited</div>
+                </div>
+            </div>
+
+            <div class="pricing_row clearfix">
+                <div class="pricing_block">
+                    <div class="block_content row_header">
+                        <div class="row_title">CRM Features</div>
+                    </div>
+                </div>
+                <div class="pricing_block">
+                    <div class="block_content one">&nbsp;</div>
+                </div>
+                <div class="pricing_block">
+                    <div class="block_content block_mid two">limited</div>
+                </div>
+                <div class="pricing_block">
+                    <div class="block_content three icon-letter_check3"></div>
+                </div>
+            </div>
+
+            <div class="pricing_row clearfix">
+                <div class="pricing_block">
+                    <div class="block_content row_header">
+                        <div class="row_title">Competitive Analysis</div>
+                    </div>
+                </div>
+                <div class="pricing_block">
+                    <div class="block_content one">&nbsp;</div>
+                </div>
+                <div class="pricing_block">
+                    <div class="block_content two">&nbsp;</div>
+                </div>
+                <div class="pricing_block">
+                    <div class="block_content three icon-letter_check3"></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

@@ -1,0 +1,12 @@
+{% load custom_filters %}
+
+{% with info=row_data.rating %}
+
+    <div request-button>
+        <div star-rating ng-model="values.rating" max="5" on-rating-select="requestButtonCtrl.doRequest({method: 'POST', url: updateUrl, data: {modelName: 'Contract', id: {{ info.contract_id }}, values: {rating: values.rating}}})" readonly="requestButtonCtrl.loading"></div>
+        <div ng-show="requestButtonCtrl.loading">Saving...</div>
+    </div>
+    <div post-analytics-update class="edit_field_in_table" target-url="{% url debra.job_posts_views.edit_contract info.contract_id %}" values-list='{"rating": {{ info.rating }}}'>
+    </div>
+
+{% endwith %}

@@ -1,0 +1,48 @@
+{% load custom_filters %}
+
+{% with info=row_data.subject %}
+
+    <div mailbox-table-cell propagate-name="subjectColumn">
+
+        <div ng-if="values.messagesCount == 0">
+            <div ng-if="!invitationSent">
+                <button class="square_bt gray_bt sm" ng-click='message({userId: {{ info.influencer.id }}, user: {{ info.influencer|jsonify }}, event: $event, reload: false,{% if info.force_invite %} forceInvite: {{ info.force_invite|default_if_none:"null" }}, extraParams: {successCb: "toggleConversation", successCbParams: {id: {{ row_data.mailbox_id }}, who: "{{info.influencer_name|unescape|escapejs}}", target: $event.currentTarget || $event.srcElement} }, strictForce: true, ijm_id: {{ row_data.id }},{% endif %}{% if influencer_analytics_id %} influencer_analytics_id: {{ info.influencer_analytics_id|default_if_none:"null" }},{% endif %} })'>
+                    <span>Send Message</span>
+                </button>
+            </div>
+            <div ng-if="invitationSent">Updating...</div>
+        </div>
+
+        <div ng-if="values.messagesCount > 0">
+            <div class="subject_main_table_cell">
+                <a class="subject_title" broadcaster ng-click="broadcasterCtrl.broadcast('toggleConversation', {id: {{ row_data.mailbox_id }}, who: '{{info.influencer_name|unescape|escapejs}}', target: $event.currentTarget || $event.srcElement})">
+                    {% verbatim %}
+                        {{ values.subject || 'Click to view emails' }}
+                    {% endverbatim %}
+                </a>
+                <span requester class="icon-misc_very_view" ng-click="requesterCtrl.doRequest({method: 'POST', url: '/update_model/', successCb: mailboxTableRow.setUnread, successCbParams: true, data: {modelName: 'MailProxy', id: {{ row_data.mailbox_id }}, values: {has_been_read_by_brand: false}}})"></span>
+            </div>
+
+            {% verbatim %}
+                <div>
+                    <span class="table_cell_label">Total: </span>
+                    <span class="table_cell_number">{{ values.messagesCount }}</span> 
+                    &nbsp; &nbsp; &nbsp;
+                    <span class="table_cell_label">Opens: </span>
+                    <span class="table_cell_number">{{ values.opensCount }}</span>
+                </div>
+
+                <span class="table_cell_label" ng-class="{recent_date: values.recentDate == 'last_sent'}">You: </span>
+                <span class="table_cell_number">{{ values.lastSent || "Never" }}</span>
+                &nbsp; &nbsp; &nbsp;
+                <span class="table_cell_label" ng-class="{recent_date: values.recentDate == 'last_reply'}">Them: </span>
+                <span class="table_cell_number">{{ values.lastReply || "Never" }}</span>
+            {% endverbatim %}
+        </div>
+        
+        <div post-analytics-update class="edit_field_in_table" target-url="" values-list='{"messagesCount": {{ info.messages_count }}, "opensCount": {{ info.opens_count }}, "lastMessage": "{{ info.last_message|common_date_format:visitor|default_if_none:'Never'|escapejs }}", "lastSent": "{{ info.last_sent|common_date_format:visitor|default_if_none:'Never'|escapejs }}", "lastReply": "{{ info.last_reply|common_date_format:visitor|default_if_none:'Never'|escapejs }}", "recentDate": "{{ info.recent_date|default_if_none:''|escapejs }}", "subject": "{{ info.subject|default_if_none:'Click to view emails'|unescape|escapejs }}" }' conversation-toggler>
+        </div>
+
+    </div>
+
+{% endwith %}

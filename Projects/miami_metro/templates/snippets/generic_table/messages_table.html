@@ -1,0 +1,7 @@
+{% extends "snippets/generic_table/base.html" %}
+
+{% block extra_table_rows %}
+    {% if show_conversations and row_data.mailbox_id %}
+        <tr class="mailbox_conversation" id="conversation_{{row_data.mailbox_id}}" thread="generic" blogger-conversation map-id="{{row_data.mailbox_id}}" map="{{row_data.mailbox_id}}" source="{% url debra.job_posts_views.get_conversations row_data.mailbox_id 'generic' %}" cols-number="{{ rows_number }}"></tr>
+    {% endif %}
+{% endblock extra_table_rows %}

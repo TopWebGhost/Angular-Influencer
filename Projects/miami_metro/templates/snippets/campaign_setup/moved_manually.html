@@ -1,0 +1,10 @@
+{% load custom_filters %}
+
+{% with info=row_data.moved_manually %}
+    <div class="cb_or_rb_wrap">
+        <input type="checkbox" id="yes" name="{{ info.row_data.id }}"{% if info.moved_manually %} checked{% endif %} readonly>
+        <label for="{{ row_data.id }}_yes">
+            <span class="graphic plus_btn"></span>
+        </label>
+    </div>
+{% endwith %}

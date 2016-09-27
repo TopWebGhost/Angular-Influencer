@@ -1,0 +1,11 @@
+{% load custom_filters %}
+
+{% with info=row_data.contract_actions %}
+
+    <div class="table_cell_status">
+        {% verbatim %}
+        <span ng-style="{color: mailboxTableRow.contractStatus.color}">{{ mailboxTableRow.contractStatus.name }}</span>
+        {% endverbatim %}
+    </div>
+
+{% endwith %}

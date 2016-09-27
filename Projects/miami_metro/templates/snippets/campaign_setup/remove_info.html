@@ -1,0 +1,32 @@
+{% load custom_filters %}
+
+{% with info=row_data.remove_info %}
+
+    <div mailbox-table-cell>
+        <div request-button>
+            <button
+                tooltip
+                ng-hide="requestButtonCtrl.loading"
+                title="Archive" data-placement="top"
+                class="icon_button icon-misc_files_trash4 bs_tooltip"
+                ng-click="requestButtonCtrl.doRequest({method: 'POST', successCb: mailboxTableRow.move, successCbParams: {value: {{ info.CAMPAIGN_STAGE_ARCHIVED }}}, url: updateUrl, data: {modelName: 'InfluencerJobMapping', id: {{ row_data.id }}, values: {campaign_stage: {{ info.CAMPAIGN_STAGE_ARCHIVED }}, moved_manually: true }}})"
+            >
+            </button>
+            <span ng-show="requestButtonCtrl.loading">Archiving...</span>
+        </div>
+
+        {% if info.can_move_to_next_stage %}
+            <div request-button>
+                <button 
+                    tooltip
+                    title="Move to the Next Stage" data-placement="top"
+                    ng-hide="requestButtonCtrl.loading"
+                    class="icon_button icon-arrow_0_forward"
+                    ng-click="requestButtonCtrl.doRequest({method: 'POST', successCb: mailboxTableRow.move, successCbParams: {value: {{ info.next_stage }}}, url: updateUrl, data: {modelName: 'InfluencerJobMapping', id: {{ row_data.id }}, values: {campaign_stage: {{ info.next_stage }}, moved_manually: true }}})"
+                ></button>
+                <span ng-show="requestButtonCtrl.loading">Moving...</span>
+            </div>
+        {% endif %}
+    </div>
+
+{% endwith %}

@@ -1,0 +1,15 @@
+{% load custom_filters %}
+
+<div class="{{ collage_name }}">
+    <div class="scrollable_row">
+        {% for product in products%}
+            {% if product|best_pic_for_product %}
+            <a class="add_to_shelves new_feed_itm" data-ajax-path="{% url debra.item_views.item_info item.user_prof.id item.id %}">
+                <img src="{{ product|best_pic_for_product }}" style="height:120px;"/>
+            </a>
+            {% endif %}
+        {% endfor %}
+    </div>
+    <button class='left_btn scroll_btn'><span class='icon-arrow_l_arr_3'></span></button>
+    <button class='right_btn scroll_btn'><span class='icon-arrow_r_arr_3'></span></button>
+</div>

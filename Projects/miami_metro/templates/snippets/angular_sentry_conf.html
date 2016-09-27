@@ -1,0 +1,6 @@
+<script src="https://cdn.ravenjs.com/3.7.0/angular/raven.min.js"></script>
+<script>Raven.config('https://e3d2619246384da38c79cc5cac7a7160@sentry.io/101686', {
+	shouldSendCallback: function() {
+		return {% if ON_HEROKU %}true{% else %}false{% endif %};
+	}
+}).install();</script>

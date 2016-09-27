@@ -1,0 +1,111 @@
+<div class="header pricing_header pricing">
+    <!--<div class="color-overlay"></div>-->
+    <div class="header_txt" style="position: relative;">
+        <h1 class="main" style="font-size:60px!important;">The Pricing</h1>
+    </div>
+    <!--<div class="photo_credits">All photography by : <a href="http://streetscout.me/street-style/fashion" target="_blank" class="link">StreetScout.me</a></div>-->
+</div>
+
+
+<div class="simple_pricing_lineup white_bg" ng-controller="PricingCtrl">
+    <div stripe-popup key="{{ stripe_key }}" payment-url="{% url debra.payment_views.brand_payment %}?next={% url debra.search_views.blogger_search %}" promo-url="{% url debra.payment_views.check_coupon %}"></div>
+    
+    {% for plan in plans %}
+        {% include "snippets/pricing_container.html" with plan=plan %}
+    {% endfor %}
+
+</div>
+
+{% if visitor.base_brand.is_agency %}
+    <!-- AGENCY - - - FEATURES -->
+    <!-- AGENCY - - - FEATURES -->
+    <!-- AGENCY - - - FEATURES -->
+    <!-- AGENCY - - - FEATURES -->
+    <div class="body_row clearfix white_row" style="display:none;">
+        <div class="content_area thirds icons2_subtitle_text content_90">
+            <h2 class="title">All plans include</h2>
+            <div class="content_bucket">
+                <div class="icon_img"><span class="icon-misc_magnify"></span></div>
+                <h2 class="the_title">Search Engine</h2>
+                <p class="body_text">Explore our directory of more than 100,000 bloggers and influencers. We provide 7 types of filtering to help you discover the perfect matches for your brand and campaign goals.</p>
+            </div>
+            <div class="content_bucket">
+                <div class="icon_img"><span class="icon-social_0_connected"></span></div>
+                <h2 class="the_title">Ecommerce Relevance</h2>
+                <p class="body_text">The majority of bloggers target a style-niche based on their own tastes. We provide analytical data which helps you uncover the influencers where your products/brands will resonate the most with their audience.</p>
+            </div>
+            <div class="content_bucket">
+                <div class="icon_img"><span class="icon-misc_time_clock2"></span></div>
+                <h2 class="the_title">Real-Time Profiles</h2>
+                <p class="body_text">Ever been a victim of zeroing in on the perfect influencer, only to notice that their last post was 8 months ago? Never again! All profiles, links, social counts, and activity levels are updated in real-time.</p>
+            </div>
+            <div class="content_bucket first_step_child">
+                <div class="icon_img"><span class="icon-people_two_people"></span></div>
+                <h2 class="the_title">Unlimited Users</h2>
+                <p class="body_text">Have a whole team who wants to access The Shelf? Great! The more the merrier, with multiple logins at no additional cost per person you can have a whole PR army closing in on the right influencers at Olympic speed.</p>
+            </div>
+            <div class="content_bucket">
+                <div class="icon_img"><span class="icon-misc_files_download3"></span></div>
+                <h2 class="the_title">Download Custom Lists</h2>
+                <p class="body_text">You requested it, we listened! As a result, we’re launching this feature as part of the PR Plan. Organize your collections and download them as a spreadsheet for easy reference.</p>
+            </div>
+            <div class="content_bucket">
+                <div class="icon_img"><span class="icon-social_envelope"></span></div>
+                <h2 class="the_title">Outreach Tools</h2>
+                <p class="body_text">Our series of outreach tools act like a CRM system, allowing you to send out all of your emails, invite influencers to campaigns, track opens, and more, all in one place!</p>
+            </div>
+        </div>
+        <br/>
+        <br/>
+        <br/>
+        <div class="just_text_section" style="clear:both;">
+            <div class="med_cursive_center"><a class="basic_dropdown_item txt_link launch-popup" data-popup-type="contact_us" broadcaster="openContactForm">Contact Us</a> if you need help checking out or another demo.</div>
+        </div>
+    </div>
+{% else %}
+    <!-- BRAND - - - FEATURES -->
+    <!-- BRAND - - - FEATURES -->
+    <!-- BRAND - - - FEATURES -->
+    <!-- BRAND - - - FEATURES -->
+    <div class="body_row clearfix white_row" style="display:none!important; clear:both; border-bottom:none;">
+        <div class="content_area thirds icons2_subtitle_text content_90">
+            <h2 class="title">Self-Serve Platform: Features</h2>
+            <div class="content_bucket">
+                <div class="icon_img"><span class="icon-misc_magnify"></span></div>
+                <h2 class="the_title">Search Engine</h2>
+                <p class="body_text">Explore our directory of more than 100,000 bloggers and influencers. We provide 7 types of filtering to help you discover the perfect matches for your brand and campaign goals.</p>
+            </div>
+            <div class="content_bucket">
+                <div class="icon_img"><span class="icon-social_0_connected"></span></div>
+                <h2 class="the_title">Real-Time Profiles</h2>
+                <p class="body_text">Ever been a victim of zeroing in on the perfect influencer, only to notice that their last post was 8 months ago? Never again! All profiles, links, social counts, and activity levels are updated in real-time.</p>
+            </div>
+            <div class="content_bucket">
+                <div class="icon_img"><span class="icon-misc_very_feedback"></span></div>
+                <h2 class="the_title">Campaign Pages</h2>
+                <p class="body_text">Create a posting for your special project. Here, you can include all of the nitty gritty details of your campaign, as well as introduce your brand to the influencers you reach out to.</p>
+            </div>
+            <div class="content_bucket first_step_child">
+                <div class="icon_img"><span class="icon-social_envelope"></span></div>
+                <h2 class="the_title">Outreach Tools</h2>
+                <p class="body_text">Our series of outreach tools act like a CRM system, allowing you to send out all of your emails, invite influencers to campaigns, track opens, and more, all in one place!</p>
+            </div>
+            <div class="content_bucket">
+                <div class="icon_img"><span class="icon-letter_quotes3"></span></div>
+                <h2 class="the_title">Monitor All Brand Mentions</h2>
+                <p class="body_text">Find out who is ALREADY talking about your brand! We cover all major social networks and blogging platforms, making it easy to engage and keep up with this content in real-time right from our platform.</p>
+            </div>
+            <div class="content_bucket">
+                <div class="icon_img"><span class="icon-misc_chart5"></span></div>
+                <h2 class="the_title">ROI Analysis <span style="font-size:13px;">(beta)</span></h2>
+                <p class="body_text">Track the traffic, clicks, virality, and purchases that occur as a result of your campaigns! Interested in being a guinea pig? Awesome! Access this data at no extra charge.</p>
+            </div>
+        </div>
+        <br/>
+        <br/>
+        <br/>
+        <div class="just_text_section" style="clear:both;">
+            <div class="med_cursive_center"><a class="basic_dropdown_item txt_link launch-popup" data-popup-type="contact_us" broadcaster="openContactForm">Contact Us</a> if you need help checking out or another demo.</div>
+        </div>
+    </div>
+{% endif %}

@@ -1,0 +1,9 @@
+{% load custom_filters %}
+
+{% with info=row_data.open_count %}
+
+    {% verbatim %}
+        <div>{{ mailboxTableRow.subjectColumn.values.opensCount }}</div>
+    {% endverbatim %}
+
+{% endwith %}

@@ -1,0 +1,13 @@
+{% load custom_filters %}
+
+{% with platform=row_data.blog_info %}
+    {% if platform.found %}
+        <span class="table_engagement_metrics"><strong>{{ platform.average_num_comments_per_post|default_if_none:"0"|floatformat:"0" }}</strong> comments<br /></span>
+        <span class="table_engagement_metrics"><strong>{{ platform.average_num_posts|default_if_none:"0"|floatformat:"0" }}</strong> posts/m<br /></span>
+        {% if platform.eng_fol_ratio > 0 %}
+            <span class="table_engagement_metrics"><strong>{{ platform.eng_fol_ratio|floatformat:"2" }}%</strong> ratio<br/></span>
+        {% endif %}
+    {% else %}
+        <span>---</span>
+    {% endif %}
+{% endwith %}

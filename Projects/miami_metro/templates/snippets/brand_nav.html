@@ -1,0 +1,73 @@
+{% load custom_filters %}
+
+<div class="prof_block">
+    <div class="prof_bg frame">
+        <img src="{{brand.cover_pic}}" class="nav_cover_img {% if brand.flag_blur_cover %}blurred{% endif %}" alt="cover image" />
+        <div class="prof_content">
+            <div class="prof_circ pic_upload">
+              <img src="{{brand.profile_pic}}" alt="profile image" />
+              {% if brand == visitor.brand %}
+              <div class="camera_btn profile_pic" image-upload ng-click="upload('{% url masuka.image_manipulator.image_upload %}?next={{ request.path }}&profile_img=1&brand=1', '{{image_sizes.profile.0}}:{{image_sizes.profile.1}}')">
+                <span class="icon-misc_files_upload2"></span>
+              </div>
+              {% endif %}
+            </div>
+            <div class="prof_info">
+
+                <h1 class="prof_title white one_line">
+                    <span class="rale_4 less_large">{{ brand.name }}</span>
+                </h1>
+                <div class="follow_prof">
+                    {% if brand == visitor.brand %}
+                    <a href="{{ brand.edit_page }}"><p class="simple_follow_btn square_bt on_teal sm less_pad italic_version">Edit profile</p></a>
+                    {% else %}
+                    <p class="simple_follow_btn square_bt on_teal sm less_pad italic_version" style="border:none; background:transparent;" a-href="http://{{brand.domain_name}}/">View Site</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% if brand == visitor.brand %}
+            <div class="change_cover"><a class="square_bt on_teal xs cover_pic" image-upload ng-click="upload('{% url masuka.image_manipulator.image_upload %}?next={{ request.path }}&profile_img=1&cover_img=1&brand=1', '{{image_sizes.cover.0}}:{{image_sizes.cover.1}}')">Change Cover</a></div>
+        {% endif %}
+    </div>
+ </div>
+
+<!-- This is the bar of tabs for the blogger. -->
+<div class="blogger_tabs" ng-controller="BloggersNavCtrl">
+    <div class="row">
+        <div login-required-popup></div>
+        <a href="{{brand.about_page}}" class="content_bk {% if page == 'about' %}selected{% endif %}">
+            <span class="section_label">Profile</span>
+        </a>
+
+        {% if brand.blog_posts_count %}
+        <a href="{{brand.posts_page}}" class="content_bk {% if page == 'posts' %}selected{% endif %}">
+            <span class="section_label">{{brand.dynamic_posts_count}} Post{{brand.dynamic_posts_count|pluralize}}</span>
+        </a>
+        {% endif %}
+
+        {% if brand.items_count %}
+        <a href="{{brand.items_page}}" class="content_bk {% if page == 'items' %}selected{% endif %}">
+            <span class="section_label">{{brand.items_count}} Product{{brand.items_count|pluralize}}</span>
+        </a>
+        {% endif %}
+
+        {% if brand.photos_count %}
+        <a href="{{brand.photos_page}}" class="content_bk {% if page == 'photos' %}selected{% endif %}">
+            <span class="section_label">{{brand.photos_count}} Photo{{brand.photos_count|pluralize}}</span>
+        </a>
+        {% endif %}
+
+    </div>
+</div>
+
+
+<script type="text/javascript">
+$(document).ready(function(){
+    if ($.browser.name == "firefox") {
+        $('.prof_bg .nav_cover_img.blurred').spoilerAlert();
+    } else {
+        $('.prof_bg .nav_cover_img.blurred').addClass('css_blur');
+    }
+});
+</script>

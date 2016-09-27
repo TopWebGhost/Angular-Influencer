@@ -1,0 +1,34 @@
+{% load custom_filters %}
+
+{% with info=row_data.contract_details %}
+
+<a broadcaster ng-click='broadcasterCtrl.broadcast("openContractDetailsPopup", {setupUrl: "{% url debra.job_posts_views.campaign_create row_data.contract_id %}", signingContractOn: {% if row_data.signing_contract_on %}true{% else %}false{% endif %}, values: mailboxTableRow.contractDetailsColumn.values, storedValues: mailboxTableRow.contractDetailsColumn.storedValues, contractId: {{ row_data.contract_id }}, influencerId: {{ row_data.influencer_info.id }}, tab: 3, sendCollectDataUrl: "{% url debra.job_posts_views.send_collect_data_link row_data.contract_id %}", "downloadContractUrl": "{% url debra.job_posts_views.download_contract_document row_data.contract_id %}", "sendTrackingCodeUrl": "{% url debra.job_posts_views.send_tracking_code row_data.contract_id %}", "sendShipmentNotificationUrl": "{% url debra.job_posts_views.send_shipment_notification row_data.contract_id %}", "sendContractReminderUrl": "{% url debra.job_posts_views.send_collect_data_link row_data.contract_id %}", "sendPostsAddingUrl": "{% url debra.job_posts_views.send_posts_adding_notification row_data.contract_id %}", "pipelineData": pipelineCtrl.data, "templateContextUrl": "{% url debra.job_posts_views.get_email_template_context row_data.contract_id %}", "bloggerPagePreviewUrl": "{{ row_data.tracking_code_link.blogger_form_preview_link }}"})' class="popup_link bs_tooltip" data-placement="right" title="View Detailed Popup" tooltip></a>
+
+{% verbatim %}
+    <div class="border_block"></div>
+    <a ng-if="mailboxTableRow.contractDetailsColumn.values.collectDetailsStatus.value < 2" class="popup_link popup_blogger_link in_active_action bs_tooltip" data-placement="right" title="View Blogger's Page" tooltip></a>
+    <a ng-if="mailboxTableRow.contractDetailsColumn.values.collectDetailsStatus.value == 2" class="popup_link popup_blogger_link bs_tooltip" data-placement="right" title="View Blogger's Page" tooltip a-href="{{ mailboxTableRow.contractDetailsColumn.values.bloggerPostsPageUrl }}"></a>
+{% endverbatim %}
+ 
+<div propagate-cell-class="brand_not_sent_yet brand_pending brand_complete" ng-class="{'brand_not_sent_yet': mailboxTableRow.contractDetailsColumn.values.postsAddingStatus.value == 0, 'brand_pending': mailboxTableRow.contractDetailsColumn.values.postsAddingStatus.value == 1, 'brand_complete': mailboxTableRow.contractDetailsColumn.values.postsAddingStatus.value == 2}">
+    <div class="table_edit_boxes larger_box">
+
+        <div class="individual_brand_action">
+            {% verbatim %}
+            <span class="brand_action_label">Posts Adding: </span>
+            <span class="brand_action_status" ng-class="{'brand_not_sent_yet': mailboxTableRow.contractDetailsColumn.values.postsAddingStatus.value == 0, 'brand_pending': mailboxTableRow.contractDetailsColumn.values.postsAddingStatus.value == 1, 'brand_complete': mailboxTableRow.contractDetailsColumn.values.postsAddingStatus.value == 2}">{{ mailboxTableRow.contractDetailsColumn.values.postsAddingStatus.name }}</span>&nbsp;
+            {% endverbatim %}
+        </div>
+
+        <div class="individual_brand_action">
+            <button class="mini_action_btn" broadcaster ng-click='broadcasterCtrl.broadcast("openSendEmailPopup", {url: "{% url debra.job_posts_views.send_posts_adding_notification row_data.contract_id %}", template: pipelineCtrl.data.info.posts_adding_template.template, subject: pipelineCtrl.data.info.posts_adding_template.subject, successCb: save, successCbParams: mailboxTableRow.contractDetailsColumn, status: mailboxTableRow.contractDetailsColumn.values.postsAddingStatus, templateContextUrl: "{% url debra.job_posts_views.get_email_template_context row_data.contract_id %}", bloggerPagePreviewUrl: "{{ row_data.tracking_code_link.blogger_posts_link }}", successEvent: "refreshConversation", successEventParams: {mailboxId: {{ row_data.mailbox_id }}}})'>
+                <span ng-if="mailboxTableRow.contractDetailsColumn.values.postsAddingStatus.value == 0">Send Posts Adding Notification</span>
+                <span ng-if="mailboxTableRow.contractDetailsColumn.values.postsAddingStatus.value > 0">Send Reminder</span>
+            </button>
+        </div>
+
+        <div post-analytics-update></div>
+
+    </div>
+</div>
+{% endwith %}

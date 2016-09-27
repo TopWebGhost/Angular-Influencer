@@ -1,0 +1,17 @@
+{% load custom_filters %}
+
+{% with info=row_data.sign_contract %}
+
+    <div mailbox-table-cell>
+        <div
+            request-button
+            class="square_bt gray_bt sm"
+            style="margin: 5px!important;"
+            ng-click="requestButtonCtrl.doRequest({method: 'POST', successCb: mailboxTableRow.move, successCbParams: {value: {{ info.stage }}}, url: updateUrl, data: {modelName: 'InfluencerJobMapping', id: {{ row_data.id }}, values: {campaign_stage: {{ info.stage }}, moved_manually: false}}})"
+        >
+            <span ng-hide="requestButtonCtrl.loading">Mark as Signed</span>
+            <span ng-show="requestButtonCtrl.loading">Moving...</span>
+        </div>
+    </div>
+
+{% endwith %}

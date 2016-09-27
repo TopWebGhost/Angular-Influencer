@@ -1,0 +1,8 @@
+{% for name, data in obj.deliverables_json.items %}
+    {% if data.value %}
+        <div class="deliv_item" ng-class="platformWrappers('{{ name }}')">
+            <span ng-class="platformIcons('{{ name }}')"></span>
+            <span class="deliv_text">{{ data.value|default_if_none:"0" }} {% if data.value > 1 %}{{ data.plural }}{% else %}{{ data.single }}{% endif %}</span>
+        </div>
+    {% endif %}
+{% endfor %}

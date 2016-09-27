@@ -1,0 +1,8 @@
+{% load custom_filters %}
+{% with info=row_data.open_profile %}
+<div>
+    <button class="lg_action_btn approve_act_button" blogger-more-info ng-click="bloggerMoreInfoCtrl.show('{{row_data.influencer_info.details_url}}', {isBloggerApproval: mailboxTableRow.bloggerColumn.values.isBloggerApproval, campaignId: mailboxTableRow.bloggerColumn.values.campaignId, root: 'post_analytics_root'})">
+        <span>View Detailed Profile</span>
+    </button>
+</div>
+{% endwith %}

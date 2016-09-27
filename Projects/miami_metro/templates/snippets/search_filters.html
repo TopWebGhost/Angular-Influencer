@@ -1,0 +1,18 @@
+{% load custom_filters %}
+<script type="text/javascript">
+(function(){
+angular.module("theshelf").value('trial', false);
+angular.module("theshelf").value('popularity', [{% for entry in popularity %}{title: "{{entry.title}}",count: "{{entry.count}}"},{% endfor %}]);
+angular.module("theshelf").value('categories', [{% for category in categories %}{title: "{{category.title}}",category: "{{category.category}}" },{% endfor %}]);
+angular.module("theshelf").value('brands', [{% for brand in brands %}{text: "{{brand.brand__name|linebreaksbr|cut:'<br />'}}", value: "{{brand.brand__domain_name}}"},{% endfor %}]);
+angular.module("theshelf").value('locations', [{% for location in locations %}{title: "{{location.title}}", value: "{{location.value}}", count: "{{location.count}}"},{% endfor %}]);
+angular.module("theshelf").value('priceranges', [{% for entry in priceranges %}{title: "{{entry.title}}", text: "{{entry.text}}", count: "{{entry.count}}"},{% endfor %}]);
+angular.module("theshelf").value('genders', [{% for entry in genders %}{title: "{{entry.title}}"},{% endfor %}]);
+angular.module("theshelf").value('socials', [{% for entry in social %}{value: "{{entry.value}}", icon: "{{entry.icon}}"},{% endfor %}]);
+angular.module("theshelf").value('activity', [{% for entry in activity %}{value: "{{entry.value}}", icon: "{{entry.icon}}"},{% endfor %}]);
+// angular.module("theshelf").value('tags', [{% for entry in tags %}{value: "{{entry.id}}", title: "{{entry.name|unescape|safe}}"},{% endfor %}]);
+angular.module("theshelf").value('source', [{% for entry in source %}{value: "{{entry.value}}", title: "{{entry.title|unescape|safe}}"},{% endfor %}]);
+angular.module("theshelf").value('ageGroups', [{% for entry in age_groups %}{value: "{{entry.value}}", icon: "{{entry.icon}}"},{% endfor %}]);
+angular.module("theshelf").value('enabled_filters', [{% for filter in enabled_filters %}"{{filter}}",{% endfor %}]);
+})();
+</script>

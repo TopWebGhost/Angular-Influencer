@@ -1,0 +1,8 @@
+{% load custom_filters %}
+
+{% with info=row_data.tracking_code_link %}
+<div>
+    <a class="square_bt gray_bt sm" href="{{ info.tracking_code_link }}" target="_blank">View Blogger's Tracking Links</a>
+</div>
+
+{% endwith %}

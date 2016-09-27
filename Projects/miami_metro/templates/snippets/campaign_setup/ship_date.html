@@ -1,0 +1,21 @@
+{% load custom_filters %}
+
+{% with info=row_data.ship_date %}
+<div class="table_edit_boxes ">
+    <div class="table_vers_date_picker">
+        {% verbatim %}
+        <div ng-hide="loading">
+            <div ng-if="values.startDate" ng-date-range bind="dateRangeModel" start-date="{{ values.startDate }}" opens="center" class="date_range_field" no-max-date="" single-date-picker></div>
+            <div ng-if="!values.startDate" ng-date-range bind="dateRangeModel" opens="center" class="date_range_field" no-max-date="" single-date-picker></div>
+        </div>
+        <div ng-show="loading">
+            Updating...
+        </div>
+        {% endverbatim %}
+
+        <div post-analytics-update class="edit_field_in_table" update-params="{ship_date: values.startDate}" target-url="{% url debra.job_posts_views.edit_contract row_data.contract_id %}" values-list='{"startDate": "{{ info.ship_date|date:"Y-m-d" }}"}'>
+        </div>
+    </div>
+</div>
+
+{% endwith %}

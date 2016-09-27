@@ -1,0 +1,29 @@
+{% extends "snippets/generic_table/pipeline_table.html" %}
+
+{% block missing_text %}
+	{% if section_switcher.selected_section.key == IJM.CAMPAIGN_STAGE_PRE_OUTREACH%}
+		There are no influencers in this Outreach stage of your pipeline. <br/>
+		<p class="smaller_missing_txt">If you are wanting to reach out to influencers who are not currently in the campaign, you will need to "load" those influencers first. To do this you need to go to the Load Influencers tab and select one or more Tag Collections to pull into this Outreach tab. (Note : we will not re-import influencers who are already in the campaign, so you don't need to worry about duplicates.)</p>
+
+	{% elif section_switcher.selected_section.key == IJM.CAMPAIGN_STAGE_WAITING_ON_RESPONSE %}
+		There are no influencers in this Followup stage of the pipeline. <br/>
+		<p class="smaller_missing_txt">Influencers flow into this stage automatically after you have sent your first email (from the Outreach stage). They will remain here until you either archive them or receive a response.</p>
+
+	{% elif section_switcher.selected_section.key == IJM.CAMPAIGN_STAGE_NEGOTIATION %}
+		There are no influencers in this Discussion stage of the pipeline. <br/>
+		<p class="smaller_missing_txt">Influencers will flow into this stage automatically as soon as they responsed to your initial outreach message. You should use this section to enter in their rates as you negotiate with them. The final rates will automatically populate into their contracts.</p>
+
+	{% elif section_switcher.selected_section.key in IJM.SANDBOX_STAGES %}
+		There are no influencers in this Logistics stage of the pipeline. <br/>
+		<p class="smaller_missing_txt">Influencers flow into this stage automatically as soon as you have indicated that you are finished negotiating in the previous stage.</p>
+
+	{% elif section_switcher.selected_section.key == IJM.CAMPAIGN_STAGE_COMPLETE %}
+		There are no influencers in this Complete stage of the pipeline. <br/>
+		<p class="smaller_missing_txt">Influencers flow into this stage automatically as soon as you have indicated in the previous tab that they have completed their deliverables for the campaign.</p>
+	{% elif section_switcher.selected_section.key == IJM.CAMPAIGN_STAGE_ARCHIVED %}
+		There are no influencers in this Archive view.<br/>
+		<p class="smaller_missing_txt">If you know you will not be working with a particular blogger, you can move them into this section. You can use this section to clean up your pipeline. </p>
+	{% endif %}
+{% endblock missing_text %}
+
+{% block paginator_wrapper %}ng-show="pipelineCtrl.showPagination && pipelineCtrl.sectionSelected.count > 0"{% endblock paginator_wrapper %}

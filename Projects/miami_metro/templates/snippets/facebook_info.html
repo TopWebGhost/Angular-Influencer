@@ -1,0 +1,26 @@
+{% load custom_filters %}
+
+{% with platform=row_data.facebook_info %}
+    {% if platform.found %}
+        {% if platform.posting_rate > 0 %}
+            <span class="table_engagement_metrics"><strong>{{ platform.posting_rate|floatformat:"0" }}</strong> posts/m<br/></span>
+        {% endif %}
+        {% if platform.avg_numshares_overall > 0 %}
+            <span class="table_engagement_metrics"><strong>{{ platform.avg_numshares_overall|floatformat:"0" }}</strong> shares<br/></span>
+        {% endif %}
+        {% if platform.avg_numcomments_overall %}
+            <span class="table_engagement_metrics"><strong>{{ platform.avg_numcomments_overall|floatformat:"0" }}</strong> comments<br/></span>
+        {% endif %}
+        {% if platform.avg_numlikes_overall > 0 %}
+            <span class="table_engagement_metrics"><strong>{{ platform.avg_numlikes_overall|floatformat:"0" }}</strong> likes<br/></span>
+        {% endif %}
+        {% if platform.num_followers > 0 %}
+            <span class="table_engagement_metrics"><strong>{{ platform.num_followers|floatformat:"0" }}</strong> followers<br/></span>
+        {% endif %}
+        {% if platform.eng_fol_ratio > 0 %}
+            <span class="table_engagement_metrics"><strong>{{ platform.eng_fol_ratio|floatformat:"2" }}%</strong> ratio<br/></span>
+        {% endif %}
+    {% else %}
+        <span>---</span>
+    {% endif %}
+{% endwith %}

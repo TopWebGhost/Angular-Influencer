@@ -1,0 +1,48 @@
+{% load custom_filters %}
+
+{% with info=row_data.deliverables %}
+
+    <div>
+        <div ng-repeat="(name, data) in values.deliverables" ng-if="data.value > 0">
+            <div ng-pluralize count="data.value" when="{'one': '{} ' + data.single, 'other': '{} ' + data.plural}"></div>
+        </div>
+    </div>
+
+    <button
+        ns-popover
+        ns-popover-placement="bottom"
+        ns-popover-template="<div ng-hide='loading' deliverables-form deliverables='values.deliverables'></div><div ng-show='loading'><div class='triangle'></div><div class='ns-popover-tooltip'><div main-loader></div></div></div>"
+        ns-popover-theme="ns-popover-tooltip-theme"
+        ns-popover-timeout="-1"
+        ns-popover-plain="true"
+        class="square_bt gray_bt sm"
+    >Edit</button>
+
+    {% comment %}
+    {% verbatim %}
+    <div>{{ values.deliverables || "---" }}</div>
+    {% endverbatim %}
+    {% endcomment %}
+
+    {% comment %}
+    <div ng-hide="loading" deliverables-form deliverables='values.deliverables'></div>
+    <div ng-show="loading">Updating...</div>
+    {% endcomment %}
+
+    <div post-analytics-update class="edit_field_in_table" target-url="{% url debra.job_posts_views.edit_contract info.contract_id %}" values-list='{"deliverables": {{ info.deliverables|jsonify|safe }}}' update-on-change="{deliverables: values.deliverables}">
+        <div class="editing_area clearfix">
+            {% comment %}
+            <fieldset>
+                <textarea rows="6" cols="60" ng-model="values.deliverables"></textarea>
+            </fieldset>
+            <div deliverables-form deliverables='values.deliverables'></div>
+            <button ng-click="$event.stopPropagation();!loading && update({deliverables: values.deliverables})" class="update_btn">
+                <span ng-show="loading">Updating...</span>
+                <span ng-hide="loading || error">Update</span>
+                <span ng-show="error">Error!</span>
+            </button>
+            {% endcomment %}
+        </div>
+    </div>
+
+{% endwith %}

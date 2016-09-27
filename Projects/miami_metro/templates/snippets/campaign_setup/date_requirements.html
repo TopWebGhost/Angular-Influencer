@@ -1,0 +1,19 @@
+{% load custom_filters %}
+
+{% with info=row_data.date_requirements %}
+<div class="table_edit_boxes ">
+
+    <div class="table_vers_date_picker">
+        <div ng-form="dateRequirementsForm" class="typical_form step_container third left" requester attached-form="dateRequirementsForm" on-form-dirty="requesterCtrl.doRequest({method: 'POST', url: '/update_model/', successCb: save, successCbParams: {values: mailboxTableRow.contractDetailsColumn.values, storedValues:mailboxTableRow.contractDetailsColumn.storedValues}, data: {modelName: 'Contract', id: {{ row_data.contract_id }}, values: {date_requirements: mailboxTableRow.contractDetailsColumn.values.dateRequirements}}}); dateRequirementsForm.$setPristine()">
+            <div ng-hide="requesterCtrl.loading">
+                <div single-date-picker name="dateRequirements" ng-model="mailboxTableRow.contractDetailsColumn.values.dateRequirements" class="date_range_field" opens="center" required></div>
+            </div>
+            <div ng-show="requesterCtrl.loading">
+                Updating...
+            </div>
+        </div>
+        <div post-analytics-update></div>
+    </div>
+</div>
+
+{% endwith %}

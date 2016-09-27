@@ -1,0 +1,47 @@
+{% load custom_filters %}
+
+{% with post=row_data.post_url_info %}
+
+{% if post.post_found %}
+    <div class="actual_post_table_section">
+        <div class="cropped-image" style="display: block;" bg-image="{{ post.post_image }}" hide-on-error hide-parent spinner></div>
+    </div>
+    <div class="text_next_to_image">
+        <a ng-hide="context.showDummyData" class="table_txt_link" href="{{ post.url }}" target="_blank">{% if post.title %}{{ post.title }}{% else %}{{ post.url }}{% endif %}</a>
+        <a ng-show="context.showDummyData" class="table_txt_link" click-emitter="featureLocked">{% if post.title %}{{ post.title }}{% else %}{{ post.url }}{% endif %}</a>
+
+        <div class="id_status">
+            <span class="status">Date:</span>
+            {% verbatim %}
+            <span ng-show="values.postCreateDate" class="date">{{ values.postCreateDate }}</span>
+            <span ng-hide="values.postCreateDate">---</span>
+            {% endverbatim %}
+        </div>
+    </div>
+    <div post-analytics-update class="edit_field_in_table" target-url="{% url debra.search_views.edit_post_analytics post.pa_id %}" values-list='{"postCreateDate": "{{ post.create_date|date:"Y-m-d" }}", "postTitle": "{{ post.title|default_if_none:""|escapejs }}", "postUrl": "{{ post.url|default_if_none:""|escapejs }}"}'>
+        <div class="editing_area clearfix">
+            <fieldset class="typical_form halfer xsmall_field lighter_field">
+                <label for="post_create_date">Date</label>
+            	<input type="date" name="post_create_date" ng-model="values.postCreateDate">
+            </fieldset>
+            <fieldset class="typical_form halfer xsmall_field lighter_field" style="width: 100%!important;">
+                <label for="post_title">Title</label>
+                <input type="text" name="post_title" ng-model="values.postTitle" />
+            </fieldset>
+            <fieldset class="typical_form halfer xsmall_field lighter_field" style="width: 100%!important;">
+                <label for="post_url">URL</label>
+                <input type="url" name="post_url" ng-model="values.postUrl" />
+            </fieldset>
+            <fieldset class="typical_form halfer xsmall_field lighter_field">
+                <button ng-click="$event.stopPropagation();!loading && update({post_create_date: values.postCreateDate, post_title: values.postTitle, post_url: values.postUrl})" class="update_btn">
+                    <span ng-show="loading">Updating...</span>
+                    <span ng-hide="loading">Update</span>
+                </button>
+            </fieldset>
+        </div>
+    </div>
+{% else %}
+    <a class="table_txt_link" href="{{ post.url }}" target="_blank">{{ post.url }}</a>
+{% endif %}
+
+{% endwith %}

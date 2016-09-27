@@ -1,0 +1,5 @@
+{% extends "snippets/generic_table/messages_table.html" %}
+
+{% block table_wrapper_classes %}message_with_sidebar{% endblock table_wrapper_classes %}
+{% block extra_missing_content_attributes %}{% if paginated_data_list %}style="display: none;"{% endif %}{% endblock extra_missing_content_attributes %}
+{% block extra_table_attributes %}{% if not paginated_data_list %}style="display: none;"{% endif %}{% endblock extra_table_attributes %}

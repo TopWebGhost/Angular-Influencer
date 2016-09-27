@@ -1,0 +1,18 @@
+{% load custom_filters %}
+
+{% with info=row_data.post_links %}
+
+    {% if not info.links %}
+        <div class="faux_textbox">---</div>
+    {% else %}
+        <ul style="list-style: none;">
+            {% for link_data in info.links %}
+                <li>
+                    <span ng-class="mailboxTableRow.platformIcons('{{ link_data.platform }}')"></span>
+                    <a href="{{ link_data.url }}" target="_blank">{% if link_data.title %}{{ link_data.title }}{% else %}{{ link_data.url }}{% endif %}</a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+{% endwith %}

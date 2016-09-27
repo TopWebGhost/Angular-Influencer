@@ -1,0 +1,23 @@
+{% load custom_filters %}
+
+{% with info=row_data.influencer_notes %}
+<div class="table_edit_boxes larger_box">
+    {% verbatim %}
+    <div ng-hide="showEdit" class="faux_textbox">{{ values.notes || "no notes..." }}</div>
+    <!-- <textarea class="notes_wrapper" rows="6" cols="60" ng-model="values.notes"></textarea> -->
+    {% endverbatim %}
+    <div post-analytics-update class="edit_field_in_table" {% if info.contract_id %}target-url="{% url debra.job_posts_views.edit_contract info.contract_id %}"{% endif %} values-list='{"notes": "{{ info.notes|default_if_none:''|escapejs }}"}'>
+        <div class="editing_area clearfix">
+            <fieldset >
+                <textarea class="notes_wrapper" rows="6" cols="60" ng-model="values.notes" placeholder="no notes..."></textarea>
+            </fieldset>
+
+            <button request-button class="update_btn" ng-click="requestButtonCtrl.doRequest({method: 'POST', successCb: save, url: '/edit_notes/', data: {influencer_id: {{ info.influencer_id }}, notes: values.notes}})">
+                <span ng-hide="requestButtonCtrl.loading">Update</span>
+                <span ng-show="requestButtonCtrl.loading">Updating...</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+{% endwith %}

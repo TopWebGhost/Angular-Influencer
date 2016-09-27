@@ -1,0 +1,13 @@
+{% extends "snippets/generic_table/pipeline_table.html" %}
+
+{% block missing_text %}
+	{% if public_approval_page %}
+		This selection group is empty right now.<br/>
+		<p class="smaller_missing_txt">This could be for two reasons : <br/>1. You did not mark any influencers with this selection type. Or... <br/>2. You have marked influencers with this selection type BUT have not submitted the form to your campaign manager. <br/>(After you submit the form, your final selections will flow automatically into the respective tabs.</p>
+	{% else %}
+		There are no influencers in this Approval Form stage of your pipeline. <br/>
+		<p class="smaller_missing_txt">If you are wanting to add influencers to the approval form, you will need to "load" those influencers first. To do this you need to go to the Load Influencers tab and select one or more Tag Collections to pull into this Approval form. (Note : we will not re-import influencers who are already in the campaign, so you don't need to worry about duplicates.)</p>
+	{% endif %}
+{% endblock missing_text %}
+
+{% block table_wrapper_classes %}{{ block.super }}{% if preview %} preview_mode{% endif %}{% endblock table_wrapper_classes %}

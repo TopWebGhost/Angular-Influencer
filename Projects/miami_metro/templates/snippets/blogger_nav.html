@@ -1,0 +1,191 @@
+{% load custom_filters %}
+<div class="prof_block">
+    <div class="prof_bg frame">
+        <img src="{{influencer.cover_pic}}" class="nav_cover_img" alt="cover image" />
+        <div class="prof_content">
+            <div class="prof_circ pic_upload">
+              <img src="{{influencer.profile_pic}}?r={{rand}}" alt="profile image" />
+              {% if influencer == visitor.influencer %}
+                  <div class="camera_btn profile_pic" image-upload ng-click="upload('{% url masuka.image_manipulator.image_upload %}?next={{ request.path }}&profile_img=1', '{{image_sizes.profile.0}}:{{image_sizes.profile.1}}')">
+                    <span class="icon-misc_files_upload2"></span>
+                  </div>
+              {% endif %}
+            </div>
+            <div class="prof_info">
+
+                {% if influencer.name %}
+                    <h1 class="prof_title white one_line">
+                        <span class="rale_4 moremedium">{{ influencer.name|unescape }}</span>
+                        {% if influencer.blogname and not influencer.has_artificial_blog_url %}<span class="serif_ital small">of</span>{% endif %}
+                    </h1>
+                {% endif %}
+
+                {% if influencer.blogname and not influencer.has_artificial_blog_url %}
+                    <h1 class="prof_title white one_line">
+                        <span class="rale_4 less_large">{{ influencer.blogname|unescape|safe }}</span>
+                    </h1>
+                {% endif %}
+                
+                <div class="follow_prof">
+                    {% comment %}
+                    <p class="simple_follow_btn square_bt on_teal sm less_pad italic_version">Follow</p>
+                    {% endcomment %}
+                    {% if visitor.has_brand %}
+                        {% if visitor.plan_name in constants.STRIPE_COLLECTION_PLANS %}
+                            <p class="simple_follow_btn square_bt on_teal sm less_pad italic_version" click-emitter="openFavoritePopup" args='{"influencer": "{{influencer.id}}"}'>Add to Outreach List</p>
+                        {% else %}
+                            <p class="simple_follow_btn square_bt on_teal sm less_pad italic_version" click-emitter="featureLocked">Add to Outreach List</p>
+                        {% endif %}
+                    {% elif not visitor.user %}
+                        <p class="simple_follow_btn square_bt on_teal sm less_pad italic_version" click-emitter="openLoginRequiredPopup">Add to Outreach List</p>
+                    {% endif %}
+
+                    {% if influencer == visitor.influencer %}
+                        <a href="{{ influencer.edit_page }}"><p class="simple_follow_btn square_bt on_teal sm less_pad italic_version">Edit profile</p></a>
+                    {% elif not influencer.has_artificial_blog_url %}
+                        {% if visitor.base_brand.flag_show_dummy_data %}
+                            <p class="simple_follow_btn square_bt on_teal sm less_pad italic_version" style="border:none; background:transparent;" click-emitter="featureLocked">View Blog</p>
+                        {% else %}
+                            <p class="simple_follow_btn square_bt on_teal sm less_pad italic_version" style="border:none; background:transparent;" a-href="{{influencer.blog_url}}">View Blog</p>
+                        {% endif %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% if influencer == visitor.influencer %}
+            <div class="change_cover"><a class="square_bt on_teal xs cover_pic" image-upload ng-click="upload('{% url masuka.image_manipulator.image_upload %}?next={{ request.path }}&profile_img=1&cover_img=1', '{{image_sizes.cover.0}}:{{image_sizes.cover.1}}')">Change Cover</a></div>
+        {% endif %}
+    </div>
+ </div>
+
+{% if search_page and visitor.has_brand %}
+    {% if influencer %}
+    <div class="breadcrumb_container over_img">
+        <a class="breadcrumb_nav_item" href="{% url debra.search_views.blogger_search %}">
+            <span class="bread_text">Search</span>
+        </a>
+        <div class="breadcrumb_nav_item">
+            {% if not influencer.has_artificial_blog_url and influencer.blogname %}
+            <span class="bread_text"> &nbsp;&gt;&nbsp; {{influencer.blogname|unescape}}</span>
+            {% else %}
+            <span class="bread_text"> &nbsp;&gt;&nbsp; {{influencer.name|unescape}}</span>
+            {% endif %}
+        </div>
+    </div>
+    {% endif %}
+{% endif %}
+
+<!-- This is the bar of tabs for the blogger. -->
+<div class="blogger_tabs" ng-controller="BloggersNavCtrl">
+    <div class="row">
+        <div login-required-popup></div>
+        <a href="{{influencer.about_page}}#/" class="content_bk {% if page == 'about' %}selected{% endif %}">
+            <span class="section_label">Profile</span>
+        </a>
+
+        {% if blogger_page %}
+
+            {% if visitor.has_brand or influencer == visitor.influencer %}
+                {% for section in sections %}
+                    <a nav-counter-tab influencer-id="{{ influencer.id }}" section="{{ section }}" brand-domain="{{ init_brand|default_if_none:'' }}" class="content_bk{% if page == section %} selected{% endif %}">
+                    </a>
+                {% endfor %}
+            {% endif %}
+
+        {% else %}
+
+            {% if visitor.has_brand or influencer == visitor.influencer %}
+                {% with influencer.blog_posts_count as posts_count %}
+                    {% if posts_count %}
+                        <a href="{% url debra.blogger_views.blogger_generic_posts section='posts' influencer_id=influencer.id brand_domain=init_brand %}" class="content_bk {% if page == 'blog_posts' %}selected{% endif %}">
+                            {#<a href="#" click-emitter="openLoginRequiredPopup" class="content_bk {% if page == 'posts' %}selected{% endif %}">#}
+                            <span class="section_label">{{posts_count}} Post{{posts_count|pluralize}}</span>
+                        </a>
+                    {% endif %}
+                {% endwith %}
+            {% endif %}
+
+            {% comment %}
+            {% if visitor.has_brand %}
+            <a href="{{influencer.posts_sponsored_page}}" class="content_bk {% if page == 'posts_sponsored' %}selected{% endif %}">
+                <span class="section_label">Sponsored Posts</span>
+            </a>
+            {% endif %}
+            {% endcomment %}
+
+            {% if visitor.has_brand or influencer == visitor.influencer %}
+
+                
+
+                {% with influencer.items_count as items_count %}
+                    {% if items_count %}
+                        <a href="{% url debra.blogger_views.blogger_generic_posts section='items' influencer_id=influencer.id brand_domain=init_brand %}" class="content_bk {% if page == 'products' %}selected{% endif %}">
+                            {#<a href="#" click-emitter="openLoginRequiredPopup" class="content_bk {% if page == 'items' %}selected{% endif %}">#}
+                            <span class="section_label">{{items_count}} Product{{items_count|pluralize}}</span>
+                        </a>
+                    {% endif %}
+                {% endwith %}
+            {% endif %}
+
+            {% if visitor.has_brand or influencer == visitor.influencer %}
+                {% with influencer.photos_count as photos_count %}
+                    {% if photos_count %}
+                        <a href="{% url debra.blogger_views.blogger_generic_posts section='photos' influencer_id=influencer.id brand_domain=init_brand %}" class="content_bk {% if page == 'instagrams' %}selected{% endif %}">
+                            {#<a href="#" click-emitter="openLoginRequiredPopup" class="content_bk {% if page == 'photos' %}selected{% endif %}">#}
+                            <span class="section_label">{{photos_count}} Photo{{photos_count|pluralize}}</span>
+                        </a>
+                    {% endif %}
+                {% endwith %}
+            {% endif %}
+
+            {% if visitor.has_brand or influencer == visitor.influencer %}
+                {% with influencer.tweets_count as tweets_count %}
+                    {% if tweets_count %}
+                        <a href="{% url debra.blogger_views.blogger_generic_posts section='tweets' influencer_id=influencer.id brand_domain=init_brand %}" class="content_bk {% if page == 'tweets' %}selected{% endif %}">
+                            {#<a href="#" click-emitter="openLoginRequiredPopup" class="content_bk {% if page == 'tweets' %}selected{% endif %}">#}
+                            <span class="section_label">{{tweets_count}} Tweet{{tweets_count|pluralize}}</span>
+                        </a>
+                    {% endif %}
+                {% endwith %}
+            {% endif %}
+
+            {% if visitor.has_brand or influencer == visitor.influencer %}
+                {% with influencer.pins_count as pins_count %}
+                    {% if pins_count %}
+                        <a href="{% url debra.blogger_views.blogger_generic_posts section='pins' influencer_id=influencer.id brand_domain=init_brand %}" class="content_bk {% if page == 'pins' %}selected{% endif %}">
+                            {#<a href="#" click-emitter="openLoginRequiredPopup" class="content_bk {% if page == 'pins' %}selected{% endif %}">#}
+                            <span class="section_label">{{pins_count}} Pin{{pins_count|pluralize}}</span>
+                        </a>
+                    {% endif %}
+                {% endwith %}
+            {% endif %}
+
+            {% if visitor.has_brand or influencer == visitor.influencer %}
+                {% with influencer.videos_count as videos_count %}
+                    {% if videos_count %}
+                        <a href="{% url debra.blogger_views.blogger_generic_posts section='videos' influencer_id=influencer.id brand_domain=init_brand %}" class="content_bk {% if page == 'youtube' %}selected{% endif %}">
+                            {#<a href="#" click-emitter="openLoginRequiredPopup" class="content_bk {% if page == 'pins' %}selected{% endif %}">#}
+                            <span class="section_label">{{videos_count}} Video{{videos_count|pluralize}}</span>
+                        </a>
+                    {% endif %}
+                {% endwith %}
+            {% endif %}
+        {% endif %}
+
+        {% if visitor.is_admin and influencer.shelf_user %}
+            <a href="{% url upgrade_admin:login_as_influencer influencer.id %}" class="content_bk"><span class="section_label">Login As</span></a>
+        {% endif %}
+
+    </div>
+</div>
+
+
+<script type="text/javascript">
+$(document).ready(function(){
+    if ($.browser.name == "firefox") {
+        $('.prof_bg .nav_cover_img').spoilerAlert();
+    } else {
+        $('.prof_bg .nav_cover_img').addClass('css_blur');
+    }
+});
+</script>

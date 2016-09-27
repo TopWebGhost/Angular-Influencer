@@ -1,0 +1,17 @@
+{% load static from staticfiles %}
+<script>
+(function() {
+angular.module('tsGlobal')
+    .provider('tsConfig', function() {
+        this.$get = function () {
+            return {
+                STATIC_PREFIX: '{% static "" %}',
+                HEROKU_RELEASE_VERSION: {% if HEROKU_RELEASE_VERSION %}'{{ HEROKU_RELEASE_VERSION }}'{% else %}null{% endif %},
+                wrapTemplate: function(path) {
+                	return this.STATIC_PREFIX + path + (this.HEROKU_RELEASE_VERSION ? '?relv=' + this.HEROKU_RELEASE_VERSION : '');
+                },
+            }
+        };
+    });
+})();
+</script>

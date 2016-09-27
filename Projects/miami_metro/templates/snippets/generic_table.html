@@ -1,0 +1,93 @@
+{% extends 'pages/job_posts/campaign_base.html' %}
+{% load compressed %}
+{% load custom_filters %}
+
+{% block main_controller %}ng-controller="TableCtrl as tableCtrl"{% endblock main_controller %}
+
+{% block extra_directives %}
+    <div respond-popup url="{% url debra.job_posts_views.send_response %}" subject="Response from {{visitor.brand.name}}"></div>
+{% endblock extra_directives %}
+
+{% block dashboard_content %}
+    <div id="post_analytics_root">
+
+        <div class="campaign_drillin_table_wrapper">
+            <div class="campaign_drillin_table fixed_width_table">
+
+                <div ng-if="pipelineCtrl.sectionSelected.count == 0">
+                    <div class="missing_content">
+                        <div class="missing_text">
+                            No influencers yet.
+                        </div>
+                    </div>
+                </div>
+
+                <table
+                    ng-tablescroll
+                    ng-if="pipelineCtrl.sectionSelected.count > 0"
+                    id="{{ table_id }}"
+                    influencer-stats-table
+                    {% if disable_editing %}disable-editing{% endif %}
+                    {% if True %}disable-posts-expand{% endif %}
+                    source-url="{% url debra.search_views.influencer_posts_info %}"
+                    {% if table_classes %} class="{{ table_classes }}"{% endif %}
+                >
+
+                    <thead>
+                        <tr>
+                            {% for field, header in fields %}
+                                {% if not field in fields_hidden %}
+                                    <th ng-if="tableCtrl.headers['{{field}}'].visible" {% if field not in fields_unsortable %}sorting-column class="{{ field }} column_{{ forloop.counter }}{% if sort_by == forloop.counter %} sorting_{% if sort_direction == 1 %}desc{% else %}asc{% endif %}{% endif %}" refresh-params="?sort_direction={% if sort_by != forloop.counter or sort_direction == 1%}0{% else %}1{% endif %}&sort_by={{ forloop.counter }}&{{ sorting_params.urlencode }}"{% endif %}>{{ header }}</th>
+                                {% endif %}
+                            {% endfor %}
+                        </tr>
+                    </thead>
+
+                    <tfoot>
+                        <tr>
+                            {% for field, total in total_values %}
+                                {% if not field in fields_hidden %}
+                                    <td ng-if="tableCtrl.headers['{{field}}'].visible" class="column_{{ forloop.counter }}">{{ total|default_if_none:"---" }}</td>
+                                {% endif %}
+                            {% endfor %}
+                        </tr>
+
+                        <tr>
+                            {% for field, perc in percentage %}
+                                {% if not field in fields_hidden %}
+                                    <td ng-if="tableCtrl.headers['{{field}}'].visible" class="column_{{ forloop.counter }}">{{ perc|default_if_none:"---" }}</td>
+                                {% endif %}
+                            {% endfor %}
+                        </tr>
+                    </tfoot>
+
+                    <tbody>
+                        {% for row_data in paginated_data_list %}
+                            <tr {% if row_data.row_attributes %}{{ row_data.row_attributes|safe }}{% endif %}>
+                                {% for key, value in row_data.items %}
+                                    {% if not key in fields_hidden %}
+                                        {% if key in fields_loading and value == None %}
+                                            <td ng-if="tableCtrl.headers['{{key}}'].visible" class="{{ key }} column_{{ forloop.counter }}">Loading...</td>
+                                        {% else %}
+                                            {% if value.keys and 'include_template' in value.keys %}
+                                                <td ng-if="tableCtrl.headers['{{key}}'].visible" post-analytics-cell pa-id="{{ row_data.id }}" {% if 'approve_status' in value.keys %}approve-status="{{ value.approve_status }}"{% endif %} ng-class="{fetching_data: values.isQad == false}" class="{{ key }} column_{{ forloop.counter }}{% if value.td_class %} {{value.td_class}}{% else %} number_td{% endif %}"{% if value.disable_editing %} disable-editing{% endif %}>{% include value.include_template with row_data=row_data %}</td>
+                                            {% else %}
+                                                <td ng-if="tableCtrl.headers['{{key}}'].visible" class="{{ key }} column_{{ forloop.counter }}{% if value.td_class %} {{value.td_class}}{% else %} number_td{% endif %}">{{ value|default_if_none:"---" }}</td>
+                                            {% endif %}
+                                        {% endif %}
+                                    {% endif %}
+                                {% endfor %}
+                            </tr>
+                            {% block extra_table_rows %}
+                            {% endblock extra_table_rows %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+                {% load paginator %}
+                {% paginator object_list=paginated_queryset request=request %}
+            </div>
+        </div>
+
+    </div>
+{% endblock dashboard_content %}

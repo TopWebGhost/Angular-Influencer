@@ -1,0 +1,39 @@
+{% load custom_filters %}
+
+{% with info=row_data.date_range %}
+<div class="table_edit_boxes ">
+    <div class="table_vers_date_picker">
+    
+        {% verbatim %}
+        <div ng-hide="loading">
+            <div ng-if="values.startDate && values.latestDate" ng-date-range bind="dateRangeModel" start-date="{{ values.startDate }}" end-date="{{ values.latestDate }}" opens="center" class="date_range_field" no-max-date=""></div>
+            <div ng-if="!(values.startDate && values.latestDate)" ng-date-range bind="dateRangeModel" opens="center" class="date_range_field" no-max-date=""></div>
+        </div>
+        <div ng-show="loading">
+            Updating...
+        </div>
+        {% endverbatim %}
+
+        <div post-analytics-update class="edit_field_in_table" target-url="{% url debra.job_posts_views.edit_contract info.contract_id %}" values-list='{"startDate": "{{ info.start_date|date:"Y-m-d" }}", "latestDate": "{{ info.latest_date|date:"Y-m-d" }}"}'>
+            <div class="editing_area clearfix">
+
+                {% comment %}
+                <fieldset class="">
+                    <input type="date" ng-model="values.startDate">
+                </fieldset>
+                <fieldset class="">
+                    <input type="date" ng-model="values.latestDate">
+                </fieldset>
+                <button ng-click="$event.stopPropagation();!loading && update({start_date: values.startDate, latest_date: values.latestDate})" class="update_btn">
+                    <span ng-show="loading">Updating...</span>
+                    <span ng-hide="loading || error">Update</span>
+                    <span ng-show="error">Error!</span>
+                </button>
+                {% endcomment %}
+
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endwith %}

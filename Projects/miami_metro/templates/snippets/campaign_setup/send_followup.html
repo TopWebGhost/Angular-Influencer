@@ -1,0 +1,30 @@
+{% load custom_filters %}
+
+{% with info=row_data.send_followup %}
+
+<div propagate-cell-class="brand_not_sent_yet brand_pending brand_complete" ng-class="{'brand_not_sent_yet': mailboxTableRow.sendFollowupColumn.values.followupStatus.value == 0, 'brand_pending': mailboxTableRow.sendFollowupColumn.values.followupStatus.value == 1, 'brand_complete': mailboxTableRow.sendFollowupColumn.values.followupStatus.value == 2}">
+    <div class="table_edit_boxes larger_box" mailbox-table-cell propagate-name="sendFollowupColumn">
+
+        <div class="individual_brand_action">
+            {% verbatim %}
+            <span class="brand_action_label">Followup: </span>
+            <span class="brand_action_status" ng-class="{'brand_not_sent_yet': mailboxTableRow.sendFollowupColumn.values.followupStatus.value == 0, 'brand_pending': mailboxTableRow.sendFollowupColumn.values.followupStatus.value == 1, 'brand_complete': mailboxTableRow.sendFollowupColumn.values.followupStatus.value == 2}">{{ mailboxTableRow.sendFollowupColumn.values.followupStatus.name }}</span>&nbsp;
+            {% endverbatim %}
+        </div>
+
+        <div class="individual_brand_action">
+            <button class="mini_action_btn" broadcaster ng-click='broadcasterCtrl.broadcast("openSendEmailPopup", {url: "{% url debra.job_posts_views.send_followup_message row_data.contract_id %}", template: pipelineCtrl.data.info.followup_template.template, subject: pipelineCtrl.data.info.followup_template.subject, successCb: save, successEvent: "refreshConversation", successEventParams: {mailboxId: {{ row_data.mailbox_id }}}, status: values.followupStatus, templateContextUrl: "{% url debra.job_posts_views.get_email_template_context row_data.contract_id %}", mailboxId: {{ row_data.mailbox_id }}})'>
+                <span ng-show="values.followupStatus.value == 0">Send Followup</span>
+                <span ng-hide="values.followupStatus.value == 0">Send One More Followup</span>
+            </button>
+        </div>
+
+
+
+
+        <div post-analytics-update class="edit_field_in_table" target-url="{% url debra.job_posts_views.edit_contract row_data.contract_id %}" values_list='{"followupStatus": {{ info.followup_status|jsonify }}}'>
+        </div>
+
+    </div>
+</div>
+{% endwith %}

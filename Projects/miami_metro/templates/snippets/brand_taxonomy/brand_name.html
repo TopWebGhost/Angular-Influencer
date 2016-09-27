@@ -1,0 +1,24 @@
+{% load custom_filters %}
+
+{% with info=row_data.brand_name %}
+<div class="table_edit_boxes">
+    {% verbatim %}
+    <div ng-hide="showEdit" class="faux_textbox">{{ values.brandName || "---" }}</div>
+    {% endverbatim %}
+
+    <div post-analytics-update class="edit_field_in_table" values-list='{"brandName": "{{ info.brand_name|default_if_none:''|escapejs }}"}'>
+        <div class="editing_area clearfix">
+            <fieldset>
+                <input type="text" ng-model="values.brandName" />
+            </fieldset>
+
+            <button request-button class="update_btn" ng-click="requestButtonCtrl.doRequest({method: 'POST', successCb: save, url: '/update_model/', data: {modelName: 'BrandTaxonomy', id: {{ row_data.id }}, values: {'brand_name': values.brandName}}})">
+                <span ng-hide="requestButtonCtrl.loading">Update</span>
+                <span ng-show="requestButtonCtrl.loading">Updating...</span>
+            </button>
+
+        </div>
+    </div>
+
+</div>
+{% endwith %}

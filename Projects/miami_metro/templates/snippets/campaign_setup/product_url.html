@@ -1,0 +1,27 @@
+{% load custom_filters %}
+
+{% with info=row_data.product_url %}
+
+    <div class="table_edit_boxes number_box">
+        {% verbatim %}
+        <div ng-hide="showEdit" class="faux_textbox">{{ values.productUrl || "---" }}</div>
+        {% endverbatim %}
+        {% if info.product_sending_status == 'can_choose_product_page' %}
+            <div ng-hide="showEdit" ng-if="mailboxTableRow.collectDetailsStatus.value == 1">(pending)</div>
+        {% endif %}
+        <div post-analytics-update class="edit_field_in_table" {% if info.contract_id %}target-url="{% url debra.job_posts_views.edit_contract info.contract_id %}"{% endif %} values-list='{"productUrl": "{{ info.product_url|default_if_none:''|escapejs }}"}'>
+            <div class="editing_area clearfix">
+                <fieldset class="">
+                    <input type="text" ng-model="values.productUrl">
+                </fieldset>
+
+                <button request-button class="update_btn" ng-click="requestButtonCtrl.doRequest({method: 'POST', url: '/update_model/', successCb: save, data: {modelName: 'Contract', id: {{ row_data.contract_id }}, values: {product_url: values.productUrl} }})">
+                    <span ng-hide="requestButtonCtrl.loading">Update</span>
+                    <span ng-show="requestButtonCtrl.loading">Updating...</span>
+                </button>
+
+            </div>
+        </div>
+    </div>
+
+{% endwith %}

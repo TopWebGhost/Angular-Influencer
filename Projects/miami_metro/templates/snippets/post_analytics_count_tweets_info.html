@@ -1,0 +1,21 @@
+{% load custom_filters %}
+
+{% with info=row_data.count_tweets_info %}
+<div class="table_edit_boxes number_box">
+    {% verbatim %}
+    <div ng-hide="showEdit" class="faux_textbox">{{ values.countTweets || "---"}}</div>
+    {% endverbatim %}
+
+    <div post-analytics-update class="edit_field_in_table" target-url="{% url debra.search_views.edit_post_analytics info.pa_id %}" values-list='{"countTweets": "{{ info.count_tweets|default_if_none:"" }}"}'>
+        <div class="editing_area clearfix">
+            <fieldset class="typical_form halfer xsmall_field lighter_field">
+                <input type="text" ng-model="values.countTweets">
+            </fieldset>
+            <button ng-click="$event.stopPropagation();!loading && update({count_tweets: values.countTweets})" class="update_btn">
+                <span ng-show="loading">Updating...</span>
+                <span ng-hide="loading">Update</span>
+            </button>
+        </div>
+    </div>
+</div>
+{% endwith %}

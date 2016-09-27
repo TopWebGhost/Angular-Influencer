@@ -1,0 +1,32 @@
+{% with info=row_data.remove_info %}
+
+	<div row-archiver stage-type="{{ info.stage_type }}" mapping-id="{{ row_data.id }}" campaign-id="{{ campaign.id }}">
+		<div ng-show="rowArchiverCtrl.loading">
+			<span ng-hide="editableElementCtrl.values.archived">Archiving...</span>
+			<span ng-show="editableElementCtrl.values.archived">Restoring...</span>
+		</div>
+
+		<div ng-hide="rowArchiverCtrl.loading">
+			<button
+				class="icon_button"
+				ng-class="{'icon-arrow_0_out_box': editableElementCtrl.values.archived, 'icon-misc_files_trash4': !editableElementCtrl.values.archived}"
+				ng-click="rowArchiverCtrl.toggle({values: editableElementCtrl.values, ctrl: tableRowCtrl})"
+			></button>
+		</div>
+	</div>
+
+	<div post-analytics-update class="edit_field_in_table" values-list='{"id": {{ row_data.id }}, "archived": {% if info.archived %}true{% else %}false{% endif %}}'></div>
+
+	{% comment %}
+
+    <div request-button>
+
+        <div ng-show="requestButtonCtrl.loading">Archiving..</div>
+
+        <button ng-hide="requestButtonCtrl.loading" ng-click="requestButtonCtrl.doRequest({method: 'POST', successCb: tableRowCtrl.removeRow, url: '{% url debra.job_posts_views.update_model %}', data: {modelName: 'InfluencerAnalytics', id: {{ row_data.id }}, values: {archived: true}}})" class="icon_button icon-misc_files_trash4"></button>
+
+    </div>
+
+    {% endcomment %}
+
+{% endwith %}

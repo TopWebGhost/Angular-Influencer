@@ -1,0 +1,25 @@
+{% load custom_filters %}
+
+{% with info=row_data.paypal %}
+<div class="table_edit_boxes number_box">
+    {% verbatim %}
+    <div ng-hide="showEdit" class="faux_textbox">{{ values.username || "---" }}</div>
+    {% endverbatim %}
+
+    <div post-analytics-update class="edit_field_in_table" target-url="{% url debra.job_posts_views.edit_contract info.contract_id %}" values-list='{"username": "{{ info.username|default_if_none:''|escapejs }}"}'>
+        <div class="editing_area clearfix">
+            <fieldset>
+                <input type="text" ng-model="values.username">
+            </fieldset>
+            <button
+                request-button
+                ng-click="$event.stopPropagation(); requestButtonCtrl.doRequest({method: 'POST', url: updateUrl, successCb: save, data: {modelName: 'Contract', id: {{ info.contract_id }}, json_fields: {info: {additional_data: {paypal_username: values.username}}}}})"
+                class="update_btn"
+            >
+                <span ng-hide="requestButtonCtrl.loading">Update</span>
+                <span ng-show="requestButtonCtrl.loading">Updating...</span>
+            </button>
+        </div>
+    </div>
+</div>
+{% endwith %}

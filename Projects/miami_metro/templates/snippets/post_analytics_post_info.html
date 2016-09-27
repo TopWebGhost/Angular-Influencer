@@ -1,0 +1,20 @@
+{% load custom_filters %}
+
+{% with post_info=row_data.post_info %}
+
+{% if post_info.post %}
+    <div>
+        <div class="actual_post_table_section">
+            {% comment %}<img src="{{ post_info.post.img }}" class="imgfit">{% endcomment %}
+            <div class="cropped-image" style="display: block;" bg-image="{{ post_info.post.img }}" hide-on-error hide-parent spinner></div>
+        </div>
+        <div class="text_next_to_image">
+        	<div>{{ post_info.post.title|default_if_none:"" }}</div>
+        	<a class="txt_link darker_teal" href="{{ post_info.post.url }}" target="_blank">View Post</a>
+        </div>
+    </div>
+{% else %}
+    <div>Not found.</div>
+{% endif %}
+
+{% endwith %}

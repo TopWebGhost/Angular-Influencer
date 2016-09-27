@@ -1,0 +1,18 @@
+{% load custom_filters %}
+
+{% with info=row_data.last_reply %}
+
+    <div class="date_main_table_cell">
+        <div class="last_reply_date">
+            {{ info.last_message|common_date_format:visitor|default_if_none:"Never" }}</div>
+        <div class="from_last_reply">
+        	<span class="table_cell_label">Yours: </span>
+        	<span class="table_cell_number">{{ info.last_sent|common_date_format:visitor|default_if_none:"Never" }}</span>
+        </div>
+        <div class="from_last_reply">
+        	<span class="table_cell_label">To You: </span>
+        	<span class="table_cell_number">{{ info.last_reply|common_date_format:visitor|default_if_none:"Never" }}</span>
+        </div>
+    </div>
+
+{% endwith %}

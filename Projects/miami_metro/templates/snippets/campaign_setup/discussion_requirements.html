@@ -1,0 +1,12 @@
+{% load custom_filters %}
+
+{% with info=row_data.discussion_requirements %}
+<div class="table_edit_boxes larger_box">
+
+    <a broadcaster ng-click="broadcasterCtrl.broadcast('openRequirementsPopup', {setupUrl: '{% url debra.job_posts_views.campaign_edit %}#/{{ row_data.campaign_id }}/3', values: values, storedValues: storedValues, contractId: {{ row_data.contract_id }}})" class="mini_action_btn" >View Requirements</a>
+
+    <div post-analytics-update class="edit_field_in_table" target-url="{% url debra.job_posts_views.edit_contract row_data.contract_id %}" values-list='{"deliverables": {{ row_data.deliverables.deliverables|jsonify|safe }}, "dateRange": {"startDate": "{{ row_data.date_range.start_date|date:"Y-m-d" }}", "endDate": "{{ row_data.date_range.latest_date|date:"Y-m-d" }}"}, "requirements": "{{ row_data.post_requirements.post_requirements|default_if_none:''|escapejs }}"}'>
+    </div>
+
+</div>
+{% endwith %}

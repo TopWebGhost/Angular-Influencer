@@ -1,0 +1,256 @@
+<div class="pricing_lineup" ng-controller="PricingCtrl" style="margin-bottom:150px;">
+    <div stripe-popup key="{{ stripe_key }}" payment-url="{% url debra.payment_views.brand_payment %}?next={% url debra.search_views.blogger_search %}" promo-url="{% url debra.payment_views.check_coupon %}"></div>
+    <div class="pricing_row first_child clearfix">
+        <div class="pricing_block first_block"><div class="block_content row_header"><div class="row_title" style="font-size:30px; margin-top:40px;">The Plans</div></div></div>
+        <div class="pricing_block top">
+            {% if shelf_user %}
+                {% if current_plan != constants.STRIPE_PLAN_CHEAP %}
+                    <a href="#" ng-click="openStripePopup('cheap', false)">
+                {% else %}
+                    <a>
+                {% endif %}
+            {% else %}
+            <a href="#" class="button" click-emitter="openSignupPopup" args='{"initial_type": "brand"}'>
+            {% endif %}
+                <div class="block_content column_header clearfix one">
+                    <div class="title">Artisan</div>
+                    <div class="price_info">$9/month</div>
+                    <div class="outer-center">
+                        <div class="inner-center">
+                            {% if current_plan != constants.STRIPE_PLAN_CHEAP %}
+                                <div class="square_bt rounded sm">Buy</div>
+                            {% else %}
+                                Your current plan
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="pricing_block top">
+            {% if shelf_user %}
+                {% if current_plan != constants.STRIPE_PLAN_BASIC %}
+                    <a href="#" ng-click="openStripePopup('basic', false)">
+                {% else %}
+                    <a>
+                {% endif %}
+            {% else %}
+            <a href="#" class="button" click-emitter="openSignupPopup" args='{"initial_type": "brand"}'>
+            {% endif %}
+                <div class="block_content column_header clearfix two">
+                    <div class="title">Boutique</div>
+                    <div class="price_info">$29/month</div>
+                    <div class="outer-center">
+                        <div class="inner-center">
+                        {% if current_plan != constants.STRIPE_PLAN_BASIC %}
+                            <div class="square_bt rounded sm">Buy</div>
+                        {% else %}
+                            Your current plan
+                        {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="pricing_block top">
+            {% if shelf_user %}
+                {% if current_plan != constants.STRIPE_PLAN_STARTUP %}
+                    <a href="#" ng-click="openStripePopup('startup', false);">
+                {% else %}
+                    <a>
+                {% endif %}
+            {% else %}
+            <a href="#" class="button" click-emitter="openSignupPopup" args='{"initial_type": "brand"}'>
+            {% endif %}
+                <div class="block_content column_header clearfix three">
+                    <div class="title">Pro</div>
+                    <div class="price_info">$100/month</div>
+                    <div class="outer-center">
+                        <div class="inner-center">
+                            {% if current_plan != constants.STRIPE_PLAN_STARTUP %}
+                                <div class="square_bt rounded sm">Buy</div>
+                            {% else %}
+                                Your current plan
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="pricing_block top">
+                {% if not shelf_user or current_plan != constants.STRIPE_PLAN_ENTERPRISE %}
+                    <a class="launch-popup" href="#" data-popup-type="contact_us" broadcaster="openContactForm">
+                {% else %}
+                    <a>
+                {% endif %}
+                <div class="block_content column_header clearfix four">
+                    <div class="title">Enterprise</div>
+                    <div class="price_info">&nbsp;</div>
+                    <div class="outer-center">
+                        <div class="inner-center">
+                            {% if current_plan != constants.STRIPE_PLAN_ENTERPRISE %}
+                            <div class="square_bt rounded sm">Contact Us</div>
+                            {% else %}
+                            Your current plan
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+
+
+
+    <div class="pricing_subheader">Plan Details</div>
+
+    <div class="pricing_row first_child clearfix">
+        <div class="pricing_block first_block"><div class="block_content row_header"><div class="row_title">Unlimited Search Results</div><div class="icon-letter_question2 bs_tooltip" title="You can perform as many search queries as you want each month."></div></div></div>
+        <div class="pricing_block"><div class="block_content one icon-letter_check3"></div></div>
+        <div class="pricing_block"><div class="block_content two icon-letter_check3"></div></div>
+        <div class="pricing_block"><div class="block_content three icon-letter_check3"></div></div>
+        <div class="pricing_block"><div class="block_content four icon-letter_check3"></div></div>
+    </div>
+    <div class="pricing_row clearfix">
+        <div class="pricing_block first_block"><div class="block_content row_header"><div class="row_title">Full Directory Access</div><div class="icon-letter_question2 bs_tooltip" title="You'll have access to thousands of bloggers in one place with all relevant info pertaining to their online presense."></div></div></div>
+        <div class="pricing_block"><div class="block_content one icon-letter_check3"></div></div>
+        <div class="pricing_block"><div class="block_content two icon-letter_check3"></div></div>
+        <div class="pricing_block"><div class="block_content three icon-letter_check3"></div></div>
+        <div class="pricing_block"><div class="block_content four icon-letter_check3"></div></div>
+    </div>
+    <div class="pricing_row clearfix">
+        <div class="pricing_block first_block"><div class="block_content row_header"><div class="row_title">Unlimited Users</div><div class="icon-letter_question2 bs_tooltip" title="Each brand is allowed one login account, unless they have the Enterprise Plan."></div></div></div>
+        <div class="pricing_block"></div>
+        <div class="pricing_block"></div>
+        <div class="pricing_block"></div>
+        <div class="pricing_block"><div class="block_content four icon-letter_check3"></div></div>
+    </div>
+
+    <h1 class="pricing_subheader">Blogger Information Panel</h1>
+
+    <div class="pricing_row first_child clearfix">
+        <div class="pricing_block first_block"><div class="block_content row_header"><h1 class="row_title">Blogger Name / Location / Links</h1><div class="icon-letter_question2 bs_tooltip" title="All basic info will show up in the top portion of her blogger-details-panel."></div></div></div>
+        <div class="pricing_block"><div class="block_content one icon-letter_check3"></div></div>
+        <div class="pricing_block"><div class="block_content two icon-letter_check3"></div></div>
+        <div class="pricing_block"><div class="block_content three icon-letter_check3"></div></div>
+        <div class="pricing_block"><div class="block_content four icon-letter_check3"></div></div>
+    </div>
+    <div class="pricing_row clearfix">
+        <div class="pricing_block first_block"><div class="block_content row_header"><div class="row_title">100+ posts w/ related products</div><div class="icon-letter_question2 bs_tooltip" title="We collect 100+ posts for each blogger (if available), and surface them in a feed-style format for easy browsing."></div></div></div>
+        <div class="pricing_block"><div class="block_content one icon-letter_check3"></div></div>
+        <div class="pricing_block"><div class="block_content two icon-letter_check3"></div></div>
+        <div class="pricing_block"><div class="block_content three icon-letter_check3"></div></div>
+        <div class="pricing_block"><div class="block_content four icon-letter_check3"></div></div>
+    </div>
+    <div class="pricing_row clearfix">
+        <div class="pricing_block first_block"><div class="block_content row_header"><div class="row_title">Frequency of endorsed brands</div><div class="icon-letter_question2 bs_tooltip" title="We show a list of all the brands the blogger has posted about, as well as a count of how many posts mention that brand."></div></div></div>
+        <div class="pricing_block"><div class="block_content one icon-letter_check3"></div></div>
+        <div class="pricing_block"><div class="block_content two icon-letter_check3"></div></div>
+        <div class="pricing_block"><div class="block_content three icon-letter_check3"></div></div>
+        <div class="pricing_block"><div class="block_content four icon-letter_check3"></div></div>
+    </div>
+    <div class="pricing_row clearfix">
+        <div class="pricing_block first_block"><div class="block_content row_header"><div class="row_title">Social Media Analysis Stats</div><div class="icon-letter_question2 bs_tooltip" title="We collect and analyze info on each of the main social networks : Facebook, Twitter, Instagram, and Pinterest.  We provide monthly averages of all engagement and follower metrics, that are updated weekly."></div></div></div>
+        <div class="pricing_block"><div class="block_content one icon-letter_check3"></div></div>
+        <div class="pricing_block"><div class="block_content two icon-letter_check3"></div></div>
+        <div class="pricing_block"><div class="block_content three icon-letter_check3"></div></div>
+        <div class="pricing_block"><div class="block_content four icon-letter_check3"></div></div>
+    </div>
+    <div class="pricing_row clearfix">
+        <div class="pricing_block first_block"><div class="block_content row_header"><div class="row_title">Contact Info</div><div class="icon-letter_question2 bs_tooltip" title="We provide all email links provided by the blogger.  Sometimes there are multiples depending on what type of request you're sending."></div></div></div>
+        <div class="pricing_block"></div>
+        <div class="pricing_block"><div class="block_content two icon-letter_check3"></div></div>
+        <div class="pricing_block"><div class="block_content three icon-letter_check3"></div></div>
+        <div class="pricing_block"><div class="block_content four icon-letter_check3"></div></div>
+    </div>
+
+
+<h1 class="pricing_subheader">Blogger Search Filters</h1>
+
+    <div class="pricing_row first_child clearfix">
+        <div class="pricing_block first_block"><div class="block_content row_header"><div class="row_title">Search for Any Keyword</div><div class="icon-letter_question2 bs_tooltip" title="You can search for any word or product that might appear in a blog post, like : Nike, swimsuit, nose ring, floral, etc."></div></div></div>
+        <div class="pricing_block"><div class="block_content one icon-letter_check3"></div></div>
+        <div class="pricing_block"><div class="block_content two icon-letter_check3"></div></div>
+        <div class="pricing_block"><div class="block_content three icon-letter_check3"></div></div>
+        <div class="pricing_block"><div class="block_content four icon-letter_check3"></div></div>
+    </div>
+    <div class="pricing_row clearfix">
+        <div class="pricing_block first_block"><div class="block_content row_header"><div class="row_title">Search by Price Range</div><div class="icon-letter_question2 bs_tooltip" title="If you are selling items that fall inside a particular price range, you should try to find bloggers who stick within that price range."></div></div></div>
+        <div class="pricing_block"></div>
+        <div class="pricing_block"><div class="block_content two icon-letter_check3"></div></div>
+        <div class="pricing_block"><div class="block_content three icon-letter_check3"></div></div>
+        <div class="pricing_block"><div class="block_content four icon-letter_check3"></div></div>
+    </div>
+    <div class="pricing_row clearfix">
+        <div class="pricing_block first_block"><div class="block_content row_header"><div class="row_title">Search by Category</div><div class="icon-letter_question2 bs_tooltip" title="This includes broad categories of items like shoes, jewelry, apparel...  as well as types of items like maternity, athletic, plus-sized, etc."></div></div></div>
+        <div class="pricing_block"></div>
+        <div class="pricing_block"><div class="block_content two icon-letter_check3"></div></div>
+        <div class="pricing_block"><div class="block_content three icon-letter_check3"></div></div>
+        <div class="pricing_block"><div class="block_content four icon-letter_check3"></div></div>
+    </div>
+    <div class="pricing_row clearfix">
+        <div class="pricing_block first_block"><div class="block_content row_header"><div class="row_title">Search by Popularity</div><div class="icon-letter_question2 bs_tooltip" title="Popularity is calculated using social media followers."></div></div></div>
+        <div class="pricing_block"></div>
+        <div class="pricing_block"><div class="block_content two icon-letter_check3"></div></div>
+        <div class="pricing_block"><div class="block_content three icon-letter_check3"></div></div>
+        <div class="pricing_block"><div class="block_content four icon-letter_check3"></div></div>
+    </div>
+    <div class="pricing_row clearfix">
+        <div class="pricing_block first_block"><div class="block_content row_header"><div class="row_title">Search by Engagement</div><div class="icon-letter_question2 bs_tooltip" title="Engagement is calculated using comments."></div></div></div>
+        <div class="pricing_block"></div>
+        <div class="pricing_block"><div class="block_content two icon-letter_check3"></div></div>
+        <div class="pricing_block"><div class="block_content three icon-letter_check3"></div></div>
+        <div class="pricing_block"><div class="block_content four icon-letter_check3"></div></div>
+    </div>
+    <div class="pricing_row clearfix">
+        <div class="pricing_block first_block"><div class="block_content row_header"><div class="row_title">Search by Similar Brands</div><div class="icon-letter_question2 bs_tooltip" title="If you are a small jewelry store, maybe you'd want to find bloggers who blog about a lot of Chloe+Isabel items...  Or if you are a vintage store, you might want to look for bloggers featuring a lot of Modcloth items."></div></div></div>
+        <div class="pricing_block"></div>
+        <div class="pricing_block"></div>
+        <div class="pricing_block"><div class="block_content three icon-letter_check3"></div></div>
+        <div class="pricing_block"><div class="block_content four icon-letter_check3"></div></div>
+    </div>
+    <div class="pricing_row clearfix">
+        <div class="pricing_block first_block"><div class="block_content row_header"><div class="row_title">Search by Gender (coming soon)</div><div class="icon-letter_question2 bs_tooltip" title="You can search by bloggers blogging about primarily womens items or mens...  and this feature is coming really soon."></div></div></div>
+        <div class="pricing_block"></div>
+        <div class="pricing_block"></div>
+        <div class="pricing_block"><div class="block_content three icon-letter_check3"></div></div>
+        <div class="pricing_block"><div class="block_content four icon-letter_check3"></div></div>
+    </div>
+    <div class="pricing_row clearfix">
+        <div class="pricing_block first_block"><div class="block_content row_header"><div class="row_title">Search by Location</div><div class="icon-letter_question2 bs_tooltip" title="If a blogger has mentioned his location, we allow you to filter based on where the blogger is located."></div></div></div>
+        <div class="pricing_block"></div>
+        <div class="pricing_block"></div>
+        <div class="pricing_block"><div class="block_content three icon-letter_check3"></div></div>
+        <div class="pricing_block"><div class="block_content four icon-letter_check3"></div></div>
+    </div>
+
+    <h1 class="pricing_subheader">Blogger Outreach Tools</h1>
+
+    <div class="pricing_row first_child clearfix">
+        <div class="pricing_block first_block"><div class="block_content row_header"><div class="row_title">Create Collections</div><div class="icon-letter_question2 bs_tooltip" title="Collections help you to keep track of bloggers you'd like to reach out to.  You can create as many as you want."></div></div></div>
+        <div class="pricing_block"></div>
+        <div class="pricing_block"></div>
+        <div class="pricing_block"><div class="block_content three icon-letter_check3"></div></div>
+        <div class="pricing_block"><div class="block_content four icon-letter_check3"></div></div>
+    </div>
+    <div class="pricing_row clearfix">
+        <div class="pricing_block first_block"><div class="block_content row_header"><div class="row_title">Outreach Tracking Spreadsheets</div><div class="icon-letter_question2 bs_tooltip" title="When doing outreach, you'll most likely be reaching out to a large number of bloggers...  so we've created a spreadsheet-view of all the bloggers in your collections.  So that you can quickly scan all relevant info.  We also provide a way for you to keep notes and mark the stage of the outreach process for each blogger."></div></div></div>
+        <div class="pricing_block"></div>
+        <div class="pricing_block"></div>
+        <div class="pricing_block"><div class="block_content three icon-letter_check3"></div></div>
+        <div class="pricing_block"><div class="block_content four icon-letter_check3"></div></div>
+    </div>
+
+
+
+    <!--div class="extra_options_row">
+        <h1 class="extra_header">Fashion PR Agents</h1>
+        <div class="extra_subheader">Interested in Beta Testing? Get a special price!</div>
+        <div class="extra_instructions">We’re looking for PR Agents in the fashion space who would be interested in participating in our beta program.  We are looking for 20 total.  You will get the product for free...  all we want in return is feedback and feature suggestions.</div>
+        <a class="launch-popup square_bt teal_bt md" href="#" data-popup-type="contact_us" broadcaster="openContactForm">Contact Us</a>
+    </div-->
+
+
+
+
+</div>

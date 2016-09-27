@@ -1,0 +1,12 @@
+{% load custom_filters %}
+
+{% with info=row_data.global_details %}
+<div class="table_edit_boxes larger_box">
+
+    <a broadcaster ng-click="broadcasterCtrl.broadcast('openCampaignDetailsPopup', {setupUrl: '{% url debra.job_posts_views.campaign_create row_data.campaign_id %}#/3', values: values, storedValues: storedValues, contractId: {{ row_data.contract_id }}})" class="txt_link lessergray" >View Global Details</a>
+
+    <div post-analytics-update class="edit_field_in_table" target-url="{% url debra.job_posts_views.edit_contract row_data.contract_id %}" values-list='{"description": "{{ info.description|default_if_none:''|escapejs }}", "whoShouldApply": "{{ info.who_should_apply|default_if_none:''|escapejs }}", "hashtagsRequired": "{{ info.hashtags_required|default_if_none:''|escapejs }}", "mentionsRequired": "{{ info.mentions_required|default_if_none:''|escapejs }}", "campaignName": "{{ info.campaign_name|default_if_none:''|escapejs }}", "clientUrl": "{{ info.client_url|default_if_none:''|escapejs }}", "clientName": "{{ info.client_name|default_if_none:''|escapejs }}"}'>
+    </div>
+
+</div>
+{% endwith %}

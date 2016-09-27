@@ -1,0 +1,75 @@
+<div class="pricing_container">
+    <div class="row_o_prices clearfix">
+        <div class="pricing_block_container first_child">
+            <div class="pricing_block">
+                <div class="price_wrapper clearfix">
+                    <div class="price_block_header clearfix">
+                        <div class="text_container">
+                            {% if plan.one_time and plan.other_plans %}
+                                {% if plan.services_plan %}
+                                <div class="title">One Time Services Contract</div>
+                                <div class="mini_title">Terms specified in the contract sent to you separately.</div>
+                                {% else %}
+                                <div class="title">Activation Fee + 1st Month</div>
+                                <div class="mini_title">This includes data-base access, setup, and first month of usage.</div>
+                                {% endif %}
+                                <div class="price">${{ plan.amount|floatformat:2 }}</div>
+                            {% elif plan.one_time and not plan.other_plans %}
+                                {% if plan.services_plan %}
+                                <div class="title">One Time Services Contract</div>
+                                <div class="mini_title">Terms specified in the contract sent to you separately.</div>
+                                {% else %}
+                                <div class="title">Activation Fee + 1st Year</div>
+                                <div class="mini_title">This includes data-base access, setup, and first year of usage.</div>
+                                {% endif %}
+                                <div class="price">${{ plan.amount|floatformat:2 }}</div>
+                            {% else %}
+                                <div class="title">The {{ plan.type|upper }} Plan</div>
+                                <div class="mini_title">Includes activation, database access, and set up fees.</div>
+                                <div class="price">${{ plan.amount|floatformat:2 }}{% if plan.interval_count > 1 %} for {{ plan.interval_count }} {{ plan.interval }}{{ plan.interval_count|pluralize }}{% else %} per {{ plan.interval }}{% endif %}</div>
+                            {% endif %}
+                            {% if plan.extra_text %}
+                            <div class="extra_text">{{ plan.extra_text }}</div>
+                            {% endif %}
+                        </div>
+                        {% if not plan.hidden_button %}
+                        <div style="float:right">
+                            <div display-message-popup message="Please, agree to terms."></div>
+                            <div class="square_bt green_bt xl" ng-click="openStripePopup('{{ plan.name }}', false, null, {{ plan.amount }}, '{{ plan.type }}', '{{ plan.interval }}', '{{ plan.interval_count }}', {% if plan.one_time %}'{{ plan.name|escapejs }}'{% else %}false{% endif %})">Buy</div>
+                            <fieldset class="typical_form right" style="clear:both;">
+                                <p class="serif_ital lessgray xxsmall center_text" style="margin-top:10px;">
+                                    <input type="checkbox" style="width:auto; display:inline;" class="terms_agree ng-pristine ng-valid" ng-model="agree">
+                                    Agree to <a target="_blank" class="txt_link lessgray" href="/terms/">terms</a>            
+                                </p>
+                            </fieldset>
+                        </div>
+                        {% endif %}
+                        {% if plan.one_time %}
+                            {% for plan in plan.other_plans %}
+                            <div class="text_container" style="padding-top: 30px;">
+                                {% if plan.one_time %}
+                                    <div class="title">One Time Setup / Service Fee</div>
+                                    <div class="price">${{ plan.amount|floatformat:2 }}</div>
+                                {% else %}
+                                    <div class="mini_title">The {{ plan.type|upper }} Plan</div>
+                                    <div class="price">${{ plan.amount|floatformat:2 }}{% if plan.interval_count > 1 %} for {{ plan.interval_count }} {{ plan.interval }}{{ plan.interval_count|pluralize }}{% else %} per {{ plan.interval }}{% endif %}</div>
+                                {% endif %}
+                                {% if plan.extra_text %}
+                                <div class="extra_text">{{ plan.extra_text }}</div>
+                                {% endif %}
+                            </div>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                    {% comment %}
+                    <div class="pricing_dets">
+                        {% for detail in plan.details %}
+                            <div class="detail {% if forloop.last %}last_child{% endif %}">{{ detail }}</div>
+                        {% endfor %}
+                    </div>
+                    {% endcomment %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

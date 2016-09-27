@@ -1,0 +1,23 @@
+{% load custom_filters %}
+
+{% with info=row_data.reviews %}
+
+    <div class="table_edit_boxes larger_box">
+        {% verbatim %}
+        <div ng-hide="showEdit" class="faux_textbox">{{ values.reviews || "---" }}</div>
+        {% endverbatim %}
+        <div post-analytics-update class="edit_field_in_table" target-url="{% url debra.job_posts_views.edit_contract info.contract_id %}" values-list='{"reviews": "{{ info.reviews|default_if_none:''|escapejs }}"}'>
+            <div class="editing_area clearfix">
+                <fieldset>
+                    <textarea rows="6" cols="60" ng-model="values.reviews"></textarea>
+                </fieldset>
+                <button ng-click="$event.stopPropagation();!loading && update({review: values.reviews})" class="update_btn">
+                    <span ng-show="loading">Updating...</span>
+                    <span ng-hide="loading || error">Update</span>
+                    <span ng-show="error">Error!</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+{% endwith %}

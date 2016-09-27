@@ -1,0 +1,16 @@
+<div class="table_edit_boxes number_box">
+    {% verbatim %}
+    <div ng-hide="showEdit" class="faux_textbox">{{ values.startingPrice }}</div>
+    {% endverbatim %}
+    <div post-analytics-update class="edit_field_in_table" target-url="{% url debra.job_posts_views.edit_contract contract.id %}" values-list='{"startingPrice": "{{ contract.starting_price }}"}'>
+        <div class="editing_area clearfix">
+            <fieldset class="typical_form halfer xsmall_field lighter_field">
+                <input type="text" ng-model="values.startingPrice">
+            </fieldset>
+            <button ng-click="$event.stopPropagation();!loading && update({starting_price: values.startingPrice})" class="update_btn">
+                <span ng-show="loading">Updating...</span>
+                <span ng-hide="loading">Update</span>
+            </button>
+        </div>
+    </div>
+</div>

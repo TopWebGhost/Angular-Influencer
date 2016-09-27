@@ -1,0 +1,22 @@
+{% load custom_filters %}
+
+{% with post_type=row_data.post_type_info.post_type %}
+
+<div style="min-width: 100px">
+    {% if post_type == 'Instagram' %}
+        <span class="icon-social_instagram2"></span>
+    {% elif post_type == 'Pinterest' %}
+        <span class="icon-social_pinterest"></span>
+    {% elif post_type == 'Facebook' %}
+        <span class="icon-social_facebook"></span>
+    {% elif post_type == 'Twitter' %}
+        <span class="icon-social_twitter"></span>
+    {% elif post_type == 'Youtube' %}
+        <span class="icon-social_youtube"></span>
+    {% else %}
+        <span class="icon-letter_quotes"></span>
+    {% endif %}
+    <span>{{ post_type }}</span>
+</div>
+
+{% endwith %}

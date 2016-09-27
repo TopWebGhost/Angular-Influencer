@@ -1,0 +1,16 @@
+{% load custom_filters %}
+
+<a class="who_footer clearfix" href="{{ user.profile_url }}">
+    <div class="pic_label">
+        <div class="circ_pic">
+            <img src="{{ user|best_square_pic_for_profile }}?{{ rand }}" />
+        </div>
+        <div class="bar_elem_txt dotdot">
+            <span class="blogger_name">{{ user|user_name_or_email }}</span>
+            {% if user.blog_name or user.blog_page %}
+            <span class="of_txt">of</span>
+            <span class="blog_name">{{ user|blog_name_or_url }}</span>
+            {% endif %}
+        </div>
+    </div>
+</a>

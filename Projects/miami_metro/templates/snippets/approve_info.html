@@ -1,0 +1,25 @@
+{% load custom_filters %}
+
+{% with approve=row_data.approve_info influencer=row_data.influencer_info %}
+
+    <div mailbox-table-cell propagate-name="approveInfoColumn">
+
+        <div requester>
+            <div ng-show="requesterCtrl.loading">Updating...</div>
+            <div ng-hide="requesterCtrl.loading">
+                {% verbatim %}
+                    <div class="cb_or_rb_wrap" ng-repeat="opt in approvalCtrl.data.approveStatuses">
+                        <input type="radio" name="approve_info_radio_{{ editableElementCtrl.values.iaId }}" id="approve_info_radio_{{ opt.value }}_{{ editableElementCtrl.values.iaId }}" ng-click="approvalCtrl.canChangeApprove($event) && approvalCtrl.changeApprove({requesterCtrl: requesterCtrl, id: editableElementCtrl.values.iaId, value: opt.value})" ng-value="opt.value" ng-model="editableElementCtrl.values.tmpApproveStatus" />
+                        <label for="approve_info_radio_{{ opt.value }}_{{ editableElementCtrl.values.iaId }}">
+                            <span class="graphic plus_btn"></span>
+                            {{ opt.text }}
+                        </label>
+                    </div>
+                {% endverbatim %}
+            </div>
+        </div>
+
+        <div post-analytics-update class="edit_field_in_table" values-list='{"tmpApproveStatus": {{ approve.tmp_approve_status }}, "approveStatus": {{ approve.approve_status }}, "iaId": {{ row_data.id }}}'></div>
+    </div>
+
+{% endwith %}

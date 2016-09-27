@@ -1,0 +1,47 @@
+{% load custom_filters %}
+
+{% with info=row_data.next_stage_info %}
+
+    {% comment %}
+    <div mailbox-table-cell>
+        <a request-button
+            class="square_bt gray_bt sm"
+            ng-click="requestButtonCtrl.doRequest({method: 'POST', successCb: mailboxTableRow.remove, url: updateUrl, data: {modelName: 'Contract', id: contractId, values: {campaign_stage: {{ info.next_stage }}, moved_manually: true }}})"
+        >
+            <span ng-hide="requestButtonCtrl.loading">{{ info.button_text }}</span>
+            <span ng-show="requestButtonCtrl.loading">Moving...</span>
+
+            <div class="order_select"
+                dropdown-select="stages.options"
+                dropdown-model="stages.selected"
+                dropdown-onchange="stages.update(selected)"
+                dropdown-disabled="stages.updating">
+            </div>
+        </a>
+    </div>
+    {% endcomment %}
+    <div mailbox-table-cell>
+
+        <div request-button dropdown='{{ info.stages|jsonify|safe }}' send-params="{method: 'POST', dropdownCb: mailboxTableRow.move, url: '{% url debra.job_posts_views.update_model %}', data: {modelName: 'InfluencerJobMapping', id: {{ info.mapping_id }}, values: {campaign_stage: dropdown.selected.value, moved_manually: true}}}">
+
+            <div ng-show="requestButtonCtrl.loading">Updating...</div>
+
+            <div ng-hide="requestButtonCtrl.loading">
+                <div class="order_select"
+                    dropdown-select="dropdown.options"
+                    dropdown-model="dropdown.selected"
+                    dropdown-onchange="dropdown.update(selected)"
+                    dropdown-disabled="loading">
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    {% comment %}
+    <div post-analytics-update class="edit_field_in_table" target-url="{% url debra.job_posts_views.edit_contract info.contract_id %}" dropdown-list='{{ info.stages|jsonify|safe }}' update-params='{moved_manually: true}' success-cb="remove">
+    </div>
+    {% endcomment %}
+
+{% endwith %}

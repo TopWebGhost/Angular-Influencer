@@ -1,0 +1,24 @@
+{% load custom_filters %}
+
+{% with info=row_data.mailbox_stage %}
+
+    <div mailbox-table-cell>
+
+        <div request-button dropdown='{{ info.stages|jsonify|safe }}' send-params="{method: 'POST', dropdownCb: mailboxTableRow.move, url: '{% url debra.job_posts_views.update_model %}', data: {modelName: 'MailProxy', id: {{ row_data.id }}, values: {stage: dropdown.selected.value}}}">
+
+            <div ng-show="requestButtonCtrl.loading">Updating...</div>
+
+            <div ng-hide="requestButtonCtrl.loading">
+                <div class="order_select"
+                    dropdown-select="dropdown.options"
+                    dropdown-model="dropdown.selected"
+                    dropdown-onchange="dropdown.update(selected)"
+                    dropdown-disabled="loading">
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+{% endwith %}

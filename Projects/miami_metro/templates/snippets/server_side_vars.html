@@ -1,0 +1,61 @@
+{% load custom_filters %}
+{% load static from staticfiles %}
+<script>
+(function() {
+angular.module("theshelf")
+    .value('debug', {% if DEBUG %}true{% else %}false{% endif %})
+    .provider('context', function() {
+        this.$get = function() {
+            return {
+                'debug': {% if DEBUG %}true{% else %}false{% endif %},
+                'onHeroku': {% if ON_HEROKU %}true{% else %}false{% endif %},
+                'isAuthenticated': {% if user.is_authenticated %}true{% else %}false{% endif %},
+                'isSuperuser': '{{ user.is_superuser }}' == 'True' ? true : false,
+                {% comment %}
+                'isAtulTestAccount': {% if user.userprofile.is_atul_test_account %}true{% else %}false{% endif %},
+                {% endcomment %}
+                'messageUrls': {
+                    'attachmentUploadUrl': '{% url debra.job_posts_views.upload_message_attachment %}',
+                    'sendResponseUrl': '{% url debra.job_posts_views.send_response %}',
+                },
+                'visitorUserName': '{{ visitor.user.name|escapejs }}',
+                'visitorUserFirstName': '{{ visitor.user.first_name|escapejs }}',
+                'visitorBrandName': '{{ visitor.brand.name|escapejs }}',
+                'visitorBrandId': {% if visitor.brand %}{{ visitor.brand.id }}{% else %}null{% endif %},
+                'visitorBrandDomainName': '{{ visitor.brand.domain_name|escapejs }}',
+                'nonCampaignMessagingEnabled': {% if visitor.brand.flag_non_campaign_messaging_enabled %}true{% else %}false{% endif %},
+                'visitorHasBrand': {% if visitor.has_brand %}true{% else %}false{% endif %},
+                'csrf_token': '{{ csrf_token }}',
+                'uploadCampaignAttachmentUrl': '{% url debra.job_posts_views.upload_campaign_attachment %}',
+                'onTrial': {% if not visitor.brand_subscribed or visitor.base_brand.flag_trial_on %}true{% else %}false{% endif %},
+                'campaignsEnabled': {% if visitor.base_brand.flag_campaigns_enabled %}true{% else %}false{% endif %},
+                'profileEnabled': {% if visitor.base_brand.flag_profile_enabled %}true{% else %}false{% endif %},
+                'predictionReportEnabled': {% if visitor.base_brand.flag_report_roi_prediction %}true{% else %}false{% endif %},
+                'andOrFilterOn': {% if visitor.base_brand.flag_and_or_filter_on %}true{% else %}false{% endif %},
+                'showDummyData': {% if visitor.base_brand.flag_show_dummy_data %}true{% else %}false{% endif %},
+                'ageDistributionOn': {% if visitor.base_brand.flag_age_distribution_on %}true{% else %}false{% endif %},
+                {% comment %}{% if saved_queries_list %}'savedSearches': {{ saved_queries_list|safe }},{% endif %}{% endcomment %}
+                'savedSearchDetailsUrl': "{% url debra.search_views.get_saved_searches %}",
+                'SITE_CONFIGURATION_ID': {{ visitor.site_configuration_id }},
+                'previewMode': {% if preview %}true{% else %}false{% endif %},
+                'bloggersCustomDataEnabled': {% if visitor.base_brand.flag_bloggers_custom_data_enabled %}true{% else %}false{% endif %},
+                {% if visitor.base_brand %}
+                'brandSettings': {
+                    'searchMethod': "{{ visitor.base_brand.flag_search_method }}",
+                    'searchViewMode': "{{ visitor.base_brand.flag_search_view_mode }}",
+                },
+                {% endif %}
+                {% if search_page %}
+                'initialSearchMode': {% if initial_search_mode %}"{{ initial_search_mode }}"{% else %}null{% endif %},
+                'initBrand': {% if init_brand %}"{{ init_brand }}"{% else %}null{% endif %},
+                'showFilters': {% if show_filters %}true{% else %}false{% endif %},
+                'showModeSwitcher': {% if show_filters %}true{% else %}false{% endif %},
+                'showSearchTopSection': {% if show_filters %}true{% else %}false {% endif %},
+                'showSearchCounts': {% if show_filters %}true{% else %}false {% endif %},
+                {% endif %}
+            };
+        };
+    });
+})();
+</script>
+{% include "snippets/angular_config.html" %}

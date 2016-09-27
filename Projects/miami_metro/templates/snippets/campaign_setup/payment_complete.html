@@ -1,0 +1,34 @@
+{% load custom_filters %}
+
+{% with info=row_data.payment_complete %}
+
+    <div mailbox-table-cell send-url="{% url debra.job_posts_views.mark_payment_complete row_data.contract_id %}" status="{{ info.status.value }}" status-name="" status-color="" propagate-status="paymentStatus">
+
+        <div ng-hide="loading"
+            class="switch-small"
+            toggle-switch
+            on-label="Yes"
+            off-label="No"
+            on-change="send()"
+            ng-model="status.value"
+            name="paymentComplete"
+        ></div>
+
+        <div ng-show="loading">Sending...</div>
+
+        {% comment %}
+
+        <span ng-show="status.value" class="icon-letter_check4"></span>
+        <a ng-hide="status.value" class="square_bt gray_bt sm" ng-click="send()">
+            <span ng-hide="isDirty()">
+                <span>Mark Complete</span>
+            </span>
+            <span ng-show="loading">Sending...</span>
+            <span ng-show="error">Error!</span>
+        </a>
+
+        {% endcomment %}
+
+    </div>
+
+{% endwith %}

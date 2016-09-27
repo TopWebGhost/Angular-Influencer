@@ -1,0 +1,10 @@
+{% comment %}
+<div class="info_group">
+    <span class="the_label">Filters :</span>
+    {% for key, values_list in query.query_json.items %}
+        {% if values_list %}
+            <span class="info filter_info">{{ key }}: {% for value in values_list %}{{ value }}{% endfor %}</span>
+        {% endif %}
+    {% endfor %}
+</div>
+{% endcomment %}

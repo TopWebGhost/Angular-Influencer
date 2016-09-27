@@ -1,0 +1,24 @@
+{% load custom_filters %}
+
+{% with info=row_data.final_rate %}
+<div class="table_edit_boxes number_box">
+    <div mailbox-table-cell propagate-name="finalRateColumn">
+        {% verbatim %}
+        <div ng-hide="showEdit" class="faux_textbox">{{ _.isNumber(values.finalRate) ? values.finalRate : "---" }}</div>
+        {% endverbatim %}
+        <div post-analytics-update class="edit_field_in_table" target-url="{% url debra.job_posts_views.edit_contract info.contract_id %}" values-list='{"finalRate": {{ info.final_rate|default_if_none:"null" }} }'>
+            <div class="editing_area clearfix">
+                <fieldset class="typical_form xsmall_field lighter_field">
+                    <input type="number" ng-model="values.finalRate" min="0">
+                </fieldset>
+                <button ng-click="$event.stopPropagation();!loading && update({negotiated_price: values.finalRate})" class="update_btn">
+                    <span ng-show="loading">Updating...</span>
+                    <span ng-hide="loading || error">Update</span>
+                    <span ng-show="error">Error!</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endwith %}

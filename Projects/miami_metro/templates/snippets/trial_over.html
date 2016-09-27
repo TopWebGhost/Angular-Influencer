@@ -1,0 +1,3 @@
+{% if visitor.base_brand and not visitor.base_brand.stripe_id %}
+<div trial-over-popup pricing-url="{% url debra.account_views.pricing %}"></div>
+{% endif %}

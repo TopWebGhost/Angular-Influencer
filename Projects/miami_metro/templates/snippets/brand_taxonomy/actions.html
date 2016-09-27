@@ -1,0 +1,23 @@
+{% load custom_filters %}
+
+<div mailbox-table-cell propagate-name="actions_column">
+    {% verbatim %}
+        <div>
+            <button class="lg_action_btn" ng-click="brandTaxonomyTableCtrl.updateEs({id: mailboxId, tableRow: mailboxTableRow})">
+                <span ng-hide="mailboxTableRow.updatingEs">Rerun >></span>
+                <span ng-show="mailboxTableRow.updatingEs">Updating...</span>
+            </button>
+        </div>
+        <div>
+            <span>Updated : <span>{{ values.modified | date:'short' }}</span></span>
+        </div>
+    {% endverbatim %}
+
+    <div post-analytics-update values-list='{"modified": "{{ field_data.modified|default_if_none:''|escapejs }}"}'>
+    </div>
+    {% comment %}
+    <button class="lg_action_btn" ng-click='message({userId: {{ info.influencer.id }}, user: {{ info.influencer|jsonify }}, campaign_overview_link: "{{ info.campaign_overview_link|escapejs }}", event: $event, reload: false, {% if info.force_invite %} forceInvite: {{ info.force_invite|default_if_none:"null" }}, extraParams: {successCb: mailboxTableRow.move, successCbParams: {value: 1}, moveToStage: 1}, strictForce: true, ijm_id: {{ row_data.id }},{% endif %}{% if influencer_analytics_id %} influencer_analytics_id: {{ info.influencer_analytics_id|default_if_none:"null" }},{% endif %} })'>
+        <span>Send Message</span>
+    </button>
+    {% endcomment %}
+</div>

@@ -1,0 +1,22 @@
+{% load custom_filters %}
+
+{% with info=row_data.post_requirements %}
+<div class="table_edit_boxes larger_box">
+    {% verbatim %}
+    <div ng-hide="showEdit" class="faux_textbox">{{ values.requirements || "---" }}</div>
+    {% endverbatim %}
+
+    <div post-analytics-update class="edit_field_in_table" target-url="{% url debra.job_posts_views.edit_contract row_data.contract_id %}" values-list='{"requirements": "{{ info.post_requirements|default_if_none:''|escapejs }}"}'>
+        <div class="editing_area clearfix">
+            <fieldset >
+                <textarea rows="6" cols="60" ng-model="values.requirements"></textarea>
+            </fieldset>
+            <button ng-click="$event.stopPropagation();!loading && update({extra_details: values.requirements})" class="update_btn">
+                <span ng-show="loading">Updating...</span>
+                <span ng-hide="loading || error">Update</span>
+                <span ng-show="error">Error!</span>
+            </button>
+        </div>
+    </div>
+
+{% endwith %}

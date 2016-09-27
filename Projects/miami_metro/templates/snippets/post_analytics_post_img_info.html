@@ -1,0 +1,15 @@
+{% load custom_filters %}
+
+{% with post=row_data.post_img_info %}
+
+{% if post.post_found %}
+    {% if post.post_img %}
+        <img src="{{ post.post_img }}" style="width: 100px;" alt="No image">
+    {% else %}
+        <div>No image</div>
+    {% endif %}
+{% else %}
+    <div>Loading...</div>
+{% endif %}
+
+{% endwith %}

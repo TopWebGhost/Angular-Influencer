@@ -1,0 +1,12 @@
+{% load custom_filters %}
+{% with info=row_data.send_message_info %}
+<div>
+    {% if not row_data.subject or row_data.subject.messages_count == 0 %}
+        <button class="lg_action_btn" ng-click='message({userId: {{ info.influencer.id }}, user: {{ info.influencer|jsonify }}, campaign_overview_link: "{{ info.campaign_overview_link|escapejs }}", event: $event, reload: false, {% if info.force_invite %} forceInvite: {{ info.force_invite|default_if_none:"null" }}, extraParams: {successCb: mailboxTableRow.move, successCbParams: {value: 1}, moveToStage: 1}, strictForce: true, ijm_id: {{ row_data.id }},{% endif %}{% if influencer_analytics_id %} influencer_analytics_id: {{ info.influencer_analytics_id|default_if_none:"null" }},{% endif %} })'>
+            <span>Send Message</span>
+        </button>
+    {% else %}
+        <div>---</div>
+    {% endif %}
+</div>
+{% endwith %}

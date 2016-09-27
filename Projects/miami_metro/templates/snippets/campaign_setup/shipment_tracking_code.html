@@ -1,0 +1,22 @@
+{% load custom_filters %}
+
+{% with info=row_data.shipment_tracking_code %}
+<div class="table_edit_boxes number_box">
+    {% verbatim %}
+    <div ng-hide="showEdit" class="faux_textbox">{{ values.trackingCode || "---" }}</div>
+    {% endverbatim %}
+    <div post-analytics-update class="edit_field_in_table" target-url="{% url debra.job_posts_views.edit_contract row_data.contract_id %}" values-list='{"trackingCode": "{{ info.shipment_tracking_code|default_if_none:""|escapejs }}" }'>
+        <div class="editing_area clearfix">
+            <fieldset class="">
+                <input type="text" ng-model="values.trackingCode" min="0">
+            </fieldset>
+            <button ng-click="$event.stopPropagation();!loading && update({shipment_tracking_code: values.trackingCode})" class="update_btn">
+                <span ng-show="loading">Updating...</span>
+                <span ng-hide="loading || error">Update</span>
+                <span ng-show="error">Error!</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+{% endwith %}

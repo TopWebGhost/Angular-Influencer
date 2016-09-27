@@ -1,0 +1,94 @@
+<!-- THIS IS THE BLOGGER DETAILS THAT GETS LOADED INTO ALL OF OUR TABLES -->
+<!-- THIS IS THE BLOGGER DETAILS THAT GETS LOADED INTO ALL OF OUR TABLES -->
+<!-- THIS IS THE BLOGGER DETAILS THAT GETS LOADED INTO ALL OF OUR TABLES -->
+
+{% load cache %}
+{% load custom_filters %}
+{% load humanize %}
+
+{% with influencer=row_data.influencer_info %}
+
+    {% if influencer.propagate %}<div mailbox-table-cell propagate-name="bloggerColumn">{% endif %}
+
+        <div class="influencer_table_info_container">
+            <div class="influence_img" blogger-more-info ng-click="$event.stopPropagation(); bloggerMoreInfoCtrl.show('{{influencer.details_url}}', {isBloggerApproval: values.isBloggerApproval, campaignId: values.campaignId, root: 'post_analytics_root'})">
+                <div class="influence_img_inner">
+                    <img class="imgfit" src="{{influencer.profile_pic}}">
+                </div>
+            </div>
+
+            <div class="influence_info">
+                {% verbatim %}
+                <div class="name table_influencer_txt" ng-show="values.influencerName">{{values.influencerName}}</div>
+                <!--br ng-show="values.influencerName" /-->
+                <div class="table_influencer_txt" ng-show="values.influencerName && values.blogName">
+                    <span class="of_text">of</span>&nbsp;
+                </div>
+                <div class="site table_influencer_txt" ng-show="values.blogName">
+                    <a ng-hide="context.showDummyData" class="txt_link gray" ng-href="{{ values.blogUrl }}" target="blank">{{ values.blogName }}</a>
+                    <a ng-show="context.showDummyData" class="txt_link gray" ng-click="$event.stopPropagation()" click-emitter="featureLocked">{{ values.blogName }}</a>
+                </div><br/>
+                {% endverbatim %}
+                {% if influencer.location %}
+                    <div class="table_influencer_txt location_txt">
+                        {{ influencer.location }}
+                    </div><br/>
+                {% endif %}
+                <div class="follower_row">
+                    {% if influencer.tw_fol %}<span class="icon-social_twitter"></span><span class="count"> {{influencer.tw_fol|number_0}}</span>{% endif %}
+                    {% if influencer.ig_fol %}<span class="icon-social_instagram2"></span><span class="count"> {{influencer.ig_fol|number_0}}</span>{% endif %}
+                    {% if influencer.fb_likes %}<span class="icon-social_facebook"></span><span class="count">{{influencer.fb_likes|number_0}}</span>{% endif %}
+                    {% if influencer.pin_fol %}<span class="icon-social_pinterest"></span><span class="count">{{influencer.pin_fol|number_0}}</span>{% endif %}
+                    {% if influencer.youtube_fol %}<span class="icon-social_youtube"></span><span class="count">{{influencer.youtube_fol|number_0}}</span>{% endif %}
+                </div>
+                {% if not influencer_actions_disabled %}
+                <!--div class="influence_actions">
+                    <a class="square_bt xxs gray_bt less_pad" ng-click="$event.stopPropagation();show('{{influencer.details_url}}')">
+                        <span class="icon-misc_magnify2"></span>
+                        <span class="button_txt">View Profile</span>
+                    </a>
+                </div-->
+                {% endif %}
+            </div>
+        </div>
+
+        <div post-analytics-update class="edit_field_in_table_influencer" target-url="{% url debra.search_views.edit_post_analytics influencer.pa_id %}" values-list='{"influencerName": "{{ influencer.name|unescape|escapejs }}", "blogName": "{{ influencer.blogname|unescape|escapejs }}", "blogUrl": "{{ influencer.blog_url|escapejs }}", "twUrl": "{{ influencer.tw_url|escapejs }}", "igUrl": "{{ influencer.insta_url|escapejs }}", "fbUrl": "{{ influencer.fb_url|escapejs }}", "pinUrl": "{{ influencer.pin_url|escapejs }}", "youtubeUrl": "{{ influencer.youtube_url|escapejs }}", "campaignId": {% if campaign %}{{ campaign.id }}{% else %}null{% endif %}, "isBloggerApproval": {% if influencer.is_blogger_approval %}true{% else %}false{% endif %}, "isQad": {% if influencer.is_qad %}true{% else %}false{% endif %} }'>
+            <div class="editing_area clearfix" ng-click="$event.stopPropagation()">
+                <fieldset class="typical_form form_row_20 halfer xsmall_field">
+                    <label class="smaller_label" for="influencerName">Name</label>
+                    <input type="text" name="influencerName" ng-model="values.influencerName" />
+                </fieldset>
+                <fieldset class="typical_form form_row_20 halfer right xsmall_field">
+                    <label class="smaller_label" for="blogName">Blog name</label>
+                    <input type="text" name="blogName" ng-model="values.blogName" />
+                </fieldset>
+                <fieldset class="typical_form form_row_20 halfer xsmall_field">
+                    <label class="smaller_label" for="twUrl">Twitter</label>
+                    <input type="text" name="twUrl" ng-model="values.twUrl" />
+                </fieldset>
+                <fieldset class="typical_form form_row_20 halfer right xsmall_field">
+                    <label class="smaller_label" for="igUrl">Instagram</label>
+                    <input type="text" name="igUrl" ng-model="values.igUrl" />
+                </fieldset>
+                <fieldset class="typical_form form_row_20 halfer xsmall_field">
+                    <label class="smaller_label" for="fbUrl">Facebook</label>
+                    <input type="text" name="fbUrl" ng-model="values.fbUrl" />
+                </fieldset>
+                <fieldset class="typical_form form_row_20 halfer right xsmall_field">
+                    <label class="smaller_label" for="pinUrl">Pinterest</label>
+                    <input type="text" name="pinUrl" ng-model="values.pinUrl" />
+                </fieldset>
+                <fieldset class="typical_form form_row_20 halfer xsmall_field">
+                    <label class="smaller_label" for="youtubeUrl">Youtube</label>
+                    <input type="text" name="youtubeUrl" ng-model="values.youtubeUrl" />
+                </fieldset>
+                <fieldset class="typical_form form_row_20 halfer right xsmall_field">
+                    <button ng-click="$event.stopPropagation();!loading && update({influencer_name: values.influencerName, blog_name: values.blogName, tw_url: values.twUrl, insta_url: values.igUrl, fb_url: values.fbUrl, pin_url: values.pinUrl, youtube_url: values.youtubeUrl, is_blogger_approval: values.isBloggerApproval})" class="update_btn square_bt gray_bt sm" style="margin-top:15px;">
+                        <span ng-show="loading">Updating...</span>
+                        <span ng-hide="loading">Update</span>
+                    </button>
+                </fieldset>
+            </div>
+        </div>
+    {% if influencer.propagate %}</div>{% endif %}
+{% endwith %}
