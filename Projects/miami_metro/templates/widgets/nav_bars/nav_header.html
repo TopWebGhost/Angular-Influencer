@@ -1,0 +1,410 @@
+
+<!-- THIS DOESN'T SEEM TO BE THE NAVIGATION BAR ANYMORE. -->
+<!-- THIS DOESN'T SEEM TO BE THE NAVIGATION BAR ANYMORE. -->
+<!-- THIS DOESN'T SEEM TO BE THE NAVIGATION BAR ANYMORE. -->
+<!-- THIS DOESN'T SEEM TO BE THE NAVIGATION BAR ANYMORE. -->
+<!-- THIS DOESN'T SEEM TO BE THE NAVIGATION BAR ANYMORE. -->
+<!-- THIS DOESN'T SEEM TO BE THE NAVIGATION BAR ANYMORE. -->
+<!-- THIS DOESN'T SEEM TO BE THE NAVIGATION BAR ANYMORE. -->
+<!-- THIS DOESN'T SEEM TO BE THE NAVIGATION BAR ANYMORE. -->
+<!-- THIS DOESN'T SEEM TO BE THE NAVIGATION BAR ANYMORE. -->
+<!-- THIS DOESN'T SEEM TO BE THE NAVIGATION BAR ANYMORE. -->
+<!-- THIS DOESN'T SEEM TO BE THE NAVIGATION BAR ANYMORE. -->
+<!-- THIS DOESN'T SEEM TO BE THE NAVIGATION BAR ANYMORE. -->
+<!-- THIS DOESN'T SEEM TO BE THE NAVIGATION BAR ANYMORE. -->
+<!-- THIS DOESN'T SEEM TO BE THE NAVIGATION BAR ANYMORE. -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% load custom_filters %}
+{% load macros %}
+
+{% url debra.shelf_views.shelf_home page_user_prof.id as myshelf_url %}
+{% url debra.shelf_views.about_me page_user_prof.id as about_url %}
+<!--
+{% url debra.shelf_views.following page_user_prof.id as following_url %}
+{% url debra.shelf_views.followers page_user_prof.id as followers_url %}-->
+
+{% url debra.explore_views.inspiration as inspiration_url %}
+{% url debra.explore_views.trendsetters as trendsetters_url %}
+{% url debra.explore_views.trending_brands as trending_brands_url %}
+
+{% url debra.brand_views.brand_home page_user_prof.id as brand_url %}
+{% url debra.brand_views.followers page_user_prof.id as brand_followers_url %}
+{% url debra.brand_views.about_me page_user_prof.id as brand_about_url %}
+
+{% url debra.widget_views.widgets_home shelf_user.id as widgets_url %}
+
+{% macro user_header %}
+<div class="prof_block">
+    <div class="prof_bg frame">
+        {% if page_user_prof.cover_img_url %}
+        <img skip src="{% if page_user_prof.brand %}{{ page_user_prof.cover_img_url }}{% else %}{{ page_user_prof.cover_img_url|small_pic }}?r={{rand}}{% endif %}" class="nav_cover_img" alt="cover image" />
+        {% else %}
+            {% with page_user_prof.influencer.platform_set.all|fb_pic:'cover' as cover %}
+            {% if cover %}
+                <img skip src="{{cover}}" class="nav_cover_img" alt="cover image" />
+            {% else %}
+            <img skip src="https://s3.amazonaws.com/profile-images-theshelf/2031_collage_5.jpg.small.jpg" class="nav_cover_img" alt="cover image" />
+            {% endif %}
+            {% endwith %}
+        {% endif %}
+        <div class="prof_content{% if page_user_prof.brand and not page_user_prof.brand.icon_id %} no_icon{% endif %}">
+            <div class="prof_circ pic_upload">
+              {% if page_user_prof.brand %}
+                  {% if page_user_prof.brand.icon_id %}
+                      <span class="icon-00_brand_{{page_user_prof.brand.icon_id}}"></span>
+                  {% else %}
+                      <span class="brand_missing_icon">{{ page_user_prof.brand.name }}</span>
+                  {% endif %}
+              {% else %}
+                  {% if page_user_prof.profile_img_url%}
+                  <img src="{{ page_user_prof.profile_img_url|small_pic }}?r={{rand}}" alt="profile image" />
+                  {% else %}
+                      {% if page_user_prof.influencer and page_user_prof.influencer.profile_pic_url%}
+                          <img src="{{ page_user_prof.influencer.profile_pic_url }}?r={{rand}}" alt="profile image" />
+                      {% else %}
+                          {% if page_user_prof.image2 %}
+                          <img src="{{ page_user_prof.image2|small_pic }}?r={{rand}}" alt="profile image" />
+                          {% else %}
+                              <!-- show the gravatar for a user only if they're visiting another users page and that other user doesnt have a profile img or image2 -->
+                              {% if page_user_prof.gravatar_img_url and shelf_user.id != page_user_prof.id %} %}
+                              <img src="{{ page_user_prof.gravatar_img_url }}" alt="profile image" />
+                              {% else %}
+                              <img src="/mymedia/site_folder/images/global/avatar.png" alt="profile image" />
+                              {% endif %}
+                          {% endif %}
+                      {% endif %}
+                  {% endif %}
+              {% endif %}
+              {% if shelf_user and page_user_prof.id == shelf_user.id %}<div class="camera_btn profile_pic" image-upload ng-click="upload('{% url masuka.image_manipulator.image_upload %}?next={{ request.path }}&profile_img=1', '{{image_sizes.profile.0}}:{{image_sizes.profile.1}}')"><span class="icon-misc_files_upload2"></span></div>{% endif %}
+            </div>
+            <div class="prof_info">
+                <h1 class="prof_title white one_line">
+                    <span class="rale_4 less_large">
+                        {% if page_user_prof.brand %}
+                            {{ page_user_prof.brand.name|remove_dot_com }}
+                        {% else %}
+                            {{ page_user_prof|user_name_or_email }}
+                        {% endif %}
+                    </span>
+                    <!-- User is blogger -->
+                    {% if page_user_prof.influencer %}
+                        <span class="serif_ital small">of</span>
+                        <span class="rale_2 less_large">{{ page_user_prof.influencer.blogname|unescape }}</span>
+                    {% else %}
+                        {% if page_user_prof.can_set_affiliate_links %}
+                        <span class="serif_ital small">of</span>
+                        <span class="rale_2 less_large">{{ page_user_prof|blog_name_or_url|unescape }}</span>
+                        {% endif %}
+                    {% endif %}
+                </h1>
+                {% include 'snippets/social_row.html' %}
+                {% if shelf_user and page_user_prof.id != shelf_user.id%}
+                <div class="follow_prof">
+                    <p class="simple_follow_btn unfollow square_bt on_teal sm italic_version{% if not page_user_prof|is_followed_by:shelf_user %} hidden{% endif %} inactive" data-follow-url="{% url debra.shelf_views.toggle_follow shelf_user.id page_user_prof.id %}">Unfollow This User</p>
+                    <p class="simple_follow_btn follow square_bt on_teal sm italic_version{% if page_user_prof|is_followed_by:shelf_user %} hidden{% endif %}" data-follow-url="{% url debra.shelf_views.toggle_follow shelf_user.id page_user_prof.id %}">Follow This User</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        {% if shelf_user and page_user_prof.id == shelf_user.id %}
+            <div class="change_cover"><a class="square_bt on_teal xs cover_pic" image-upload ng-click="upload('{% url masuka.image_manipulator.image_upload %}?next={{ request.path }}&profile_img=1&cover_img=1', '{{image_sizes.cover.0}}:{{image_sizes.cover.1}}')">Change Cover</a></div>
+        {% endif %}
+    </div>
+ </div>
+{% endmacro %}
+
+{% if shelf_user %}
+<!-- NAGIGATION BAR -->
+<!-- NAGIGATION BAR -->
+<!-- NAGIGATION BAR -->
+<div class="nav_bar ">
+    <a class="nav_logo" href="/"><span class="icon-social_0_shelf_shelf3a"></span></a>
+    <div class="primary_nav">d
+        {% comment %}
+        <!-- styles are messed here -->
+        {% if has_brand %}
+        <a href="{% url debra.search_views.blogger_search %}" class="primary_btn{% if search_page %} selected{% endif %}">Search Bloggers</a>
+        {% elif has_influencer %}
+        <a href="influencer.about_page" data-tracking-name="ShelfView" data-user-email="{{ user.email }}" id="shelf" class="analytics primary_btn selected">My shelf</a>
+        {% endif %}
+        {% endcomment %}
+    </div>
+    <div class="right_nav">
+        {% comment %}
+        <div class="primary_nav_icons toggle_open">
+            <span class="icon-social_0_shelf_icon"></span>
+            <div class="nav_dropdown" style="right:50px;width: 150px;">
+                <a class="basic_dropdown_item launch-popup" href="#" data-popup-type="contact_us" broadcaster="openContactForm">Contact Us</a>
+                <a class="basic_dropdown_item" href="{% url debra.account_views.privacy %}" >Privacy Policy</a>
+                <a class="basic_dropdown_item" href="{% url debra.account_views.terms %}" >Terms of Service</a>
+            </div>
+        </div>
+        {% endcomment %}
+        <div class="primary_nav_icons toggle_open">
+            <span class="icon-misc_files_files"></span>
+            <div class="nav_dropdown" style="right:50px;width: 250px;">
+                <a class="basic_dropdown_item">Brand Name</a>
+                <a class="basic_dropdown_item">Brand Name</a>
+                <a class="basic_dropdown_item">Edit Brands</a>
+            </div>
+        </div>
+        <div class="primary_nav_icons toggle_open">
+            <img src="{{ shelf_user|best_pic_for_profile }}" alt="dropdown image"/>
+            <div class="nav_dropdown prof_dropdown" style="right:0px">
+                <div class="name_area clearfix">
+                    <div class="name_block">
+                        <span class="name">{{ shelf_user|user_name_or_email }}</span>
+                        <span class="email">{{ request.user.email }}</span>
+                    </div>
+                    <div class="button_block">
+                        <a class="square_bt solid_blk sm" href="{% url debra.account_views.our_logout %}">Logout</a>
+                        {% if brand_subscribed and DEBUG %}
+                        <a class="square_bt solid_blk sm" href="{% url debra.account_views.pricing %}" style="float:right">Change Plan</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% else %}
+<!-- Public Nav Bar for internal Pages -->
+<!-- NON-LOGGED IN NAV BAR -->
+<div class="nav_bar_non_user clearfix">
+    <a class="nav_logo" href="{% url debra.account_views.home %}"><span class="icon-social_0_shelf_shelf3a"></span></a>
+    <p class="nav_cta">The Shelf is a tool to help you blog, shop, and network.</p>
+    <div class="cta_btns">
+        <a class="square_bt on_teal lg" click-emitter="openSignupPopup">JOIN</a><br/>
+        <p class="extra_opt_txt">or &nbsp;<a class="txt_link darker_teal" click-emitter="openLoginPopup">Login</a></p>
+    </div>
+</div>
+{% endif %}
+
+
+<!-- SECONDARY NAV -->
+<!-- SECONDARY NAV -->
+<!-- SECONDARY NAV -->
+{% if page_user_prof %}
+<!-- PROFILE HEADER -->
+<!-- PROFILE HEADER -->
+{% usemacro user_header %}
+<!-- SECONDARY NAV BAR -->
+<!-- SECONDARY NAV BAR -->
+<!-- SECONDARY NAV BAR -->
+<div class="secondary_tabs{% if not shelf_user %} not_logged_in{% endif %}" data-spy="affix" data-offset-top="250">
+    {% if shelf_user and shelf_user.id != page_user_prof.id and not has_brand %}
+    <!-- Breadcrumbs -->
+    <div class="breadcrumb_container">
+        <a class="breadcrumb_nav_item" href="{% if page_user_prof.brand %}{% url debra.explore_views.trending_brands %}{% else %}{% url debra.explore_views.trendsetters %}{% endif %}">
+            <span class="bread_text">{% if page_user_prof.brand %}Brands{% else %}Trendsetters{% endif %}</span>
+        </a>
+        <div class="breadcrumb_nav_item">
+            {% if filtered_shelf %}
+            <a class="breadcrumb_nav_item" href="{{ page_user_prof.profile_url }}">
+                <span class="bread_text"> > {{ page_user_prof|user_name_or_email }}'s Collections</span>
+            </a>
+            {% else %}
+            <span class="bread_text"> > {% if has_brand %}{{ brand.name|remove_dot_com }}{% else %}{{ page_user_prof|user_name_or_email }}{% endif %}</span>
+            {% endif %}
+        </div>
+        {% if filtered_shelf %}
+        <div class="breadcrumb_nav_item">
+            <span class="bread_text"> > {{ filtered_shelf.name }}</span>
+        </div>
+        {% endif %}
+    </div>
+    {% endif %}
+    <div class="row">
+        {% if not has_brand %}
+        {% if page_user_prof.influencer %}
+        <a class="content_bk first_child {% if selected_tab == 'myshelf' and feed_filter == 'blog' %} selected{% endif %}" href="{% if page_user_prof.brand %}{{ brand_url }}{% else %}{{ myshelf_url }}blog{% endif %}">
+            <span class="section_label">{% if shelf_user.id == page_user_prof.id %}My {% endif %}Posts</span>
+        </a>
+        {% endif %}
+        <a class="content_bk first_child {% if selected_tab == 'myshelf' and feed_filter == 'products' %} selected{% endif %}" href="{% if page_user_prof.brand %}{{ brand_url }}{% else %}{{ myshelf_url }}products{% endif %}">
+            <span class="section_label">{% if shelf_user.id == page_user_prof.id %}My {% endif %}Items</span>
+        </a>
+        {% if page_user_prof.influencer %}
+        <a class="content_bk first_child {% if selected_tab == 'myshelf' and feed_filter == 'photos' %} selected{% endif %}" href="{% if page_user_prof.brand %}{{ brand_url }}{% else %}{{ myshelf_url }}photos{% endif %}">
+            <span class="section_label">{% if shelf_user.id == page_user_prof.id %}My {% endif %}Photos</span>
+        </a>
+        {% endif %}
+        {% else %}
+        <a class="content_bk first_child {% if selected_tab == 'myshelf' and feed_filter == 'products' %} selected{% endif %}" href="{% if page_user_prof.brand %}{{ brand_url }}{% else %}{{ myshelf_url }}products{% endif %}">
+            <span class="section_label">{% if shelf_user.id == page_user_prof.id %}My {% endif %}Items</span>
+        </a>
+        {% endif %}
+
+        {% if not brand %}
+        <a class="content_bk first_child {% if selected_tab == 'shelves' %} selected{% endif %}" href="{% url debra.shelf_views.my_shelves page_user_prof.id %}">
+            <span class="section_label">{% if shelf_user.id == page_user_prof.id %}My {% endif %}Collections</span>
+        </a>
+        {% endif %}
+        <!--$$$$$ TESTING REMOVAL
+        {% if not testing_removal %}
+        {% if shelf_user.id == page_user_prof.id or page_user_prof.num_followers > 0  %}
+        <a class="content_bk {% if selected_tab == 'followers' %} selected{% endif %}" href="{% if page_user_prof.brand %}{{ brand_followers_url }}{% else %}{{ followers_url }}{% endif %}">
+            <span class="section_label">{% if shelf_user.id == page_user_prof.id %}Following Me{% else %}Followers{% endif %}</span>
+        </a>
+        {% endif %}
+        {% endif %}-->
+        <!--$$$$$ TESTING REMOVAL
+        {% if not testing_removal %}
+        {% if shelf_user.id == page_user_prof.id or page_user_prof.num_following > 0%}
+            {% if not page_user_prof.brand %}
+            <a class="content_bk {% if selected_tab == 'following' %} selected{% endif %}" href="{{ following_url }}">
+                <span class="section_label">{% if shelf_user.id == page_user_prof.id %}Who I Follow{% else %}Following{% endif %}</span>
+            </a>
+            {% endif %}
+        {% endif %}
+        {% endif %}-->
+        {% if shelf_user %}
+        <a class="content_bk {% if selected_tab == 'about' %} selected{% endif %}" href="{% if page_user_prof.brand %}{{ brand_about_url }}{% else %}{{ about_url }}{% endif %}">
+            <span class="section_label">{% if shelf_user.id == page_user_prof.id %}My {% endif %}Profile</span>
+        </a>
+            {% with shelf_user|get_brand_privilages as privilages %}
+                {% for privilage in privilages %}
+                <a class="content_bk " href="{% url debra.brand_views.login_as_brand brand_id=privilage.brand.id %}">
+                    <span class="section_label">Switch to {{privilage.brand.name}} brand profile</span>
+                </a>
+                {% endfor %}
+            {% endwith %}
+        {% endif %}
+
+        <!-- TESTING REMOVAL
+        {% if not testing_removal %}
+        {% if not page_user_prof.brand %}
+            {% if shelf_user.id == page_user_prof.id or page_user_prof.has_liked_items %}
+            <a class="content_bk {% if selected_tab == 'likes' %} selected{% endif %}" href="{% url debra.shelf_views.liked_items page_user_prof.id %}">
+                <span class="section_label">{% if shelf_user.id == page_user_prof.id %}My {% endif %}Likes</span>
+            </a>
+            {% endif %}
+        {% endif %}
+        {% endif %}-->
+        <!--<a class="content_bk" href="#"><span class="section_label">Blog Posts</span></a>-->
+    </div>
+</div>
+{% else %}
+    <!-- EXPLORE SUBNAV -->
+    <!-- EXPLORE SUBNAV -->
+    {% if explore_page %}
+    <!-- FEED HEADER -->
+    <!-- FEED HEADER -->
+    <div class="header_block">
+        {% if page_name == 'giveaways' %}
+        <div class="header_bg" style="background-image: url(../../mymedia/site_folder/images/global/headers/header1.jpg)">
+            <h1 class="page_title">Winner Favorites Giveaway</h1>
+            <p class="secondary_txt">checkout our 10 featured trendsetters...</p>
+        </div>
+        {% else %}
+            {% if page_name == "trendsetters" %}
+               <div class="header_bg" style="background-image: url(../../mymedia/site_folder/images/global/headers/header5.jpg)">
+                    <h1 class="page_title">Trendsetters</h1>
+                    <p class="secondary_txt">Discover and follow trendsetters whose style you like!<br/>Their items will show up on the Product Feed for you to get inspired by!</p>
+                </div>
+            {% else %}
+                {% if page_name == "trending_brands" %}
+                    <div class="header_bg" style="background-image: url(../../mymedia/site_folder/images/global/headers/header3.jpg)">
+                    <h1 class="page_title">Trending Brands</h1>
+                    <p class="secondary_txt">Browse through our most popular brands.<br/>You can follow the ones that you like in order to customize your Product Feed.</p>
+                </div>
+                {% else %}
+                <div class="header_bg" style="background-image: url(../../mymedia/site_folder/images/global/headers/header2.jpg)">
+                    <h1 class="page_title">Inspiration Feed</h1>
+                    <p class="secondary_txt">A daily feed of inspiration, curated from the trendsetters and brands that you follow...</p>
+                </div>
+                {% endif %}
+            {% endif %}
+
+        {% endif %}
+    </div>
+    <div class="secondary_tabs{% if not shelf_user %} not_logged_in{% endif %}" data-spy="affix" data-offset-top="250">
+        <div class="row">
+            <a class="content_bk first_child {% if inspiration_url in request.path and feed_filter == 'blog' %} selected{% endif %}" href="{{ inspiration_url }}blog"><span class="section_label">Blog posts</span></a>
+            <a class="content_bk first_child {% if inspiration_url in request.path and feed_filter == 'products' %} selected{% endif %}" href="{{ inspiration_url }}products"><span class="section_label">Products</span></a>
+            <a class="content_bk first_child {% if inspiration_url in request.path and feed_filter == 'photos' %} selected{% endif %}" href="{{ inspiration_url }}photos"><span class="section_label">Photos</span></a>
+            <!--<a class="content_bk" href="#"><span class="section_label">Blog Posts</span></a>-->
+            <a class="content_bk {% if trendsetters_url in request.path %} selected{% endif %}" href="{{ trendsetters_url }}"><span class="section_label">Trendsetters</span></a>
+            <a class="content_bk {% if trending_brands_url in request.path %} selected{% endif %}" href="{{ trending_brands_url }}"><span class="section_label">Trending Brands</span></a>
+        </div>
+    </div>
+    {% else %}
+        {% if widgets_page %}
+        <!-- WIDGETS SUBNAV -->
+        <!-- WIDGETS SUBNAV -->
+        <div class="secondary_tabs no_header" data-spy="affix" data-offset-top="250">
+            {% if widget_type == 'lottery' and not lottery_home %}
+            <div class="breadcrumb_container">
+                <a class="breadcrumb_nav_item" href="{% url debra.widget_views.view_lotterys shelf_user.id %}">
+                    <span class="bread_text">All Lotteries</span>
+                </a>
+                <div class="breadcrumb_nav_item">
+                    <span class="bread_text"> > {% if lottery %}{{ lottery.name }}{% else %}New Lottery{% endif %}</span>
+                </div>
+            </div>
+            {% endif %}
+            <div class="row">
+                <a class="content_bk first_child {% if collage_type and collage_type == "grid_collage" %} selected{% endif %}" href="{% url grid_collage shelf_user.id %}"><span class="section_label">Collage</span></a>
+                <a class="content_bk {% if widget_type == "lottery" %} selected{% endif %}" href="{% url debra.widget_views.view_lotterys shelf_user.id %}"><span class="section_label">Lottery</span></a>
+                <a class="content_bk {% if collage_type and collage_type == "scrollable_collage" %} selected{% endif %}" href="{% url scrollable_collage shelf_user.id %}"><span class="section_label">Carousel</span></a>
+            </div>
+        </div>
+        {% elif has_brand %}
+        <!-- Search Page -->
+        <!-- Search Page -->
+        <div class="secondary_tabs no_header" data-spy="affix" data-offset-top="250">
+            {% if selected_tab == 'favorited' %}
+            {% if group %}
+            <div class="breadcrumb_container">
+                <a class="breadcrumb_nav_item" href="{% url debra.search_views.saved_views_tags %}">
+                    <span class="bread_text">All Tags</span>
+                </a>
+                <div class="breadcrumb_nav_item">
+                    <span class="bread_text"> &nbsp;&gt;&nbsp; {{group.name}}</span>
+                </div>
+            </div>{% endif %}
+            {% endif %}
+
+            <div class="row">
+                <a class="content_bk first_child {% if selected_tab == 'search_bloggers' %} selected{% endif %}" href="{% url debra.search_views.blogger_search %}"><span class="section_label">Search</span></a>
+                {% if brand_subscribed and show_collections %}
+                <a class="content_bk {% if selected_tab == 'favorited' %} selected{% endif %}" href="{% url debra.job_posts_views.favorited_bloggers %}"><span class="section_label">Collections</span></a>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+    {% endif %}
+{% endif %}
+
+
+<script type="text/javascript">
+$(document).ready(function(){
+    if ($.browser.name == "firefox") {
+        $('.prof_bg .nav_cover_img').spoilerAlert();
+    } else {
+        $('.prof_bg .nav_cover_img').addClass('css_blur');
+    }
+});
+</script>
+
+

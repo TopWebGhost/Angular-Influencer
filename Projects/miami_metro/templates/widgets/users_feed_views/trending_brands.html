@@ -1,0 +1,79 @@
+{% extends 'widgets/base.html' %}
+
+{% block widget_content %}
+    {% load endless %}
+    {% load custom_filters %}
+    {% if admin_view %}
+        {% load widget_tweaks %}
+    {% endif %}
+
+    {% lazy_paginate 10 brands_profs %}
+    {% for brand,user in brands_profs %}
+        <div class="fd_hl_shlvr_cont masonry_item" itemscope itemtype="http://schema.org/Organization">
+            <div class="fd_hl_shelver" style="cursor: pointer;">
+                <div class="le_bucket">
+                    <div class="le_block block_1">
+                        <div class="top"><a href="{{user.obj.profile_url}}"><img src="{{user.obj.image1}}?{{rand}}" alt="brand picture"/></a></div>
+                        <div class="btm "><a class="brand_container" href="{{user.obj.profile_url}}"><img src="{{user.obj.image2}}?{{rand}}" alt="brand picture"/></a></div>
+                    </div>
+                    <a href="{{user.obj.profile_url}}" class="le_block block_2"><img src="{{user.obj.image3}}?{{rand}}" alt="brand picture" /></a>
+                    <a href="{{user.obj.profile_url}}" class="le_block block_3"><img src="{{user.obj.image4}}?{{rand}}" alt="brand picture"/></a>
+                    <div class="le_block block_4">
+                        <div class="top">
+                            <a href="{{user.obj.profile_url}}">
+                                {% if brand.icon_id %}
+                                <div class="hl_brand_logo fit_text icon-00_brand_{{brand.icon_id}}"></div>
+                                {% else %}
+                                <div class="brand_missing_icon">{{ brand.name|remove_dot_com }}</div>
+                                {% endif %}
+                            </a>
+                        </div>
+                        <a href="{{user.obj.profile_url}}" class="middle" itemprop="url"><p class="btn_hl_shelver" style="color:white;">View Profile</p></a>
+                        <div class="btm stop">
+                            {% if shelf_user %}
+                            <p class="btn_hl_shelver follow_status follow_btn unfollow{% if not user.is_followed %} hidden{% endif %} inactive" id="{% url debra.shelf_views.toggle_follow shelf_user.id user.obj.id %}">Unfollow Brand</p>
+                            <p class="btn_hl_shelver follow_status follow_btn follow{% if user.is_followed %} hidden{% endif %}" id="{% url debra.shelf_views.toggle_follow shelf_user.id user.obj.id %}">Follow Brand</p>
+                            {% else %}
+                            <p class="btn_hl_shelver" click-emitter="openSignupPopup">Signup to Follow</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <a href="{{user.obj.profile_url}}" class="le_block block_5"><img src="{{user.obj.image7}}?{{rand}}" alt="brand picture" /></a>
+                    <a href="{{user.obj.profile_url}}" class="le_block block_6"><img src="{{user.obj.image8}}?{{rand}}"alt="brand picture" /></a>
+                    <div class="le_block block_7">
+                        <div class="top"><a href="{{user.obj.profile_url}}"><img src="{{user.obj.image9}}?{{rand}}" alt="brand picture" /></a></div>
+                        <div class="btm"><a href="{{user.obj.profile_url}}"><img src="{{user.obj.image10}}?{{rand}}" alt="brand picture" /></a></div>
+                    </div>
+                </div>
+                <div class="le_info">
+                    <div class="row">
+                        <div class="content_bk">
+                            <span class="name" itemprop="name">{{brand.name|remove_dot_com}}</span>
+                        </div>
+                        <!-----$$$$$ TESTING REMOVAL $$$$$----->
+                        {% if not testing_removal %}
+                        <div class="content_bk">
+                            <span class="section_label">followers : </span>
+                            <span class="big_stat num_followers">{{brand.num_shelfers}}</span>
+                        </div>
+                        {% endif %}
+                        <div class="content_bk">
+                            <span class="section_label">items : </span>
+                            <span class="big_stat">{{brand.products_count}}</span>
+                        </div>
+                        {% if user.obj.num_shelves > 0 %}
+                        <div class="content_bk">
+                            <span class="section_label">shelves : </span>
+                            <span class="big_stat">{{user.obj.num_shelves}}</span>
+                        </div>
+                        {% endif %}
+                        <div class="content_bk last_child soc_row">
+                        {% include 'snippets/social_row.html' with page_user_prof=user.obj %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+    {% show_more %}
+{% endblock %}

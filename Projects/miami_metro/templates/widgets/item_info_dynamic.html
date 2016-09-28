@@ -1,0 +1,143 @@
+{% extends 'widgets/base.html' %}
+
+{% block widget_content %}
+{% load custom_filters %}
+{% load widget_tweaks %}
+
+<!-- this is detailed item info, dynamically populated after page load -->
+<div class="right_content">
+    <div class="item_basic_info">
+        <div class="itm_title">
+            <div class="store_name">
+                <a href="{{ brand.profile_url }}" class="store_link">
+                {% if brand.icon_id %}<span class="just_icon icon-00_brand_{{brand.icon_id}}"></span>{% endif %}
+                <span class="store_txt">{{ brand.name|remove_dot_com }}</span>
+                </a>
+            </div>
+            <div class="itm_name dotdot">{{ model.name }}</div>
+            <div class="price_soc_row">
+                {% if item.current_product_price.price > 0 %}
+                <div class="itm_price">
+                    {%  if item.current_product_price.orig_price > item.current_product_price.price %}
+                        <p class="price on_sale">${{item.current_product_price.price|floatformat:2}}&nbsp;<span class="discounted">${{item.current_product_price.orig_price|floatformat:2}}</span></p>
+                    {% else %}
+                        <p class="price">${{item.current_product_price.price|floatformat:2}}</p>
+                    {%  endif %}
+                </div>
+                {%  endif %}
+
+{#                <div class="soc_row small">#}
+{#                    <a class="icon-social_facebook bs_tooltip" href="https://www.facebook.com/sharer/sharer.php?u=http://app.theshelf.com{% url debra.explore_views.inspiration %}" target="_blank" title="Facebook page"></a>#}
+{#                    <a class="icon-social_twitter twitter-share-button bs_tooltip" href="https://twitter.com/share?url=http://app.theshelf.com{% url debra.explore_views.inspiration %}&text=Check%20out%20this%20awesome%20item%20I%20found%20on%20TheShelf" title="Twitter" data-lang="en" target="_blank"></a>#}
+{#                    <a class="icon-social_pinterest bs_tooltip" title="Pinterest" href="http://www.pinterest.com/pin/create/button/?url=http://app.theshelf.com{% url debra.explore_views.inspiration %}&media={% if item.img_url_panel_view %}{{ item.img_url_panel_view|urlencode }}{% else %}{{ item.img_url_feed_view|urlencode }}{% endif %}&description=Check%20out%20this%20awesome%20item%20I%20found%20on%20TheShelf" data-pin-do="buttonPin"data-pin-config="above" target="_blank"></a>#}
+{#                </div>#}
+            </div>
+        </div>
+        {% if shelf_user  %}
+            <div id="button_content">
+                <a class="square_bt pink_bt_w_teal lg show_add_item_column shelve_this" data-post-url="{% url debra.item_views.add_item_to_shelves shelf_user.id item.id %}">
+                    <span class="icon-social_0_shelf_it" style="font-size:55px;"></span>
+                </a>
+                {% if item.affiliate_prod_link %}
+                <a class="square_bt gray_bt lg" href="{{item.affiliate_prod_link}}" target="_blank">
+                {% else %}
+                <a class="square_bt gray_bt lg" href="http://redirect.viglink.com?key=8d52291df37c6f11a1438d2c3161b482&out={{model.prod_url|urlencode}}" target="_blank">
+                {% endif %}
+                    <span class="icon-misc_loc_building"></span>
+                    <span>Store</span>
+                </a>
+            </div>
+        {% else %}
+            <div id="button_content">
+                <a class="square_bt pink_bt_w_teal lg show_add_item_column shelve_this shelf_it" click-emitter="openSignupPopup">
+                    <span class="icon-social_0_shelf_it"></span>
+                </a>
+                <a class="square_bt gray_bt lg" click-emitter="openSignupPopup">
+                    <span class="icon-misc_value_heart"></span>
+                    <span class="">Like</span>
+                </a>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+
+<!-- this goes below the other stuff -->
+<div class="bottom_content">
+    <div class="itm_stats_row">
+        <div class="stats_itm bs_tooltip" title="Go to {{ shelfer_shelf.name|remove_dot_com }} Shelf.">
+            <div class="stat_img sidebar_shelf_img circ_pic">
+                {% if shelfer_shelf.shelf_img %}<img src="{{ shelfer_shelf.shelf_img }}" />{% endif %}
+            </div>
+            <a href="{{ shelfer_prof.profile_url }}?q={{ shelfer_shelf.id }}">
+                <div class="stat_info">
+                    <div class="stat_label">On Shelf :</div>
+                    <div class="stat_name">{{ shelfer_shelf.name|remove_dot_com }}</div>
+                </div>
+            </a>
+        </div>
+        {% if is_users_feed and is_users_item %}
+        <form action="{% url debra.item_views.add_affiliate_link shelf_user.id item.id %}" method="post" class="add_affiliate_link_form clearfix">{% csrf_token %}
+            <fieldset class="typical_form lighter_field smaller_field">
+                <div>
+                    <label>Your Affiliate</label>
+                    <div class="edit_affiliate_link{% if item.affiliate_prod_link %} hidden{% endif %}">
+                        {{ add_affiliate_link_form.affiliate_prod_link|attr:"placeholder:enter affiliate link"|add_class:"req req-url"}}
+                        <input type="submit" class="square_bt teal_bt sm less_pad add_affiliate_link_submit submit_button" value="Save" />
+                    </div>
+                    <div class="affili_txt{% if not item.affiliate_prod_link %} hidden{% endif %}">
+                        <span class="affiliate">{{ item.affiliate_prod_link }}</span> <a class="txt_link darker_teal">edit</a>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+        {% else %}
+        <div class="stats_itm bs_tooltip" title="View profile for {{ original_shelfer|user_name_or_email }}.">
+            <div class="stat_img">
+                <img src="{{ original_shelfer|best_pic_for_profile }}" />
+            </div>
+            <a href="{{ original_shelfer.profile_url }}">
+                <div class="stat_info">
+                    <div class="stat_label">Shelved By :</div>
+                    <div class="stat_name">{{ original_shelfer|user_name_or_email }}</div>
+                </div>
+            </a>
+        </div>
+        <div class="stats_itm last_child">
+            <div class="stat_img">
+                <div class="icon-social_0_shelf_icon3"></div>
+            </div>
+            <div class="stat_info">
+                <div class="stat_label">Reshelved :</div>
+                <div class="stat_name">{{ num_reshelves }}</div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+    <div class="extra_itms_container">
+        <div class="title">Similar Items</div>
+        <div class="extra_itms salvattore_grid" data-columns>
+        {% if page_user_prof %}
+            {% for item in similar_items %}
+                {% if item.img_url_feed_view %}
+                <div class="extra_itms_bk clearfix" data-ajax-path="{% url debra.item_views.item_info page_user_prof.id item.id %}">
+                    <div class="img_wrapper">
+                        <img class="product_img" src="{{ item.img_url_feed_view }}" data-img-url-panel-view="{% if item.img_url_panel_view %}{{ item.img_url_panel_view }}{% else %}{{ item.img_url_feed_view }}{% endif %}" />
+                        <div class="icon_wrapper"><div class="icon-misc_magnify2"></div></div>
+                    </div>
+                    <div class="image_label_price">
+                        <p class="the_name">{{item.product_model.brand}} <span class="brand">{{item.product_model.name}}</span></p>
+                        {% if item.product_model.saleprice < item.product_model.price and item.product_model.saleprice > 0 %}
+                        <p class="price on_sale">${{item.product_model.saleprice}}&nbsp;<span class="discounted">${{item.product_model.price}}</span></p>
+                        {% else %}
+                        <p class="price">${{item.product_model.price}}</p>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

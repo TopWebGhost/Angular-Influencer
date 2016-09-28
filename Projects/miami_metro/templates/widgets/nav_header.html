@@ -1,0 +1,13 @@
+{% if visitor.has_brand %}
+    {% if visitor.brand_subscribed %}
+    	{% include "widgets/nav_bars/brand_subscribed.html" %}
+    {% else %}
+    	{% include 'widgets/landing_nav_header.html' with page="trial" %}
+    {% endif %}
+{% elif visitor.has_influencer %}
+    {% include "widgets/nav_bars/blogger.html" %}
+{% elif visitor.is_admin %}
+    {% include 'widgets/nav_bars/admin.html' %}
+{% else %}
+    {% include 'widgets/landing_nav_header.html' %}
+{% endif %}

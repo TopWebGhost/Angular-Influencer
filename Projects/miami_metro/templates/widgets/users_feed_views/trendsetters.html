@@ -1,0 +1,86 @@
+{% extends 'widgets/base.html' %}
+
+{% block widget_content %}
+{% load endless %}
+{% load custom_filters %}
+
+{% lazy_paginate 10 trendsetters %}
+{% for trendsetter in trendsetters %}
+    <div class="fd_hl_shlvr_cont masonry_item" itemscope itemtype="http://data-vocabulary.org/Person">
+        <div class="fd_hl_shelver" style="cursor: pointer;">
+            <div class="le_bucket">
+                <div class="le_block block_1">
+                    <div class="top"><a href="{{trendsetter.obj.profile_url}}"><img src="{{trendsetter.obj.image1}}.small.jpg?{{rand}}" alt="trendsetter pic" itemprop="photo" /></a></div>
+                    <div class="btm"><a href="{{trendsetter.obj.profile_url}}"><img src="{{trendsetter.obj.image2}}.small.jpg?{{rand}}" alt="trendsetter pic" itemprop="photo" /></a></div>
+                </div>
+                <a href="{{trendsetter.obj.profile_url}}" class="le_block block_2"><img src="{{trendsetter.obj.image3}}.small.jpg?{{rand}}" alt="trendsetter pic" itemprop="photo" /></a>
+                <a href="{{trendsetter.obj.profile_url}}" class="le_block block_3"><img src="{{trendsetter.obj.image4}}.small.jpg?{{rand}}" alt="trendsetter pic" itemprop="photo" /></a>
+                <div class="le_block block_4">
+                    <div class="top"><a href="{{trendsetter.obj.profile_url}}"><img src="{{trendsetter.obj.image5}}.small.jpg?{{rand}}" alt="trendsetter pic" itemprop="photo" /></a></div>
+
+                    <a href="{{trendsetter.obj.profile_url}}" class="middle" itemprop="url"><p class="btn_hl_shelver" style="color:white;">View Profile</p></a>
+
+                    {% if admin_view %}
+                        {% if potential_trendsetters %}
+                        <div class="btm follow_btn stop" id="{% url upgrade_admin:make_trendsetter trendsetter.obj.id %}">
+                            <p class="btn_hl_shelver follow_status follow">Make <span itemprop="role">Trendsetter</span></p>
+                        </div>
+                        {% else %}
+                        <div class="btm follow_btn stop" id="{% url upgrade_admin:unmake_trendsetter trendsetter.obj.id %}">
+                            <p class="btn_hl_shelver follow_status follow">Unverify Trendsetter</p>
+                        </div>
+                        {% endif %}
+                    {% else %}
+                    <div class="btm stop">
+                        {% if shelf_user %}
+                        <p class="btn_hl_shelver follow_status follow_btn unfollow{% if not trendsetter.is_followed %} hidden{% endif %} inactive" id="{% url debra.shelf_views.toggle_follow shelf_user.id trendsetter.obj.id %}">Unfollow Trendsetter</p>
+                        <p class="btn_hl_shelver follow_status follow_btn follow{% if trendsetter.is_followed %} hidden{% endif %}" id="{% url debra.shelf_views.toggle_follow shelf_user.id trendsetter.obj.id %}">Follow Trendsetter</p>
+                        {% else %}
+                        <p class="btn_hl_shelver" click-emitter="openSignupPopup">Signup to Follow</p>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                </div>
+                <a href="{{trendsetter.obj.profile_url}}" class="le_block block_5"><img src="{{trendsetter.obj.image7}}.small.jpg?{{rand}}" alt="trendsetter pic" itemprop="photo" /></a>
+                <a href="{{trendsetter.obj.profile_url}}" class="le_block block_6"><img src="{{trendsetter.obj.image8}}.small.jpg?{{rand}}" alt="trendsetter pic" itemprop="photo" /></a>
+                <div class="le_block block_7">
+                    <div class="top"><a href="{{trendsetter.obj.profile_url}}"><img src="{{trendsetter.obj.image9}}.small.jpg?{{rand}}" alt="trendsetter pic" itemprop="photo" /></a></div>
+                    <div class="btm"><a href="{{trendsetter.obj.profile_url}}"><img src="{{trendsetter.obj.image10}}.small.jpg?{{rand}}" alt="trendsetter pic" itemprop="photo" /></a></div>
+                </div>
+            </div>
+            <div class="le_info">
+                <div class="row">
+                    <div class="content_bk">
+                        <span class="name" itemprop="name">{{trendsetter.obj|user_name_or_email}}</span>
+                        <span class="hint_italics xsmall lessgray">&nbsp; of &nbsp;</span>
+                        <span class="big_stat" itemprop="affiliation">{{trendsetter.obj.blog_name}}</span>
+                    </div>
+                    <!-----$$$$$ TESTING REMOVAL $$$$$----->
+                    {% if not testing_removal %}
+                    <div class="content_bk">
+                        <span class="section_label">followers : </span>
+                        <span class="big_stat num_followers">{{trendsetter.obj.padded_num_followers}}</span>
+                    </div>
+                    {% endif %}
+                    <div class="content_bk">
+                        <span class="section_label">items : </span>
+                        <span class="big_stat">{{trendsetter.obj.num_items_in_shelves}}</span>
+                    </div>
+                    <!-----$$$$$ TESTING REMOVAL $$$$$----->
+                    {% if not testing_removal %}
+                    <div class="content_bk">
+                        <span class="section_label">shelves : </span>
+                        <span class="big_stat">{{trendsetter.obj.num_shelves}}</span>
+                    </div>
+                    {% endif %}
+                    <div class="content_bk last_child soc_row">
+                        {% include 'snippets/social_row.html' with page_user_prof=trendsetter.obj %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endfor %}
+{% show_more %}
+
+{% endblock %}

@@ -1,0 +1,61 @@
+{% comment %}
+pricing popup disabled now...
+<!-- i put it here so upgrade popup will be on ALL trial pages -->
+{% include 'snippets/pricing_options_as_popup.html' %}
+{% endcomment %}
+{% if search_page and landing_page %}
+    <!--div class="home_nav_bar" style="width: 200px;{% if modern_page %}top: 40px; left: 20px;{% endif %}">
+        <div class="nav_wrapper">
+            <a href="/" class="logo"><span class="icon-social_0_shelf_shelf2a" style="color: black"></span></a>
+        </div>
+    </div-->
+{% else %}
+    <div class="home_nav_bar {{ nav_bar_extra_class }}" ng-controller="LandingNavBarCtrl">
+        <div class="nav_wrapper">
+            <a href="/" class="logo"><span class="icon-social_0_shelf_shelf2a"></span></a>
+            <div class="link_row">
+                <!-- IF WE EDIT ANY OF THESE!!!!  MAKE SURE TO CHANGE THEM ON LIST.HTML TOO!!!! -->
+                <!-- IF WE EDIT ANY OF THESE!!!!  MAKE SURE TO CHANGE THEM ON LIST.HTML TOO!!!! -->
+                <!-- IF WE EDIT ANY OF THESE!!!!  MAKE SURE TO CHANGE THEM ON LIST.HTML TOO!!!! -->
+                <!-- IF WE EDIT ANY OF THESE!!!!  MAKE SURE TO CHANGE THEM ON LIST.HTML TOO!!!! -->
+                <a href="http://www.theshelf.com/agencies/" class="nav_link{% if page == 'agency' %} selected{% endif %}">Agencies</a>
+                <a href="http://www.theshelf.com/influencer-marketing/" class="nav_link{% if page == 'selfserve' %} selected{% endif %}">Brands</a>
+                <a href="http://www.theshelf.com/blogger-outreach/" class="nav_link{% if page == 'bloggers' %} selected{% endif %}">Beginners</a>
+                {% if visitor.has_brand and not visitor.brand.flag_locked %}
+                    <a href="{% url debra.account_views.pricing %}" class="nav_link{% if page == 'pricing' %} selected{% endif %}">Pricing</a>
+                {% endif %}
+                {% comment %}
+                <a href="{% url debra.account_views.pricing %}" class="nav_link{% if page == 'pricing' %} selected{% endif %}">Pricing</a>
+
+                <a href="{% url debra.account_views.brand_next_steps %}" class="nav_link{% if page == 'trial' %} selected{% endif %}">Trial</a>
+
+                <a href="http://theshelf.com/blog" class="nav_link">Blog</a>
+                <a href="#" class="launch-popup nav_link" data-popup-type="contact_us" broadcaster="openContactForm">Contact Us</a>
+                {% endcomment %}
+            </div>
+            <div contact-form></div>
+            <div class="log_sign_corner" style="display:none;">
+                {% if not shelf_user %}
+                <a id="login_btn" class="button login" click-emitter="openLoginPopup">Log In</a>
+                {% else %}
+                    {% if visitor.brand and not visitor.brand.flag_locked %}
+                        <a href="{% url debra.account_views.pricing %}" class="button signup">Upgrade</a>
+                        <a href="{% url debra.account_views.our_logout %}" class="button">Log Out</a>
+                    {% else %}
+                        <!-- <a click-emitter="openUpgradePopup" class="button signup upgrade">Upgrade</a> -->
+                        <a href="{% url debra.account_views.our_logout %}" class="button login">Log Out</a>
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+    $(document).ready(function(){
+        if ($.browser.name == "firefox") {
+            $('.prof_bg .nav_cover_img').spoilerAlert();
+        } else {
+            $('.prof_bg .nav_cover_img').addClass('css_blur');
+        }
+    });
+    </script>
+{% endif %}

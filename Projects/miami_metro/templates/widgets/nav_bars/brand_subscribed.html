@@ -1,0 +1,448 @@
+{% load custom_filters %}
+{% comment %}
+<!-- NAGIGATION BAR -->
+<!-- NAGIGATION BAR -->
+<!-- NAGIGATION BAR -->
+<!-- brand -->
+{% endcomment %}
+<div login-required-popup></div>
+<div feature-locked-popup link="{% url debra.account_views.pricing %}" link-title="Upgrade" plan-name="{{visitor.plan_name_mapped|title}}"></div>
+{% if visitor.has_brand and visitor.plan_name in constants.STRIPE_COLLECTION_PLANS %}
+<div bookmark-popup></div>
+{% comment %}
+<div favorite-popup
+    source="{% url debra.job_posts_views.get_influencer_groups %}"
+    target="{% url debra.job_posts_views.set_influencer_groups %}"
+    add-group="{% url debra.job_posts_views.add_influencer_groups %}"
+    post-source="{% url debra.job_posts_views.get_post_analytics_collections %}"
+    post-target="{% url debra.job_posts_views.set_post_analytics_collections %}"
+    post-add-group="{% url debra.job_posts_views.add_post_analytics_collection %}"></div>
+{% endcomment %}
+{% endif %}
+
+<span brand-nav ng-cloak notifications="{% url debra.brand_account_views.account_notifications %}">
+    <div class="glob_side_bar">
+        <div class="logo_container">
+            <a class="nav_logo" href="{% url debra.search_views.blogger_search %}" ng-if="!reloadPage"><span class="logo_icon"></span></a>
+            <a class="nav_logo" href="" ng-click="reloadPage()" ng-if="reloadPage"><span class="logo_icon"></span></a>
+        </div>
+        <!--div class="open_btn" ng-class="{closed: !nav_config.visible}" ng-click="toggleSidebarMini()"><div class="open_icon"></div></div-->
+        <!-- SWITCH BRANDS -->
+        <!-- SWITCH BRANDS 
+        <div class="agency_info clearfix">
+            <div class="left_side clearfix">
+                {% if visitor.brand != visitor.base_brand %}
+                <div class="label_txt">Logged in as</div>
+                {% endif %}
+                <div class="brand_name" dotdotdot>{{visitor.brand.name}}</div>
+            </div>
+            <div class="primary_nav_icons toggle_open switch_brand">
+                <div class="brand_icon"><div style="background-image: url('{{visitor.brand.profile_pic}}');"></div></div>
+                {% if visitor.base_brand.is_agency %}
+                <div class="nav_dropdown downward_dropdown">
+                    {% for priv in visitor.managed_brands %}
+                    {% if priv.brand.id %}
+                    <a class="basic_dropdown_item {% if visitor.brand == priv.brand %}selected{% endif %} " href="{% url debra.brand_account_views.set_agency_main_brand priv.brand.id %}?next={{request.get_full_path}}">
+                        {{priv.brand.name}} {% if visitor.brand == priv.brand %} <span class="icon-letter_check4"></span>{% endif %}
+                    </a>
+                    {% endif %}
+                    {% endfor %}
+                    <a class="basic_dropdown_item" href="{% url debra.brand_account_views.account_landing %}">Edit Brands</a>
+                </div>
+                {% endif %}
+            </div>
+        </div>-->
+        <div class="nano">
+            <div class="content nano-content side_bar_content">
+                <!-- AGENCY ALERTS -->
+                <!-- AGENCY ALERTS 
+                {% comment %}
+                {% with visitor.notifications as notifications %}
+                <div class="agency_alerts clearfix">
+                    <div class="primary_nav_icons {% if notifications.alert %}toggle_open{% endif %} alert_icons notifications">
+                        <span class="icon-misc_alert3">
+                            {% if notifications.alert %}
+                            <span class="badge badge_alert">{{notifications.alert}}</span>
+                            {% endif %}
+                        </span>
+                        {% if notifications.alert %}
+                        <div class="nav_dropdown notifications downward_dropdown">
+                            {% for notification in notifications.messages %}
+                            {% if notification.type == "alert" %}
+                            <a class="basic_dropdown_item alert_notification">
+                                {{notification.text}}
+                            </a>
+                            {% endif %}
+                            {% endfor %}
+                            <a class="primary_btn basic_dropdown_item" ng-click="clearNotifications('alert')">Clear notifications</a>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endwith %}
+                {% endcomment %}-->
+                <div class="primary_nav">
+                    {% if visitor.auth_user.is_superuser %}
+                        <a ng-click="toggleTabActive('search')" class="primary_btn {% verbatim %}{{getTabClasses('search')}}{% endverbatim %}" data-placement="right" title="Search">
+                            <span class="icon-misc_magnify"></span>
+                            <span class="nav_txt">Search</span>
+                        </a>
+                        <div class="dashboard_nav primary_tab_search" ng-show="isTabActive('search')">
+                            <a href="{% url debra.search_views.main_search %}#/main_search" class="content_bk {% verbatim %}{{getSubTabClasses('main_search')}}{% endverbatim %}" data-placement="right" title="Search">Main Search</a>
+                            {% if visitor.base_brand.flag_instagram_search %}
+                            <a href="{% url debra.search_views.main_search %}#/instagram_search" class="content_bk {% verbatim %}{{getSubTabClasses('instagram_search')}}{% endverbatim %}" data-placement="right" title="Instagram Search (Beta)">Instagram Search (Beta)</a>
+                            {% endif %}
+                        </div>
+                    {% else %}
+                        <a href="{% url debra.search_views.main_search %}#/main_search" class="primary_btn {% verbatim %}{{getTabClasses('search')}}{% endverbatim %}" data-placement="right" title="Search" >
+                            <span class="icon-misc_magnify"></span>
+                            <span class="nav_txt">Search</span>
+                        </a>
+                    {% endif %}
+
+
+
+
+
+
+
+
+                    {% if 0 %}
+
+                    {% if visitor.has_brand and visitor.brand.analytics_tab_visible %}
+                    {% comment %}{% if visitor.plan_name in constants.STRIPE_ANALYTICS_PLANS %}{% endcomment %}
+
+                    {% comment %}
+                    <a class=" primary_btn {% verbatim %}{{getTabClasses('dashboard')}}{% endverbatim %}" ng-click="toggleTabActive('dashboard')" data-placement="right" title="Reporting">
+                        <span class="icon-misc_chart2"></span>
+                        <span class="nav_txt">Reporting</span>
+                    </a>
+                    <div class="dashboard_nav primary_tab_dashboard" ng-show="isTabActive('dashboard')">
+                        {% if DEBUG %}
+                        <a href="{% url debra.brand_dashboard.dashboard_charts %}" class="content_bk {% verbatim %}{{getSubTabClasses('charts')}}{% endverbatim %}">
+                            Summary</a>
+                        {% endif %}
+                        <a href="{% url debra.brand_dashboard.mentioning_influencers %}" class="nav_default content_bk {% verbatim %}{{getSubTabClasses('mentions_influencers')}}{% endverbatim %}">
+                            Your Influencers</a>
+                        <a href="{% url debra.brand_dashboard.mentioning_posts %}" class="content_bk {% verbatim %}{{getSubTabClasses('mentions_posts')}}{% endverbatim %}">Posts</a>
+                        {% if DEBUG %}
+                        <a href="{% url debra.brand_dashboard.mentioning_posts_sponsored %}" class="content_bk {% verbatim %}{{getSubTabClasses('mentions_posts_sponsored')}}{% endverbatim %}">Collaborations</a>
+                        {% endif %}
+                        <a href="{% url debra.brand_dashboard.mentioning_products %}" class="content_bk {% verbatim %}{{getSubTabClasses('mentions_products')}}{% endverbatim %}">Products</a>
+                        <a href="{% url debra.brand_dashboard.mentioning_photos %}" class="content_bk {% verbatim %}{{getSubTabClasses('mentions_photos')}}{% endverbatim %}">Instagram</a>
+                        <a href="{% url debra.brand_dashboard.mentioning_tweets %}" class="content_bk {% verbatim %}{{getSubTabClasses('mentions_tweets')}}{% endverbatim %}">Twitter</a>
+                        <a href="{% url debra.brand_dashboard.mentioning_pins %}" class="content_bk {% verbatim %}{{getSubTabClasses('mentions_pins')}}{% endverbatim %}">Pinterest</a>
+                    </div>
+                    {% endcomment %}
+
+                    <a class=" primary_btn {% verbatim %}{{getTabClasses('competitors')}}{% endverbatim %}" ng-click="toggleTabActive('competitors')" data-placement="right" title="Competitors">
+                        <span class="icon-misc_chart6"></span>
+                        <span class="nav_txt">Analytics</span>
+                    </a>
+                    <div class="dashboard_nav primary_tab_competitors" ng-show="isTabActive('competitors')">
+                        {% if selected_tab == 'competitors' %}
+                        <span dashboard-nav>
+                        {% else %}
+                        <span dashboard-nav-simple brand-text="{{ visitor.brand.name }}" brand-value="{{ visitor.brand.domain_name }}">
+                        {% endif %}
+                            <div class="competitor_box content_bk" style="position: relative;height: 24px;width: 150px;" ng-if="competitors" >
+                                <div add-competitor-popup match-brand-url="{% url debra.search_views.search_brand_json %}" save-url="{% url debra.brand_dashboard.save_competitor %}"></div>
+                                <fieldset class="typical_form third left">
+                                    <div
+                                        dropdown-select="competitors"
+                                        dropdown-model="competitor"
+                                        dropdown-onchange="setCompetitor(selected)"
+                                        style="width: 127px;font-size: 10px;padding: 6px;">
+                                    </div>
+                                </fieldset>
+                                <div class="icon-letter_plus05 " click-emitter="openAddCompetitorPopup" style="position: absolute;right: 5px; color: white" data-placement="top" data-original-title="{% if visitor.base_brand.is_agency %}Add Brand to Monitor{% else %}Add Competitor to Monitor{% endif %}" tooltip></div>
+                            </div>
+                        </span>
+                        {% if DEBUG %}
+                        <a href="{% url debra.brand_dashboard.dashboard_competitors_charts %}" class="content_bk {% verbatim %}{{getSubTabClasses('c_charts')}}{% endverbatim %}">
+                            Summary</a>
+                        {% endif %}
+                        <a href="{% url debra.brand_dashboard.mentioning_competitors_influencers %}" class="nav_default content_bk {% verbatim %}{{getSubTabClasses('c_mentions_influencers')}}{% endverbatim %}">
+                            Influencers</a>
+                        <a href="{% url debra.brand_dashboard.mentioning_competitors_posts %}" class="content_bk {% verbatim %}{{getSubTabClasses('c_mentions_posts')}}{% endverbatim %}">Posts</a>
+                        {% if DEBUG %}
+                        <a href="{% url debra.brand_dashboard.mentioning_competitors_posts_sponsored %}" class="content_bk {% verbatim %}{{getSubTabClasses('c_mentions_posts_sponsored')}}{% endverbatim %}">Collaborations</a>
+                        {% endif %}
+                        <a href="{% url debra.brand_dashboard.mentioning_competitors_products %}" class="content_bk {% verbatim %}{{getSubTabClasses('c_mentions_products')}}{% endverbatim %}">Products</a>
+                        <a href="{% url debra.brand_dashboard.mentioning_competitors_photos %}" class="content_bk {% verbatim %}{{getSubTabClasses('c_mentions_photos')}}{% endverbatim %}">Instagram</a>
+                        <a href="{% url debra.brand_dashboard.mentioning_competitors_tweets %}" class="content_bk {% verbatim %}{{getSubTabClasses('c_mentions_tweets')}}{% endverbatim %}">Twitter</a>
+                        <a href="{% url debra.brand_dashboard.mentioning_competitors_pins %}" class="content_bk {% verbatim %}{{getSubTabClasses('c_mentions_pins')}}{% endverbatim %}">Pinterest</a>
+                    </div>
+
+                    {% comment %}
+
+                    {% else %}
+                    <a class=" primary_btn" click-emitter="featureLocked" data-placement="right" title="Your Analytics">
+                        <span class="icon-misc_chart2"></span>
+                        <span class="nav_txt">Your Analytics</span>
+                    </a>
+
+                    <a class=" primary_btn" click-emitter="featureLocked" data-placement="right" title="Competitors">
+                        <span class="icon-misc_chart6"></span>
+                        <span class="nav_txt">Competitors</span>
+                    </a>
+
+                    {% endcomment %}
+
+                    {% endif %}
+
+
+
+
+
+
+
+
+
+
+
+                    <a class=" primary_btn {% verbatim %}{{getTabClasses('outreach')}}{% endverbatim %}" ng-click="toggleTabActive('outreach')" data-placement="right" title="Outreach">
+                        <span class="icon-misc_files_list"></span>
+                        <span class="nav_txt">Outreach</span>
+                        <div class="fade_away_tip">Bookmarked bloggers can be found in the Outreach Tab.
+                            <div class="x_close icon-letter_x05" ng-click="closeCollectionPopup()"></div>
+                        </div>
+                    </a>
+                    <div class="dashboard_nav primary_tab_outreach" ng-show="isTabActive('outreach')">
+                    {% if show_collections %}
+                    <a href="{% url debra.job_posts_views.favorited_bloggers %}" class="content_bk {% verbatim %}{{getSubTabClasses('favorited')}}{% endverbatim %}" data-placement="right" title="Outreach Collections" >
+                        Collections
+                    </a>
+                    <a href="{% url debra.job_posts_views.list_jobs %}" class="content_bk {% verbatim %}{{getSubTabClasses('job_posts')}}{% endverbatim %}" data-placement="right" title="Outreach Campaigns" >
+                        Campaigns
+                    </a>
+                    {% else %}
+                    <a href="#" click-emitter="featureLocked" class="content_bk" data-placement="right" title="Outreach Collections">
+                        Collections
+                    </a>
+                    <a href="#" click-emitter="featureLocked" class="content_bk" data-placement="right" title="Outreach Campaigns">
+                        Campaigns
+                    </a>
+                    {% endif %}
+                    </div>
+
+                    <a href="{% url debra.job_posts_views.list_messages %}" class=" primary_btn {% verbatim %}{{getTabClasses('messages')}}{% endverbatim %}" data-placement="right" title="Messages">
+                        <span class="icon-social_envelope"></span>
+                        <span class="nav_txt">Messages
+                        {% if notifications.mail %}
+                        <span class="badge badge_mail">{{notifications.mail}}</span>
+                        {% endif %}
+                        </span>
+                    </a>
+                    {% comment %}
+                    <a href="{% url debra.dataexport_views.dataexport_list %}" class="primary_btn {% verbatim %}{{getTabClasses('export')}}{% endverbatim %}">
+                        <span class="icon-misc_chart2"></span>
+                        <span class="nav_txt">Export</span>
+                    </a>
+                    <a href="{% url debra.dataexport_views.dataexport_template %}" class="primary_btn {% verbatim %}{{getTabClasses('save_template')}}{% endverbatim %}" >
+                        <span class="icon-misc_chart2"></span>
+                        <span class="nav_txt">Export template</span>
+                    </a>
+                    {% endcomment %}
+
+                    <a class=" primary_btn {% verbatim %}{{getTabClasses('brand_profile')}}{% endverbatim %}" ng-click="toggleTabActive('brand_profile')" data-placement="right" title="{{visitor.brand.name}}'s Profile">
+                        <span class="icon-people_person"></span>
+                        <span class="nav_txt">{{visitor.brand.name}}'s Profile</span>
+                    </a>
+                    <div class="dashboard_nav primary_tab_outreach" ng-show="isTabActive('brand_profile')">
+                    {% if visitor.brand.hasPseudoinfluencer %}
+                    <a href="{{ visitor.brand.about_page }}" class="content_bk {% verbatim %}{{getSubTabClasses('brand_profile_view')}}{% endverbatim %}" data-placement="right" title="View {{visitor.brand.name}}'s Profile" >
+                        View
+                    </a>
+                    {% endif %}
+                    <a href="{{ visitor.brand.edit_page }}" class="content_bk {% verbatim %}{{getSubTabClasses('brand_profile_edit')}}{% endverbatim %}" data-placement="right" title="Edit {{visitor.brand.name}}'s Profile" >
+                        Edit
+                    </a>
+                    </div>
+
+                    
+
+                    {% else %}
+                        {% comment %}
+                        <a class=" primary_btn {% verbatim %}{{getTabClasses('tags_and_searches')}}{% endverbatim %}" ng-click="toggleTabActive('tags_and_searches')" data-placement="right" title="Competitors">
+                            <span class="icon-misc_files_files2"></span>
+                            <span class="nav_txt">Tags + Searches</span>
+                        </a>
+
+                        <div class="dashboard_nav primary_tab_outreach" ng-show="isTabActive('tags_and_searches')">
+                            <a href="{% url debra.search_views.saved_views_tags %}" class="content_bk {% verbatim %}{{getSubTabClasses('tags')}}{% endverbatim %}" data-placement="right" title="Tags" >
+                                Tags
+                            </a>
+                            <a href="{% url debra.search_views.saved_views_searches %}" class="content_bk {% verbatim %}{{getSubTabClasses('saved_searches')}}{% endverbatim %}" data-placement="right" title="Saved Searches" >
+                                Saved Searches
+                            </a>
+                        </div>
+                        {% endcomment %}
+            
+                        <a class=" primary_btn {% verbatim %}{{getTabClasses('outreach')}}{% endverbatim %}" href="{% url debra.job_posts_views.list_messages %}" data-placement="right" title="Outreach" ng-if="non_campaign_messaging_enabled">
+                            <span class="icon-social_envelope"></span>
+                            <span class="nav_txt">Outreach</span>
+                        </a>
+
+                        {% comment %}
+                        <div class="dashboard_nav primary_tab_outreach" ng-show="isTabActive('outreach')">
+                            <!--a href="{% url debra.job_posts_views.favorited_bloggers %}" class="content_bk {% verbatim %}{{getSubTabClasses('favorited')}}{% endverbatim %}" data-placement="right" title="Outreach Collections" >
+                                Getting Started
+                            </a>
+
+                            <a href="{% url debra.job_posts_views.favorited_bloggers %}" class="content_bk {% verbatim %}{{getSubTabClasses('favorited')}}{% endverbatim %}" data-placement="right" title="Outreach Collections" >
+                                Influencers
+                            </a-->
+
+                            <a href="{% url debra.job_posts_views.list_messages %}" class="content_bk {% verbatim %}{{getSubTabClasses('messages')}}{% endverbatim %}" data-placement="right" title="Message" >
+                                Messages
+                            </a>
+
+                            <a href="{% url debra.job_posts_views.list_jobs %}" class="content_bk {% verbatim %}{{getSubTabClasses('brand_assets')}}{% endverbatim %}" data-placement="right" ng-show="campaigns_enabled" title="Campaigns" >
+                                Campaigns
+                            </a>
+                        </div>
+                        {% endcomment %}
+
+                        <a class=" primary_btn {% verbatim %}{{getTabClasses('campaign')}}{% endverbatim %}" href="{% url debra.job_posts_views.list_jobs %}" data-placement="right" title="Campaigns">
+                            <span class="icon-misc_files_list"></span>
+                            <span class="nav_txt">Campaigns</span>
+                        </a>
+
+
+                        {% if visitor.has_brand %}
+
+                            {% if visitor.base_brand.flag_post_reporting_on or visitor.base_brand.flag_report_roi_prediction %}
+                                <a class="primary_btn {% verbatim %}{{getTabClasses('competitors')}}{% endverbatim %}"
+                                    {% if DEBUG or visitor.base_brand.flag_post_reporting_on or visitor.base_brand.flag_report_roi_prediction %} ng-click="toggleTabActive('competitors')"{% else %} click-emitter="featureLocked"{% endif %}>
+                                    <span class="icon-misc_chart7"></span>
+                                    <span class="nav_txt">Reporting</span>
+                                </a>
+                            {% endif %}
+
+
+                            <div class="dashboard_nav primary_tab_competitors" ng-show="isTabActive('competitors')">
+                                {% comment %}
+                                <a href="http://www.theshelf.com/feature-request" target="_blank" class="content_bk">
+                                    COMING SOON! Click here to vote on the reporting features that you'd like to see added first.</a>
+                                {% endcomment %}
+
+                                {% if DEBUG or visitor.base_brand.flag_post_reporting_on %}
+                                    <a href="{% url debra.search_views.post_analytics_collections %}" class="content_bk {% verbatim %}{{getSubTabClasses('post_analytics_collections')}}{% endverbatim %}">
+                                        Post Analytics Collections
+                                    </a>
+                                {% endif %}
+
+                                {% if DEBUG or visitor.base_brand.flag_report_roi_prediction %}
+                                    <a href="{% url debra.search_views.roi_prediction_reports %}" class="content_bk {% verbatim %}{{getSubTabClasses('roi_prediction_reports')}}{% endverbatim %}">
+                                        Roi-prediction (beta)
+                                    </a>
+                                {% endif %}
+                            </div>
+
+                        {% endif %}
+
+                        <a class="primary_btn {% verbatim %}{{getTabClasses('getting_started')}}{% endverbatim %}" href="{% url debra.brand_account_views.account_landing %}">
+                            <span class="icon-misc_files_gear"></span>
+                            <span class="nav_txt">Account</span>
+                        </a>
+
+                        {% comment %}                        
+                        <a class=" primary_btn {% verbatim %}{{getTabClasses('getting_started')}}{% endverbatim %}" ng-click="toggleTabActive('getting_started')">
+                            <span class="icon-misc_files_gear"></span>
+                            <span class="nav_txt">Account</span>
+                        </a>
+
+                        <div class="dashboard_nav primary_tab_outreach" ng-show="isTabActive('getting_started')">
+                            <a href="http://www.theshelf.com/getting-started-on-the-shelf" target="_blank" class="content_bk {% verbatim %}{{getSubTabClasses('getting_started_resources')}}{% endverbatim %}">
+                                Getting Started
+                            </a>
+
+                            <a href="{{ visitor.brand.about_page }}" class="content_bk {% verbatim %}{{getSubTabClasses('brand_profile_view')}}{% endverbatim %}" ng-show="profile_enabled">
+                                Your Profile
+                            </a>
+                            <a href="{% url debra.brand_account_views.account_landing %}" class="content_bk {% verbatim %}{{getSubTabClasses('brand_account_settings')}}{% endverbatim %}" >Account Settings</a>
+                        </div>
+                        {% endcomment %}
+                    {% endif %}
+
+                </div>
+            </div>
+        </div>
+        <div class="bottom_bar">
+            <div class="primary_nav_icons toggle_open">
+                <span class="icon-people_person"></span>
+                <div class="nav_dropdown upward_dropdown">
+                    <div class="login_info">
+                        <div class="name">{{request.visitor.user.name}} &nbsp;<span class="of_text">of</span>&nbsp; {{request.visitor.base_brand.name}}</div>
+                        <div class="email">{{request.visitor.auth_user.email}}</div>
+                        <a class="square_bt gray_bt xxs" href="{% url debra.account_views.our_logout %}">Logout</a>
+                    </div>
+                    <!-- class="basic_dropdown_item {% verbatim %}{{getSubTabClasses('pricing')}}{% endverbatim %}"href="{% url debra.brand_account_views.account_landing %}">Agency Account Settings</a-->
+                    {% comment %}
+                    <a class="basic_dropdown_item"href="#">Agency Billing</a>
+                    <a class="basic_dropdown_item"href="#">Agency Brands</a>
+                    {% endcomment %}
+                </div>
+            </div>
+            <div class="primary_nav_icons toggle_open shelf_pages" style="display:none;">
+                <span class="icon-social_0_shelf_icon"></span>
+                <div class="nav_dropdown upward_dropdown shelf_pages">
+                    <a class="basic_dropdown_item" href="http://theshelf.com/blog" target="_blank">The Shelf Blog</a>
+                    <a class="basic_dropdown_item" href="http://theshelf.com/blog/the-team/" target="_blank">About Us</a>
+                    <a class="basic_dropdown_item" href="http://theshelf.com/blog/brand-faqs" target="_blank">Brand Info</a>
+                    <a class="basic_dropdown_item launch-popup" data-popup-type="contact_us" broadcaster="openContactForm">Contact Us</a>
+                    <a class="basic_dropdown_item" href="{% url debra.account_views.privacy %}" >Privacy Policy</a>
+                    <a class="basic_dropdown_item" href="{% url debra.account_views.terms %}" >Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</span>
+
+{% comment %}
+<!--div class="secondary_tabs no_header" data-spy="affix" data-offset-top="250">
+    {% if selected_tab == 'favorited' %}
+    {% if group %}
+    <div class="breadcrumb_container">
+        <a class="breadcrumb_nav_item" href="{% url debra.job_posts_views.favorited_bloggers %}">
+            <span class="bread_text">All Collections</span>
+        </a>
+        <div class="breadcrumb_nav_item">
+            <span class="bread_text"> &nbsp;&gt;&nbsp; {{group.name}}</span>
+        </div>
+    </div>
+    {% if DEBUG %}
+    <div class="action_container">
+        <div class="row">
+            <a class="content_bk first_child" href="#" click-emitter="openEmailBloggersPopup"><span class="section_label">Email Selected</span></a>
+            <a class="content_bk first_child" href="#" click-emitter="selectAllBloggers"><span class="section_label">Select all</span></a>
+        </div>
+    </div>
+    {% endif %}
+    {% endif %}
+    {% endif %}
+
+    {% if selected_tab == 'search_bloggers' %}
+    {% if influencer %}
+    <div class="breadcrumb_container">
+        <a class="breadcrumb_nav_item" href="{% url debra.search_views.blogger_search %}">
+            <span class="bread_text">Search</span>
+        </a>
+        <div class="breadcrumb_nav_item">
+            <span class="bread_text"> &nbsp;&gt;&nbsp; {{influencer.blogname}}</span>
+        </div>
+    </div>
+    {% endif %}
+    {% endif %}
+
+    <div class="row">
+        <a class="content_bk first_child {% if selected_tab == 'search_bloggers' %} selected{% endif %}" href="{% url debra.search_views.blogger_search %}"><span class="section_label">Search</span></a>
+        {% if show_collections %}
+        <a class="content_bk {% if selected_tab == 'favorited' %} selected{% endif %}" href="{% url debra.job_posts_views.favorited_bloggers %}"><span class="section_label">Collections</span></a>
+        {% else %}
+        <a class="content_bk" href="#" click-emitter="featureLocked"><span class="section_label">Collections</span></a>
+        {% endif %}
+    </div>
+</div-->
+{% endcomment %}

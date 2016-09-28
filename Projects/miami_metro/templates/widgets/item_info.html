@@ -1,0 +1,31 @@
+{% extends 'widgets/base.html' %}
+
+{% block widget_content %}
+<div id="item_details" >
+    <div class="content">
+        <div id="item_dynamic">
+            <!-- TOP SECTION -->
+            <!-- TOP SECTION -->
+            <div class="top_sect clearfix">
+                <div class="details_image">
+                    <!-- the image from the feed goes here, in panel view form -->
+                </div>
+                <div class="itm_info_right">
+                    {% comment %}
+                    {% include 'snippets/loader.html' %}
+                    {% endcomment %}
+                    <div class="itm_info_right_content">
+                    <!-- this is populated dynamically by item_info_dynamic.html -->
+                    </div>
+                </div>
+            </div>
+            <div class="bottom_sect">
+                <div class="bottom_sect_content">
+                <!-- this is populated dynamically by item_info_dynamic.html -->
+                </div>
+            </div>
+            <a class="close_button" ><p class="icon-letter_x01 details_closer"></p></a>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,42 @@
+{% load custom_filters %}
+<!-- blogger -->
+<div class="nav_bar ">
+    <a class="nav_logo" href="/"><span class="icon-social_0_shelf_shelf3a"></span></a>
+
+    <div class="primary_nav no_secondary">
+        Admin account
+        <a href="{% url debra.search_views.blogger_search %}" class="primary_btn{% if search_page %} selected{% endif %}">Search Bloggers</a>
+    </div>
+    <div class="right_nav">
+       <div class="primary_nav_icons toggle_open">
+            <span class="icon-social_0_shelf_icon"></span>
+            <div class="nav_dropdown" style="right:50px;width: 150px;">
+                <a class="basic_dropdown_item launch-popup" href="#" data-popup-type="contact_us" broadcaster="openContactForm">Contact Us</a>
+                <a class="basic_dropdown_item" href="{% url debra.account_views.privacy %}" >Privacy Policy</a>
+                <a class="basic_dropdown_item" href="{% url debra.account_views.terms %}" >Terms of Service</a>
+            </div>
+        </div>
+        <div class="primary_nav_icons toggle_open">
+            <span class="icon-misc_files_files"></span>
+            <div class="nav_dropdown" style="right:50px;width: 250px;">
+                <a class="basic_dropdown_item">Brand Name</a>
+                <a class="basic_dropdown_item">Brand Name</a>
+                <a class="basic_dropdown_item">Edit Brands</a>
+            </div>
+        </div>
+        <div class="primary_nav_icons toggle_open">
+            <img class="imgfit" keep-aspect src="{{ visitor.user|best_pic_for_profile }}" alt="dropdown image"/>
+            <div class="nav_dropdown prof_dropdown" style="right:0px">
+                <div class="name_area clearfix">
+                    <div class="name_block">
+                        <span class="name">{{ visitor.user|user_name_or_email }}</span>
+                        <span class="email">{{ visitor.user.email }}</span>
+                    </div>
+                    <div class="button_block">
+                        <a class="square_bt solid_blk sm" href="{% url debra.account_views.our_logout %}">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

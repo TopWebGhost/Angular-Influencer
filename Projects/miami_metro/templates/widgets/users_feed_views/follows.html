@@ -1,0 +1,112 @@
+{% extends "widgets/base.html" %}
+
+{% block widget_content %}
+{% if not empty %}
+    {% load custom_filters %}
+    {% load endless %}
+    {% lazy_paginate 20 follows %}
+        {% for follow in follows %}
+        <div class="feed_item masonry_item follower" data-follow-type="{% if followers_page %}follower{% else %}following{% endif %}" itemscope {% if follow.obj.brand %}itemtype="http://data-vocabulary.org/Organization"{% else %}itemtype="http://data-vocabulary.org/Person"{% endif %}>
+            <a href="{{ follow.obj.profile_url }}">
+                <div class="pict_row">
+                    <div class="prof_pic clearfix">
+                        {% if follow.obj.brand %}
+                            {% if follow.obj.brand.icon_id %}
+                                <span class="icon-00_brand_{{follow.obj.brand.icon_id}} w_bg_color"></span>
+                            {% else %}
+                                <span class="brand_missing_icon">{{ follow.obj.brand.name|remove_dot_com }}</span>
+                            {% endif %}
+                        {% else %}
+                        <img class="clearfix" src="{{ follow.obj|best_pic_for_profile }}" alt="follower image" itemprop="photo" />
+                        {% endif %}
+                        <div class="view_btn clearfix"><span class="icon-misc_magnify"></span></div>
+                    </div>
+                </div>
+                {% if follow.obj.is_blogger %}
+                <div class="hl_shelvr"><span class="icon-misc_very_diamond"></span><span class="txt" itemprop="role">Trendsetter</span></div>
+                {% endif %}
+                <div class="info_area">
+                    <div class="user_title lessgray">
+                        <div class="name" itemprop="name">
+                            {% if follow.obj.brand %}
+                            {{ follow.obj.brand.name|remove_dot_com }}
+                            {% else %}
+                            {{ follow.obj|user_name_or_email }}
+                            {% endif %}
+                        </div>
+                        {% if follow.obj.is_blogger %}
+                        <div class="blog" itemprop="affiliation">{{ follow.obj.blog_name }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="prof_categories">
+                        {% if follow.obj.num_followers > 0 %}
+                        <a href="{{ follow.obj.followers_url }}">
+                            <div class="category"><span class="icon-people_followers3"></span>
+                                <span class="txt">{{ follow.obj.padded_num_followers }} Followers</span>
+                            </div>
+                        </a>
+                        {% endif %}
+                        {% if follow.obj.num_items_in_shelves > 0 %}
+                        <a href="{{ follow.obj.profile_url }}" itemprop="url"><div class="category"><span class="icon-misc_shop_hanger"></span><span class="txt">{{ follow.obj.num_items_in_shelves }} Items</span></div></a>
+                        {% endif %}
+                        {% if follow.obj.num_shelves > 0 %}
+                        <a href="{{ follow.obj.profile_url }}" itemprop="url"><div class="category"><span class="icon-misc_shapes_stripes"></span><span class="txt">{{ follow.obj.num_shelves }} Shelves</span></div></a>
+                        {% endif %}
+                        {% if shelf_user %}
+                            {% if follow.obj.brand %}
+                            <a href="{% url debra.brand_views.about_me follow.obj.id %}"><div class="category"><span class="icon-people_id"></span><span class="txt">Profile Link</span></div></a>
+                            {% else %}
+                            <a href="{% url debra.shelf_views.about_me follow.obj.id %}"><div class="category"><span class="icon-people_id"></span><span class="txt">Profile Link</span></div></a>
+                            {% endif %}
+                        {% else %}
+                        <a click-emitter="openLoginPopup"><div class="category"><span class="icon-people_id"></span><span class="txt">Profile Link</span></div></a>
+                        {% endif %}
+                    </div>
+                    <p class="square_bt">
+                        {% if shelf_user %}
+                        <span class="square_bt xs teal_bt follow_btn follow{% if follow.is_followed %} hidden{% endif %}" id="{% url debra.shelf_views.toggle_follow shelf_user.id follow.obj.id  %}">Follow</span>
+                        <span class="square_bt xs teal_bt follow_btn unfollow{% if not follow.is_followed %} hidden{% endif %} inactive" id="{% url debra.shelf_views.toggle_follow shelf_user.id follow.obj.id  %}">Un-follow</span>
+                        {% else %}
+                        <span class="square_bt xs teal_bt" click-emitter="openLoginPopup">>Signup to Follow</span>
+                        {% endif %}
+                    </p>
+                </div>
+            </a>
+        </div>
+    {% endfor %}
+    {% show_more %}
+{% else %}
+    {% if followers_page %}
+    <div class="blank_pg_filler">
+        <div class="content_area clearfix">
+            <div class="blank_title">You don't have any followers yet.</div>
+            <div class="single_bucket">
+                <div class="the_bucket">
+                    <div class="txt">You can try following some people to see if they follow you back...</div>
+                    <div class="centerer"><a href="{% url debra.explore_views.trendsetters %}" class="square_bt teal_bt lg">View Trendsetters</a></div>
+                    <div class="">
+                        <img src="/mymedia/site_folder/images/page_graphics/account/followers_blank.png" alt="blank followers" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="blank_pg_filler">
+        <div class="content_area clearfix">
+            <div class="blank_title">You aren't following anyone yet.</div>
+            <div class="single_bucket">
+                <div class="the_bucket">
+                    <div class="txt">You can find fashion trendsetters in Inspiration...</div>
+                    <div class="centerer"><a href="{% url debra.explore_views.trendsetters %}" class="square_bt teal_bt lg">View Trendsetters</a></div>
+                    <div class="">
+                    	<img src="/mymedia/site_folder/images/page_graphics/account/following_blank.png" alt="blank following" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+{% endif %}
+{% endblock %}
+

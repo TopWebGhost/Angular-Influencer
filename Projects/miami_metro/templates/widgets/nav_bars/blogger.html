@@ -1,0 +1,34 @@
+{% load custom_filters %}
+<!-- blogger -->
+<div class="nav_bar ">
+    <a class="nav_logo" href="/"><span class="icon-social_0_shelf_shelf3a"></span></a>
+    <div class="right_nav">
+        {% comment %}
+        <div class="primary_nav_icons toggle_open">
+            <span class="icon-social_0_shelf_icon"></span>
+            <div class="nav_dropdown" style="right:50px;width:250px;">
+                <a class="basic_dropdown_item" href="{% url debra.account_views.blogger_blog_not_ok %}" target="_blank">Badges Help</a>
+                <a class="basic_dropdown_item" href="http://theshelf.com/blog" target="_blank">The Shelf Blog</a>
+                <a class="basic_dropdown_item" href="http://theshelf.com/blog/the-team/" target="_blank">About Us</a>
+                <a class="basic_dropdown_item launch-popup" href="#" data-popup-type="contact_us" broadcaster="openContactForm">Contact Us</a>
+                <a class="basic_dropdown_item" href="{% url debra.account_views.privacy %}" >Privacy Policy</a>
+                <a class="basic_dropdown_item" href="{% url debra.account_views.terms %}" >Terms of Service</a>
+            </div>
+        </div>
+        {% endcomment %}
+        <div class="primary_nav_icons toggle_open">
+            <img class="imgfit" keep-aspect src="{{ visitor.user|best_pic_for_profile }}" alt="dropdown image"/>
+            <div class="nav_dropdown prof_dropdown" style="right:0px">
+                <div class="name_area clearfix">
+                    <div class="name_block">
+                        <span class="name">{{ visitor.user|user_name_or_email }}</span>
+                        <span class="email">{{ visitor.user.email }}</span>
+                    </div>
+                    <div class="button_block">
+                        <a class="square_bt solid_blk sm" href="{% url debra.account_views.our_logout %}">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

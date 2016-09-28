@@ -1,0 +1,27 @@
+{% load custom_filters %}
+
+<div class="endorsed_brands">
+    <div class="title">Endorsed Brands</div>
+    <div class="brands">
+        {% for mention in user.brandmentions_set.all %}
+            {% if mention.count_notsponsored > 0 %}
+            <span class="brand">{{ mention.brand.name|remove_dot_com }} ({{ mention.count_notsponsored }})</span>
+            {% endif %}
+        {% endfor %}
+    </div>
+</div>
+<!--div class="endorsed_brands">
+    <div class="title">Brands That Have Sponsored</div>
+    <div class="brands">
+        {% for mention in user.brandmentions_set.all %}
+            {% if mention.count_sponsored > 0 %}
+            <span class="brand">{{ mention.brand.name|remove_dot_com }} ({{ mention.count_sponsored }})</span>
+            {% endif %}
+        {% endfor %}
+    </div>
+</div-->
+<div class="blogger_links">
+    {% for plat in user.platform_set.all %}
+    <a href="{{ plat.url }}" class="blogger_link_btn {{ plat.css_name }}" target="_blank"><br/>{% if plat.platform_name == "Custom" %}Blog{% else %}{{ plat.platform_name }}{% endif %}</a>
+    {% endfor %}
+</div>
