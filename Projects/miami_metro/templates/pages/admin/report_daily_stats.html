@@ -1,0 +1,106 @@
+{% extends 'pages/admin/base.html' %} {% load compressed %} {% block page_js %} {% compressed_js 'angular_admin' %} {% endblock %}{% block page_css %} {% endblock %} {% block content %}
+<div style="background:#d9d9d9;">
+    <div ng-app="theshelfadmin">
+        <div class="admin_reports">
+            <div class="main_header">Summary Tables</div>
+            <div class="report_block">
+                <div class="report_header clearfix">
+                    <div class="title">Main summary</div>
+                    <br/>
+                    <div class="description"></div>
+                </div>
+                <div class="report_content">
+                    <div class="row_header_column">
+                        <div class="cell">
+                            <div class="cell_content cell_header">&nbsp;</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header">Total Influencers in Search</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header">blog_posts_crawled_today</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header">infs_have_fb</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header">fb_posts_crawled_today</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header">infs_have_pin</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header">pin_posts_crawled_today</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header">infs_have_tw</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header">tw_posts_crawled_today</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header">infs_have_insta</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header">insta_posts_crawled_today</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header">prods_imported_today</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header">denormalized</div>
+                        </div>
+
+
+                    </div>
+                    {% for report in reports %}
+                    <div class="date_column {% if forloop.first %}current{% endif %}">
+                        <div class="cell">
+                            <div class="cell_content cell_header">&nbsp;</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.show_on_search}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.blog_posts_crawled_today}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.infs_have_fb}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.fb_posts_crawled_today}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.infs_have_pin}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.pin_posts_crawled_today}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.infs_have_tw}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.tw_posts_crawled_today}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.infs_have_insta}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.insta_posts_crawled_today}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.prods_imported_today}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.denormalized}}</div>
+                        </div>
+
+
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,14 @@
+{% load widget_tweaks %}
+{% load custom_filters %}
+{% load endless %}
+
+{% lazy_paginate 50 feed_items %}
+{% for item in feed_items %}
+<div class="admin_item product_item">
+    <div class="header">
+    </div>
+    <div class="product_item_info">
+    </div>
+</div>
+{% endfor %}
+{% show_more %}

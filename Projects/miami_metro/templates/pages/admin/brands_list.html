@@ -1,0 +1,83 @@
+{% extends 'pages/admin/base.html' %} {% load compressed %} {% block page_js %} {% compressed_js 'angular_admin' %}
+<script type="text/javascript">
+angular.module("theshelfadmin").value("columns", [
+    // # {
+    // #     'field': 'level',
+    // #     'sTitle': 'Level',
+    // # },
+    {
+        'mData': 'products_count',
+        'sTitle': '# of Itms',
+        'editable': false,
+    }, {
+        'mData': 'name',
+        'sTitle': 'Name',
+        'type': 'text',
+    }, {
+        'mData': 'domain_name',
+        'sTitle': 'URL',
+        'editable': false,
+        'fnRender':  function(obj) {
+            return "<a target='blank' href='http://"+obj.aData.domain_name+"'>"+obj.aData.domain_name+"</a>";
+        }
+    }, {
+        'mData': 'brand_type',
+        'sTitle': 'Type',
+        'type': 'select',
+        'source': "{'':'Please select...', {% for type in types %}{{type.0}}: '{{type.1}}',{% endfor %}}",
+    }, {
+        'mData': 'blacklisted',
+        'sTitle': 'Blacklisted',
+        'type': 'select',
+        'source': "{'':'Please select...', true:'True',false:'False'}",
+        'fnRender':  function(obj) {
+            if(obj.aData.blacklisted === "true" || obj.aData.blacklisted === true){
+                setTimeout(function() {
+                    $("#row_"+obj.aData.id).addClass("blacklisted");
+                }, 10);
+                return 'true';
+            }else{
+                setTimeout(function() {
+                    $("#row_"+obj.aData.id).removeClass("blacklisted");
+                }, 10);
+                return '&nbsp';
+            }
+        }
+    }, {
+        'mData': 'blacklist_reason',
+        'sTitle': 'Reason',
+        'type': 'select',
+        'source': "{'':'Please select...', {% for reason in reasons %}{{reason.0}}: '{{reason.1}}',{% endfor %}}",
+    },  {
+        'mData': 'id',
+        'sTitle': 'ID',
+        'editable': false
+    }, {
+        'mData': 'description',
+        'sTitle': 'Description',
+        'type': 'textarea',
+    }, {
+        'mData': 'categories',
+        'sTitle': 'Categories',
+        'type': 'textarea',
+        'bSortable': false,
+        'bSearchable': false,
+    }, {
+        'mData': 'similar_brands',
+        'sTitle': 'Similar brands',
+        'type': 'textarea',
+        'bSortable': false,
+        'bSearchable': false,
+    },
+]);
+</script>
+{% endblock %} {% block page_css %}
+<style type="text/css">
+body { overflow-x: scroll; height:100%; }
+</style>
+{% endblock %} {% block content %}
+<div ng-app="theshelfadmin">
+    <table admin-form source="/admin/upgrade/brand/list/" class="data_table" skip-date-validated>
+    </table>
+</div>
+{% endblock %}

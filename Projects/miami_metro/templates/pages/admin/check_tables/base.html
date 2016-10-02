@@ -1,0 +1,21 @@
+{% extends 'pages/admin/base.html' %}
+{% load compressed %}
+
+{% block page_js %}
+{% compressed_js 'angular_admin' %}
+<script type="text/javascript">
+angular.module("theshelfadmin").value("columns", {{columns|safe}});
+</script>
+{% endblock %}{% block page_css %}
+
+<style type="text/css">
+body { overflow-x: scroll; height:100%; }
+</style>
+{% endblock %} {% block content %}
+<div ng-app="theshelfadmin">
+    <table admin-form-check source="{{source}}" class="data_table" skip-actions skip-date-edited skip-date-validated>
+    </table>
+</div>
+
+{% endblock %}
+

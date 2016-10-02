@@ -1,0 +1,160 @@
+{% extends 'pages/admin/base.html' %} {% load compressed %} {% block page_js %} {% compressed_js 'angular_admin' %} {% endblock %}{% block page_css %} {% endblock %} {% block content %}
+<div style="background:#d9d9d9;">
+    <div ng-app="theshelfadmin">
+        <div class="admin_reports">
+            <div class="main_header">Summary Tables</div>
+            <div class="report_block">
+                <div class="report_header clearfix">
+                    <div class="title">Main summary</div>
+                    <br/>
+                    <div class="description"></div>
+                </div>
+                <div class="report_content">
+                    <div class="row_header_column">
+
+                        <div class="cell">
+                            <div class="cell_content header">Stage 1</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header">stage_classification</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header">stage_blog</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header">stage_w_posts</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header">stage_relevant_to_fashion</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header">stage_not_relevant_to_fashion</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header">stage_blog_active</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header">stage_blog_inactive</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header">stage_infs_discover_fb</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header">stage_infs_discover_tw</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header">stage_infs_discover_pin</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header">stage_infs_discover_insta</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header">stage_indepth_crawled</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header">stage_have_blogname</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header">stage_have_description</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header">stage_have_name</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header">stage_have_email</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header">stage_have_pic</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header">stage_have_all</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header">stage_have_at_least_two_comments</div>
+                        </div>
+
+                    </div>
+                    {% for report in reports %}
+                    <div class="date_column ">
+
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.stage1}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.stage_classification}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.stage_blog}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.stage_posts}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.stage_relevant_to_fashion}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.stage_not_relevant_to_fashion}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.stage_blog_active}}</div>
+                        </div>
+
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.stage_blog_inactive}}</div>
+                        </div>
+
+
+
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.stage_infs_discover_fb}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.stage_infs_discover_tw}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.stage_infs_discover_pin}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.stage_infs_discover_insta}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.stage_indepth_crawled}}</div>
+                        </div>
+
+
+
+
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.stage_have_blogname}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.stage_have_description}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.stage_have_name}}</div>
+                        </div>
+
+
+
+
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.stage_have_email}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.stage_have_pic}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.stage_have_all}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.stage_have_at_least_two_comments}}</div>
+                        </div>
+
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

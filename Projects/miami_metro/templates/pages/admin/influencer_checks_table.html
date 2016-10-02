@@ -1,0 +1,48 @@
+{% extends 'pages/admin/base.html' %}
+{% load compressed %}
+
+{% block page_js %}
+{% compressed_js 'angular_admin' %}
+<script type="text/javascript">
+angular.module("theshelfadmin").value("columns", [
+    {
+        'mData': 'influencer',
+        'sTitle': 'Influencer',
+        'editable': false,
+    }, {
+        'mData': 'platform',
+        'sTitle': 'Platform',
+        'editable': false,
+    },{
+        'mData': 'cause',
+        'sTitle': 'Cause',
+        'type': 'select',
+        'source': "{'':'Please select...', {% for cause in causes %}{{cause.0}}: '{{cause.1}}', {% endfor %}}",
+    },  {
+        'mData': 'status',
+        'sTitle': 'Status',
+        'type': 'select',
+        'source': "{'':'Please select...', {% for status in statuses %}{{status.0}}: '{{status.1}}', {% endfor %}}",
+    }, {
+        'mData': 'fields',
+        'sTitle': 'Fields',
+        'editable': false,
+    }, {
+        'mData': 'custom_message',
+        'sTitle': 'Message',
+    }
+]);
+</script>
+{% endblock %}{% block page_css %}
+
+<style type="text/css">
+body { overflow-x: scroll; height:100%; }
+</style>
+{% endblock %} {% block content %}
+<div ng-app="theshelfadmin">
+    <table admin-form source="{{source}}" class="data_table" skip-actions skip-date-edited skip-date-validated>
+    </table>
+</div>
+
+{% endblock %}
+

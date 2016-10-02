@@ -1,0 +1,53 @@
+{% extends 'pages/admin/base.html' %}
+
+{% load compressed %}
+
+{% block page_js %}
+{% compressed_js 'angular_admin' %}
+{% endblock %}
+
+{% block page_css %}
+
+<style>
+#pdo-stats th, #pdo-stats tr {
+    width: 200px;
+    text-align: left;
+}
+
+.status-ok {
+    color: green;
+}
+
+.status-fail {
+    color: red;
+}
+</style>
+
+{% endblock %}
+
+{% block content %}
+
+<h1>PlatformDataOp Summary For the Last {{days}} Days</h1>
+
+<table id=pdo-stats>
+    <thead>
+        <th></th>
+        <th></th>
+        {% for ds in day_specs %}
+            <th colspan=1>{{ds.0}}/{{ds.1}}</th>
+        {% endfor %}
+    </thead>
+
+    {% for r in table_rows %}
+        <tr>
+            <td>{{r.0}}</td>
+            <td><code>{{r.1}}</code></td>
+            {% for day_data in r|slice:"2:" %}
+                <td class=status-fail>{{day_data}}</td>
+            {% endfor %}
+        </tr>
+    {% endfor %}
+
+</table>
+
+{% endblock %}

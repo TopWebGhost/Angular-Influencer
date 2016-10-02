@@ -1,0 +1,89 @@
+{% extends 'pages/admin/base.html' %}
+{% load compressed %}
+
+{% block page_js %}
+{% compressed_js 'angular_admin' %}
+<script type="text/javascript">
+
+var render_link = function(target){
+    return function(obj) {
+        if(obj.aData[target] === "null" || obj.aData[target] === null){
+            return '';
+        }else{
+            return "<a target='blank' href='"+obj.aData[target]+"'>"+obj.aData[target]+"</a>";
+        }
+    };
+}
+var skip_null = function(target) {
+    return function(obj) {
+        if(obj.aData[target] === "null" || obj.aData[target] === null){
+            return '';
+        }else{
+            return obj.aData[target];
+        }
+    }
+};
+angular.module("theshelfadmin").value("columns", [
+    {
+        'mData': 'id',
+        'sTitle': 'ID#',
+        'editable': false,
+    }, {
+        'mData': 'blog_url',
+        'sTitle': 'URL',
+        'fnRender': render_link('blog_url'),
+        'editable': false,
+    }, {
+        'mData': 'email_for_advertising_or_collaborations',
+        'sTitle': 'Email<br>For<br>collaboration<br>or<br>advertising',
+        'fnRender':  skip_null('email_for_advertising_or_collaborations'),
+    }, {
+        'mData': 'shelf_user__email',
+        'sTitle': 'Shelf User Email',
+        'editable': false,
+        'fnRender':  skip_null('shelf_user__email'),
+    }, {
+        'mData': 'blogname',
+        'sTitle': 'Blog<br>Name',
+        'editable': false,
+        'fnRender':  skip_null('blogname'),
+    }, {
+        'mData': 'name',
+        'sTitle': 'Blogger<br>Name',
+        'editable': false,
+        'fnRender':  skip_null('name'),
+    // }, {
+    //     'mData': 'mandrill_error',
+    //     'sTitle': 'Mandrill<br>Error',
+    //     'editable': false,
+    //     'fnRender':  skip_null('mandrill_error'),
+    }, {
+        'mData': 'emails_sent_count',
+        'sTitle': 'Emails Sent<br>Count',
+        'editable': false,
+        'fnRender':  skip_null('emails_sent_count'),
+        'bSortable': true,
+    }, {
+        'mData': 'last_send_ts',
+        'sTitle': 'Last Send',
+        'editable': false,
+        'fnRender':  skip_null('last_send_ts'),
+        'bSortable': true,
+    }
+
+]);
+</script>
+{% endblock %}{% block page_css %}
+
+<style type="text/css">
+body { overflow-x: scroll; height:100%; }
+</style>
+{% endblock %} {% block content %}
+<div ng-app="theshelfadmin">
+    <table admin-form source="{{source}}" class="data_table" skip-actions skip-date-edited skip-date-validated>
+    </table>
+</div>
+
+{% endblock %}
+{% block bottom_js %}
+{% endblock %}

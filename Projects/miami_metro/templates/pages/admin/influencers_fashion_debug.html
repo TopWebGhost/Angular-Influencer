@@ -1,0 +1,115 @@
+{% extends 'pages/admin/base.html' %}
+{% load compressed %}
+
+{% block page_js %}
+{% compressed_js 'angular_admin' %}
+<script type="text/javascript">
+var skip_null = function(target) {
+    return function(obj) {
+        if(obj.aData[target] === "null" || obj.aData[target] === null){
+            return '';
+        }else{
+            return obj.aData[target];
+        }
+    }
+};
+var bool_render = function(target) {
+    return function(obj){
+        if(obj.aData[target] === "true" || obj.aData[target] === true){
+            return 'yes';
+        }else{
+            return 'no';
+        }
+    }
+};
+var render_link = function(target){
+    return function(obj) {
+        if(obj.aData[target] === "null" || obj.aData[target] === null){
+            return '';
+        }else{
+            return "<a target='blank' href='"+obj.aData[target]+"'>"+obj.aData[target]+"</a>";
+        }
+    };
+};
+angular.module("theshelfadmin").value("columns", [
+    {
+        'mData': 'id',
+        'sTitle': 'ID#',
+        'editable': false,
+    }, {
+        'mData': 'initial_crawl_date',
+        'sTitle': 'Date<br/>Added',
+        'bSortable': false,
+        'editable': false,
+        'fnRender':  skip_null('initial_crawl_date'),
+    }, {
+        'mData': 'blog_url',
+        'sTitle': 'Blog<br/>URL',
+        'editable': false,
+    }, {
+        'mData': 'platform',
+        'sTitle': 'Platform',
+        'bSortable': false,
+        'editable': false,
+        'fnRender':  skip_null('platform'),
+    }, {
+        'mData': 'fashion_links',
+        'sTitle': 'Fashion Links',
+        'bSortable': false,
+        'editable': false,
+        'fnRender':  bool_render('fashion_links'),
+    }, {
+        'mData': 'fashion_store_mentions',
+        'sTitle': 'Fashion Store Mentions',
+        'bSortable': false,
+        'editable': false,
+        'fnRender':  bool_render('fashion_store_mentions'),
+    }, {
+        'mData': 'fashion_widgets',
+        'sTitle': 'Fashion Widgets',
+        'bSortable': false,
+        'editable': false,
+        'fnRender':  bool_render('fashion_widgets'),
+    }, {
+        'mData': 'images',
+        'sTitle': 'Images',
+        'bSortable': false,
+        'editable': false,
+        'fnRender':  bool_render('images'),
+    }, {
+        'mData': 'comments',
+        'sTitle': 'Comments',
+        'bSortable': false,
+        'editable': false,
+        'fnRender':  bool_render('comments'),
+    }, {
+        'mData': 'confidence_level',
+        'sTitle': 'Relevant to Fashion',
+        'bSortable': false,
+        'editable': false,
+        'fnRender':  bool_render('confidence_level'),
+    }, {
+        'mData': 'active',
+        'sTitle': 'Active',
+        'bSortable': false,
+        'editable': false,
+        'fnRender':  bool_render('active'),
+    }
+]);
+</script>
+{% endblock %}{% block page_css %}
+
+<style type="text/css">
+body { overflow-x: scroll; height:100%; }
+@media screen and (min-width:1px) and (max-width:1000px) { table.data_table td { max-width:50px!important; } }
+@media screen and (min-width:1001px) and (max-width:1400px) { table.data_table td { max-width:75px!important; } }
+@media screen and (min-width:1401px) and (max-width:5000px) { table.data_table td { max-width:100px!important; } }
+
+</style>
+{% endblock %} {% block content %}
+<div ng-app="theshelfadmin">
+    <table admin-form source="/admin/upgrade/influencer/fashion/debug/" class="data_table" skip-actions skip-date-validated>
+    </table>
+</div>
+{% endblock %}
+

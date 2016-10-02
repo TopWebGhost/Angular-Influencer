@@ -1,0 +1,39 @@
+<h3 class="rale_3 medium center_text">{{ total_num_bloggers }} bloggers</h3>
+<div style="width:100%; padding:50px; background:#f3f3f3; display:block;">
+    <fieldset class="rale_4 medium center_text">
+        <div>
+            <label>Filters</label> <br />
+            <input type="checkbox" class="filter" data-filter-name="admin_categorized" data-filter-type="eq" data-filter-val="0" />Show only uncategorized
+            <input type="checkbox" class="filter" data-filter-name="admin_categorized" data-filter-type="eq" data-filter-val="1" />Show only categorized
+            <br />
+            <br />
+            <input type="checkbox" class="filter" data-filter-name="is_trendsetter" data-filter-type="eq" data-filter-val="1" />Trendsetters
+            <input type="checkbox" class="filter" data-filter-name="has_collage" data-filter-type="eq" data-filter-val="1" />Created Collage (NOT trendsetters)
+            <input type="checkbox" class="filter" data-filter-name="has_collage" data-filter-type="eq" data-filter-val="0" />No Collage (NOT trendsetters)
+            <br />
+            <br />
+            <input type="checkbox" class="filter" data-filter-name="privilege_level" data-filter-type="gte" data-filter-val="{{ userprofile_class.WIDGETS_PRIVILEGES }}" />Have Widget Access
+            <br />
+            <input type="checkbox" class="filter" data-filter-name="quality_tag" data-filter-type="eq" data-filter-val="1" />Have Quality Tag
+            <br />
+            <input type="checkbox" class="filter" data-filter-name="friendly_tag" data-filter-type="eq" data-filter-val="1" />Have Friendly Tag
+            <br />
+            <input type="checkbox" class="filter" data-filter-name="can_set_affiliate_links" data-filter-type="eq" data-filter-val="1" />Blogger
+            <input type="checkbox" class="filter" data-filter-name="can_set_affiliate_links" data-filter-type="eq" data-filter-val="0" />Shopper
+            <br />
+            <br />
+            {% for k,v in userprofile_class.CONNECTOR_TYPES %}
+            <input type="checkbox" class="filter" data-filter-name="connector_tag" data-filter-type="eq" data-filter-val="{{ k }}" >{{ v }}
+            {% endfor %}
+            <br />
+            <br />
+            {% for k,v in userprofile_class.POPULARITY_CHOICES %}
+            <input type="checkbox" class="filter" data-filter-name="popularity_rank" data-filter-type="eq" data-filter-val="{{ k }}" >Popularity {{ v }}
+            {% endfor %}
+            <br />
+            <br />
+            <a class="filter_btn square_bt md pink_bt_w_teal" style="margin:20px 0px;">Apply Filters</a>
+        </div>
+    </fieldset>
+</div>
+<button class="square_bt pink_bt_w_teal xl admin_all_results clearfix hidden">Back to all results</button>

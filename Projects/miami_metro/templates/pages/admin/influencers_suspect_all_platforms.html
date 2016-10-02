@@ -1,0 +1,372 @@
+{% extends 'pages/admin/base.html' %} {% load compressed %} {% block page_js %} {% compressed_js 'angular_admin' %} {% endblock %} {% block content %}
+
+<div class="admin_selction_page">
+
+
+
+
+    <!-- ////////////////////// URL ISSUES /////////////////////// -->
+    <!-- ////////////////////// URL ISSUES /////////////////////// -->
+    <!-- ////////////////////// URL ISSUES /////////////////////// -->
+    <div class="suspect_group">
+        <div class="suspect_group_title">URL Problems</div>
+        <!-- URLS THAT USED TO WORK, BUT NOW SEEM BROKEN -->
+        <!-- URLS THAT USED TO WORK, BUT NOW SEEM BROKEN -->
+        <div class="suspect_admin_section">
+            <div class="suspect_title">1.1 &nbsp; URLs that are Newly Broken/Redirecting/No More Content</div>
+            <div class="suspect_text">For any URL that use to work, but is now broken or redirecting, it should show up here.  If no content has been imported in a month, it should also show up here...  often times, bloggers put up a post which updates users about their new URL...  that will need to be copied manually.<br/><br/>If we update the URL, the Update URL button needs to be clicked.  If no change is needed...  which would really only happen if content has stopped for no reason, we click NO Problem, which will reset the clock...  and we'll check again in 30 days if content still has not been updated.  If the URL is legitamately broken, then we Blacklist it.  At which point, it needs to be removed from Search.  If there has been content, and the URL is incorrectly showing up on this chart, A Bug needs to be Submitted.</div>
+            <table class="qa_people">
+                <tbody>
+                    <tr style="background:transparent;"><th>Error Message</th><th>Blog URL</th><th>Actions</t</tr>
+                    <tr>
+                        <td class="row_title error_message">Content Stopped</td>
+                        <td><fieldset class="typical_form smaller_field"><input type="text"></fieldset></td>
+                        <td>
+                            <p class="square_bt teal_bt md" style="margin-bottom:5px;">No Problem</p> &nbsp;
+                            <p class="square_bt teal_bt md" style="margin-bottom:5px;">Blacklist</p> &nbsp;
+                            <p class="square_bt teal_bt md" style="margin-bottom:5px;">Update URL</p> &nbsp;
+                            <p class="square_bt teal_bt md">Submit Bug</p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <!-- SOCIAL URLS THAT USED TO WORK, BUT NOW SEEM BROKEN -->
+        <!-- SOCIAL URLS THAT USED TO WORK, BUT NOW SEEM BROKEN -->
+        <div class="suspect_admin_section">
+            <div class="suspect_title">1.2 &nbsp; Social urls) that are Newly Broken/Redirecting/No More Content</div>
+            <div class="suspect_text">For any URL that use to work, but is now broken or redirecting, it should show up here.  If no content has been imported in a month, it should also show up here...  often times, bloggers put up a post which updates users about their new URL...  that will need to be copied manually.<br/><br/>If we update the URL, the Update URL button needs to be clicked.  If no change is needed...  which would really only happen if content has stopped for no reason, we click NO Problem, which will reset the clock...  and we'll check again in 30 days if content still has not been updated.  If there has been content, and the URL is incorrectly showing up on this chart, A Bug needs to be Submitted.</div>
+            <table class="qa_people">
+                <tbody>
+                    <tr style="background:transparent;"><th>Error Message</th><th>Blog URL</th><th>Questionable URL</th><th>Actions</t</tr>
+                    <tr>
+                        <td class="row_title error_message">Content Stopped</td>
+                        <td class="row_title">BlogURL.com</td>
+                        <td><fieldset class="typical_form smaller_field"><input type="text"></fieldset></td>
+                        <td>
+                            <p class="square_bt teal_bt md" style="margin-bottom:5px;">No Problem</p> &nbsp;
+                            <p class="square_bt teal_bt md" style="margin-bottom:5px;">Update URL</p> &nbsp;
+                            <p class="square_bt teal_bt md">Submit Bug</p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+
+
+    <!-- ////////////////////// BLOGGER DETAILS /////////////////////// -->
+    <!-- ////////////////////// BLOGGER DETAILS /////////////////////// -->
+    <!-- ////////////////////// BLOGGER DETAILS /////////////////////// -->
+    <div class="suspect_group grayed_bg">
+        <div class="suspect_group_title">Blogger Details Problems</div>
+        <!-- EMAIL ISSUES -->
+        <!-- EMAIL ISSUES -->
+        <div class="suspect_admin_section">
+            <div class="suspect_title">2.1 &nbsp; Multiple Emails / Missing Emails / Suspect Emails</div>
+            <div class="suspect_text">Bloggers with Multiple emails or completely missing emails or any other suspect email issue (like invalid format, extra characters, etc.</div>
+            <table class="qa_people">
+                <tbody>
+                    <tr style="background:transparent;"><th>Blog URL</th><th>For Brands</th><th>Remaining</th><th>Contact Form</th><th>Actions</t</tr>
+                    <tr>
+                        <td class="row_title">Blogurl.com</td>
+                        <td><fieldset class="typical_form smaller_field"><input type="text"></fieldset></td>
+                        <td><fieldset class="typical_form smaller_field"><input type="text"></fieldset></td>
+                        <td><fieldset class="typical_form smaller_field"><input type="text"></fieldset></td>
+                        <td><p class="square_bt teal_bt md">Save</p></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <!-- BLOG / BLOGGER NAMES -->
+        <!-- BLOG / BLOGGER NAMES -->
+        <div class="suspect_admin_section">
+            <div class="suspect_title">2.2 &nbsp; Similar Blog/Blogger Names</div>
+            <div class="suspect_text">bloggers who have extremely similar blog names and blogger names.<br/>
+                <span class="example">like “penny pincher fashion” with blogger name “pennypincherfashion”...</span>
+            </div>
+            <table class="qa_people">
+                <tbody>
+                    <tr style="background:transparent;"><th>Blog URL</th><th>Blog Name</th><th>Blogger Name</th><th>Actions</th></tr>
+                    <tr>
+                        <td class="row_title">Blogurl.com</td>
+                        <td><fieldset class="typical_form smaller_field"><input type="text"></fieldset></td>
+                        <td><fieldset class="typical_form smaller_field"><input type="text"></fieldset></td>
+                        <td><p class="square_bt teal_bt md">Save</p></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="suspect_admin_section">
+            <div class="suspect_title">2.3 &nbsp; 1 word blog names &amp; Emojis &amp; missing blog names</div>
+            <div class="suspect_text">Blogs with blog names that are only one word.  (QA often times forgets to split stuff up.)  And any blog names with Emojis</div>
+            <table class="qa_people">
+                <tbody>
+                    <tr style="background:transparent;"><th>Blog URL</th><th>Blog Name</th><th>Actions</th></tr>
+                    <tr>
+                        <td class="row_title">Blogurl.com</td>
+                        <td><fieldset class="typical_form smaller_field"><input type="text"></fieldset></td>
+                        <td><p class="square_bt teal_bt md">Save</p></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <!-- DESCRIPTION -->
+        <!-- DESCRIPTION -->
+        <div class="suspect_admin_section">
+            <div class="suspect_title">2.4 &nbsp; Suspect Descriptions</div>
+            <div class="suspect_text">Description that is too short (less than 150 characters)...  Descriptions containing URLs and emojis</div>
+            <table class="qa_people">
+                <tbody>
+                    <tr style="background:transparent;"><th>Blog URL</th><th>Description</th><th>Actions</t</tr>
+                    <tr>
+                        <td class="row_title">Blogurl.com</td>
+                        <td><fieldset class="typical_form smaller_field"><textarea rows="3" type="text"></textarea></fieldset></td>
+                        <td><p class="square_bt teal_bt md">Save</p></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <!-- LOCATIONS -->
+        <!-- LOCATIONS -->
+        <div class="suspect_admin_section">
+            <div class="suspect_title">2.5 &nbsp; Suspect Locations &amp; Missing Locations</div>
+            <div class="suspect_text">Locations that we are not able to figure out.</div>
+            <table class="qa_people">
+                <tbody>
+                    <tr style="background:transparent;"><th>Blog URL</th><th>Location</th><th>Actions</t</tr>
+                    <tr>
+                        <td class="row_title">Blogurl.com</td>
+                        <td><fieldset class="typical_form smaller_field"><input type="text"></fieldset></td>
+                        <td><p class="square_bt teal_bt md">Save</p></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+
+
+
+
+
+    <!-- ////////////////////// SOCIAL HANDLES /////////////////////// -->
+    <!-- ////////////////////// SOCIAL HANDLES /////////////////////// -->
+    <!-- ////////////////////// SOCIAL HANDLES /////////////////////// -->
+    <div class="suspect_group">
+        <div class="suspect_group_title">Social Handles</div>
+        <!-- IDS THAT SHARE SOCIAL URLS -->
+        <!-- IDS THAT SHARE SOCIAL URLS -->
+        <div class="suspect_admin_section">
+            <div class="suspect_title">3.1 &nbsp; Suspected Duplicate SOCIAL URLs</div>
+            <div class="suspect_text">Any two ids that share the same (or similar) social urls <span style="color:red">WHAT DO WE DO IF THERE IS MORE THAN 2 URLS SHARING A SOCIAL HANDLE?</span></div>
+            <table class="qa_people">
+                <tbody>
+                    <tr style="background:transparent;">
+                        <th>Problematic Social Handle</th>
+                        <th>Blog URL 1</th><th>Social URL 1</th><th>Blacklist</th>
+                        <th>Blog URL 2</th><th>Social URL 2</th><th>Blacklist</th><th>Actions</th>
+                    </tr>
+                    <tr>
+                        <td class="row_title error_message">Facebook (example)</td>
+                        <td class="row_title">Blogurl.com</td>
+                        <td><fieldset class="typical_form smaller_field"><input type="text"></fieldset></td>
+                        <td>
+                            <fieldset class="typical_form smaller_field">
+                                <select>
+                                    <option value="none">&nbsp;</option>
+                                    <option value="yes">Yes</option>
+                                    <option value="no">No</option>
+                                </select>
+                            </fieldset>
+                        </td>
+                        <td class="row_title">Blogurl.com</td>
+                        <td><fieldset class="typical_form smaller_field"><input type="text"></fieldset></td>
+                        <td>
+                            <fieldset class="typical_form smaller_field">
+                                <select>
+                                    <option value="none">&nbsp;</option>
+                                    <option value="yes">Yes</option>
+                                    <option value="no">No</option>
+                                </select>
+                            </fieldset>
+                        </td>
+                        <td><p class="square_bt teal_bt md">Save</p></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <!-- SOCIAL URL ISSUES -->
+        <!-- SOCIAL URL ISSUES -->
+        <div class="suspect_admin_section">
+            <div class="suspect_title">3.2 &nbsp; Broken/Mainstream Social Links</div>
+            <div class="suspect_text">Any social link that is broken, or linking to a mainstream profile...  like the facebook page for Facebook.</div>
+            <table class="qa_people">
+                <tbody>
+                    <tr style="background:transparent;"><th>Blog URL</th><th>Error Message</th><th>Suspect URL</th><th>Actions</t</tr>
+                    <tr>
+                        <td class="row_title">Blogurl.com</td>
+                        <td class="row_title error_message">Mainstream Link</td>
+                        <td><fieldset class="typical_form smaller_field"><input type="text"></fieldset></td>
+                        <td><p class="square_bt teal_bt md">Save</p></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <!-- SOCIAL URL ISSUES -->
+        <!-- SOCIAL URL ISSUES -->
+        <div class="suspect_admin_section">
+            <div class="suspect_title">3.3 &nbsp; Outlying Social Follower Counts</div>
+            <div class="suspect_text">Anyone who has a difference of 50,000+ between any of their social handles need to show up here for extra QA.</div>
+            <table class="qa_people">
+                <tbody>
+                    <tr style="background:transparent;"><th>Blog URL</th><th>Error Message</th><th>Facebook</th><th>Twitter</th><th>Instagram</th><th>Pinterest</th><th>Actions</t</tr>
+                    <tr>
+                        <td class="row_title">Blogurl.com</td>
+                        <td class="row_title error_message">Problem : Facebook</td>
+                        <td><fieldset class="typical_form smaller_field"><input type="text"></fieldset></td>
+                        <td><fieldset class="typical_form smaller_field"><input type="text"></fieldset></td>
+                        <td><fieldset class="typical_form smaller_field"><input type="text"></fieldset></td>
+                        <td><fieldset class="typical_form smaller_field"><input type="text"></fieldset></td>
+                        <td><p class="square_bt teal_bt md">Save</p></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <!-- SOCIAL URL ISSUES -->
+        <!-- SOCIAL URL ISSUES -->
+        <div class="suspect_admin_section">
+            <div class="suspect_title">3.4 &nbsp; Lots of Comments with 2 or less social platforms</div>
+            <div class="suspect_text">If someone has 15 or more comments with 2 or less platforms, they need show up here for confirmation.  A bug can be submitted if something is wrong with comment count.</div>
+            <table class="qa_people">
+                <tbody>
+                    <tr style="background:transparent;"><th>Blog URL</th><th>Comment Count</th><th>Facebook</th><th>Twitter</th><th>Instagram</th><th>Pinterest</th><th>BlogLovin</th><th>Lookbook</th><th>Youtube</th><th>Actions</t</tr>
+                    <tr>
+                        <td class="row_title">Blogurl.com</td>
+                        <td class="row_title error_message">120</td>
+                        <td><fieldset class="typical_form smaller_field"><input type="text"></fieldset></td>
+                        <td><fieldset class="typical_form smaller_field"><input type="text"></fieldset></td>
+                        <td><fieldset class="typical_form smaller_field"><input type="text"></fieldset></td>
+                        <td><fieldset class="typical_form smaller_field"><input type="text"></fieldset></td>
+                        <td><fieldset class="typical_form smaller_field"><input type="text"></fieldset></td>
+                        <td><fieldset class="typical_form smaller_field"><input type="text"></fieldset></td>
+                        <td><fieldset class="typical_form smaller_field"><input type="text"></fieldset></td>
+                        <td><p class="square_bt teal_bt md" style="margin-bottom:5px;">Save</p> &nbsp; <p class="square_bt teal_bt md">Send Bug</p></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <!-- SOCIAL URL ISSUES -->
+        <!-- SOCIAL URL ISSUES -->
+        <div class="suspect_admin_section">
+            <div class="suspect_title">3.5 &nbsp; Large Followers count w/ 2 or less platforms</div>
+            <div class="suspect_text">If someone has a large following (10,000+) on any social platform, AND they have at most 2 platforms total, we need to make sure that platforms were not missed.</div>
+            <table class="qa_people">
+                <tbody>
+                    <tr style="background:transparent;"><th>Blog URL</th><th>Comment Count</th><th>Facebook</th><th>Twitter</th><th>Instagram</th><th>Pinterest</th><th>BlogLovin</th><th>Lookbook</th><th>Youtube</th><th>Actions</t</tr>
+                    <tr>
+                        <td class="row_title">Blogurl.com</td>
+                        <td class="row_title error_message"><a href="#" class="txt_link darker_teal">Facebook-12000</a> &nbsp; <a href="#" class="txt_link darker_teal">Twitter-1550</a></td>
+                        <td><fieldset class="typical_form smaller_field"><input type="text"></fieldset></td>
+                        <td><fieldset class="typical_form smaller_field"><input type="text"></fieldset></td>
+                        <td><fieldset class="typical_form smaller_field"><input type="text"></fieldset></td>
+                        <td><fieldset class="typical_form smaller_field"><input type="text"></fieldset></td>
+                        <td><fieldset class="typical_form smaller_field"><input type="text"></fieldset></td>
+                        <td><fieldset class="typical_form smaller_field"><input type="text"></fieldset></td>
+                        <td><fieldset class="typical_form smaller_field"><input type="text"></fieldset></td>
+                        <td><p class="square_bt teal_bt md">Save</p></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <!-- SOCIAL URL ISSUES -->
+        <!-- SOCIAL URL ISSUES -->
+        <div class="suspect_admin_section">
+            <div class="suspect_title">3.6 &nbsp; Suspicious Handles</div>
+            <div class="suspect_text">If a user has handles that are significantly different from their blog url, then they should show up here.<br/><span style="color:red">I'm not sure what the best way to this would be...  it would be great if we could have something where the URL pennypincherfashion.com  would pass by with facebook.com/pincherfashion...  or penny_pincher_fashion... but facebook.com/ppfgirl would not. </span></div>
+            <table class="qa_people">
+                <tbody>
+                    <tr style="background:transparent;"><th>Blog URL</th><th>Error Message</th><th>Facebook</th><th>Twitter</th><th>Instagram</th><th>Pinterest</th><th>BlogLovin</th><th>Lookbook</th><th>Youtube</th><th>Actions</t</tr>
+                    <tr>
+                        <td class="row_title">Blogurl.com</td>
+                        <td class="row_title error_message">Facebook &nbsp; Twitter</td>
+                        <td><fieldset class="typical_form smaller_field"><input type="text"></fieldset></td>
+                        <td><fieldset class="typical_form smaller_field"><input type="text"></fieldset></td>
+                        <td><fieldset class="typical_form smaller_field"><input type="text"></fieldset></td>
+                        <td><fieldset class="typical_form smaller_field"><input type="text"></fieldset></td>
+                        <td><fieldset class="typical_form smaller_field"><input type="text"></fieldset></td>
+                        <td><fieldset class="typical_form smaller_field"><input type="text"></fieldset></td>
+                        <td><fieldset class="typical_form smaller_field"><input type="text"></fieldset></td>
+                        <td><p class="square_bt teal_bt md">Save</p></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+    <!-- ////////////////////// SCRAPING PROBLEMS /////////////////////// -->
+    <!-- ////////////////////// SCRAPING PROBLEMS /////////////////////// -->
+    <!-- ////////////////////// SCRAPING PROBLEMS /////////////////////// -->
+    <div class="suspect_group grayed_bg">
+        <div class="suspect_group_title">4.1 &nbsp; Scraper Problems</div>
+        <!-- PROBLEMS W/ SCRAPING  Comment Counts -->
+        <!-- PROBLEMS W/ SCRAPING  Comment Counts -->
+        <div class="suspect_admin_section">
+            <div class="suspect_title">***Problem w/ Scraping : 0 Comment Counts</div>
+            <div class="suspect_text">Bloggers with 1 or More social platforms that have over 500 followers, AND who get an average of no comments.  This test will check to see if we're missing comment counts.</div>
+            <table class="qa_people">
+                <tbody>
+                    <tr style="background:transparent;"><th>Blog URL</th><th>Platform Info</th><th>Actions</t</tr>
+                    <tr>
+                        <td class="row_title">Blogurl.com</td>
+                        <td class="row_title error_message"><a href="#" class="txt_link darker_teal">Facebook-12000</a> &nbsp; <a href="#" class="txt_link darker_teal">Twitter-1550</a></td>
+                        <td><p class="square_bt teal_bt md" style="margin-bottom:5px;">No Problem</p>&nbsp;<p class="square_bt teal_bt md">Submit Bug</p></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <!-- IDS THAT SHARE URLS -->
+        <!-- IDS THAT SHARE URLS -->
+        <div class="suspect_admin_section">
+            <div class="suspect_title">1.3 &nbsp; Suspected Duplicate URLs</div>
+            <div class="suspect_text">Any two URLs that are similar<br/>
+                <span class="example">For example...  many urls will be like this : pennypincher.com   and    pennypincher.blogspot.com...  there are also different extensions.</span>
+            </div>
+            <table class="qa_people">
+                <tbody>
+                    <tr style="background:transparent;"><th>Blog URL 1</th><th>Blog URL 2</th><th>Blog URL 3</th><th>Actions</t</tr>
+                    <tr>
+                        <td><fieldset class="typical_form smaller_field"><input type="text"></fieldset></td>
+                        <td><fieldset class="typical_form smaller_field"><input type="text"></fieldset></td>
+                        <td><fieldset class="typical_form smaller_field"><input type="text"></fieldset></td>
+                        <td><p class="square_bt teal_bt md">Save</p></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
+{% endblock %}

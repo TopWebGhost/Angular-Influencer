@@ -1,0 +1,140 @@
+{% extends 'pages/admin/base.html' %}
+{% load compressed %}
+
+{% block page_js %}
+{% compressed_js 'angular_admin' %}
+<script type="text/javascript">
+
+var render_link = function(target){
+    return function(obj) {
+        if(obj.aData[target] === "null" || obj.aData[target] === null){
+            return '';
+        }else{
+            return "<a target='blank' href='"+obj.aData[target]+"'>"+obj.aData[target]+"</a>";
+        }
+    };
+}
+var skip_null = function(target) {
+    return function(obj) {
+        if(obj.aData[target] === "null" || obj.aData[target] === null){
+            return '';
+        }else{
+            return obj.aData[target];
+        }
+    }
+};
+var select = function(settings) {
+    return function(obj) {
+
+        if(obj.aData[settings.target] === "null" || obj.aData[settings.target] === null){
+            return '';
+        }else{
+            return obj.aData[target];
+        }
+    }
+};
+angular.module("theshelfadmin").value("columns", [
+    {
+        'mData': 'id',
+        'sTitle': 'ID#',
+        'editable': false,
+    }, {
+        'mData': 'suspicious_url',
+        'sTitle': 'Suspicious URL?',
+        'type': 'select',
+        'source': "{'':'Please select...', 1: 'Yes', 0: 'No',}",
+        'fnRender':  skip_null('suspicious_url'),
+    }, {
+        'mData': 'blog_url',
+        'sTitle': 'URL',
+        'editable': false,
+        'bSortable': false,
+        'fnRender': render_link('blog_url')
+    }, {
+        'mData': 'show_on_search',
+        'sTitle': 'On Search?',
+        'bSortable': false,
+        'editable': false,
+        'fnRender': skip_null('show_on_search')
+    },{
+        'mData': 'about_page',
+        'sTitle': 'Profile link',
+        'editable': false,
+        'bSortable': false,
+        'fnRender': render_link('about_page')
+    },  {
+        'bSortable': false,
+        'editable': false,
+        'mData': 'profile_pic_url',
+        'sTitle': 'Pic',
+        'fnRender':  function(obj) {
+            return '<img width="50px" src="'+obj.aData['profile_pic_url']+'"><span style="display: none">'+obj.aData['profile_pic_url']+'</span>';
+        }
+    }, {
+        'mData': 'blogname',
+        'sTitle': 'Blog<br>Name',
+        'fnRender':  skip_null('blogname'),
+    }, {
+        'mData': 'name',
+        'sTitle': 'Blogger<br>Name',
+        'fnRender':  skip_null('name'),
+    }, {
+        'mData': 'description',
+        'sTitle': 'Description',
+        'fnRender':  skip_null('description'),
+    },{
+        'mData': 'num_posts',
+        'sTitle': '# Posts',
+        'fnRender':  skip_null('num_posts'),
+    }, {
+        'mData': 'num_brand_mentions',
+        'sTitle': '#Brand<br>Mentions',
+        'fnRender': render_link('num_brand_mentions')
+    }, {
+        'mData': 'num_shelved_products',
+        'sTitle': '#Products',
+        'fnRender':  skip_null('num_shelved_products'),
+    }, {
+        'mData': 'last_crawl_date',
+        'sTitle': 'Last<br>Crawl',
+        'fnRender': render_link('last_crawl_date')
+    },
+    {
+        'mData': 'average_num_comments_per_post',
+        'sTitle': 'Avg # of<br>comments',
+        'editable': false,
+    },
+    {
+        'mData': 'last_denormalize_time',
+        'sTitle': 'Last<br>Denormalize',
+        'fnRender':  skip_null('last_denormalize_time'),
+    },
+    {
+        'mData': 'last_import_time',
+        'sTitle': 'Last<br>Import',
+        'fnRedner': skip_null('last_import_time'),
+    },
+    {% if included_is_ready_to_notify %}
+    {
+        'mData': 'ready_to_invite',
+        'sTitle': 'Ready to invite',
+        'type': 'select',
+        'source': "{'':'Please select...', 1: 'Yes', 0: 'No',}",
+        'fnRender':  skip_null('ready_to_invite'),
+    },
+    {% endif %}
+]);
+</script>
+{% endblock %}{% block page_css %}
+
+<style type="text/css">
+body { overflow-x: scroll; height:100%; }
+</style>
+{% endblock %} {% block content %}
+<div ng-app="theshelfadmin">
+    <table admin-form source="{{source}}" class="data_table" {% if validated %}skip-actions skip-date-edited date-validated-position="1"{% else %}date-edited-position="1" actions-position="1" skip-date-validated{% endif %}>
+    </table>
+</div>
+
+{% endblock %}
+

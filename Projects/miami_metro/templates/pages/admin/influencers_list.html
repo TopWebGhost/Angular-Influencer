@@ -1,0 +1,84 @@
+{% extends 'pages/admin/base.html' %}
+{% load compressed %}
+
+{% block page_js %}
+{% compressed_js 'angular_admin' %}
+<script type="text/javascript">
+var skip_null = function(target) {
+    return function(obj) {
+        if(obj.aData[target] === "null" || obj.aData[target] === null){
+            return '';
+        }else{
+            return obj.aData[target];
+        }
+    }
+};
+angular.module("theshelfadmin").value("columns", [
+    {
+        'mData': 'id',
+        'sTitle': 'ID#',
+        'editable': false,
+    }, {
+        'mData': 'initial_crawl_date',
+        'sTitle': 'Date<br/>Added',
+        'editable': false,
+        'bSortable': false,
+        'fnRender':  skip_null('initial_crawl_date'),
+    }, {
+        'mData': 'blog_url',
+        'sTitle': 'Blog<br/>URL',
+        'fnRender':  skip_null('blog_url'),
+    }, {
+        'mData': 'blogname',
+        'sTitle': 'Blog<br/>Name',
+        'fnRender':  skip_null('blogname'),
+    },{
+        'mData': 'email',
+        'sTitle': 'Email',
+        'fnRender':  skip_null('email'),
+    },{
+        'mData': 'platform',
+        'sTitle': 'Platform',
+        'editable': false,
+        'bSortable': false,
+        'fnRender':  skip_null('platform'),
+    }, {
+        'mData': 'blacklisted',
+        'sTitle': 'Black<br/>Listed',
+        'type': 'select',
+        'source': "{'':'Please select...', true:'True',false:'False'}",
+        'fnRender':  function(obj) {
+            if(obj.aData.blacklisted === "true" || obj.aData.blacklisted === true){
+                setTimeout(function() {
+                    $("#row_"+obj.aData.id).addClass("blacklisted");
+                }, 10);
+                return 'true';
+            }else{
+                setTimeout(function() {
+                    $("#row_"+obj.aData.id).removeClass("blacklisted");
+                }, 10);
+                return '';
+            }
+        }
+    }, {
+        'mData': 'problem',
+        'sTitle': 'Problem',
+        'type': 'select',
+        'source': "{'':'Please select...', {% for problem in problems %}{{problem.0}}: '{{problem.1}}',{% endfor %}}",
+        'fnRender':  skip_null('problem'),
+    }
+]);
+</script>
+{% endblock %}{% block page_css %}
+
+<style type="text/css">
+body { overflow-x: scroll; height:100%; }
+</style>
+{% endblock %} {% block content %}
+<div ng-app="theshelfadmin">
+    <table admin-form source="{{source}}" class="data_table" {% if validated %}skip-actions skip-date-edited date-validated-position="2"{% else %}date-edited-position="2" actions-position="2" skip-date-validated{% endif %}>
+    </table>
+</div>
+
+{% endblock %}
+

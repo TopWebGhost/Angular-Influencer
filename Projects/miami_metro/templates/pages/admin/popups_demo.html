@@ -1,0 +1,96 @@
+{% load compressed %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title></title>
+    <link href="/mymedia/site_folder/css/jquery.Jcrop.css" type="text/css" rel="stylesheet" />
+    <link href="/mymedia/site_folder/css/elastislide.css" type="text/css" rel="stylesheet" />
+    <link href="/mymedia/site_folder/css/old/introjs.min.css" text="text/css" rel="stylesheet" />
+    <link href="/mymedia/site_folder/css/style.css" media="screen" rel="stylesheet" />
+    <link href="/mymedia/site_folder/css/global.less" media="screen" rel="stylesheet/less" />
+    <link href="/mymedia/site_folder/css/laurens_font.less" media="screen" rel="stylesheet/less" />
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    {% compressed_js 'core_head' %}
+    <style>
+    body {
+        padding: 50px;
+    }
+    h1 {
+        font-size:32px;
+        margin: 16px;
+    }
+    h2 {
+        font-size:12px;
+        margin: 6px;
+    }
+    pre {
+        background: #eee;
+        padding: 10px;
+        margin: 10px;
+    }
+    iframe {
+        width: 100%;
+        min-height: 400px;
+    }
+    </style>
+    <script type="text/javascript" src="/static/js/angular/demo/demo.js"></script>
+</head>
+
+<body>
+
+    <span ng-app="theshelf" ng-cloak>
+
+        <h1>Intro</h1>
+        <a href="http://docs.angularjs.org/api">Angular docs.</a>
+        <p>When using angular apps first important thing is to wrap all content in something like this:
+        <pre>&lt;span ng-app=&quot;theshelf&quot;&gt;<br/>...<br/>&lt;/span&gt;</pre>
+        <p>due to this angular will know that it has to process content and do all the voodoo. i wrap (almost?) all pages in these tags so i can freely use angular</p>
+
+        <h1>How to add new popup</h1>
+        <h2>JS</h2>
+        <p>
+        Lets start with js file, it has comments i will refer later:
+        </p>
+        <pre><iframe src="/static/js/angular/demo/demo.js"></iframe></pre>
+        <p>
+        Please notice (1.), it has to be same name as in intro! I am formatting everything like this so after removing line breaks (like in minification) it would make one looooong line. First thing is controller (2.), we have to wrap every piece of code in controller to make them see each other. I create one function (3.) that will broadcast signal inside controller. Then comes logic for actual popup (4.). We have to set proper template path (it has to be under static). This template will be loaded as needed. Last thing is reaction to signal I introduced before 'openMyPopup' (6.).
+        </p>
+        <h2>HTML</h2>
+        <p>
+        Now we make template: create new file and put content like this:
+        </p>
+        <pre>&lt;div generic-popup&gt;<br/>    &lt;div style=&quot;color: black; padding: 20px; background: white;&quot;&gt;<br/>        Content...<br/>    &lt;/div&gt;<br/>&lt;/div&gt;<br/><br/></pre>
+        <p>
+        I added some ultra-basic styling to make it readable. All features like closing, opening, etc is handled by generic-popup. We name this file 'popup1.html' and save under path as in (5.).
+        </p>
+        <h2>Notes</h2>
+        <p>I put new popups in '/static/js/angular/app/popup_directives.js', template location is '/static/js/angular/templates/'.</p>
+
+        <h1>How to use popup</h1>
+        <h2>HTML</h2>
+        <p>We have to wrap our content in controller, add some element that will call controller function and add our popup. Example html:</p>
+        <pre>&lt;div ng-controller=&quot;SomeCtrl&quot;&gt;<br/>    &lt;div my-nice-popup&gt;&lt;/div&gt;<br/>    &lt;button ng-click=&quot;openMyPopup()&quot;&gt;Click Me!&lt;/button&gt;<br/>&lt;/div&gt;<br/></pre>
+        <p>In html we have to translate directive name to attribute name so it will became 'my-nice-popup'. We bind click event through angular to broadcast popup open signal (we could use other like ng-dblclick etc.)</p>
+        <h2>Demo</h2>
+
+        <div ng-controller="SomeCtrl">
+            <div my-nice-popup></div>
+            <button ng-click="openMyPopup()">Click Me!</button>
+        </div>
+
+        <h1>What's next?</h1>
+        <p>TODO: Explain some more sophisticated functions like loading data from backend, changing states etc.</p>
+
+    </span>
+
+
+    {% compressed_js 'core' %}
+    {% compressed_js 'angular_core' %}
+    {% include "snippets/angular_sentry_conf.html" %}
+    {% compressed_js 'angular_app' %}
+    {% block bottom_js %}
+    {% endblock %}
+</body>
+
+</html>

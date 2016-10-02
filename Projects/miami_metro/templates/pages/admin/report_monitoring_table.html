@@ -1,0 +1,85 @@
+{% extends 'pages/admin/base.html' %}
+{% load compressed %}
+
+{% block page_js %}
+{% compressed_js 'angular_admin' %}
+<script type="text/javascript">
+
+var render_link = function(target){
+    return function(obj) {
+        if(obj.aData[target] === "null" || obj.aData[target] === null){
+            return '';
+        }else{
+            return "<a target='blank' href='http://"+obj.aData[target]+"'>"+obj.aData[target]+"</a>";
+        }
+    };
+};
+var render_email = function(target){
+    return function(obj) {
+        if(obj.aData[target] === "null" || obj.aData[target] === null){
+            return '';
+        }else{
+            return "<a target='blank' href='mailto://"+obj.aData[target]+"'>"+obj.aData[target]+"</a>";
+        }
+    };
+};
+angular.module("theshelfadmin").value("columns", [
+    {
+        'mData': 'brand_id',
+        'sTitle': 'Brand ID',
+        'editable': false,
+        'bSortable': false,
+    }, {
+        'mData': 'copy_to_report',
+        'sTitle': "Copy to another brand's report",
+        'editable': true,
+        'bSortable': false,
+    }, {
+        'mData': 'copy_to_tag',
+        'sTitle': "Copy to another brand's tag",
+        'editable': true,
+        'bSortable': false,
+        'tooltip': 'Use "<brand_id>, <tag_id>" format if you want to copy to existing tag. If you want to create a new tag, use "<brand_id>"',
+    }, {
+        'mData': 'brand_name',
+        'sTitle': 'Brand name',
+        'editable': false,
+        'bSortable': false,
+    }, {
+        'mData': 'username',
+        'sTitle': 'Username',
+        'fnRender':  render_email('username'),
+        'editable': false,
+        'bSortable': false,
+    }, {
+        'mData': 'name',
+        'sTitle': 'Report Name',
+        'editable': false,
+        'bSortable': false,
+    }, {
+        'mData': 'post_collection',
+        'sTitle': 'Associated Collection',
+        'editable': false,
+        'bSortable': false,
+    }, {
+        'mData': 'page_url',
+        'sTitle': 'Collection URL',
+        'fnRender': render_link('page_url'),
+        'editable': false,
+        'bSortable': false,
+    }
+]);
+</script>
+{% endblock %}{% block page_css %}
+
+<style type="text/css">
+body { overflow-x: scroll; height:100%; }
+</style>
+{% endblock %} {% block content %}
+<div ng-app="theshelfadmin">
+    <table admin-form source="{{source}}" class="data_table" skip-actions skip-date-edited skip-date-validated>
+    </table>
+</div>
+
+{% endblock %}
+

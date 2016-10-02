@@ -1,0 +1,151 @@
+{% load widget_tweaks %}
+{% load custom_filters %}
+{% load endless %}
+
+
+{% lazy_paginate 10 influencers %}
+{% for influencer,platforms,brand_mentions,form in influencers %}
+<div class="blogger_container admin_item influencer_item">
+    <form method="post" action="{% url upgrade_admin:modify_influencer influencer.id %}">{% csrf_token %}
+        <!-- ID ROW -->
+        <div class="indi_row id_row">
+            <div class="indi_section id_person_section">
+                <div class="cover_photo"><img src="{{ platforms|fb_pic:"cover" }}"/></div>
+                <div class="top_content">
+                    <div class="prof_pic"><img src="{{ platforms|fb_pic:"profile" }}"/></div>
+                    <div class="person_text">
+                        {{ form.name|add_class:"name" }}
+                        {{ form.email|add_class:"email" }}
+                    </div>
+                </div>
+            </div>
+            <div class="indi_section id_blog_section">
+                <div class="blog_text">
+                    <span class="blog">({{ influencer.num_shelved_products }} products, {{ influencer.num_posts }} posts)</span>
+                    <input type="text" class="blog" name="blog_name" value="{{ platforms|get_blog_platform:"name"  }}" />
+                    <input type="text" class="url" name="blog_url" value="{{ platforms|get_blog_platform:"url"  }}" />
+                    <a href="#" class="txt_link darker_teal serif_ital xsmall influencer_link show_blog">Show Blog</a>
+                </div>
+            </div>
+            <div class="indi_section id_level_section">
+                <div class="checkboxes">
+                    {{ form.show_on_search|add_class:"check" }}Show On Feed<br />
+                    {% if influencer.shelf_user.userprofile %}
+                        {% if influencer.shelf_user.userprofile.widgets_privileges %}
+                        {% render_field form.widget_access class="check" checked="true" %}Widget Access <br />
+                        {% else %}
+                        {% render_field form.widget_access class="check" %}Widget Access <br />
+                        {% endif %}
+
+                        {% if influencer.shelf_user.userprofile.is_trendsetter %}
+                        {% render_field form.trendsetter class="check" checked="true" %}Trendsetter <br />
+                        {% else %}
+                        {% render_field form.trendsetter class="check" %}Trendsetter <br />
+                        {% endif %}
+                    {% endif %}
+                </div>
+            </div>
+            <div class="indi_section last_child id_button_section">
+                <div class="btn_container">
+                    {% if influencer.shelf_user.userprofile %}
+                    <a href="{{ influencer.shelf_user.userprofile.profile_url }}" class="txt_link darker_teal serif_ital xsmall influencer_link" target="_blank">Profile</a> <br />
+                    <a href="{% url upgrade_admin:admin_signin influencer.shelf_user.userprofile.id %}" class="square_bt gray_bt xs">Login</a>
+                    {% endif %}
+                    <br/>
+                    {{ form.remove_tag|add_class:"check" }}Don't Show user
+                </div>
+            </div>
+        </div>
+
+        <!-- SOCIAL ROW -->
+        <div class="indi_row social_row clearfix">
+            <div class="social_block_container">
+                {% for plat in platforms %}
+                    {% if plat.is_social %}
+                    <div class="social_block">
+                        {% if plat.platform_name == "Facebook" %}
+                        <a href="{{ plat.url }}" class="icon-social_facebook" target="_blank"></a>
+                        {% render_field form.facebook class="social_url" value=plat.url %}
+                        <div class="items">x followers<br>x posts/month<br>x comments<br>x shares<br>x likes</div>
+                        <div class="extra_options">
+                            <div class="trash icon-misc_files_trash2" data-post-url="{% url upgrade_admin:delete_influencer_platform influencer.id plat.id %}"></div>
+                            {{ form.fb_blogger_mistake|add_class:"blogger_issue issue" }}Blogger
+                            {{ form.fb_crawler_problem|add_class:"crawler_issue issue" }}Crawler
+                        </div>
+                        {% endif %}
+                        {% if plat.platform_name == "Twitter" %}
+                        <a href="{{ plat.url }}" class="icon-social_twitter" target="_blank"></a>
+                        {% render_field form.twitter class="social_url" value=plat.url %}
+                        <div class="items">x followers<br>x tweets/month<br>x retweet<br>x replies<br>x favorites</div>
+                        <div class="extra_options">
+                            <div class="trash icon-misc_files_trash2" data-post-url="{% url upgrade_admin:delete_influencer_platform influencer.id plat.id %}"></div>
+                            {{ form.tw_blogger_mistake|add_class:"blogger_issue issue" }}Blogger
+                            {{ form.tw_crawler_problem|add_class:"crawler_issue issue" }}Crawler
+                        </div>
+                        {% endif %}
+                        {% if plat.platform_name == "Instagram" %}
+                        <a href="{{ plat.url }}" class="icon-social_instagram2" target="_blank"></a>
+                        {% render_field form.instagram class="social_url" value=plat.url %}
+                        <div class="items">x followers<br>x posts/month<br>x likes<br>x comments</div>
+                        <div class="extra_options">
+                            <div class="trash icon-misc_files_trash2" data-post-url="{% url upgrade_admin:delete_influencer_platform influencer.id plat.id %}"></div>
+                            {{ form.in_blogger_mistake|add_class:"blogger_issue issue" }}Blogger
+                            {{ form.in_crawler_problem|add_class:"crawler_issue issue" }}Crawler
+                        </div>
+                        {% endif %}
+                        {% if plat.platform_name == "Pinterest" %}
+                        <a href="{{ plat.url }}" class="icon-social_pinterest" target="_blank"></a>
+                        {% render_field form.pinterest class="social_url" value=plat.url %}
+                        <div class="items">x followers<br>x pins/month<br>x re-pins<br>x comments</div>
+                        <div class="extra_options">
+                            <div class="trash icon-misc_files_trash2" data-post-url="{% url upgrade_admin:delete_influencer_platform influencer.id plat.id %}"></div>
+                            {{ form.pn_blogger_mistake|add_class:"blogger_issue issue" }}Blogger
+                            {{ form.pn_crawler_problem|add_class:"crawler_issue issue" }}Crawler
+                        </div>
+                        {% endif %}
+    {#                    {% if plat.platform_name == "Bloglovin" %}#}
+    {#                    <div class="icon-social_blog_lovin"></div>#}
+    {#                    <input type="text" class="social_url" placeholder="BlogLovin URL" />#}
+    {#                    <div class="items">x followers<br>x likes</div>#}
+    {#                    <div class="extra_options">#}
+    {#                        <div class="trash icon-misc_files_trash2" data-post-url="{% url upgrade_admin:delete_influencer_platform influencer.id plat.id %}"></div>#}
+    {#                        <input class="blogger_issue issue" type="checkbox" name="#" value="#">Blogger#}
+    {#                        <input class="crawler_issue issue" type="checkbox" name="#" value="#">Crawler#}
+    {#                    </div>#}
+    {#                    {% endif %}#}
+                    </div>
+                    {% endif %}
+                {% endfor %}
+                {% if platforms|get_missing_social_platforms %}
+                    {% for platform in platforms|get_missing_social_platforms %}
+                        <div class="social_block">
+                        {% if platform == "Facebook" %}
+                            <div class="icon-social_facebook"></div>
+                            {% render_field form.facebook class="social_url" placeholder="Facebook URL" %}
+                        {% endif %}
+                        {% if platform == "Twitter" %}
+                            <div class="icon-social_twitter"></div>
+                            {% render_field form.twitter class="social_url" placeholder="Twitter URL" %}
+                        {% endif %}
+                        {% if platform == "Instagram" %}
+                            <div class="icon-social_instagram2"></div>
+                            {% render_field form.instagram class="social_url" placeholder="Instagram URL" %}
+                        {% endif %}
+                        {% if platform == "Pinterest" %}
+                            <div class="icon-social_pinterest"></div>
+                            {% render_field form.pinterest class="social_url" placeholder="Pinterest URL" %}
+                        {% endif %}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+        <!-- ACTIONS ROW -->
+        <div class="actions_row indi_row">
+            <input type="submit" class="xl square_bt solid_blk submit_button" value="Save" />
+        </div>
+        <iframe data-src="{{ platforms|get_blog_platform:"url" }}"></iframe>
+    </form>
+</div>
+{% endfor %}
+{% show_more %}

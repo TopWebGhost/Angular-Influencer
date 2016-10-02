@@ -1,0 +1,465 @@
+{% extends 'pages/admin/base.html' %} {% load compressed %} {% block page_js %} {% compressed_js 'angular_admin' %} {% endblock %}{% block page_css %} {% endblock %} {% block content %}
+<div style="background:#d9d9d9;">
+    <div ng-app="theshelfadmin">
+        <div class="admin_reports">
+            <div class="main_header">Summary Tables</div>
+            <div class="report_block">
+                <div class="report_header clearfix">
+                    <div class="title">Table 1</div>
+                    <br/>
+                    <div class="description"></div>
+                </div>
+                <div class="report_content">
+                    <div class="row_header_column">
+                        <div class="cell">
+                            <div class="cell_content cell_header">&nbsp;</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header"># of Blog URLs (Non-blacklisted) Analyzed Today</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header"># of Rows edited today</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header">Email edits</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header">Profile_pic edits</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header">Blogname edits</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header">Name edits</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header">Meta_desc edits</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header">About_url edits</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header">Demographics_location edits</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header">Fb_url edits</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header">Tw_url edits</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header">Pin_url edits</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header">Insta_url edits</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header">Bloglovin_url edits</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header">Lb_url edits</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header">Pose edits</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header">Youtube edits</div>
+                        </div>
+
+                    </div>
+                    {% for report in reports %}
+                    <div class="date_column {% if forloop.first %}current{% endif %}">
+                        <div class="cell">
+                            <div class="cell_content cell_header">{{report.date|date:"n/j/y"}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.total_urls}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.edited}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.edits_email}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.edits_profile_pic}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.edits_blogname}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.edits_name}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.edits_meta_desc}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.edits_about_url}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.edits_demographics_location}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.edits_fb_url}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.edits_tw_url}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.edits_pin_url}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.edits_insta_url}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.edits_bloglovin_url}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.edits_lb_url}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.edits_pose}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.edits_youtube}}</div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="report_block">
+                <div class="report_header clearfix">
+                    <div class="title">Table 2</div>
+                    <br/>
+                    <div class="description"></div>
+                </div>
+                <div class="report_content">
+                    <div class="row_header_column">
+                        <div class="cell">
+                            <div class="cell_content cell_header">&nbsp;</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header"># of Validated Blogs Total</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header"># with an email</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header"># with a pic</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header"># with Blog Name</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header"># with a Blogger Name</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header"># with a description</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header"># with a location</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header"># with FB</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header"># with Twitter</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header"># with Pinterest</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header"># with Instagram</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header"># with Blog Lovin</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header"># with Lookbook</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header"># with Pose</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header"># with YouTube</div>
+                        </div>
+                    </div>
+                    <div class="date_column current">
+                        <div class="cell">
+                            <div class="cell_content cell_header">&nbsp;</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{validated.count_total}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{validated.count_email}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{validated.count_email}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{validated.count_blogname}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{validated.count_name}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{validated.count_desc}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{validated.count_loc}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{validated.count_fb}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{validated.count_tw}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{validated.count_pin}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{validated.count_insta}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{validated.count_bl}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{validated.count_lb}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{validated.count_pose}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{validated.count_yt}}</div>
+                        </div>
+                    </div>
+                    <div class="date_column">
+                        <div class="cell">
+                            <div class="cell_content cell_header">&nbsp;</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">&nbsp;</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">
+                                <div class="square_bt xxs lt_gray_bt" spawns-popup="urls_wo_email">View all without</div>
+                            </div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">
+                                <div class="square_bt xxs lt_gray_bt" spawns-popup="urls_wo_pic">View all without</div>
+                            </div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">
+                                <div class="square_bt xxs lt_gray_bt" spawns-popup="urls_wo_blogname">View all without</div>
+                            </div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">
+                                <div class="square_bt xxs lt_gray_bt" spawns-popup="urls_wo_name">View all without</div>
+                            </div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">
+                                <div class="square_bt xxs lt_gray_bt" spawns-popup="urls_wo_desc">View all without</div>
+                            </div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">
+                                <div class="square_bt xxs lt_gray_bt" spawns-popup="urls_wo_loc">View all without</div>
+                            </div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">
+                                <div class="square_bt xxs lt_gray_bt" spawns-popup="urls_wo_fb">View all without</div>
+                            </div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">
+                                <div class="square_bt xxs lt_gray_bt" spawns-popup="urls_wo_tw">View all without</div>
+                            </div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">
+                                <div class="square_bt xxs lt_gray_bt" spawns-popup="urls_wo_pin">View all without</div>
+                            </div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">
+                                <div class="square_bt xxs lt_gray_bt" spawns-popup="urls_wo_insta">View all without</div>
+                            </div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">
+                                <div class="square_bt xxs lt_gray_bt" spawns-popup="urls_wo_bl">View all without</div>
+                            </div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">
+                                <div class="square_bt xxs lt_gray_bt" spawns-popup="urls_wo_lb">View all without</div>
+                            </div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">
+                                <div class="square_bt xxs lt_gray_bt" spawns-popup="urls_wo_pose">View all without</div>
+                            </div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">
+                                <div class="square_bt xxs lt_gray_bt" spawns-popup="urls_wo_yt">View all without</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div admin-popup="urls_wo_email">
+                <div style='color: white'>
+                    <div style='overflow-y: scroll; height: 500px'>
+                        {% for url in validated.urls_wo_email %}
+                        <a href="{{url.blog_url}}" target="blank">
+                            <div class="white">{% if url.blog_url %}{{url.blog_url}}{% else %}unknown influencer_id={{url.id}}{% endif %}</div>
+                        </a>{% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div admin-popup="urls_wo_pic">
+                <div style='color: white'>
+                    <div style='overflow-y: scroll; height: 500px'>
+                        {% for url in validated.urls_wo_pic %}
+                        <a href="{{url.blog_url}}" target="blank">
+                            <div class="white">{% if url.blog_url %}{{url.blog_url}}{% else %}unknown influencer_id={{url.id}}{% endif %}</div>
+                        </a>{% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div admin-popup="urls_wo_blogname">
+                <div style='color: white'>
+                    <div style='overflow-y: scroll; height: 500px'>
+                        {% for url in validated.urls_wo_blogname %}
+                        <a href="{{url.blog_url}}" target="blank">
+                            <div class="white">{% if url.blog_url %}{{url.blog_url}}{% else %}unknown influencer_id={{url.id}}{% endif %}</div>
+                        </a>{% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div admin-popup="urls_wo_name">
+                <div style='color: white'>
+                    <div style='overflow-y: scroll; height: 500px'>
+                        {% for url in validated.urls_wo_name %}
+                        <a href="{{url.blog_url}}" target="blank">
+                            <div class="white">{% if url.blog_url %}{{url.blog_url}}{% else %}unknown influencer_id={{url.id}}{% endif %}</div>
+                        </a>{% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div admin-popup="urls_wo_desc">
+                <div style='color: white'>
+                    <div style='overflow-y: scroll; height: 500px'>
+                        {% for url in validated.urls_wo_desc %}
+                        <a href="{{url.blog_url}}" target="blank">
+                            <div class="white">{% if url.blog_url %}{{url.blog_url}}{% else %}unknown influencer_id={{url.id}}{% endif %}</div>
+                        </a>{% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div admin-popup="urls_wo_loc">
+                <div style='color: white'>
+                    <div style='overflow-y: scroll; height: 500px'>
+                        {% for url in validated.urls_wo_loc %}
+                        <a href="{{url.blog_url}}" target="blank">
+                            <div class="white">{% if url.blog_url %}{{url.blog_url}}{% else %}unknown influencer_id={{url.id}}{% endif %}</div>
+                        </a>{% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div admin-popup="urls_wo_fb">
+                <div style='color: white'>
+                    <div style='overflow-y: scroll; height: 500px'>
+                        {% for url in validated.urls_wo_fb %}
+                        <a href="{{url.blog_url}}" target="blank">
+                            <div class="white">{% if url.blog_url %}{{url.blog_url}}{% else %}unknown influencer_id={{url.id}}{% endif %}</div>
+                        </a>{% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div admin-popup="urls_wo_tw">
+                <div style='color: white'>
+                    <div style='overflow-y: scroll; height: 500px'>
+                        {% for url in validated.urls_wo_tw %}
+                        <a href="{{url.blog_url}}" target="blank">
+                            <div class="white">{% if url.blog_url %}{{url.blog_url}}{% else %}unknown influencer_id={{url.id}}{% endif %}</div>
+                        </a>{% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div admin-popup="urls_wo_pin">
+                <div style='color: white'>
+                    <div style='overflow-y: scroll; height: 500px'>
+                        {% for url in validated.urls_wo_pin %}
+                        <a href="{{url.blog_url}}" target="blank">
+                            <div class="white">{% if url.blog_url %}{{url.blog_url}}{% else %}unknown influencer_id={{url.id}}{% endif %}</div>
+                        </a>{% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div admin-popup="urls_wo_insta">
+                <div style='color: white'>
+                    <div style='overflow-y: scroll; height: 500px'>
+                        {% for url in validated.urls_wo_insta %}
+                        <a href="{{url.blog_url}}" target="blank">
+                            <div class="white">{% if url.blog_url %}{{url.blog_url}}{% else %}unknown influencer_id={{url.id}}{% endif %}</div>
+                        </a>{% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div admin-popup="urls_wo_bl">
+                <div style='color: white'>
+                    <div style='overflow-y: scroll; height: 500px'>
+                        {% for url in validated.urls_wo_bl %}
+                        <a href="{{url.blog_url}}" target="blank">
+                            <div class="white">{% if url.blog_url %}{{url.blog_url}}{% else %}unknown influencer_id={{url.id}}{% endif %}</div>
+                        </a>{% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div admin-popup="urls_wo_lb">
+                <div style='color: white'>
+                    <div style='overflow-y: scroll; height: 500px'>
+                        {% for url in validated.urls_wo_lb %}
+                        <a href="{{url.blog_url}}" target="blank">
+                            <div class="white">{% if url.blog_url %}{{url.blog_url}}{% else %}unknown influencer_id={{url.id}}{% endif %}</div>
+                        </a>{% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div admin-popup="urls_wo_pose">
+                <div style='color: white'>
+                    <div style='overflow-y: scroll; height: 500px'>
+                        {% for url in validated.urls_wo_pose %}
+                        <a href="{{url.blog_url}}" target="blank">
+                            <div class="white">{% if url.blog_url %}{{url.blog_url}}{% else %}unknown influencer_id={{url.id}}{% endif %}</div>
+                        </a>{% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div admin-popup="urls_wo_yt">
+                <div style='color: white'>
+                    <div style='overflow-y: scroll; height: 500px'>
+                        {% for url in validated.urls_wo_yt %}
+                        <a href="{{url.blog_url}}" target="blank">
+                            <div class="white">{% if url.blog_url %}{{url.blog_url}}{% else %}unknown influencer_id={{url.id}}{% endif %}</div>
+                        </a>{% endfor %}
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
+    </div>
+</div>
+{% endblock %}

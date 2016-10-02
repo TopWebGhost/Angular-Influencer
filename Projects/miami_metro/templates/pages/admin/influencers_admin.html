@@ -1,0 +1,74 @@
+{% extends 'pages/admin/base.html' %}
+{% load compressed %}
+
+{% block page_js %}
+{% compressed_js 'angular_admin' %}
+<script type="text/javascript">
+angular.module("theshelfadmin").value("columns", [
+    {
+        'mData': 'profile_pic',
+        'sTitle': 'Pic',
+        'fnRender':  function(obj) {
+            return '<img width="50px" src="'+obj.aData['profile_pic']+'">';
+        }
+    }, {
+        'mData': 'blogname',
+        'sTitle': 'Blog',
+    }, {
+        'mData': 'blog_url',
+        'sTitle': 'URL',
+    }, {
+        'mData': 'name',
+        'sTitle': 'Name',
+    }, {
+        'mData': 'demographics_location',
+        'sTitle': 'Loc',
+    }, {
+        'mData': 'source',
+        'sTitle': 'Src',
+    }, {
+        'mData': 'fb_url',
+        'sTitle': 'FB<br/>URL',
+    }, {
+        'mData': 'fb_likes',
+        'sTitle': 'FB<br/>Likes',
+    }, {
+        'mData': 'tw_url',
+        'sTitle': 'Twit<br/>URL',
+    }, {
+        'mData': 'twitter_followers',
+        'sTitle': 'Twit<br/>Follows',
+    }, {
+        'mData': 'pin_url',
+        'sTitle': 'Pin<br/>URL',
+    }, {
+        'mData': 'pinterest_followers',
+        'sTitle': 'Pin<br/>Follows',
+    }, {
+        'mData': 'insta_url',
+        'sTitle': 'IG<br/>URL',
+    }, {
+        'mData': 'instagram_followers',
+        'sTitle': 'IG<br/>Follows',
+    }, {
+        'mData': 'about',
+        'sTitle': 'About',
+    }
+]);
+</script>
+{% endblock %}{% block page_css %}
+
+<style type="text/css">
+body { overflow-x: scroll; height:100%; }
+@media screen and (min-width:1px) and (max-width:1000px) { table.data_table td { max-width:50px!important; } }
+@media screen and (min-width:1001px) and (max-width:1400px) { table.data_table td { max-width:75px!important; } }
+@media screen and (min-width:1401px) and (max-width:5000px) { table.data_table td { max-width:100px!important; } }
+
+</style>
+{% endblock %} {% block content %}
+<div ng-app="theshelfadmin">
+    <table admin-form source="/admin/upgrade/influencer/admin/" class="data_table">
+    </table>
+</div>
+{% endblock %}
+

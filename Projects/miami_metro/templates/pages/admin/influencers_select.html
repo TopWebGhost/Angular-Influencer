@@ -1,0 +1,891 @@
+{% extends 'pages/admin/base.html' %} {% load compressed %} {% block page_js %} {% compressed_js 'angular_admin' %} {% endblock %} {% block content %}
+<div ng-app="theshelfadmin">
+    <div class="admin_landing clearfix">
+
+
+
+
+       
+
+
+
+
+
+        
+        <div class="row_wrapper clearfix cyan_bg">
+            <div class="largest_header"><b>The Shelf</b>: Admin Tables</div>
+            <div class="divider"></div>
+            <div class="main_header">Global Lookups</div>
+            <a class="admin_selector_block" ng-controller="AdminTableSelectCtl" href="{% url upgrade_admin:influencers_informations_all %}">
+                <div class="title">ALL Influencer Lookup (not working)</div>
+                <div class="the_purpose">Look up any person on our site using URL, blog name, blogger name, etc.</div>
+            </a>
+            <a class="admin_selector_block" >
+                <div class="title">ALL Blogger Signups</div>
+                <div class="the_purpose">Quickly find anyone who has signed up (regardless of the stage of the processing pipeline (validation/verification/QA)).</div>
+            </a>
+            <a class="admin_selector_block" href="{% url upgrade_admin:influencers_informations_nonvalidated section='all_blacklisted' %}">
+                <div class="title">ALL Removed, Blacklisted</div>
+                <div class="the_purpose">Marked Blacklisted by QA.</div>
+            </a>   
+            <a class="admin_selector_block" href="{% url upgrade_admin:influencers_informations_nonvalidated section='all_suspicious' %}">
+                <div class="title">ALL Removed, Suspicious</div>
+                <div class="the_purpose">Marked Suspicious by QA.</div>
+            </a>
+            <a class="admin_selector_block" ng-controller="AdminTableSelectCtl" href="{% url upgrade_admin:influencers_informations_nonvalidated section='qaed_by_mommy' %}">
+                <div class="title">QAed by Mommy QA People</div>
+                <div class="the_purpose"></div>
+            </a>
+            <a class="admin_selector_block" ng-controller="AdminTableSelectCtl" href="{% url upgrade_admin:influencers_informations_nonvalidated section='missing_emails' %}">
+                <div class="title">Missing Emails</div>
+                <div class="the_purpose"></div>
+            </a>
+            <a class="admin_selector_block" ng-controller="AdminTableSelectCtl" href="{% url upgrade_admin:influencers_informations_nonvalidated section='bad_emails' %}">
+                <div class="title">Bad Emails</div>
+                <div class="the_purpose"></div>
+            </a>
+        </div>
+
+
+
+        <div class="row_wrapper clearfix cyan_bg">
+            <div class="divider"></div>
+            <div class="main_header">Admin Tables for Our QA Team</div>                    
+            <a class="admin_selector_block" ng-controller="AdminTableSelectCtl" href="{% url upgrade_admin:influencers_informations_nonvalidated %}">
+                <div class="title">NON-validated</div>
+                <div class="the_purpose">Our general QA team goes through this table.</div>
+            </a>
+            <a class="admin_selector_block" ng-controller="AdminTableSelectCtl" href="{% url upgrade_admin:influencers_all_categories_validated %}">
+                <div class="title">Validated, NOT on feed</div>
+                <div class="the_purpose">This is all the recently QAed URLs that are NOT on the feed yet.</div>
+            </a>
+            <a class="admin_selector_block" ng-controller="AdminTableSelectCtl" href="{% url upgrade_admin:influencers_current_search_summary %}">
+                <div class="title">Validated, ON FEED</div>
+                <div class="the_purpose">This is everyone who is showing up on the feed.</div>
+            </a>
+            <!--div class="admin_selector_outline">                        
+                <a class="admin_selector_block" ng-controller="AdminTableSelectCtl" href="{% url upgrade_admin:influencers_informations_newly_upgraded %}">
+                    <div class="title">Recently Upgraded</div>
+                    <div class="the_purpose">This shows the recently upgraded URLs.</div>
+                </a>
+            </div-->
+        </div>
+
+
+
+        
+        <div class="row_wrapper clearfix">
+            <div class="divider"></div>
+            <div class="main_header">Admin Tables for Sales</div>
+            <a class="admin_selector_block" ng-controller="AdminTableSelectCtl" href="{% url upgrade_admin:user_manual_verify %}">
+                <!-- <div class="number">#1</div> -->
+                <div class="title">Upgrade Brands &#8594; <b>SALES</b></div>
+                <div class="the_purpose">a. Login to brand accounts.<br/>b. Reset password.<br/>c. Turn on and off trial.<br/>d. Turn on and off data.</div>
+            </a>
+            <a class="admin_selector_block" ng-controller="AdminTableSelectCtl" href="{% url upgrade_admin:brand_flags %}">
+                <!-- <div class="number">#2</div> -->
+                <div class="title">Set Brand Flags &#8594; <b>SALES</b></div>
+                <div class="the_purpose">a. Enable features.<br/>b. Turn on and off brand accounts.<br/>c. Set pricing pages.</div>
+            </a>
+        </div>
+
+
+
+        <div class="row_wrapper clearfix">
+            <div class="divider"></div>
+            <div class="main_header">Admin Tables for Account Management</div>
+            <a class="admin_selector_block" ng-controller="AdminTableSelectCtl" href="{% url upgrade_admin:post_analytics_collection_monitoring %}">
+                <!-- <div class="number">#3</div> -->
+                <div class="title">Post Analytics Monitoring</div>
+                <div class="the_purpose">This monitors which brands are running Post-Analytics-Reports (mainly SPM) and provides links to those reports.</div>
+            </a>
+            <a class="admin_selector_block" ng-controller="AdminTableSelectCtl" href="{% url upgrade_admin:influencers_submitted_by_users %}">
+                <div class="title">Blog URLs Submitted By Users</div>
+                <div class="the_purpose">When a brand uploads urls, they go here for someone to QA, we need an email to alert us everytime urls are uploaded.</div>
+            </a>
+            <a class="admin_selector_block" ng-controller="AdminTableSelectCtl" href="{% url upgrade_admin:post_analytics_collections_with_loading_entries %}">
+                <div class="title">Post Analytics Collections With Loading Entries</div>
+                <div class="the_purpose"></div>
+            </a>
+            <a class="admin_selector_block" ng-controller="AdminTableSelectCtl" href="{% url upgrade_admin:influencers_uploaded_by_customers %}">
+                <div class="title">Blog URLs Submitted By Customers</div>
+                <div class="the_purpose"></div>
+            </a>
+        </div>
+
+
+
+        <div class="row_wrapper clearfix bright_pink_bg">
+            <div class="divider"></div>
+            <div class="main_header">Admin Tables for Send Email Monitoring</div>
+            <a class="admin_selector_block" ng-controller="AdminTableSelectCtl" href="{% url upgrade_admin:influencers_informations_missing_email %}">
+                <div class="title">Missing Emails</div>
+                <div class="the_purpose">Influencers with missing email (e.g., none of these exist - email_for_collaborations, email_all_other) that already have emails sent to them.</div>
+            </a>
+            <a class="admin_selector_block" ng-controller="AdminTableSelectCtl" href="{% url upgrade_admin:influencers_informations_mandrill_error %}">
+                <div class="title">Mandrill Error</div>
+                <div class="the_purpose">
+                    <p>Influencers that has messages with 'Error' status from Mandrill API (email sending failed for some reason).</p>
+                    <p><strong>Note:</strong> it's different from emails with 'rejected', 'invalid' statuses.</p>
+                </div>
+            </a>
+            
+        </div>
+
+
+
+        
+        <div class="row_wrapper clearfix yellow_bg">
+            <div class="divider"></div>
+            <div class="main_header">Admin Tables for Blogger Signups</div>
+            <a class="admin_selector_block" ng-controller="AdminTableSelectCtl" href="{% url upgrade_admin:user_manual_verify %}">
+                <div class="title">Manual Blogger Actions &#8594; <b>BLOGGER SUPPORT</b></div>
+                <div class="the_purpose">Auto-verify, auto-validate, id deletion, and account stats</div>
+            </a>
+            <a class="admin_selector_block" ng-controller="AdminTableSelectCtl" href="{% url upgrade_admin:influencers_blogger_signedup_initialize %}">
+                <div class="title">NOT QAed &#8594; <b>BLOGGER SUPPORT</b></div>
+                <div class="the_purpose">Bloggers who sign up and need to be QAed. This should be cleared out each day.</div>
+            </a>
+            <a class="admin_selector_block" ng-controller="AdminTableSelectCtl" href="{% url upgrade_admin:influencers_blogger_signedup_check %}">
+                <div class="title">QAed, NOT on Search</div>
+                <div class="the_purpose">This shows all bloggers who have signed up, and they have been QAed, but they are not showing up on search yet.</div>
+            </a>
+            <a class="admin_selector_block" ng-controller="AdminTableSelectCtl" href="{% url upgrade_admin:influencers_qaed_on_search %}">
+                <div class="title">QAed, ON SEARCH</div>
+                <div class="the_purpose">All bloggers who have signed up, AND show on Search</div>
+            </a>
+            <!-- <a class="admin_selector_block" ng-controller="AdminTableSelectCtl" href="{% url upgrade_admin:influencers_blogger_signedup_notify %}">
+                <div class="title">FIX ::: Manually Invite When Profile is Ready</div>
+                <div class="the_purpose">After Bloggers have been QAed and Show on search, they should come to this table where we can manually invite them.</div>
+            </a> -->
+
+        </div>
+
+
+
+
+
+        
+       
+
+        <div class="divider"></div>
+        <div class="largest_header"><b>Tables : Not Currently Used</div>
+        <div class="divider"></div>
+
+        
+
+        
+        <div class="row_wrapper clearfix darker_teal_bg">
+            <div class="main_header">Admin Tables for Shady Shit</div>
+            
+
+            <a class="admin_selector_block" ng-controller="AdminTableSelectCtl" href="{% url suspect_admin:broken_url %}">
+                <div class="number">1.1</div>
+                <div class="title">Suspicious URLs </div>
+                <div class="the_purpose">
+                    <ul>
+                        <li>Broken URLs</li>
+                        <li>Broken Social URLs</li>
+                        <li></li>
+                        <li></li>
+                    </ul>
+                </div>
+            </a>
+            <a class="admin_selector_block" ng-controller="AdminTableSelectCtl" href="#">
+                <div class="number">1.2</div>
+                <div class="title">Duplicate URL Handling </div>
+                <div class="the_purpose"></div>
+            </a>
+           
+
+
+
+
+
+            <a class="admin_selector_block" ng-controller="AdminTableSelectCtl" href="{% url suspect_admin:similar_blog_blogger_name %}">
+                <div class="number">2.1</div>
+                <div class="title">Blog / Blogger Name Issues</div>
+                <div class="the_purpose">
+                    If blog name = to blogger name
+                    <br/>If either are missing
+                    <br/>if length exceeds 18-25 characters
+                    <br/>if there are emojicons
+                </div>
+            </a>
+            <a class="admin_selector_block" ng-controller="AdminTableSelectCtl" href="{% url suspect_admin:suspect_description %}">
+                <div class="number">2.2</div>
+                <div class="title">Buggy Blogger Descriptions</div>
+                <div class="the_purpose">
+                    If description is too short
+                    <br/>if it contains http://
+                    <br/>if it contains emojicons
+                </div>
+            </a>
+            <a class="admin_selector_block" ng-controller="AdminTableSelectCtl" href="{% url suspect_admin:broken_email %}">
+                <div class="number">2.3</div>
+                <div class="title">Suspicious Emails</div>
+                <div class="the_purpose">
+                    Missing email
+                    <br/>if it doesn't have @
+                    <br/>if it has a dot at the end
+                    <br/>if it syntactically passes, then we run through kickbox to check if it's a valid email.
+                </div>
+            </a>
+            <a class="admin_selector_block" ng-controller="AdminTableSelectCtl" href="{% url suspect_admin:suspect_location %}">
+                <div class="number">2.4</div>
+                <div class="title">Locations </div>
+                <div class="the_purpose">(Locations that we are not able to figure out.)</div>
+            </a>
+
+        
+
+
+
+            <a class="admin_selector_block" ng-controller="AdminTableSelectCtl" href="#">
+                <div class="number">3.1</div>
+                <div class="title">Not Enough Social URLs</div>
+                <div class="the_purpose">Anyone with one or less social platforms will show up here.</div>
+            </a>
+            <a class="admin_selector_block" ng-controller="AdminTableSelectCtl" href="{% url suspect_admin:suspect_social_followers %}">
+                <div class="number">3.2</div>
+                <div class="title">Very High Follower Counts</div>
+                <div class="the_purpose">Influencers with very high follower counts show up here to be double checked. And/or blacklisted.</div>
+            </a>
+            <a class="admin_selector_block" ng-controller="AdminTableSelectCtl" href="#">
+                <div class="number">3.3</div>
+                <div class="title">Potential Large Publications</div>
+                <div class="the_purpose">Anyone with more than 50 posts per month.</div>
+            </a>
+
+            
+
+
+            <!--div class="admin_selector_outline">
+                <a class="admin_selector_block" ng-controller="AdminTableSelectCtl" href="{% url suspect_admin:suspect_social_dup %}">
+                    <div class="number">1.2</div>
+                    <div class="title">Suspected Duplicate SOCIAL URLs </div>
+                    <div class="the_purpose">(Any two influencers that share the same (or similar) social urls )</div>
+                </a>
+            </div>
+            <div class="admin_selector_outline">
+                <a class="admin_selector_block" ng-controller="AdminTableSelectCtl" href="{% url suspect_admin:suspect_social_mainstream %}">
+                    <div class="number">1.2</div>
+                    <div class="title">Broken/Mainstream Social Links </div>
+                    <div class="the_purpose">(Any social link that is broken, or linking to a mainstream profile... .)</div>
+                </a>
+            </div>
+            
+            <div class="admin_selector_outline">
+                <a class="admin_selector_block" ng-controller="AdminTableSelectCtl" href="{% url suspect_admin:suspect_high_followers %}">
+                    <div class="number">1.2</div>
+                    <div class="title">High #followers but few social handles</div>
+                    <div class="the_purpose">check to see if the large followers is a fluke</div>
+                </a>
+            </div>
+            <div class="admin_selector_outline">
+                <a class="admin_selector_block" ng-controller="AdminTableSelectCtl" href="{% url suspect_admin:suspect_high_posts %}">
+                    <div class="number">1.2</div>
+                    <div class="title">High # of posts but not enough social urls</div>
+                    <div class="the_purpose"></div>
+                </a>
+            </div>
+            <div class="admin_selector_outline">
+                <a class="admin_selector_block" ng-controller="AdminTableSelectCtl" href="{% url suspect_admin:suspect_social_handle %}">
+                    <div class="number">1.2</div>
+                    <div class="title">Suspicious social handles</div>
+                    <div class="the_purpose">(no common substring between blog url and social handle)</div>
+                </a>
+            </div>
+            <div class="admin_selector_outline">
+                <a class="admin_selector_block" ng-controller="AdminTableSelectCtl" href="{% url suspect_admin:suspect_social_nocomments %}">
+                    <div class="number">1.2</div>
+                    <div class="title">Suspicious no comments</div>
+                    <div class="the_purpose">0 comments across duration of scraping</div>
+                </a>
+            </div>
+            <div class="admin_selector_outline">
+                <a class="admin_selector_block" ng-controller="AdminTableSelectCtl" href="{% url suspect_admin:suspect_url_changed %}">
+                    <div class="number">1.2</div>
+                    <div class="title">Url changed</div>
+                    <div class="the_purpose"></div>
+                </a>
+            </div>
+            <div class="admin_selector_outline">
+                <a class="admin_selector_block" ng-controller="AdminTableSelectCtl" href="{% url suspect_admin:suspect_similar_content %}">
+                    <div class="number">1.2</div>
+                    <div class="title">Similar content</div>
+                    <div class="the_purpose"></div>
+                </a>
+            </div>
+            <div class="admin_selector_outline">
+                <a class="admin_selector_block" ng-controller="AdminTableSelectCtl" href="{% url suspect_admin:suspect_similar_blog %}">
+                    <div class="title">Similar blog urls</div>
+                    <div class="the_purpose"></div>
+                </a>
+            </div>
+            <div class="admin_selector_outline">
+                <a class="admin_selector_block" ng-controller="AdminTableSelectCtl" href="{% url suspect_admin:suspect_no_content %}">
+                    <div class="title">No content</div>
+                    <div class="the_purpose"></div>
+                </a>
+            </div>
+            -->
+
+
+        </div>
+
+        
+
+
+        
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+
+        
+        <div class="row_wrapper clearfix blue_bg">
+            <div class="divider"></div>
+            <div class="main_header">Admin Tables for Auto-Brand Processing</div>
+            <a class="admin_selector_block" ng-controller="AdminTableSelectCtl" href="{% url upgrade_admin:brands_list_auto_non_blacklisted %}">
+                <div class="title">NON-edited Automatically Non-Blacklisted Stores</div>
+                <div class="the_purpose">This shows all stores that have NOT been edited but are marked not-blacklisted.</div>
+            </a>
+            <a class="admin_selector_block" ng-controller="AdminTableSelectCtl" href="{% url upgrade_admin:brands_list_auto_blacklisted %}">
+                <div class="title">NON-edited Automatically Blacklisted Stores</div>
+                <div class="the_purpose">This shows all stores that have NOT been edited but are marked blacklisted</div>
+            </a>
+            <a class="admin_selector_block" ng-controller="AdminTableSelectCtl" href="{% url upgrade_admin:brands_list_edited_non_blacklisted %}">
+                <div class="title">Edited Stores Marked Not-Blacklisted</div>
+                <div class="the_purpose">This shows all stores that have been edited and are not marked blacklisted.</div>
+            </a>
+            <a class="admin_selector_block" ng-controller="AdminTableSelectCtl" href="{% url upgrade_admin:brands_list_edited_blacklisted %}">
+                <div class="title">Edited Stores Marked Blacklisted</div>
+                <div class="the_purpose">This shows all stores that have been edited and are marked blacklisted.</div>
+            </a>
+
+        </div>
+
+
+
+
+
+
+
+
+        
+
+        
+        <div class="row_wrapper clearfix navy_bg">
+            <div class="divider"></div>
+            <div class="main_header">Misc.</div>    
+            <a class="admin_selector_block" ng-controller="AdminTableSelectCtl" href="{% url upgrade_admin:influencers_tests %}">
+                <div class="title">Removing Accounts</div>
+                <div class="the_purpose">This is used to test the login / signup process.</div>
+            </a>
+            <a class="admin_selector_block" ng-controller="AdminTableSelectCtl" href="{% url upgrade_admin:influencers_suspect_daily_combined %}">
+                <div class="title">Daily (not live)</div>
+                <div class="the_purpose">All suspicious shit in one place.</div>
+            </a>
+            <!--a class="admin_selector_block navy_bg" href="#">
+                <div class="title">Assigning QA IDs</div>
+                <div class="the_purpose">----------- NOT CREATED YET -----------<br/>Assign IDs for QA people to do on the Unvalidated Table.</div>
+            </a-->
+        </div>
+
+
+
+        
+        <div class="row_wrapper clearfix bright_pink_bg">
+            <div class="divider"></div>
+            <div class="main_header">Temporary Admin Tables</div>
+            <a class="admin_selector_block" ng-controller="AdminTableSelectCtl" href="{% url upgrade_admin:influencers_suspect_daily_combined %}">
+                <div class="title">Men.</div>
+                <div class="the_purpose">Bloggers who are dudes. For Frank and Oak / LL Bean.</div>
+            </a>
+            <!--div class="admin_selector_outline">
+                <a class="admin_selector_block" href="">
+                    <div class="title">Buggy URLs</div>
+                    <div class="the_purpose">Any problem URL</div>
+                </a>
+            </div-->
+            
+        </div>
+
+
+        
+        
+
+        
+
+
+
+
+
+
+
+
+
+        
+        <!--div class="row_wrapper clearfix cyan_bg">
+            <div class="main_header">Backend Tables : Pre-processing URLs</div>
+            <div class="admin_selector_outline">
+                <a class="admin_selector_block" ng-controller="AdminTableSelectCtl" href="{% url upgrade_admin:influencers_list_validated %}">
+                    <div class="title">Is the URL a live blog?</div>
+                    <div class="the_purpose">We check to see if it's a blog, and if the site is active and accessible.  We are not QAing this right now.  Everything is automated.</div>
+                </a>
+            </div>
+            <div class="admin_selector_outline">
+                <a class="admin_selector_block" ng-controller="AdminTableSelectCtl" href="{% url upgrade_admin:influencers_fashion_validated %}">
+                    <div class="title">Is it fashion?  Is it active?</div>
+                    <div class="the_purpose">We track fashion keywords, widgets, and affiliate links to determine if its fashion.  We check to see if the post was updated in the last 3 months.</div>
+                </a>
+            </div>
+        </div>
+
+
+
+
+
+        
+        <div class="row_wrapper clearfix lime_bg">
+            <div class="main_header">Backend Tables : Health of System</div>
+            <div class="admin_selector_outline">
+                <a class="admin_selector_block" ng-controller="AdminTableSelectCtl" href="{% url upgrade_admin:influencers_current_search_summary %}">
+                    <div class="title">Daily Scrapes</div>
+                    <div class="the_purpose">This shows the dates of scrapes, imports, and denormalizations</div>
+                </a>
+            </div>
+            <div class="admin_selector_outline">
+                <a class="admin_selector_block" ng-controller="AdminTableSelectCtl" href="{% url upgrade_admin:report_daily_stats %}">
+                    <div class="title">Summary of Daily Scrapes</div>
+                    <div class="the_purpose">This shows all of our current users and what has been scraped</div>
+                </a>
+            </div>
+        </div-->
+
+
+
+
+
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- NEW ADMIN TABLE BUG -->
+<!-- NEW ADMIN TABLE BUG -->
+<!-- NEW ADMIN TABLE BUG -->
+<!-- NEW ADMIN TABLE BUG -->
+<!-- NEW ADMIN TABLE BUG -->
+<!-- NEW ADMIN TABLE BUG -->
+<!-- NEW ADMIN TABLE BUG -->
+<!-- NEW ADMIN TABLE BUG -->
+<!-- NEW ADMIN TABLE BUG -->
+<!-- NEW ADMIN TABLE BUG -->
+<div class="admin_selction_page">
+
+
+
+
+    <!-- ////////////////////// URL ISSUES /////////////////////// -->
+    <!-- ////////////////////// URL ISSUES /////////////////////// -->
+    <!-- ////////////////////// URL ISSUES /////////////////////// -->
+    <div class="suspect_group">
+        <div class="suspect_group_title">URL Problems</div>
+        <!-- URLS THAT USED TO WORK, BUT NOW SEEM BROKEN -->
+        <!-- URLS THAT USED TO WORK, BUT NOW SEEM BROKEN -->
+        <div class="suspect_admin_section">
+            <div class="suspect_title">1.1 &nbsp; URLs that are Newly Broken/Redirecting/No More Content</div>
+            <div class="suspect_text">For any URL that use to work, but is now broken or redirecting, it should show up here.  If no content has been imported in a month, it should also show up here...  often times, bloggers put up a post which updates users about their new URL...  that will need to be copied manually.<br/><br/>If we update the URL, the Update URL button needs to be clicked.  If no change is needed...  which would really only happen if content has stopped for no reason, we click NO Problem, which will reset the clock...  and we'll check again in 30 days if content still has not been updated.  If the URL is legitamately broken, then we Blacklist it.  At which point, it needs to be removed from Search.  If there has been content, and the URL is incorrectly showing up on this chart, A Bug needs to be Submitted.</div>
+            <table class="qa_people">
+                <tbody>
+                    <tr style="background:transparent;"><th>Error Message</th><th>Blog URL</th><th>Actions</t</tr>
+                    <tr>
+                        <td class="row_title error_message">Content Stopped</td>
+                        <td><fieldset class="typical_form smaller_field"><input type="text"></fieldset></td>
+                        <td>
+                            <p class="square_bt teal_bt md" style="margin-bottom:5px;">No Problem</p> &nbsp;
+                            <p class="square_bt teal_bt md" style="margin-bottom:5px;">Blacklist</p> &nbsp;
+                            <p class="square_bt teal_bt md" style="margin-bottom:5px;">Update URL</p> &nbsp;
+                            <p class="square_bt teal_bt md">Submit Bug</p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <!-- SOCIAL URLS THAT USED TO WORK, BUT NOW SEEM BROKEN -->
+        <!-- SOCIAL URLS THAT USED TO WORK, BUT NOW SEEM BROKEN -->
+        <div class="suspect_admin_section">
+            <div class="suspect_title">1.2 &nbsp; Social urls) that are Newly Broken/Redirecting/No More Content</div>
+            <div class="suspect_text">For any URL that use to work, but is now broken or redirecting, it should show up here.  If no content has been imported in a month, it should also show up here...  often times, bloggers put up a post which updates users about their new URL...  that will need to be copied manually.<br/><br/>If we update the URL, the Update URL button needs to be clicked.  If no change is needed...  which would really only happen if content has stopped for no reason, we click NO Problem, which will reset the clock...  and we'll check again in 30 days if content still has not been updated.  If there has been content, and the URL is incorrectly showing up on this chart, A Bug needs to be Submitted.</div>
+            <table class="qa_people">
+                <tbody>
+                    <tr style="background:transparent;"><th>Error Message</th><th>Blog URL</th><th>Questionable URL</th><th>Actions</t</tr>
+                    <tr>
+                        <td class="row_title error_message">Content Stopped</td>
+                        <td class="row_title">BlogURL.com</td>
+                        <td><fieldset class="typical_form smaller_field"><input type="text"></fieldset></td>
+                        <td>
+                            <p class="square_bt teal_bt md" style="margin-bottom:5px;">No Problem</p> &nbsp;
+                            <p class="square_bt teal_bt md" style="margin-bottom:5px;">Update URL</p> &nbsp;
+                            <p class="square_bt teal_bt md">Submit Bug</p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+
+
+    <!-- ////////////////////// BLOGGER DETAILS /////////////////////// -->
+    <!-- ////////////////////// BLOGGER DETAILS /////////////////////// -->
+    <!-- ////////////////////// BLOGGER DETAILS /////////////////////// -->
+    <div class="suspect_group grayed_bg">
+        <div class="suspect_group_title">Blogger Details Problems</div>
+        <!-- EMAIL ISSUES -->
+        <!-- EMAIL ISSUES -->
+        <div class="suspect_admin_section">
+            <div class="suspect_title">2.1 &nbsp; Multiple Emails / Missing Emails / Suspect Emails</div>
+            <div class="suspect_text">Bloggers with Multiple emails or completely missing emails or any other suspect email issue (like invalid format, extra characters, etc.</div>
+            <table class="qa_people">
+                <tbody>
+                    <tr style="background:transparent;"><th>Blog URL</th><th>For Brands</th><th>Remaining</th><th>Contact Form</th><th>Actions</t</tr>
+                    <tr>
+                        <td class="row_title">Blogurl.com</td>
+                        <td><fieldset class="typical_form smaller_field"><input type="text"></fieldset></td>
+                        <td><fieldset class="typical_form smaller_field"><input type="text"></fieldset></td>
+                        <td><fieldset class="typical_form smaller_field"><input type="text"></fieldset></td>
+                        <td><p class="square_bt teal_bt md">Save</p></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <!-- BLOG / BLOGGER NAMES -->
+        <!-- BLOG / BLOGGER NAMES -->
+        <div class="suspect_admin_section">
+            <div class="suspect_title">2.2 &nbsp; Similar Blog/Blogger Names</div>
+            <div class="suspect_text">bloggers who have extremely similar blog names and blogger names.<br/>
+                <span class="example">like “penny pincher fashion” with blogger name “pennypincherfashion”...</span>
+            </div>
+            <table class="qa_people">
+                <tbody>
+                    <tr style="background:transparent;"><th>Blog URL</th><th>Blog Name</th><th>Blogger Name</th><th>Actions</th></tr>
+                    <tr>
+                        <td class="row_title">Blogurl.com</td>
+                        <td><fieldset class="typical_form smaller_field"><input type="text"></fieldset></td>
+                        <td><fieldset class="typical_form smaller_field"><input type="text"></fieldset></td>
+                        <td><p class="square_bt teal_bt md">Save</p></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="suspect_admin_section">
+            <div class="suspect_title">2.3 &nbsp; 1 word blog names &amp; Emojis &amp; missing blog names</div>
+            <div class="suspect_text">Blogs with blog names that are only one word.  (QA often times forgets to split stuff up.)  And any blog names with Emojis</div>
+            <table class="qa_people">
+                <tbody>
+                    <tr style="background:transparent;"><th>Blog URL</th><th>Blog Name</th><th>Actions</th></tr>
+                    <tr>
+                        <td class="row_title">Blogurl.com</td>
+                        <td><fieldset class="typical_form smaller_field"><input type="text"></fieldset></td>
+                        <td><p class="square_bt teal_bt md">Save</p></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <!-- DESCRIPTION -->
+        <!-- DESCRIPTION -->
+        <div class="suspect_admin_section">
+            <div class="suspect_title">2.4 &nbsp; Suspect Descriptions</div>
+            <div class="suspect_text">Description that is too short (less than 150 characters)...  Descriptions containing URLs and emojis</div>
+            <table class="qa_people">
+                <tbody>
+                    <tr style="background:transparent;"><th>Blog URL</th><th>Description</th><th>Actions</t</tr>
+                    <tr>
+                        <td class="row_title">Blogurl.com</td>
+                        <td><fieldset class="typical_form smaller_field"><textarea rows="3" type="text"></textarea></fieldset></td>
+                        <td><p class="square_bt teal_bt md">Save</p></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <!-- LOCATIONS -->
+        <!-- LOCATIONS -->
+        <div class="suspect_admin_section">
+            <div class="suspect_title">2.5 &nbsp; Suspect Locations &amp; Missing Locations</div>
+            <div class="suspect_text">Locations that we are not able to figure out.</div>
+            <table class="qa_people">
+                <tbody>
+                    <tr style="background:transparent;"><th>Blog URL</th><th>Location</th><th>Actions</t</tr>
+                    <tr>
+                        <td class="row_title">Blogurl.com</td>
+                        <td><fieldset class="typical_form smaller_field"><input type="text"></fieldset></td>
+                        <td><p class="square_bt teal_bt md">Save</p></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+
+
+
+
+
+    <!-- ////////////////////// SOCIAL HANDLES /////////////////////// -->
+    <!-- ////////////////////// SOCIAL HANDLES /////////////////////// -->
+    <!-- ////////////////////// SOCIAL HANDLES /////////////////////// -->
+    <div class="suspect_group">
+        <div class="suspect_group_title">Social Handles</div>
+        <!-- IDS THAT SHARE SOCIAL URLS -->
+        <!-- IDS THAT SHARE SOCIAL URLS -->
+        <div class="suspect_admin_section">
+            <div class="suspect_title">3.1 &nbsp; Suspected Duplicate SOCIAL URLs</div>
+            <div class="suspect_text">Any two ids that share the same (or similar) social urls <span style="color:red">WHAT DO WE DO IF THERE IS MORE THAN 2 URLS SHARING A SOCIAL HANDLE?</span></div>
+            <table class="qa_people">
+                <tbody>
+                    <tr style="background:transparent;">
+                        <th>Problematic Social Handle</th>
+                        <th>Blog URL 1</th><th>Social URL 1</th><th>Blacklist</th>
+                        <th>Blog URL 2</th><th>Social URL 2</th><th>Blacklist</th><th>Actions</th>
+                    </tr>
+                    <tr>
+                        <td class="row_title error_message">Facebook (example)</td>
+                        <td class="row_title">Blogurl.com</td>
+                        <td><fieldset class="typical_form smaller_field"><input type="text"></fieldset></td>
+                        <td>
+                            <fieldset class="typical_form smaller_field">
+                                <select>
+                                    <option value="none">&nbsp;</option>
+                                    <option value="yes">Yes</option>
+                                    <option value="no">No</option>
+                                </select>
+                            </fieldset>
+                        </td>
+                        <td class="row_title">Blogurl.com</td>
+                        <td><fieldset class="typical_form smaller_field"><input type="text"></fieldset></td>
+                        <td>
+                            <fieldset class="typical_form smaller_field">
+                                <select>
+                                    <option value="none">&nbsp;</option>
+                                    <option value="yes">Yes</option>
+                                    <option value="no">No</option>
+                                </select>
+                            </fieldset>
+                        </td>
+                        <td><p class="square_bt teal_bt md">Save</p></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <!-- SOCIAL URL ISSUES -->
+        <!-- SOCIAL URL ISSUES -->
+        <div class="suspect_admin_section">
+            <div class="suspect_title">3.2 &nbsp; Broken/Mainstream Social Links</div>
+            <div class="suspect_text">Any social link that is broken, or linking to a mainstream profile...  like the facebook page for Facebook.</div>
+            <table class="qa_people">
+                <tbody>
+                    <tr style="background:transparent;"><th>Blog URL</th><th>Error Message</th><th>Suspect URL</th><th>Actions</t</tr>
+                    <tr>
+                        <td class="row_title">Blogurl.com</td>
+                        <td class="row_title error_message">Mainstream Link</td>
+                        <td><fieldset class="typical_form smaller_field"><input type="text"></fieldset></td>
+                        <td><p class="square_bt teal_bt md">Save</p></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <!-- SOCIAL URL ISSUES -->
+        <!-- SOCIAL URL ISSUES -->
+        <div class="suspect_admin_section">
+            <div class="suspect_title">3.3 &nbsp; Outlying Social Follower Counts</div>
+            <div class="suspect_text">Anyone who has a difference of 50,000+ between any of their social handles need to show up here for extra QA.</div>
+            <table class="qa_people">
+                <tbody>
+                    <tr style="background:transparent;"><th>Blog URL</th><th>Error Message</th><th>Facebook</th><th>Twitter</th><th>Instagram</th><th>Pinterest</th><th>Actions</t</tr>
+                    <tr>
+                        <td class="row_title">Blogurl.com</td>
+                        <td class="row_title error_message">Problem : Facebook</td>
+                        <td><fieldset class="typical_form smaller_field"><input type="text"></fieldset></td>
+                        <td><fieldset class="typical_form smaller_field"><input type="text"></fieldset></td>
+                        <td><fieldset class="typical_form smaller_field"><input type="text"></fieldset></td>
+                        <td><fieldset class="typical_form smaller_field"><input type="text"></fieldset></td>
+                        <td><p class="square_bt teal_bt md">Save</p></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <!-- SOCIAL URL ISSUES -->
+        <!-- SOCIAL URL ISSUES -->
+        <div class="suspect_admin_section">
+            <div class="suspect_title">3.4 &nbsp; Lots of Comments with 2 or less social platforms</div>
+            <div class="suspect_text">If someone has 15 or more comments with 2 or less platforms, they need show up here for confirmation.  A bug can be submitted if something is wrong with comment count.</div>
+            <table class="qa_people">
+                <tbody>
+                    <tr style="background:transparent;"><th>Blog URL</th><th>Comment Count</th><th>Facebook</th><th>Twitter</th><th>Instagram</th><th>Pinterest</th><th>BlogLovin</th><th>Lookbook</th><th>Youtube</th><th>Actions</t</tr>
+                    <tr>
+                        <td class="row_title">Blogurl.com</td>
+                        <td class="row_title error_message">120</td>
+                        <td><fieldset class="typical_form smaller_field"><input type="text"></fieldset></td>
+                        <td><fieldset class="typical_form smaller_field"><input type="text"></fieldset></td>
+                        <td><fieldset class="typical_form smaller_field"><input type="text"></fieldset></td>
+                        <td><fieldset class="typical_form smaller_field"><input type="text"></fieldset></td>
+                        <td><fieldset class="typical_form smaller_field"><input type="text"></fieldset></td>
+                        <td><fieldset class="typical_form smaller_field"><input type="text"></fieldset></td>
+                        <td><fieldset class="typical_form smaller_field"><input type="text"></fieldset></td>
+                        <td><p class="square_bt teal_bt md" style="margin-bottom:5px;">Save</p> &nbsp; <p class="square_bt teal_bt md">Send Bug</p></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <!-- SOCIAL URL ISSUES -->
+        <!-- SOCIAL URL ISSUES -->
+        <div class="suspect_admin_section">
+            <div class="suspect_title">3.5 &nbsp; Large Followers count w/ 2 or less platforms</div>
+            <div class="suspect_text">If someone has a large following (10,000+) on any social platform, AND they have at most 2 platforms total, we need to make sure that platforms were not missed.</div>
+            <table class="qa_people">
+                <tbody>
+                    <tr style="background:transparent;"><th>Blog URL</th><th>Comment Count</th><th>Facebook</th><th>Twitter</th><th>Instagram</th><th>Pinterest</th><th>BlogLovin</th><th>Lookbook</th><th>Youtube</th><th>Actions</t</tr>
+                    <tr>
+                        <td class="row_title">Blogurl.com</td>
+                        <td class="row_title error_message"><a href="#" class="txt_link darker_teal">Facebook-12000</a> &nbsp; <a href="#" class="txt_link darker_teal">Twitter-1550</a></td>
+                        <td><fieldset class="typical_form smaller_field"><input type="text"></fieldset></td>
+                        <td><fieldset class="typical_form smaller_field"><input type="text"></fieldset></td>
+                        <td><fieldset class="typical_form smaller_field"><input type="text"></fieldset></td>
+                        <td><fieldset class="typical_form smaller_field"><input type="text"></fieldset></td>
+                        <td><fieldset class="typical_form smaller_field"><input type="text"></fieldset></td>
+                        <td><fieldset class="typical_form smaller_field"><input type="text"></fieldset></td>
+                        <td><fieldset class="typical_form smaller_field"><input type="text"></fieldset></td>
+                        <td><p class="square_bt teal_bt md">Save</p></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <!-- SOCIAL URL ISSUES -->
+        <!-- SOCIAL URL ISSUES -->
+        <div class="suspect_admin_section">
+            <div class="suspect_title">3.6 &nbsp; Suspicious Handles</div>
+            <div class="suspect_text">If a user has handles that are significantly different from their blog url, then they should show up here.<br/><span style="color:red">I'm not sure what the best way to this would be...  it would be great if we could have something where the URL pennypincherfashion.com  would pass by with facebook.com/pincherfashion...  or penny_pincher_fashion... but facebook.com/ppfgirl would not. </span></div>
+            <table class="qa_people">
+                <tbody>
+                    <tr style="background:transparent;"><th>Blog URL</th><th>Error Message</th><th>Facebook</th><th>Twitter</th><th>Instagram</th><th>Pinterest</th><th>BlogLovin</th><th>Lookbook</th><th>Youtube</th><th>Actions</t</tr>
+                    <tr>
+                        <td class="row_title">Blogurl.com</td>
+                        <td class="row_title error_message">Facebook &nbsp; Twitter</td>
+                        <td><fieldset class="typical_form smaller_field"><input type="text"></fieldset></td>
+                        <td><fieldset class="typical_form smaller_field"><input type="text"></fieldset></td>
+                        <td><fieldset class="typical_form smaller_field"><input type="text"></fieldset></td>
+                        <td><fieldset class="typical_form smaller_field"><input type="text"></fieldset></td>
+                        <td><fieldset class="typical_form smaller_field"><input type="text"></fieldset></td>
+                        <td><fieldset class="typical_form smaller_field"><input type="text"></fieldset></td>
+                        <td><fieldset class="typical_form smaller_field"><input type="text"></fieldset></td>
+                        <td><p class="square_bt teal_bt md">Save</p></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+    <!-- ////////////////////// SCRAPING PROBLEMS /////////////////////// -->
+    <!-- ////////////////////// SCRAPING PROBLEMS /////////////////////// -->
+    <!-- ////////////////////// SCRAPING PROBLEMS /////////////////////// -->
+    <div class="suspect_group grayed_bg">
+        <div class="suspect_group_title">4.1 &nbsp; Scraper Problems</div>
+        <!-- PROBLEMS W/ SCRAPING  Comment Counts -->
+        <!-- PROBLEMS W/ SCRAPING  Comment Counts -->
+        <div class="suspect_admin_section">
+            <div class="suspect_title">***Problem w/ Scraping : 0 Comment Counts</div>
+            <div class="suspect_text">Bloggers with 1 or More social platforms that have over 500 followers, AND who get an average of no comments.  This test will check to see if we're missing comment counts.</div>
+            <table class="qa_people">
+                <tbody>
+                    <tr style="background:transparent;"><th>Blog URL</th><th>Platform Info</th><th>Actions</t</tr>
+                    <tr>
+                        <td class="row_title">Blogurl.com</td>
+                        <td class="row_title error_message"><a href="#" class="txt_link darker_teal">Facebook-12000</a> &nbsp; <a href="#" class="txt_link darker_teal">Twitter-1550</a></td>
+                        <td><p class="square_bt teal_bt md" style="margin-bottom:5px;">No Problem</p>&nbsp;<p class="square_bt teal_bt md">Submit Bug</p></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <!-- IDS THAT SHARE URLS -->
+        <!-- IDS THAT SHARE URLS -->
+        <div class="suspect_admin_section">
+            <div class="suspect_title">1.3 &nbsp; Suspected Duplicate URLs</div>
+            <div class="suspect_text">Any two URLs that are similar<br/>
+                <span class="example">For example...  many urls will be like this : pennypincher.com   and    pennypincher.blogspot.com...  there are also different extensions.</span>
+            </div>
+            <table class="qa_people">
+                <tbody>
+                    <tr style="background:transparent;"><th>Blog URL 1</th><th>Blog URL 2</th><th>Blog URL 3</th><th>Actions</t</tr>
+                    <tr>
+                        <td><fieldset class="typical_form smaller_field"><input type="text"></fieldset></td>
+                        <td><fieldset class="typical_form smaller_field"><input type="text"></fieldset></td>
+                        <td><fieldset class="typical_form smaller_field"><input type="text"></fieldset></td>
+                        <td><p class="square_bt teal_bt md">Save</p></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+{% endblock %}

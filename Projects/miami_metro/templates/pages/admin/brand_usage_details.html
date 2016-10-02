@@ -1,0 +1,110 @@
+{% load custom_filters %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>details</title>
+    <style type="text/css" media="screen">
+        table td {
+            border: 1px solid;
+            padding: 5px;
+        }
+        #details_container {
+            position: fixed;
+            top: 0;
+            left: 33%;
+            overflow: scroll;
+            width: 66%;
+            height: 100%;
+        }
+        h2 {
+            display: inline-block;
+        }
+        summary {
+            display: block;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js" type="text/javascript" charset="utf-8"></script>
+    <script>
+    $(document).ready(function(){
+        $(".respandee").hide();
+        $(".respander").click(function(){
+            $("#details").html($($(this).data('what')).html());
+        });
+    });
+    </script>
+</head>
+
+<body>
+    <div id="details_container" open>
+        <summary>Details</summary>
+        <div id="details"></div>
+    </div>
+    <details>
+    <summary>
+    <h2>{{brand.job_posts.count}} Campaign(s)</h2>
+    </summary>
+    {% for camp in brand.job_posts.all %}
+    <div class="respander" data-what="#camp_{{camp.id}}">{{camp.title}} - click for details</div>
+    <div class="respandee" id="camp_{{camp.id}}">
+    <table>
+    <tr><td>creator</td><td>{{camp.creator}}</td></tr>
+    <tr><td>oryg_creator</td><td>{{camp.oryg_creator}}</td></tr>
+    <tr><td>description</td><td>{{camp.description}}</td></tr>
+    <tr><td>title</td><td>{{camp.title}}</td></tr>
+    <tr><td>who_should_apply</td><td>{{camp.who_should_apply}}</td></tr>
+    <tr><td>filter_json</td><td>{{camp.filter_json_obj|tablify }}</td></tr>
+    <tr><td>details</td><td>{{camp.details}}</td></tr>
+    <tr><td>collab_type</td><td>{{camp.collab_type}}</td></tr>
+    <tr><td>date_start</td><td>{{camp.date_start}}</td></tr>
+    <tr><td>date_end</td><td>{{camp.date_end}}</td></tr>
+    <tr><td>published</td><td>{{camp.published}}</td></tr>
+    <tr><td>date_publish</td><td>{{camp.date_publish}}</td></tr>
+    <tr><td>collection</td><td>{{camp.collection}}</td></tr>
+    <tr><td>cover_img_url</td><td><a href="{{camp.cover_img_url}}">{{camp.cover_img_url}}</a></td></tr>
+    <tr><td>attachment_url</td><td><a href="{{camp.attachment_url}}">{{camp.attachment_url}}</a></td></tr>
+    </table>
+    </div>
+    {% endfor %}
+    </details>
+    <details>
+    <summary>
+    <h2>{{brand.influencer_groups.count}} Collection(s)</h2>
+    </summary>
+    {% for col in brand.influencer_groups.all %}
+    <div class="respander" data-what="#col_{{col.id}}">{{col.name}} - click for details</div>
+    <div class="respandee" id="col_{{col.id}}">
+    <table>
+    <tr><td>name</td><td>{{col.name}}</td></tr>
+    <tr><td>description</td><td>{{col.description}}</td></tr>
+    <tr><td>created_date</td><td>{{col.created_date}}</td></tr>
+    <tr><td>owner_brand</td><td>{{col.owner_brand}}</td></tr>
+    <tr><td>creator_brand</td><td>{{col.creator_brand}}</td></tr>
+    <tr><td>system_collection</td><td>{{col.system_collection}}</td></tr>
+    </table>
+    </div>
+    {% endfor %}
+    </details>
+    <h2 class="respander" data-what="#q">{{brand.saved_queries.count}} Queries(s)</h2>
+    <div class="respandee" id="q">
+    {% for q in brand.saved_queries.all %}
+    <details>
+    <summary>{{q.timestamp}} - click for details</summary>
+    {{q.query_json|tablify}}
+    </details>
+    {% endfor %}
+    </div>
+    <h2 class="respander" data-what="#m">{{m_count}} Mails(s)</h2>
+    <div class="respandee" id="m">
+    {% for m in mails %}
+    <details>
+    <summary>{{m.ts}}: {{m.author}} - click for details</summary>
+    {{m|tablify}}
+    </details>
+    {% endfor %}
+    </div>
+
+
+</body>
+
+</html>

@@ -1,0 +1,211 @@
+{% extends 'pages/admin/base.html' %}
+{% load compressed %}
+
+{% block page_js %}
+{% compressed_js 'angular_admin' %}
+<script type="text/javascript">
+
+var render_link = function(target){
+    return function(obj) {
+        if(obj.aData[target] === "null" || obj.aData[target] === null){
+            return '';
+        }else{
+            return "<a target='blank' href='"+obj.aData[target]+"'>"+obj.aData[target]+"</a>";
+        }
+    };
+}
+var skip_null = function(target) {
+    return function(obj) {
+        if(obj.aData[target] === "null" || obj.aData[target] === null){
+            return '';
+        }else{
+            return obj.aData[target];
+        }
+    }
+};
+angular.module("theshelfadmin").value("columns", [
+    {
+        'mData': 'id',
+        'sTitle': 'ID#',
+        'editable': false,
+    },
+    {% if section == 'missing_emails' %}
+    {
+        'mData': 'agr_last_sent',
+        'sTitle': 'Last<br/>Message<br/>Date',
+        'editable': false,
+        'sType': 'date',
+    },
+    {% endif %}
+    {% if False and section == 'qaed_by_mommy' %}
+    {
+        'mData': 'is_correctly_qaed',
+        'sTitle': 'Correctly<br/>QAed?',
+        'bSortable': false,
+        'fnRender': skip_null('is_correctly_qaed'),
+        'source': "{'':'Please select...', 1: 'Yes', 0: 'No',}",
+        'type': 'select',
+    },
+    {% endif %}
+    {
+        'mData': 'suspicious_url',
+        'sTitle': 'Suspicious URL?',
+        'type': 'select',
+        'source': "{'':'Please select...', 1: 'Yes', 0: 'No',}",
+        'sWidth': '100px',
+        'fnRender':  skip_null('suspicious_url'),
+    }, {
+        'mData': 'blog_url',
+        'sTitle': 'URL',
+        'bSortable': false,
+        'fnRender': render_link('blog_url'),
+        'editable_after_influencer_edit': true,
+    }, {
+        'mData': 'relevant_to_fashion',
+        'sTitle': 'Fashion?',
+        'bSortable': false,
+        'editable': false,
+        'fnRender': skip_null('relevant_to_fashion')
+    },{
+        'mData': 'active',
+        'sTitle': 'Active?',
+        'bSortable': false,
+        'editable': false,
+        'fnRender': skip_null('active')
+    },{
+        'mData': 'show_on_search',
+        'sTitle': 'On Search?',
+        'bSortable': false,
+        'editable': false,
+        'fnRender': skip_null('show_on_search')
+    },{
+        'mData': 'blacklisted',
+        'sTitle': 'Blacklisted?',
+        'type': 'select',
+        'source': "{'':'Please select...', 1: 'true', 0: 'false',}"
+    },{
+        'mData': 'email_for_advertising_or_collaborations',
+        'sTitle': 'Email<br>For<br>collaboration<br>or<br>advertising',
+        'fnRender':  skip_null('email_for_advertising_or_collaborations'),
+    },{
+        'mData': 'email_all_other',
+        'sTitle': 'Email<br>Remaining',
+        'fnRender':  skip_null('email_all_other'),
+    },{
+        'mData': 'contact_form_if_no_email',
+        'sTitle': 'Contact<br>Form URL<br>If No Email',
+        'fnRender':  skip_null('contact_form_if_no_email'),
+    },{
+        'bSortable': false,
+        'editable': false,
+        'mData': 'profile_pic_url',
+        'sTitle': 'Pic',
+        'fnRender':  function(obj) {
+            return '<img width="50px" src="'+obj.aData['profile_pic_url']+'"><span style="display: none">'+obj.aData['profile_pic_url']+'</span>';
+        }
+    }, {
+        'mData': 'blogname',
+        'sTitle': 'Blog<br>Name',
+        'fnRender':  skip_null('blogname'),
+    }, {
+        'mData': 'name',
+        'sTitle': 'Blogger<br>Name',
+        'fnRender':  skip_null('name'),
+    }, {
+        'mData': 'demographics_gender',
+        'sTitle': 'Gender',
+        'type': 'select',
+        'source': "{'':'Please select...', 'm':'Male','f':'Female','mf':'Male and Female'}",
+    }, {
+        'mData': 'description',
+        'sTitle': 'Desc',
+        'fnRender':  skip_null('description'),
+    }, {
+        'mData': 'demographics_location',
+        'sTitle': 'Loc',
+        'fnRender':  skip_null('demographics_location'),
+    }, {
+        'mData': 'fb_url',
+        'sTitle': 'FB<br>URL',
+        'fnRender': render_link('fb_url'),
+        'editable_after_influencer_edit': true,
+    }, {
+        'mData': 'tw_url',
+        'sTitle': 'Twit<br>URL',
+        'fnRender': render_link('tw_url'),
+        'editable_after_influencer_edit': true,
+    }, {
+        'mData': 'pin_url',
+        'sTitle': 'Pin<br>URL',
+        'fnRender': render_link('pin_url'),
+        'editable_after_influencer_edit': true,
+    }, {
+        'mData': 'insta_url',
+        'sTitle': 'IG<br>URL',
+        'fnRender': render_link('insta_url'),
+        'editable_after_influencer_edit': true,
+    }, {
+        'mData': 'bloglovin_url',
+        'sTitle': 'BL<br>URL',
+        'fnRender': render_link('bloglovin_url'),
+        'editable_after_influencer_edit': true,
+    }, {
+        'mData': 'lb_url',
+        'sTitle': 'LB<br>URL',
+        'fnRender': render_link('lb_url'),
+        'editable_after_influencer_edit': true,
+    }, {
+        'mData': 'gplus_url',
+        'sTitle': 'G+<br>URL',
+        'fnRender': render_link('gplus_url'),
+        'editable_after_influencer_edit': true,
+    },
+    // {
+    //     'mData': 'pose_url',
+    //     'sTitle': 'Pose',
+    //     'fnRender': render_link('pose_url')
+    // },
+    {
+        'mData': 'youtube_url',
+        'sTitle': 'Youtube',
+        'fnRender': render_link('youtube_url'),
+        'editable_after_influencer_edit': true,
+    }, {
+        'mData': 'snapchat_username',
+        'sTitle': 'Snapchat<br>Username',
+        'fnRender': skip_null('snapchat_username'),
+        'editable_after_influencer_edit': true,
+    }, {
+        'mData': 'average_num_comments_per_post',
+        'sTitle': 'Avg # of<br>comments',
+        'editable': false,
+    },
+    {
+        'mData': 'qa',
+        'sTitle': 'QA',
+        'editable': false,
+    }
+
+]);
+</script>
+{% endblock %}{% block page_css %}
+
+<style type="text/css">
+body { overflow-x: scroll; height:100%; }
+/*table.dataTable,
+table.dataTable th,
+table.dataTable td {
+  -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+}*/
+</style>
+{% endblock %} {% block content %}
+<div ng-app="theshelfadmin">
+    <table admin-form source="{{source}}" class="data_table" {% if validated %}skip-actions skip-date-edited date-validated-position="1"{% else %}date-edited-position="1" actions-position="1" skip-date-validated{% endif %} width="100%">
+    </table>
+</div>
+
+{% endblock %}
+{% block bottom_js %}
+{% endblock %}

@@ -1,0 +1,42 @@
+{% load custom_filters %}
+
+<div class="col_double_triple user_collage" data-html2canvas-proxy="{% url html2canvas_proxy %}" data-collage-upload="{% url masuka.image_manipulator.create_profile_collage_screenshot user.id %}">
+    <div class="fd_hl_shelver screenshot_purposes" style="margin-top:0; padding-bottom:254px;">
+        <div class="le_bucket" style="height:100%;">
+            <div class="le_block block_2 collage-image pic_upload">
+                <img class="collage_image3" src="{{user.image3}}" alt="collage image 3" />
+            </div>
+            <div class="le_block block_3 collage-image pic_upload">
+                <img class="collage_image4" src="{{user.image4}}" alt="collage image 4" />
+            </div>
+            <div class="le_block block_4">
+                <div class="top collage-image pic_upload">
+                    <img class="collage_image5 collage-image pic_upload" src="{{user.image5}}" alt="collage image 5" />
+                </div>
+                <div class="btm collage-image pic_upload">
+                    <img class="collage_image6" src="{{user.image6}}" alt="collage image 6" />
+                </div>
+            </div>
+            <div class="le_block block_5 collage-image pic_upload">
+                <img class="collage_image7" src="{{user.image7}}" alt="collage image 7" />
+            </div>
+            <div class="le_block block_6 collage-image pic_upload">
+                <img class="collage_image8" src="{{user.image8}}" alt="collage image 8" />
+            </div>
+        </div>
+        <div class="le_info">
+            <div class="row">
+                <div class="content_bk">
+                    <span class="name">{{ user|user_name_or_email }}</span>
+                    {% if user.blog_name or user.blog_page %}
+                    <span class="hint_italics xsmall lessgray">&nbsp; of &nbsp;</span>
+                    <span class="big_stat" itemprop="affiliation">{{ user|blog_name_or_url }}</span>
+                    {% endif %}
+                </div>
+                <div class="content_bk last_child soc_row">
+                    <img src="/mymedia/site_folder/images/page_graphics/newsletter_and_press/misc/social_icon_row.png" height="27" width="166" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

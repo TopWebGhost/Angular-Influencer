@@ -1,0 +1,179 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<title>Admin Actions</title>
+<head>
+    <link rel="stylesheet" type="text/css" href="/mymedia/site_folder/css/old/bootstrap.css" />
+    <script type="text/javascript" src="/mymedia/site_folder/js/vendor/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="/mymedia/site_folder/js/vendor/bootstrap.js"></script>
+    <style>
+        .container {
+            padding: 50px;
+            text-align: center;
+        }
+        h1 {
+            text-align: center;
+            border-bottom:solid 2px black;
+            margin-bottom: 50px;
+        }
+        button {
+            margin: 10px auto;
+            cursor: pointer;
+            display: block;
+            padding: 10px;
+            -moz-border-radius: 5px;
+            border-radius: 5px;
+            background-color: #eee;
+        }
+
+        .single-option-container a {
+            color: lightblue;
+        }
+    </style>
+</head>
+<body>
+
+
+
+
+
+
+
+
+
+<!-- Atul, stop putting stuff in here!  Put it in the influencers_select.html -->
+<!-- Atul, stop putting stuff in here!  Put it in the influencers_select.html -->
+<!-- Atul, stop putting stuff in here!  Put it in the influencers_select.html -->
+<!-- Atul, stop putting stuff in here!  Put it in the influencers_select.html -->
+<!-- Atul, stop putting stuff in here!  Put it in the influencers_select.html -->
+<!-- Atul, stop putting stuff in here!  Put it in the influencers_select.html -->
+<!-- Atul, stop putting stuff in here!  Put it in the influencers_select.html -->
+<!-- Atul, stop putting stuff in here!  Put it in the influencers_select.html -->
+<!-- Atul, stop putting stuff in here!  Put it in the influencers_select.html -->
+<!-- Atul, stop putting stuff in here!  Put it in the influencers_select.html -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Atul, stop putting stuff in here!  Put it in the influencers_select.html -->
+<!-- Atul, stop putting stuff in here!  Put it in the influencers_select.html -->
+<!-- Atul, stop putting stuff in here!  Put it in the influencers_select.html -->
+<!-- Atul, stop putting stuff in here!  Put it in the influencers_select.html -->
+<!-- Atul, stop putting stuff in here!  Put it in the influencers_select.html -->
+<!-- Atul, stop putting stuff in here!  Put it in the influencers_select.html -->
+<!-- Atul, stop putting stuff in here!  Put it in the influencers_select.html -->
+<!-- Atul, stop putting stuff in here!  Put it in the influencers_select.html -->
+<!-- Atul, stop putting stuff in here!  Put it in the influencers_select.html -->
+<!-- Atul, stop putting stuff in here!  Put it in the influencers_select.html -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="container">
+    {% if visitor.auth_user.is_superuser %}
+    <h1>Admin Greatness Begins ~~Here~~</h1>
+    <div class="single-option-container">
+        <h3>Click <a href="{% url upgrade_admin:delete_test_email shelf_user.id %}">Here</a> To Delete The Test Email Associated With Your Account</h3>
+    </div>
+    <div class="single-option-container">
+        <h3>Modify Brands <a href="{% url upgrade_admin:modify_all_brands %}">Here</a></h3>
+    </div>
+    <div class="single-option-container">
+        <h3>Modify Users <a href="{% url upgrade_admin:modify_all_users %}">Here</a></h3>
+    </div>
+    <div class="single-option-container">
+        <h3>Modify Influencers <a href="{% url upgrade_admin:modify_all_influencers %}">Here</a></h3>
+    </div>
+    <div class="single-option-container">
+        <h3>Import Influencers <a href="{% url upgrade_admin:import_influencers %}">Here</a></h3>
+    </div>
+    <div class="single-option-container">
+        <h3><em style="color: red">*new*</em> Influencers Table select preview <a href="{% url upgrade_admin:influencers %}">Here</a></h3>
+    </div>
+    <div class="single-option-container">
+        <h3>Modify Posts <a href="{% url upgrade_admin:modify_all_posts %}">Here</a></h3>
+    </div>
+    <div class="single-option-container">
+        <h3>Modify Products <a href="{% url upgrade_admin:modify_all_products %}">Here</a></h3>
+    </div>
+    <div class="single-option-container">
+        <h3><em style="color: red">*new*</em> Reports <a href="{% url upgrade_admin:report_health %}">Here</a></h3>
+    </div>
+    <div class="single-option-container">
+        <h3><em style="color: red">*new*</em> Remove Atul's account <a href="{% url upgrade_admin:remove_user_account 'atul' %}">Here</a></h3>
+    </div>
+    <div class="single-option-container">
+        <h3><em style="color: red">*new*</em> Remove Lauren's account <a href="{% url upgrade_admin:remove_user_account 'lauren' %}">Here</a></h3>
+    </div>
+    <div class="single-option-container">
+        <h3><em style="color: red">*new*</em> View Daily Stats <a href="{% url upgrade_admin:report_daily_stats %}">Here</a></h3>
+    </div>
+    <div class="single-option-container">
+        <h3><em style="color: red">*new*</em> Influencer pipeline stats <a href="{% url upgrade_admin:report_pipeline_summary %}">Here</a></h3>
+    </div>
+    <div class="single-option-container">
+        <h3><em style="color: red">*new*</em> Popups demo <a href="{% url upgrade_admin:popups_demo %}">Here</a></h3>
+    </div>
+    <div class="single-option-container">
+        <h3><em style="color: red">*new*</em> Queues list <a href="{% url upgrade_admin:queue-list %}">Here</a></h3>
+    </div>
+    <div class="single-option-container">
+        <h3><em style="color: red">*new*</em> Test influencers <a href="{% url upgrade_admin:influencers_tests %}">Here</a></h3>
+    </div>
+    <div class="single-option-container">
+        <h3><em style="color: red">*new*</em> Manual user verification <a href="{% url upgrade_admin:user_manual_verify %}">Here</a></h3>
+    </div>
+    <div class="single-option-container">
+        <h3><em style="color: red">*new*</em> Brand Signup Form <a href="{% url upgrade_admin:brand_signup %}">Here</a></h3>
+    </div>
+    {% elif visitor.in_qa_team %}
+    <h1>QA team</h1>
+    <div class="single-option-container">
+        <h3>Influencer informations table nonvalidated <a href="/admin/upgrade/influencer/informations/nonvalidated/294255/">Here</a></h3>
+    </div>
+    <div class="single-option-container">
+        <h3>Influencer informations table high priority <a href="/admin/upgrade/influencer/informations/high_priority/">Here</a></h3>
+    </div>
+    {% endif %}
+</div>
+</body>

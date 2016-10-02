@@ -1,0 +1,38 @@
+{% load widget_tweaks %}
+{% load custom_filters %}
+{% load endless %}
+
+<div> Blogspot {{ num_blog_posts }} posts.</div>
+<div> Wordpress {{ num_wordpress_posts }} posts.</div>
+<div> Facebook {{ num_facebook_posts }} posts.</div>
+<div> Twitter {{ num_twitter_posts }} posts.</div>
+<div> Pinterest {{ num_pinterest_posts }} posts.</div>
+<div> Instagram {{ num_instagram_posts }} posts.</div>
+{% lazy_paginate 20 feed_items %}
+{% for item in feed_items %}
+<div class="admin_item user_detail_item">
+    <div class="header">{{  item.url }}
+        <div>
+            {{item.create_date}}
+        </div>
+        <div>
+            {{ item.title }}
+        </div>
+        <div>
+            Comments: {{ item.num_comments }}
+        </div>
+    </div>
+    <div class="user_info">
+        Product URLS:
+        {% for u in item.product_urls %}
+        <a href="{{ u }}"></a>
+        {% endfor %}
+
+        Images:
+        {% for u in item.img_urls %}
+        <a href="{{ u }}"></a>
+        {% endfor %}
+    </div>
+</div>
+{% endfor %}
+{% show_more %}

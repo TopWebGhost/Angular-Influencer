@@ -1,0 +1,129 @@
+{% extends 'pages/admin/base.html' %}
+{% load compressed %}
+
+{% block page_js %}
+{% compressed_js 'angular_admin' %}
+<script type="text/javascript">
+var render_link = function(target){
+    return function(obj) {
+        return "<a target='blank' href='"+obj.aData[target]+"'>"+obj.aData[target]+"</a>";
+    };
+};
+var skip_null = function(target) {
+    return function(obj) {
+        if(obj.aData[target] === "null" || obj.aData[target] === null){
+            return '';
+        }else{
+            return obj.aData[target];
+        }
+    }
+};
+angular.module("theshelfadmin").value("columns", [
+    {
+        'mData': 'id',
+        'sTitle': 'ID#',
+        'editable': false,
+    }, {
+        'mData': 'blog_url',
+        'sTitle': 'URL',
+        'editable': false,
+        'fnRender':  skip_null('blog_url'),
+    }, {
+        'mData': 'email',
+        'sTitle': 'Email',
+        'editable': false,
+        'fnRender':  skip_null('email'),
+    }, {
+        'mData': 'profile_pic_url',
+        'sTitle': 'Pic',
+        'editable': false,
+        'bSortable': false,
+        'fnRender':  function(obj) {
+            return '<img width="50px" src="'+obj.aData['profile_pic_url']+'"><span style="display: none">'+obj.aData['profile_pic_url']+'</span>';
+        }
+    }, {
+        'mData': 'blogname',
+        'sTitle': 'Blog<br>Name',
+        'editable': false,
+        'fnRender':  skip_null('blogname'),
+    }, {
+        'mData': 'name',
+        'sTitle': 'Blogger<br>Name',
+        'editable': false,
+        'fnRender':  skip_null('name'),
+    }, {
+        'mData': 'description',
+        'sTitle': 'Desc',
+        'editable': false,
+        'fnRender':  skip_null('description'),
+    }, {
+        'mData': 'about_url',
+        'sTitle': 'About<br>URL',
+        'editable': false,
+        'fnRender':  skip_null('about_url'),
+    }, {
+        'mData': 'demographics_location',
+        'sTitle': 'Loc',
+        'editable': false,
+        'fnRender':  skip_null('demographics_location'),
+    }, {
+        'mData': 'fb_url',
+        'sTitle': 'FB<br>URL',
+        'editable': false,
+        'fnRender':  skip_null('fb_url'),
+    }, {
+        'mData': 'tw_url',
+        'sTitle': 'Twit<br>URL',
+        'editable': false,
+        'fnRender':  skip_null('tw_url'),
+    }, {
+        'mData': 'pin_url',
+        'sTitle': 'Pin<br>URL',
+        'editable': false,
+        'fnRender':  skip_null('pin_url'),
+    }, {
+        'mData': 'insta_url',
+        'sTitle': 'IG<br>URL',
+        'editable': false,
+        'fnRender':  skip_null('insta_url'),
+    }, {
+        'mData': 'bloglovin_url',
+        'sTitle': 'BL<br>URL',
+        'editable': false,
+        'fnRender':  skip_null('bloglovin_url'),
+    }, {
+        'mData': 'lb_url',
+        'sTitle': 'LB<br>URL',
+        'editable': false,
+        'fnRender':  skip_null('lb_url'),
+    },
+    // {
+    //     'mData': 'pose_url',
+    //     'sTitle': 'Pose',
+    //     'fnRender': render_link('pose'),
+    //     'editable': false,
+    // },
+    {
+        'mData': 'youtube_url',
+        'sTitle': 'Youtube',
+        'editable': false,
+        'fnRender':  skip_null('youtube_url'),
+    }
+]);
+</script>
+{% endblock %}{% block page_css %}
+
+<style type="text/css">
+body { overflow-x: scroll; height:100%; }
+@media screen and (min-width:1px) and (max-width:1000px) { table.data_table td { max-width:50px!important; } }
+@media screen and (min-width:1001px) and (max-width:1400px) { table.data_table td { max-width:75px!important; } }
+@media screen and (min-width:1401px) and (max-width:5000px) { table.data_table td { max-width:100px!important; } }
+
+</style>
+{% endblock %} {% block content %}
+<div ng-app="theshelfadmin">
+    <table admin-form source="/admin/upgrade/influencer/fashion/debug/" class="data_table" skip-actions skip-date-validated>
+    </table>
+</div>
+{% endblock %}
+

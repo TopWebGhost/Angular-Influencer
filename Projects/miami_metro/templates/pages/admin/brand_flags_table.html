@@ -1,0 +1,138 @@
+{% extends 'pages/admin/base.html' %}
+{% load compressed %}
+
+{% block page_js %}
+{% compressed_js 'angular_admin' %}
+<script type="text/javascript">
+
+var render_link = function(target){
+    return function(obj) {
+        if(obj.aData[target] === "null" || obj.aData[target] === null){
+            return '';
+        }else{
+            return "<a target='blank' href='http://"+obj.aData[target]+"'>"+obj.aData[target]+"</a>";
+        }
+    };
+};
+var render_email = function(target){
+    return function(obj) {
+        if(obj.aData[target] === "null" || obj.aData[target] === null){
+            return '';
+        }else{
+            return "<a target='blank' href='mailto://"+obj.aData[target]+"'>"+obj.aData[target]+"</a>";
+        }
+    };
+};
+angular.module("theshelfadmin").value("columns", [
+    {
+        'mData': 'date_joined',
+        'sTitle': 'Date of signup',
+        'editable': false,
+        'bSortable': false,
+    }, {
+        'mData': 'name',
+        'sTitle': 'Brand name',
+        'sWidth': '120px',
+    },{
+        'mData': 'domain_name',
+        'sTitle': 'Brand URL',
+        'sWidth': '120px',
+        'fnRender': render_link('domain_name')
+    },  {
+        'mData': 'user_name',
+        'sTitle': 'User name',
+        'sWidth': '100px',
+        'editable': false,
+        'bSortable': false,
+    }, {
+        'mData': 'email',
+        'sTitle': 'User Email',
+        'sWidth': '170px',
+        'fnRender':  render_email('email'),
+        'editable': false,
+        'bSortable': false,
+    }, {
+        'mData': 'suspended',
+        'sTitle': 'Suspended',
+        'type': 'select',
+        'source': "{'':'Please select...', 1: 'true', 0: 'false',}",
+    }, {
+        'mData': 'show_other_plans',
+        'sTitle': 'Show other plans',
+        'type': 'select',
+        'source': "{'':'Please select...', 1: 'true', 0: 'false',}",
+    }, {
+        'mData': 'locked',
+        'sTitle': 'Access locked',
+        'type': 'select',
+        'source': "{'':'Please select...', 1: 'true', 0: 'false',}",
+    }, {
+        'mData': 'report_roi_prediction',
+        'sTitle': 'Report ROI-prediction',
+        'type': 'select',
+        'source': "{'':'Please select...', 1: 'true', 0: 'false',}",
+    }, {
+        'mData': 'availiable_plan',
+        'sTitle': 'Features',
+        'type': 'select',
+        'sWidth': '240px',
+        // 'source': "{'':'Please select...', 'pro': 'Pro', 'enterprise': 'Enterprise', 'enterprise_200': 'Enterprise $200', 'enterprise_300': 'Enterprise $300', 'enterprise_400': 'Enterprise $400', 'enterprise_500': 'Enterprise $500', 'enterprise_800': 'Enterprise $800', 'agency_yearly_12000': 'Agency Yearly $12000', 'agency_yearly_15000': 'Agency Yearly $15000', 'agency_yearly_20000': 'Agency Yearly $20000', 'agency_yearly_25000': 'Agency Yearly $25000', 'agency_yearly_30000': 'Agency Yearly $30000'}",
+        'source': "{'': 'Please select...', {% for plan in stripe_plans %}'{{plan.0}}': '{{plan.1}}',{% endfor %} }",
+    }, {
+        'mData': 'compete_api_key_available',
+        'sTitle': 'Compete API key available',
+        'type': 'select',
+        'source': "{'':'Please select...', 1: 'true', 0: 'false',}",
+    }, {
+        'mData': 'compete_api_key',
+        'sTitle': 'Compete API key',
+    }, {
+        'mData': 'one_time_fee',
+        'sTitle': 'One time fee',
+        'editable': true
+    }, {
+        'mData': 'services_plan',
+        'sTitle': 'Services Plan',
+        'type': 'select',
+        'source': "{'':'Please select...', 1: 'true', 0: 'false',}",
+    }, {
+        'mData': 'analytics_tab_visible',
+        'sTitle': 'Show Analytics Tab',
+        'type': 'select',
+        'source': "{'':'Please select...', 1: 'true', 0: 'false',}",
+    }, {
+        'mData': 'is_agency',
+        'sTitle': 'Is agency',
+        'type': 'select',
+        'source': "{'':'Please select...', 1: 'true', 0: 'false',}",
+    }, {
+        'mData': 'and_or_filter_on',
+        'sTitle': 'AND/OR filter',
+        'type': 'select',
+        'source': "{'':'Please select...', 1: 'true', 0: 'false',}",
+    }, {
+        'mData': 'export_collection_on',
+        'sTitle': 'Export Collection?',
+        'type': 'select',
+        'source': "{'':'Please select...', 1: 'true', 0: 'false',}",
+    }, {
+        'mData': 'instagram_search',
+        'sTitle': 'Instagram Search Mode?',
+        'type': 'select',
+        'source': "{'':'Please select...', 1: 'true', 0: 'false',}",
+    },
+]);
+</script>
+{% endblock %}{% block page_css %}
+
+<style type="text/css">
+body { overflow-x: scroll; height:100%; }
+</style>
+{% endblock %} {% block content %}
+<div ng-app="theshelfadmin">
+    <table admin-form source="{{source}}" class="data_table" skip-actions skip-date-edited skip-date-validated>
+    </table>
+</div>
+
+{% endblock %}
+

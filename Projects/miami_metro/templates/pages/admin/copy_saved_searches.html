@@ -1,0 +1,28 @@
+{% load compressed custom_filters %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title></title>
+</head>
+
+<body>
+    <div>
+        <h2>Brand Name: <u>{{ brand.name }}</u></h2>
+
+        <form action="" method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="brand_id" value="{{ brand.id }}" />
+            {% for query in saved_queries %}
+                <div>
+                    <input type="checkbox" id="{{ query.id }}" name="selected_saved_searches" value="{{ query.id }}"/>
+                    <label for="{{ query.id }}">{{ query.name }}</label>
+                </div>
+            {% endfor %}
+            <input type="submit" value="Load" />
+        </form>
+    <div>
+
+</body>
+
+</html>

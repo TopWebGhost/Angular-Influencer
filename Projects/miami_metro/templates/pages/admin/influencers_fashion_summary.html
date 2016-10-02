@@ -1,0 +1,221 @@
+{% extends 'pages/admin/base.html' %} {% load compressed %} {% block page_js %} {% compressed_js 'angular_admin' %} {% endblock %}{% block page_css %} {% endblock %} {% block content %}
+<div style="background:#d9d9d9;">
+    <div ng-app="theshelfadmin">
+        <div class="admin_reports">
+            <div class="main_header">Summary Tables</div>
+            <div class="report_block">
+                <div class="report_header clearfix">
+                    <div class="title">Table 1</div>
+                    <br/>
+                    <div class="description"></div>
+                </div>
+                <div class="report_content">
+                    <div class="row_header_column">
+                        <div class="cell">
+                            <div class="cell_content cell_header">&nbsp;</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header"># of Blog URLs (Non-blacklisted) Analyzed Today </div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header"># of Rows edited today</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header"># not Active </div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header smaller">View</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header"># w/o Fashion Links</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header smaller">View</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header"># w/o Fashion Store Mentions</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header smaller">View</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header"># w/o Fashion Widgets</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header smaller">View</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header"># w/o Images</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header smaller">View</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header"># w/o Comments</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header smaller">View</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header"># of approved URLs</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header smaller">View</div>
+                        </div>
+
+                    </div>
+                    {% for report in reports %}
+                    <div class="date_column {% if forloop.first %}current{% endif %}">
+                        <div class="cell">
+                            <div class="cell_content cell_header">{{report.date|date:"n/j/y"}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.total_urls}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.edited}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.not_active}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">
+                                <div class="square_bt xxs lt_gray_bt" spawns-popup="not_active_{{forloop.counter}}">View</div>
+                            </div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.wo_fashion_links}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">
+                                <div class="square_bt xxs lt_gray_bt" spawns-popup="wo_fashion_links_{{forloop.counter}}">View</div>
+                            </div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.wo_fashion_store_mentions}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">
+                                <div class="square_bt xxs lt_gray_bt" spawns-popup="wo_fashion_store_mentions_{{forloop.counter}}">View</div>
+                            </div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.wo_fashion_widgets}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">
+                                <div class="square_bt xxs lt_gray_bt" spawns-popup="wo_fashion_widgets_{{forloop.counter}}">View</div>
+                            </div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.wo_images}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">
+                                <div class="square_bt xxs lt_gray_bt" spawns-popup="wo_images_{{forloop.counter}}">View</div>
+                            </div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.wo_comments}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">
+                                <div class="square_bt xxs lt_gray_bt" spawns-popup="wo_comments_{{forloop.counter}}">View</div>
+                            </div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.approved}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">
+                                <div class="square_bt xxs lt_gray_bt" spawns-popup="approved_{{forloop.counter}}">View</div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        {% for report in reports %}
+        <div admin-popup="not_active_{{forloop.counter}}">
+            <div style="color: white">
+                <div style="overflow-y: scroll; height: 500px">
+                    {% for url in report.urls_not_active %}
+                    <a href="{{url}}" target="blank">
+                        <div class="white">{{url}}</div>
+                    </a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div admin-popup="wo_fashion_links_{{forloop.counter}}">
+            <div style="color: white">
+                <div style="overflow-y: scroll; height: 500px">
+                    {% for url in report.urls_wo_fashion_links %}
+                    <a href="{{url}}" target="blank">
+                        <div class="white">{{url}}</div>
+                    </a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div admin-popup="wo_fashion_store_mentions_{{forloop.counter}}">
+            <div style="color: white">
+                <div style="overflow-y: scroll; height: 500px">
+                    {% for url in report.urls_wo_fashion_store_mentions %}
+                    <a href="{{url}}" target="blank">
+                        <div class="white">{{url}}</div>
+                    </a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div admin-popup="wo_fashion_widgets_{{forloop.counter}}">
+            <div style="color: white">
+                <div style="overflow-y: scroll; height: 500px">
+                    {% for url in report.urls_wo_fashion_widgets %}
+                    <a href="{{url}}" target="blank">
+                        <div class="white">{{url}}</div>
+                    </a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div admin-popup="wo_images_{{forloop.counter}}">
+            <div style="color: white">
+                <div style="overflow-y: scroll; height: 500px">
+                    {% for url in report.urls_wo_images %}
+                    <a href="{{url}}" target="blank">
+                        <div class="white">{{url}}</div>
+                    </a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div admin-popup="wo_comments_{{forloop.counter}}">
+            <div style="color: white">
+                <div style="overflow-y: scroll; height: 500px">
+                    {% for url in report.urls_wo_comments %}
+                    <a href="{{url}}" target="blank">
+                        <div class="white">{{url}}</div>
+                    </a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div admin-popup="approved_{{forloop.counter}}">
+            <div style="color: white">
+                <div style="overflow-y: scroll; height: 500px">
+                    {% for url in report.urls_approved %}
+                    <a href="{{url}}" target="blank">
+                        <div class="white">{{url}}</div>
+                    </a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+
+    </div>
+</div>
+{% endblock %}

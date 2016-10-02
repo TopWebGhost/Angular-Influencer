@@ -1,0 +1,100 @@
+{% extends 'pages/admin/base.html' %} {% load compressed %} {% block page_js %} {% compressed_js 'angular_admin' %} {% endblock %}{% block page_css %} {% endblock %} {% block content %}
+<div style="background:#d9d9d9;">
+    <div ng-app="theshelfadmin">
+        <div class="admin_reports">
+            <div class="main_header">Summary Tables</div>
+            <div class="report_block">
+                <div class="report_header clearfix">
+                    <div class="title">Table 1</div>
+                    <br/>
+                    <div class="description"></div>
+                </div>
+                <div class="report_content">
+                    <div class="row_header_column">
+                        <div class="cell">
+                            <div class="cell_content cell_header">&nbsp;</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header">Total URL’s analyzed TODAY</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header"># of Rows Edited</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header"># of Final Blacklisted Rows</div>
+                        </div>
+                    </div>
+                    {% for report in reports %}
+                    <div class="date_column {% if forloop.first %}current{% endif %}">
+                        <div class="cell">
+                            <div class="cell_content cell_header">{{report.date|date:"n/j/y"}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.total_urls}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.edited}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.blacklisted}}</div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="report_block">
+                <div class="report_header clearfix">
+                    <div class="title">Table 2</div>
+                    <br/>
+                    <div class="description"></div>
+                </div>
+                <div class="report_content">
+                    <div class="row_header_column">
+                        <div class="cell">
+                            <div class="cell_content cell_header">&nbsp;</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header"># Dead URLs</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header"># Not a URL</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header"># Stores</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header"># Not a blog</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header"># Squatter</div>
+                        </div>
+                    </div>
+                    {% for report in reports %}
+                    <div class="date_column {% if forloop.first %}current{% endif %}">
+                        <div class="cell">
+                            <div class="cell_content cell_header">{{report.date|date:"n/j/y"}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.reason_dead}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.reason_noturl}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.reason_store}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.reason_notblog}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.reason_squat}}</div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

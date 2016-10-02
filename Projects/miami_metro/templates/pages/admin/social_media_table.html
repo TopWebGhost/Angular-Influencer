@@ -1,0 +1,45 @@
+{% extends 'pages/admin/base.html' %}
+{% load compressed %}
+
+{% block page_js %}
+{% compressed_js 'angular_admin' %}
+<script type="text/javascript">
+var skip_null = function(target) {
+    return function(obj) {
+        if(obj.aData[target] === "null" || obj.aData[target] === null){
+            return '&nbsp';
+        }else{
+            return obj.aData[target];
+        }
+    }
+};
+angular.module("theshelfadmin").value("columns", [
+    {
+        'mData': 'name',
+        'sTitle': 'URL link',
+        'editable': false,
+        'bSortable': false,
+        'fnRender':  function(obj) {
+            return "<a target='blank' href='"+obj.aData.blog_url+"'>"+obj.aData.name+"</a>";
+        }
+    }, {
+        'mData': 'fb_activity',
+        'sTitle': 'FB',
+        'editable': false,
+        'bSortable': false,
+    }
+]);
+</script>
+{% endblock %}{% block page_css %}
+
+<style type="text/css">
+body { overflow-x: scroll; height:100%; }
+</style>
+{% endblock %} {% block content %}
+<div ng-app="theshelfadmin">
+    <table admin-form source="{{source}}" class="data_table" skip-actions skip-date-edited skip-date-validated>
+    </table>
+</div>
+
+{% endblock %}
+

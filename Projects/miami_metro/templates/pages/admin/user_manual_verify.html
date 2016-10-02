@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title></title>
+</head>
+
+<body>
+    <div>
+        Fill one and click 'Lookup user':
+        <form action="" method="POST">
+            {% csrf_token %}
+            <input name="email" type="text" placeholder="Email"/>
+            <input name="brand" type="text" placeholder="Brand id"/>
+            <input name="influencer" type="text" placeholder="Influencer id"/>
+            <input name="user" type="text" placeholder="User id"/>
+            <input name="brand_domain_name" type="text" placeholder="Brand domain name"/>
+            <input name="campaign_id" type="text" placeholder="Campaign ID"/>
+            <input type="submit" value="Lookup user" />
+        </form>
+        {% if users %}
+            {% for user in users %}
+                {% if user.type and user.type != "shopper" %}
+                    <h1>{{user.username}} - {{user.type}}, user id={{user.id}}</h1>
+                    <h2>Email Verified: {{user.is_active}}</h2>
+                    {% if not user.is_active %}
+                    <form action="{% url upgrade_admin:user_manual_verify_confirm %}" method="POST">
+                        {% csrf_token %}
+                        <input name="email" type="hidden" value="{{user.email}}" />
+                        <input name="type" type="hidden" value="email" />
+                        <input type="submit" value="Autoverify Email" />
+                    </form>
+                    {% endif %}
+                    {% if user.type == "brand" %}
+                        <h2>Brand Verified: {{user.verified}}</h2>
+                        <h2>Subscribed: {{ user.subscribed }}</h2>
+                        <h2>Brand domain: <a href="http://{{user.brand}}">{{user.brand}}</a></h2>
+                        <h2>Date joined: {{user.date_joined}}</h2>
+                        <h2><a href="{% url upgrade_admin:login_as_user user.id %}">Login as {{user.brand}}</a></h2>
+                        {% if user.brand_id %}
+                            <h2><a href="{% url upgrade_admin:brand_usage_details user.brand_id %}">Show more details about {{user.brand}}</a></h2>
+                            <h2><a href="{% url upgrade_admin:copy_saved_searches %}?brand_id={{ user.brand_id }}&user_id={{ user.id }}" target="_blank">Add Saved Searches</a></h2>
+                        {% endif %}
+                        {% if not user.verified %}
+                        <form action="{% url upgrade_admin:user_manual_verify_confirm %}" method="POST">
+                            {% csrf_token %}
+                            <input name="email" type="hidden" value="{{user.email}}" />
+                            <input name="type" type="hidden" value="{{user.type}}" />
+                            <input type="submit" value="Verify Brand" />
+                        </form>
+                        {% endif %}
+                        {% if user.brand_id %}
+                        <form action="{% url upgrade_admin:brand_trial_on %}" method="POST">
+                            {% csrf_token %}
+                            <input name="brand_id" type="hidden" value="{{user.brand_id}}" />
+                            <input type="submit" value="{% if user.trial_on %}Disable{% else %}Enable{% endif %} Trial?" />
+                        </form>
+                        <form action="{% url upgrade_admin:brand_fake_mode_on %}" method="POST">
+                            {% csrf_token %}
+                            <input name="brand_id" type="hidden" value="{{user.brand_id}}" />
+                            <input type="submit" value="{% if user.flag_show_dummy_data %}Disable{% else %}Enable{% endif %} Dummy Data?" />
+                        </form>
+                        {% endif %}
+                    {% elif user.type == "blogger" %}
+                        <h2>Blogger Verified: {{user.verified}}</h2>
+                        <h2>Blog url: <a href="{{user.blog}}">{{user.blog}}</a></h2>
+                        {% if user.userprofile.influencer %}
+                        <h2>Show on search: {% if user.userprofile.influencer.show_on_search %}Yes{% else %}No{% endif %}</h2>
+                        <h2>Profile: <a href="{{user.userprofile.influencer.about_page}}">{{user.userprofile.influencer.about_page}}</a></h2>
+                        {% endif %}
+                        <h2>Date joined: {{user.date_joined}}</h2>
+                        {% if user.userprofile.influencer and user.userprofile.influencer.show_on_search %}
+                        <form action="{% url upgrade_admin:hide_influencer_from_search %}" method="POST">
+                            {% csrf_token %}
+                            <input name="influencer_id" type="hidden" value="{{user.userprofile.influencer.id}}">
+                            <input type="submit" value="Delete and hide from search">
+                        </form>
+                        {% endif %}
+                        {% if not user.verified %}
+                        <form action="{% url upgrade_admin:user_manual_verify_confirm %}" method="POST">
+                            {% csrf_token %}
+                            <input name="email" type="hidden" value="{{user.email}}" />
+                            <input name="type" type="hidden" value="{{user.type}}" />
+                            <input type="submit" value="Verify Blogger" />
+                        </form>
+                        {% endif %}
+                    {% endif %}
+                    <form action="{% url upgrade_admin:set_trial_password %}" method="POST">
+                        {% csrf_token %}
+                        <input name="user_id" type="hidden" value="{{user.id}}" />
+                        <input type="submit" value="Set Trial Password" />
+                    </form>
+                {% endif %}
+            {% endfor %}
+        {% elif request.method == "POST" %}
+            No results found.
+        {% endif %}
+    <div>
+
+</body>
+
+</html>

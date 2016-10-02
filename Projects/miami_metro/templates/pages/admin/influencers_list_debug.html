@@ -1,0 +1,63 @@
+{% extends 'pages/admin/base.html' %}
+{% load compressed %}
+
+{% block page_js %}
+{% compressed_js 'angular_admin' %}
+<script type="text/javascript">
+var skip_null = function(target) {
+    return function(obj) {
+        if(obj.aData[target] === "null" || obj.aData[target] === null){
+            return '';
+        }else{
+            return obj.aData[target];
+        }
+    }
+};
+angular.module("theshelfadmin").value("columns", [
+    {
+        'mData': 'id',
+        'sTitle': 'ID#',
+        'editable': false,
+    }, {
+        'mData': 'blog_url',
+        'sTitle': 'URL',
+        'editable': false,
+        'bSortable': false,
+        'fnRender':  skip_null('blog_url'),
+    },
+    {
+        'mData': 'platform',
+        'sTitle': 'Platform',
+        'editable': false,
+        'bSortable': false,
+        'fnRender':  skip_null('platform'),
+    },
+    {
+        'mData': 'blacklisted',
+        'sTitle': 'Black<br/>Listed',
+        'editable': false,
+    },
+    {
+        'mData': 'problem',
+        'sTitle': 'Reason',
+        'editable': false,
+        'fnRender':  skip_null('problem'),
+    },
+]);
+</script>
+{% endblock %}{% block page_css %}
+
+<style type="text/css">
+body { overflow-x: scroll; height:100%; }
+@media screen and (min-width:1px) and (max-width:1000px) { table.data_table td { max-width:50px!important; } }
+@media screen and (min-width:1001px) and (max-width:1400px) { table.data_table td { max-width:75px!important; } }
+@media screen and (min-width:1401px) and (max-width:5000px) { table.data_table td { max-width:100px!important; } }
+
+</style>
+{% endblock %} {% block content %}
+<div ng-app="theshelfadmin">
+    <table admin-form source="/admin/upgrade/influencer/list/debug/" class="data_table" skip-actions date-validated-position="1">
+    </table>
+</div>
+{% endblock %}
+

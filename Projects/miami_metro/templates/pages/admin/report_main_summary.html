@@ -1,0 +1,250 @@
+{% extends 'pages/admin/base.html' %} {% load compressed %} {% block page_js %} {% compressed_js 'angular_admin' %} {% endblock %}{% block page_css %} {% endblock %} {% block content %}
+<div style="background:#d9d9d9;">
+    <div ng-app="theshelfadmin">
+        <div class="admin_reports">
+            <div class="main_header">Summary Tables</div>
+            <div class="report_block">
+                <div class="report_header clearfix">
+                    <div class="title">Main summary</div>
+                    <br/>
+                    <div class="description"></div>
+                </div>
+                <div class="report_content">
+                    <div class="row_header_column">
+                        <div class="cell">
+                            <div class="cell_content cell_header">&nbsp;</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header">Table 1 : How many URLs were Automatically Processed</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header">Table 1 : QAed</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header">Table 1 : How many Pre-processed</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header">Table 1 : How many validated</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header">Table 1 : How many Blacklisted</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header">Table 1 : How many proceeded to Table 2</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header">Table 2 : How many URLs were Pre-Processed</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header">Table 2 : How many validated</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header">Table 2 : How many Non-fashion URLs?</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header">Table 2 : How many Non-active URLs?</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header">Table 2 : How many Rechecks?</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header">Table 2 : How many Proceed to Table 3?</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header">Table 3 : How many URLs were pre Processed</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header">Table 3: How many URLs were validated</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header">Table 4 : How many were pre-processed</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header">Table 4 : How many FB were pre-processed</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header">Table 4 : How many TW were pre-processed</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header">Table 4 : How many PIN were pre-processed</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header">Table 4 : How many INSTA were pre-processed</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header">Table 4 : How many were validated</div>
+                        </div>
+
+
+                        <div class="cell">
+                            <div class="cell_content header">Table 5 : How many had errors</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header">Table 5 : How many had 100 posts</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header">Table 5 : How many has products imported</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header">Table 5 : How many were denormalized</div>
+                        </div>
+
+                        <div class="cell">
+                            <div class="cell_content header">Table 6 : How many were added to search</div>
+                        </div>
+
+                        <div class="cell">
+                            <div class="cell_content header">How many current bloggers on search</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header">How many were scraped today</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header">How many had a new blog post</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header">How man had a new product</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header">How many have Instagram</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header">How many have Instagram posts</div>
+                        </div>
+                    </div>
+                    {% for report in reports %}
+                    <div class="date_column {% if forloop.first %}current{% endif %}">
+                        <div class="cell">
+                            <div class="cell_content cell_header">{{report.date|date:"n/j/y"}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">? <!-- Table 1 : How many URLs were Automatically Processed --></div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.t1_qaed}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.t1_preprocessed}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.t1_validated}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.t1_blacklisted}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.t1_proceed}}</div>
+                        </div>
+
+
+
+                        <div class="cell">
+                            <div class="cell_content small_cell">? <!-- Table 1 : How many in the Queue for QA --></div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">? <!-- Table 2 : How many URLs were Automatically Processed --></div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.t2_qaed}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.t2_validated}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.t2_notactive}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.t2_nonfashion}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.t2_proceed}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.t2_proceed}}</div>
+                        </div>
+
+
+
+                        <div class="cell">
+                            <div class="cell_content small_cell">? <!-- Table 3 : How many URLs were automatically Processed --></div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.t3_preprocessed}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.t3_validated}}</div>
+                        </div>
+
+
+
+
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.t4_preprocessed}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.t4_fb_processed}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.t4_tw_processed}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.t4_pin_processed}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.t4_insta_processed}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.t4_validated}}</div>
+                        </div>
+
+
+
+
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.t5_error}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.t5_100_posts}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.t5_products_imported}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.t5_denormalized}}</div>
+                        </div>
+
+
+
+
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.t6_added_to_search}}</div>
+                        </div>
+
+
+
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.t7_existing_in_search}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.t7_existing_blogs_scraped}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.t7_had_new_posts}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.t7_had_new_products}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.t7_how_many_have_instagram}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.t7_had_new_instagram_posts}}</div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,161 @@
+{% load widget_tweaks %}
+{% load custom_filters %}
+
+{% for user in users %}
+<div class="admin_item user_item">
+    <form action="{% url upgrade_admin:modify_user user.id %}" method='post' class="modify_user_form">{% csrf_token %}
+        <div class="table_row">
+            <div class="table_cell">
+                <img src="{{ user.profile_img_url }}" style="display:inline-block;" />
+                <div style="display:inline-block;">
+                    <div class="more_large less_gray rale_1">{{ user|user_name_or_email }}</div>
+                    <div class="small rale_2">{% if user.is_blogger %}Blogger{% else %}Shopper{% endif %}</div>
+                </div>
+            </div>
+            <div class="table_cell">
+                <a href="{{ user.blog_page }}" class="smallermedium txt_link darker_teal">{{ user|blog_name_or_url }}</a>
+                <div class="user_email">{{ user.user.email }}</div>
+                <div class="friendly_tag">
+                    <fieldset>
+                        <div>
+                            <label>Friendly</label>
+                            <input type="checkbox" name="friendly_tag"{% if user.friendly_tag %} checked{% endif %} />
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+            <div class="table_cell">
+                <table>
+                    <tr>
+                        <td>
+                            <label>Widgets Access</label>
+                            <input type="checkbox" name="privilege_level" value={{ user.WIDGETS_PRIVILEGES }}{% if user.widgets_privileges %} checked{% endif %} />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>Trendsetter</label>
+                            <input type="checkbox" name="is_trendsetter"{% if user.is_trendsetter %} checked{% endif %} />
+                        </td>
+                        <td>
+                            <div class="square_bt md gray_bt rounded">Send Email</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>Quality</label>
+                            <input type="checkbox" name="quality_tag"{% if user.quality_tag %} checked{% endif %} />
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="table_row soc_row">
+{#            {% for platform in user.get_all_platforms %}#}
+{#            <div class="table_cell soc_item {{ platform.css_name }} small">#}
+{#                <div class="square_bt social_bt {{ platform.css_name }}"></div>#}
+{#                <div class="soc_value">{{ platform.num_following|zero_if_none }}</div>#}
+{#            </div>#}
+{#            {% endfor %}#}
+            <div class="table_cell small">
+                <fieldset>
+                    <div>
+                        <label>Popularity</label>
+                        {% for key,val in user.POPULARITY_CHOICES %}
+                        <input type="radio" name="popularity_rank" value="{{ key }}"{% if user.popularity_rank == key %} checked{% endif %}>{{ val }}</input>
+                        {% endfor %}
+                    </div>
+                </fieldset>
+            </div>
+        </div>
+        <div class="table_row inputs">
+            <div class="table_cell large">
+                <div class="cell_header">Tags</div>
+                <div class="tags_container">
+                    {% for tag in user.classification_tags_list %}
+                    <div class="clearfix">
+                        <input type="checkbox" class="admin_classification" value="{{ tag }}" checked/>
+                        <label>{{ tag }}</label>
+                    </div>
+                    {% endfor %}
+                </div>
+                <input type="hidden" name="admin_classification_tags"  />
+                <div class="new_tag_btn square_bt md rounded gray_bt">New Tag</div>
+                <fieldset class="typical_form new_tag_entry" style="display:none;margin-top:10px;">
+                    <input type="text" />
+                    <button class="square_bt xsmall rounded gray_bt">Add</button>
+                </fieldset>
+            </div>
+            <div class="table_cell large">
+                <div class="cell_header">Connector Type</div>
+                {% for key,val in user.CONNECTOR_TYPES %}
+                <div class="clearfix">
+                    <input type="radio" name="connector_tag" value="{{ key }}"{% if user.connector_tag == key %} checked{% endif %} />
+                    <label>{{ val }}</label>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="table_cell large">
+                <div class="cell_header">Outreach Plan</div>
+                {% for key,val in user.ADMIN_ACTIONS %}
+                <div class="clearfix">
+                    <input type="radio" name="admin_action" value="{{ key }}"{% if user.admin_action == key %} checked{% endif %} />
+                    <label>{{ val }}</label>
+                </div>
+                {% endfor %}
+                <div class="square_bt md rounded gray_bt">Send Collage Email</div>
+            </div>
+        </div>
+        <div class="table_row">
+            <div class="table_cell small uppercase gray">
+                <a href="{% url upgrade_admin:admin_signin user.id %}" class="square_bt md rounded gray_bt">Login</a>
+                <div class="delete_btn square_bt md rounded gray_bt" data-delete-url="{% url upgrade_admin:admin_delete_user user.id %}">Delete User</div>
+                <button class="submit_button square_bt md rounded teal_bt_dk ">Save</button>
+                <fieldset class="hidden">
+                    <label class="server_error"></label>
+                </fieldset>
+            </div>
+        </div>
+        <div class="table_row">
+            <div class="table_cell small uppercase gray">
+                Tot Visits: <span class="sans_bold">45</span> &nbsp;&nbsp;
+                Product Widgets: <span class="sans_bold">20</span> &nbsp;&nbsp;
+                Lotteries: <span class="sans_bold">0</span> &nbsp;&nbsp;
+                Items: <span class="sans_bold">{{ user.num_items_in_shelves|zero_if_none }}</span> &nbsp;&nbsp;
+                <a class="square_bt md rounded gray_bt" href="{% url upgrade_admin:admin_user_details user.id %}">Details</a>
+                <span class="txt_link darker_teal intercom_messages" data-get-url="{% url upgrade_admin:intercom_messages user.id %}">Intercom Messages</span>
+            </div>
+        </div>
+        {% if user.has_collage %}
+        <div class="table_row">
+            <div class="table_cell user_collage">
+                <div class="fd_hl_shlvr_cont">
+                    <div class="fd_hl_shelver" style="cursor: pointer;">
+                        <div class="le_bucket">
+                            <div class="le_block block_1">
+                                <div class="top"><img src="{{user.image1}}?{{ rand }}"/></div>
+                                <div class="btm"><img src="{{user.image2}}?{{ rand }}"/></div>
+                            </div>
+                            <a href="{{user.profile_url}}" class="le_block block_2"><img src="{{user.image3}}?{{ rand }}" /></a>
+                            <a href="{{user.profile_url}}" class="le_block block_3"><img src="{{user.image4}}?{{ rand }}" /></a>
+                            <div class="le_block block_4">
+                                <div class="top"><img src="{{user.image5}}?{{ rand }}" /></div>
+                                <a href="{{user.profile_url}}" class="middle"><p class="btn_hl_shelver" style="color:white;">View Profile</p></a>
+                                <div class="btm stop">
+                                </div>
+                            </div>
+                            <a href="{{user.profile_url}}" class="le_block block_5"><img src="{{user.image7}}?{{ rand }}" /></a>
+                            <a href="{{user.profile_url}}" class="le_block block_6"><img src="{{user.image8}}?{{ rand }}" /></a>
+                            <div class="le_block block_7">
+                                <div class="top"><img src="{{user.image9}}?{{ rand }}" /></div>
+                                <div class="btm"><img src="{{user.image10}}?{{ rand }}" /></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </form>
+</div>
+{% endfor %}

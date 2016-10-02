@@ -1,0 +1,45 @@
+{% load widget_tweaks %}
+{% load custom_filters %}
+
+{% for product in products %}
+<div class="admin_item product_item feed_item{% if product.show_on_feed %} on_feed{% endif %}" data-item-id="{{ product.id }}">
+    <div class="indi_img">
+        <div class="feed_btns">
+            <div class="feed_btns_container">
+                <div class="square_bt pink_bt_w_teal lg marker item_error" data-error-type="not a product">
+                    <span class="label">Not a Product</span>
+                </div>
+                <div class="square_bt gray_bt lg marker item_error" data-error-type="innacurate">
+                    <span class="label">Inaccurate</span>
+                </div>
+                <div class="square_bt gray_bt lg marker item_ugly">
+                    <span class="label">Dont Show On Feed</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="img_wrapper">
+            <img src="{{product.img_url_panel_view}}" alt="inspiration item" />
+        </div>
+
+        <div class="image_label_dt">
+            <p>{{ product.added_datetime }}</p>
+        </div>
+        <!-- pricing info -->
+        <div class="image_label_price" >
+            {% if product.current_product_price.price > 0 %}
+                {%  if product.current_product_price.orig_price > product.current_product_price.price %}
+                    <p class="price on_sale">${{product.current_product_price.price|floatformat:2}}&nbsp;<span class="discounted">${{product.current_product_price.orig_price|floatformat:2}}</span></p>
+                {% else %}
+                    <p class="price">${{product.current_product_price.price|floatformat:2}}</p>
+                {%  endif %}
+            {%  endif %}
+            <p class="the_name">{{product.product_model.brand.name|remove_dot_com}}
+                {% if product.product_model.designer_name %}
+                <span class="brand_name">{{product.product_model.designer_name}} </span>
+                {% endif %}
+            </p>
+        </div>
+    </div>
+</div>
+{% endfor %}

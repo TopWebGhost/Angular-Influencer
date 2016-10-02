@@ -1,0 +1,120 @@
+{% extends 'pages/admin/base.html' %}
+{% load compressed %}
+
+{% block page_js %}
+{% compressed_js 'angular_admin' %}
+<script type="text/javascript">
+
+var render_link = function(target){
+    return function(obj) {
+        if(obj.aData[target] === "null" || obj.aData[target] === null){
+            return '';
+        }else{
+            return "<a target='blank' href='"+obj.aData[target]+"'>"+obj.aData[target]+"</a>";
+        }
+    };
+}
+var skip_null = function(target) {
+    return function(obj) {
+        if(obj.aData[target] === "null" || obj.aData[target] === null){
+            return '';
+        }else{
+            return obj.aData[target];
+        }
+    }
+};
+var select = function(settings) {
+    return function(obj) {
+
+        if(obj.aData[settings.target] === "null" || obj.aData[settings.target] === null){
+            return '';
+        }else{
+            return obj.aData[target];
+        }
+    }
+};
+angular.module("theshelfadmin").value("columns", [
+    {
+        'mData': 'id',
+        'sTitle': 'ID#',
+        'editable': false,
+    }, {
+        'mData': 'email',
+        'sTitle': 'Email',
+        'editable': false,
+        'fnRender':  skip_null('email'),
+    }, {
+        'mData': 'date_signedup',
+        'sTitle': 'Sign Up Date',
+        'editable': false,
+        'bSortable': false,
+    },{
+        'mData': 'has_userprofile',
+        'sTitle': 'User Profile?',
+        'editable': false,
+        'bSortable': false,
+    }, {
+        'mData': 'blog_page',
+        'sTitle': 'BLOG PAGE',
+        'editable': true,
+        'bSortable': false,
+        'fnRender': render_link('blog_page')
+    }, {
+        'mData': 'has_influencer',
+        'sTitle': 'Influencer?',
+        'editable': false,
+        'bSortable': false,
+    },{
+        'mData': 'inf_blog_url',
+        'sTitle': 'BLOG URL',
+        'editable': false,
+        'bSortable': false,
+        'fnRender': render_link('inf_blog_url')
+    }, {
+        'mData': 'inf_show_on_search',
+        'sTitle': 'On Search?',
+        'bSortable': false,
+        'editable': false,
+        'fnRender': skip_null('inf_show_on_search')
+    },{
+        'mData': 'inf_about_page',
+        'sTitle': 'Profile link',
+        'editable': false,
+        'bSortable': false,
+        'fnRender': render_link('inf_about_page')
+    }, {
+        'mData': 'inf_blogname',
+        'sTitle': 'Blog<br>Name',
+        'bSortable': false,
+        'fnRender':  skip_null('inf_blogname'),
+    }, {
+        'mData': 'inf_name',
+        'sTitle': 'Blogger<br>Name',
+        'bSortable': false,
+        'fnRender':  skip_null('inf_name'),
+    },{
+        'mData': 'inf_blacklisted',
+        'sTitle': 'Black<br/>Listed',
+        'editable': false,
+        'bSortable': false,
+    },{
+        'mData': 'inf_is_qaed',
+        'sTitle': 'QA-ed?',
+        'editable': false,
+        'bSortable': false,
+    }
+]);
+</script>
+{% endblock %}{% block page_css %}
+
+<style type="text/css">
+body { overflow-x: scroll; height:100%; }
+</style>
+{% endblock %} {% block content %}
+<div ng-app="theshelfadmin">
+    <table admin-form source="{{source}}" class="data_table" skip-actions skip-date-edited date-validated-position="1" skip-date-validated>
+    </table>
+</div>
+
+{% endblock %}
+

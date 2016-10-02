@@ -1,0 +1,152 @@
+{% extends 'pages/admin/base.html' %}
+{% load widget_tweaks %}
+
+{% block content %}
+    <div class="admin_page import_bloggers center_text">
+        <div class="modify_layout_container float_left">
+            <button class="change_layout square_bt gray_bt sm">Change Layout</button>
+            <span>(this will negate any changes you may have made in this layout)</span>
+        </div>
+        <br />
+        <br />
+        <br />
+        <br />
+        <div class="already_added_search clearfix">
+            <fieldset class="typical_form widest clearfix" style="margin-bottom:20px;">
+                <div>
+                    <input type="text" placeholder="Check if influencer already added" />
+                    <button class="check_added square_bt gray_bt sm" style="margin:10px 0 30px 0;">Check</button>
+                </div>
+            </fieldset>
+        </div>
+        <div class="layout_container">
+            <table class="table_layout layout_type" style="display:none;">
+                <thead>
+                    <tr>
+                        {% for field in form %}
+                        <th>{{ field.label }}</th>
+                        {% endfor %}
+                        <th>Delete</th>
+                    </tr>
+                </thead>
+                <tbody class="another_container">
+                </tbody>
+            </table>
+
+            <div class="div_layout layout_type" style="display:none;">
+            </div>
+        </div>
+    </div>
+    <div class="add_another_fixed center_text">
+        <div class="add_another_btn icon-letter_plus06"></div>
+        <div class="reset square_bt teal_btn hidden">Reset</div>
+        <div class="submit square_bt teal_btn">Submit</div>
+    </div>
+
+    <script type="text/template" class="new_blogger_table_tpl">
+        <tr class="blogger_row">
+            {% for field in form %}
+            <td>
+                <fieldset class="typical_form">
+                    <div>
+                        {% render_field field placeholder=field.label %}
+                    </div>
+                </fieldset>
+            </td>
+            {% endfor %}
+            <td><div class="delete_row icon-letter_x07" style="float:right;"></div></td>
+        </tr>
+    </script>
+
+    <script type="text/template" class="new_blogger_div_tpl">
+        <div class="blogger_row">
+            <div class="blogger_subrow clearfix">
+                <fieldset class="typical_form wider">
+                    <div>
+                        {{ form.name|attr:"placeholder:Blogger Name" }}
+                    </div>
+                </fieldset>
+                <fieldset class="typical_form wider">
+                    <div>
+                        {{ form.email|attr:"placeholder:Email" }}
+                    </div>
+                </fieldset>
+                <fieldset class="typical_form wider">
+                    <div>
+                        {{ form.demographics_location|attr:"placeholder:Location" }}
+                    </div>
+                </fieldset>
+                <fieldset class="typical_form wider">
+                    <div class="required">
+                        {{ form.blog_name|attr:"placeholder:Blog Name" }}
+                    </div>
+                </fieldset>
+                <fieldset class="typical_form wider">
+                    <div class="required">
+                        {{ form.blog_url|attr:"placeholder:Blog URL" }}
+                    </div>
+                </fieldset>
+                <fieldset class="typical_form">
+                    <div>
+                        {{ form.blog_platform|attr:"placeholder:Blog Platform" }}
+                    </div>
+                </fieldset>
+                <fieldset class="typical_form">
+                    <div>
+                        {{ form.demographics_gender|attr:"placeholder:Gender" }}
+                    </div>
+                </fieldset>
+                <fieldset class="typical_form">
+                    <div>
+                        {{ form.source|attr:"placeholder:Source" }}
+                    </div>
+                </fieldset>
+            </div>
+            <div class="blogger_subrow clearfix">
+                <fieldset class="typical_form">
+                    <div>
+                        {{ form.facebook|attr:"placeholder:Facebook" }}
+                    </div>
+                </fieldset>
+                <fieldset class="typical_form">
+                    <div>
+                        {{ form.pinterest|attr:"placeholder:Pinterest" }}
+                    </div>
+                </fieldset>
+                <fieldset class="typical_form">
+                    <div>
+                        {{ form.twitter|attr:"placeholder:Twitter" }}
+                    </div>
+                </fieldset>
+                <fieldset class="typical_form">
+                    <div>
+                        {{ form.extra_twitter|attr:"placeholder:Extra Twitter" }}
+                    </div>
+                </fieldset>
+                <fieldset class="typical_form">
+                    <div>
+                        {{ form.bloglovin|attr:"placeholder:Bloglovin" }}
+                    </div>
+                </fieldset>
+                <fieldset class="typical_form">
+                    <div>
+                        {{ form.instagram|attr:"placeholder:Instagram" }}
+                    </div>
+                </fieldset>
+                <fieldset class="typical_form">
+                    <div>
+                        {{ form.extra_instagram|attr:"placeholder:Extra Instagram" }}
+                    </div>
+                </fieldset>
+            </div>
+            <div class="blogger_subrow clearfix">
+                <fieldset class="typical_form widest">
+                    <div>
+                        {{ form.blog_aboutme|attr:"placeholder:About Blogger"|attr:"rows:5" }}
+                    </div>
+                </fieldset>
+                <div class="delete_row icon-letter_x07" style="float:right;"></div>
+            </div>
+        </div>
+    </script>
+{% endblock %}

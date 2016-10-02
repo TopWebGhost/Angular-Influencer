@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title></title>
+</head>
+
+<body>
+
+    <h1>Your queue</h1>
+    <h2>Total length: <small>{{total}}</small></h2>
+<!--     <h2>Unknown: <small>{{unknown}}</small></h2>
+    <h2>Queued: <small>{{queued}}</small></h2>
+    <h2>Validated: <small>{{validated}}</small></h2>
+ -->
+    <div>
+        <a href="{% url upgrade_admin:influencers_informations_nonvalidated_qa uuid %}">View Influencers information nonvalidated QA table with this queue</a>
+        <br>
+        <a href="{% url upgrade_admin:influencers_informations_validated_qa uuid %}">View Influencers information validated QA table with this queue</a>
+        <br>
+        <a href="{% url upgrade_admin:influencers_informations_nonvalidated uuid %}">View Influencers information nonvalidated table with this queue</a>
+        <br>
+        <a href="{% url upgrade_admin:influencers_informations_validated uuid %}">View Influencers information validated table with this queue</a>
+        <br>
+        <a href="{% url upgrade_admin:influencers_social_handles_nonvalidated uuid %}">View Influencers social nonvalidated table with this queue</a>
+        <br>
+        <a href="{% url upgrade_admin:influencers_social_handles_validated uuid %}">View Influencers social validated table with this queue</a>
+
+    <div>
+
+    <a href="{% url upgrade_admin:queue uuid 'add_influencers' %}">Add +100 more influencers</a><br>
+    <a href="{% url upgrade_admin:queue uuid 'add_influencers_nonqa' %}">Add +100 more influencers for non qa table</a><br>
+
+</body>
+
+</html>

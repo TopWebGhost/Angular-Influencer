@@ -1,0 +1,26 @@
+{% extends 'pages/admin/base.html' %}
+
+{% block content %}
+{% if filter %}{% include filter %}{% endif %}
+{% include 'snippets/loader.html' with hidden=1 %}
+
+<div class="middle-content-wrapper">
+    <div class="{{ container }} admin_page clearfix salvattore_grid feed_container{% if one_column %} one-column{% endif %}{% if admin_page == "influencers" %} global_blogger_admin{% endif %}" data-columns>
+        {{ feed_items }}
+    </div>
+    {% if bottom_button %}
+        {% if admin_page == "users" %}
+        <a href="{{ next_page }}" class="square_bt xlarge teal_bt_dk save_btn_fixed">Next Page</a>
+        {% else %}
+        <div class="square_bt xlarge teal_bt_dk save_btn_fixed items_save {{ admin_page }}">
+            {% if total_num_items and total_num_items > 50 %}Next{% else %}Done for the day{% endif %}
+        </div>
+            {% if admin_page == "posts" %}
+                <div class="square_bt xlarge teal_bt_dk save_btn_fixed mark_btn mark_rest">
+                Mark Rest As Categorized
+                </div>
+            {% endif %}
+        {% endif %}
+    {% endif %}
+</div>
+{% endblock %}

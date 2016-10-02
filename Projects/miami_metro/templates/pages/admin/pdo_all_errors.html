@@ -1,0 +1,85 @@
+{% extends 'pages/admin/base.html' %}
+
+{% load compressed %}
+
+{% block page_js %}
+{% compressed_js 'angular_admin' %}
+{% endblock %}
+
+{% block page_css %}
+
+<style>
+
+#pdo-stats-div {
+    /*
+    overflow: auto;
+    width: 99%;
+    height: 750px;
+    */
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top:0;
+    left:0;
+    overflow:auto;
+}
+
+#pdo-stats td {
+    border: 1px solid gray;
+}
+
+#pdo-stats th, #pdo-stats tr {
+    width: 150px;
+    text-align: left;
+}
+
+.status-ok {
+    color: green;
+}
+
+.status-fail {
+    color: red;
+}
+</style>
+
+{% endblock %}
+
+{% block content %}
+
+
+<div id=pdo-stats-div>
+
+<h1>Latest Erorrs For The Last {{days}} Days</h1>
+
+<table id=pdo-stats>
+    <thead>
+        <th></th>
+        <th></th>
+        <th>pdo.id</th>
+        <th>time</th>
+        <th>influencer</th>
+        <th>platform</th>
+        <th>post</th>
+        <th>product_model</th>
+        <th>follower</th>
+    </thead>
+
+    {% for pdo_id, operation, error_msg, started, execution_time, inf_id, inf_blog_url, pl_id, pl_url, po_id, po_url, pm_id, pm_url, fol_id, fol_url in data %}
+        <tr>
+            <td>{{operation}}</td>
+            <td><code>{{error_msg}}</code></td>
+            <td>{{pdo_id}}&nbsp;</td>
+            <td>{{started}} ({{execution_time.total_seconds|floatformat}}s)</td>
+            <td>{% if inf_id %}{{inf_id}} {{inf_blog_url}}{% endif %}</td>
+            <td>{% if pl_id %}{{pl_id}} {{pl_url}}{% endif %}</td>
+            <td>{% if po_id %}{{po_id}} {{po_url}}{% endif %}</td>
+            <td>{% if pm_id %}{{pm_id}} {{pm_url}}{% endif %}</td>
+            <td>{% if fol_id %}{{fol_id}} {{fol_url}}{% endif %}</td>
+        </tr>
+    {% endfor %}
+
+</table>
+
+</div>
+
+{% endblock %}

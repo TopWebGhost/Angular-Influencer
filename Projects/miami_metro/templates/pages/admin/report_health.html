@@ -1,0 +1,243 @@
+{% extends 'pages/admin/base.html' %} {% load compressed %} {% block page_js %} {% compressed_js 'angular_admin' %} {% endblock %}{% block page_css %} {% endblock %} {% block content %}
+<div style="background:#d9d9d9;">
+    <div ng-app="theshelfadmin">
+        <div class="admin_reports">
+            <div class="main_header">Health of the System Reports</div>
+            <div class="report_block">
+                <div class="report_header clearfix">
+                    <div class="title">Determining Qualifying Blog URLs</div>
+                    <br/>
+                    <div class="description">We have a series of processes that we use to filter bloggers. This is a summary of each process and the corresponding blogger count.</div>
+                </div>
+                <div class="report_content">
+                    <div class="row_header_column">
+                        <div class="cell">
+                            <div class="cell_content cell_header">&nbsp;</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header"># of Blog URLs</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header"># URLs Analyzed</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header"># Live</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header"># Fashion</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header"># Active</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header"># w/ 1 or more Social Handles</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header"># w/ Comments</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header"># w/ Items</div>
+                        </div>
+                    </div>
+                    {% for report in reports %}
+                    <div class="date_column {% if forloop.first %}current{% endif %}">
+                        <div class="cell">
+                            <div class="cell_content cell_header">{{report.date|date:"n/j/y"}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.blog_urls}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.urls_analyzed}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.live}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.fashion}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.active}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.with_social}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.with_comments}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.with_items}}</div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+
+
+            <div class="report_block">
+                <div class="report_header clearfix">
+                    <div class="title">Status of Historical Blogger Data</div>
+                    <br/>
+                    <div class="description">Currently, we're not getting info from each blogger every day. And a large percentage of bloggers don't have enough info for us to surface them in the search results.</div>
+                </div>
+
+                <div class="report_content">
+                    <div class="row_header_column">
+                        <div class="cell">
+                            <div class="cell_content cell_header">&nbsp;</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header"># of Eligible Bloggers</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header"># Added Today</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header"># w/ at least 7 posts</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header"># w/ at least 100 posts</div>
+                        </div>
+                    </div>
+                    {% for report in reports %}
+                    <div class="date_column {% if forloop.first %}current{% endif %}">
+                        <div class="cell">
+                            <div class="cell_content cell_header">{{report.date|date:"n/j/y"}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.eligible}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.added_today}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.at_least_7}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.at_least_100}}</div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+
+
+            <div class="report_block">
+                <div class="report_header clearfix">
+                    <div class="title">Accuracy of Daily Content Scrapes</div>
+                    <br/>
+                    <div class="description">Right now we have no way of knowing if we're getting to all the blogs... or why so many people don't have daily posts being imported... or why so many people are missing images. This table is meant to help with discovering daily issues. And it also provides a way for QA to review relevant info.</div>
+                </div>
+
+                <div class="report_content">
+                    <div class="row_header_column">
+                        <div class="cell">
+                            <div class="cell_content cell_header">&nbsp;</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header">% of Scrapable Bloggers Scraped Today</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header">% of Scraped Bloggers w/o a Post</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header smaller">View Blogs w/o Posts</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header">% of Scraped Posts w/o Items</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header smaller">View Blogs w/o Items</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header">% of Scraped Posts w/o EligibleImages</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content header smaller">View Blogs w/o Images</div>
+                        </div>
+                    </div>
+                    {% for report in reports %}
+                    <div class="date_column {% if forloop.first %}current{% endif %}">
+                        <div class="cell">
+                            <div class="cell_content cell_header">{{report.date|date:"n/j/y"}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.perc_scrap_today}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.perc_scrap_wo_posts}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">
+                                <div class="square_bt xxs lt_gray_bt" spawns-popup="wo_posts_{{report.id}}">View</div>
+                            </div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.perc_scrap_wo_items}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">
+                                <div class="square_bt xxs lt_gray_bt" spawns-popup="wo_items_{{report.id}}">View</div>
+                            </div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">{{report.perc_scrap_wo_images}}</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell_content small_cell">
+                                <div class="square_bt xxs lt_gray_bt" spawns-popup="wo_images_{{report.id}}">View</div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        {% for report in reports %}
+
+        <div admin-popup="wo_posts_{{report.id}}">
+            <div style="color: white">
+                List of bloggers without posts:
+                <div style="overflow-y: scroll; height: 500px">
+                    {% for blogger in report.wo_posts %}
+                    <a href="{{blogger.blog_url}}" target="blank">
+                        <div class="white">{{blogger.blog_url}}</div>
+                    </a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <div admin-popup="wo_images_{{report.id}}">
+            <div style="color: white;">
+                List of post without images:
+                <div style="overflow-y: scroll; height: 500px">
+                    {% for post in report.wo_images %}
+                    <a href="{{post.url}}" target="blank">
+                        <div class="white">(id={{post.id}}) {{post.url}}</div>
+                    </a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <div admin-popup="wo_items_{{report.id}}">
+            <div style="color: white;">
+                List of post without products:
+                <div style="overflow-y: scroll; height: 500px">
+                    {% for post in report.wo_items %}
+                    <a href="{{post.url}}" target="blank">
+                        <div class="white">(id={{post.id}}) {{post.url}}</div>
+                    </a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

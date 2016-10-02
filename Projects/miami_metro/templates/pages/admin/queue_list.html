@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title></title>
+</head>
+
+<body>
+
+    <h1>Unique queue identifiers in system:</h1>
+    {% for queue in queues %}
+    <a href="{% url upgrade_admin:queue queue.uuid %}">{{queue.uuid}}</a><br>
+    {% endfor %}
+
+    <div>
+    <input id="queue_name">
+    <a onclick="window.location='{% url upgrade_admin:queue '' %}'+document.getElementById('queue_name').value.toLowerCase().replace(/[^\w ]+/g,'').replace(/ +/g,'-')">Lookup/create queue</a>
+    </div>
+
+</body>
+
+</html>

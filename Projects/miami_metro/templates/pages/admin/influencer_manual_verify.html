@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title></title>
+</head>
+
+<body>
+    <div>
+        Fill one and click 'Lookup influencer':
+        <form action="" method="POST">
+            {% csrf_token %}
+            <input name="email" type="text" placeholder="Email"/>
+            <input name="influencer" type="text" placeholder="Influencer id"/>
+            <input name="blog_url" type="text" placeholder="Blog URL"/>
+            <input name="influencer_name" type="text" placeholder="Influencer Name"/>
+            <input type="submit" value="Lookup user" />
+        </form>
+        {% if infs %}
+            {% for inf in infs %}
+                <h1>{{inf.name}} - {{inf.blog_url}}, inf id={{inf.id}}</h1>
+                <h2>Blog url: <a href="{{inf.blog_url}}">{{inf.blog_url}}</a></h2>
+                <h2>Show on search: {% if inf.show_on_search %}Yes{% else %}No{% endif %}</h2>
+                <h2>Profile: <a href="{{inf.about_page}}">{{inf.about_page}}</a></h2>
+                <h2>Has User Profile: {% if inf.shelf_user.userprofile %}True{% else %}False{% endif %}</h2>
+                {% if inf.shelf_user.userprofile %}
+                    <h2>User ID: {{inf.shelf_user.id}}</h2>
+                    <h2>User Profile ID: {{inf.shelf_user.userprofile.id}}</h2>
+                    <h2>Blogger Verified: {{inf.shelf_user.userprofile.blog_verified|default_if_none:"False"}}</h2>
+                    <h2>Date joined: {{inf.shelf_user.date_joined}}</h2>
+                {% endif %}
+
+                {% if inf.show_on_search %}
+                    <form action="{% url upgrade_admin:hide_influencer_from_search %}" method="POST">
+                        {% csrf_token %}
+                        <input name="influencer_id" type="hidden" value="{{inf.id}}">
+                        <input type="submit" value="Delete and hide from search">
+                    </form>
+                {% endif %}
+            {% endfor %}
+        {% elif request.method == "POST" %}
+            No results found.
+        {% endif %}
+    <div>
+</body>
+
+</html>

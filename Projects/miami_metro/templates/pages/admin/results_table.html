@@ -1,0 +1,69 @@
+{% extends 'pages/admin/base.html' %}
+
+{% load compressed %}
+
+{% block page_js %}
+{% compressed_js 'angular_admin' %}
+{% endblock %}
+
+{% block page_css %}
+
+<style>
+
+#results-table-div {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top:0;
+    left:0;
+    overflow:auto;
+}
+
+#results-table td {
+    border: 1px solid gray;
+}
+
+#results-table th, #results-table tr {
+    width: 150px;
+    text-align: left;
+}
+
+.status-ok {
+    color: green;
+}
+
+.status-fail {
+    color: red;
+}
+</style>
+
+{% endblock %}
+
+
+{% block content %}
+
+<div id=results-table-div>
+
+    <h1>{{title}}</h1>
+
+<table id=results-table>
+    <thead>
+        {% for column in columns %}
+            <th>{{column}}</th>
+        {% endfor %}
+    </thead>
+
+    {% for row in rows %}
+        <tr>
+            {% for d in row %}
+                <td>{{d}}</td>
+            {% endfor %}
+        </tr>
+    {% endfor %}
+
+</table>
+
+</div>
+
+{% endblock %}
+

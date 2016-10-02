@@ -1,0 +1,95 @@
+{% extends 'pages/admin/base.html' %}
+{% load compressed %}
+
+{% block page_js %}
+{% compressed_js 'angular_admin' %}
+<script type="text/javascript">
+
+var render_link = function(target){
+    return function(obj) {
+        if(obj.aData[target] === "null" || obj.aData[target] === null){
+            return '';
+        }else{
+            return "<a target='blank' href='"+obj.aData[target]+"'>"+obj.aData[target]+"</a>";
+        }
+    };
+}
+var skip_null = function(target) {
+    return function(obj) {
+        if(obj.aData[target] === "null" || obj.aData[target] === null){
+            return '';
+        }else{
+            return obj.aData[target];
+        }
+    }
+};
+angular.module("theshelfadmin").value("columns", [
+    {
+        'mData': 'id',
+        'sTitle': 'ID#',
+        'editable': false,
+    }, {
+        'mData': 'blog_url',
+        'sTitle': 'URL',
+        'editable': false,
+        'bSortable': false,
+        'fnRender': render_link('blog_url')
+    }, {
+        'mData': 'blogname',
+        'sTitle': 'Blog<br>Name',
+        'fnRender':  skip_null('blogname'),
+    }, {
+        'mData': 'fb_url',
+        'sTitle': 'FB<br>URL',
+        'fnRender': render_link('fb_url')
+    }, {
+        'mData': 'tw_url',
+        'sTitle': 'Twit<br>URL',
+        'fnRender': render_link('tw_url')
+    }, {
+        'mData': 'pin_url',
+        'sTitle': 'Pin<br>URL',
+        'fnRender': render_link('pin_url')
+    }, {
+        'mData': 'insta_url',
+        'sTitle': 'IG<br>URL',
+        'fnRender': render_link('insta_url')
+    }, {
+        'mData': 'bloglovin_url',
+        'sTitle': 'BL<br>URL',
+        'fnRender': render_link('bloglovin_url')
+    }, {
+        'mData': 'lb_url',
+        'sTitle': 'LB<br>URL',
+        'fnRender': render_link('lb_url')
+    },
+    // {
+    //     'mData': 'pose_url',
+    //     'sTitle': 'Pose',
+    //     'fnRender': render_link('pose_url')
+    // },
+    {
+        'mData': 'youtube_url',
+        'sTitle': 'Youtube',
+        'fnRender': render_link('youtube_url')
+    },
+    {
+        'mData': 'average_num_comments_per_post',
+        'sTitle': 'Avg # of<br>comments',
+        'editable': false,
+    }
+]);
+</script>
+{% endblock %}{% block page_css %}
+
+<style type="text/css">
+body { overflow-x: scroll; height:100%; }
+</style>
+{% endblock %} {% block content %}
+<div ng-app="theshelfadmin">
+    <table admin-form source="{{source}}" class="data_table" {% if validated %}skip-actions skip-date-edited date-validated-position="1"{% else %}date-edited-position="1" actions-position="1" skip-date-validated{% endif %}>
+    </table>
+</div>
+
+{% endblock %}
+

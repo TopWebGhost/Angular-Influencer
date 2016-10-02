@@ -1,0 +1,142 @@
+{% extends 'pages/admin/base.html' %}
+{% load compressed %}
+
+{% block page_js %}
+{% compressed_js 'angular_admin' %}
+<script type="text/javascript">
+var bool_render = function(target) {
+    return function(obj){
+        if(obj.aData[target] === "true" || obj.aData[target] === true){
+            return 'yes';
+        }else{
+            return 'no';
+        }
+    }
+};
+var render_link = function(target){
+    return function(obj) {
+        if(obj.aData[target] === "null" || obj.aData[target] === null){
+            return '';
+        }else{
+            return "<a target='blank' href='"+obj.aData[target]+"'>"+obj.aData[target]+"</a>";
+        }
+    };
+};
+var skip_null = function(target) {
+    return function(obj) {
+        if(obj.aData[target] === "null" || obj.aData[target] === null){
+            return '';
+        }else{
+            return obj.aData[target];
+        }
+    }
+};
+angular.module("theshelfadmin").value("columns", [
+    {
+        'mData': 'id',
+        'sTitle': 'ID#',
+        'editable': false,
+    }, {
+        'mData': 'initial_crawl_date',
+        'sTitle': 'Date<br/>Added',
+        'editable': false,
+        'bSortable': false,
+        'fnRender':  skip_null('initial_crawl_date'),
+    }, {
+        'mData': 'blog_url',
+        'sTitle': 'Blog<br/>URL',
+        'editable': false,
+        'fnRender':  render_link('blog_url'),
+    }, {
+        'mData': 'platform',
+        'sTitle': 'Platform',
+        'editable': false,
+        'bSortable': false,
+        'fnRender':  skip_null('platform'),
+    }, {
+        'mData': 'fashion_links',
+        'sTitle': 'Fashion Links',
+        'bSortable': false,
+        'editable': false,
+        'fnRender': bool_render('fashion_links')
+    }, {
+        'mData': 'fashion_store_mentions',
+        'sTitle': 'Fashion Store Mentions',
+        'bSortable': false,
+        'editable': false,
+    }, {
+        'mData': 'fashion_widgets',
+        'sTitle': 'Fashion Widgets',
+        'bSortable': false,
+        'editable': false,
+    },{
+        'mData': 'confidence_level',
+        'sTitle': 'Relevant to Fashion',
+        'bSortable': false,
+        'editable': false,
+        'fnRender': function(obj){
+            setTimeout(function() {
+                if(obj.aData.confidence_level === "no" || obj.aData.active === "no"){
+                    $("#row_"+obj.aData.id).addClass("blacklisted");
+                }else{
+                    $("#row_"+obj.aData.id).removeClass("blacklisted");
+                }
+            }, 50);
+            if(obj.aData.confidence_level === "true" || obj.aData.confidence_level === true){
+                return 'yes';
+            }else{
+                return 'no';
+            }
+        }
+    },{
+        'mData': 'active',
+        'sTitle': 'Active',
+        'editable': false,
+        'fnRender': function(obj){
+            setTimeout(function() {
+                if(obj.aData.confidence_level === "no" || obj.aData.active === "no"){
+                    $("#row_"+obj.aData.id).addClass("blacklisted");
+                }else{
+                    $("#row_"+obj.aData.id).removeClass("blacklisted");
+                }
+            }, 50);
+            if(obj.aData.active === "true" || obj.aData.active === true){
+                return 'yes';
+            }else{
+                return 'no';
+            }
+        }
+    }, {
+        'mData': null,
+        'sTitle': 'Proceed to Next Step',
+        'bSortable': false,
+        'editable': false,
+        'fnRender': function(obj){
+            if(obj.aData.active === "yes" && obj.aData.confidence_level === "yes"){
+                return 'yes';
+            }else{
+                return '';
+            }
+        }
+    }{% if not validated %},
+    {
+        'mData': null,
+        'sTitle': 'Recheck',
+        'bSortable': false,
+        'editable': false
+    }{% endif %}
+]);
+</script>
+{% endblock %}{% block page_css %}
+
+<style type="text/css">
+body { overflow-x: scroll; height:100%; }
+</style>
+{% endblock %} {% block content %}
+<div ng-app="theshelfadmin">
+    <table admin-form source="{{source}}" class="data_table" {% if validated %}skip-actions skip-date-edited date-validated-position="2"{% else %}date-edited-position="2" actions-position="2" skip-date-validated{% endif %}>
+    </table>
+</div>
+
+{% endblock %}
+

@@ -1,0 +1,48 @@
+{% load compressed %}
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+    <title>Admin Panel</title>
+    <link href="/mymedia/site_folder/css/laurens_font.less" media="screen" rel="stylesheet/less"  />
+    <link href="/mymedia/site_folder/css/global.less" media="screen" rel="stylesheet/less"  />
+    {% block page_css %}{% endblock %}
+
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    {% compressed_js 'core_head' %}
+</head>
+<body>
+{% if user_search %}
+<div class="prof_block admin_prof_block">
+    <div class="admin_search_box">
+        <fieldset class="typical_form lighter_field larger_field">
+            <div>
+                <input type="text" class="admin_autocomplete" data-ajax-url="{% url debra.query_views.user_autocomplete %}" placeholder="Search for users" />
+            </div>
+            <div class="autocomplete_results styled_dropdown_wrapper">
+                <ul class="styled_dropdown_list">
+                </ul>
+            </div>
+        </fieldset>
+    </div>
+</div>
+{% endif %}
+<div class="admin_content">
+    {% include 'popups/generic_confirmation_lb.html' with popup_type="generic-confirmation-popup" %}
+    {% include 'popups/generic_message_lb.html' with popup_type="generic-message-popup" title="Messages" %}
+    {% block content %}
+    {% endblock %}
+</div>
+{% compressed_js 'angular_core' %}
+{% include "snippets/angular_sentry_conf.html" %}
+{% compressed_js 'angular_app' %}
+{% include "snippets/angular_config.html" %}
+{% compressed_js 'admin' %}
+{% block page_js %}{% endblock %}
+{% compressed_js 'core' %}
+</body>
+</html>

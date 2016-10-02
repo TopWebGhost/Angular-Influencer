@@ -1,0 +1,38 @@
+{% load widget_tweaks %}
+{% load custom_filters %}
+{% load endless %}
+
+{% lazy_paginate 50 brands %}
+{% for brand in brands %}
+<div class="admin_item brand_item">
+    <div class="header">
+        <a class="small white square_bt pink_bt_w_teal float_right" href="{% url upgrade_admin:admin_brand_details brand.id %}">Brand Details</a>
+        <span class="brand_logo icon-00_brand_{{brand.icon_id}}"></span>
+        <a class="large less_gray rale_1 product_name dotdot" href="{% url debra.brand_views.brand_home brand.id %}">{{ brand.name }}</a>
+    </div>
+    <div class="product_info">
+        <form action="{% url upgrade_admin:modify_brand brand.id %}" method='post' class="modify_product_form">{% csrf_token %}
+            <fieldset class="info_item">
+                <div>
+                    <label>Is Active</label>
+                    <input type="checkbox" name="is_active"{% if brand.is_active%} checked{% endif %} />
+                </div>
+            </fieldset>
+            <fieldset class="info_item typical_form">
+                <div>
+                    <label>Brand Icon</label>
+                    <input type="text" name="icon_id" value="{{ brand.icon_id }}" />
+                </div>
+            </fieldset>
+            <fieldset class="hidden">
+                <div>
+                    <label class="server_error"></label>
+                </div>
+            </fieldset>
+            <button class="large white center_text square_bt teal_bt_dk save_btn submit_button rale_1">Save</button>
+        </form>
+    </div>
+</div>
+{% endfor %}
+<div class="clearfix"></div>
+{% show_more %}
