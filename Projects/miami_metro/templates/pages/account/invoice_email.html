@@ -1,0 +1,9 @@
+Invoice
+
+{% for card in customer.cards.data %}
+{% if card.id == customer.default_card %}
+{{card.type}} **** **** **** {{card.last4}}, valid till {{card.exp_month}}/{{card.exp_year}}
+{% endif %}
+{% endfor %}
+
+Your card will be charged on <b>{{data.dt|date}}</b> for a total of <b>${{data.total}}</b>

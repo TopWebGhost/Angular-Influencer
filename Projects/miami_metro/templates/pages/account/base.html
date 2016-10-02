@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load compressed %}
+
+{% block title %}
+{{ page_title }}
+{% endblock %}
+
+{% block meta_description %}
+<meta name="description" content="{{ meta_description }}">
+{% endblock %}
+
+{% block bottom_js %}
+{% compressed_js 'angular_brand_navigation' %}
+{% compressed_js 'angular_brand_settings' %}
+
+<script type="text/javascript">
+(function(){
+angular.module("theshelf").value('nav_config', {
+    tab: "{{selected_tab}}",
+    sub_tab: "{{sub_page}}",
+    visible: true,
+});
+angular.module("theshelf").value('trial', false);
+})();
+</script>
+{% endblock %}
+
+
+{% block content %}
+    <span class="dashboard_content" >
+    {% block search_content %}
+    {% endblock %}
+    </span>
+{% endblock %}
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% load compressed %}
+
+{% block title %}The Shelf: Fashion Blogger Outreach{% endblock title %}
+{% block meta_description %}
+    <meta name="description" content="The Shelf">
+{% endblock meta_description %}
+
+{% block extra_head %}
+    <script type="text/javascript" src="https://checkout.stripe.com/checkout.js"></script>
+    <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+    {% compressed_js 'pricing' %}
+{% endblock extra_head %}
+
+{% block body_class %}pricing_page{% endblock body_class %}
+
+{% block custom_header %}{% endblock %}
+
+{% block content %}
+    <div class="simple_pricing_lineup white_bg" ng-controller="PricingCtrl">
+        <div stripe-popup key="{{ stripe_key }}" payment-url="{% url debra.payment_views.blogger_payment_page influencer.id %}" promo-url="{% url debra.payment_views.check_coupon %}"></div>
+        <div class="pricing_container">
+            <div class="row_o_prices clearfix">
+                <div class="pricing_block_container first_child">
+                    <div class="pricing_block">
+                        <div class="price_wrapper clearfix">
+                            <div class="price_block_header clearfix">
+                                <div class="square_bt green_bt xl" ng-click="openStripePopup(null, false, null, {{ amount }})">Pay</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+
+{% block bottom_js %}
+    <script type="text/javascript">
+        var stripe_client = stripe.init("{{ stripe_key }}", "{% url debra.payment_views.blogger_payment_page influencer.id %}");
+    </script>
+{% endblock %}

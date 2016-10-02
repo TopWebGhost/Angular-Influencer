@@ -1,0 +1,100 @@
+{% load i18n intercom %}
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="utf-8">
+    <title>TheShelf.com - {% if proforma %}Pro Forma {% endif %}Invoice {{invoice.date}}</title>
+    <LINK REL="SHORTCUT ICON" HREF="/mymedia/site_folder/images/global/favicon.ico">
+    <link href="/mymedia/site_folder/css/jquery.Jcrop.css" type="text/css" rel="stylesheet" />
+    <link href="/mymedia/site_folder/css/old/introjs.min.css" text="text/css" rel="stylesheet" />
+    <link href="/mymedia/site_folder/css/style.css" rel="stylesheet" />
+    <link href="/mymedia/site_folder/css/global.less" rel="stylesheet/less" />
+    <link href="/mymedia/site_folder/css/laurens_font.less" rel="stylesheet/less" />
+
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script type="text/javascript" src="/mymedia/site_folder/js/vendor/less-1.4.1.js"></script>
+</head>
+
+<body>
+    <div class="invoice_container">
+        <div class="invoice_medallion">
+            <div class="icon-social_0_shelf_medallion"></div>
+        </div>
+        <div class="invoice_header clearfix">
+            <div class="left_content">
+                <div class="icon-social_0_shelf_shelf2a_bottom"></div>
+                <div class="website_txt">TheShelf.com</div>
+{% comment %}
+invoice.invoice_subtotal = {{invoice.invoice_subtotal}}<br>
+invoice.changes = {{invoice.changes}}<br>
+invoice.invoice_plan = {{invoice.invoice_plan}}<br>
+invoice.quantity = {{invoice.quantity}}<br>
+invoice.agency_invoice = {{invoice.agency_invoice}}<br>
+{% endcomment %}
+            </div>
+            <div class="right_content">
+                <div class="website_txt">{{invoice.date}}{% if proforma %}<br><i style="font-style:italic">Pro Forma</i>{% endif %}</div>
+            </div>
+        </div>
+        <div class="charge_section">
+            <div class="charge_row clearfix">
+                <div class="left_sect">
+                    <span class="invoice_label">Plan</span>
+                    <span class="charge">
+                        {% if invoice.quantity > 1 %}
+                        {{invoice.quantity}} {{invoice.invoice_plan|title}}{{invoice.quantity|pluralize}}
+                        {% else %}
+                        {{invoice.invoice_plan|title}}
+                        {% endif %}
+                        {% if not invoice.agency_invoice and visitor.base_brand.is_agency %}(including one free brand){% endif %}
+                    </span>
+                </div>
+                <div class="right_sect charge">
+                        ${{invoice.invoice_subtotal|floatformat:2}} for {{ invoice.interval_count }} {{invoice.interval}} {{ invoice.interval_count|pluralize }}
+                </div>
+            </div>
+            <div class="charge_row clearfix">
+                <div class="left_sect">
+                    <span class="invoice_label">Discount</span>
+                </div>
+                <div class="right_sect charge">{{invoice.discount_info}}</div>
+            </div>
+            <div class="charge_row clearfix">
+                <div class="left_sect">
+                    <span class="invoice_label">Prorated</span>
+                    {% if invoice.changes and invoice.prorate %}
+                    <span class="charge">
+                    {{invoice.changes}} {% if invoice.agency_invoice %}brand{% else %}plan{% endif %} change{{invoice.changes|pluralize}}
+                    </span>
+                    {% endif %}
+                </div>
+                <div class="right_sect charge">{% if invoice.prorate %}${{invoice.prorate|floatformat:2}} for {{ invoice.interval_count }} {{invoice.interval}} {{ invoice.interval_count|pluralize }} {% else %}-{% endif %}</div>
+            </div>
+            <div class="charge_row total_row clearfix">
+                <span class="invoice_label">Total</span>
+                <span class="charge">${{invoice.due_usd|floatformat:2}} for {{ invoice.interval_count }} {{invoice.interval}} {{ invoice.interval_count|pluralize }}</span>
+            </div>
+            <div class="charge_row credit_card_info clearfix">
+                {% for card in customer.cards.data %} {% if card.id == customer.default_card %}
+                <span class="charge">{{card.type}}</span>
+                <span class="charge">•••• •••• •••• {{card.last4}}</span>
+                <span class="charge">{{card.exp_month}}/{{card.exp_year}}</span>
+                {% endif %} {% endfor %}
+            </div>
+        </div>
+        <div class="bottom_sect clearfix">
+            <div class="content_sect first_child">Questions
+                <br/>laurenj@theshelf.com</div>
+            <div class="content_sect"><b>The Shelf</b>
+                <br/>209 E 25th Street, Unit 5E
+                <br/>NYC NYC 10010
+                <br/>TheShelf.com</div>
+        </div>
+    </div>
+</body>
+
+</html>

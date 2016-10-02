@@ -1,0 +1,835 @@
+{% extends 'pages/account/base.html' %}
+{% load custom_filters compressed %}
+{% block body_class %}lt_gray_bg{% endblock %}
+
+{% block title %}Your account | connecting top fashion bloggers and brands{% endblock %}
+
+{% block bottom_js %}
+{{ block.super }}
+<script type="text/javascript" src="//maps.googleapis.com/maps/api/js?libraries=places&sensor=true"></script>
+<script>
+(function(){
+    angular.module('theshelf')
+        .value('landingData', {
+            'tags': {{ tags|jsonify|safe }},
+        });
+})();
+</script>
+{% endblock %}
+
+{% block extra_head %}
+{{ block.super }}
+<script src="https://checkout.stripe.com/checkout.js"></script>
+<script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+{% endblock %}
+
+{% block search_content %}
+
+<span ng-controller="SettingsCtrl as settingsCtrl">
+    <span tags-editing>
+    
+        <div add-collection-popup
+            add-group="{% url debra.job_posts_views.add_influencer_groups %}"
+            popup-title="Create a Tag"
+            adding-text="Adding a tag"
+            collection-type="tag"
+        ></div>
+        <div edit-collection-popup
+            edit-group="{% url debra.job_posts_views.edit_influencer_groups %}"
+            collection-type="tag"
+        ></div>
+
+        <div add-collection-popup
+            add-group="{% url debra.job_posts_views.add_post_analytics_collection %}"
+            popup-title="Create a Post Analytics Collection"
+            adding-text="Adding a Post Analytics Collection"
+            collection-type="post"
+        ></div>
+        <div edit-collection-popup
+            edit-group="{% url debra.job_posts_views.edit_post_analytics_collection %}"
+            collection-type="post"
+        ></div>
+
+        <div edit-collection-popup
+            edit-group="{% url debra.search_views.edit_saved_searches %}"
+            collection-type="saved_search"
+        ></div>
+
+        <div
+            add-new-user-popup
+            target="{% url debra.account_views.add_new_user %}"
+            source="{% url debra.dynamicforms_views.add_new_user_form %}"></div>
+        <div confirmation-popup></div>
+        <div display-message-popup></div>
+        <div class="search_inline_header_no_jump">
+            <div class="search_inline_header" data-spy="affix" data-offset-top="0" style="left:58px;">
+                <div class="search_tab_row_container">
+                    <div class="search_tab_row clearfix">
+                        <a><div class="campaign_tab" ng-class="{selected: tab==1}" ng-click="setTab(1)">Account Settings</div></a>
+                        <a><div class="campaign_tab" ng-class="{selected: tab==2}" ng-click="setTab(2)">Team Members</div></a>
+                        <a><div class="campaign_tab" ng-class="{selected: tab==3}" ng-click="setTab(3)">Plan info</div></a>
+                        <a><div class="campaign_tab" ng-class="{selected: tab==4}" ng-click="setTab(4)">Preferences</div></a>
+                        <a><div class="campaign_tab" ng-class="{selected: tab==5}" ng-click="setTab(5)">Tags</div></a>
+                        <a><div class="campaign_tab" ng-class="{selected: tab==6}" ng-click="setTab(6)">Saved Searches</div></a>
+                        <a><div class="campaign_tab" ng-class="{selected: tab==7}" ng-click="setTab(7)">Post Collections</div></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="dashboard_top_section transparent_bar">
+            <div class="search_name_row clearfix">
+                <div class="name_section">
+                    <div class="page_title" ng-if="tab==1">Account Settings</div>
+                    <div class="page_title" ng-if="tab==2">Team Members</div>
+                    <div class="page_title" ng-if="tab==3">Plan info</div>
+                    <div class="page_title" ng-if="tab==4">Preferences</div>
+                    <div class="page_title" ng-if="tab==5">Tags</div>
+                    <div class="page_title" ng-if="tab==6">Saved Searches</div>
+                    <div class="page_title" ng-if="tab==7">Post Collections</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="a_form_page clearfix" ng-show="tab==1">
+        	<div class="a_form_page_content">
+
+
+                <div class="a_form_group clearfix">
+            		<div class="form_middle_title">Your Personal Info</div>
+            	    <form class="inner_section" name="personal_info_form" settings-form-uploader="personal_info" ng-submit="submit(personal_info_form, personal_info, 'personal_info', '{% url debra.brand_account_views.save_account_settings %}')">
+            	        <fieldset class="typical_form lighter_field form_row_20 halfer">
+                            <label>YOUR NAME</label>
+                            <input name="name" ng-model="personal_info.name" type="text" required set-default-to="{{visitor.user.name}}">
+            	        </fieldset>
+            	        <fieldset class="typical_form lighter_field form_row_20 halfer right">
+                            <label>Contact Email</label>
+                            <input name="email" ng-model="personal_info.email" type="email" required set-default-to="{{visitor.auth_user.email}}">
+            	        </fieldset>
+            	        <fieldset class="typical_form lighter_field form_row_20 halfer">
+                            <label>Location</label>
+                            <input id="location" location name="location" ng-model="personal_info.location" type="text" required set-default-to="{{visitor.user.location}}">
+            	        </fieldset>
+            			<fieldset class="typical_form lighter_field form_row_20 halfer right">
+                            <label>Timezone (GMT offset)</label>
+                            <input name="timezone" timezone from="personal_info.location" url="{% url debra.brand_account_views.lookup_timezone %}" ng-model="personal_info.timezone" type="number" required min="-12" max="14" set-default-to="{{visitor.user|get_setting:'timezone'}}">
+                                <label ng-if="loading">Loading</label>
+                            </input>
+            	        </fieldset>
+            	        <div class="form_btn_row">
+                            <button type="submit" class="normal_bt lg teal_bt" ng-class="{disabled: !changed||personal_info_form.$invalid}" ng-bind="state.text"></button>
+                        </div>
+            		</form>
+                </div>
+
+                <div class="form_divider w_60_60_pad_mag"></div>
+
+            	<div class="a_form_group clearfix">	
+            		<div class="form_middle_title">Edit Password</div>
+            	    <div class="form_instruction">Fill in the fields below if you want to change your password.</div>
+            	    <form class="inner_section" name="change_password_form" settings-form-uploader="change_password" ng-submit="submit(change_password_form, change_password, 'change_password', '{% url debra.brand_account_views.save_account_settings %}')">
+            	        <fieldset class="typical_form lighter_field form_row_20 quarter">
+                            <label>Current Password</label>
+                            <input name="old_pw" ng-model="change_password.old_pw" type="password" required>
+            	        </fieldset>
+            	        <fieldset class="typical_form lighter_field form_row_20 quarter">
+                            <label>New Password</label>
+                            <input name="new_pw" ng-model="change_password.new_pw" type="password" required>
+            	        </fieldset>
+            	        <fieldset class="typical_form lighter_field form_row_20 quarter">
+                            <label>Confirm New Password</label>
+                            <input name="new_pw2" ng-model="change_password.new_pw2" type="password" required>
+            	        </fieldset>
+            			<fieldset class="typical_form lighter_field form_row_20 quarter right">
+                            <label>&nbsp;</label><br/>
+            				<button type="submit" class="normal_bt lg teal_bt" ng-class="{disabled: !changed||change_password_form.$invalid}" ng-bind="state.text"></button>
+            	        </fieldset>
+            		</form>
+                </div>
+
+
+                <div class="form_divider w_60_60_pad_mag"></div>
+
+        		<div class="a_form_group clearfix">
+            		<div class="form_middle_title">Company Info</div>
+            		<div class="form_instruction">This is info for your particular company.  If you are an agency, you should manage the brands that you are in charge of on the "Manage Brands" tab.  The info here should be about the company that you belong to.</div>
+            	    <form name="company_info_form" settings-form-uploader="company_info" ng-submit="submit(company_info_form, company_info, 'company_info', '{% url debra.brand_account_views.save_account_settings %}')">
+            	        <fieldset class="typical_form lighter_field form_row_20 halfer">
+                            <label>Company Name</label>
+                            <input name="company_name" ng-model="company_info.company_name" type="text" required set-default-to="{{visitor.base_brand.name}}">
+            	        </fieldset>
+            	        <fieldset class="typical_form lighter_field form_row_20 halfer right">
+                            <label>Company URL</label>
+                            <input name="company_url" ng-model="company_info.company_url" type="url" required required set-default-to="http://{{visitor.base_brand.domain_name}}/">
+            	        </fieldset>
+            	        <div class="form_btn_row">
+                            <button type="submit" class="normal_bt lg teal_bt" ng-class="{disabled: !changed||company_info_form.$invalid}" ng-bind="state.text"></button>
+                        </div>
+            		</form>
+                </div>
+
+                <div class="form_divider w_60_60_pad_mag"></div>
+
+
+        		<div class="a_form_group sans_bot_bord clearfix">
+            		<div class="form_middle_title">Remove Your Account</div>
+            		<div class="form_instruction">If you want to delete your account, you can do that here.  This action is final.  And if you decide you want to join The Shelf again later, you will need to contact us.</div>
+            	    <form name="delete_account" settings-form-uploader ng-submit="submit(delete_account, null, 'delete_account', '{% url debra.brand_account_views.save_account_settings %}')" confirm-upload>
+                        <div confirm-upload-popup></div>
+            	        <div class="form_btn_row">
+                            <button type="submit" class="square_bt sm rounded delete_bt">
+                                <span class="icon-misc_files_trash4"></span>
+                                <span>Delete Account</span>
+                            </button>
+                        </div>
+            		</form>
+                </div>
+        	</div>
+        </div>
+
+
+
+
+
+
+        <div class="a_form_page clearfix" ng-show="tab==2">
+        	<div class="a_form_page_content">
+        	    <div class="a_form_group sans_bot_bord">
+                    <div class="form_middle_title">Add / Remove Users</div>
+                    <div class="form_instruction">Use this section to add and remove employees. Make sure to check on your alloted number of users before adding.</div>
+                    <div class="form_btn_row">
+                        <div class="square_bt sm gray_bt launch_popup" ng-click="openAddNewUserPopup()">Add a new user</div>
+                    </div>
+                    {% comment %}
+                    <div class="form_btn_row">
+                        <div class="form_instruction float_left">Contact Us if you need help with permissions.</div> &nbsp; &nbsp;
+                        <div class="square_bt sm gray_bt launch-popup" data-popup-type="contact_us" broadcaster="openContactForm">Contact Us</div></div>
+                    {% endcomment %}
+                    <div class="x_space x_30"></div>
+                    <table class="a_form_table">
+        				<tbody>
+        					<tr style="background:transparent;">
+        						<th>Email</th>
+        						<th>Name</th>
+        						{% comment %}<th>Actions</th>{% endcomment %}
+                                <th>Joined</th>
+                            </tr>
+                            {% for permission in brand_user_profile_privilages %}
+                                {% with permission.user_profile as profile %}
+                                <tr class="white_bg">
+                                    <td class="row_title">{{profile.user.email}}</td>
+                                    <td class="row_title">{{profile.name}}{% if profile == visitor.user %}<span class="you small_label">You</span>{% endif %}</td>
+                                    {% comment %}<td><div class="square_bt gray_bt sm rounded launch-popup" data-popup-type="contact_us" broadcaster="openContactForm">Revoke Access</div></td>{% endcomment %}
+                                    <td>
+                                        <div class="cb_or_rb_wrap">
+                                            <input type="checkbox" name="user_joined_{{ profile.user.id }}" id="user_joined_{{ profile.user.id }}" {% if profile.user.date_joined != profile.user.last_login %}checked{% endif %} disabled="disabled" />
+                                            <label for="user_joined_{{ profile.user.id }}">
+                                                <span class="graphic plus_btn"></span>
+                                            </label>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endwith %}
+                            {% endfor %}
+        				</tbody>
+        			</table>
+            	</div>
+            </div>
+        </div>
+
+
+
+        <div class="a_form_page clearfix" ng-show="tab==3">
+            <div class="a_form_page_content">
+
+                {% comment %}
+                <div class="a_form_group clearfix">
+                    <div class="form_middle_title">Plan Info</div>
+                    <div class="info_row">
+                        <div class="info_text">
+                            You are on the <b>{{visitor.plan_name_mapped|title}} Plan</b>
+                            {% if visitor.base_brand.is_agency %}
+                             as an <b>Agency</b> with <b>
+                             {% with visitor.base_brand.get_managed_brands|length as no_brands %}
+                             {{no_brands}} Brand{{no_brands|pluralize}}
+                             {% endwith %}
+                             </b> registered. &nbsp;<a ng-if="false" href="#/5" class="txt_link dark_teal">Edit Brands</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endcomment %}
+
+                {% if upcoming %}
+                <div class="a_form_group clearfix">
+                    <div class="form_middle_title">Upcoming invoice</div>
+                    <table class="a_form_table credit_card_info" style="width:100%;">
+                        <tbody>
+                            <tr style="background:#999;">
+                                <th>Date</th>
+                                <th>Package</th>
+                                <th>Charge</th>
+                                <th>Discount</th>
+                                <th>Total</th>
+                                <th>Actions</th>
+                            </tr>
+                            <tr class="white_bg">
+                                <td class="row_title">{{upcoming.date}}</td>
+                                <td class="row_title">
+                                {% if upcoming.quantity > 1 %}
+                                {{upcoming.quantity}} {{upcoming.invoice_plan|title}}{{upcoming.quantity|pluralize}}
+                                {% else %}
+                                {{upcoming.invoice_plan|title}}
+                                {% endif %}
+
+                                {% if not upcoming.agency_invoice and visitor.base_brand.is_agency %}(including one free brand){% endif %}
+
+                                {% if upcoming.changes and upcoming.prorate %}<br>
+                                {{upcoming.changes}} {% if upcoming.agency_invoice %}brand{% else %}plan{% endif %} change{{upcoming.changes|pluralize}} (prorated)
+                                {% endif %}
+                                </td>
+                                <td class="row_title">
+                                ${{upcoming.invoice_subtotal|floatformat:2}} for {{ upcoming.interval_count }} {{upcoming.interval}} {{ upcoming.interval_count|pluralize }}
+                                </td>
+                                <td class="row_title">{{upcoming.discount_info}}</td>
+                                <td class="row_title">$ {{upcoming.due_usd|floatformat:2}} for {{ upcoming.interval_count }} {{upcoming.interval}} {{ upcoming.interval_count|pluralize }}</td>
+                                <td>
+                                    <a href="{% url debra.brand_account_views.account_invoice_printable 'upcoming' %}" target="_blank">
+                                        <div class="square_bt gray_bt xs rounded">Invoice</div>
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                {% endif %}
+
+
+                <div class="form_divider w_60_60_pad_mag"></div>
+                <div class="a_form_group clearfix">
+                    <div class="form_middle_title">Credit Card Info</div>
+                    {% for card in customer.cards.data %} {% if card.id == customer.default_card %}
+                    <div class="x_space x_20">
+                        <table class="a_form_table credit_card_info">
+                            <tbody>
+                                <tr style="background:#999;">
+                                    <th>Type</th>
+                                    <th>Number</th>
+                                    <th>Expiration</th>
+                                </tr>
+                                <tr>
+                                    <td class="row_title">{{card.type}}</td>
+                                    <td class="row_title">**** **** **** {{card.last4}}</td>
+                                    <td class="row_title">{{card.exp_month}}/{{card.exp_year}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="next_to_table floated_left form_instruction">Here is your current credit card info.
+                            <br/>If you’d like to update your card, use the form below.</div>
+                        {% endif %} {% endfor %}
+                    </div>
+                
+                    <div class="x_space x_40"></div>
+
+                    <div class="" ng-controller="CCEditCtrl">
+                        {% verbatim %}
+                        <div class="row_75 inner_section">
+                            <fieldset class="typical_form lighter_field form_row_20 quarter" style="position: relative; z-index: 2">
+                                    <label class="section_label">Credit Card Type</label>
+                                    <div
+                                        dropdown-select="types"
+                                        dropdown-model="cctype"
+                                        dropdown-onchange="updateType(selected)">
+                                    </div>
+                            </fieldset>
+
+                            <fieldset class="typical_form lighter_field form_row_20" style="margin-right:50px;position: relative">
+                                <label>Credit Card Number</label>
+                                <input class="cc" type="text" ng-model="stripedata.number" ui-mask="{{ccmask}}" />
+                                <span style="position: absolute;top: 30px;right: 10px;color: green;" ng-if="stripedata.number && card_valid">&#x2713;</span>
+                            </fieldset>
+                        </div>
+                        <div class="row_75 inner_section">
+                            <fieldset class="typical_form lighter_field form_row_20 quarter">
+                                <label class="section_label">Exp Month</label>
+                                <div dropdown-select="months" dropdown-model="exp_month" dropdown-onchange="updateExpMonth(selected)"  ></div>
+                            </fieldset>
+                            <fieldset class="typical_form lighter_field form_row_20 quarter">
+                                <label class="section_label">Exp Year</label>
+                                <div dropdown-select="years" dropdown-model="exp_year" dropdown-onchange="updateExpYear(selected)"></div>
+                            </fieldset>
+                            <fieldset class="typical_form lighter_field form_row_20 quarter">
+                                <label class="section_label">CVC code</label>
+                                <input type="text" ng-model="stripedata.cvc" ui-mask="{{cvcmask}}">
+                            </fieldset>
+                            {% endverbatim %}
+                            <fieldset class="typical_form lighter_field form_row_20 quarter right">
+                                <label>&nbsp;</label><br/>
+                                <button type="submit" class="normal_bt lg teal_bt" ng-class="{disabled: !changed}" ng-click="getToken('{{stripe_key}}', '{% url debra.brand_account_views.change_cc %}')" ng-bind="state"></button>
+                            </fieldset>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+                <div class="form_divider w_60_60_pad_mag"></div>
+                <div class="a_form_group clearfix">
+                    <div class="form_middle_title">One Time Setup / Service Charges</div>
+                    <table class="a_form_table credit_card_info" style="width:100%;">
+                        <tbody>
+                            <tr style="background:#999;">
+                                <th>Date</th>
+                                <th>Charge</th>
+                            </tr>
+                            {% for charge in charges.data %}
+                                {% if not charge.invoice %}
+                                <tr class="white_bg">
+                                    <td class="row_title">{{charge.created}}</td>
+                                    <td class="row_title">
+                                    ${{charge.amount|floatformat:2}}
+                                    </td>
+                                </tr>
+                                {% endif %}
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+
+
+                <div class="form_divider w_60_60_pad_mag"></div>
+                <div class="a_form_group sans_bot_bord clearfix">
+                    <div class="form_middle_title">Invoices</div>
+                    <table class="a_form_table credit_card_info" style="width:100%;">
+                        <tbody>
+                            <tr style="background:#999;">
+                                <th>Date</th>
+                                <th>Package</th>
+                                <th>Charge</th>
+                                <th>Discount</th>
+                                <th>Prorate</th>
+                                <th>Total</th>
+                                <th>Actions</th>
+                            </tr>
+                            {% for invoice in prev_invoices.data %}
+                            {% if invoice.quantity != 0 or invoice.prorate %}
+                            <tr class="white_bg">
+                                <td class="row_title">{{invoice.date}}</td>
+                                <td class="row_title">
+                                {% if invoice.quantity > 1 %}
+                                {{invoice.quantity}} {{invoice.invoice_plan|title}}{{invoice.quantity|pluralize}}
+                                {% else %}
+                                {{invoice.invoice_plan|title}}
+                                {% endif %}
+
+                                {% if not invoice.agency_invoice and visitor.base_brand.is_agency %}(including one free brand){% endif %}
+
+                                {% if invoice.changes and invoice.prorate %}<br>
+                                {{invoice.changes}} {% if invoice.agency_invoice %}brand{% else %}plan{% endif %} change{{invoice.changes|pluralize}} (prorated)
+                                {% endif %}
+                                </td>
+                                <td class="row_title">
+                                ${{invoice.invoice_subtotal|floatformat:2}} for {{ invoice.interval_count }} {{invoice.interval}} {{ invoice.interval_count|pluralize }}
+                                </td>
+                                <td class="row_title">{{invoice.discount_info}}</td>
+                                <td class="row_title">{% if invoice.prorate %}${{invoice.prorate|floatformat:2}}{% else %}-{% endif %}</td>
+                                <td class="row_title">$ {{invoice.due_usd|floatformat:2}} for {{ invoice.interval_count }} {{invoice.interval}} {{ invoice.interval_count|pluralize }}</td>
+                                <td>
+                                    <a href="{% url debra.brand_account_views.account_invoice_printable invoice.id %}" target="_blank">
+                                        <div class="square_bt gray_bt xs rounded">Invoice</div>
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endif %}
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="a_form_page clearfix" ng-show="tab==4">
+            <div class="a_form_page_content">
+                <div class="a_form_group clearfix">
+                    <div class="form_middle_title">Enable Features</div>
+                    <div class="form_instruction">The features below aren't used very often. Feel free to turn them on if you'd like to use them for running campaigns.</div>
+                    <div preferences url="{% url debra.brand_account_views.brand_preferences %}"></div>
+                </div>
+                <div class="form_divider w_60_60_pad_mag" ng-if="context.isSuperuser"></div>
+                <div class="a_form_group clearfix" ng-if="context.isSuperuser">
+                    <div class="form_middle_title">Load Influencers</div>
+                    <div class="form_instruction">Enter in urls with one url per line. They require a day to be indexed fully. And as they become ready they will show up within the collection that you select using the dropdown.</div>
+                    <div class="form_instruction"></div>
+                    <form name="loadInfluencersForm">
+                        <fieldset class="typical_form inner_section row_65">
+                            <textarea name="urlsText" required id="" cols="30" rows="6" style="resize: none;" ng-model="settingsCtrl.loadInfluencers.urlsText"></textarea>
+                        </fieldset>
+                        <div class="x_space x_40"></div>
+                        <div class="inner_section row_65">
+                            <fieldset class="typical_form halfer left">
+                                <div class="associate_campaign"
+                                    dropdown-select="settingsCtrl.landingData.tags"
+                                    dropdown-model="settingsCtrl.loadInfluencers.tagSelected"
+                                    dropdown-onchange="settingsCtrl.loadInfluencers.selectTag(selected)"
+                                >
+                                </div>
+                            </fieldset>
+                            <fieldset class="typical_form third left">
+                                <button ng-class="{inactive: loadInfluencersForm.$invaild}" request-button class="normal_bt lg gray_bt" ng-click="loadInfluencersForm.$valid && requestButtonCtrl.doRequest({method: 'POST', url: '?load_influencers=1', successCb: settingsCtrl.loadInfluencers.clearText, data: {urlsText: settingsCtrl.loadInfluencers.urlsText, tagId: settingsCtrl.loadInfluencers.tagSelected.value}})">
+                                    <span ng-hide="requestButtonCtrl.loading">Upload</span>
+                                    <span ng-show="requestButtonCtrl.loading">Uploading...</span>
+                                </button>
+                            </fieldset>
+                        </div>
+
+                    </form>
+                </div>
+                <div class="x_space x_80"></div>
+            </div>
+        </div>
+
+        <div class="a_form_page clearfix wide" ng-show="tab==5">
+            <div class="block_collection_content">
+                <div class="content_wrapper clearfix">
+                    <div class="the_collections">
+                        {% for group in groups %}
+                        <div class="collection_outer_wrapper" id="group_{{group.id}}">
+                            <a href="{% url debra.search_views.main_search %}#/tag/{{group.id}}" class="a_collection_container feed_item clearfix {% if group.influencers_count == 0 %}no_items{% endif %}">
+                                <div class="tag_btns">
+                                    <div class="tag_button">
+                                        <div class="icon-misc_files_pencil3 edit_collection" ng-click="$event.preventDefault();editGroup({id: '{{group.id}}', name: '{{group.name|escapejs}}', desc: '{{group.description}}', jobs: [{% comment %}{% for j in group.job_posts.all %}{{j.id}},{% endfor %}{% endcomment %}]})"></div>
+                                    </div>
+                                    <div class="tag_button" ng-click="$event.preventDefault();deleteGroup('{{group.id}}', '{% url debra.job_posts_views.delete_influencer_groups %}')">
+                                        <div class="icon-misc_files_trash4"></div>
+                                    </div>
+                                    {% if visitor.base_brand.flag_export_collection_on %}
+                                    <div class="tag_button">
+                                        <div class="icon-misc_files_download2" ng-click="$event.preventDefault();sendExport('{% url debra.dataexport_views.export_collection_view group.id %}')"></div>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                                <div class="title_row" style="height: initial;">
+                                    <div class="title_txt">{{group.name}}</div>
+                                    <div class="info_row clearfix">
+                                        <div class="info_group">
+                                            <span class="the_label">Date : </span>
+                                            <span class="info">{{group.created_date|date:"n/j/Y"}}</span>
+                                        </div>
+                                        <div class="info_group">
+                                            <span class="the_label">Total : </span>
+                                            <span class="info">{{group.influencers_count}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="no_items_overlay"></div>
+                                <div class="img_row_hover_wrapper clearfix">
+                                    <div class="img_row clearfix">
+                                        {% for img in group.imgs %}
+                                        <div class="img_container" style="background-image: url({{img}});"></div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="a_form_page clearfix wide" ng-show="tab==6">
+            <div class="block_collection_content">
+                <div class="content_wrapper clearfix">
+                    <div class="the_collections">
+                        {% for query in saved_queries %}
+                        <div class="collection_outer_wrapper" id="group_{{query.id}}">
+                            {% comment %}
+                            <a href="{% url debra.search_views.main_search %}?saved_search={{query.id}}" class="a_collection_container clearfix">
+                            {% endcomment %}
+                            <a href="{% url debra.search_views.main_search %}#/saved_search/{{query.id}}" class="a_collection_container clearfix">
+                                <div class="tag_btns">
+                                    <div class="tag_button">
+                                        <div class="icon-misc_files_pencil3 edit_collection" ng-click="$event.preventDefault();editGroup({id: '{{query.id}}', name: '{{query.name|escapejs}}', desc: '', jobs: [], collectionType: 'saved_search'})"></div>
+                                    </div>
+                                    <div class="tag_button">
+                                        <div class="icon-misc_files_trash4" ng-click="$event.preventDefault();deleteGroup('{{query.id}}', '{% url debra.search_views.delete_saved_search %}')"></div>
+                                    </div>
+                                </div>
+
+                                <!--div class="edit_title">
+                                    <div class="icon-misc_files_pencil3 edit_collection" ng-click=""></div>
+                                </div-->
+                                <div class="title_row" style="height: initial;">
+                                    <div class="title_txt">{{query.name}}</div>
+                                    <div class="info_row clearfix">
+                                        <div class="info_group">
+                                            <span class="the_label">Date : </span>
+                                            <span class="info">{{query.timestamp|date:"n/j/Y"}}</span>
+                                        </div>
+                                        {% comment %}
+                                        <div class="info_group">
+                                            <span class="the_label">Total : </span>
+                                            <span class="info">{{query.result_json.total}}</span>
+                                        </div>
+                                        {% endcomment %}
+                                        {% include "snippets/saved_search_filters.html" %}
+                                    </div>
+                                </div>
+                                <div class="no_items_overlay"></div>
+                                <div class="img_row_hover_wrapper">
+                                    <div class="img_row clearfix">
+                                        {% for img in query.imgs %}
+                                        <div class="img_container" style="background-image: url({{img}});"></div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="a_form_page clearfix wide" ng-show="tab==7">
+            <div class="block_collection_content">
+                <div class="content_wrapper clearfix">
+                    <div class="the_collections">
+                        {% for group in post_collections %}
+                        <div class="collection_outer_wrapper" id="group_{{group.id}}">
+                            <a href="{% url debra.search_views.post_analytics_collection group.id %}" class="a_collection_container feed_item clearfix {% if not group.items_number %}no_items{% endif %}">
+                                <div class="tag_btns">
+                                    <div class="tag_button">
+                                        <div class="icon-misc_files_pencil3 edit_collection" ng-click="$event.preventDefault();editGroup({id: '{{group.id}}', name: '{{group.name|escapejs}}', desc: '', jobs: [], collectionType: 'post'})"></div>
+                                    </div>
+                                    <div class="tag_button" ng-click="$event.preventDefault();deleteGroup('{{group.id}}', '{% url debra.job_posts_views.del_post_analytics_collection %}')">
+                                        <div class="icon-misc_files_trash4"></div>
+                                    </div>
+                                </div>
+                                <div class="title_row" style="height: initial;">
+                                    <div class="title_txt">{{group.name}}</div>
+                                    <div class="info_row clearfix">
+                                        <div class="info_group">
+                                            <span class="the_label">Date : </span>
+                                            <span class="info">{{group.created_date|date:"n/j/Y"}}</span>
+                                        </div>
+                                        <div class="info_group">
+                                            <span class="the_label">Total : </span>
+                                            <span class="info">{{group.items_number|default:"0"}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="no_items_overlay"></div>
+                                <div class="img_row_hover_wrapper clearfix">
+                                    <div class="img_row clearfix">
+                                        {% for img in group.imgs %}
+                                        <div class="img_container" style="background-image: url({{img}});"></div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="a_form_page clearfix" ng-show="false">
+        	<div class="a_form_page_content">
+        	    <div class="content_wrapper clearfix">
+        	    	<div class="row_50 w_divider">
+        	    		<div class="form_middle_title">Overview of Brands</div>
+        				<div class="form_instruction">
+                        You are on the <b>{{visitor.plan_name_mapped|title}} Plan</b>
+                        {% if visitor.base_brand.is_agency %}
+                         as an <b>Agency</b> with <b>
+                         {% with visitor.base_brand.get_managed_brands|length as no_brands %}
+                         {{no_brands}} Brand{{no_brands|pluralize}} registered.
+                         {% endwith %}
+                        {% endif %}
+
+                        </div>
+                        <div class="brand_removal_block">
+                            {% with managed_brands as brands %}
+                            {% for brand in brands %}
+                            <div class="brand_block">
+                                <span class="brand_text">{{brand.name}}</span>
+                                <span remove-brand="{{brand.name}}" url="{% url debra.brand_account_views.del_brand_from_agency %}">
+                                    <span class="icon-letter_x06"></span>
+                                </span>
+                            </div>
+                            {% endfor %}
+                            {% endwith %}
+                        </div>
+                    </div>
+                    <div class="row_50" add-brand match-brand-url="{% url debra.search_views.search_brand_json %}" save-url="{% url debra.brand_account_views.add_brand_to_agency %}">
+                        {% verbatim %}
+        	    		<div class="form_middle_title">Add New Brand</div>
+        	    		<div class="form_instruction">Adding a new brand will add an additional charge of $200.</div>
+        	    		<div class="x_space x_10"></div>
+        	    		<fieldset class="typical_form smaller_field lighter_field form_row_20 third left">
+        	                <label>Brand URL</label>
+        	                <div match-brand="{{matchBrandUrl}}" can-set-own></div>
+        		        </fieldset>
+                        <fieldset class="typical_form smaller_field lighter_field form_row_20 third" ng-if="show_name">
+                            <label>Brand Name</label>
+                            <input type="text" ng-value="brandName()" ng-change="changeBrandName(brand_name_raw)" ng-model="brand_name_raw">
+                        </fieldset>
+                        <fieldset class="typical_form smaller_field lighter_field form_row_20 third" ng-if="!show_name" style="opacity: 0.5">
+                            <label>Brand Name</label>
+                            <input type="text" ng-value="brand_name" readonly/>
+                        </fieldset>
+        				<fieldset class="typical_form lighter_field form_row_20 third right">
+        	                <label>&nbsp;</label><br/>
+        					<div class="square_bt teal_bt lg" style="padding:16px 30px;" ng-class="{disabled: !brand_url || !brand_name}" ng-click="brand_url&&brand_name&&save()">{{state}}</div>
+        		        </fieldset>
+                        <fieldset class="typical_form smaller_field lighter_field form_row_20 halfer">
+                            <label>{{ errorMessage }}</label>
+                        </fieldset>
+
+                        {% endverbatim %}
+        	    	</div>
+        	    </div>
+        		<div class="sect_divider"></div>
+        		<div class="form_middle_title">Overview of Brands</div>
+        		<div class="form_instruction" style="width:80%;">We’ll be able to collect info and content from the social handles of your brands.  This will help us to put together a basic profile for bloggers to view about that brand.  **You’ll be able to customize each profile before they are accessible to bloggers.  <span class="darker_teal">When you enter in the link, you should go to each URL, and copy the link directly from your browser.</span></div>
+            	<div class="a_form_group">
+                    <table class="a_form_table">
+            			<tbody>
+            				<tr style="background:transparent;">
+            					<th>Brand</th>
+            					<th>Site URL</th>
+            					<th>Blog URL</th>
+            					<th>Facebook URL</th>
+            					<th>Twitter URL</th>
+            					<th>Pinterest URL</th>
+            					<th>Instagram URL</th>
+                                <th>Action</th>
+            				</tr>
+                            {% with managed_brands as brands %}
+                            {% for brand in brands %}
+            				<tr class="white_bg" settings-form-uploader="brand_options">
+            					<td>
+                                    <fieldset class="typical_form smaller_field">
+                                    <input type="text" ng-model="brand_options.name" set-default-to="{{brand.name}}"/>
+                                    </fieldset>
+                                </td>
+            					<td>
+                                    <fieldset class="typical_form smaller_field">
+                                    <input type="text" ng-model="brand_options.url" set-default-to="http://{{brand.domain_name}}/"/>
+                                    </fieldset>
+                                </td>
+            					<td>
+                                    <fieldset class="typical_form smaller_field">
+                                    <input type="text" ng-model="brand_options.blogurl" set-default-to="{{brand.platform_blog|default_if_none:""}}"/>
+                                    </fieldset>
+                                </td>
+            					<td>
+                                    <fieldset class="typical_form smaller_field">
+                                    <input type="text" ng-model="brand_options.facebookurl" set-default-to="{{brand.platform_facebook|default_if_none:""}}"/>
+                                    </fieldset>
+                                </td>
+            					<td>
+                                    <fieldset class="typical_form smaller_field">
+                                    <input type="text" ng-model="brand_options.twitterurl" set-default-to="{{brand.platform_twitter|default_if_none:""}}"/>
+                                    </fieldset>
+                                </td>
+            					<td>
+                                    <fieldset class="typical_form smaller_field">
+                                    <input type="text" ng-model="brand_options.pinteresturl" set-default-to="{{brand.platform_pinterest|default_if_none:""}}"/>
+                                    </fieldset>
+                                </td>
+            					<td>
+                                    <fieldset class="typical_form smaller_field">
+                                    <input type="url" ng-model="brand_options.instagramurl" set-default-to="{{brand.platform_instagram|default_if_none:""}}"/>
+                                    </fieldset>
+                                </td>
+                                <td>
+                                    <fieldset class="typical_form smaller_field">
+                                    <input type="hidden" ng-model="brand_options.id" set-default-to="{{brand.id}}"/>
+                                    <button type="submit" class="normal_bt lg teal_bt" ng-class="{disabled: !changed}" ng-bind="state.text" ng-click="submit(null, brand_options, 'brand_options', '{% url debra.brand_account_views.save_account_settings %}')"></button>
+                                    </fieldset>
+                                </td>
+            				</tr>
+                            {% endfor %}
+                            {% endwith %}
+            			</tbody>
+            		</table>
+                </div>
+        	</div>
+        </div>
+
+        <div class="a_form_page clearfix" ng-show="false">
+        	<div class="a_form_page_content">
+        		<div class="form_middle_title">Email Preferences</div>
+        	    <div class="content_wrapper clearfix" settings-form-uploader="email_settings">
+        			<div class="checklist">
+        				<div class="cb_or_rb_wrap clearfix">
+        	                <input type="checkbox" ng-model="email_settings.feature" ng-checked="email_settings.feature" set-default-to="{% if visitor.user|get_setting:'email_features'%}true{% endif %}" />
+        	                <label for="publish" ng-click="toggle('email_settings', 'feature')">
+        	                    <div class="float_left" style="height:40px;"><span class="graphic plus_btn"></span></div>
+        	                    <div class="float_left float_text">
+        	                    	<div class="float_title">Features Updates</div>
+        	                    	<div>Get periodic (at most weekly) alerts when we add new triggers or actions on the services you use.</div>
+        	                    </div>
+        	                </label>
+        	            </div>
+                    </div>
+                    <div class="checklist">
+                        <div class="cb_or_rb_wrap clearfix">
+                            <input type="checkbox" ng-model="email_settings.content" ng-checked="email_settings.content" set-default-to="{% if visitor.user|get_setting:'email_content'%}true{% endif %}"/>
+                            <label for="publish" ng-click="toggle('email_settings', 'content')">
+                                <div class="float_left" style="height:40px;"><span class="graphic plus_btn"></span></div>
+                                <div class="float_left float_text">
+                                    <div class="float_title">Content and Resources</div>
+                                    <div>Get periodic (at most weekly) alerts when we put up content or resources that might be useful for your blog/marketing efforts.</div>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="checklist">
+                        <div class="cb_or_rb_wrap clearfix">
+                            <input type="checkbox" ng-model="email_settings.changes" ng-checked="email_settings.changes" set-default-to="{% if visitor.user|get_setting:'email_changes'%}true{% endif %}"/>
+                            <label for="publish" ng-click="toggle('email_settings', 'changes')">
+                                <div class="float_left" style="height:40px;"><span class="graphic plus_btn"></span></div>
+                                <div class="float_left float_text">
+                                    <div class="float_title">Account Changes</div>
+                                    <div>Get notifications if changes are made to your account via another admin (new users, new brands, billing updates, etc.)</div>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                    <button type="submit" class="normal_bt lg teal_bt" ng-class="{disabled: !changed}" ng-bind="state.text" ng-click="submit(null, email_settings, 'email_settings', '{% url debra.brand_account_views.save_account_settings %}')"></button>
+        	    </div>
+        	    <div class="sect_divider"></div>
+        		<div class="form_middle_title">Outreach Notifications</div>
+        		<div class="form_instruction" style="width:80%; margin-bottom:10px;">Currently you’ll get a summary everyday about campaign responses and applicants. Everyone in the company will receive this summary email. We require that at least one brand manager be subscribed to updates for a particular brand at all times.</span></div>
+        		<div class="content_wrapper clearfix" settings-form-uploader="outreach">
+        			<div class="cb_or_rb_wrap short_list clearfix">
+                        <input type="checkbox" ng-model="outreach.all" ng-checked="outreach.all" set-default-to="{% if visitor.user|get_setting:'outreach_all'%}true{% endif %}" />
+                        <label for="publish" ng-click="toggle('outreach', 'all')"><span class="graphic plus_btn"></span>All Brands</label>
+                    </div>
+                    {% with managed_brands as brands %}
+                    {% for brand in brands %}
+                    <div class="cb_or_rb_wrap short_list clearfix">
+                        <input type="checkbox" ng-model="outreach.brand_{{brand.id}}" ng-checked="outreach.brand_{{brand.id}}" set-default-to="{% if visitor.user|get_setting_outreach:brand.id %}true{% endif %}" />
+                        <label for="publish" ng-click="toggle('outreach', 'brand_{{brand.id}}')"><span class="graphic plus_btn"></span>{{brand.name}}</label>
+                    </div>
+                    {% endfor %}
+                    {% endwith %}
+                    <div class="short_list clearfix">
+                        <button type="submit" class="normal_bt lg teal_bt" ng-class="{disabled: !changed}" ng-bind="state.text" ng-click="submit(null, outreach, 'outreach', '{% url debra.brand_account_views.save_account_settings %}')"></button>
+                    </div>
+                </div>
+                <div class="x_space x_80"></div>
+            </div>
+        </div>
+
+    </span>
+</span>
+{% endblock %}
