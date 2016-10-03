@@ -1,0 +1,239 @@
+{% extends 'pages/brand_profile/base.html' %} {% load custom_filters compressed %}
+{% block title %}{{ brand.name|upper }} on The Shelf Network | connecting top fashion bloggers and brands{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.4.3/morris.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.2/raphael-min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.4.3/morris.min.js"></script>
+{% endblock %}
+
+{% block bottom_js %}
+{{ block.super }}
+{% compressed_js 'angular_about' %}
+<script type="text/javascript">
+(function(){
+{% if relfashion_stats %}
+{% if profile_owner or visitor.has_brand %}
+angular.module("theshelf").value('relfashion_stats', {{relfashion_stats|safe}});
+{% else %}
+angular.module("theshelf").value('relfashion_stats', false);
+{% endif %}
+{% endif %}
+{% if category_stats %}
+{% if profile_owner or visitor.has_brand %}
+angular.module("theshelf").value('category_stats', {{category_stats|safe}});
+{% else %}
+angular.module("theshelf").value('category_stats', false);
+{% endif %}
+{% endif %}
+{% if popularity_stats %}
+{% if profile_owner or visitor.has_brand %}
+angular.module("theshelf").value('popularity_stats', {{popularity_stats|safe}});
+{% else %}
+angular.module("theshelf").value('popularity_stats', false);
+{% endif %}
+{% endif %}
+
+{% if popularity_sums %}
+{% if profile_owner or visitor.has_brand %}
+angular.module("theshelf").value('popularity_sums', {{popularity_sums|safe}});
+{% else %}
+angular.module("theshelf").value('popularity_sums', false);
+{% endif %}
+{% endif %}
+
+{% if influencer_data.photos %}
+angular.module("theshelf").value('photos', [{% for photo in influencer_data.photos %}"{{photo}}",{% endfor %}]);
+{% else %}
+angular.module("theshelf").value('photos', false);
+{% endif %}
+
+{% if posts %}
+angular.module("theshelf").value('posts', {{posts|safe}});
+{% else %}
+angular.module("theshelf").value('posts', false);
+{% endif %}
+
+})();
+</script>
+{% endblock %}
+
+{% block search_content %}
+
+{% include 'popups/login_lb.html' with popup_type="login-popup" %}
+{% include 'popups/signup_lb.html' with popup_type="signup-popup" %}
+<span ng-controller="AboutBloggerCtrl">
+
+{% include 'snippets/brand_nav.html' with brand=brand %}
+
+
+<div class="about_wrapper" itemscope itemtype="http://data-vocabulary.org/Person">
+<div class="salvattore_grid about_page_salvattore" data-columns>
+            <div class="feed_item clearfix">
+                <div class="ab_widget text_wgt">
+                    <div class="wgt_header bloggers_name" style="border-bottom:none;">{{ brand.name }}</div>
+                    <div class="body_content clearfix">
+                        <p class="blogger_info" itemprop="name">
+
+                        {{ brand.domain_name }} &nbsp; &nbsp;
+
+                        {% if location %}/ &nbsp; &nbsp; {{location}} &nbsp; &nbsp;{% endif %}
+
+                        </p>
+                        {% if influencer_data.description %}
+                        <div class="parag w_space">{{ influencer_data.description }}</div>
+                        {% endif %}
+                    </div>
+                    <!-- Links -->
+                    <div class="body_content clearfix w_top_padding w_top_border" style="padding-bottom:20px;">
+                        <p class="sub_header shorter_left">Website Link</p>
+                        <div class="shorter_right"><a target="_blank" href="http://{{brand.brand_weblink}}" class="square_bt blk_outline_lt_gray_inside xs">{{ brand.name }}</a></div>
+                    </div>
+                    {% if influencer.blog_url %}
+                    <div class="body_content clearfix" style="padding-bottom:20px;">
+                        <p class="sub_header shorter_left">Blog Link</p>
+                        <div class="shorter_right"><a target="_blank" href="{{influencer.blog_url}}" class="square_bt blk_outline_lt_gray_inside xs">company blog</a></div>
+                    </div>
+                    {% endif %}
+                    {% if influencer_data.profile.has_social %}
+                    <div class="body_content clearfix" style="padding-bottom:46px;">
+                        <p class="sub_header shorter_left">Social Links</p>
+                        <div class="shorter_right">
+                            <div class="soc_row medium" style="margin-top:0;">
+                                {% if influencer_data.profile.facebook_page %}
+                                    <a class="icon-social_facebook" href="{{ influencer_data.profile.facebook_page }}" target="_blank" itemprop="url"></a>
+                                {% endif %}
+                                {% if influencer_data.profile.twitter_page %}
+                                    <a class="icon-social_twitter" href="{{influencer_data.profile.twitter_page}}" target="_blank" itemprop="url"></a>
+                                {% endif %}
+                                {% if influencer_data.profile.pinterest_page %}
+                                    <a class="icon-social_pinterest" href="{{influencer_data.profile.pinterest_page}}" target="_blank" itemprop="url"></a>
+                                {% endif %}
+                                {% if influencer_data.profile.instagram_page %}
+                                    <a class="icon-social_instagram2" href="{{influencer_data.profile.instagram_page}}" target="_blank" itemprop="url"></a>
+                                {% endif %}
+                                {% if influencer_data.profile.etsy_page %}
+                                    <a class="icon-social_etsy" href="{{influencer_data.profile.etsy_page}}" target="_blank" itemprop="url"></a>
+                                {% endif %}
+                                {% if influencer_data.profile.store_page %}
+                                    <a class="icon-misc_loc_building3" href="{{influencer_data.profile.store_page}}" target="_blank" itemprop="url"></a>
+                                {% endif %}
+                                {% if influencer_data.profile.youtube_page %}
+                                    <a class="icon-social_youtube" href="{{influencer_data.profile.youtube_page}}" target="_blank" itemprop="url"></a>
+                                {% endif %}
+
+                                    <!-- Extras
+                                    <a class="icon-social_tumbler" href="" target="_blank" itemprop="url"></a>
+                                    <a class="icon-social_lookbook" href="" target="_blank" itemprop="url"></a>
+                                    -->
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                    <!-- Tags -->
+                    {% if style_tags %}
+                    <div class="body_content clearfix">
+                        <div class="w_space w_padding">
+                            <p class="sub_header larger">Style Tags</p>
+                            <p>
+                                {% for tag in style_tags %}
+                                <span class="tags">{{ tag|title }}</span>
+                                {% endfor %}
+                            </p>
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% if profile_owner %}
+                    <a href="{{ brand.edit_page }}"><div class="edit_bar edit_story_launcher">Edit</div></a>
+                    {% endif %}
+                </div>
+            </div>
+
+
+            <!-- User's Posts Widget -->
+            {% if influencer_data.posts %}
+            <div class="feed_item clearfix">
+                <div class="ab_widget blog_wgt">
+                    <div class="wgt_header">Blog Posts</div>
+                        <div class="post_container" about-blogger-post ng-repeat="post in posts" post="post">
+                            <div class="text_block">
+                                <div class="title"></div>
+                                <div class="com_count" ng-bind="post.create_date"></div>
+                                <div class="body_text"></div>
+                            </div>
+                            <div class="img_container post_pic">
+                                <img/>
+                            </div>
+                        </div>
+                    <div class="fadeout tall"></div>
+                    {% if visitor.has_brand or profile_owner %}
+                    <div class="more_bar" a-href="{{brand.posts_page}}">View All</div>
+                    {% else %}
+                    <a href="#" click-emitter="openLoginRequiredPopup" class="more_bar">View All</a>
+                    {% endif %}
+
+                </div>
+            </div>
+            {% endif %}
+
+
+            <!-- Shelved Items Widget -->
+            {% if influencer_data.profile.items %}
+            <div class="feed_item clearfix">
+                <div class="ab_widget items_wgt">
+                    <div class="wgt_header">Items Mentioned in Blog Posts</div>
+                    <div class="image_cont">
+                        {% for item in influencer_data.profile.items %}
+                            <div class="sh_img">
+                                <img class="imgfit" src="{{ item.img_url_panel_view }}" alt="item image" />
+                                <div class="image_label_price">
+                                    <p class="the_name">{{item.brand}}</p>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    {% if visitor.has_brand or profile_owner %}
+                    <a href="{{influencer_data.profile.items_page}}" class="more_bar">View All</a>
+                    {% else %}
+                    <a href="#" click-emitter="openLoginRequiredPopup" class="more_bar">View All</a>
+                    {% endif %}
+
+                </div>
+            </div>
+            {% endif %}
+
+
+
+
+            {% if influencer_data.photos %}
+            <!-- User's Photos Widget -->
+            <div class="feed_item clearfix" photos-gallery>
+                <div class="ab_widget photo_wgt">
+                    <div class="wgt_header">Photos</div>
+                        <div class="photo_container" ng-if="loading" style="text-align: right; position: absolute; top: 40px; opacity: 0.5">
+                            Loading... <span ng-bind="percentage"></span>%
+                        </div>
+                        <div class="photo_container">
+                            <img class="current" src="{{current_photo}}"/>
+                            <img class="next" >
+                            <div class="arrow left" ng-click="prev()"><span class="icon-arrow_l_arr_6"></span></div>
+                            <div class="arrow right" ng-click="next()"><span class="icon-arrow_r_arr_6"></span></div>
+                        </div>
+                    <div class="fadeout tall"></div>
+                    {% if visitor.has_brand or profile_owner %}
+                    <div class="more_bar" a-href="{{brand.photos_page}}">View All</div>
+                    {% else %}
+                    <a href="#" click-emitter="openLoginRequiredPopup" class="more_bar">View All</a>
+                    {% endif %}
+                    <span style="display: none">
+                        <img ng-src="{% templatetag openvariable %}photo{% templatetag closevariable %}?r={{rand}}" class="photo_preload" ng-repeat="photo in photos track by $index" data-index="{% templatetag openvariable %}$index{% templatetag closevariable %}">
+                    </span>
+                </div>
+            </div>
+            {% endif %}
+
+
+</div>
+</div>
+</span>
+{% endblock %}

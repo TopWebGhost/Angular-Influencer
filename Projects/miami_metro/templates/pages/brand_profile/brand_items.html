@@ -1,0 +1,17 @@
+{% extends 'pages/brand_profile/base.html' %}
+{% block title %}{{ brand.name|upper }} on The Shelf Network | connecting top fashion bloggers and brands{% endblock %}
+
+{% block search_content %}
+
+{% include 'popups/login_lb.html' with popup_type="login-popup" %}
+{% include 'popups/signup_lb.html' with popup_type="signup-popup" %}
+
+{% include 'snippets/brand_nav.html' with brand=brand %}
+
+<div class="blogger_feed" id="bloggers_root">
+    <div class="og-expander" style="margin-left:-1500px">
+        {% include 'widgets/item_info.html' %}
+    </div>
+    <div product-feed filter='products' source='{{brand.items_page}}' paginated {% if DEBUG %}debug{% endif %}></div>
+</div>
+{% endblock %}

@@ -1,0 +1,173 @@
+{% extends 'pages/brand_profile/base.html' %} {% load custom_filters compressed %}
+{% block title %}{{ brand.name|upper }} on The Shelf Network | connecting top fashion bloggers and brands{% endblock %}
+{% block body_class %}white_bg{% endblock %}
+
+
+{% block bottom_js %}
+{{ block.super }}
+{% compressed_js 'angular_about' %}
+<script type="text/javascript" src="//maps.googleapis.com/maps/api/js?libraries=places&sensor=true"></script>
+<script type="text/javascript">
+(function(){
+angular.module("theshelf").value('profile_data', {{profile_data|safe}});
+angular.module("theshelf").value('brand_matcher', '{% url debra.search_views.search_brand_json %}');
+angular.module("theshelf").value('collab_types', [
+    {% for type in collab_types %}
+    {text:"{{type.1}}"},
+    {% endfor %}
+]);
+})();
+</script>
+{% endblock %}
+
+{% block search_content %}
+
+<div class="edit_account" ng-controller="AboutEditCtrl">
+	<div class="account_wrapper">
+
+	    <div class="account_title">Your Info</div>
+	    <div class="account_hint">Fill in the info that will be displayed on your profile.  If you have MULTIPLE emails, separate them with a space.</div>
+	    <div class="content_wrapper clearfix">
+            <fieldset class="typical_form halfer">
+                <label>BRAND NAME</label>
+                <input name="brandname" ng-model="profile_data.brandname" type="text" required maxlength="1000">
+            </fieldset>
+	        <!--fieldset class="typical_form third">
+                <label>BRAND BLOG NAME</label>
+                <input name="blogname" ng-model="profile_data.blogname" type="text" required maxlength="1000">
+	        </fieldset-->
+	        <!--fieldset class="typical_form third">
+                <label>Contact Email(s)</label>
+                <input name="emails" ng-model="profile_data.email" type="text" required maxlength="1000">
+	        </fieldset-->
+			<fieldset class="typical_form halfer right">
+                <label>City, State, Country</label>
+                <input id="location" name="location" type="text" required maxlength="1000">
+	        </fieldset>
+
+			<span ng-bind="place"></span>
+	        <fieldset class="typical_form clearit">
+                <label>A SHORT BIO</label>
+                <textarea name="bio" rows="7" ng-model="profile_data.bio" class="comment_field" placeholder="A little about yourself.." required></textarea>
+	        </fieldset>
+	    </div>
+
+
+
+
+	    <div class="sect_divider"></div>
+	    <div class="account_title">Tag Yourself</div>
+	    <div class="account_hint" style="margin-bottom:40px;">Tagging yourself helps you to show up in the search results.  Use as many as are relevant to you and your style.<br/></div>
+	    <div class="content_wrapper clearfix tagging">
+
+		    <div class="checkbox_col">
+		    	<div class="account_subheader">Style Tags</div>
+		    	<div class="checkbox_mini_wrapper">
+					<div class="cb_or_rb_wrap">
+						{% verbatim %}
+						<div ng-repeat="tag in tags.style1"><input ng-click="toggleTag(tag)" ng-checked="hasTag(tag)" type="checkbox" id="tag_s1_{{$index}}" name="cc"/><label class="floater" for="tag_s1_{{$index}}"><span class="graphic plus_btn"></span>{{tag}}</label></div>
+						{% endverbatim %}
+        			</div>
+		    	</div>
+		    	<div class="checkbox_mini_wrapper">
+					<div class="cb_or_rb_wrap">
+						{% verbatim %}
+						<div ng-repeat="tag in tags.style2"><input ng-click="toggleTag(tag)" ng-checked="hasTag(tag)" type="checkbox" id="tag_s2_{{$index}}" name="cc"/><label class="floater" for="tag_s2_{{$index}}"><span class="graphic plus_btn"></span>{{tag}}</label></div>
+						{% endverbatim %}
+        			</div>
+		    	</div>
+		    	<div class="checkbox_mini_wrapper">
+					<div class="cb_or_rb_wrap">
+						{% verbatim %}
+						<div ng-repeat="tag in tags.style3"><input ng-click="toggleTag(tag)" ng-checked="hasTag(tag)" type="checkbox" id="tag_s3_{{$index}}" name="cc"/><label class="floater" for="tag_s3_{{$index}}"><span class="graphic plus_btn"></span>{{tag}}</label></div>
+						{% endverbatim %}
+        			</div>
+		    	</div>
+			</div>
+
+
+			<div class="checkbox_col right">
+		    	<div class="account_subheader">Blogger Type</div>
+		    	<div class="checkbox_mini_wrapper">
+					<div class="cb_or_rb_wrap">
+						{% verbatim %}
+						<div ng-repeat="tag in tags.blogger1"><input ng-click="toggleTag(tag)" ng-checked="hasTag(tag)" type="checkbox" id="tag_b1_{{$index}}" name="cc"/><label class="floater" for="tag_b1_{{$index}}"><span class="graphic plus_btn"></span>{{tag}}</label></div>
+						{% endverbatim %}
+        			</div>
+		    	</div>
+		    	<div class="checkbox_mini_wrapper">
+					<div class="cb_or_rb_wrap">
+						{% verbatim %}
+						<div ng-repeat="tag in tags.blogger2"><input ng-click="toggleTag(tag)" ng-checked="hasTag(tag)" type="checkbox" id="tag_b2_{{$index}}" name="cc"/><label class="floater" for="tag_b2_{{$index}}"><span class="graphic plus_btn"></span>{{tag}}</label></div>
+						{% endverbatim %}
+        			</div>
+		    	</div>
+			</div>
+
+	    </div>
+
+
+
+	    <div class="sect_divider"></div>
+	    <div class="account_title">Your Profile &amp; Cover Photos</div>
+	    <div class="account_hint" style="margin-bottom:40px;">You can upload your photos here.  If you don't feel like it, you can fill in your social handles below, and we'll try to pull in the photos from your social accounts.  (This will take a few minutes, so make sure to check back later if you decide to use the social handle option.)<br/></div>
+	    <div class="content_wrapper clearfix">
+            <div class="picture_sub_section">
+                <div class="profile_pic"></div>
+                <div class="square_bt sm gray_bt" image-upload ng-click="upload('{% url masuka.image_manipulator.image_upload %}?profile_img=1&brand=1', '{{image_sizes.profile.0}}:{{image_sizes.profile.1}}')" no-reload success-bc="profileImageSet">Upload</div>
+            </div>
+	    	<div class="picture_sub_section">
+	    		<div class="cover_img"></div>
+                <div class="square_bt sm gray_bt" image-upload ng-click="upload('{% url masuka.image_manipulator.image_upload %}?profile_img=1&cover_img=1&brand=1', '{{image_sizes.cover.0}}:{{image_sizes.cover.1}}')" no-reload success-bc="coverImageSet">Upload</div>
+	    	</div>
+	    </div>
+
+
+
+
+	    <div class="sect_divider"></div>
+	    <div class="account_title">Social Links</div>
+	    <div class="account_hint">These are the social URLs we’ve collected for you. You should check these to make sure they are correct.  You can copy and paste the url into a new window. Or you can click on the icon, and it will open this link up in a new tab so you can make sure its yours. If any of these are wrong.  Or if a url is missing, please <a  class="txt_link teal launch-popup" data-popup-type="contact_us" broadcaster="openContactForm">contact us</a>.  We will update it!</div>
+	    <div class="content_wrapper clearfix">
+	    	<div class="soc_row medium social_link_validate typical_form smaller_field">
+				{% verbatim %}
+                <div class="link_validate_row">
+	                <a itemprop="url" target="_blank" href="{{profile_data.social.facebook_page||'https://facebook.com/'}}" class="icon-social_facebook"></a>
+	                <div class="soc_link_text"><input type="url" ng-model="profile_data.social.facebook_page" name="facebook_page"/></div>
+	            </div>
+
+                <div class="link_validate_row">
+	                <a itemprop="url" target="_blank" href="{{profile_data.social.twitter_page||'https://twitter.com/'}}" class="icon-social_twitter"></a>
+	                <div class="soc_link_text"><input type="url" ng-model="profile_data.social.twitter_page" name="twitter_page"/></div>
+	            </div>
+
+                <div class="link_validate_row">
+	                <a itemprop="url" target="_blank" href="{{profile_data.social.pinterest_page||'http://www.pinterest.com/'}}" class="icon-social_pinterest"></a>
+	                <div class="soc_link_text"><input type="url" ng-model="profile_data.social.pinterest_page" name="pinterest_page"/></div>
+	            </div>
+
+                <div class="link_validate_row">
+	                <a itemprop="url" target="_blank" href="{{profile_data.social.instagram_page||'http://instagram.com/'}}" class="icon-social_instagram2"></a>
+	                <div class="soc_link_text"><input type="url" ng-model="profile_data.social.instagram_page" name="instagram_page"/></div>
+	            </div>
+
+                <div class="link_validate_row">
+	                <a itemprop="url" target="_blank" href="{{profile_data.social.blog_page}}" class="icon-social_blog"></a>
+	                <div class="soc_link_text"><input type="url" ng-model="profile_data.social.blog_page" name="blog_page"/></div>
+	            </div>
+	            {% endverbatim %}
+        	</div>
+	    </div>
+
+	    <div style="clear:both;">
+	    <br/><br/><br/><br/>
+	    	<div edit-profile-popup save-url="{{brand.edit_page}}" success-url="{{brand.about_page}}"></div>
+	    	<button class="square_bt xl teal_bt" ng-click="save()">Save</button>
+        	<a href="{{brand.about_page}}"><button class="square_bt xl teal_bt inactive">Cancel</button></a>
+        </div>
+
+	</div>
+</div>
+
+
+{% endblock %}

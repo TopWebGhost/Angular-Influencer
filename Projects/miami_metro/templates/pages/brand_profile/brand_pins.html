@@ -1,0 +1,14 @@
+{% extends 'pages/brand_profile/base.html' %}
+{% block title %}{{ brand.name|upper }} on The Shelf Network | connecting top fashion bloggers and brands{% endblock %}
+
+{% block search_content %}
+
+{% include 'popups/login_lb.html' with popup_type="login-popup" %}
+{% include 'popups/signup_lb.html' with popup_type="signup-popup" %}
+
+{% include 'snippets/brand_nav.html' with brand=brand %}
+
+<div class="blogger_feed" id="bloggers_root">
+    <div product-feed filter='pins' source='{{ brand.pins_page }}' paginated {% if DEBUG %}debug{% endif %}></div>
+</div>
+{% endblock %}

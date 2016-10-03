@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load compressed %}
+
+{% block title %}
+{{ page_title }}
+{% endblock %}
+
+{% block meta_description %}
+<meta name="description" content="{{ meta_description }}">
+{% endblock %}
+
+{% block bottom_js %}
+{% compressed_js 'angular_blogger' %}
+{% if visitor.has_brand %}
+{% compressed_js 'angular_brand_navigation' %}
+<script type="text/javascript">
+(function(){
+angular.module("theshelf").value('nav_config', {
+    tab: "{{selected_tab}}",
+    sub_tab: "{{sub_page}}",
+    visible: {% if hide_nav %}false{% else %}true{% endif %},
+});
+})();
+</script>
+{% endif %}
+{% endblock %}
+
+{% block main_controller %}ng-controller="BloggerCommonCtrl"{% endblock main_controller %}
+
+{% block content %}
+    {% if visitor.has_brand %}
+    <div class="dashboard_content">
+    <div message-influencer-popup url="{% url debra.job_posts_views.send_message %}"></div>
+    {% endif %}
+    <div feature-locked-popup link="{% url debra.account_views.pricing %}" link-title="Upgrade" plan-name="{{visitor.plan_name_mapped|title}}"></div>
+    <span class="no_universal_header">
+    {% block search_content %}
+    {% endblock %}
+    </span>
+    {% if visitor.has_brand %}</div>{% endif %}
+{% endblock %}
+
+
+
+
+
+
+
+
+
