@@ -1,0 +1,374 @@
+{% extends 'pages/bloggers/base.html' %} {% load custom_filters compressed %}
+{% block title %}{{ influencer.blogname|unescape|safe|upper }} on The Shelf Network | connecting top fashion bloggers and brands{% endblock %}
+{% block body_class %}white_bg{% endblock %}
+
+
+{% block bottom_js %}
+{{ block.super }}
+<script type="text/javascript" src="//maps.googleapis.com/maps/api/js?libraries=places&sensor=true"></script>
+{% compressed_js 'angular_about' %}
+<script type="text/javascript">
+(function(){
+angular.module("theshelf").value('profile_data', {{profile_data|unescape|safe}});
+angular.module("theshelf").value('brand_matcher', '{% url debra.search_views.search_brand_json %}');
+angular.module("theshelf").value('collab_types', [
+    {% for type in collab_types %}
+    {text:"{{type.1}}"},
+    {% endfor %}
+]);
+})();
+</script>
+{% endblock %}
+
+{% block custom_header %}{% endblock %}
+{% block search_content %}
+
+
+
+
+<div class="a_form_page slim_shady clearfix" ng-controller="AboutEditCtrl">
+	<div class="a_form_page_content">
+
+
+
+    	<div class="a_form_group clearfix">
+		    <div class="form_title">Your Info</div>
+		    <div class="form_instruction">Fill in the info that will be displayed on your profile.  If you have MULTIPLE emails, separate them with a space.</div>
+		    <div class="inner_section"> 
+			    <fieldset class="typical_form form_row_40 halfer">
+	                <label>YOUR NAME</label>
+	                <input name="name" ng-model="profile_data.name" type="text" required maxlength="1000">
+		        </fieldset>
+		        <fieldset class="typical_form form_row_40 halfer right">
+	                <label>BLOG NAME</label>
+	                <input name="blogname" ng-model="profile_data.blogname" type="text" required maxlength="1000">
+		        </fieldset>
+		        <fieldset class="typical_form form_row_40 halfer">
+	                <label>Contact Email(s)</label>
+	                <input name="emails" ng-model="profile_data.email" type="text" required maxlength="1000">
+		        </fieldset>
+				<fieldset class="typical_form form_row_40 halfer right">
+	                <label>City, State, Country</label>
+	                <input id="location" name="location" type="text" required maxlength="1000">
+		        </fieldset>
+		        <span ng-bind="place"></span>
+		        <fieldset class="typical_form form_row_40 clearit">
+	                <label>A SHORT BIO</label>
+	                <textarea name="bio" rows="4" ng-model="profile_data.bio" class="comment_field" placeholder="A little about yourself.." required></textarea>
+		        </fieldset>
+		    </div>
+		</div>
+
+
+		<div class="form_divider w_60_60_pad_mag"></div>
+
+
+
+		<div class="a_form_group clearfix">
+		    <div class="form_title">Tag Yourself</div>
+		    <div class="form_instruction">Tagging yourself helps you to show up in the search results.  Use as many as are relevant to you and your style.</div>
+		    <div class="inner_section clearfix tagging_within_form">
+
+			    <div class="checkbox_col">
+			    	<div class="form_mid_title">Style Tags</div>
+			    	<div class="checkbox_mini_wrapper">
+						<div class="cb_or_rb_wrap">
+							{% verbatim %}
+							<div ng-repeat="tag in tags.style1"><input ng-click="toggleTag(tag)" ng-checked="hasTag(tag)" type="checkbox" id="tag_s1_{{$index}}" name="cc"/><label class="floater" for="tag_s1_{{$index}}"><span class="graphic plus_btn"></span>{{tag}}</label></div>
+							{% endverbatim %}
+	        			</div>
+			    	</div>
+			    	<div class="checkbox_mini_wrapper">
+						<div class="cb_or_rb_wrap">
+							{% verbatim %}
+							<div ng-repeat="tag in tags.style2"><input ng-click="toggleTag(tag)" ng-checked="hasTag(tag)" type="checkbox" id="tag_s2_{{$index}}" name="cc"/><label class="floater" for="tag_s2_{{$index}}"><span class="graphic plus_btn"></span>{{tag}}</label></div>
+							{% endverbatim %}
+	        			</div>
+			    	</div>
+			    	<div class="checkbox_mini_wrapper">
+						<div class="cb_or_rb_wrap">
+							{% verbatim %}
+							<div ng-repeat="tag in tags.style3"><input ng-click="toggleTag(tag)" ng-checked="hasTag(tag)" type="checkbox" id="tag_s3_{{$index}}" name="cc"/><label class="floater" for="tag_s3_{{$index}}"><span class="graphic plus_btn"></span>{{tag}}</label></div>
+							{% endverbatim %}
+	        			</div>
+			    	</div>
+				</div>
+
+
+				<div class="checkbox_col right">
+			    	<div class="form_mid_title">Blogger Type</div>
+			    	<div class="checkbox_mini_wrapper">
+						<div class="cb_or_rb_wrap">
+							{% verbatim %}
+							<div ng-repeat="tag in tags.blogger1"><input ng-click="toggleTag(tag)" ng-checked="hasTag(tag)" type="checkbox" id="tag_b1_{{$index}}" name="cc"/><label class="floater" for="tag_b1_{{$index}}"><span class="graphic plus_btn"></span>{{tag}}</label></div>
+							{% endverbatim %}
+	        			</div>
+			    	</div>
+			    	<div class="checkbox_mini_wrapper">
+						<div class="cb_or_rb_wrap">
+							{% verbatim %}
+							<div ng-repeat="tag in tags.blogger2"><input ng-click="toggleTag(tag)" ng-checked="hasTag(tag)" type="checkbox" id="tag_b2_{{$index}}" name="cc"/><label class="floater" for="tag_b2_{{$index}}"><span class="graphic plus_btn"></span>{{tag}}</label></div>
+							{% endverbatim %}
+	        			</div>
+			    	</div>
+				</div>
+			</div>
+		</div>
+
+
+		<div class="form_divider w_60_60_pad_mag"></div>
+
+
+
+
+		<div class="a_form_group clearfix">
+		    <div class="form_title">Social Links</div>
+		    <div class="form_instruction">These are the social URLs we’ve collected for you. You should check these to make sure they are correct.  You can copy and paste the url into a new window. Or you can click on the icon, and it will open this link up in a new tab so you can make sure its yours. If any of these are wrong.  Or if a url is missing, please contact us using the question mark button in the bottom right. And we will update it!</div>
+		    <div class="inner_section soc_row medium social_link_validate"> 
+		        
+                <div class="link_validate_row">
+                	{% if social.facebook_page %}
+	                <a itemprop="url" target="_blank" href="{{social.facebook_page}}" class="icon-social_facebook"></a>
+	                {% else %}
+	                <a class="icon-social_facebook launch-popup" data-popup-type="contact_us" broadcaster="openContactForm"></a>
+	                {% endif %}
+	                <div class="soc_link_text"><p>{{social.facebook_page}}</p></div>
+	            </div>
+
+                <div class="link_validate_row">
+                	{% if social.twitter_page %}
+	                <a itemprop="url" target="_blank" href="{{social.twitter_page}}" class="icon-social_twitter"></a>
+	                {% else %}
+	                <a class="icon-social_twitter launch-popup" data-popup-type="contact_us" broadcaster="openContactForm"></a>
+	                {% endif %}
+	                <div class="soc_link_text"><p>{{social.twitter_page}}</p></div>
+	            </div>
+
+                <div class="link_validate_row">
+                	{% if social.pinterest_page %}
+	                <a itemprop="url" target="_blank" href="{{social.pinterest_page}}" class="icon-social_pinterest"></a>
+	                {% else %}
+	                <a class="icon-social_pinterest launch-popup" data-popup-type="contact_us" broadcaster="openContactForm"></a>
+	                {% endif %}
+	                <div class="soc_link_text"><p>{{social.pinterest_page}}</p></div>
+	            </div>
+
+                <div class="link_validate_row">
+                	{% if social.instagram_page %}
+	                <a itemprop="url" target="_blank" href="{{social.instagram_page}}" class="icon-social_instagram2"></a>
+	                {% else %}
+	                <a class="icon-social_instagram2 launch-popup" data-popup-type="contact_us" broadcaster="openContactForm"></a>
+	                {% endif %}
+	                <div class="soc_link_text"><p>{{social.instagram_page}}</p></div>
+	            </div>
+
+                <div class="link_validate_row">
+                	{% if social.bloglovin_page %}
+	                <a itemprop="url" target="_blank" href="{{social.bloglovin_page}}" class="icon-social_blog_lovin"></a>
+	                {% else %}
+	                <a class="icon-social_blog_lovin launch-popup" data-popup-type="contact_us" broadcaster="openContactForm"></a>
+	                {% endif %}
+	                <div class="soc_link_text"><p>{{social.bloglovin_page}}</p></div>
+	            </div>
+
+                <div class="link_validate_row">
+                	{% if social.lb_page %}
+	                <a itemprop="url" target="_blank" href="{{social.lb_page}}" class="icon-social_lookbook">LB</a>
+	                {% else %}
+	                <a class="icon-social_lookbook launch-popup" data-popup-type="contact_us" broadcaster="openContactForm">LB</a>
+	                {% endif %}
+	                <div class="soc_link_text"><p>{{social.lb_page}}</p></div>
+	            </div>
+
+                <div class="link_validate_row">
+                	{% if social.blog_page %}
+	                <a itemprop="url" target="_blank" href="{{social.blog_page}}" class="icon-social_blog"></a>
+	                {% else %}
+	                <a class="icon-social_blog launch-popup" data-popup-type="contact_us" broadcaster="openContactForm"></a>
+	                {% endif %}
+	                <div class="soc_link_text"><p>{{social.blog_page}}</p></div>
+	            </div>
+		    </div>
+		</div>
+		<div class="form_divider w_60_60_pad_mag"></div>
+
+
+
+
+
+		<div class="a_form_group clearfix">
+		    <div class="form_title">Info For Brands</div>
+		    <div class="form_instruction">All of this is optional. The more info you provide, the easier it is for a brand to know if you’re a good fit.</div>
+		    <div class="inner_section"> 
+
+
+		    	<div class="campaign_details">
+					<div class="cb_or_rb_wrap clearfix">
+						{% verbatim %}
+	        			<span ng-repeat="ifb in info_for_brands"><input type="checkbox" id="ifb_{{$index}}" name="cc" ng-model="profile_data.info_for_brands.enabled[ifb]"/><label class="floater" for="ifb_{{$index}}"><span class="graphic plus_btn"></span>{{ifb}}</label></span>
+	        			{% endverbatim %}
+	    			</div>
+			    	<table class="a_form_table" ng-if="anyInfoVisible()">
+						<tbody>
+							<tr style="background:transparent;">
+								<th>Campaign Type</th>
+								<th>Dollar Range</th>
+								<th>Extra Details</th>
+								<th>&nbsp;</th>
+							</tr>
+							{% verbatim %}
+							<tr ng-repeat="ifb in info_for_brands" ng-if="profile_data.info_for_brands.enabled[ifb]">
+								<td class="row_title">{{ifb}}</td>
+								<td><fieldset class="typical_form smaller_field price"><input ng-model="profile_data.info_for_brands.range_min[ifb]" name="range_min" type="text" ng-change="ifb_modified(ifb)"><span> &nbsp; to &nbsp; </span><input ng-model="profile_data.info_for_brands.range_max[ifb]" name="range_max" type="text" ng-change="ifb_modified(ifb)"></fieldset></td>
+								<td><fieldset class="typical_form smaller_field extra_info"><input ng-model="profile_data.info_for_brands.info[ifb]" name="name" type="text" ng-change="ifb_modified()"></fieldset></td>
+								<td><span class="icon-letter_x05" ng-click="profile_data.info_for_brands.enabled[ifb]=false; ifb_modified()"></span></td>
+							</tr>
+							{% endverbatim %}
+						</tbody>
+					</table>
+				</div>
+			</div>
+
+			<div class="form_divider w_60_60_pad_mag"></div>
+			<div class="flex_row_steps">
+                <fieldset class="typical_form form_row_40 step_container halfer left">
+                    <div class="step_section">
+                        <div class="form_mid_title">Collaboration Preferences</div>
+                        <div class="form_instruction">Do you prefer certain types of brands for these collaborations... do you have a certain style that makes your campaigns unique, etc.</div>
+                        <textarea name="collaboration_types" rows="4" ng-model="profile_data.collaboration_types" class="comment_field" placeholder="A little about yourself.." required></textarea>
+                    </div>
+                    <div class="x_space x_30"></div>
+                </fieldset>
+                <fieldset class="typical_form form_row_40 step_container halfer right">
+                    <div class="step_section">
+                        <div class="form_mid_title">How You Work</div>
+                        <div class="form_instruction">How far in advance do brands need to set something up? Do you work with an agent and is that optional? <br/>Do you do pro-bono for certain causes? What types of things you typically WON’T work on... etc.</div>
+                        <textarea name="how_you_work" rows="4" ng-model="profile_data.how_you_work" class="comment_field" placeholder="A little about yourself.." required></textarea>
+                    </div>
+                    <div class="x_space x_30"></div>
+                </fieldset>
+            </div>
+
+		</div>
+		<div class="form_divider w_60_60_pad_mag"></div>
+
+
+
+
+
+		<div class="a_form_group clearfix">
+		    <div class="form_title">Past Collaborations</div>
+		    <div class="form_instruction">This is only available to brands.  It helps them to see what a sponsored post with you could look like.  It’s also totally optional.  Add as much or as little info as you’d like.</div>
+		    <div class="inner_section"> 
+		        
+
+		    	{% verbatim %}
+			    <div style="margin: 50px auto" ng-if="anyCollabVisible()">
+				    <table class="a_form_table">
+				    	<thead>
+				    		<tr style="background:transparent;">
+					    		<th>Brand name</th>
+					    		<th>Date</th>
+					    		<th>Type</th>
+					    		<th>Details</th>
+					    		<th>&nbsp;</th>
+					    	</tr>
+						</thead>
+						<tbody>
+					    	<tr ng-repeat="collab in profile_data.collaborations" ng-if="collabVisible(collab)">
+								<td class="row_title">{{collab.brand_name}}&nbsp; <a class="txt_link serif_ital xxsmall lessergray" href="{{collab.post_url}}" target="_blank">View Post</a></td>
+								<td class="row_title">{{collab.timestamp | date:"longDate" }}</td>
+								<td class="row_title">{{collab.collab_type}}</td>
+								<td class="row_title">{{collab.details}}</td>
+								<td ng-click="removeCollaboration($index)"><span class="icon-letter_x05"></span></td>
+					    	</tr>
+				    	</tbody>
+				    </table>
+			    </div>
+			    {% endverbatim %}
+		    	<form name="collab_form" novalidate>
+				    <div class="content_wrapper clearfix">
+				        <fieldset class="typical_form smaller_field form_row_30 third left">
+			                <label for="id_brandname">Brand name</label>
+			                <input id="id_brandname" name="brandname" ng-model="last_collab_data.brand_name" type="text" required maxlength="64" autocomplete='off'>
+			                {% verbatim %}
+			                <div class="brand-autocomplete-message" ng-if="autocomplete_message">
+			                	{{autocomplete_message}}
+			                </div>
+			                <ul class="brand-autocomplete" ng-if="autocomplete_results">
+								<li ng-repeat="result in autocomplete_results track by $index" ng-click="selectResult(result)">{{result}}</li>
+			                </ul>
+			                {% endverbatim %}
+				        </fieldset>
+				        <fieldset class="typical_form smaller_field form_row_30 third">
+			                <label>Brand url</label>
+			                <input name="brandurl" ng-model="last_collab_data.brand_url" type="text" required maxlength="128" autocomplete='off'>
+				        </fieldset>
+
+				        <fieldset class="typical_form smaller_field form_row_30 third right">
+			                <label>Post url</label>
+			                <input name="posturl" ng-model="last_collab_data.post_url" type="text" required maxlength="128" autocomplete='off'>
+				        </fieldset>
+
+				        <fieldset class="typical_form smaller_field form_row_30 three_quarter">
+			                <label>Collaboration Type</label>
+			                <div dropdown-select="collab_types" dropdown-model="tmp_select_collab_type" dropdown-onchange="updateCollabType(selected)"></div>
+				        </fieldset>
+
+						{% comment %}
+				        <fieldset class="typical_form smaller_field form_row_30 quarter right">
+			                <label>Campaign date</label>
+			                <input id="campaign_date" type="text" />
+				        </fieldset>
+				        {% endcomment %}
+
+				       	<fieldset class="typical_form smaller_field form_row_30 quarter right">
+			                <label>Campaign date</label>
+			                {% comment %}
+			                <div ng-date-range bind="dateRangeModel" opens="center" single-date-picker></div>
+			                {% endcomment %}
+			                <div single-date-picker ng-model="last_collab_data.timestamp"></div>
+				        </fieldset>
+
+
+				        <fieldset class="typical_form smaller_field form_row_30 clearit">
+			                <label>Details (what type of campaign, extra details, how did it go, etc.)</label>
+			                <textarea name="details" rows="3" ng-model="last_collab_data.details" class="comment_field" required></textarea>
+				        </fieldset>
+				    </div>
+				    <button class="normal_bt sm gray_bt" ng-class="{inactive: collab_form.$invalid}" ng-disabled="collab_form.$invalid" ng-click="collab_form.$valid&&addCollaboration()">done, add another</button>
+				</form>
+
+
+		    </div>
+		</div>
+		<div class="form_divider w_60_60_pad_mag"></div>
+
+
+		<div>
+	    	<div edit-profile-popup save-url="{{influencer.edit_page}}" success-url="{{influencer.about_page}}"></div>
+	    	<button class="normal_bt lg teal_bt" ng-click="save()">Save</button>
+        	<a href="{{influencer.about_page}}"><button class="normal_bt lg teal_bt inactive">Cancel</button></a>
+        </div>
+
+
+	</div>
+</div>
+
+
+
+
+	    
+
+
+
+
+
+
+	  
+
+
+
+
+
+{% endblock %}

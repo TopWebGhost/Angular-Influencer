@@ -1,0 +1,15 @@
+{% extends 'pages/bloggers/base.html' %}
+{% load custom_filters %}
+{% block title %}{{ influencer.blogname|unescape|safe|upper }} on The Shelf Network | connecting top fashion bloggers and brands{% endblock %}
+
+{% block search_content %}
+
+{% include 'popups/login_lb.html' with popup_type="login-popup" %}
+{% include 'popups/signup_lb.html' with popup_type="signup-popup" %}
+
+{% include 'snippets/blogger_nav.html' with influencer=influencer %}
+
+<div class="blogger_feed" id="bloggers_root">
+    <div product-feed filter='collab' source='{{ influencer.posts_sponsored_page }}' paginated {% if DEBUG %}debug{% endif %}></div>
+</div>
+{% endblock %}

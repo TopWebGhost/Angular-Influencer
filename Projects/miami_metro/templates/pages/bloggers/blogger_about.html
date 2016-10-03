@@ -1,0 +1,611 @@
+{% extends 'pages/bloggers/base.html' %}
+
+
+{% load custom_filters compressed cache %}
+
+
+{% block title %}
+    {{ influencer.blogname|unescape|safe|upper }} on The Shelf Network | connecting top fashion bloggers and brands
+{% endblock %}
+
+
+{% block extra_head %}
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.4.3/morris.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.2/raphael-min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.4.3/morris.min.js"></script>
+{% endblock %}
+
+
+{% block bottom_js %}
+    {{ block.super }}
+    {% compressed_js 'angular_about' %}
+    <script type="text/javascript">
+    (function(){
+    {% if relfashion_stats %}
+    {% if profile_owner or visitor.has_brand %}
+    angular.module("theshelf").value('relfashion_stats', {{relfashion_stats|safe}});
+    {% else %}
+    angular.module("theshelf").value('relfashion_stats', false);
+    {% endif %}
+    {% endif %}
+    {% if category_stats %}
+    {% if profile_owner or visitor.has_brand %}
+    angular.module("theshelf").value('category_stats', {{category_stats|safe}});
+    {% else %}
+    angular.module("theshelf").value('category_stats', false);
+    {% endif %}
+    {% endif %}
+    {% if popularity_stats %}
+    {% if profile_owner or visitor.has_brand %}
+    angular.module("theshelf").value('popularity_stats', {{popularity_stats|safe}});
+    {% else %}
+    angular.module("theshelf").value('popularity_stats', false);
+    {% endif %}
+    {% endif %}
+
+    {% if popularity_sums %}
+    {% if profile_owner or visitor.has_brand %}
+    angular.module("theshelf").value('popularity_sums', {{popularity_sums|safe}});
+    {% else %}
+    angular.module("theshelf").value('popularity_sums', false);
+    {% endif %}
+    {% endif %}
+
+    {% if influencer_data.photos %}
+    angular.module("theshelf").value('photos', [{% for photo in influencer_data.photos %}"{{photo}}",{% endfor %}]);
+    {% else %}
+    angular.module("theshelf").value('photos', false);
+    {% endif %}
+
+    {% if posts %}
+    angular.module("theshelf").value('posts', {{posts|safe}});
+    {% else %}
+    angular.module("theshelf").value('posts', false);
+    {% endif %}
+
+    })();
+    </script>
+{% endblock %}
+
+
+{% block search_content %}
+    {% include 'popups/login_lb.html' with popup_type="login-popup" %}
+    {% include 'popups/signup_lb.html' with popup_type="signup-popup" %}
+    <span ng-controller="AboutBloggerCtrl">
+
+    {% include 'snippets/blogger_nav.html' with influencer=influencer %}
+
+
+    <div class="about_wrapper" itemscope itemtype="http://data-vocabulary.org/Person">
+    <div class="salvattore_grid about_page_salvattore" data-columns>
+                <div class="feed_item clearfix">
+                    <div class="ab_widget text_wgt">
+                        {% if not influencer_data.has_artificial_blog_url and influencer_data.blog_name %}<div class="wgt_header bloggers_name" style="border-bottom:none;">{{ influencer_data.blog_name|unescape }}</div>
+                        <div class="body_content clearfix">
+                            <p class="blogger_info" itemprop="name">
+
+                            {{ influencer_data.name|unescape }} &nbsp; &nbsp;
+
+                            {% if influencer_data.demographics_location %}/ &nbsp; &nbsp; {{influencer_data.demographics_location}} &nbsp; &nbsp;{% endif %}
+
+                            </p>
+                            {% if influencer_data.description %}
+                            <div class="parag w_space">{{ influencer_data.description }}</div>
+                            {% endif %}
+                        </div>
+                        {% endif %}
+                        <!-- Links -->
+                        {% if not influencer_data.has_artificial_blog_url %}
+                        <div class="body_content clearfix w_top_padding w_top_border" style="padding-bottom:20px;">
+                            <p class="sub_header shorter_left">Blog Link</p>
+                            {% if visitor.base_brand.flag_show_dummy_data %}
+                                <div class="shorter_right"><a click-emitter="featureLocked" class="square_bt blk_outline_lt_gray_inside xs">{{ influencer_data.blog_name|unescape }}</a></div>
+                            {% else %}
+                                <div class="shorter_right"><a target="_blank" href="{{influencer_data.profile.blog_page}}" class="square_bt blk_outline_lt_gray_inside xs">{{ influencer_data.blog_name|unescape }}</a></div>
+                            {% endif %}
+                        </div>
+                        {% endif %}
+                        {% if influencer_data.profile.has_social %}
+                        <div class="body_content clearfix{% if influencer_data.has_artificial_blog_url %} w_top_padding w_top_border{% endif %}" style="padding-bottom:46px;">
+                            <p class="sub_header shorter_left">Social Links</p>
+                            <div class="shorter_right">
+                                <div class="soc_row medium" style="margin-top:0;">
+                                    {% if influencer_data.profile.facebook_page %}
+                                        {% if visitor.base_brand.flag_show_dummy_data %}
+                                            <a class="icon-social_facebook" click-emitter="featureLocked" itemprop="url"></a>
+                                        {% else %}
+                                            <a class="icon-social_facebook" href="{{ influencer_data.profile.facebook_page }}" target="_blank" itemprop="url"></a>
+                                        {% endif %}
+                                    {% endif %}
+
+                                    {% if influencer_data.profile.twitter_page %}
+                                        {% if visitor.base_brand.flag_show_dummy_data %}
+                                            <a class="icon-social_twitter" click-emitter="featureLocked" itemprop="url"></a>
+                                        {% else %}
+                                            <a class="icon-social_twitter" href="{{influencer_data.profile.twitter_page}}" target="_blank" itemprop="url"></a>
+                                        {% endif %}
+                                    {% endif %}
+
+                                    {% if influencer_data.profile.pinterest_page %}
+                                        {% if visitor.base_brand.flag_show_dummy_data %}
+                                            <a class="icon-social_pinterest" click-emitter="featureLocked" itemprop="url"></a>
+                                        {% else %}
+                                            <a class="icon-social_pinterest" href="{{influencer_data.profile.pinterest_page}}" target="_blank" itemprop="url"></a>
+                                        {% endif %}
+                                    {% endif %}
+
+                                    {% if influencer_data.profile.instagram_page %}
+                                        {% if visitor.base_brand.flag_show_dummy_data %}
+                                            <a class="icon-social_instagram2" click-emitter="featureLocked" itemprop="url"></a>
+                                        {% else %}
+                                            <a class="icon-social_instagram2" href="{{influencer_data.profile.instagram_page}}" target="_blank" itemprop="url"></a>
+                                        {% endif %}
+                                    {% endif %}
+
+                                    {% if influencer_data.profile.etsy_page %}
+                                        {% if visitor.base_brand.flag_show_dummy_data %}
+                                            <a class="icon-social_etsy" click-emitter="featureLocked" itemprop="url"></a>
+                                        {% else %}
+                                            <a class="icon-social_etsy" href="{{influencer_data.profile.etsy_page}}" target="_blank" itemprop="url"></a>
+                                        {% endif %}
+                                    {% endif %}
+
+                                    {% if influencer_data.profile.store_page %}
+                                        {% if visitor.base_brand.flag_show_dummy_data %}
+                                            <a class="icon-misc_loc_building3" click-emitter="featureLocked" itemprop="url"></a>
+                                        {% else %}
+                                            <a class="icon-misc_loc_building3" href="{{influencer_data.profile.store_page}}" target="_blank" itemprop="url"></a>
+                                        {% endif %}
+                                    {% endif %}
+
+                                    {% if influencer_data.profile.bloglovin_page %}
+                                        {% if visitor.base_brand.flag_show_dummy_data %}
+                                            <a class="icon-social_blog_lovin" click-emitter="featureLocked" itemprop="url"></a>
+                                        {% else %}
+                                            <a class="icon-social_blog_lovin" href="{{influencer_data.profile.bloglovin_page}}" target="_blank" itemprop="url"></a>
+                                        {% endif %}
+                                    {% endif %}
+
+                                    {% if influencer_data.profile.youtube_page %}
+                                        {% if visitor.base_brand.flag_show_dummy_data %}
+                                            <a class="icon-social_youtube" click-emitter="featureLocked" itemprop="url"></a>
+                                        {% else %}
+                                            <a class="icon-social_youtube" href="{{influencer_data.profile.youtube_page}}" target="_blank" itemprop="url"></a>
+                                        {% endif %}
+                                    {% endif %}
+
+                                    {% if influencer_data.profile.lb_page %}
+                                        {% if visitor.base_brand.flag_show_dummy_data %}
+                                            <a class="icon-social_lookbook" click-emitter="featureLocked" itemprop="url">LB</a>
+                                        {% else %}
+                                            <a class="icon-social_lookbook" href="{{influencer_data.profile.lb_page}}" target="_blank" itemprop="url">LB</a>
+                                        {% endif %}
+                                    {% endif %}
+
+                                        <!-- Extras
+                                        <a class="icon-social_tumbler" href="" target="_blank" itemprop="url"></a>
+                                        <a class="icon-social_lookbook" href="" target="_blank" itemprop="url"></a>
+                                        -->
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                        <!-- Tags -->
+                        {% if style_tags %}
+                        <div class="body_content clearfix">
+                            <div class="w_space w_padding">
+                                <p class="sub_header larger">Style Tags</p>
+                                <p>
+                                    {% for tag in style_tags %}
+                                    <span class="tags">{{ tag|title }}</span>
+                                    {% endfor %}
+                                </p>
+                            </div>
+                        </div>
+                        {% endif %}
+                        {% if profile_owner %}
+                        <a href="{{ influencer.edit_page }}"><div class="edit_bar edit_story_launcher">Edit</div></a>
+                        {% endif %}
+                    </div>
+                </div>
+
+                {% if visitor.has_brand %}
+                {% if influencer_data.relfashion_stats or influencer_data.category_stats or influencer_data.mentions_notsponsored %}
+                <div class="feed_item clearfix">
+                    <div class="ab_widget text_wgt">
+                        <div class="wgt_header">Content Overview
+                        {% if profile_owner %}<small style="font-size: 12px; font-style: italic">Visible only for you and brands</small>{% endif %}
+                        </div>
+
+                        {% if influencer_data.relfashion_stats or influencer_data.category_stats %}
+                        <div class="body_content clearfix">
+                            <div id="blog_stat_relfashion" style="width: 240px; float: left"></div>
+                            <div id="blog_stat_categories" style="width: 240px; float: left"></div>
+                        </div>
+                        {% endif %}
+
+                        {% if influencer_data.mentions_notsponsored %}
+                        <div class="body_content clearfix w_top_padding w_top_border">
+                            <div class="w_space w_padding">
+                                <p class="sub_header larger">Endorsed Brands</p>
+                                <p class="subtext">These are all of the brands that have been blogged about.  The count indicates how many posts mention products from this brand.</p>
+                                <br/>
+                                <div class="endorsed_brands" endorsed-brands>
+                                    <div class="brands">
+                                        {% for mention in influencer_data.mentions_notsponsored %}
+                                        <div class="brand">{{mention.name}} <span class="number">({{mention.count}})</span></div>
+                                        {% endfor %}
+                                    </div>
+                                    <p ng-show="has_more_brands()" class="serif_ital small">
+                                        <span class="txt_link darker_teal" style="margin-top: 20px;" ng-click="show_more_brands()">Expand to view all.</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endif %}
+                {% endif %}
+
+
+
+                <!-- User's Posts Widget -->
+                {% if influencer_data.posts and not influencer.has_artificial_blog_url %}
+                <div class="feed_item clearfix">
+                    <div class="ab_widget blog_wgt">
+                        <div class="wgt_header">Blog Posts</div>
+                            <div class="post_container" about-blogger-post ng-repeat="post in posts" post="post">
+                                <div class="text_block">
+                                    <div class="title"></div>
+                                    <div class="com_count" ng-bind="post.create_date"></div>
+                                    <div class="body_text"></div>
+                                </div>
+                                <div class="img_container post_pic">
+                                    <img/>
+                                </div>
+                            </div>
+                        <div class="fadeout tall"></div>
+                        {% if visitor.has_brand or profile_owner %}
+                        <div class="more_bar" a-href="{{influencer_data.profile.posts_page}}">View All</div>
+                        {% else %}
+                        <a href="#" click-emitter="openLoginRequiredPopup" class="more_bar">View All</a>
+                        {% endif %}
+
+                    </div>
+                </div>
+                {% endif %}
+
+
+                <!-- fake engagement graphic -->
+                {% if not visitor.user %}
+                <div class="feed_item clearfix fake_widget">
+                    <div class="ab_widget">
+                        <div class="wgt_header">Engagement Stats <a class="square_bt teal_bt sm float_right">Brand Signup</a></div>
+                        <img src ="/mymedia/site_folder/images/page_graphics/account/profile/engagement_upgrade.jpg"/>
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- fake growth graphic -->
+                {% if not visitor.user %}
+                <div class="feed_item clearfix fake_widget">
+                    <div class="ab_widget">
+                        <div class="wgt_header">Engagement Stats <a class="square_bt teal_bt sm float_right">Brand Signup</a></div>
+                        <img src ="/mymedia/site_folder/images/page_graphics/account/profile/growth.jpg"/>
+                    </div>
+                </div>
+                {% endif %}
+
+
+                <!-- User's SPONSORED Posts Widget -->
+
+                {% if visitor.is_admin or visitor.has_brand or profile_owner %}
+                {% with influencer.collaborations.all as collaborations %}
+                {% if collaborations %}
+                <div class="feed_item clearfix">
+                    <div class="ab_widget sponsored_blog_wgt">
+                        <div class="wgt_header">Sponsored Campaigns
+                            {% if profile_owner %}<small style="font-size: 12px; font-style: italic">Visible only for you and brands</small>{% endif %}
+                            </div>
+                            {% for collab in collaborations %}
+                            <div class="post_container">
+                                <div class="text_block">
+                                    <div class="title">
+                                        <span style="font-weight:500; font-size:23px;" href="{{collab.brand_url}}">{{collab.brand_name}} &nbsp; : &nbsp;</span>
+                                        <span style="font-weight:300; font-size:18px">{% for type in COLLABORATION_TYPES %}
+                                            {% if type.0 == collab.collaboration_type %}
+                                            {{type.1}}
+                                            {% endif %}
+                                            {% endfor %}
+                                        </span>
+                                    </div>
+                                    {% if collab.timestamp %}<div class="com_count">{{collab.timestamp|date:"d M Y" }}</div>{% endif %}
+
+                                    <div class="body_text">{{collab.details}}</div>
+                                    <div class="square_bt gray_bt xs" a-href="{{collab.post_url}}">View Blog Post</div>
+                                    <a class="square_bt gray_bt xs" target="_blank" href="{{collab.brand_url}}">{{collab.brand_name}}'s Site</a>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        {% comment %}
+                        <div class="more_bar" a-href="{{influencer_data.profile.posts_sponsored_page}}">View All</div>
+                        {% endcomment %}
+                    </div>
+                </div>
+                {% elif profile_owner %}
+                <div class="feed_item clearfix">
+                    <div class="ab_widget campaign_type_widget text_wgt">
+                        <div class="wgt_header">Sponsored Campaigns
+                        <small style="font-size: 12px; font-style: italic">Visible only for you and brands</small>
+                        </div>
+                        <a href="{{influencer.edit_page}}"><div class="edit_bar edit_story_launcher">You don't have any sponsored campaigns yet, fill it here</div></a>
+                    </div>
+                </div>
+                {% endif %}
+                {% endwith %}
+                {% endif %}
+
+
+
+
+
+                {% if visitor.has_brand %}
+                {% if influencer_data.platforms or influencer_data.average_num_posts or influencer_data.average_num_comments_per_post %}
+                <div class="feed_item clearfix">
+                    <div class="ab_widget text_wgt">
+                        <div class="wgt_header">Engagement Stats
+                        {% if profile_owner %}<small style="font-size: 12px; font-style: italic">Visible only for you and brands</small>{% endif %}
+                        </div>
+                        {% if influencer_data.platforms %}
+                        <div class="body_content clearfix w_top_padding" style="padding-right:0;">
+                            <div class="w_space w_padding">
+                                <div class="social_row clearfix">
+                                    {% for platform in influencer_data.platforms %}
+                                    <div class="social_block">
+                                        {% if platform.platform_name == 'Twitter' %}
+                                        <div class="social_wrapper social_twitter">    
+                                            <div class="icon_for_social"></div>
+                                            <div class="items">
+                                                {% if platform.num_followers > 0 %}{{ platform.num_followers|floatformat:"0" }} followers<br/>{% endif %}
+                                                {% if platform.posting_rate > 0 %}{{ platform.posting_rate|floatformat:"0" }} tweets/m<br/>{% endif %}
+                                                {% if platform.avg_numshares_overall > 0 %}{{ platform.avg_numshares_overall|floatformat:"0" }} retweet{% endif %}
+                                            </div>
+                                        </div>
+                                        {% endif %}
+                                        {% if platform.platform_name == 'Facebook' %}
+                                        <div class="social_wrapper social_facebook">    
+                                            <div class="icon_for_social"></div>
+                                            <div class="items">
+                                                {% if platform.num_followers > 0 %}{{ platform.num_followers|floatformat:"0" }} followers<br/>{% endif %}
+                                                {% if platform.posting_rate > 0 %}{{ platform.posting_rate|floatformat:"0" }} posts/m<br/>{% endif %}
+                                                {% if platform.avg_numcomments_overall > 0 %}{{ platform.avg_numcomments_overall|floatformat:"0" }} comments<br/>{% endif %}
+                                                {% if platform.avg_numshares_overall > 0 %}{{ platform.avg_numshares_overall|floatformat:"0" }} shares<br/>{% endif %}
+                                                {% if platform.avg_numlikes_overall > 0 %}{{ platform.avg_numlikes_overall|floatformat:"0" }} likes{% endif %}
+                                            </div>
+                                        </div>
+                                        {% endif %}
+                                        {% if platform.platform_name == 'Instagram' %}
+                                        <div class="social_wrapper social_instagram2">    
+                                            <div class="icon_for_social"></div>
+                                            <div class="items">
+                                                {% if platform.num_followers > 0 %}{{ platform.num_followers|floatformat:"0" }} followers<br/>{% endif %}
+                                                {% if platform.posting_rate > 0 %}{{ platform.posting_rate|floatformat:"0" }} photos/m<br/>{% endif %}
+                                                {% if platform.avg_numlikes_overall > 0 %}{{ platform.avg_numlikes_overall|floatformat:"0" }} likes<br/>{% endif %}
+                                                {% if platform.avg_numcomments_overall > 0 %}{{ platform.avg_numcomments_overall|floatformat:"0" }} comments{% endif %}
+                                            </div>
+                                        </div>
+                                        {% endif %}
+                                        {% if platform.platform_name == 'Pinterest' %}
+                                        <div class="social_wrapper social_pinterest">    
+                                            <div class="icon_for_social"></div>
+                                            <div class="items">
+                                                {% if platform.num_followers > 0 %}{{ platform.num_followers|floatformat:"0" }} followers<br/>{% endif %}
+                                                {% if platform.posting_rate > 0 %}{{ platform.posting_rate|floatformat:"0" }} pins/m<br/>{% endif %}
+                                                {% if platform.avg_numshares_overall > 0 %}{{ platform.avg_numshares_overall|floatformat:"0" }} repins<br>{% endif %}
+                                                {% if platform.avg_numcomments_overall > 0 %}{{ platform.avg_numcomments_overall|floatformat:"0" }} comments{% endif %}
+                                            </div>
+                                        </div>
+                                        {% endif %}
+                                        {% if platform.platform_name == 'Youtube' %}
+                                        <div class="social_wrapper social_youtube">    
+                                            <div class="icon_for_social"></div>
+                                            <div class="items">
+                                                {% if platform.num_followers > 0 %}{{ platform.num_followers|floatformat:"0" }} followers<br/>{% endif %}
+                                                {% if platform.posting_rate > 0 %}{{ platform.posting_rate|floatformat:"0" }} videos/m<br/>{% endif %}
+                                                {% if platform.avg_numshares_overall > 0 %}{{ platform.avg_numshares_overall|floatformat:"0" }} shares<br>{% endif %}
+                                                {% if platform.avg_numcomments_overall > 0 %}{{ platform.avg_numcomments_overall|floatformat:"0" }} comments{% endif %}
+                                            </div>
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                        {% if not influencer.has_artificial_blog_url %}
+                            {% if influencer_data.average_num_posts or influencer_data.average_num_comments_per_post %}
+                            <div class="body_content clearfix w_top_padding w_top_border">
+                                <div class="w_space w_padding">
+                                    <div class="blog_stats_row clearfix">
+                                        {% if influencer_data.average_num_posts > 0 %}
+                                        <div class="blog_stat_block">
+                                            <div class="icon-social_speech2"></div>
+                                            <div class="sub_title">Blog Posts</div>
+                                            <div class="sub_txt">per month</div>
+                                            <div class="number_count">{{ influencer_data.average_num_posts|floatformat:"0" }}</div>
+                                        </div>
+                                        {% endif %}
+                                        {% if influencer_data.average_num_comments_per_post > 0 %}
+                                        <div class="blog_stat_block">
+                                            <div class="icon-letter_quotes"></div>
+                                            <div class="sub_title">comments</div>
+                                            <div class="sub_txt">per post</div>
+                                            <div class="number_count">{{influencer_data.average_num_comments_per_post|floatformat:"0" }}</div>
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                </div>
+                {% endif %}
+                {% endif %}
+
+
+
+
+                <!-- Shelved Items Widget -->
+                {% if influencer_data.profile.total_items > 0 and not influencer.has_artificial_blog_url %}
+                <div class="feed_item clearfix">
+                    <div class="ab_widget items_wgt">
+                        <div class="wgt_header">Items Mentioned in Blog Posts</div>
+                        <div class="image_cont">
+                            {% for item in influencer_data.profile.items_list %}
+                                <div class="sh_img">
+                                    <img class="imgfit" src="{{ item.img_url_panel_view }}" alt="{{ item.brand }}" />
+                                    <div class="image_label_price">
+                                        <p class="the_name">{{item.brand}}</p>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        {% if visitor.has_brand or profile_owner %}
+                        <a href="{{influencer_data.profile.items_page}}" class="more_bar">View All</a>
+                        {% else %}
+                        <a href="#" click-emitter="openLoginRequiredPopup" class="more_bar">View All</a>
+                        {% endif %}
+
+                    </div>
+                </div>
+                {% endif %}
+
+
+
+
+                {% if influencer_data.photos %}
+                <!-- User's Photos Widget -->
+                <div class="feed_item clearfix" photos-gallery>
+                    <div class="ab_widget photo_wgt">
+                        <div class="wgt_header">Photos</div>
+                            <div class="photo_container" ng-if="loading" style="text-align: right; position: absolute; top: 40px; opacity: 0.5">
+                                Loading... <span ng-bind="percentage"></span>%
+                            </div>
+                            <div class="photo_container">
+                                <img class="current" src="{{current_photo}}"/>
+                                <img class="next" >
+                                <div class="arrow left" ng-click="prev()"><span class="icon-arrow_l_arr_6"></span></div>
+                                <div class="arrow right" ng-click="next()"><span class="icon-arrow_r_arr_6"></span></div>
+                            </div>
+                        <div class="fadeout tall"></div>
+                        {% if visitor.has_brand or profile_owner %}
+                        <div class="more_bar" a-href="{{influencer_data.profile.photos_page}}">View All</div>
+                        {% else %}
+                        <a href="#" click-emitter="openLoginRequiredPopup" class="more_bar">View All</a>
+                        {% endif %}
+                        <span style="display: none">
+                            <img ng-src="{% templatetag openvariable %}photo{% templatetag closevariable %}" class="photo_preload" ng-repeat="photo in photos" data-index="{% templatetag openvariable %}$index{% templatetag closevariable %}">
+                        </span>
+                    </div>
+                </div>
+                {% endif %}
+
+
+                {% if visitor.has_brand %}
+                {% if influencer_data.popularity_stats %}
+                <!-- Growth Chart -->
+                <div class="feed_item clearfix">
+                    <div class="ab_widget">
+                        <div class="wgt_header">Growth Chart
+                        {% if profile_owner %}<small style="font-size: 12px; font-style: italic">Visible only for you and brands</small>{% endif %}
+                        </div>
+                        <div class="body_content clearfix">
+                            <div id="blog_stat_popularity_followers" style="width: 95%; float: left"></div>
+                            <div id="blog_stat_popularity_comments" style="width: 95%; float: left"></div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                {% endif %}
+
+
+                <!-- Working with the blogger -->
+                {% if visitor.has_brand  or profile_owner %}
+                {% with influencer.infos_for_brands.all as all_infos %}
+                {% if all_infos or influencer.collaboration_types or influencer.how_you_work %}
+                <div class="feed_item clearfix">
+                    <div class="ab_widget campaign_type_widget text_wgt">
+                        <div class="wgt_header">Hire this Blogger : Info
+                        {% if profile_owner %}<small style="font-size: 12px; font-style: italic">Visible only for you and brands</small>{% endif %}
+                        </div>
+                        {% if influencer.infos_for_brands.all %}
+                        <div class="body_content clearfix w_top_padding">
+                            {% for ifb in all_infos %}
+                            <div class="campaign_type_row">
+                                <div class="camp_title"><span class="title">{{ifb.info_type|title}}</span>&nbsp;
+                                <span class="price">
+                                    {% if ifb.range_min or ifb.range_max %}
+                                        {% if ifb.range_min and not ifb.range_max %}
+                                        At least ${{ifb.range_min|floatformat}}
+                                        {% elif not ifb.range_min and ifb.range_max %}
+                                        At most ${{ifb.range_max|floatformat}}
+                                        {% else %}
+                                        ${{ifb.range_min|floatformat}} - ${{ifb.range_max|floatformat}}
+                                        {% endif %}
+                                    {% else %}
+                                    Any price
+                                    {% endif %}
+                                </span></div>
+                                {% if ifb.details %}
+                                    <div class="parag">
+                                        {{ifb.details|capfirst}}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                        {% if influencer.collaboration_types %}
+                        <div class="body_content clearfix w_more_padding w_top_border">
+                            <p class="sub_header larger">Extra Info About Campaigns</p>
+                            <p class="parag bigger">{{influencer.collaboration_types|capfirst}}</p>
+                        </div>
+                        {% endif %}
+                        {% if influencer.how_you_work %}
+                        <div class="body_content clearfix w_more_padding w_top_border">
+                            <p class="sub_header larger">Brands Should Know About</p>
+                            <p class="parag bigger">{{influencer.how_you_work|capfirst}}</p>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+                {% elif profile_owner %}
+                <div class="feed_item clearfix">
+                    <div class="ab_widget campaign_type_widget text_wgt">
+                        <div class="wgt_header">Hire this Blogger : Info
+                        <small style="font-size: 12px; font-style: italic">Visible only for you and brands</small>
+                        </div>
+                        <a href="{{influencer.edit_page}}"><div class="edit_bar edit_story_launcher">You don't have any job info yet, fill it here</div></a>
+                    </div>
+                </div>
+                {% endif %}
+                {% endwith %}
+                {% endif %}
+
+
+                <!-- fake content graphic -->
+                {% if not visitor.user %}
+                <div class="feed_item clearfix fake_widget">
+                    <div class="ab_widget">
+                        <div class="wgt_header">Engagement Stats <a class="square_bt teal_bt sm float_right">Blog Content Summary</a></div>
+                        <img src ="/mymedia/site_folder/images/page_graphics/account/profile/blog_content.jpg"/>
+                    </div>
+                </div>
+                {% endif %}
+    </div>
+    </div>
+    </span>
+{% endblock %}

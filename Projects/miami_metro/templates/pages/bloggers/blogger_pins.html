@@ -1,0 +1,213 @@
+{% extends 'pages/bloggers/base.html' %}
+{% load custom_filters %}
+{% block title %}{{ influencer.blogname|unescape|safe|upper }} on The Shelf Network | connecting top fashion bloggers and brands{% endblock %}
+
+{% block search_content %}
+
+{% include 'popups/login_lb.html' with popup_type="login-popup" %}
+{% include 'popups/signup_lb.html' with popup_type="signup-popup" %}
+
+{% include 'snippets/blogger_nav.html' with influencer=influencer %}
+
+
+<div ui-view></div>
+<span id="bloggers_root" ng-cloak>
+    <div favorite-popup
+        source="{% url debra.job_posts_views.get_influencer_groups %}"
+        target="{% url debra.job_posts_views.set_influencer_groups %}"
+        add-group="{% url debra.job_posts_views.add_influencer_groups %}"
+        post-source="{% url debra.job_posts_views.get_post_analytics_collections %}"
+        post-target="{% url debra.job_posts_views.set_post_analytics_collections %}"
+        post-add-group="{% url debra.job_posts_views.add_post_analytics_collection %}"></div>
+
+    <div influencer-data-popup custom-popup open-event-name="openInfluencerDataPopup" prevent-open></div>
+
+    <div invite-popup no-close-outside can-set-subject url="{% url debra.job_posts_views.send_invitation %}" brand-name="{{visitor.brand.name}}" settings-url="{% url debra.brand_account_views.account_landing %}" template="some template here"></div>
+    <div display-message-popup message="During Trial, you are not allowed to send messages. Please upgrade to use this feature."></div>
+    <div save-search-popup save-url="{% url debra.search_views.save_search %}"></div>
+    <div confirmation-popup></div>
+    <div class="dashboard_top_section clearfix">
+        <div class="search_name_row search_view clearfix">
+            <div class="right_header_section">
+                {% verbatim %}
+                <div ng-click="$event.stopPropagation()" ng-mousedown="$event.stopPropagation()" ng-show="mode == 'posts' && mode_selected.cf != 'products'" ng-date-range min="minRangeDate" bind="dateRangeModel" max="maxRangeDate" limit="limitRangeDate" style="float:right; height:100%; display:table;"></div>
+                {% endverbatim %}
+                <fieldset class="typical_form special_bar_form sort_by_dd" ng-hide="mode == 'posts'">
+                    <div class="order_select"
+                        dropdown-select="sorting.options"
+                        dropdown-model="sorting.selected"
+                        dropdown-model-object="sorting"
+                        dropdown-onchange="sorting.update()"
+                        dropdown-disabled="!canSwitchMode()">
+                    </div>
+                </fieldset>
+            </div>
+            <div class="saved_searches">
+                <fieldset class="typical_form smaller_field sort_by_dd">
+                    <div class="order_select"
+                        dropdown-select="savedSearch.options"
+                        dropdown-model="savedSearch.selected"
+                        dropdown-onchange="savedSearch.select(selected)"
+                        dropdown-disabled="savedSearch.isEmpty() || !canSwitchMode()">
+                    </div>
+                </fieldset>
+            </div>
+            <div class="mass_bookmark_button" ng-hide="mode_selected.cf === 'products'">
+                <button class="" ng-click="openBulkFavoritePopup()">
+                    <span class="follow icon-misc_value_star2"></span>
+                </button>
+            </div>
+            <div class="name_section" style="float:left;">
+                {% verbatim  %}
+                    <div class="page_title">{{ savedSearch.title() }} <span ng-show="savedSearch.isChanged()">(changed)</span><span ng-show="savedSearch.isLoading()">(loading)</span></div>
+                {% endverbatim %}
+            </div>
+            
+            <div class="view_mode_section select_data_type" ng-if="context.bloggersCustomDataEnabled">
+                {% verbatim %}
+                    <div class="texting">Data Set:</div>
+                    <div
+                        class="mode_button"
+                        ng-repeat="opt in bsCtrl.searchMethod.options"
+                        ng-class="{selected: opt == bsCtrl.searchMethod.selected}"
+                        ng-click="!loader.isFetching() && bsCtrl.searchMethod.change(opt.value)"
+                    >
+                        <span class="{{ opt.icon }}">{{ opt.text }}</span>
+                    </div>
+                {% endverbatim %}
+            </div>
+
+            <div class="view_mode_section select_data_type" ng-if="bsCtrl.searchMethod.selected.value == 'r29' && mode != 'posts'">
+                {% verbatim %}
+                    <div class="texting">View By:</div>
+                    <div
+                        class="mode_button"
+                        ng-repeat="opt in bsCtrl.viewMode.options"
+                        ng-class="{selected: opt == bsCtrl.viewMode.selected}"
+                        ng-click="!loader.isFetching() && bsCtrl.viewMode.change(opt.value)"
+                    >
+                        <span class="{{ opt.icon }}"></span>
+                    </div>
+                {% endverbatim %}
+            </div>
+            
+            
+            
+        </div>
+        <div>
+        </div>
+        <div class="search_extras" ng-class="{filters_are_applied: showAppliedFilters()}" ts-affixed>
+            <div class="info_row clearfix">
+                <!--div class="info_group no_wrap">
+                    <span class="the_label">Date:</span>
+                    <span class="info">01/08/2014</span>
+                </div-->
+                <!--div class="info_group no_wrap">
+                    <span class="the_label">Total:</span>
+                    <span class="info">1343</span>
+                </div-->
+            </div>
+            <div applied-filters-panel ng-show="showAppliedFilters()" autocomplete-url="{% url debra.search_views.autocomplete_with_type %}"></div>
+            {% block campaign_extras %}
+            {% endblock campaign_extras %}
+        </div>
+    </div>
+    
+
+    <div class="blogger_search_page {% if not show_filters %}no_filters{% endif %}" blogger-search-page>
+
+        {% if show_filters %}
+            <div class="search_sidebar" blogger-search-filters brand-autocomplete="{% url debra.search_views.autocomplete_brand %}" {% if debug %}debug{% endif %}>
+            </div>
+        {% endif %}
+
+        <div class="search_inline_header_no_jump">
+            <div class="search_inline_header">
+                <div class="search_tab_row_container">
+                    <div class="search_tab_row clearfix" >
+                        <a ng-repeat="mode in ms.modes|filter:ms.shouldDisplayMode" ng-click="$state.go('.', {section: mode.url, page: 1}, {reload: true})">
+                            {% verbatim %}
+                            <div class="campaign_tab" ng-class="{selected: mode_selected == mode}">{{ mode.text }}</div>
+                            {% endverbatim %}
+                        </a> 
+                    </div>
+                </div>
+                <div class="search_sort_section">
+                    
+                    <div class="pagination_and_sort" ng-if="page_info">
+                        <span class="smaller_ital">Showing : </span>
+                        <span class="larger_page_num"><span ng-bind="page_info.sliceStart"></span>-<span ng-bind="page_info.sliceEnd"></span></span>
+                        <span class="smaller_ital"> of </span>
+                        <span class="larger_page_num" ng-bind="page_info.total"></span>
+                        <span class="smaller_ital">results</span>
+                    </div>
+                    <!--                 <div class="pagination_and_sort" ng-if="posts_warning && mode == 'posts'">
+                        <span class="smaller_ital">Filters for posts are still in developement, but you can use keyword search</span>
+                    </div> -->
+                </div>
+
+                <div class="search_inline_bar">
+                    <!--fieldset class="typical_form search_keyword small_field" style="padding-right:30px!important;">
+                        <span mixed-autocomplete-input autocomplete-url="{% url debra.search_views.autocomplete_with_type %}"></span>
+                    </fieldset--> 
+
+                    {% comment %}
+                    <fieldset class="typical_form small_field view_by_dd">
+                        <div class="mode_select" dropdown-select="modes" dropdown-model="mode_selected" dropdown-onchange="updateMode()"></div>
+                        <div class="filter_label">View By</div> 
+                    </fieldset>
+                    {% endcomment %}
+
+                    {% comment %}
+                    <fieldset class="typical_form small_field sort_by_dd">
+                        <div class="mode_select" dropdown-select="sort_by_properties" dropdown-model="sort_by_selected" dropdown-onchange="updateMode()"></div>
+                        <div class="filter_label">Sort By</div>
+                    </fieldset>
+                    {% endcomment %}
+                    {% comment %}<!-- I ONLY HAVE THIS IN THE SIGNED-UP USERS PAGE...  BECAUSE THE QUERY COUNT IS SHOWING UP IN THE NON-SIGNED UP USERS PAGE -->{% endcomment %}
+                </div>
+
+                    
+            </div>
+        </div>
+        
+
+        <div blogger-container class="mode_container bloggers_container" type="{{type}}" ng-class="{'mode_hidden': mode != 'bloggers'}" mode='mode' bookmarks {% if tag_id %}tag="{{ tag_id }}"{% endif %} {% if saved_search %}svd-search="{{ saved_search }}"{% endif %}>
+        </div>
+
+        <div class="mode_container middle-content-wrapper" {% if show_filters %} {% endif %} ng-class="{'mode_hidden': mode != 'posts'}">
+            <div post-feed
+                saved-search-source="{% url debra.search_views.saved_search_details %}"
+                bookmarks>
+            </div>
+        </div>
+    </div>
+</span>
+
+
+{% comment %}
+
+<div ui-view></div>
+<div class="blogger_feed" id="bloggers_root" ng-cloak>
+
+	<div blogger-search-page>
+
+		<div class="search_sidebar" blogger-search-filters brand-autocomplete="{% url debra.search_views.autocomplete_brand %}" {% if debug %}debug{% endif %}>
+        </div>
+
+		<div blogger-container class="mode_container bloggers_container" type="{{type}}" ng-class="{'mode_hidden': mode != 'bloggers'}" mode='mode' bookmarks {% if tag_id %}tag="{{ tag_id }}"{% endif %} {% if saved_search %}svd-search="{{ saved_search }}"{% endif %}>
+        </div>
+
+        <div class="mode_container middle-content-wrapper" {% if show_filters %} {% endif %} ng-class="{'mode_hidden': mode != 'posts'}">
+            <div post-feed
+                saved-search-source="{% url debra.search_views.saved_search_details %}"
+                bookmarks {% if not request.visitor.has_brand %} skip-social{% endif %}{% if DEBUG %} debug{% endif %} show-buttons>
+            </div>
+        </div>
+
+	</div>
+
+</div>
+
+{% endcomment %}
+{% endblock %}

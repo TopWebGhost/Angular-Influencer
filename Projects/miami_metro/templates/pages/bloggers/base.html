@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+
+{% load compressed %}
+
+
+{% block title %}
+    {{ page_title }}
+{% endblock %}
+
+
+{% block meta_description %}
+    <meta name="description" content="{{ meta_description }}">
+{% endblock %}
+
+
+{% block bottom_js %}
+    {% comment %}{% compressed_js 'angular_search' %}{% endcomment %}
+    {% compressed_js 'angular_blogger' %}
+    {% if visitor.has_brand %}
+        {% compressed_js 'angular_brand_navigation' %}
+        <script type="text/javascript">
+        (function(){
+        angular.module("theshelf").value('nav_config', {
+            tab: "{{selected_tab}}",
+            sub_tab: "{{sub_page}}",
+            visible: false,
+        });
+        })();
+        </script>
+
+        {% comment %}
+        {% include "snippets/search_filters.html" %}
+        <script type="text/javascript" src="//maps.googleapis.com/maps/api/js?libraries=places&sensor=true"></script>
+        {% endcomment %}
+    {% endif %}
+{% endblock %}
+
+
+{% comment %}
+{% block ng_app %}ng-app="mainSearch"{% endblock ng_app %}
+
+
+{% block main_controller %}ng-controller="BloggersSearchCtrl as bsCtrl"{% endblock main_controller %}
+{% endcomment %}
+
+
+{% block main_controller %}ng-controller="BloggerCommonCtrl"{% endblock main_controller %}
+
+
+{% block content %}
+    {% comment %}
+    {% if visitor.has_brand %}
+        <div class="dashboard_content">
+            {% block search_content %}
+            {% endblock %}
+        </div>
+    {% endif %}
+    {% endcomment %}
+
+    {% if visitor.has_brand %}
+        <div class="dashboard_content">
+        <div invite-popup no-close-outside can-set-subject url="{% url debra.job_posts_views.send_invitation %}" brand-name="{{visitor.brand.name}}" settings-url="{% url debra.brand_account_views.account_landing %}"></div>
+        <div display-message-popup message="During Trial, you are not allowed to send messages. Please upgrade to use this feature."></div>
+        <div confirmation-popup></div>
+        <div feature-locked-popup link="{% url debra.account_views.pricing %}" link-title="Upgrade" plan-name="{{visitor.plan_name_mapped|title}}"></div>
+    {% endif %}
+    <span class="no_universal_header">
+    {% block search_content %}
+    {% endblock %}
+    </span>
+    {% if visitor.has_brand %}</div>{% endif %}
+{% endblock %}

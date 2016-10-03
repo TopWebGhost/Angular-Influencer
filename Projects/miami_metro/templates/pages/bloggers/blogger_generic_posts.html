@@ -1,0 +1,23 @@
+{% extends 'pages/search/main.html' %}
+
+
+{% load custom_filters %}
+
+
+{% block title %}
+	{{ influencer.blogname|unescape|safe|upper }} on The Shelf Network | connecting top fashion bloggers and brands
+{% endblock %}
+
+
+{% block pre_search_content %}
+	{% include 'popups/login_lb.html' with popup_type="login-popup" %}
+	{% include 'popups/signup_lb.html' with popup_type="signup-popup" %}
+
+	{% include 'snippets/blogger_nav.html' with influencer=influencer %}
+{% endblock pre_search_content %}
+
+
+{% comment %}
+{% block search_content %}
+{% endblock search_content %}
+{% endcomment %}

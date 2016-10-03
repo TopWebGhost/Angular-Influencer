@@ -1,0 +1,22 @@
+{% extends 'pages/bloggers/base.html' %}
+{% load custom_filters %}
+{% block title %}{{ influencer.blogname|unescape|safe|upper }} on The Shelf Network | connecting top fashion bloggers and brands{% endblock %}
+
+{% block search_content %}
+
+{% include 'popups/login_lb.html' with popup_type="login-popup" %}
+{% include 'popups/signup_lb.html' with popup_type="signup-popup" %}
+
+{% include 'snippets/blogger_nav.html' with influencer=influencer %}
+
+<div class="blogger_feed" id="bloggers_root">
+    {% if visitor.has_brand and visitor.base_brand.flag_report_roi_prediction %}
+        <div style="margin:0 30px 0 0; position:absolute; top: 356px; right: 25px; z-index: 10;" ng-hide="mode_selected.cf === 'products'">
+            <button class="square_bt xs gray_bt" ng-click="doOpenFavoritePopup({posts: productFeedPosts})" style="padding-left: 20px; opacity:.4;">
+                <span class="follow icon-misc_value_star2"></span>
+            </button>
+        </div>
+    {% endif %}
+    <div product-feed filter='blog' source='{{ influencer.posts_page }}' paginated {% if DEBUG %}debug{% endif %} show-buttons propagate-total></div>
+</div>
+{% endblock %}
