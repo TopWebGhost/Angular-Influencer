@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% load compressed %}
+
+{% block title %}
+{{ page_title }}
+{% endblock %}
+
+{% block meta_description %}
+<meta name="description" content="{{ meta_description }}">
+{% endblock %}
+
+{% block bottom_js %}
+{% compressed_js 'angular_dashboard' %}
+{% compressed_js 'angular_brand_navigation' %}
+<script type="text/javascript">
+(function(){
+angular.module("theshelf").value('nav_config', {
+    tab: "{{selected_tab}}",
+    sub_tab: "{{sub_page}}",
+    visible: {% if hide_sidebar %}false{% else %}true{% endif %},
+});
+angular.module("theshelf").value('trial', false);
+{% if selected_tab == "competitors" %}
+angular.module("theshelf").value('dashboard_brand', null);
+{% else %}
+angular.module("theshelf").value('dashboard_brand', {text: '{{visitor.brand.name}}', value: '{{visitor.brand.domain_name}}'});
+{% endif %}
+})();
+</script>
+{% endblock %}
+
+
+{% block content %}
+    <span class="dashboard_content" ng-controller="DashboardCtrl" >
+    {% if selected_tab == "competitors" and not visitor.saved_competitions %}
+        <div add-competitor-popup match-brand-url="{% url debra.search_views.search_brand_json %}" save-url="{% url debra.brand_dashboard.save_competitor %}"></div>
+        <div message-influencer-popup url="{% url debra.job_posts_views.send_message %}"></div>
+        <div invite-popup no-close-outside can-set-subject url="{% url debra.job_posts_views.send_invitation %}" brand-name="{{visitor.brand.name}}" settings-url="{% url debra.brand_account_views.account_landing %}"></div>
+
+        <div class="lightbox dynamic bl_bg_lb w_logo" style="z-index: 0;">
+            <div class="container">
+                <div class="content_area">
+                    <div class="content_area_container px1000 login_lb">
+                        <h1 class="lb_title gray xxlarge white">Oops!</h1>
+                        <div class="subti gray">
+                            You need to add competitor to get started on this tab. Lets do it <a class="txt_link teal serif_ital" click-emitter="openAddCompetitorPopup">now!</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div invite-popup no-close-outside can-set-subject url="{% url debra.job_posts_views.send_invitation %}" brand-name="{{visitor.brand.name}}" settings-url="{% url debra.brand_account_views.account_landing %}"></div>
+        {% block search_content %}
+        {% endblock %}
+    {% endif %}
+    </span>
+{% endblock %}
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,21 @@
+{% extends 'pages/brand_dashboard/base.html' %}
+{% load custom_filters %}
+{% block title %}Dashboard | connecting top fashion bloggers and brands{% endblock %}
+
+{% block body_class %}lt_gray_bg{% endblock %}
+
+{% block search_content %}
+<div class="blogger_feed" id="bloggers_root">
+    {% verbatim %}
+    <div class="page_title_section w_border_bottom" ng-if="dashboard_brand">
+        <div class="page_title">Blog Posts about {{dashboard_brand.text}} </div>
+        <div class="subtext">This feed contains blog posts that discuss items from {{dashboard_brand.text}}.</div>
+    </div>
+    <div class="page_title_section w_border_bottom" ng-if="!dashboard_brand">
+        <div class="page_title">Blog Posts about You</div>
+        <div class="subtext">This feed contains blog posts that discuss items from your brand.</div>
+    </div>
+    {% endverbatim %}
+    <div product-feed filter='blog' source='{% url debra.brand_dashboard.mentioning_posts %}' paginated {% if DEBUG %}debug{% endif %}></div>
+</div>
+{% endblock %}

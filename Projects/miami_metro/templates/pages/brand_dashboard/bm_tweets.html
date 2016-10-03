@@ -1,0 +1,26 @@
+{% extends 'pages/brand_dashboard/base.html' %}
+{% load custom_filters %}
+{% block title %}Dashboard | connecting top fashion bloggers and brands{% endblock %}
+
+{% block body_class %}lt_gray_bg{% endblock %}
+
+{% block bottom_js %}
+{{ block.super }}
+<script type="text/javascript" src="//platform.twitter.com/widgets.js"></script>
+{% endblock %}
+
+{% block search_content %}
+<div class="blogger_feed dashboard_twitter" id="bloggers_root">
+    {% verbatim %}
+    <div class="page_title_section w_border_bottom" ng-if="dashboard_brand">
+		<div class="page_title">Tweets about {{dashboard_brand.text}}</div>
+		<div class="subtext">These are tweets made by influencers about {{dashboard_brand.text}}.  If the tweet references a blog post about {{dashboard_brand.text}}, you'll see that tweet here as well.</div>
+    </div>
+    <div class="page_title_section w_border_bottom" ng-if="!dashboard_brand">
+        <div class="page_title">Tweets about You</div>
+        <div class="subtext">These are tweets made by influencers about your brand.  If the tweet references a blog post about you, you'll see that tweet here as well.</div>
+    </div>
+    {% endverbatim %}
+    <div product-feed filter='tweets' source='{% url debra.brand_dashboard.mentioning_tweets %}' paginated {% if DEBUG %}debug{% endif %}></div>
+</div>
+{% endblock %}

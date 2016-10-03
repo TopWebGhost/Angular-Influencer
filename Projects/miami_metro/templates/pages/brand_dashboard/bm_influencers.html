@@ -1,0 +1,23 @@
+{% extends 'pages/brand_dashboard/base.html' %}
+{% load custom_filters %}
+{% block title %}Dashboard | connecting top fashion bloggers and brands{% endblock %}
+
+{% block body_class %}lt_gray_bg{% endblock %}
+{% block search_content %}
+<span id="bloggers_root" brand-mentioning-influencers>
+    <div class="blogger_search_page no_filters">
+        {% verbatim %}
+        <div class="page_title_section w_border_bottom" ng-if="dashboard_brand">
+    		<div class="page_title">{{dashboard_brand.text}} Influencers</div>
+    		<div class="subtext">These are bloggers who have mentioned {{dashboard_brand.text}}.</div>
+        </div>
+        <div class="page_title_section w_border_bottom" ng-if="!dashboard_brand">
+            <div class="page_title">Your Influencers</div>
+            <div class="subtext">These are bloggers who have mentioned your brand.</div>
+        </div>
+        {% endverbatim %}
+        <div class="mode_container bloggers_container" blogger-container type="all" {% if DEBUG %}debug{% endif %}>
+        </div>
+    </div>
+</span>
+{% endblock %}

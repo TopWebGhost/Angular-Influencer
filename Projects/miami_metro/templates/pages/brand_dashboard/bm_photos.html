@@ -1,0 +1,22 @@
+{% extends 'pages/brand_dashboard/base.html' %}
+{% load custom_filters %}
+{% block title %}Dashboard | connecting top fashion bloggers and brands{% endblock %}
+
+{# note: no new line around #}
+{% block body_class %}lt_gray_bg{% endblock %}
+
+{% block search_content %}
+<div class="blogger_feed" id="bloggers_root">
+    {% verbatim %}
+    <div class="page_title_section w_border_bottom" ng-if="dashboard_brand">
+        <div class="page_title">Instagrams of {{dashboard_brand.text}}</div>
+        <div class="subtext">These are photos from influencers containing {{dashboard_brand.text}} mentions.  If the photo references a blog post about {{dashboard_brand.text}}, you'll see those photos here as well.</div>
+    </div>
+    <div class="page_title_section w_border_bottom" ng-if="!dashboard_brand">
+        <div class="page_title">Instagrams about You</div>
+        <div class="subtext">These are photos from influencers containing your mentions.  If the photo references a blog post about you, you'll see those photos here as well.</div>
+    </div>
+    {% endverbatim %}
+    <div product-feed filter='photos' source='{% url debra.brand_dashboard.mentioning_photos %}' paginated {% if DEBUG %}debug{% endif %}></div>
+</div>
+{% endblock %}

@@ -1,0 +1,37 @@
+ {% extends 'pages/brand_dashboard/base.html' %}
+{% load custom_filters %}
+{% block title %}Dashboard | connecting top fashion bloggers and brands{% endblock %}
+
+{# note: no new line around #}
+{% block body_class %}lt_gray_bg{% endblock %}
+
+{% block bottom_js %}
+{{ block.super }}
+{% endblock %}
+
+{% block search_content %}
+<div class="blogger_feed" id="bloggers_root" ng-controller="PostAnalyticsCtrl">
+    <div class="page_title_section w_border_bottom" style="padding-bottom: 20px;">
+        <div class="page_title">Post Analytics</div>
+        <div class="subtext"></div>
+        <div class="search_inline_header">
+            <form name="form">
+                <fieldset class="typical_form search_keyword lighter_field" style="padding-right:30px!important; background-color: #F1F1F1; border: none; padding-bottom: 0px;">
+                    <div style="color: red; padding-bottom: 5px;" ng-show="form.newPostUrl.$error.url">Enter a valid url.</div>
+                    <div class="search_input">
+                        <input type="url" ng-model="newPostUrl" style="display: inline;" placeholder="Post URL" ng-keypress="inputKeyPress($event, '{% url debra.brand_dashboard.posts_analytics %}', {{ collection.id }})" required="" name="newPostUrl"/>
+                    </div>
+                    <span class="or_btn" ng-click="!form.newPostUrl.$error.required && !form.newPostUrl.$error.url && addPostUrl('{% url debra.brand_dashboard.posts_analytics %}')">+</span>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+    <div class="bloggers_container_wrapper" style="margin: 30px 30px 0 26px;">
+        <div class="salvattore_grid bloggers_container clearfix" data-columns>
+            {% for item in analytics %}
+                <div post-analytics-panel post="{{ item }}" endpoint="{% url debra.brand_dashboard.posts_analytics %}"></div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

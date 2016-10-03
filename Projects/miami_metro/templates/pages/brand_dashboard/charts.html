@@ -1,0 +1,108 @@
+{% extends 'pages/brand_dashboard/base.html' %}
+{% load custom_filters %}
+{% block title %}Dashboard | connecting top fashion bloggers and brands{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.4.3/morris.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.2/raphael-min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.4.3/morris.min.js"></script>
+{% endblock %}
+
+{% block bottom_js %}
+{{ block.super }}
+<script type="text/javascript">
+(function(){
+angular.module("theshelf").value('brand_data', {{brand_data|safe}});
+angular.module("theshelf").value('competitors_data', {{competitors_data|safe}});
+angular.module("theshelf").controller('ChartsCtrl', ['$scope', 'brand_data', 'competitors_data', '$timeout', 'keywordQuery', function ($scope, brand_data, competitors_data, $timeout, keywordQuery) {
+    $scope.brand_data = brand_data;
+    $scope.competitors_data = competitors_data;
+    $scope.c_brand = null;
+    $scope.$on('setKeywordFilters', function(their_scope, kw, type){
+        if(type=="brand"){
+            $scope.c_brand = kw;
+        }
+    });
+    $timeout(function(){
+      var query = keywordQuery.getQuery();
+      if(query.type=="brand"){
+          $scope.c_brand = query.query;
+      }
+    }, 250);
+}]);
+})();
+</script>
+{% endblock %}
+
+{% block search_content %}
+<div ng-controller="ChartsCtrl">
+    {% if brand_data %}
+    {% verbatim %}
+    <br/><br/>
+    <div>
+        <h1>Your Brand</h1>
+    </div>
+    <div>
+        <h1>Likes per platform</h1>
+        <div ng-repeat="chart_data in brand_data" dashboard-chart="chart_data" class="chart chart_type_{{chart_data.type}} chart_metric_likes" ng-if="chart_data.metric=='likes'">
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div>
+        <h1>Shares per platform</h1>
+        <div ng-repeat="chart_data in brand_data" dashboard-chart="chart_data" class="chart chart_type_{{chart_data.type}} chart_metric_shares" ng-if="chart_data.metric=='shares'">
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div>
+        <h1>Comments per platform</h1>
+        <div ng-repeat="chart_data in brand_data" dashboard-chart="chart_data" class="chart chart_type_{{chart_data.type}} chart_metric_comments" ng-if="chart_data.metric=='comments'">
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div>
+        <h1>Post counts per platform / Product counts</h1>
+        <div ng-repeat="chart_data in brand_data" dashboard-chart="chart_data" class="chart chart_type_{{chart_data.type}} chart_metric_count" ng-if="chart_data.metric=='count'">
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    {% endverbatim %}
+    {% endif %}
+    {% if competitors_data %}
+    <div>
+        <h1>Likes per platform</h1>
+        {% for type in types %}
+        <div dashboard-competitors-chart="competitors_data.data.likes_{{type}}" title="{{type}}" keys="competitors_data.keys" labels="competitors_data.labels">
+        </div>
+        {% endfor %}
+        <div class="clearfix"></div>
+    </div>
+    <div>
+        <h1>Shares per platform</h1>
+        {% for type in types %}
+        <div dashboard-competitors-chart="competitors_data.data.shares_{{type}}" title="{{type}}" keys="competitors_data.keys" labels="competitors_data.labels">
+        </div>
+        {% endfor %}
+        <div class="clearfix"></div>
+    </div>
+    <div>
+        <h1>Comments per platform</h1>
+        {% for type in types %}
+        <div dashboard-competitors-chart="competitors_data.data.comments_{{type}}" title="{{type}}" keys="competitors_data.keys" labels="competitors_data.labels">
+        </div>
+        {% endfor %}
+        <div class="clearfix"></div>
+    </div>
+    <div>
+        <h1>Post counts per platform / Product counts</h1>
+        {% for type in types %}
+        <div dashboard-competitors-chart="competitors_data.data.count_{{type}}" title="{{type}}" keys="competitors_data.keys" labels="competitors_data.labels">
+        </div>
+        {% endfor %}
+        <div dashboard-competitors-chart="competitors_data.data.count_Products" title="Products" keys="competitors_data.keys" labels="competitors_data.labels">
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
