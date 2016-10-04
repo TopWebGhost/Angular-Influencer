@@ -1,0 +1,212 @@
+{% load compressed %}
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="google-site-verification" content="F0qqrs5108pI7wDKCZplwh3WGy3zrb1J5ZiDR3qoObQ" />
+
+    <title>The Shelf: Blogger Lists : Download list of top fashion and beauty bloggers</title>
+    <meta name="description" content="Download lists of top fashion bloggers on The Shelf: NY fashion bloggers, men fashion bloggers, LA fashion bloggers, and more...">
+    <!--** Global CSS **-->
+    <link href="/mymedia/site_folder/css/global.less" media="screen" rel="stylesheet/less" />
+    <link href="/mymedia/site_folder/css/laurens_font.less" media="screen" rel="stylesheet/less" />{% if flavour == "mobile" %}
+    <link href="/mymedia/site_folder/css/mobile.less" media="screen" rel="stylesheet/less" />{% endif %}
+
+    <!--** Global Js **-->
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+
+    <!-- Google Fonts -->
+    <script type="text/javascript">
+    WebFontConfig = {
+        google: {
+            families: ['Raleway:400,200,100,300,500,600,700,800,900']
+        }
+    };
+    (function() {
+        var wf = document.createElement('script');
+        wf.src = ('https:' == document.location.protocol ? 'https' : 'http') +
+            '://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js';
+        wf.type = 'text/javascript';
+        wf.async = 'true';
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(wf, s);
+
+    })();
+    </script>
+    <!-- start KissMetrics -->
+    <script type="text/javascript">
+        var _kmq = _kmq || [];
+        var _kmk = _kmk || {{ visitor.kissmetrics_key }};
+        function _kms(u){
+            setTimeout(function(){
+                var d = document, f = d.getElementsByTagName('script')[0], s = d.createElement('script'); s.type = 'text/javascript';
+                s.async = true;
+                s.src = u;
+                f.parentNode.insertBefore(s, f);
+            }, 1);
+        }
+        _kms('//i.kissmetrics.com/i.js'); _kms('//doug1izaerwt3.cloudfront.net/' + _kmk + '.1.js');
+    </script>
+    <!-- Global Vendor Js -->
+    <script type="text/javascript" src="//www.google.com/jsapi"></script>
+    <script src="https://checkout.stripe.com/checkout.js"></script>
+    <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+
+    {% compressed_js 'core_head' %}
+
+    <!-- Google Vis Library -->
+    <script type="text/javascript">
+    google.load("visualization", "1", {
+        packages: ["corechart"]
+    });
+    </script>
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-36724948-1', 'theshelf.com');
+      ga('require', 'displayfeatures');
+      ga('send', 'pageview');
+
+    </script>
+    <script type="text/javascript">
+      (function() {
+        window._pa = window._pa || {};
+        // _pa.orderId = "myOrderId"; // OPTIONAL: attach unique conversion identifier to conversions
+        // _pa.revenue = "19.99"; // OPTIONAL: attach dynamic purchase values to conversions
+        // _pa.productId = "myProductId"; // OPTIONAL: Include product ID for use with dynamic ads
+        var pa = document.createElement('script'); pa.type = 'text/javascript'; pa.async = true;
+        pa.src = ('https:' == document.location.protocol ? 'https:' : 'http:') + "//tag.perfectaudience.com/serve/5395c402170a7c95e800007c.js";
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(pa, s);
+      })();
+    </script>
+    <!-- start Mixpanel -->
+    <script type="text/javascript">
+        (function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+mixpanel.init("73ebaff77d34512063b2f3bef46039a9");
+    </script>
+    <!-- end Mixpanel -->
+    <script>
+        $(document).ready(function() {
+
+             /*
+             MIXPANEL ANALYTICS
+             -- this should happen after we have loaded the MIXPANEL JS
+             */
+            mixpanel.track('visited', {'cur_page': $(location).attr('href')});
+            console.log('Sending tracking event to Mixpanel: '+$(location).attr('href'));
+
+
+            $("a[data-popup-type='login']").click(function(){
+                console.log('login popup clicked');
+                mixpanel.track('Login Popup Clicked', {'cur_page': $(location).attr('href')});
+            });
+
+            $("a[data-popup-type='signup']").click(function(){
+                console.log('signup popup clicked');
+                mixpanel.track('Signup Popup Clicked', {'cur_page': $(location).attr('href')});
+            });
+
+            $('.nav_wrapper .link_row').find('a').click(function(){
+                console.log('clicked on nav link ' + $(this).attr('href'));
+                mixpanel.track("Clicked Nav Link", {'cur_page': $(location).attr('href'), 'nav_link': $(this).attr('href')});
+            });
+            $('.nav_wrapper').find('a.upgrade').click(function(){
+                console.log('clicked on upgrade ' + $(this).attr('href'));
+                mixpanel.track('Clicked on Upgrade Button', {'cur_page': $(location).attr('href')})
+            });
+        });
+    </script>
+</head>
+
+
+<body class="home_body features {% if flavour == " mobile " %}ipad_body{% endif %}">
+    <span ng-app="theshelf" ng-cloak>
+        <div export-paid-popup key="{{ STRIPE_KEY }}" payment-url="{% url debra.dataexport_views.export_paid_onetime %}" promo-url="{% url debra.payment_views.check_coupon %}"></div>
+        <span>
+            <div class="white_overlay" style="display:none;"></div>
+            <div class="black_overlay" style="display:none;"></div>
+
+            {% include 'popups/generic_message_lb.html' with popup_type="generic-message-popup" %}
+            <!-- Contact Us Lightbox -->
+            {% include 'popups/contact_us_lb.html' with popup_type="contact-us-popup" %}
+            <!-- Login Lb -->
+            {% include 'popups/login_lb.html' with popup_type="login-popup" %} {% include 'popups/signup_lb.html' with popup_type="signup-popup" %}
+            <!-- Forgot Password -->
+            {% include 'popups/forgot_password_lb.html' with popup_type="forgot-password-popup" %} {% include 'django_facebook/_facebook_js.html' %}
+
+            <!-- nav header -->
+            <div ng-controller="LandingNavBarCtrl" class="home_nav_bar ng-scope">
+                <div class="nav_wrapper">
+                    <a class="logo" href="/"><span class="icon-social_0_shelf_shelf2a"></span></a>
+                    <div class="link_row" style="text-align:right;">
+                        <a class="nav_link selected">Blogger Lists</a>
+                        <a class="nav_link" href="/">Other Products</a>
+                        <a data-popup-type="contact_us" class="launch-popup nav_link" href="#">Contact Us</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="header less_height lists">
+                <div class="header_txt">
+                    <h1 class="main">Fashion Blogger Lists</h1>
+                    <!--div class="sub">We have a directory of over 17,000 fashion bloggers that you can access via the downloadable lists below.</div-->
+                </div>
+                <div class="photo_credits">Photography by : <a href="http://streetscout.me/street-style/fashion" target="_blank" class="link">StreetScout.me</a></div>
+            </div>
+
+
+            <div class="body_row gray_row clearfix">
+                <div class="subtext larger" style="width:1024px; margin:0 auto;">The Shelf is a directory of 17,000+ fashion bloggers from all over the world.<br/>We've used this directory to compile a series of downloadable lists.<br/> <span class="smaller">Each list contains : Name, Blog Name, url, Email, Social Links,  Follower Counts, Comment Counts, and Gender.</span></div>
+                <div class="box_container">
+
+                    {% for export_group in exports %}
+                    <div class="list_row clearfix">
+
+                        {% for export in export_group %}
+                        <div class="list_box_wrapper">
+                            <div class="list_box">
+                                <div class="title_section">
+                                    <h2 class="list_title">{{ export.title }}</h2>
+                                    <div class="price">${{ export.price }} &mdash; <span class="xtr_info">Downloadable Excel File</span></div>
+                                </div>
+                                <div class="info_section">
+                                    <div class="info_txt">{{ export.info_txt }}</div>
+                                    <div class="square_bt black_bt sm" click-emitter="openExportPaidPopup" args='{"export_type": "{{ export.export_type }}"}'>Buy</div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+
+                    </div>
+                    {% endfor %}
+
+                    <div class="subtext" style="width:700px; margin:0 auto; color:#000; margin-top:60px;">If you are interested in customizing a list, or accessing the data about the brands and products endorsed by the bloggers, you can <a data-popup-type="contact_us" class="launch-popup txt_link darker_teal" href="#">Contact Us</a> about a special plan.</div>
+
+                </div>
+            </div>
+
+            {% include "snippets/universal_footer.html" %}
+        </span>
+    </span>
+    {% compressed_js 'core' %}
+    {% compressed_js 'angular_core' %}
+    {% include "snippets/angular_sentry_conf.html" %}
+    {% compressed_js 'angular_app' %}
+    {% block bottom_js %}
+    <script type="text/javascript">
+    (function() {
+        angular.module("theshelf").value('exportCosts', { {% for t, d in export_costs.items %}"{{t}}": {price: "{{d.price}}", title: "{{d.title}}"},{% endfor %} })
+    })();
+    </script>
+    {% endblock %}
+
+</body>

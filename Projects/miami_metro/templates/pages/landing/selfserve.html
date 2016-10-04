@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+
+{% load compressed %}
+
+{% block title %}The Shelf: Connecting Top Fashion Bloggers and Brands{% endblock title %}
+{% block meta_description %}
+    <meta name="description" content="The Shelf: Instant access to a directory of thousands of top fashion bloggers. We help you discover, research, and keep track of the bloggers you collaborate with.">
+{% endblock meta_description %}
+
+{% block custom_header %}{% include "widgets/landing_nav_header.html" with page='selfserve' %}{% endblock %}
+
+{% block main_controller %}ng-controller="BrandHomeCtrl"{% endblock main_controller %}
+
+{% block content %}
+    <!-- HEADER -->
+    <!-- HEADER -->
+    <div class="header brand">
+        <div class="header_txt">
+            <h1 class="main">Grow Your Business Using Influencer Marketing</h1>
+            <h2 class="sub">Fashion &nbsp; / &nbsp; Beauty &nbsp; / &nbsp; Lifestyle</h2>
+        </div>
+        <div class="button_container">
+            <a href="#" id="big_brand_btn" class="button signup" click-emitter="openSignupPopup" args='{"initial_type": "brand"}'><b>I'm a Brand</b></a>
+            <a href="#" id="big_blogger_btn" class="button signup" click-emitter="openSignupPopup" args='{"initial_type": "blogger"}'><b>I'm an Influencer</b></a>
+        </div>
+        <div class="photo_credits">All photography by : <a href="http://streetscout.me/street-style/fashion" target="_blank" class="link">StreetScout.me</a>
+        </div>
+    </div>
+
+
+
+
+
+     <div class="body_row clearfix white_row">
+        <div class="just_text_section">
+            <div class="med_cursive_center">If you’ve collaborated with bloggers or other influencers in the past, you know how manual and timely it can be...but not for long! We’ve streamlined all of the tedious parts, making it easy to create quality campaigns that will produce jaw dropping results in a fraction of the time. We are a self-serve platform, not a point and click service, or an agency. If you are looking for one of those, feel free to reach out to us and we’ll point you in the right direction.</div>
+        </div>
+        <div class="content_area thirds icons2_subtitle_text content_90 w_border_top_section">
+            <div class="little_title">Self-Serve Platform: Features</div>
+            <div class="content_bucket">
+                <div class="icon_img"><span class="icon-misc_magnify"></span></div>
+                <h2 class="the_title">Search Engine</h2>
+                <p class="body_text">Explore our directory of more than 100,000 bloggers and influencers. We provide 7 types of filtering to help you discover the perfect matches for your brand and campaign goals.</p>
+            </div>
+            <div class="content_bucket">
+                <div class="icon_img"><span class="icon-social_0_connected"></span></div>
+                <h2 class="the_title">Real-Time Profiles</h2>
+                <p class="body_text">Ever been a victim of zeroing in on the perfect influencer, only to notice that their last post was 8 months ago? Never again! All profiles, links, social counts, and activity levels are updated in real-time.</p>
+            </div>
+            <div class="content_bucket">
+                <div class="icon_img"><span class="icon-misc_very_feedback"></span></div>
+                <h2 class="the_title">Campaign Pages</h2>
+                <p class="body_text">Create a posting for your special project. Here, you can include all of the nitty gritty details of your campaign, as well as introduce your brand to the influencers you reach out to.</p>
+            </div>
+            <div class="content_bucket first_step_child">
+                <div class="icon_img"><span class="icon-social_envelope"></span></div>
+                <h2 class="the_title">Outreach Tools</h2>
+                <p class="body_text">Our series of outreach tools act like a CRM system, allowing you to send out all of your emails, invite influencers to campaigns, track opens, and more, all in one place!</p>
+            </div>
+            <div class="content_bucket">
+                <div class="icon_img"><span class="icon-letter_quotes3"></span></div>
+                <h2 class="the_title">Monitor All Brand Mentions</h2>
+                <p class="body_text">Find out who is ALREADY talking about your brand! We cover all major social networks and blogging platforms, making it easy to engage and keep up with this content in real-time right from our platform.</p>
+            </div>
+            <div class="content_bucket">
+                <div class="icon_img"><span class="icon-misc_chart5"></span></div>
+                <h2 class="the_title">ROI Analysis <span style="font-size:13px;">(beta)</span></h2>
+                <p class="body_text">Track the traffic, clicks, virality, and purchases that occur as a result of your campaigns! Interested in being a guinea pig? Awesome! Access this data at no extra charge.</p>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+    <div class="body_row teal_row clearfix">
+        <div class="content_area">
+            <h2 class="title">Relevance Leads to Successful Campaigns</h2>
+            <div class="subtext">Optimize your results by finding influencers who target the same demographic you are targeting! For example, if your aesthetic is similar to that of Nasty Gal and Urban Outfitters, a blogger who often mentions J Crew and Tory Burch items probably won’t be the best fit for your brand, right?</div>
+            <img src="../../../mymedia/site_folder/images/page_graphics/home/new/relevance_graphic.png" alt="The Shelf : Influencer Marketing Campaigns"/>
+        </div>
+    </div>
+
+
+
+
+    <div class="body_row w_img bg_skirt_img clearfix">
+        <div class="img_txt">
+            <div style="width:1024px; margin:0 auto;">
+                <div class="larger" style="font-size:52px;">The Shelf is the only DIY solution<br/>for "influencer marketing".</div>
+                <br/>
+                <div class="smaller">Other sites out there are just glorified “job-posting” forums, with smaller databases and fewer filtering options. Our service enables you to create a sustainable influencer marketing strategy, rather than a quick, one-off solution.</div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+    <div class="body_row gray_row more_top_no_bottom clearfix">
+        <div class="content_area">
+            <h2 class="title">Our Customers Love our Search Engine</h2>
+            <div class="subtext">Many times when brands begin “influencer marketing,” they start out by googling “fashion blogger.” This won’t get you far. That’s where we come in. We are like a suped-up Google search. Sift through more than 100,000 fashion &amp; beauty bloggers listed in our directory in record speed and find the right matches for your brand’s style and campaign goals. This isn’t a popularity contest. Finding sought-after influencers shouldn’t be your only priority. Look for the ones who are truly relevant.</div>
+            <img src="../../../mymedia/site_folder/images/page_graphics/home/new/filters.png" alt="The Shelf : Influencer Marketing Campaigns"/>
+        </div>
+        <img style="width:100%; margin-top:50px;" src="../../../mymedia/site_folder/images/page_graphics/home/new/row-of-people.png" alt="The Shelf : Influencer Marketing Campaigns"/>
+    </div>
+
+
+    {% include "snippets/universal_footer.html" %}
+
+{% endblock content %}

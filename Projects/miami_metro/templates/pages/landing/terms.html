@@ -1,0 +1,203 @@
+{% extends 'base.html' %}
+{% load compressed %}
+{% if visitor.base_brand %}
+{% block bottom_js %}
+{% compressed_js 'angular_dashboard' %}
+{% compressed_js 'angular_brand_navigation' %}
+<script type="text/javascript">
+(function(){
+angular.module("theshelf").value('nav_config', {
+    tab: "{{selected_tab}}",
+    sub_tab: "{{sub_page}}",
+    visible: {% if hide_sidebar %}false{% else %}true{% endif %},
+});
+angular.module("theshelf").value('trial', false);
+{% if selected_tab == "competitors" %}
+angular.module("theshelf").value('dashboard_brand', null);
+{% else %}
+angular.module("theshelf").value('dashboard_brand', {text: '{{visitor.brand.name}}', value: '{{visitor.brand.domain_name}}'});
+{% endif %}
+})();
+</script>
+{% endblock %}
+{% endif %}
+{% block content %}
+{% include 'popups/contact_us_lb.html' with popup_type="contact-us-popup" %}
+{% include 'popups/signup_lb.html' with popup_type="signup-popup" %}
+{% include 'popups/login_lb.html' %}
+{% include 'popups/forgot_password_lb.html' with popup_type="forgot-password-popup" %}
+
+<span class="dashboard_content">
+    <div class="terms">
+        <div class="main_title">Terms of Service</div>
+
+        <div class="starter_paragraph">Welcome to The Shelf, a platform for brands and influencers to connect and work with other, a directory for finding relevant influencers, and an actionable content analytics tool to help brands evaluate and utilize the content produced on social networks. These Terms of Service ("Terms") govern your access to and use of the services, including our various websites, email notifications, applications, and widgets (the "Services" or “The Shelf”), and any information, text, graphics, photos or other materials uploaded, downloaded or appearing on the Services (collectively referred to as "Content"). Your access to and use of the Services are conditioned on your acceptance of and compliance with these Terms. By accessing or using the Services you agree to be bound by these Terms.</div>
+
+    <div class="terms_sub_header">BASIC TERMS</div>
+
+        <div class="terms_para">You are responsible for your use of the Services, for any Content you post to the Services, and for any consequences thereof. The Content you submit, post, or display will be able to be viewed by other users of the Services and through third party services and websites (go to the account settings page to control who sees your Content). You should only provide Content that you are comfortable sharing with others under these Terms.</div>
+
+        <div class="terms_para">You may use the Services only if you can form a binding contract with The Shelf and are not a person barred from receiving services under the laws of the United States or other applicable jurisdiction. If you are accepting these Terms and using the Services on behalf of a company, organization, government, or other legal entity, you represent and warrant that you are authorized to do so. you may use the Services only in compliance with these Terms and all applicable local, state, national, and international laws, rules and regulations.</div>
+
+        <div class="terms_para">The Services that The Shelf provides are always evolving and the form and nature of the Services that The Shelf provides may change from time to time without prior notice to you. In addition, The Shelf may stop (permanently or temporarily) providing the Services (or any features within the Services) to you or to users generally and may not be able to provide you with prior notice. We also retain the right to create limits on use and storage at our sole discretion at any time without prior notice to you.</div>
+
+        <div class="terms_para">The Services may include advertisements, which may be targeted to the Content or information on the Services, queries made through the Services, or other information. The types and extent of advertising by The Shelf on the Services are subject to change. In consideration for The Shelf granting you access to and use of the Services, you agree that The Shelf and its third party providers and partners may place such advertising on the Services or in connection with the display of Content or information from the Services whether submitted by you or others.</div>
+
+    <div class="terms_sub_header">ACCOUNTS AND PASSWORDS</div>
+
+        <div class="terms_para">To access certain parts of the the Services, you are required to create an account. You must be 13 years or older to create an account on the Services. The registration information you provide, which may include your full name, your email address, your blog URL, your company name, and your company URL must be accurate, complete, and current at all times. You agree not to provide any false account information, or to create an account for anyone other than yourself or a company, organization, government, or other legal entity (collectively, an “Entity”) that you represent. By creating an account on behalf of an Entity, you represent and warrant that you are authorized to do so. You may not create more than one account. If we disable your account, you will not create another account without our permission. Similarly, you will not transfer your account to anyone without first getting our written permission. We reserve the right to remove or reclaim any username or similar identifier if we believe it is inappropriate. You are responsible for safeguarding the password that you use to access the Services and for any activities or actions under your password. We encourage you to use "strong" passwords (passwords that use a combination of upper and lower case letters, numbers and symbols) with your account. You will not let anyone else access your account, or do anything else that might jeopardize the security of your account. The Shelf cannot and will not be liable for any loss or damage arising from your failure to comply with the above.</div>
+
+        <div class="terms_para">By creating a Blogger account on the Services, you agree to allow us to access or search or attempt to access or search the blog, as well as the social urls associated with your account by any means (automated or otherwise) for the purpose of extracting data to be used in association with your account on the Services. </div>
+
+        <div class="terms_para">Previously, we offered the ability to create and authenticate an account on the Services through a third-party social media account, such as Facebook. If you previously accessed the Services in this manner please follow the 'Forgot your password' link when attempting to log on to the Services. When prompted, enter the email address associated with the social media account that you previously used to access our Services. You will then be asked to create a new password for your account. Once you’ve created a new password, you will be able to log on to the Services using your new password and the associated email address.</div>
+
+    <div class="terms_sub_header">PRIVACY</div>
+
+        <div class="terms_para">Any information that you provide to The Shelf is subject to our <a class="txt_link darker_teal" href="{% url debra.account_views.privacy %}">Privacy Policy</a>, which governs our collection and use of your information. You understand that through your use of the Services you consent to the collection and use (as set forth in the <a class="txt_link darker_teal" href="{% url debra.account_views.privacy %}">Privacy Policy</a>) of this information, including the transfer of this information to the United States and/or other countries for storage, processing and use by The Shelf. As part of providing you the Services, we may need to provide you with certain communications, such as service announcements and administrative messages. These communications are considered part of the Services and your The Shelf account, which you may not be able to opt-out from receiving.</div>
+
+    <div class="terms_sub_header">PAYMENT AND FEES</div>
+
+        <div class="terms_para">Service Fee. We want to help bloggers connect with brands! At times, certain companies, organizations, or individuals who  partner with The Shelf (“Partners”) may use the Services to connect with a blogger for the purpose of syndicating, broadcasting, distributing, or publishing the blogger’s Content.  In these instances, we may charge a “Service Fee” as consideration for facilitating the connection. Bloggers will have an opportunity to review and accept the Service Fee that will be charged. Changes to Service Fees are effective after we provide you with notice by posting the changes on the Services. You are responsible for paying all Serve Fees and taxes associated with your use of the Services.</div>
+
+        <div class="terms_para">Subscription Fees: If you elect to create or upgrade to a premium account plan on the Service, you agree to the pricing terms, as we may update them from time to time. We may add new Services for additional fees or amend fees for existing services, at any time in our sole discretion. </div>
+
+        <div class="terms_para">Subscription Billing: We will bill your funding instrument immediately upon your creation of or upgrade to a premium account, and then again at the beginning of each subscription period. The following terms apply for subscriptions purchased on the Services: </div>
+
+        <div class="terms_para">You can cancel  your subscription at any time in accordance with Section 13 herein.</div>
+
+        <div class="terms_para">If you cancel a subscription you will still have access to the Services through the end of the subscription period.</div>
+
+        <div class="terms_para">Payment Obligations: When you provide payment information for a funding instrument to us, you confirm that you are permitted to use that funding instrument. When you fund a transaction, you authorize us (and our designated payment processor) to charge the full amount to the funding instrument you designate for the transaction. You also authorize us to collect and store that funding instrument, along with other related transaction information. </div>
+
+        <div class="terms_para">If you pay by credit or debit card, we may obtain a pre-approval from the issuer of the card for an amount, which may be as high as the full price of your purchase. We will bill your card at the time you load funds for your transaction, or shortly thereafter. If you cancel a transaction before completion, this pre-approval may result in those funds not otherwise being immediately available to you.</div>
+
+    <div class="terms_sub_header">CONTENT ON THE SERVICES </div>
+
+        <div class="terms_para">All Content, whether publicly posted or privately transmitted, is the sole responsibility of the person who originated such Content. We may not monitor or control the Content posted via the Services and, we cannot take responsibility for such Content. Any use or reliance on any Content or materials posted via the Services or obtained by you through the Services is at your own risk.</div>
+
+        <div class="terms_para">We do not endorse, support, represent or guarantee the completeness, truthfulness, accuracy, or reliability of any Content or communications posted via the Services or endorse any opinions expressed via the Services. you understand that by using the Services, you may be exposed to Content that might be offensive, harmful, inaccurate or otherwise inappropriate, or in some cases, postings that have been mislabeled or are otherwise deceptive. Under no circumstances will The Shelf be liable in any way for any Content, including, but not limited to, any errors or omissions in any Content, or any loss or damage of any kind incurred as a result of the use of any Content posted, emailed, transmitted or otherwise made available via the Services or broadcast elsewhere.</div>
+
+    <div class="terms_sub_header">YOUR RIGHTS </div>
+
+        <div class="terms_para">You retain your rights to any Content you submit, post or display on or through the Services. By submitting, posting or displaying Content on or through the Services, you grant us a worldwide, non-exclusive, royalty-free license (with the right to sublicense) to use, copy, reproduce, process, adapt, modify, publish, transmit, display and distribute such Content in any and all media or distribution methods (now known or later developed), so long as the work is properly attributed. </div>
+
+        <div class="terms_para">Use for Marketing and Analytics. You agree that this license includes the right for The Shelf to provide, promote, and improve the Services and to make Content submitted to or through the Services available to other Partners for market research and analytics purposes, subject to our terms and conditions for such Content use.</div>
+
+        <div class="terms_para">Such uses by The Shelf or other companies, organizations or individuals who partner with The Shelf, may be made with no compensation paid to you with respect to the Content that you submit, post, transmit or otherwise make available through the Services.</div>
+
+        <div class="terms_para">Additional Uses. Occasionally, certain Partners of The Shelf may be interested in blogger Content for purposes other than Marketing and Analytics, such as syndication, broadcasting, distribution, or publishing of the blogger’s Content. When Partners use the Services to connect with a blogger for these Additional Uses of blogger Content, additional fees may apply, as described in Section 4(a) herein.</div>
+
+        <div class="terms_para">We may modify or adapt your Content in order to transmit, display or distribute it over computer networks and in various media and/or make changes to your Content as are necessary to conform and adapt that Content to any requirements or limitations of any networks, devices, services or media.</div>
+
+        <div class="terms_para">You are responsible for your use of the Services, for any Content you provide, and for any consequences thereof, including the use of your Content by other users and our third party partners. If you do not have the right to submit Content for such use, it may subject you to liability. The Shelf will not be responsible or liable for any use of your Content by The Shelf in accordance with these Terms. You represent and warrant that you have all the rights, power and authority necessary to grant the rights granted herein to any Content that you submit.</div>
+
+    <div class="terms_sub_header">YOUR LICENSE TO USE THE SERVICES </div>
+
+        <div class="terms_para">Subject to your compliance with these Terms, and any other agreement between you and The Shelf, we give you a limited, personal, worldwide, royalty-free, non-assignable and non-exclusive license to use the software that is provided to you by The Shelf as part of the Services. This license is for the sole purpose of enabling you to use and enjoy the benefit of the Services as provided by The Shelf, in the manner permitted by these Terms.</div>
+
+    <div class="terms_sub_header">REQUESTING A DEMO</div>
+
+        <div class="terms_para">By requesting a demo of our Services (a “Demo”), you represent and warrant that you are not requesting the Demo (a) on behalf of (directly or indirectly) any entity that provides an online user-generated content analytics platform  or blogger directory as its primary business as its primary business, or (b) to build a competitive product.  Moreover, The information you provide when requesting a demo, which may include your full name, your email address, and your company URL, must be accurate, complete, and current at all times. You agree not to provide any false information, or to request a demo for anyone other than yourself or an Entity that you represent. By requesting a demo on behalf of an Entity, you represent and warrant that you are authorized to do so.  </div>
+
+    <div class="terms_sub_header">NON-DISCLOSURE AGREEMENT</div>
+
+        <div class="terms_para">During your use of the Services and for as long as it remains Confidential Information (in the case of any trade secrets) or for twenty-four (24) months after you cease your use the Services (in the case of any other Confidential Information), you shall not (i) disclose any Confidential Information except as contemplated in this Agreement.</div>
+
+        <div class="terms_para">For the purposes of these Terms, </div>
+
+        <div class="terms_para">“Confidential Information” means (i) any information (other than Excluded Information) relating to The Shelf, the Services, or Content that The Shelf discloses to you during your use of the Services and (ii) any Derived Information. </div>
+        <div class="terms_para">“Derived Information” means all information (including by way of example, but not limitation, notes, analyses, compilations, and summaries) that is in writing or embodied in any electronic medium and that you or any of your representatives derive, in whole or in part, from any information described in clause (i) of the definition of Confidential Information.</div>
+
+        <div class="terms_para">“Excluded Information” means information that comes within any of the following categories: (i) other than any personally identifiable information, information that is or becomes public other than as a result of breach of any obligation under these Terms; (ii) information that, when it is disclosed, is already in your possession or any of your representatives’ possession as the result of disclosure by an entity that was not then under an obligation to The Shelf to keep that information confidential; (iii) information that, after it is disclosed under these Terms, is disclosed to you or any of  your representatives by an entity that was not then under an obligation to The Shelf to keep that information confidential; and (iv) information that you develop independently before or after The Shelf discloses equivalent information to you.</div>
+
+    <div class="terms_sub_header">THE SHELF RIGHTS</div>
+
+        <div class="terms_para">All right, title, and interest in and to the Services (excluding Content provided by users) are and will remain the exclusive property of The Shelf and its licensors. The Services are protected by copyright, trademark, and other laws of both the United States and foreign countries. Nothing in the Terms gives you a right to use the The Shelf name or any of the The Shelf trademarks, logos, domain names, and other distinctive brand features without our prior authorization to do so. Any feedback, comments, or suggestions you may provide regarding The Shelf, or the Services is entirely voluntary and we will be free to use such feedback, comments or suggestions as we see fit and without any obligation to you.</div>
+
+    <div class="terms_sub_header">RESTRICTIONS ON CONTENT AND USE OF THE SERVICES</div>
+
+        <div class="terms_para">We reserve the right at all times (but will not have an obligation) to remove or refuse to distribute any Content on the Services, to suspend or terminate users, and to reclaim usernames without liability to you. We also reserve the right to access, read, preserve, and disclose any information as we reasonably believe is necessary to (i) satisfy any applicable law, regulation, legal process or governmental request, (ii) enforce the Terms, including investigation of potential violations hereof, (iii) detect, prevent, or otherwise address fraud, security or technical issues, (iv) respond to user support requests, or (v) protect the rights, property or safety of The Shelf, its users and the public.</div>
+
+        <div class="terms_para"><b>You may not do any of the following while accessing or using the Services: </b>
+            <ol>
+                <li>access, tamper with, or use non-public areas of the Services, The Shelf’s computer systems, or the technical delivery systems of The Shelf’s providers; </li>
+                <li>probe, scan, or test the vulnerability of any system or network or breach or circumvent any security or authentication measures; </li>
+                <li>access or search or attempt to access or search the Services by any means (automated or otherwise) other than through our currently available, published interfaces that are provided by The Shelf (and only pursuant to those terms and conditions), unless you have been specifically allowed to do so in a separate agreement with The Shelf (NOTE: crawling the Services is permissible if done in accordance with the provisions of the robots.txt file, however, scraping the Services without the prior consent of The Shelf is expressly prohibited); </li>
+                <li>forge any TCP/IP packet header or any part of the header information in any email or posting, or in any way use the Services to send altered, deceptive or false source-identifying information; or </li>
+                <li>interfere with, or disrupt, (or attempt to do so), the access of any user, host or network, including, without limitation, sending a virus, overloading, flooding, spamming, mail-bombing the Services, </li>
+                <li>by scripting the creation of Content in such a manner as to interfere with or create an undue burden on the Services, </li>
+                <li>use our service for any unlawful purposes or in furtherance of illegal activities (International users agree to comply with all local laws regarding online conduct and acceptable content), </li>
+                <li>use badges, such as but not limited to The Shelf’s collective membership badge, unless provided by The Shelf, </li>
+                <li>publish or link to malicious content intended to damage or disrupt another user’s browser or computer or to compromise a user’s privacy, </li>
+                <li>use obscene or pornographic images in either your profile photo, header photo, or user background, </li>
+                <li>provide any false information on or via the Service, </li>
+                <li>stalk or otherwise harass, </li>
+                <li>create a false identity or otherwise attempt to mislead any user or other person, including as to the identity or origin of any communication, </li>
+                <li>resell the Services without our prior written permission, or </li>
+                <li>circumvent the Services in order to avoid any requirements under any Laws, Agreements or binding contracts.</li>
+            </li>
+        </div>
+
+    <div class="terms_sub_header">COPYRIGHT POLICY</div>
+
+        <div class="terms_para">The Shelf respects the intellectual property rights of others and expects users of the Services to do the same. We will respond to notices of alleged copyright infringement that comply with applicable law and are properly provided to us. If you believe that your Content has been copied in a way that constitutes copyright infringement, please provide us with the following information: (i) a physical or electronic signature of the copyright owner or a person authorized to act on their behalf; (ii) identification of the copyrighted work claimed to have been infringed; (iii) identification of the material that is claimed to be infringing or to be the subject of infringing activity and that is to be removed or access to which is to be disabled, and information reasonably sufficient to permit us to locate the material; (iv) your contact information, including your address, telephone number, and an email address; (v) a statement by you that you have a good faith belief that use of the material in the manner complained of is not authorized by the copyright owner, its agent, or the law; and (vi) a statement that the information in the notification is accurate, and, under penalty of perjury, that you are authorized to act on behalf of the copyright owner.</div>
+
+        <div class="terms_para">We reserve the right to remove Content alleged to be infringing without prior notice, at our sole discretion, and without liability to you. In appropriate circumstances, The Shelf will also terminate a user’s account if the user is determined to be a repeat infringer. Our designated copyright agent for notice of alleged copyright infringement appearing on the Services is:</div>
+
+        <div class="terms_para">The Shelf, Inc.
+        <br/>Attn: Copyright Agent
+        <br/>200 Hoover Avenue, Unit 1211
+        <br/>Las Vegas, Nevada 89101
+        <br/>Email: support@theshelf.com</div>
+
+    <div class="terms_sub_header">ENDING THESE TERMS</div>
+
+        <div class="terms_para">The Terms will continue to apply until terminated by either you or The Shelf as follows.</div>
+
+        <div class="terms_para">You may end your legal agreement with The Shelf at any time for any reason by sending a deactivation request along with the login credentials for your account to laurenj@theshelf.com. Premium account subscriptions will terminate at the end of the month for which you have paid, and you will not receive any refund for any unused days of such subscription term.</div>
+
+        <div class="terms_para">YOU AGREE TO EXTRACT FROM THE SERVICES ANY OF YOUR DATA THAT YOU WISH TO KEEP.  YOU UNDERSTAND AND AGREE THAT ONCE TERMINATION OF YOUR ACCOUNT IS CONFIRMED, ALL DATA ASSOCIATED WITH YOUR ACCOUNT MAY BE IMMEDIATELY DELETED FROM THE SERVICES. SINCE DELETION OF ALL DATA IS FINAL, PLEASE BE SURE THAT YOU DO IN FACT WANT TO CANCEL YOUR ACCOUNT BEFORE DOING SO. IF YOU HAVE ANY QUESTIONS ABOUT CANCELLING YOUR ACCOUNT, PLEASE CONTACT US. </div>
+
+        <div class="terms_para">We may suspend or terminate your accounts or cease providing you with all or part of the Services at any time for any reason, including, but not limited to, if we reasonably believe: (i) you have violated these Terms, (ii) you create risk or possible legal exposure for us; or (iii) our provision of the Services to you is no longer commercially viable. We will make reasonable efforts to notify you by the email address associated with your account or the next time you attempt to access your account.</div>
+
+        <div class="terms_para">In all such cases, the Terms shall terminate, including, without limitation, your license to use the Services, except that the following sections shall continue to apply: 4, 5, 6, 8, 9, 10, 11, 13, 14,15 and 16.</div>
+
+        <div class="terms_para">Nothing in this section shall affect The Shelf’s rights to change, limit or stop the provision of the Services without prior notice, as provided above in section 1.</div>
+
+    <div class="terms_sub_header">USER DISPUTES</div>
+
+        <div class="terms_para">The Shelf is not liable for any damages or loss incurred related any brand campaign or any other use of the Services. The Shelf is under no obligation to become involved in disputes between any user of the Services, or between a user and any third party arising in connection with the use of the Services, but may do so, in its sole discretion. This includes, but is not limited to, any other terms, conditions, warranties, or representations associated with campaigns on the Site. The Shelf does not oversee brand campaigns or Content on the Services. The Company does not endorse any user submissions. You release The Shelf, its officers, employees, agents, and successors in rights from claims, damages, and demands of every kind, known or unknown, suspected or unsuspected, disclosed or undisclosed, arising out of or in any way related to such disputes and the Service.</div>
+
+    <div class="terms_sub_header">DISCLAIMERS AND LIMITATIONS ON LIABILITY </div>
+
+        <div class="terms_para">Please read this section carefully since it limits the liability of The Shelf and its parents, subsidiaries, affiliates, related companies, officers, directors, employees, agents, representatives, partners, and licensors (collectively, the “The Shelf Entities”). Each of the subsections below only applies up to the maximum extent permitted under applicable law. Some jurisdictions do not allow the disclaimer of implied warranties or the limitation of liability in contracts, and as a result the contents of this section may not apply to you. Nothing in this section is intended to limit any rights you may have which may not be lawfully limited.</div>
+
+        <div class="terms_para">The Services are Available "AS-IS". Your access to and use of the Services or any Content are at your own risk. you understand and agree that the Services are provided to you on an "AS IS" and "AS AVAILABLE" basis. Without limiting the foregoing, to the maximum extent permitted under applicable law, THE SHELF ENTITIES DISCLAIM ALL WARRANTIES AND CONDITIONS, WHETHER EXPRESS OR IMPLIED, OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, OR NON-INFRINGEMENT.</div>
+
+        <div class="terms_para">The The Shelf Entities make no warranty and disclaim all responsibility and liability for: (i) the completeness, accuracy, availability, timeliness, security or reliability of the Services or any Content; (ii) any harm to your computer system, loss of data, or other harm that results from your access to or use of the Services or any Content; (iii) the deletion of, or the failure to store or to transmit, any Content and other communications maintained by the Services; and (iv) whether the Services will meet your requirements or be available on an uninterrupted, secure, or error-free basis. No advice or information, whether oral or written, obtained from the The Shelf Entities or through the Services, will create any warranty not expressly made herein.</div>
+
+        <div class="terms_para">Links. The Services may contain links to third-party websites or resources. you acknowledge and agree that the The Shelf Entities are not responsible or liable for: (i) the availability or accuracy of such websites or resources; or (ii) the content, products, or services on or available from such websites or resources. Links to such websites or resources do not imply any endorsement by the The Shelf Entities of such websites or resources or the content, products, or services available from such websites or resources. you acknowledge sole responsibility for and assume all risk arising from your use of any such websites or resources.</div>
+
+        <div class="terms_para">Limitation of Liability. TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, THE SHELF ENTITIES SHALL NOT BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL OR PUNITIVE DAMAGES, OR ANY LOSS OF PROFITS OR REVENUES, WHETHER INCURRED DIRECTLY OR INDIRECTLY, OR ANY LOSS OF DATA, USE, GOOD-WILL, OR OTHER INTANGIBLE LOSSES, RESULTING FROM (i) YOUR ACCESS TO OR USE OF OR INABILITY TO ACCESS OR USE THE SERVICES; (ii) ANY CONDUCT OR CONTENT OF ANY THIRD PARTY ON THE SERVICES, INCLUDING WITHOUT LIMITATION, ANY DEFAMATORY, OFFENSIVE OR ILLEGAL CONDUCT OF OTHER USERS OR THIRD PARTIES; (iii) ANY CONTENT OBTAINED FROM THE SERVICES; OR (iv) UNAUTHORIZED ACCESS, USE OR ALTERATION OF YOUR TRANSMISSIONS OR CONTENT.</div>
+
+        <div class="terms_para">IN NO EVENT SHALL THE AGGREGATE LIABILITY OF THE SHELF ENTITIES EXCEED THE GREATER OF ONE HUNDRED U.S. DOLLARS (U.S. $100.00) OR THE AMOUNT YOU PAID TWITTER, IF ANY, IN THE PAST SIX MONTHS FOR THE SERVICES GIVING RISE TO THE CLAIM.</div>
+
+        <div class="terms_para">THE LIMITATIONS OF THIS SUBSECTION SHALL APPLY TO ANY THEORY OF LIABILITY, WHETHER BASED ON WARRANTY, CONTRACT, STATUTE, TORT (INCLUDING NEGLIGENCE) OR OTHERWISE, AND WHETHER OR NOT THE TWITTER ENTITIES HAVE BEEN INFORMED OF THE POSSIBILITY OF ANY SUCH DAMAGE, AND EVEN IF A REMEDY SET FORTH HEREIN IS FOUND TO HAVE FAILED OF ITS ESSENTIAL PURPOSE.</div>
+
+    <div class="terms_sub_header">GENERAL TERMS </div>
+
+        <div class="terms_para">Waiver and Severability. The failure of The Shelf to enforce any right or provision of these Terms will not be deemed a waiver of such right or provision. In the event that any provision of these Terms is held to be invalid or unenforceable, then that provision will be limited or eliminated to the minimum extent necessary, and the remaining provisions of these Terms will remain in full force and effect.</div>
+
+        <div class="terms_para">Controlling Law and Jurisdiction. These Terms and any action related thereto will be governed by the laws of the State of California without regard to or application of its conflict of law provisions or your state or country of residence. All claims, legal proceedings or litigation arising in connection with the Services will be brought solely in the federal or state courts located in San Francisco County, California, United States, and you consent to the jurisdiction of and venue in such courts and waive any objection as to inconvenient forum.</div>
+        <div class="terms_para">If you are a federal, state, or local government entity in the United States using the Services in your official capacity and legally unable to accept the controlling law, jurisdiction or venue clauses above, then those clauses do not apply to you. For such U.S. federal government entities, these Terms and any action related thereto will be governed by the laws of the United States of America (without reference to conflict of laws) and, in the absence of federal law and to the extent permitted under federal law, the laws of the State of California (excluding choice of law).</div>
+
+        <div class="terms_para">Entire Agreement. These Terms and our <a class="txt_link darker_teal" href="{% url debra.account_views.privacy %}">Privacy Policy</a> are the entire and exclusive agreement between The Shelf and you regarding the Services (excluding any services for which you have a separate agreement with The Shelf that is explicitly in addition or in place of these Terms), and these Terms supersede and replace any prior agreements between The Shelf and you regarding the Services. Other than members of the group of companies of which The Shelf, Inc. is the parent, no other person or company will be third party beneficiaries to the Terms.</div>
+
+        <div class="terms_para">We may revise these Terms from time to time, the most current version will always be at theshelf.com/tos. If the revision, in our sole discretion, is material we will provide reasonable advance notice before the revised Terms become effective. You agree that we may notify you of the revised Terms by posting them on the Service, and that your use of the Services after the effective date of the revised Terms constitutes your agreement to the revised Terms. Therefore, you should review these Terms and any revised Terms before using the Services. The revised Terms will be effective as of the time of posting, or such later date as may be specified in the revised Terms, and will apply to your use of the Services from that point forward. These Terms will govern any disputes arising before the effective date of the revised Terms.</div>
+
+        <div class="terms_para">These Services are operated and provided by The Shelf Inc., 200 Hoover Avenue, Unit 1211, Las Vegas, Nevada 89101. If you have any questions about these Terms, please contact us.</div>
+
+        <div class="terms_para">Effective: August 7, 2014</div>
+    </div>
+</span>
+{% endblock %}

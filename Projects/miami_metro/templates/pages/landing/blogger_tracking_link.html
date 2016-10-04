@@ -1,0 +1,89 @@
+{% load compressed i18n intercom %}
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="utf-8">
+    <title>{% block title %}Tracking Link{% endblock %}</title>
+    <LINK REL="SHORTCUT ICON" HREF="/mymedia/site_folder/images/global/favicon.ico">
+    <!--This is for hosting email on google. They need to verify we own this domain theshelf.com -->
+
+    <!--** Global CSS **-->
+    <link href="/mymedia/site_folder/css/jquery.Jcrop.css" type="text/css" rel="stylesheet" />
+    <link href="/mymedia/site_folder/css/old/introjs.min.css" text="text/css" rel="stylesheet" />
+    <link href="/mymedia/site_folder/css/style.css" media="screen" rel="stylesheet" />
+    <link href="/mymedia/site_folder/css/global.less" media="screen" rel="stylesheet/less" />
+    <link href="/mymedia/site_folder/css/laurens_font.less" media="screen" rel="stylesheet/less" />
+
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script type="text/javascript" src="/mymedia/site_folder/js/vendor/less-1.4.1.js"></script>
+    {% compressed_js 'core_head' %}
+
+</head>
+
+<body class="{% if contract.tracking_status == contract.TRACKING_STATUS_SENT %}white_bg simple_w_logo{% else %}fun_bg_color{% endif %}">
+    <span ng-app="theshelf" ng-cloak>
+        <div class="black_overlay" style="display:none;"></div>
+        {% include 'popups/contact_us_lb.html' with popup_type="contact-us-popup" %}
+        <div blogger-tracking-link-popup badge-verify-url="{% url debra.account_views.trigger_badge_verify %}" tracking></div>
+        <div class="lightbox dynamic bl_bg_lb w_logo main">
+            <div class="logo_centerer">
+                <div class="icon-social_0_shelf_shelf3a"></div>
+            </div>
+            <div class="container">
+                {% if contract.tracking_status == contract.TRACKING_STATUS_SENT %}
+                    <div class="content_area" style="text-align: center;">
+                        <h1 class="page_lb_title">Tracking</h1>
+                        <div class="badge_container" style="border: none!important; width: 400px;">
+                            <p class="instruction_txt small" style="padding: 25px;">
+                            Add this snippet somewhere on your blog. When you finish, come back here and click OK, so that we can check. If you forget to click OK, its not the end of the world... We'll check your blog at the end of the day to make sure you were able to add it. Or <a class="launch-popup txt_link darker_teal" href="#" data-popup-type="contact_us" broadcaster="openContactForm">Contact Us</a> if you have issues.
+                            </p>
+
+                            <div class="badge_code_container clearfix">
+                                <fieldset class="typical_form w_courier" style="padding: 10px;">
+                                    <label for="pixel_snippet">Tracking Pixel:</label>
+                                    <textarea name="pixel_snippet" cols="60" rows="10" style="resize: none;" readonly>{{ contract.tracking_pixel_snippet }}</textarea>
+                                </fieldset>
+                                <fieldset class="typical_form w_courier" style="padding: 10px;">
+                                    <label for="tracking_link">Tracking Link:</label>
+                                    <input name="tracking_link" type="text" style="font-size:13px;" value="{{ contract.tracking_link_url }}" readonly />
+                                </fieldset>
+                            </div>
+
+                            <a href="{% url debra.job_posts_views.blogger_tracking_link_complete contract.id contract.tracking_hash_key %}" class="square_bt md teal_bt submit_button" style="margin: 10px;">Done, it's up!</a>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="content_area">
+                        <div class="content_area_container px1000 login_lb">
+                            {% if contract.tracking_status == contract.TRACKING_STATUS_VERIFYING %}
+                                <h1 class="lb_title gray xxlarge white">Thanks! We're verifying your link currently..</h1>
+                            {% elif contract.tracking_status == contract.TRACKING_STATUS_ADDED %}
+                                <h1 class="lb_title gray xxlarge white">You've already added tracking to your blog.</h1>
+                            {% elif contract.tracking_status == contract.TRACKING_STATUS_VERIFICATION_PROBLEM %}
+                                <h1 class="lb_title gray xxlarge white">Verification problem.</h1>
+                            {% endif %}
+                            <br/>
+                            <br/>
+                            <br/>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </span>
+    {% compressed_js 'core' %}
+    {% compressed_js 'angular_core' %}
+    {% include "snippets/angular_sentry_conf.html" %}
+    {% compressed_js 'angular_app' %}
+    {% block bottom_js %}
+    {% endblock %}
+    {% include 'snippets/server_side_vars.html' %}
+
+    {% intercom_tag %}
+</body>
+
+</html>

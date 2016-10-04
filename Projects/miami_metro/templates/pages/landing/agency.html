@@ -1,0 +1,127 @@
+{% extends "base.html" %}
+
+{% load compressed %}
+
+{% block title %}The Shelf: Connecting Top Fashion Bloggers and Brands{% endblock title %}
+{% block meta_description %}
+    <meta name="description" content="The Shelf: Instant access to a directory of thousands of top fashion bloggers. We help you discover, research, and keep track of the bloggers you collaborate with.">
+{% endblock meta_description %}
+
+{% block custom_header %}{% include "widgets/landing_nav_header.html" with page='agency' %}{% endblock %}
+
+{% block main_controller %}ng-controller="BrandHomeCtrl"{% endblock main_controller %}
+
+{% block content %}
+    <!-- HEADER -->
+    <!-- HEADER -->
+    <div class="header agency">
+        <div class="header_txt">
+            <h1 class="main">Most Advanced and Real-Time Influencer Database</h1>
+            <h2 class="sub">Fashion &nbsp; / &nbsp; Beauty &nbsp; / &nbsp; Lifestyle</h2>
+        </div>
+        <div class="button_container">
+            <a href="#" id="big_brand_btn" class="button signup" click-emitter="openSignupPopup" args='{"initial_type": "brand"}'><b>I'm an Agency</b></a>
+            <a href="#" id="big_blogger_btn" class="button signup" click-emitter="openSignupPopup" args='{"initial_type": "blogger"}'><b>I'm an Influencer</b></a>
+        </div>
+        <div class="photo_credits">All photography by : <a href="http://streetscout.me/street-style/fashion" target="_blank" class="link">StreetScout.me</a>
+        </div>
+    </div>
+
+    <div class="body_row clearfix white_row">
+        <div class="just_text_section">
+            <div class="med_cursive_center">With over 100,000 influencers on our platform we are the largest database of fashion/beauty influencers the world has ever seen. Now, now just because we are awesome (really, we are AMAZING), doesn’t mean we don’t see room for improvement. Our database is constantly growing. Not only that, we are adding new verticals every three months! If fashion and beauty isn’t really your jam, stay tuned for more exciting updates.</div>
+        </div>
+        <div class="content_area thirds icons2_subtitle_text content_90 w_border_top_section">
+            <div class="little_title">Features for PR &amp; Agencies</div>
+            <div class="content_bucket">
+                <div class="icon_img"><span class="icon-misc_magnify"></span></div>
+                <h2 class="the_title">Search Engine</h2>
+                <p class="body_text">Explore our directory of more than 100,000 influencers. We provide 7 types of filtering to help you discover the perfect matches for your brand and campaign goals.</p>
+            </div>
+            <div class="content_bucket">
+                <div class="icon_img"><span class="icon-social_0_connected"></span></div>
+                <h2 class="the_title">E-commerce Relevance</h2>
+                <p class="body_text">The majority of bloggers target a style-niche based on their own tastes. We provide analytical data which helps you uncover the influencers where your products/brands will resonate the most with their audience.</p>
+            </div>
+            <div class="content_bucket">
+                <div class="icon_img"><span class="icon-misc_time_clock2"></span></div>
+                <h2 class="the_title">Real-Time Profiles</h2>
+                <p class="body_text">Ever been a victim of zeroing in on the perfect influencer, only to notice that their last post was 8 months ago? Never again! All profiles, links, social counts, and activity levels are updated in real-time.</p>
+            </div>
+            <div class="content_bucket first_step_child">
+                <div class="icon_img"><span class="icon-people_two_people"></span></div>
+                <h2 class="the_title">Unlimited Users</h2>
+                <p class="body_text">Have a whole team who wants to access The Shelf? Great! The more the merrier, with multiple logins at no additional cost per person you can have a whole PR army closing in on the right influencers at Olympic speed.</p>
+            </div>
+            <div class="content_bucket">
+                <div class="icon_img"><span class="icon-misc_files_download3"></span></div>
+                <h2 class="the_title">Download Custom Lists</h2>
+                <p class="body_text">You requested it, we listened! As a result, we’re launching this feature as part of the PR Plan. Organize your collections and download them as a spreadsheet for easy reference.</p>
+            </div>
+            <div class="content_bucket">
+                <div class="icon_img"><span class="icon-social_envelope"></span></div>
+                <h2 class="the_title">Outreach Tools</h2>
+                <p class="body_text">Our series of outreach tools act like a CRM system, allowing you to send out all of your emails, invite influencers to campaigns, track opens, and more, all in one place!</p>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <div class="body_row gray_row clearfix">
+        <div class="content_area">
+            <h2 class="title">Relvancy is Key</h2>
+            <div class="subtext">When it comes to influencer marketing, the phrase quality over quantity reigns true! Finding influencers who are referencing relevant topics and products, as well as who target the right demographic is actually way more crucial and effective than finding just anyone with a ton of traffic.<br/></div>
+            <div class="mini_subtext">Stats found in a 2014 study conducted by the Halverson Group</div>
+            <img src="../../../mymedia/site_folder/images/page_graphics/home/new/graph2.png" alt="The Shelf : Fashion Blogger Clout"/>
+        </div>
+    </div>
+
+
+
+
+    <div class="body_row teal_row clearfix">
+        <div class="content_area">
+            <h2 class="title">Advanced Discovery Filters</h2>
+            <div class="subtext">We hate to sound like a broken record, but we’ve said it once and we will say it again, relevance is key! Because it is so important we provide tons of different filtering options.<br/>For audience size: follower counts on each social network, comment counts on blogs<br/>For relevance: brand mentions, products, keywords, price range of items<br/>Misc: location, language, gender</div>
+            <img src="../../../mymedia/site_folder/images/page_graphics/home/new/user_types.png" alt="The Shelf : Influencer Marketing Campaigns"/>
+        </div>
+    </div>
+
+
+    <div class="body_row clearfix white_row">
+        <div class="content_area thirds pricing_plans content_80">
+            <div class="little_title">PR &amp; Agency Plans</div>
+            <div class="content_bucket">
+                <div class="title">Pro</div>
+                <p class="body_text">If Influencer Marketing is an integral part of the offering that you provide to your clients, then this is the plan for you.</p>
+                <ul class="body_bullets">
+                    <li>Access to the entire database of more than 100,000 bloggers and influencers.</li>
+                    <li>Unlimited Outreach</li>
+                    <li>Unlimited Users and Logins</li>
+                </ul>
+            </div>
+            <div class="content_bucket">
+                <div class="title">Lite</div>
+                <p class="body_text">With our Lite Plan, usage is capped. This is the perfect option if you plan to do 1-2 campaigns per month.</p>
+                <ul class="body_bullets">
+                    <li>Access to a capped database with 1000 profile views per month.</li>
+                    <li>500 Outreach emails.  Downloadable lists can’t exceed more than 250 influencers per month.</li>
+                    <li>1 Login </li>
+                </ul>
+            </div>
+            <div class="content_bucket">
+                <div class="title">Custom</div>
+                <p class="body_text">Most of our customers fall under the annual plans, but if you have a specific need, just reach out to us.  We can figure out something that suits your requirements.</p>
+                <ul class="body_bullets">
+                    <li>We can put together a variation of the Lite package based on usage and duration on the platform.</li>
+                </ul>
+            </div>
+            
+        </div>
+    </div>
+
+    {% include "snippets/universal_footer.html" %}
+
+{% endblock content %}

@@ -1,0 +1,94 @@
+{% load compressed %}
+{% load custom_filters %}
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="google-site-verification" content="4ihQ4JGXsbdOEzzh8udPXAsHyQr68MmLa5KXFRsIZpo" />
+
+    <title>Buy smartly -- Blog smartly -- Network with fellow Bloggers -- TheShelf</title>
+    <meta name="description" content="Tools to help you grow your blog, find interesting brand campaigns to work on, inspire and be inspired by other bloggers. ">
+    <!--** Global CSS **-->
+    <link href="/mymedia/site_folder/css/global.less" media="screen" rel="stylesheet/less" />
+    <link href="/mymedia/site_folder/css/laurens_font.less" media="screen" rel="stylesheet/less"  />
+
+    <!--** Global Js **-->
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+
+    <!-- Google Fonts -->
+    <script type="text/javascript">
+    WebFontConfig = {
+      google: { families: [ 'Raleway:400,200,100,300,500,600,700,800,900' ] }
+    };
+    (function() {
+      var wf = document.createElement('script');
+      wf.src = ('https:' == document.location.protocol ? 'https' : 'http') +
+              '://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js';
+      wf.type = 'text/javascript';
+      wf.async = 'true';
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(wf, s);
+
+    })();
+    </script>
+
+    <!-- Global Vendor Js -->
+    <script type="text/javascript" src="//www.google.com/jsapi"></script>
+    {% compressed_js 'core_head' %}
+
+    <!-- Google Vis Library -->
+    <script type="text/javascript">
+    google.load("visualization", "1", {packages:["corechart"]});
+    </script>
+</head>
+
+
+<body class="height_100">
+    <div class="intro_page_selection">
+        <div class="intro_title_container">
+            <div class="intro_title">What do you want to do now?</div>
+        </div>
+        <div class="intro_callouts">
+            <a class="callout normal" href="{% url debra.explore_views.trendsetters %}">
+                <div class="intro_icon icon-people_photo"></div>
+                <div class="intro_title">Follow Trendsetters</div>
+                <div class="intro_sub">Follow trendsetters so that we know what sort of stuff you like.  This will help us to customize your experience!</div>
+                <!--img src="../../mymedia/site_folder/images/page_graphics/newsletter_and_press/product_images/product_trendsetters_2.png"/-->
+            </a>
+            <a class="callout middle" href="{{ shelf_user.about_url }}">
+                <div class="intro_icon icon-people_id2" style="font-size:40px;"></div>
+                <div class="intro_title">Finish Your Profile</div>
+                <div class="intro_sub">Show case your style in your profile on The Shelf.  You can think of this as a digital summary of your fashion presence on the web.</div>
+                <!--div class="personal_info">
+                    <div class="outer-center">
+                        <div class="inner-center">
+                            <div class="prof_circ pic_upload">
+                                <img alt="profile image" src="{{ shelf_user|best_pic_for_profile }}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text_container">
+                        <div class="name">{{ shelf_user|user_name_or_email }}</div>
+                        {% if shelf_user.blog_name or shelf_user.blog_page %}
+                        <div class="of">of</div>
+                        <div class="blog_name">{{ shelf_user|blog_name_or_url }}</div>
+                        {% endif %}
+                        <img src="../../mymedia/site_folder/images/page_graphics/newsletter_and_press/misc/social_icon_row.png"/>
+                    </div>
+                </div-->
+            </a>
+            <a class="callout normal last_child" href="{% url debra.explore_views.inspiration %}">
+                <div class="intro_icon icon-misc_shapes_9grid"></div>
+                <div class="intro_title">Browse the Feed</div>
+                <div class="intro_sub">Browse a feed of popular items...  shelved by the trendsetters that you follow.</div>
+                <!--img src="../../mymedia/site_folder/images/page_graphics/newsletter_and_press/product_images/product_shelf_2.png"/-->
+            </a>
+        </div>
+    </div>
+    {% compressed_js 'core' %}
+</body>
+</html>

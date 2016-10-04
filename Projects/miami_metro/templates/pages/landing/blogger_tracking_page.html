@@ -1,0 +1,2052 @@
+{% extends 'base.html' %}
+{% load custom_filters compressed %}
+{% block body_class %}lt_gray_bg home_body not_a_member{% endblock %}
+
+{% block title %}{{ contract.campaign.title }}: {% if contract.blogger.name %}{{ contract.blogger.name }}{% else %}{{ contract.blogger.blogname|default:"Blogger" }}{% endif %}{% endblock title %}
+
+{% block extra_head %}
+{{ block.super }}
+<script src="https://checkout.stripe.com/checkout.js"></script>
+<script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+{% endblock extra_head %}
+
+{% block custom_header %}
+    <!--div class="home_nav_bar" style="width: 200px;">
+        <div class="nav_wrapper">
+            <a href="/" class="logo"><span class="icon-social_0_shelf_shelf2a" style="color: black"></span></a>
+        </div>
+    </div-->
+{% endblock custom_header %}
+
+{% block bottom_js %}
+    {% compressed_js 'pdf_view' %}
+    {% compressed_js 'angular_blogger' %}
+    <script type="text/javascript">
+    (function() {
+        angular.module('theshelf').value('pageServerData', {
+            {% if contract %}
+                'contractsUrl': "{{ contract.link }}",
+                'updateModel': "{% url debra.job_posts_views.update_model contract.id %}",
+                'paypalUsername': "{{ contract.info_json.additional_data.paypal_username|default_if_none:''|safe|escapejs }}",
+                'canEditProductURL': {% if not contract.campaign.info_json.same_product_url and contract.campaign.info_json.do_select_url %}true{% else %}false{% endif %},
+                'useSameProductURL': {% if contract.campaign.info_json.same_product_url %}true{% else %}false{% endif %},
+                'productLinksOn': {% if contract.campaign.info_json.product_links_on %}true{% else %}false{% endif %},
+                'sendingProductOn': {% if contract.campaign.info_json.sending_product_on %}true{% else %}false{% endif %},
+                'signingContractOn': {% if contract.campaign.info_json.signing_contract_on %}true{% else %}false{% endif %},
+                'bloggerAdditionalInfoOn': {% if contract.campaign.info_json.blogger_additional_info_on %}true{% else %}false{% endif %},
+                'productDetails': "{{ contract.influencerjobmapping.product_details|default_if_none:''|safe|escapejs }}",
+                'contractId': {{ contract.id }},
+                'influencerId': {{ contract.blogger.id }},
+                'updateModelUrl': '{% url debra.job_posts_views.update_model %}',
+                'productSendingStatus': '{{ contract.campaign.product_sending_status }}',
+                'productPageOn': {% if contract.campaign.product_page_on %}true{% else %}false{% endif %},
+                'productSectionOn': {% if contract.campaign.product_section_on %}true{% else %}false{% endif %},
+                'dateRequirementsOn': {% if contract.campaign.date_requirements_on %}true{% else %}false{% endif %},
+                'sendContract': {% if contract.campaign.send_contract_along_with_details %}true{% else %}false{% endif %},
+                'shippingAddressOn': {% if contract.campaign.info_json.shipping_address_on %}true{% else %}false{% endif %},
+                'shipmentReceivedUrl': '{{ contract.blogger_shipment_received_url }}',
+                'shipDate': {% if contract.ship_date %}"{{ contract.ship_date|date:'Y-m-d'|escapejs }}"{% else %}null{% endif %},
+                'shipmentTrackingCode': {% if contract.shipment_tracking_code %}"{{ contract.shipment_tracking_code|default_if_none:''|escapejs }}"{% else %}null{% endif %},
+                'shipmentStatus': {{ contract.shipment_status }},
+                'shipmentReceivedDate': {% if contract.shipment_received_date %}"{{ contract.shipment_received_date|date:'Y-m-d'|escapejs }}"{% else %}null{% endif %},
+                'postsAddingStatus': {{ contract.posts_adding_status|default_if_none:"0" }},
+                'defaults': {
+                    'submitted': {% if contract.details_collected_status == 2 %}true{% else %}false{% endif %},
+                    'firstName': "{{ contract.blogger.first_name|default_if_none:''|safe|escapejs }}",
+                    'lastName': "{{ contract.blogger.last_name|default_if_none:''|safe|escapejs }}",
+                    'fullName': "{{ contract.blogger.name|default_if_none:''|safe|escapejs }}",
+                    'blogName': "{{ contract.blogger.blogname|default_if_none:''|safe|escapejs }}",
+                    'blogURL': "{{ contract.blogger.blog_url|default_if_none:''|safe|escapejs }}",
+                    'facebookURL': "{{ contract.blogger.fb_url|default_if_none:''|safe|escapejs }}",
+                    'twitterURL': "{{ contract.blogger.tw_url|default_if_none:''|safe|escapejs }}",
+                    'instagramURL': "{{ contract.blogger.insta_url|default_if_none:''|safe|escapejs }}",
+                    'pinterestURL': "{{ contract.blogger.pin_url|default_if_none:''|safe|escapejs }}",
+                    'youtubeURL': "{{ contract.blogger.youtube_url|default_if_none:''|safe|escapejs }}",
+                    'productUrls': {{ contract.influencerjobmapping.product_urls|jsonify|safe }},
+                    'productURL': "{{ contract.influencerjobmapping.product_url|default_if_none:''|safe|escapejs }}",
+                    // 'productDetails': "{{ contract.influencerjobmapping.product_details|default_if_none:''|safe|escapejs }}",
+                    'productRestrictions': "{{ contract.influencerjobmapping.product_restrictions|default_if_none:''|safe|escapejs }}",
+                    'paypalUsername': "{{ contract.influencerjobmapping.paypal_username|default_if_none:''|safe|escapejs }}",
+                    'entityName': "{{ contract.publisher_name|default_if_none:''|safe|escapejs }}",
+                    'agentName': "{{ contract.info_json.agent_name|default_if_none:''|safe|escapejs }}",
+                    'phoneNumber': "{{ contract.influencerjobmapping.phone_number|default_if_none:''|safe|escapejs }}",
+                    'address': "{{ contract.influencerjobmapping.address|default_if_none:''|safe|escapejs }}",
+                    'productPreferences': "{{ contract.influencerjobmapping.product_preferences|default_if_none:''|safe|escapejs }}",
+                    'dateRequirements': {% if contract.date_requirements %}"{{ contract.date_requirements|default_if_none:''|safe|escapejs }}"{% else %}null{% endif %},
+                },
+            {% endif %}
+        });
+    })();
+    </script>
+{% endblock bottom_js %}
+
+{% block main_controller %}
+    ng-controller="BloggerContractCtrl"
+    {% comment %}
+    ng-init="setDefaultTab(10); setAllowedTabs([10, 11, 12, 13, 14, 15, 2, 4])"
+    {% endcomment %}
+    {% if contract and initial_form_preview %}
+        ng-init="setDefaultTab(11); setAllowedTabs([11])"
+    {% elif not contract or contract.details_collected_status == 0 %}
+        ng-init="setDefaultTab(10); setAllowedTabs([10])"
+    {% elif contract.details_collected_status == 1 %}
+        ng-init="setDefaultTab(11); setAllowedTabs([11])"
+    {% elif contract.details_collected_status == 2 and contract.status != contract.STATUS_SIGNED %}
+        ng-init="setDefaultTab(15); setAllowedTabs([15, 16, {{ campaign_checklist|comma_separated_list }}]); setTab(12);"
+        {% comment %}
+        ng-init="setDefaultTab(12); setAllowedTabs([12])"
+        {% endcomment %}
+    {% elif contract.details_collected_status == 2 and contract.status == contract.STATUS_SIGNED %}
+        ng-init="setDefaultTab(15); setAllowedTabs([15, 16, {{ campaign_checklist|comma_separated_list }}])"
+    {% endif %}
+{% endblock main_controller %}
+
+{% block content %}
+<div confirmation-popup></div>
+<div display-message-popup></div>
+<div pdf-document-popup></div>
+<span class="dashboard_content no_sidebar tracking_page">
+    <span>
+        
+        <div class="dashboard_top_section transparent_bar" style="position:absolute;">
+            <div class="search_name_row clearfix">
+                <div class="name_section">
+                    <div class="page_title">{{ campaign.title }}{% if contract %}: {% if contract.blogger.name %}{{ contract.blogger.name }}{% else %}{{ contract.blogger.blogname|default:"Blogger" }}{% endif %}{% endif %}</div>
+                </div>
+            </div>
+        </div>
+        <div class="prof_block">
+            <div class="prof_bg frame">
+                <div {% if campaign.cover_img_url %}bg-image="{{ campaign.cover_img_url }}?rand={{ rand }}"{% else %}bg-image="https://s3.amazonaws.com/theshelf-email-marketing-images/site/home/new_home_sept_2015/headers/misc_headers/misc_header_floral.jpg"{% endif %} class="generic_cover_img{% if not campaign.info_json.cover_image_blur_off %} css_blur{% endif %}"></div>
+                {% comment %}
+                <img {% if campaign.cover_img_url %}src="{{ campaign.cover_img_url }}?rand={{ rand }}"{% else %}src="https://s3.amazonaws.com/theshelf-email-marketing-images/site/home/new_home_sept_2015/headers/misc_headers/misc_header_floral.jpg"{% endif %} class="nav_cover_img{% if not campaign.info_json.cover_image_blur_off %} css_blur{% endif %}" alt="cover image" />
+                {% endcomment %}
+                <div class="prof_content">
+                    {% if campaign.profile_img_url %}
+                        <div class="prof_circ pic_upload">
+                            <img class="" src="{{ campaign.profile_img_url }}?rand={{ rand }}" alt="profile image" /> 
+                        </div>
+                    {% else %}
+                        <div class="prof_circ default">
+                            <div class="text_logo">{{ campaign.client_name|default_if_none:"---" }}</div>
+                        </div>
+                    {% endif %}
+                    <div class="prof_info">
+                        <h1 class="prof_title white one_line">
+                            <span class="rale_4" style="font-size:40px;">{{ campaign.client_name|default_if_none:"---" }}</span><br/>
+                            <span class="rale_4">{{ campaign.title }}</span>
+                        </h1>
+                        {% if campaign.client_url %}
+                            <div class="follow_prof">
+                                <a class="simple_follow_btn square_bt on_teal sm less_pad italic_version" href="{{ campaign.client_url }}" target="_blank">View Website</a>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+         </div>
+         <div class="search_inline_header_no_jump taller_row">
+            <div class="search_inline_header" data-spy="affix" data-offset-top="347">
+                <div class="blogger_dash_campaign_tabs">
+                    <div class="blogger_dash_tab_row clearfix">
+                        <a class="blogger_tab_load_influencers" ng-if="isAllowedTab(10)"><div class="campaign_tab" ng-class="{selected: tab==10}" ng-click="setTab(10)">Campaign Overview</div></a>
+                        <a class="blogger_tab_approval" ng-if="isAllowedTab(11)"><div class="campaign_tab" ng-class="{selected: tab==11}" ng-click="setTab(11)">Collect Details</div></a>
+                        <a class="blogger_tab_outreach" ng-if="isAllowedTab(15)"><div class="campaign_tab" ng-class="{selected: tab==15}" ng-click="setTab(15)">Campaign Details</div></a>
+                        <a class="blogger_tab_followup" ng-if="isAllowedTab(12)"><div class="campaign_tab" ng-class="{selected: tab==12}" ng-click="setTab(12)">{% if campaign.info_json.signing_contract_on and campaign.info_json.payment_details_on %}Contract &amp; Payment{% elif campaign.info_json.payment_details_on %}Payment{% else %}Contract{% endif %}</div></a>
+                        <a class="blogger_tab_discussion" ng-if="isAllowedTab(13)"><div class="campaign_tab" ng-class="{selected: tab==13}" ng-click="setTab(13)">Product &amp; Shipping</div></a>
+                        <a class="blogger_tab_logistics" ng-if="isAllowedTab(14)"><div class="campaign_tab" ng-class="{selected: tab==14}" ng-click="setTab(14)">Tracking Codes</div></a>
+                        <a class="blogger_tab_complete" ng-if="isAllowedTab(16)"><div class="campaign_tab" ng-class="{selected: tab==16}" ng-click="setTab(16)">Add Posts</div></a>
+                        <a class="blogger_tab_complete" ng-if="isAllowedTab(17)"><div class="campaign_tab" ng-class="{selected: tab==17}" ng-click="setTab(17)">Post Approval</div></a>
+                        <!--
+                        <a><div class="campaign_tab" ng-class="{selected: tab==4}" ng-click="setTab(4)">Influencer Info [OLD]</div></a>
+                        {% comment %}<a><div class="campaign_tab" ng-class="{selected: tab==1}" ng-click="setTab(1)">Campaign Summary</div></a>{% endcomment %}
+                        <a><div class="campaign_tab" ng-class="{selected: tab==2}" ng-click="setTab(2)">Tracking Links And Disclosure [OLD]</div></a>
+                        {% comment %}<a><div class="campaign_tab" ng-class="{selected: tab==3}" ng-click="setTab(3)">Add Your Posts</div></a>{% endcomment %}
+                        -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Lauren's new tab 1 -->
+<!-- Lauren's new tab 1 -->
+<!-- Lauren's new tab 1 -->
+<!-- Lauren's new tab 1 -->
+<!-- Lauren's new tab 1 -->
+<!-- Lauren's new tab 1 -->
+<!-- Lauren's new tab 1 -->
+<!-- Lauren's new tab 1 -->
+        <div class="a_form_page wide blogger_camp_loggedout_account clearfix" ng-if="tab == 10">
+            <div class="a_form_page_content">
+
+
+                <div class="a_form_group padding_40_sides clearfix">                        
+                    <div class="form_title">Brand Overview</div>
+                    <div class="form_instruction main_instructions">Check out the campaign overview to get a clear understanding of the brand objectives and requirements. Feel free to check in with the brand if you have any questions. </div>
+                </div>
+
+
+                <!-- GLOBAL DETAILS -->
+                <!-- GLOBAL DETAILS -->
+                <div class="form_divider w_0_30_pad_mag"></div>
+                <div class="a_form_group padding_40_sides clearfix">  
+                    <div class="flex_row_steps">
+                        <fieldset class="typical_form step_container two_third left">
+                            <div class="step_section padding_40">
+                                <div class="short_stacked_row">
+                                    <div class="form_small_title">About Company:</div>
+                                    <div class="form_instruction">{{ campaign.who_should_apply|default_if_none:"---"|safe }}</div>
+                                </div>
+                                <br/>
+                                <div class="short_stacked_row">
+                                    <div class="form_small_title">Description of Objective:</div>
+                                    <div class="form_instruction">{{ campaign.description|default_if_none:"---"|safe }}</div>
+                                </div>
+                                <div class="x_space x_50"></div>
+                            </div>
+                        </fieldset>
+                        <fieldset class="typical_form step_container third right">
+                            <div class="step_section padding_40">
+                                <div class="short_stacked_row">
+                                    <div class="form_floated_title">Company Name:</div>
+                                    <div class="form_floated_data">{{ campaign.client_name|default_if_none:"---" }}</div>
+                                </div>
+                                <div class="short_stacked_row">
+                                    <div class="form_floated_title">Company URL:</div>
+                                    <div class="form_floated_data"><a href='{{ campaign.client_url|default_if_none:"---" }}' target="_blank">{{ campaign.client_url|default_if_none:"---" }}</a></div>
+                                </div>
+                                <div class="short_stacked_row">
+                                    <div class="form_floated_title">Campaign Name:</div>
+                                    <div class="form_floated_data">{{ campaign.title }}</div>
+                                </div>
+                                <div class="short_stacked_row">
+                                    <div class="form_floated_title">Mentions Required:</div>
+                                    <div class="form_floated_data">{{ campaign.mentions_required|default_if_none:"---" }}</div>
+                                </div>
+                                <div class="short_stacked_row">
+                                    <div class="form_floated_title">Hashtags Required:</div>
+                                    <div class="form_floated_data">{{ campaign.hashtags_required|default_if_none:"---" }}</div>
+                                </div>
+                                <div class="x_space x_50"></div>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+
+
+                <div class="form_divider w_60_0_pad_mag"></div>
+
+
+                <div class="a_form_group padding_40_sides clearfix">  
+                    <!-- CAMPAIGN REQUIREMENTS -->
+                    <!-- CAMPAIGN REQUIREMENTS -->
+                    <div class="form_title">Campaign Details</div>
+                    <div class="x_space x_30"></div>
+                    <div class="flex_row_steps">
+                        <fieldset class="typical_form step_container two_third left">
+                            <div class="step_section padding_40_right_only">
+                                <div class="short_stacked_row">
+                                    <div class="form_small_title">Post Requirements</div>
+                                    <div class="form_instruction">{{ campaign.post_requirements|default_if_none:"---"|linebreaksbr }}</div>
+                                </div>
+                                <div class="x_space x_50"></div>
+                            </div>
+                        </fieldset>
+                        <fieldset class="typical_form step_container third right">
+                            <div class="step_section padding_40_right_only">
+                                <div class="short_stacked_row">
+                                    <div class="form_floated_title">Date Range:</div>
+                                    {% if campaign.date_start and campaign.date_end %}
+                                        <div class="btn btn-circle sans_form_field blue" style="display:inline; width:200px;">
+                                            <i class="fa fa-calendar"></i>
+                                            <span>{{ campaign.date_start|date:"m/d/Y"|default_if_none:"---" }} - {{ campaign.date_end|date:"m/d/Y"|default_if_none:"---" }}</span>
+                                        </div>
+                                    {% else %}
+                                        <div class="form_floated_data">---</div>
+                                    {% endif %}
+                                </div>
+                                <div class="short_stacked_row">
+                                    <div class="form_floated_title">Deliverables:</div>
+                                    <div class="form_floated_data">{% include "snippets/deliverables_spans.html" with obj=campaign %}</div>
+                                </div>
+                                <div class="x_space x_50"></div>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+                <!-- DIVIDER INSTRUCTIONS -->
+                <!-- DIVIDER INSTRUCTIONS -->
+                <div class="a_form_group padding_40_sides clearfix highlight_statement">
+                    <!--div class="form_divider"></div-->
+                    <div class="x_space x_60"></div>
+                    <div class="form_instruction main_instructions">We hope to be working with you soon! All of the above details can be discussed with your campaign manager, feel free to reach out to them by responding to any of the emails they've sent to you.</div>
+                    <div class="x_space x_40"></div>
+                </div>
+            </div>
+        </div>
+
+       
+        
+        
+
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Lauren's new tab 2 -->
+<!-- Lauren's new tab 2 -->
+<!-- Lauren's new tab 2 -->
+<!-- Lauren's new tab 2 -->
+<!-- Lauren's new tab 2 -->
+<!-- Lauren's new tab 2 -->
+<!-- Lauren's new tab 2 -->
+<!-- Lauren's new tab 2 -->
+        <div class="a_form_page wide blogger_camp_loggedout_account clearfix" ng-if="tab == 11">
+            <div class="a_form_page_content">
+                <form name="influencerInfoForm" form-handler novalidate>
+
+                    
+                    <!-- TITLE AREA -->
+                    <!-- TITLE AREA -->
+                    <div class="a_form_group padding_40_sides clearfix">                        
+                        <div class="form_title">Brand Overview</div>
+                        <div class="form_instruction main_instructions">Check out the campaign overview to get a clear understanding of the brand objectives and requirements. Feel free to check in with the brand if you have any questions. </div>
+                    </div>
+
+
+                    <!-- GLOBAL DETAILS -->
+                    <!-- GLOBAL DETAILS -->
+                    <div class="form_divider w_0_30_pad_mag"></div>
+                    <div class="a_form_group padding_40_sides clearfix">  
+                        <div class="flex_row_steps">
+                            <fieldset class="typical_form step_container two_third left">
+                                <div class="step_section padding_40">
+                                    <div class="short_stacked_row">
+                                        <div class="form_small_title">About Company:</div>
+                                        <div class="form_instruction">{{ contract.campaign.who_should_apply|default_if_none:"---"|safe }}</div>
+                                    </div>
+                                    <br/>
+                                    <div class="short_stacked_row">
+                                        <div class="form_small_title">Description of Objective:</div>
+                                        <div class="form_instruction">{{ contract.campaign.description|default_if_none:"---"|safe }}</div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <fieldset class="typical_form step_container third right">
+                                <div class="step_section padding_40">
+                                    <div class="short_stacked_row">
+                                        <div class="form_floated_title">Company Name:</div>
+                                        <div class="form_floated_data">{{ contract.campaign.client_name|default_if_none:"---" }}</div>
+                                    </div>
+                                    <div class="short_stacked_row">
+                                        <div class="form_floated_title">Company URL:</div>
+                                        <div class="form_floated_data"><a href='{{contract.campaign.client_url|default_if_none:"---"}}' target="_blank">{{ contract.campaign.client_url|default_if_none:"---" }}</a></div>
+                                    </div>
+                                    <div class="short_stacked_row">
+                                        <div class="form_floated_title">Campaign Name:</div>
+                                        <div class="form_floated_data">{{ contract.campaign.title }}</div>
+                                    </div>
+                                    <div class="short_stacked_row">
+                                        <div class="form_floated_title">Mentions Required:</div>
+                                        <div class="form_floated_data">{{ contract.campaign.mentions_required|default_if_none:"---" }}</div>
+                                    </div>
+                                    <div class="short_stacked_row">
+                                        <div class="form_floated_title">Hashtags Required:</div>
+                                        <div class="form_floated_data">{{ contract.campaign.hashtags_required|default_if_none:"---" }}</div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </div>
+                    </div>
+
+
+                    <!-- CAMPAIGN REQUIREMENTS -->
+                    <!-- CAMPAIGN REQUIREMENTS -->
+                    <div class="form_divider w_60_0_pad_mag"></div>
+                    <div class="a_form_group padding_40_sides clearfix">  
+                        <div class="form_title">Campaign Details</div>
+                        <div class="x_space x_30"></div>
+                        <div class="flex_row_steps">
+                            <fieldset class="typical_form step_container two_third left">
+                                <div class="step_section padding_40_right_only">
+                                    <div class="short_stacked_row">
+                                        <div class="form_small_title">Post Requirements</div>
+                                        <div class="form_instruction">{{ contract.influencerjobmapping.post_requirements|default_if_none:"---"|linebreaksbr }}</div>
+                                    </div>
+                                    <div class="x_space x_50"></div>
+                                </div>
+                            </fieldset>
+                            <fieldset class="typical_form step_container third right">
+                                <div class="step_section padding_40_right_only">
+                                    <div class="short_stacked_row">
+                                        <div class="form_floated_title">Date Range:</div>
+                                        {% if contract.campaign.date_start and contract.campaign.date_end %}
+                                            <div class="btn btn-circle sans_form_field blue" style="display:inline; width:200px;">
+                                                <i class="fa fa-calendar"></i>
+                                                <span>{{ contract.campaign.date_start|date:"m/d/Y"|default_if_none:"---" }} - {{ contract.campaign.date_end|date:"m/d/Y"|default_if_none:"---" }}</span>
+                                            </div>
+                                        {% else %}
+                                            <div class="form_floated_data">---</div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="short_stacked_row">
+                                        <div class="form_floated_title">Deliverables:</div>
+                                        <div class="form_floated_data">{% include "snippets/deliverables_spans.html" with obj=contract %}</div>
+                                    </div>
+                                    <div class="x_space x_50"></div>
+                                </div>
+                            </fieldset>
+                        </div>
+                    </div>
+
+                    
+                    <!-- DIVIDER INSTRUCTIONS -->
+                    <!-- DIVIDER INSTRUCTIONS -->
+                    <div class="form_divider"></div>
+                    <div class="a_form_group padding_40_sides clearfix highlight_statement">
+                        <div class="x_space x_60"></div>
+                        <div class="form_instruction main_instructions">Time to kick off this collaboration! Have a read and make sure you fill in all of the relevant fields below.</div>
+                        <div class="x_space x_40"></div>
+                    </div>
+
+
+                    <!-- SOCIAL HANDLES CONFIRMATION -->
+                    <!-- SOCIAL HANDLES CONFIRMATION -->
+                    <div class="form_divider"></div>
+                    <div class="a_form_group padding_40_sides clearfix">
+                        <div class="x_space x_60"></div>
+                        <div class="form_title">Review Your Links</div>
+                        <div class="form_instruction">Please adjust any links that are incorrect. The links in these text boxes must match your exact social media profiles in order for us to automatically track your social posts. If you make any edits, please make sure to visit your social media pages, then copy and paste the links straight from your browser for an exact match.</div>
+                        <div class="x_space x_30"></div>
+                        {% verbatim %}
+                        <fieldset class="typical_form">
+                            <fieldset class="typical_form fifth left">
+                                <label><span class="icon-social_facebook"></span> Facebook (optional) :</label>
+                                <input name="facebookURL" type="url" ng-model="influencerInfo.facebookURL" ng-readonly="influencerInfo.submitted" />
+                                <span ng-show="influencerInfoForm.facebookURL.$dirty && influencerInfoForm.facebookURL.$error.url" class="pav_validation">Enter correct URL</span>
+                            </fieldset>
+                            <fieldset class="typical_form fifth left">
+                                <label><span class="icon-social_twitter"></span> Twitter (optional) :</label>
+                                <input name="twitterURL" type="url" ng-model="influencerInfo.twitterURL" ng-readonly="influencerInfo.submitted" />
+                                <span ng-show="influencerInfoForm.twitterURL.$dirty && influencerInfoForm.twitterURL.$error.url" class="pav_validation">Enter correct URL</span>
+                            </fieldset>
+                            <fieldset class="typical_form fifth left">
+                                <label><span class="icon-social_instagram2"></span> Instagram (optional) :</label>
+                                <input name="instagramURL" type="url" ng-model="influencerInfo.instagramURL" ng-readonly="influencerInfo.submitted" />
+                                <span ng-show="influencerInfoForm.instagramURL.$dirty && influencerInfoForm.instagramURL.$error.url" class="pav_validation">Enter correct URL</span>
+                            </fieldset>
+                            <fieldset class="typical_form fifth left">
+                                <label><span class="icon-social_pinterest"></span> Pinterest (optional) :</label>
+                                <input name="pinterestURL" type="url" ng-model="influencerInfo.pinterestURL" ng-readonly="influencerInfo.submitted" />
+                                <span ng-show="influencerInfoForm.pinterestURL.$dirty && influencerInfoForm.pinterestURL.$error.url" class="pav_validation">Enter correct URL</span>
+                            </fieldset>
+                            <fieldset class="typical_form fifth left">
+                                <label><span class="icon-social_youtube"></span> Youtube (optional) :</label>
+                                <input name="youtubeURL" type="url" ng-model="influencerInfo.youtubeURL" ng-readonly="influencerInfo.submitted" />
+                                <span ng-show="influencerInfoForm.youtubeURL.$dirty && influencerInfoForm.youtubeURL.$error.url" class="pav_validation">Enter correct URL</span>
+                            </fieldset>
+                        </fieldset>
+                        {% endverbatim %}
+                    </div>
+
+
+                    <!-- PRODUCT DETAILS -->
+                    <!-- PRODUCT DETAILS -->
+                    <div class="form_divider w_80_80_pad_mag" ng-if="pageServerData.productSectionOn"></div>
+                    <div class="a_form_group padding_40_sides clearfix" ng-if="pageServerData.productSectionOn">
+                        <div class="form_title" ng-if="pageServerData.productSectionOn">Product Info</div>
+                        <div class="form_instruction" ng-if="pageServerData.productSectionOn">Fill in the info below so that we can get your product in the mail.</div>
+                        <div class="x_space x_30"></div>
+                        {% verbatim %}
+                        <fieldset ng-if="pageServerData.shippingAddressOn" class="typical_form third left">
+                            <fieldset class="typical_form ">
+                                <label>Shipping address :</label>
+                                <textarea name="address" cols="25" rows="4" ng-model="influencerInfo.address" required style="resize: none;" ng-readonly="influencerInfo.submitted"></textarea>
+                                <span ng-show="influencerInfoForm.address.$dirty && influencerInfoForm.address.$error.required" class="pav_validation">Enter non-empty address</span>
+                            </fieldset>
+                        </fieldset>
+                        <fieldset ng-if="pageServerData.productSendingStatus != 'no_product_page'" class="typical_form third left" multiple-inputs ng-init="multipleInputsCtrl.init({values: influencerInfo.productUrls})">
+                            <label for="">Product URLs :</label>
+                            <fieldset class="typical_form" style="padding: 10px 0;" ng-repeat="productUrl in influencerInfo.productUrls track by $index">
+                                <div ng-form="productUrlForm" novalidate>
+                                    <input name="productURL" type="url" ng-model="influencerInfo.productUrls[$index]" ng-required="false && pageServerData.productSendingStatus == 'can_choose_product_page'" unique-in="multipleInputsCtrl.uniqueSet"  ng-change="multipleInputsCtrl.onChange({$index: $index, $last: $last, form: productUrlForm, values: influencerInfo.productUrls})" ng-readonly="influencerInfo.submitted || pageServerData.productSendingStatus != 'can_choose_product_page'" />
+                                    <span ng-show="productUrlForm.productURL.$dirty && productUrlForm.productURL.$error.unique" class="pav_validation">Duplicated URL</span>
+                                    <span ng-show="productUrlForm.productURL.$dirty && productUrlForm.productURL.$error.required" class="pav_validation">Enter non-empty product URL</span>
+                                    <span ng-show="productUrlForm.productURL.$dirty && productUrlForm.productURL.$error.url" class="pav_validation">Enter correct product URL</span>
+                                </div>
+                            </fieldset>
+                            <div ng-if="pageServerData.productSendingStatus == 'can_choose_product_page'" class="form_instruction small_hint" style="white-space: pre-wrap;">{{ influencerInfo.productRestrictions }}</div>
+                        </fieldset>
+                        <fieldset ng-if="pageServerData.bloggerAdditionalInfoOn" class="typical_form third" ng-class="{right: pageServerData.productSendingStatus != 'no_product_page'}">
+                            <label for="">Product Preferences :</label>
+                            <textarea name="productPreferences" id="" cols="25" rows="3" style="resize: none;" ng-model="influencerInfo.productPreferences" ng-readonly="influencerInfo.submitted"></textarea>
+                            <div class="form_instruction small_hint" style="white-space: pre-wrap;">{{ pageServerData.productDetails }}</div>
+                            <span ng-show="influencerInfoForm.productPreferences.$dirty && influencerInfoForm.productPreferences.$error.required" class="pav_validation">Please provide product preferences</span>
+                        </fieldset>
+                        {% endverbatim %}
+                    </div>
+
+
+                    <!-- REQUIREMENTS -->
+                    <!-- REQUIREMENTS -->
+                    <div class="form_divider w_80_80_pad_mag" ng-if="pageServerData.dateRequirementsOn"></div>
+                    <div class="a_form_group padding_40_sides clearfix" ng-if="pageServerData.dateRequirementsOn">
+                        <div class="form_title">Tentative Post Date</div>
+                        <div class="form_instruction">Please select a tentative date for your content to go live. Do keep in mind the deadline of this campaign as outlined by the brand!</div>
+                        <div class="x_space x_30"></div>
+                        {% verbatim %}
+                        <fieldset class="typical_form halfer left">
+                            <label>Specific post date:</label>
+                            <div single-date-picker name="dateRequirements" ng-model="influencerInfo.dateRequirements" class="date_range_field" opens="center" required></div>
+                            <span ng-show="influencerInfoForm.dateRequirements.$dirty && influencerInfoForm.dateRequirements.$error.required" class="pav_validation">Provide us with date</span>
+                        </fieldset>
+                        {% endverbatim %}
+                    </div>
+
+
+                    <!-- CONTRACT DETAILS -->
+                    <!-- CONTRACT DETAILS -->
+                    <div class="form_divider w_80_80_pad_mag" ng-if="pageServerData.signingContractOn"></div>
+                    <div class="a_form_group padding_40_sides clearfix" ng-if="pageServerData.signingContractOn">
+                        <div class="form_title" ng-if="pageServerData.signingContractOn">Contract Details</div>
+                        <div class="form_instruction" ng-if="pageServerData.signingContractOn">Just review the details below and update where necessary. The names in this section will be included in the contract.</div>
+                        <div class="x_space x_30"></div>
+                        {% verbatim %}
+                        <fieldset class="typical_form fifth left">
+                            <label>Full name :</label>
+                            <input name="fullName" type="text" ng-model="influencerInfo.fullName" ng-readonly="influencerInfo.submitted" required />
+                            <span ng-show="influencerInfoForm.fullName.$dirty && influencerInfoForm.fullName.$error.required" class="pav_validation">Enter non-empty full name</span>
+                        </fieldset>
+                        <fieldset class="typical_form fifth left">
+                            <label>Blog name :</label>
+                            <input name="blogName" type="text" ng-model="influencerInfo.blogName" ng-readonly="influencerInfo.submitted" required />
+                            <span ng-show="influencerInfoForm.blogName.$dirty && influencerInfoForm.blogName.$error.required" class="pav_validation">Enter non-empty blog name</span>
+                        </fieldset>
+                        <fieldset class="typical_form fifth left">
+                            <label>Entity name (optional) :</label>
+                            <input name="entityName" type="text" ng-model="influencerInfo.entityName" ng-readonly="influencerInfo.submitted" />
+                        </fieldset>
+                        <fieldset class="typical_form fifth left">
+                            <label>Agent name (optional) :</label>
+                            <input name="agentName" type="text" ng-model="influencerInfo.agentName" ng-readonly="influencerInfo.submitted" />
+                        </fieldset>
+                        <fieldset class="typical_form fifth left">
+                            <label>Phone number (optional) :</label>
+                            <input name="phoneNumber" type="text" ng-model="influencerInfo.phoneNumber" ng-readonly="influencerInfo.submitted" />
+                        </fieldset>
+                        {% endverbatim %}
+                    </div>
+
+
+                    <!-- PAYMENT DETAILS -->
+                    <!-- PAYMENT DETAILS -->
+                    {% if contract.campaign.info_json.payment_details_on %}
+                        {% if contract.rate_type != 'hidden' %}
+                            <div class="form_divider w_60_60_pad_mag"></div>
+                            <div class="a_form_group padding_40_sides clearfix">
+                                <div class="form_title">Payment Details</div>
+                                <div class="form_instruction">{% if contract.rate_type == 'final_rate' %}{{ contract.campaign.info_json.payment_instructions }}{% endif %}</div>
+                                <div class="x_space x_30"></div>
+                                <fieldset class="typical_form halfer left">
+                                    {% if contract.campaign.info_json.signing_contract_on %}
+                                        <div class="short_stacked_row">
+                                            <div class="form_floated_title">Payment Terms:</div>
+                                            <div class="form_floated_data">{{ contract.payment_terms|default:'---' }}</div>
+                                        </div>
+                                    {% endif %}
+                                    {% if contract.rate_type == 'displayed_rate' %}
+                                        <div class="short_stacked_row">
+                                            <div class="form_floated_title">Payment Of:</div>
+                                            <div class="form_floated_data">{{ contract.info_json.displayed_rate }}</div>
+                                        </div>
+                                    {% else %}
+                                        <!-- MOVED -->
+                                        <div class="short_stacked_row">
+                                            <div class="form_floated_title">Final Rate:</div>
+                                            <div class="form_floated_data">${{ contract.negotiated_price|default_if_none:'0' }}</div>
+                                        </div>
+                                        <!-- END MOVED -->
+                                        <div class="form_divider w_30_30_pad_mag"></div>
+                                        <label>Details:</label>
+
+                                        <textarea cols="25" rows="3" placeholder="" style="resize: none;" ng-model="influencerInfo.paypalUsername" name="paymentData"></textarea>
+                                        <span ng-show="influencerInfoForm.paymentData.$dirty && influencerInfoForm.paymentData.$error.required" class="pav_validation">Enter non-empty details</span>
+                                    {% endif %}
+
+                                </fieldset>
+                            </div>
+                        {% endif %}
+                    {% endif %}
+                    
+
+                    <!-- BUTTONS AT THE BOTTOM -->
+                    <!-- BUTTONS AT THE BOTTOM -->
+                    <div class="form_divider w_80_80_pad_mag" ng-if="!influencerInfo.submitted || pageServerData.sendContract"></div>
+                    <div class="a_form_group padding_40_sides clearfix" ng-if="!influencerInfo.submitted || pageServerData.sendContract">
+                        {% verbatim %}
+                        <fieldset class="typical_form" ng-if="!influencerInfo.submitted">
+                            <button
+                                class="square_bt md teal_bt"
+                                ng-class="{inactive: !influencerInfo.canSave(influencerInfoForm)}"
+                                ng-click="influencerInfo.save(influencerInfoForm)"
+                            >
+                                <span ng-hide="influencerInfo.saving">Save</span>
+                                <span ng-show="influencerInfo.saving">Saving...</span>
+                            </button>
+
+                            <button
+                                class="square_bt md teal_bt"
+                                ng-class="{inactive: !influencerInfo.canSend(influencerInfoForm)}"
+                                ng-click="influencerInfo.finishAndSend(influencerInfoForm)"
+                            >
+                                <span ng-hide="influencerInfo.sending">Finished and Send</span>
+                                <span ng-show="influencerInfo.sending">Sending...</span>
+                            </button>
+                        </fieldset>
+                        <fieldset class="typical_form" ng-if="influencerInfo.submitted && pageServerData.sendContract">
+                            <button
+                                class="square_bt md teal_bt"
+                                ng-click="pageRedirect({redirectUrl: pageServerData.contractsUrl})"
+                            >
+                                <span ng-hide="influencerInfo.saving">Sign the Contract</span>
+                                <span ng-show="influencerInfo.saving">Redirecting...</span>
+                            </button>
+                        </fieldset>
+                        {% endverbatim %}
+                    </div>
+                    <div class="x_space x_80"></div>
+                </form>
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Lauren's new tab 3 -->
+<!-- Lauren's new tab 3 -->
+<!-- Lauren's new tab 3 -->
+<!-- Lauren's new tab 3 -->
+<!-- Lauren's new tab 3 -->
+<!-- Lauren's new tab 3 -->
+<!-- Lauren's new tab 3 -->
+<!-- Lauren's new tab 3 -->
+
+        <div class="a_form_page wide blogger_camp_loggedout_account clearfix" ng-if="tab == 15">
+            
+
+
+
+            <div class="a_form_page_content">
+                <form name="influencerInfoForm" form-handler novalidate>
+
+
+
+
+
+
+
+                    <!-- CHECKLIST -->
+                    <!-- CHECKLIST -->
+                    {% if campaign_checklist %}
+                        <div class="a_form_group campaign_checklist_wrapper clearfix">
+                            <div class="campaign_checklist">
+                                <div class="form_title">Your Campaign Checklist</div>
+                                <div class="form_instruction">We like to make things easy, so here's a quick checklist for your reference of the few things that are remaining.</div>
+                                <div class="form_divider w_30_30_pad_mag"></div>
+                                {% for section in campaign_checklist %}
+
+                                    {% comment %}
+                                    <div class="checklist_item completed_item color_followup">
+                                        <div class="predecessor_check_thing">1</div>
+                                        <div class="check_item_text"><span class="status_text" style="display: none;">Complete :</span> Complete form with your campaign details.</div>
+                                    </div>
+                                    {% endcomment %}
+                                    
+                                    {% if section == 12 %}
+                                        <div class="checklist_item completed_item color_in_progress">
+                                            <div class="predecessor_check_thing">{{ forloop.counter }}</div>
+                                            {% if campaign.info_json.signing_contract_on %}
+                                                <div class="check_item_text"><span class="status_text" style="display: none;">Complete :</span> Sign contract. <a class="txt_link" ng-click="setTab(12)">View Contract Page.</a></div>
+                                            {% else %}
+                                                <div class="check_item_text"><span class="status_text" style="display: none;">Complete :</span> Fill in payment details. <a class="txt_link" ng-click="setTab(12)">View Payment Details Page.</a></div>
+                                            {% endif %}
+                                        </div>
+                                    {% endif %}
+
+                                    {% if section == 13 %}
+                                        <div class="checklist_item color_complete">
+                                            <div class="predecessor_check_thing">{{ forloop.counter }}</div>
+                                            <div class="check_item_text"><span class="status_text" style="display: none;">Pending :</span> Let your campaign manager know when you receive your package. <a class="txt_link" ng-click="setTab(13)">Go to the package page.</a></div>
+                                        </div>
+                                    {% endif %}
+
+                                    {% if section == 14 %}
+                                        <div class="checklist_item color_approval">
+                                            <div class="predecessor_check_thing">{{ forloop.counter }}</div>
+                                            <div class="check_item_text"><span class="status_text" style="display: none;">Pending :</span> Make sure your tracking links are installed when your post is up. <a class="txt_link" ng-click="setTab(14)">Tracking links can be viewed here.</a></div>
+                                        </div>
+                                    {% endif %}
+
+                                {% endfor %}
+
+                                <!-- tentative date -->
+                                <div class="form_divider w_60_60_pad_mag" ng-if="pageServerData.dateRequirementsOn"></div>
+                                <div class="a_form_group clearfix" ng-if="pageServerData.dateRequirementsOn">
+                                    <div class="form_mid_title">Tentative Post Date</div>
+                                    <div class="form_instruction">This is the date that you selected for your post. This is not included in your contract, but if you're needing to move the date, it would be good to let your campaign manager know so that they can plan accordingly. You can make the adjustment here and they will receive an email with the updated date.</div>
+                                    <div class="x_space x_10"></div>
+                                    {% verbatim %}
+                                    <fieldset class="typical_form halfer left">
+                                        <label>Specific post date:</label>
+                                        <div single-date-picker name="dateRequirements" ng-model="pageServerData.defaults.dateRequirements" class="date_range_field" opens="center" required></div>
+
+                                        <div class="x_space x_20"></div>
+                                        <div class="normal_bt rounded teal_bt sm">Update</div>
+                                    </fieldset>
+                                    {% endverbatim %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form_divider w_80_80_pad_mag"></div>
+                    {% endif %}
+                    
+                    
+
+
+
+                    <!-- TITLE AREA -->
+                    <!-- TITLE AREA -->
+                    <div class="a_form_group padding_40_sides clearfix">                        
+                        <div class="form_title">Brand Overview</div>
+                        <div class="form_instruction main_instructions">Check out the campaign overview to get a clear understanding of the brand objectives and requirements. Feel free to check in with the brand if you have any questions. </div>
+                    </div>
+
+
+                    <!-- GLOBAL DETAILS -->
+                    <!-- GLOBAL DETAILS -->
+                    <div class="form_divider w_0_30_pad_mag"></div>
+                    <div class="a_form_group padding_40_sides clearfix">  
+                        <div class="flex_row_steps">
+                            <fieldset class="typical_form step_container two_third left">
+                                <div class="step_section padding_40">
+                                    <div class="short_stacked_row">
+                                        <div class="form_small_title">About Company:</div>
+                                        <div class="form_instruction">{{ contract.campaign.who_should_apply|default_if_none:"---"|safe }}</div>
+                                    </div>
+                                    <br/>
+                                    <div class="short_stacked_row">
+                                        <div class="form_small_title">Description of Objective:</div>
+                                        <div class="form_instruction">{{ contract.campaign.description|default_if_none:"---"|safe }}</div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <fieldset class="typical_form step_container third right">
+                                <div class="step_section padding_40">
+                                    <div class="short_stacked_row">
+                                        <div class="form_floated_title">Company Name:</div>
+                                        <div class="form_floated_data">{{ contract.campaign.client_name|default_if_none:"---" }}</div>
+                                    </div>
+                                    <div class="short_stacked_row">
+                                        <div class="form_floated_title">Company URL:</div>
+                                        <div class="form_floated_data"><a href='{{contract.campaign.client_url|default_if_none:"---"}}' target="_blank">{{ contract.campaign.client_url|default_if_none:"---" }}</a></div>
+                                    </div>
+                                    <div class="short_stacked_row">
+                                        <div class="form_floated_title">Campaign Name:</div>
+                                        <div class="form_floated_data">{{ contract.campaign.title }}</div>
+                                    </div>
+                                    <div class="short_stacked_row">
+                                        <div class="form_floated_title">Mentions Required:</div>
+                                        <div class="form_floated_data">{{ contract.campaign.mentions_required|default_if_none:"---" }}</div>
+                                    </div>
+                                    <div class="short_stacked_row">
+                                        <div class="form_floated_title">Hashtags Required:</div>
+                                        <div class="form_floated_data">{{ contract.campaign.hashtags_required|default_if_none:"---" }}</div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </div>
+                    </div>
+
+
+                    <!-- CAMPAIGN REQUIREMENTS -->
+                    <!-- CAMPAIGN REQUIREMENTS -->
+                    <div class="form_divider w_60_0_pad_mag"></div>
+                    <div class="a_form_group padding_40_sides clearfix">  
+                        <div class="form_title">Campaign Details</div>
+                        <div class="x_space x_30"></div>
+                        <div class="flex_row_steps">
+                            <fieldset class="typical_form step_container two_third left">
+                                <div class="step_section padding_40_right_only">
+                                    <div class="short_stacked_row">
+                                        <div class="form_small_title">Post Requirements</div>
+                                        <div class="form_instruction">{{ contract.influencerjobmapping.post_requirements|default_if_none:"---"|linebreaksbr }}</div>
+                                    </div>
+                                    <div class="x_space x_50"></div>
+                                </div>
+                            </fieldset>
+                            <fieldset class="typical_form step_container third right">
+                                <div class="step_section padding_40_right_only">
+                                    <div class="short_stacked_row">
+                                        <div class="form_floated_title">Date Range:</div>
+                                        {% if contract.campaign.date_start and contract.campaign.date_end %}
+                                            <div class="btn btn-circle sans_form_field blue" style="display:inline; width:200px;">
+                                                <i class="fa fa-calendar"></i>
+                                                <span>{{ contract.campaign.date_start|date:"m/d/Y"|default_if_none:"---" }} - {{ contract.campaign.date_end|date:"m/d/Y"|default_if_none:"---" }}</span>
+                                            </div>
+                                        {% else %}
+                                            <div class="form_floated_data">---</div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="short_stacked_row">
+                                        <div class="form_floated_title">Deliverables:</div>
+                                        <div class="form_floated_data">{% include "snippets/deliverables_spans.html" with obj=contract %}</div>
+                                    </div>
+                                    <div class="x_space x_50"></div>
+                                </div>
+                            </fieldset>
+                        </div>
+                    </div>
+
+                    
+                    
+
+                    
+
+                    
+                </form>
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Lauren's new tab 4 -->
+<!-- Lauren's new tab 4 -->
+<!-- Lauren's new tab 4 -->
+<!-- Lauren's new tab 4 -->
+<!-- Lauren's new tab 4 -->
+<!-- Lauren's new tab 4 -->
+<!-- Lauren's new tab 4 -->
+<!-- Lauren's new tab 4 -->
+         <div class="a_form_page wide blogger_camp_loggedout_account clearfix" ng-if="tab == 12">
+            <div class="a_form_page_content">
+                <form name="paymentDetailsForm" form-handler novalidate>
+
+                    <!-- PAVEL... THIS IS WHAT SHOULD SHOW UP IF THE CONTRACT HAS ALREADY BEEN SIGNED -->
+                    <!-- PAVEL... THIS IS WHAT SHOULD SHOW UP IF THE CONTRACT HAS ALREADY BEEN SIGNED -->
+                    <!-- PAVEL... THIS IS WHAT SHOULD SHOW UP IF THE CONTRACT HAS ALREADY BEEN SIGNED -->
+                    <!-- PAVEL... THIS IS WHAT SHOULD SHOW UP IF THE CONTRACT HAS ALREADY BEEN SIGNED -->
+                    <!-- PAVEL... THIS IS WHAT SHOULD SHOW UP IF THE CONTRACT HAS ALREADY BEEN SIGNED -->
+                    <!-- PAVEL... THIS IS WHAT SHOULD SHOW UP IF THE CONTRACT HAS ALREADY BEEN SIGNED -->
+
+                    <!--div class="a_form_group padding_40_sides clearfix" ng-if="pageServerData.signingContractOn">
+                        <div class="large_form_title" ng-if="pageServerData.signingContractOn">Download Your Contract</div>
+                        <div class="form_instruction main_instructions" ng-if="pageServerData.signingContractOn">Thanks for signing the contract, we’re looking forward to working with you! If you wish to download your contract, you can do so by clicking the button below. This tab will always be here for your reference if you decide to download at a later point in time. </div>
+                        <div class="normal_bt teal_bt lg">Download Your Contract</div> 
+                    </div-->
+
+                    <!-- CONTRACT DETAILS -->
+                    <!-- CONTRACT DETAILS -->
+                    {% if campaign.info_json.signing_contract_on %}
+                        {% if contract.status == contract.STATUS_SIGNED %}
+                            <div class="a_form_group padding_40_sides clearfix">
+                                <div class="large_form_title">View Your Contract</div>
+                                <div class="form_instruction main_instructions">Thanks for signing the contract, we’re looking forward to working with you! If you wish to download your contract, you can do so by clicking the button below. This tab will always be here for your reference if you decide to download at a later point in time. </div>
+                                <!--<div class="normal_bt rounded teal_bt lg" a-href="{{ contract.signed_document_url }}">Download Your Contract</div>-->
+                                <button class="normal_bt rounded teal_bt lg" broadcaster ng-click="broadcasterCtrl.broadcast('openPdfDocumentPopup', {url: '{{ contract.signed_document_url }}'})">
+                                    <span>View Your Contract</span>
+                                </button>
+                                <div class="x_space x_50"></div>
+                            </div>
+                        {% else %}
+                            <div class="a_form_group padding_40_sides clearfix">
+                                <div class="large_form_title">Contract Signing</div>
+                                <div class="form_instruction main_instructions">Click on the link below to go to your contract. It’s quick and your details are already filled in based on the form filled out in the previous step. Once you’ve completed the Echo-sign, you’ll be able to come back to this tab in your campaign dashboard and download the contract for your own records.</div>
+                                <div class="normal_bt rounded teal_bt lg" a-href="{{ contract.link }}" direct>Go to the Contract</div>
+                                <!--<button class="normal_bt rounded teal_bt lg" broadcaster ng-click="broadcasterCtrl.broadcast('openPdfDocumentPopup', {url: '{{ contract.link }}'})">
+                                    <span>Go to the Contract</span>
+                                </button>-->
+                                <div class="x_space x_50"></div>
+                            </div>
+                        {% endif %}
+                    {% endif %}
+
+
+
+
+                    <!-- PAYMENT DETAILS -->
+                    <!-- PAYMENT DETAILS -->
+                    {% if should_display_payment %}
+                        {% if contract.rate_type != 'hidden' %}
+                            {% if campaign.info_json.signing_contract_on %}
+                                <div class="form_divider w_60_60_pad_mag"></div>
+                            {% endif %}
+                            <div class="a_form_group padding_40_sides clearfix">
+                                <div class="form_title">Payment Details</div>
+                                <div class="form_instruction">{% if contract.rate_type == 'final_rate' %}{{ contract.campaign.info_json.payment_instructions }}{% endif %}</div>
+                                <div class="x_space x_30"></div>
+                                <fieldset class="typical_form halfer left">
+                                    {% if contract.campaign.info_json.signing_contract_on %}
+                                        <div class="short_stacked_row">
+                                            <div class="form_floated_title">Payment Terms:</div>
+                                            <div class="form_floated_data">{{ contract.payment_terms|default:'---' }}</div>
+                                        </div>
+                                    {% endif %}
+                                    {% if contract.rate_type == 'displayed_rate' %}
+                                        <div class="short_stacked_row">
+                                            <div class="form_floated_title">Payment Of:</div>
+                                            <div class="form_floated_data">{{ contract.info_json.displayed_rate }}</div>
+                                        </div>
+                                    {% else %}
+                                        <!-- MOVED -->
+                                        <div class="short_stacked_row">
+                                            <div class="form_floated_title">Final Rate:</div>
+                                            <div class="form_floated_data">${{ contract.negotiated_price|default_if_none:'0' }}</div>
+                                        </div>
+                                        <!-- END MOVED -->
+                                        <div class="x_space x_50"></div>
+
+                                        <label>Details:</label>
+
+                                        <textarea cols="25" rows="3" placeholder="" style="resize: none;" ng-model="pageServerData.defaults.paypalUsername" name="paymentData"></textarea>
+                                        <span ng-show="paymentDetailsForm.paymentData.$dirty && paymentDetailsForm.paymentData.$error.required" class="pav_validation">Enter non-empty details</span>
+                                        <div class="x_space x_15"></div>
+                                        <button request-button class="normal_bt teal_bt sm rounded" ng-click="saveForm(paymentDetailsForm, requestButtonCtrl, {method: 'POST', successCb: paymentDetailsForm.$setPristine, url: '/update_model/', data: {modelName: 'Contract', id: {{ contract.id }}, json_fields: {info: {additional_data: {paypal_username: pageServerData.defaults.paypalUsername}}}}})" ng-class="{'disabled': paymentDetailsForm.$pristine || paymentDetailsForm.$invalid || requestButtonCtrl.loading}">
+                                            <span ng-hide="requestButtonCtrl.loading">Save</span>
+                                            <span ng-show="requestButtonCtrl.loading">Saving...</span>
+                                        </button>
+                                    {% endif %}
+                                    <div class="x_space x_50"></div>
+
+                                </fieldset>
+                            </div>
+                        {% endif %}
+                    {% endif %}
+                </form>
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Lauren's new tab 5 -->
+<!-- Lauren's new tab 5 -->
+<!-- Lauren's new tab 5 -->
+<!-- Lauren's new tab 5 -->
+<!-- Lauren's new tab 5 -->
+<!-- Lauren's new tab 5 -->
+<!-- Lauren's new tab 5 -->
+<!-- Lauren's new tab 5 -->
+        <div class="a_form_page wide blogger_camp_loggedout_account clearfix" ng-if="tab == 13">
+            <div class="a_form_page_content">
+                <form name="productInfoForm" form-handler novalidate>
+
+
+
+
+
+                    <div class="a_form_group padding_40_sides clearfix" ng-if="pageServerData.productSectionOn">  
+                        <div class="form_title">Product Info</div>
+                        <div class="x_space x_30"></div>
+                        {% verbatim %}
+                        <div class="flex_row_steps">
+                            <fieldset class="typical_form step_container third left" ng-if="pageServerData.shippingAddressOn">
+                                <div class="step_section padding_40_right_only">
+                                    <div class="short_stacked_row" ng-if="pageServerData.shipmentStatus != 2">
+                                        <div class="form_small_title">Package Received Confirmation</div>
+                                        <div class="form_instruction">When your package is shipped you will receive an email notifying you of the shipping details so that you know when to expect your product. When you receive it. Please return to this page and click on the button below to let your campaign manager know that you’ve received the package.</div>
+                                    </div>
+                                    <div class="short_stacked_row">
+                                        <div class="form_floated_title">Ship Date:</div>
+                                        <div class="form_floated_data">
+                                            <span ng-if="!pageServerData.shipDate">pending</span>
+                                            <span ng-if="pageServerData.shipDate">{{ pageServerData.shipDate }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="short_stacked_row">
+                                        <div class="form_floated_title">Tracking Code:</div>
+                                        <div class="form_floated_data">
+                                            <span ng-if="!pageServerData.shipmentTrackingCode">pending</span>
+                                            <span ng-if="pageServerData.shipmentTrackingCode">{{ pageServerData.shipmentTrackingCode }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="x_space x_30"></div>
+
+                                    <div class="short_stacked_row" ng-if="pageServerData.shipmentStatus != 2">
+                                        <div class="normal_bt md teal_bt rounded" a-href="{{ pageServerData.shipmentReceivedUrl }}" direct>Package received!</div>
+                                    </div>
+                                    <div class="short_stacked_row" ng-if="pageServerData.shipmentStatus == 2 && pageServerData.shipmentReceivedDate">
+                                        <div class="form_floated_title">Package received date:</div>
+                                        <div class="form_floated_data">
+                                            <span>{{ pageServerData.shipmentReceivedDate }}</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="x_space x_50"></div>
+                                </div>
+                            </fieldset>
+                            <fieldset class="typical_form step_container two_third" ng-class="{'right': pageServerData.shippingAddressOn}">
+                                <div class="step_section padding_40_right_only">
+                                    <div class="short_stacked_row">
+                                        <fieldset ng-if="pageServerData.productSendingStatus != 'no_product_page'" class="typical_form form_row_50" multiple-inputs ng-init="multipleInputsCtrl.init({values: influencerInfo.productUrls})">
+
+                                            <label for="">Product URLs :</label>
+
+                                            <fieldset class="typical_form" style="padding: 10px 0;" ng-repeat="productUrl in influencerInfo.productUrls track by $index">
+                                                <div ng-form="productUrlForm" novalidate>
+                                                    <input name="productURL" type="url" ng-model="influencerInfo.productUrls[$index]" ng-required="false && pageServerData.productSendingStatus == 'can_choose_product_page'" unique-in="multipleInputsCtrl.uniqueSet" ng-readonly="pageServerData.productSendingStatus != 'can_choose_product_page'" ng-change="multipleInputsCtrl.onChange({$index: $index, $last: $last, form: productUrlForm, values: influencerInfo.productUrls})"/>
+                                                    <span ng-show="productUrlForm.productURL.$dirty && productUrlForm.productURL.$error.unique" class="pav_validation">Duplicated URL</span>
+                                                    <span ng-show="productUrlForm.productURL.$dirty && productUrlForm.productURL.$error.required" class="pav_validation">Enter non-empty product URL</span>
+                                                    <span ng-show="productUrlForm.productURL.$dirty && productUrlForm.productURL.$error.url" class="pav_validation">Enter correct product URL</span>
+                                                </div>
+                                            </fieldset>
+
+                                            <div ng-if="pageServerData.productSendingStatus == 'can_choose_product_page'" class="form_instruction small_hint" style="white-space: pre-wrap;">{{ influencerInfo.productRestrictions }}</div>
+                                        </fieldset>
+                                    </div>
+                                    <div class="short_stacked_row" ng-if="pageServerData.shippingAddressOn">
+                                        <fieldset class="typical_form form_row_50">
+                                            <fieldset class="typical_form read_only_no_outline">
+                                                <label>Shipping address :</label>
+                                                <textarea name="address" cols="25" rows="4" ng-model="influencerInfo.address" style="resize: none;" ng-readonly="true"></textarea>
+                                                <!--span ng-show="productInfoForm.address.$dirty && productInfoForm.address.$error.required" class="pav_validation">Enter non-empty address</span-->
+                                            </fieldset>
+                                        </fieldset>
+                                    </div>
+                                    <div class="short_stacked_row">
+                                        <fieldset ng-if="pageServerData.bloggerAdditionalInfoOn" class="typical_form form_row_30 read_only_no_outline">
+                                            <label for="">Product Preferences :</label>
+                                            <textarea name="productPreferences" id="" cols="25" rows="3" style="resize: none;" ng-model="influencerInfo.productPreferences" ng-readonly="true"></textarea>
+                                            <!-- <div class="form_instruction small_hint" style="white-space: pre-wrap;">{{ pageServerData.productDetails }}</div> -->
+                                            <!-- span ng-show="productInfoForm.productPreferences.$dirty && productInfoForm.productPreferences.$error.required" class="pav_validation">Please provide product preferences</span-->
+                                        </fieldset>
+                                    </div>
+                                    <div class="short_stacked_row" ng-if="pageServerData.productSendingStatus == 'can_choose_product_page'">
+                                        <fieldset>
+                                            <button request-button class="normal_bt teal_bt lg" ng-click="saveForm(productInfoForm, requestButtonCtrl, {method: 'POST', successCb: productInfoForm.$setPristine, url: '/update_model/', data: {modelName: 'Contract', id: pageServerData.contractId, values: {product_urls: influencerInfo.productUrls}}})" ng-class="{'disabled': productInfoForm.$pristine || productInfoForm.$invalid || requestButtonCtrl.loading}">
+                                                <span ng-hide="requestButtonCtrl.loading">Save</span>
+                                                <span ng-show="requestButtonCtrl.loading">Saving...</span>
+                                            </button>
+                                        </fieldset>
+                                    </div>
+                                    <div class="x_space x_50"></div>
+                                </div>
+                            </fieldset>
+                        </div>
+                        {% endverbatim %}
+                    </div>
+
+
+                </form>
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+
+<!-- Lauren's new tab 6 -->
+<!-- Lauren's new tab 6 -->
+<!-- Lauren's new tab 6 -->
+<!-- Lauren's new tab 6 -->
+<!-- Lauren's new tab 6 -->
+<!-- Lauren's new tab 6 -->
+<!-- Lauren's new tab 6 -->
+<!-- Lauren's new tab 6 -->
+        <div class="a_form_page wide blogger_camp_loggedout_account clearfix" ng-if="tab == 14">
+            <div class="a_form_page_content">
+
+                <div class="a_form_group padding_40_sides clearfix">
+                    <div class="form_mid_title w_leading" style="width:800px;">The tracking codes below are needed in order to track your posts. Please read through the instructions carefully and contact Sabrina@theshelf.com if you have any questions.</div>
+                </div>
+                {% comment %}
+                {% if contract.tracking_status == contract.TRACKING_STATUS_NON_SENT and not contract.is_tracking_info_generated %}
+                <div class="form_title">Tracking information has not been sent yet.</div>
+                {% else %}
+                {% if contract.tracking_status != contract.TRACKING_STATUS_NON_SENT %}
+                    <div class="form_title">Please follow all three steps (installing tracking code, using tracking link, and the disclosure).</div>
+                {% endif %}
+                {% if contract.tracking_status == contract.TRACKING_STATUS_SENT or contract.tracking_status == contract.TRACKING_STATUS_VERIFICATION_PROBLEM %}
+                    <div class="form_instruction">Add this snippet in the HTML of your blog post.</div>
+                {% elif contract.tracking_status == contract.TRACKING_STATUS_ADDED %}
+                    <div class="form_instruction">Tracking is added to your blog page.</div>
+                {% elif contract.tracking_status == contract.TRACKING_STATUS_VERIFYING %}
+                    <div class="form_instruction">We're verifying your blog currently.</div>
+                {% endif %}
+                {% endcomment %}
+
+
+                <div class="form_divider w_60_60_pad_mag"></div>
+                <div class="a_form_group padding_40_sides clearfix">
+                    <div class="form_title">Tracking Pixel</div>
+                    <div class="form_instruction main_instructions">To install this you must switch to the HTML view of your blog editor and paste the entire snippet of code somewhere in that editor. This will allow us to track the impressions received on your post.</div>
+                    <div class="x_space x_30"></div>
+                    <div class="inner_section">
+                        <fieldset class="typical_form two_third w_courier">
+                            <!--label for="pixel_snippet">COPY PASTE THE TRACKING PIXEL:</label-->
+                            <textarea name="pixel_snippet" cols="60" rows="6" style="resize: none;" readonly>{{ contract.tracking_pixel_snippet }}</textarea>
+                        </fieldset>
+                    </div>
+                </div>
+                
+
+
+                <div class="form_divider w_80_80_pad_mag"></div>
+                <div class="a_form_group padding_40_sides clearfix">
+                    <div class="form_title">Link Tracking</div>
+                    <div class="form_instruction main_instructions">You will need to use the links below when referencing the product or brand url. You can copy and paste these into the code view of your blog editor wherever you plan to link off to the site.</div>
+                    <div class="x_space x_30"></div>
+                    <div class="flex_row_steps">
+                        <fieldset class="typical_form step_container halfer left">
+                            <div class="step_section no_top_margin">
+                                <div class="form_small_title">Brand Tracking Link Instructions</div>
+                                <div class="form_instruction small_hint form_instruct_less_margin">Wherever you mention "{{ contract.client_name }}" in your post, please use the link below.</div>
+                                <fieldset class="typical_form small_field w_courier">
+                                    <!--label for="tracking_brand_link">Tracking Link For The Brand:</label-->
+                                    <input name="tracking_brand_link" type="text" style="font-size:13px;" value="{{ contract.tracking_brand_link_url }}" readonly />
+                                </fieldset>
+                            </div>
+                            <div class="x_space x_30"></div>
+                        </fieldset>
+
+                        {% if contract.campaign.info_json.sending_product_on and contract.influencerjobmapping.product_urls %}
+                            <fieldset class="typical_form step_container halfer right">
+                                <div class="step_section no_top_margin">
+                                    <div class="form_small_title">Product Tracking Link Instructions</div>
+                                    <div class="form_instruction small_hint form_instruct_less_margin">Wherever you mention the {{ contract.client_name }} products on your blog post, please use the links below.</div>
+
+                                    {% comment %}
+                                    <fieldset class="typical_form small_fieldw_courier">
+                                        <!--label for="tracking_link">Tracking Link For The Product:</label-->
+                                        <input name="tracking_link" type="text" style="font-size:13px;" value="{{ contract.tracking_link_url }}" readonly />
+                                    </fieldset>
+                                    {% endcomment %}
+                                    {% for product_url, tracking_url in contract.tracking_product_urls %}
+                                        <fieldset class="typical_form small_fieldw_courier" style="padding-bottom: 10px;">
+                                            <!--label for="tracking_link">Tracking Link For The Product:</label-->
+                                            <input name="tracking_link" type="text" style="font-size:13px;" value="{{ tracking_url }}" readonly />
+                                        </fieldset>
+                                    {% endfor %}
+
+                                </div>
+                                <div class="x_space x_30"></div>
+                            </fieldset>
+                        {% endif %}
+
+                        
+                    </div>
+                </div>
+
+
+
+                <div class="form_divider w_100_0_pad_mag"></div>
+                <div class="a_form_group padding_40_sides clearfix">
+                    <div class="form_title">Mentions and Hashtags</div>
+                    <div class="form_instruction main_instructions">Please use the below Mentions and Hashtags within your social posts.</div>   
+                    <div class="x_space x_30"></div>
+                    <div class="flex_row_steps">
+                        <fieldset class="typical_form step_container halfer left">
+                            <div class="step_section no_top_margin">
+                                <div class="form_small_title">@Mentions</div>
+                                <div class="form_instruction small_hint form_instruct_less_margin">Make sure to use these branded @mention(s) in any social media posts related to this campaign.</div>
+                                <fieldset class="typical_form w_courier">
+                                    <label></label>
+                                    <input type="text" style="font-size:13px;" value="{{ contract.campaign.mentions_required|default_if_none:'' }}" readonly />
+                                </fieldset>
+                            </div>
+                            <div class="x_space x_30"></div>
+                        </fieldset>
+                        <fieldset class="typical_form step_container halfer right">
+                            <div class="step_section no_top_margin">
+                                <div class="form_small_title">#Hashtags</div>
+                                <div class="form_instruction small_hint form_instruct_less_margin">Make sure to use these hashtag(s) in any social media posts related to this campaign.</div>
+                                <fieldset class="typical_form w_courier">
+                                    <label></label>
+                                    <input type="text" style="font-size:13px;" value="{{ contract.campaign.hashtags_required|default_if_none:'' }}" readonly />
+                                </fieldset>
+                            </div>
+                            <div class="x_space x_30"></div>
+                        </fieldset>
+                    </div>
+                </div>
+
+
+                <div class="form_divider w_100_0_pad_mag"></div>
+                <div class="a_form_group padding_40_sides clearfix">
+                    <div class="form_title">Disclosures</div>
+                    <div class="form_instruction main_instructions">Please use the below disclosures within the your posts.</div>   
+                    <div class="x_space x_30"></div>
+                    <div class="flex_row_steps">
+                        <fieldset class="typical_form step_container halfer left">
+                            <div class="step_section no_top_margin">
+                                <div class="form_small_title">Blog Disclosure</div>
+                                <div class="form_instruction small_hint form_instruct_less_margin">On your blog post, please disclose that this was a partnership with {{ contract.client_name }}.</div>
+                                <fieldset class="typical_form w_courier">
+                                    <!--label for="disclosure_blog">Disclosure on blog post:</label-->
+                                    <input name="disclosure_blog" type="text" style="font-size:13px;" value="Thank you to {{ contract.client_name }} for kindly sponsoring this post. All opinions are 100% honest & completely my own." readonly />
+                                </fieldset>
+                            </div>
+                            <div class="x_space x_30"></div>
+                        </fieldset>
+                        <fieldset class="typical_form step_container halfer right">
+                            <div class="step_section no_top_margin">
+                                <div class="form_small_title">Social Post Disclosure</div>
+                                <div class="form_instruction small_hint form_instruct_less_margin">On your blog social posts, please disclose that this was a partnership with {{ contract.client_name }}.</div>
+                                <fieldset class="typical_form w_courier">
+                                    <!--label for="disclosure_blog">Disclosure on social posts: please use this hashtag also</label-->
+                                    <input name="disclosure_blog" type="text" style="font-size:13px;" value="#Ad" readonly />
+                                </fieldset>
+                            </div>
+                            <div class="x_space x_30"></div>
+                        </fieldset>
+                    </div>
+                </div>
+
+
+                <div class="form_divider"></div>
+
+
+                <!-- DIVIDER INSTRUCTIONS -->
+                <!-- DIVIDER INSTRUCTIONS -->
+                <div class="a_form_group padding_40_sides clearfix highlight_statement">
+                    <div class="x_space x_60"></div>
+                    <div class="form_instruction main_instructions">All of these are very critical for your campaign to run smoothly. If anything is not installed correctly tracking won't happen, and you'll not get the credit you deserve. So if you have any questions please contact Sabrina@theshelf.com to make sure you're all set.</div>
+                    <div class="x_space x_40"></div>
+                </div>
+
+                   
+
+
+                    {% comment %}
+                    {% if contract.tracking_status == contract.TRACKING_STATUS_SENT or contract.tracking_status == contract.TRACKING_STATUS_VERIFICATION_PROBLEM %}
+                    <button ng-click="!sent && !loading && send('{% url debra.job_posts_views.blogger_tracking_link_complete contract.id contract.tracking_hash_key %}')" class="square_bt md teal_bt submit_button" style="margin: 10px;">
+                        <span ng-hide="loading || error || sent">Done, it's up!</span>
+                        <span ng-show="loading">Sending..</span>
+                        <span ng-show="error">Error!</span>
+                        <span ng-show="sent">Sent</span>
+                    </button>
+                    {% endif %}
+                    {% endcomment %}
+                </div>
+            </div>
+        </div>      
+
+
+
+        
+
+
+
+
+
+
+
+
+
+
+        <div class="a_form_page wide blogger_camp_loggedout_account clearfix" ng-if="tab == 16">
+            <div class="a_form_page_content">
+                <!-- temporary add your posts page -->
+                <!-- temporary add your posts page -->
+                <!-- temporary add your posts page -->
+                <!-- temporary add your posts page -->
+                <div class="a_form_group padding_40_sides clearfix" >  
+                    <div class="form_title">Your Campaign Posts</div>
+                    <div class="form_instruction">Please add your blog post and other social post urls here once they go live. Click save and then verify to make sure it's added correctly. And once you've added all posts, please click on "<b>Done</b>".</div>
+                    <div class="x_space x_30"></div>
+
+                    <div add-posts-widget></div>
+                    {% comment %}
+                    <div ng-show="!postsList.loading && !postsList.loadingError">
+                        <div ng-repeat="post in postsList.posts" class="post_row clearfix">
+                            <!-- checkbox -->
+                            {% verbatim %}
+                            <fieldset class="typical_form check_for_row" style="margin-top:25px;">
+                                <div class="cb_or_rb_wrap">
+                                    <input name="remove_{{$index}}" type="checkbox" id="remove_{{$index}}" ng-click="post.select($event)" ng-checked="post.selected" ng-readonly="!post.saved" />
+                                    <label for="remove_{{$index}}">
+                                        <span class="graphic plus_btn"></span>
+                                    </label>
+                                </div>
+                            </fieldset>
+                            {% endverbatim %}
+                            <!-- row of form fields -->
+                            <fieldset class="row_o_forms clearfix" style="padding-bottom:15px;">
+                                <fieldset class="typical_form fifth left type_column">
+                                    <label class="type_label">Type</label>
+                                    <div class="order_select blog_post_type_dropdown"
+                                        dropdown-select="postsList.types"
+                                        dropdown-model="post.type"
+                                        dropdown-onchange="post.updateType(selected)"
+                                        dropdown-disabled="!post.isEditable()">
+                                    </div>
+                                </fieldset>
+                                <fieldset class="typical_form fifth left">
+                                    <label>Url</label>
+                                    <input type="text" value="" ng-model="post.url" ng-readonly="!post.isEditable()" ng-change="post.onChange()" />
+                                </fieldset>
+                                <fieldset class="typical_form fifth left date_column">
+                                    <label>Date</label>
+                                    <input type="date" value="" ng-model="post.date" ng-readonly="!post.isEditable()" ng-change="post.onChange()" />
+                                </fieldset>
+                                <fieldset class="typical_form fifth left">
+                                    <label>Title</label>
+                                    <input type="text" value="" ng-model="post.title" ng-readonly="!post.isEditable()" ng-change="post.onChange()"/>
+                                </fieldset>
+                                <fieldset class="typical_form fifth left">
+                                    <label>&nbsp;</label><br/>
+                                    <button class="normal_bt md teal_bt action_button" ng-hide="post.saved" ng-class="{inactive: !post.canSave()}" ng-click="post.save()">
+                                        <span ng-show="!post.saved && !post.saving && !post.savingError">Save</span>
+                                        <span ng-show="post.saved">Saved</span>
+                                        <span ng-show="post.saving">Saving...</span>
+                                        <span ng-show="post.savingError">Error!</span>
+                                    </button>
+
+                                    <!--<button class="normal_bt md teal_bt action_button" ng-show="post.canVerify()" ng-class="{inactive: post.sendingVerify}" ng-click="post.verify()">
+                                        <span ng-show="!post.sentVerify && !post.sendingVerify && !post.sendingVerifyError">Verify</span>
+                                        <span ng-show="post.sentVerify">Sent</span>
+                                        <span ng-show="post.sendingVerify">Sending...</span>
+                                        <span ng-show="post.sendingVerifyError">Error!</span>
+                                    </button>-->
+
+                                    <div ng-show="post.sentVerify" class="status_wrapper" style="padding: 30px; padding-bottom: 0px!important;">
+                                        {% verbatim %}
+                                        <span class="status" ng-style="{color: post.verificationStatusColor}">{{ post.verificationStatus }}</span>
+                                        {% endverbatim %}
+                                    </div>
+
+                                    <!--<button class="icon_button icon-misc_files_trash4"></button>-->
+                                </fieldset>
+                            </fieldset>
+
+
+                        </div>
+                        <div class="post_controls_row clearfix">
+                            <fieldset class="typical_form">
+                                {% if contract.posts_adding_status != contract.POSTS_ADDING_STATUS_DONE %}
+                                <button class="normal_bt md teal_bt submit_button" ng-class="{inactive: postsList.doneSent}" ng-click="!postsList.doneSent && postsList.done()">
+                                    <span ng-show="!postsList.doneError && !postsList.doneLoading">Done</span>
+                                    <span ng-show="postsList.doneError">Error!</span>
+                                    <span ng-show="postsList.doneLoading">Sending...</span>
+                                </button>
+                                {% endif %}
+                                <button class="normal_bt md teal_bt submit_button" ng-class="{inactive: !postsList.canAddPost()}" ng-click="postsList.addPost()" style="margin-right: 20px;"><span>Add a New Post</span></button>
+                                <button class="normal_bt md teal_bt submit_button remove_selected_button" ng-class="{inactive: postsList.selected().length < 1 || postsList.removing}" ng-click="postsList.removeSelected()" style="margin-right: 20px;">
+                                    <span ng-show="!postsList.removing && !postsList.removingError">Remove Selected</span>
+                                    <span ng-show="postsList.removing">Removing...</span>
+                                    <span ng-show="postsList.removingError">Error!</span>
+                                </button>
+                            </fieldset>
+                            <div class="x_space x_70"></div>
+                        </div>
+                    </div>
+                    <div main-loader ng-show="postsList.loading"></div>
+                    <div ng-show="postsList.loadingError">
+                        <div class="account_title">Error!</div>
+                    </div>
+                    {% endcomment %}
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+        <div class="a_form_page wide blogger_camp_loggedout_account clearfix" ng-if="tab == 17">
+            <div class="a_form_page_content">
+                <!-- temporary add your posts page -->
+                <!-- temporary add your posts page -->
+                <!-- temporary add your posts page -->
+                <!-- temporary add your posts page -->
+                <div class="a_form_group padding_40_sides clearfix" requester>
+                    <div class="form_title">Post Approval</div>
+                    
+                    <div ng-hide="requesterCtrl.loaded || {% if contract.google_doc_status == 2 %}true{% else %}false{% endif%}" class="form_instruction">Use the text box to paste in your post and photos. Don't worry about formatting, I just need to see the flow and the text to make sure everything is on-brand. When you're finished, click the <b>Finished Button</b>.</div>
+                    <div ng-show="requesterCtrl.loaded || {% if contract.google_doc_status == 2 %}true{% else %}false{% endif%}" class="form_instruction">Thanks! Brand has been notified!</div>
+
+                    <div class="x_space x_30"></div>
+                    
+                    {% if contract and contract.google_doc_status < 2 %}
+                        <button ng-hide="requesterCtrl.loaded" class="normal_bt md teal_bt" ng-class="{'inactive': requesterCtrl.loading}" ng-disabled="requesterCtrl.loading" ng-click="requesterCtrl.doRequest({method: 'POST', url: '/update_model/', data: {modelName: 'Contract', id: {{ contract.id }}, values: {google_doc_status: 2}}})">
+                            <span ng-hide="requesterCtrl.loading">Finished</span>
+                            <span ng-show="requesterCtrl.loading">Sending...</span>
+                        </button>
+                    {% endif %}
+                    {% if contract.google_doc_id  %}
+                        <iframe src="{{ contract.google_doc_embed_url }}" frameborder="0" height="600px" width="100%"></iframe>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+
+        <div class="blogger_camp_loggedout_account clearfix" ng-if="tab == 1">
+            <div class="account_wrapper">
+                {% if contract.status == contract.STATUS_NON_SENT %}
+                    <div class="account_title">Contract has not been sent yet.</div>
+                {% else %}
+                    <div class="account_title">Signing</div>
+                    {% if contract.can_download %}
+                        <div class="account_hint">Contract is signed. Use 'Download' button to get the document.</div>
+                        <div class="content_wrapper clearfix">
+                            <a class="square_bt gray_bt sm" href="{{ contract.signed_document_url }}" target="_blank">Download</a>
+                        </div>
+                    {% elif contract.can_view %}
+                        <div class="account_hint">Follow this link to sign the contract:</div>
+                        <div class="content_wrapper clearfix">
+                            <a href="{{ contract.link}}" target="_blank">{{ contract.link }}</a>
+                        </div>
+                    {% elif contract.status == contract.STATUS_DECLINED %}
+                        <div class="account_hint">Contract has been declined.</div>
+                    {% elif contract.status == contract.STATUS_VOIDED %}
+                        <div class="account_hint">Contract has been voided.</div>
+                    {% endif %}
+                    <div class="sect_divider"></div>
+                    <div class="account_title">Info</div>
+                    <div class="content_wrapper clearfix">
+                        <fieldset class="typical_form halfer left">
+                            <fieldset class="typical_form">
+                                <label>Deliverables:</label>
+                                <textarea name="deliverables" rows="5" class="comment_field" readonly style="resize: none;">{{ contract.deliverables_text|default_if_none:"" }}</textarea>
+                            </fieldset>
+                            <fieldset class="typical_form">
+                                <label>Description of Objective:</label>
+                                <!-- <textarea name="description" rows="5" class="comment_field" readonly style="resize: none;">{{ contract.campaign.description|default_if_none:""|safe }}</textarea> -->
+                                <div name="description" rows="5" class="comment_field" readonly style="resize: none;">{{ contract.campaign.description|default_if_none:""|safe }}</div>
+                            </fieldset>
+                            <fieldset class="typical_form">
+                                <label>About Company:</label>
+                                <!-- <textarea name="deliverables" rows="5" class="comment_field" readonly style="resize: none;">{{ contract.campaign.who_should_apply|default_if_none:""|safe }}</textarea> -->
+                                <div name="deliverables" rows="5" class="comment_field" readonly style="resize: none;">{{ contract.campaign.who_should_apply|default_if_none:""|safe }}</div>
+                            </fieldset>
+                        </fieldset>
+
+                        <fieldset class="typical_form halfer right">
+                            <fieldset class="typical_form">
+                                <label>Mentions Required:</label>
+                                <input name="mentions_required" type="text" value="{{ contract.campaign.mentions_required|default_if_none:"" }}" readonly />
+                            </fieldset>
+
+                            <fieldset class="typical_form">
+                                <label>Hashtags Required:</label>
+                                <input name="hashtags_required" type="text" value="{{ contract.campaign.hashtags_required|default_if_none:"" }}" readonly />
+                            </fieldset>
+
+                            <fieldset class="typical_form">
+                                <label>Date Range</label>
+                                <div class="btn btn-circle blue">
+                                    <i class="fa fa-calendar"></i>
+                                    <span>{{ contract.campaign.date_start|date:"m/d/Y"|default_if_none:"---" }} - {{ contract.campaign.date_end|date:"m/d/Y"|default_if_none:"---" }}</span>
+                                </div>
+                            </fieldset>
+
+                        </fieldset>
+                    </div>
+                    <div class="sect_divider"></div>
+                {% endif %}
+            </div>
+         </div>
+
+
+
+
+
+
+
+         
+                            
+                    
+                   
+
+
+
+
+
+
+        {% comment %}
+         <div class="a_form_page wide blogger_camp_loggedout_account clearfix" ng-if="tab == 2">
+            <div class="a_form_page_content">
+                <div class="a_form_group clearfix">
+                {% if contract.tracking_status == contract.TRACKING_STATUS_NON_SENT and not contract.is_tracking_info_generated %}
+                    <div class="form_title">Tracking information has not been sent yet.</div>
+                {% else %}
+                    {% if contract.tracking_status != contract.TRACKING_STATUS_NON_SENT %}
+                        <div class="form_title">Please follow all three steps (installing tracking code, using tracking link, and the disclosure).</div>
+                    {% endif %}
+                    {% if contract.tracking_status == contract.TRACKING_STATUS_SENT or contract.tracking_status == contract.TRACKING_STATUS_VERIFICATION_PROBLEM %}
+                        <div class="form_instruction">Add this snippet in the HTML of your blog post.</div>
+                    {% elif contract.tracking_status == contract.TRACKING_STATUS_ADDED %}
+                        <div class="form_instruction">Tracking is added to your blog page.</div>
+                    {% elif contract.tracking_status == contract.TRACKING_STATUS_VERIFYING %}
+                        <div class="form_instruction">We're verifying your blog currently.</div>
+                    {% endif %}
+                    <div class="inner_section">
+                        <fieldset class="typical_form two_thirds w_courier">
+                            <label for="pixel_snippet">Tracking Pixel:</label>
+                            <textarea name="pixel_snippet" cols="60" rows="4" style="resize: none;" readonly>{{ contract.tracking_pixel_snippet }}</textarea>
+                        </fieldset>
+                    </div>
+
+                    <div class="x_space x_100"></div>
+                    <div class="form_title">Tracking Links</div>
+                    <div class="form_divider w_0_30_pad_mag"></div>
+                    
+
+                    <div class="flex_row_steps">
+                        <fieldset class="typical_form step_container halfer left">
+                            <div class="step_section">
+                                
+
+                                {% if contract.status != contract.TRACKING_STATUS_NON_SENT %}
+                                <div class="form_mid_title">Product Tracking Link Instructions</div>
+                                <div class="form_instruction">Wherever you mention the {{ contract.client_name }} product on your blog post, please use the link below.</div>
+                                {% endif %}
+
+                                {% if contract.campaign.info_json.sending_product_on and contract.influencerjobmapping.product_url %}
+                                <fieldset class="typical_form small_fieldw_courier">
+                                    <label for="tracking_link">Tracking Link For The Product:</label>
+                                    <input name="tracking_link" type="text" style="font-size:13px;" value="{{ contract.tracking_link_url }}" readonly />
+                                </fieldset>
+                                {% endif %}
+                            </div>
+                        </fieldset>
+
+                        <fieldset class="typical_form step_container halfer right">
+                            <div class="step_section">
+                                
+                                {% if contract.campaign.client_url %}
+                                {% if contract.status != contract.TRACKING_STATUS_NON_SENT %}
+                                <div class="form_mid_title">Brand Tracking Link Instructions</div>
+                                <div class="form_instruction">Wherever you mention "{{ contract.client_name }}" in your post, please use the link below.</div>
+                                {% endif %}
+
+                                <fieldset class="typical_form small_field w_courier">
+                                    <label for="tracking_brand_link">Tracking Link For The Brand:</label>
+                                    <input name="tracking_brand_link" type="text" style="font-size:13px;" value="{{ contract.tracking_brand_link_url }}" readonly />
+                                </fieldset>
+                                {% endif %}
+                            </div>
+                        </fieldset>
+                    </div>
+                    
+                    <div class="form_divider w_80_0_pad_mag"></div>
+                    <div class="form_title">Disclosures</div>
+                    <div class="form_divider w_0_30_pad_mag"></div>
+                    <div class="flex_row_steps">
+                        <fieldset class="typical_form step_container halfer left">
+                            <div class="step_section">
+                                <div class="form_mid_title">Blog Disclosure</div>
+                                <div class="form_instruction">On your blog post, please disclose that this was a partnership with {{ contract.client_name }}.</div>
+                                <fieldset class="typical_form w_courier">
+                                    <label for="disclosure_blog">Disclosure on blog post:</label>
+                                    <input name="disclosure_blog" type="text" style="font-size:13px;" value="Thank you to {{ contract.client_name }} for kindly sponsoring this post. All opinions are 100% honest & completely my own." readonly />
+                                </fieldset>
+                            </div>
+                        </fieldset>
+                        <fieldset class="typical_form step_container halfer right">
+                            <div class="step_section">
+                                <div class="form_mid_title">Social Post Disclosure</div>
+                                <div class="form_instruction">On your blog social posts, please disclose that this was a partnership with {{ contract.client_name }}.</div>
+                                <fieldset class="typical_form w_courier">
+                                    <label for="disclosure_blog">Disclosure on social posts: please use this hashtag also</label>
+                                    <input name="disclosure_blog" type="text" style="font-size:13px;" value="#Ad" readonly />
+                                </fieldset>
+                            </div>
+                        </fieldset>
+                    </div>
+
+
+                    <div class="form_divider w_30_30_pad_mag"></div>
+
+
+                    <div class="inner_section">
+                        <div class="form_instruction">Both are critical for the campaign to go smoothly and without interruption.</div>
+                    </div>
+                    <div class="x_space x_50"></div>
+
+                   
+
+
+                {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endcomment %}
+
+
+
+
+
+    
+        {% comment %}
+        <div class="blogger_camp_loggedout_account clearfix" ng-if="tab == 3">
+            <div class="account_wrapper">
+                <div class="account_title">Please add your blog post and other social post urls here once they go live.</div>
+                <div class="account_hint">Click save and then verify to make sure it's added correctly. And once you've added all posts, please click on "<b>Done</b>".</div>
+                <div ng-show="!postsList.loading && !postsList.loadingError">
+                    <div ng-repeat="post in postsList.posts" class="post_row">
+
+                        <fieldset class="first_part">
+
+                            <fieldset class="typical_form halfer left type_column">
+                                {% verbatim %}
+                                <div class="cb_or_rb_wrap">
+                                    <input name="remove_{{$index}}" type="checkbox" id="remove_{{$index}}" ng-click="post.select($event)" ng-checked="post.selected" ng-readonly="!post.saved" />
+                                    <label for="remove_{{$index}}">
+                                        <span class="graphic plus_btn"></span>
+                                    </label>
+                                </div>
+                                {% endverbatim %}
+
+                                <label class="type_label">Type</label>
+                                <div class="order_select"
+                                    dropdown-select="postsList.types"
+                                    dropdown-model="post.type"
+                                    dropdown-onchange="post.updateType(selected)"
+                                    dropdown-disabled="!post.isEditable()">
+                                </div>
+                            </fieldset>
+
+                            <fieldset class="typical_form halfer right date_column">
+                                <label>Date</label>
+                                <input type="date" value="" ng-model="post.date" ng-readonly="!post.isEditable()" ng-change="post.onChange()" />
+                            </fieldset>
+
+                        </fieldset>
+
+                        <fieldset class="second_part">
+
+                            <fieldset class="typical_form three_quarter left">
+
+                                <fieldset class="typical_form halfer left">
+                                    <label>Url</label>
+                                    <input type="text" value="" ng-model="post.url" ng-readonly="!post.isEditable()" ng-change="post.onChange()" />
+                                </fieldset>
+
+                                <fieldset class="typical_form halfer right">
+                                    <label>Title</label>
+                                    <input type="text" value="" ng-model="post.title" ng-readonly="!post.isEditable()" ng-change="post.onChange()"/>
+                                </fieldset>
+                            </fieldset>
+
+                            <fieldset class="typical_form quarter right">
+                                <button class="square_bt md teal_bt action_button" ng-hide="post.saved" ng-class="{inactive: !post.canSave()}" ng-click="post.save()">
+                                    <span ng-show="!post.saved && !post.saving && !post.savingError">Save</span>
+                                    <span ng-show="post.saved">Saved</span>
+                                    <span ng-show="post.saving">Saving...</span>
+                                    <span ng-show="post.savingError">Error!</span>
+                                </button>
+
+                                <button class="square_bt md teal_bt action_button" ng-show="post.canVerify()" ng-class="{inactive: post.sendingVerify}" ng-click="post.verify()">
+                                    <span ng-show="!post.sentVerify && !post.sendingVerify && !post.sendingVerifyError">Verify</span>
+                                    <span ng-show="post.sentVerify">Sent</span>
+                                    <span ng-show="post.sendingVerify">Sending...</span>
+                                    <span ng-show="post.sendingVerifyError">Error!</span>
+                                </button>
+
+                                <div ng-show="post.sentVerify" class="status_wrapper" style="padding: 30px; padding-bottom: 0px!important;">
+                                    {% verbatim %}
+                                    <span class="status" ng-style="{color: post.verificationStatusColor}">{{ post.verificationStatus }}</span>
+                                    {% endverbatim %}
+                                </div>
+
+                            </fieldset>
+
+                        </fieldset>
+
+                    </div>
+                    <div class="post_controls_row">
+                        <fieldset class="typical_form right">
+                            {% if contract.posts_adding_status != contract.POSTS_ADDING_STATUS_DONE %}
+                            <button class="square_bt md teal_bt submit_button" ng-class="{inactive: postsList.doneSent}" ng-click="!postsList.doneSent && postsList.done()">
+                                <span ng-show="!postsList.doneError && !postsList.doneLoading">Done</span>
+                                <span ng-show="postsList.doneError">Error!</span>
+                                <span ng-show="postsList.doneLoading">Sending...</span>
+                            </button>
+                            {% endif %}
+                            <button class="square_bt md teal_bt submit_button" ng-class="{inactive: !postsList.canAddPost()}" ng-click="postsList.addPost()" style="margin-right: 20px;"><span>Add a New Post</span></button>
+                            <button class="square_bt md teal_bt submit_button remove_selected_button" ng-class="{inactive: postsList.selected().length < 1 || postsList.removing}" ng-click="postsList.removeSelected()" style="margin-right: 20px;">
+                                <span ng-show="!postsList.removing && !postsList.removingError">Remove Selected</span>
+                                <span ng-show="postsList.removing">Removing...</span>
+                                <span ng-show="postsList.removingError">Error!</span>
+                            </button>
+                        </fieldset>
+                    </div>
+                </div>
+                <div main-loader ng-show="postsList.loading"></div>
+                <div ng-show="postsList.loadingError">
+                    <div class="account_title">Error!</div>
+                </div>
+            </div>
+        </div>
+        {% endcomment %}
+
+
+        <!-- This is the first collect_details form -->
+        <!-- This is the first collect_details form -->
+        <!-- This is the first collect_details form -->
+        <!-- This is the first collect_details form -->
+        <!-- This is the first collect_details form -->
+        <!-- This is the first collect_details form -->
+        <!-- This is the first collect_details form -->
+        <!-- This is the first collect_details form -->
+
+        {% comment %}
+        <div class="a_form_page blogger_camp_loggedout_account clearfix" ng-if="tab == 4">
+
+
+
+
+            
+
+
+
+            <div class="a_form_page_content">
+                <form name="influencerInfoForm" form-handler novalidate>
+
+                    
+                    <div class="a_form_group clearfix">
+                        <div class="form_title">Campaign Details</div>
+                        <div class="form_instruction main_instructions">Please fill in the forms below. Some of these forms will flow into your contract, so be careful to double check the details.</div>
+                        
+                        <div class="form_divider w_30_30_pad_mag"></div>
+
+
+
+                        
+
+
+
+
+
+
+
+                        <div class="flex_row_steps">
+                            <fieldset class="typical_form step_container halfer left">
+                                
+                                <div class="step_section">
+                                    <div class="short_stacked_row">
+                                        <div class="form_floated_title">Company Name:</div>
+                                        <div class="form_floated_data">{{ contract.campaign.client_name|default_if_none:"---" }}</div>
+                                    </div>
+                                    <div class="short_stacked_row">
+                                        <div class="form_floated_title">Company URL:</div>
+                                        <div class="form_floated_data"><a href='{{contract.campaign.client_url|default_if_none:"---"}}' target="_blank">{{ contract.campaign.client_url|default_if_none:"---" }}</a></div>
+                                    </div>
+                                    <!--div class="short_stacked_row">
+                                        <div class="form_floated_title">Campaign Name:</div>
+                                        <div class="form_floated_data">{{ contract.campaign.title }}</div>
+                                    </div-->
+                                    <div class="form_divider w_30_30_pad_mag"></div>
+                                    <div class="short_stacked_row">
+                                        <div class="form_mid_title">Description of Objective:</div>
+                                        <div class="form_instruction">{{ contract.campaign.description|default_if_none:"---"|safe }}</div>
+                                        <!-- <textarea name="description" rows="5" class="comment_field" readonly style="resize: none;">{{ contract.campaign.description|default_if_none:""|safe }}</textarea> -->
+                                    </div>
+                                    <div class="short_stacked_row">
+                                        <div class="form_mid_title">About Company:</div>
+                                        <div class="form_instruction">{{ contract.campaign.who_should_apply|default_if_none:"---"|safe }}</div>
+                                        <!-- <textarea name="deliverables" rows="5" class="comment_field" readonly style="resize: none;">{{ contract.campaign.who_should_apply|default_if_none:""|safe }}</textarea> -->
+                                    </div>
+                                </div>
+                            </fieldset>
+
+
+                            <fieldset class="typical_form step_container halfer right">
+                                <div class="step_section">
+                                    <div class="short_stacked_row">
+                                        <div class="form_floated_title">Mentions Required:</div>
+                                        <div class="form_floated_data">{{ contract.campaign.mentions_required|default_if_none:"---" }}</div>
+                                    </div>
+                                    <div class="short_stacked_row">
+                                        <div class="form_floated_title">Hashtags Required:</div>
+                                        <div class="form_floated_data">{{ contract.campaign.hashtags_required|default_if_none:"---" }}</div>
+                                    </div>
+                                    <div class="short_stacked_row">
+                                        <div class="form_floated_title">Date Range:</div>
+                                        {% if contract.campaign.date_start and contract.campaign.date_end %}
+                                            <div class="btn btn-circle sans_form_field blue" style="display:inline; width:200px;">
+                                                <i class="fa fa-calendar"></i>
+                                                <span>{{ contract.campaign.date_start|date:"m/d/Y"|default_if_none:"---" }} - {{ contract.campaign.date_end|date:"m/d/Y"|default_if_none:"---" }}</span>
+                                            </div>
+                                        {% else %}
+                                            <div class="form_floated_data">---</div>
+                                        {% endif %}
+                                    </div>
+
+                                    <div class="short_stacked_row">
+                                        <div class="form_floated_title">Deliverables:</div>
+                                        <div class="form_floated_data">{{ contract.deliverables_text|default:"---" }}</div>
+                                    </div>
+                                    <div class="short_stacked_row">
+                                        <div class="form_floated_title">Final Rate:</div>
+                                        <div class="form_floated_data">{{ contract.negotiated_price|default_if_none:"---" }}</div>
+                                    </div>
+                                    <div class="form_divider w_30_30_pad_mag"></div>
+                                    <div class="short_stacked_row">
+                                        <div class="form_mid_title">Requirements / Style Guidelines:</div>
+                                        <div class="form_instruction">{{ contract.influencerjobmapping.post_requirements|default_if_none:"---"|linebreaksbr }}</div>
+                                    </div>
+                                </div>
+                            </fieldset>
+
+
+                      
+                        </div>
+                    </div>
+
+                    {% if contract.campaign.info_json.payment_details_on %}
+                        <div class="form_divider w_60_0_pad_mag"></div>
+                        <div class="a_form_group clearfix">
+                            <div class="form_mid_title">Payment Details</div>
+                            <div class="form_instruction">Fill in your Paypal email address.</div>
+                            <div class="form_instruction"></div>
+                            {% verbatim %}
+                            <fieldset class="typical_form halfer left">
+                                <label>PayPal email address :</label>
+                                <input name="paypalUsername" type="email" ng-model="influencerInfo.paypalUsername" required ng-readonly="influencerInfo.submitted" />
+                                <span ng-show="influencerInfoForm.paypalUsername.$dirty && influencerInfoForm.paypalUsername.$error.required" class="pav_validation">Enter non-empty email address</span>
+                                <span ng-show="influencerInfoForm.paypalUsername.$dirty && influencerInfoForm.paypalUsername.$error.email" class="pav_validation">Enter correct email address</span>
+                            </fieldset>
+                            {% endverbatim %}
+                        </div>
+                    {% endif %}
+
+
+                    <div class="form_divider w_80_80_pad_mag" ng-if="pageServerData.dateRequirementsOn"></div>
+                    <div class="a_form_group clearfix" ng-if="pageServerData.dateRequirementsOn">
+                        <div class="form_mid_title">Tentative Post Date</div>
+                        <div class="form_instruction">Please select a tentative date for your content yesto go live keeping in mind your deadline.</div>
+                        <div class="form_instruction"></div>
+                        {% verbatim %}
+                        <fieldset class="typical_form halfer left">
+                            <label>Specific post date:</label>
+                            <!--
+                            <div date-range-picker ng-model="wizardCtrl.campaignData.dateRange" name="dateRange"></div>
+                            -->
+                            <div ng-if="influencerInfo.dateRequirements" ng-date-range bind="influencerDateRangeModel" opens="center" class="date_range_field" no-max-date="" start-date="{{ influencerInfo.dateRequirements }}" single-date-picker></div>
+                            <div ng-if="!influencerInfo.dateRequirements" ng-date-range bind="influencerDateRangeModel" opens="center" class="date_range_field" no-max-date="" single-date-picker></div>
+                        </fieldset>
+                        {% endverbatim %}
+                    </div>
+
+                    <div class="form_divider w_80_80_pad_mag"></div>
+                    <div class="a_form_group clearfix">
+                        <div class="form_mid_title">Confirm / correct your social handles</div>
+                        <div class="form_instruction"></div>
+                        {% verbatim %}
+                        <fieldset class="typical_form">
+                            <fieldset class="typical_form fifth left">
+                                <label>Facebook (optional) :</label>
+                                <input name="facebookURL" type="url" ng-model="influencerInfo.facebookURL" ng-readonly="influencerInfo.submitted" />
+                                <span ng-show="influencerInfoForm.facebookURL.$dirty && influencerInfoForm.facebookURL.$error.url" class="pav_validation">Enter correct URL</span>
+                            </fieldset>
+
+                            <fieldset class="typical_form fifth left">
+                                <label>Twitter (optional) :</label>
+                                <input name="twitterURL" type="url" ng-model="influencerInfo.twitterURL" ng-readonly="influencerInfo.submitted" />
+                                <span ng-show="influencerInfoForm.twitterURL.$dirty && influencerInfoForm.twitterURL.$error.url" class="pav_validation">Enter correct URL</span>
+                            </fieldset>
+
+                            <fieldset class="typical_form fifth left">
+                                <label>Instagram (optional) :</label>
+                                <input name="instagramURL" type="url" ng-model="influencerInfo.instagramURL" ng-readonly="influencerInfo.submitted" />
+                                <span ng-show="influencerInfoForm.instagramURL.$dirty && influencerInfoForm.instagramURL.$error.url" class="pav_validation">Enter correct URL</span>
+                            </fieldset>
+
+                            <fieldset class="typical_form fifth left">
+                                <label>Pinterest (optional) :</label>
+                                <input name="pinterestURL" type="url" ng-model="influencerInfo.pinterestURL" ng-readonly="influencerInfo.submitted" />
+                                <span ng-show="influencerInfoForm.pinterestURL.$dirty && influencerInfoForm.pinterestURL.$error.url" class="pav_validation">Enter correct URL</span>
+                            </fieldset>
+
+                            <fieldset class="typical_form fifth left">
+                                <label>Youtube (optional) :</label>
+                                <input name="youtubeURL" type="url" ng-model="influencerInfo.youtubeURL" ng-readonly="influencerInfo.submitted" />
+                                <span ng-show="influencerInfoForm.youtubeURL.$dirty && influencerInfoForm.youtubeURL.$error.url" class="pav_validation">Enter correct URL</span>
+                            </fieldset>
+                        </fieldset>
+                        {% endverbatim %}
+                    </div>
+
+                    <div class="form_divider w_80_80_pad_mag" ng-if="pageServerData.signingContractOn"></div>
+                    <div class="a_form_group clearfix" ng-if="pageServerData.signingContractOn">
+                        <div class="form_mid_title" ng-if="pageServerData.signingContractOn">Contract Details</div>
+                        <div class="form_instruction" ng-if="pageServerData.signingContractOn">Just review the details below and update where necessary. The names in this section will be included in the contract.</div>
+                        {% verbatim %}
+                        <fieldset class="typical_form third left">
+                            <label>Full name :</label>
+                            <input name="fullName" type="text" ng-model="influencerInfo.fullName" ng-readonly="influencerInfo.submitted" required />
+                            <span ng-show="influencerInfoForm.fullName.$dirty && influencerInfoForm.fullName.$error.required" class="pav_validation">Enter non-empty full name</span>
+                        </fieldset>
+
+                        <fieldset class="typical_form third left">
+                            <label>Blog name :</label>
+                            <input name="blogName" type="text" ng-model="influencerInfo.blogName" ng-readonly="influencerInfo.submitted" required />
+                            <span ng-show="influencerInfoForm.blogName.$dirty && influencerInfoForm.blogName.$error.required" class="pav_validation">Enter non-empty blog name</span>
+                        </fieldset>
+
+                        <fieldset class="typical_form third">
+                            <label>Entity name (optional) :</label>
+                            <input name="entityName" type="text" ng-model="influencerInfo.entityName" ng-readonly="influencerInfo.submitted" />
+                        </fieldset>
+                        {% endverbatim %}
+                    </div>
+
+                    <div class="form_divider w_80_80_pad_mag" ng-if="pageServerData.productSectionOn"></div>
+                    <div class="a_form_group clearfix" ng-if="pageServerData.productSectionOn">
+                        <div class="form_mid_title" ng-if="pageServerData.productSectionOn">Product Info</div>
+                        <div class="form_instruction" ng-if="pageServerData.productSectionOn">Fill in the info below so that we can get your product in the mail.</div>
+                        {% verbatim %}
+                        <fieldset ng-if="pageServerData.productSendingStatus != 'no_product_page'" class="typical_form halfer left">
+
+                            <div ng-if="pageServerData.productSendingStatus == 'can_choose_product_page'" class="form_instruction" style="white-space: pre-wrap;">{{ influencerInfo.productRestrictions }}</div>
+
+                            <fieldset class="typical_form form_row_30">
+                                <label for="">Product URL :</label>
+                                <input name="productURL" type="url" ng-model="influencerInfo.productURL" ng-required="pageServerData.productSendingStatus == 'can_choose_product_page'" ng-readonly="influencerInfo.submitted || pageServerData.productSendingStatus != 'can_choose_product_page'" />
+                                <span ng-show="influencerInfoForm.productURL.$dirty && influencerInfoForm.productURL.$error.required" class="pav_validation">Enter non-empty product URL</span>
+                                <span ng-show="influencerInfoForm.productURL.$dirty && influencerInfoForm.productURL.$error.url" class="pav_validation">Enter correct product URL</span>
+                            </fieldset>
+
+                            <fieldset class="typical_form form_row_30">
+                                <label>Shipping address :</label>
+                                <textarea name="address" cols="25" rows="2" ng-model="influencerInfo.address" required style="resize: none;" ng-readonly="influencerInfo.submitted"></textarea>
+                                <span ng-show="influencerInfoForm.address.$dirty && influencerInfoForm.address.$error.required" class="pav_validation">Enter non-empty address</span>
+                            </fieldset>
+
+                        </fieldset>
+
+                        <fieldset ng-if="pageServerData.bloggerAdditionalInfoOn" class="typical_form halfer" ng-class="{right: pageServerData.productSendingStatus != 'no_product_page'}">
+                            <div class="form_instruction" style="white-space: pre-wrap;">{{ pageServerData.productDetails }}</div>
+                            <label for="">Product Preferences (when applicable) :</label>
+                            <textarea name="productPreferences" id="" cols="25" rows="3" style="resize: none;" ng-model="influencerInfo.productPreferences" required ng-readonly="influencerInfo.submitted"></textarea>
+                            <span ng-show="influencerInfoForm.productPreferences.$dirty && influencerInfoForm.productPreferences.$error.required" class="pav_validation">Please provide product preferences</span>
+                        </fieldset>
+                        {% endverbatim %}
+                    </div>
+
+                    <div class="form_divider w_30_30_pad_mag" ng-if="!influencerInfo.submitted || pageServerData.sendContract"></div>
+                    <div class="a_form_group clearfix" ng-if="!influencerInfo.submitted || pageServerData.sendContract">
+                        {% verbatim %}
+                        <fieldset class="typical_form" ng-if="!influencerInfo.submitted">
+                            <button
+                                class="square_bt md teal_bt"
+                                ng-class="{inactive: !influencerInfo.canSave(influencerInfoForm)}"
+                                ng-click="influencerInfo.save(influencerInfoForm)"
+                            >
+                                <span ng-hide="influencerInfo.saving">Save</span>
+                                <span ng-show="influencerInfo.saving">Saving...</span>
+                            </button>
+
+                            <button
+                                class="square_bt md teal_bt"
+                                ng-class="{inactive: !influencerInfo.canSend(influencerInfoForm)}"
+                                ng-click="influencerInfo.send(influencerInfoForm)"
+                            >
+                                <span ng-hide="influencerInfo.sending">Finished and Send</span>
+                                <span ng-show="influencerInfo.sending">Sending...</span>
+                            </button>
+                        </fieldset>
+                        <fieldset class="typical_form" ng-if="influencerInfo.submitted && pageServerData.sendContract">
+                            <button
+                                class="square_bt md teal_bt"
+                                ng-click="pageRedirect({redirectUrl: pageServerData.contractsUrl})"
+                            >
+                                <span ng-hide="influencerInfo.saving">Sign the Contract</span>
+                                <span ng-show="influencerInfo.saving">Redirecting...</span>
+                            </button>
+                        </fieldset>
+                        {% endverbatim %}
+                    </div>
+
+                    <div class="x_space x_80"></div>
+                </form>
+            </div>
+        </div>
+        {% endcomment %}
+    </span>
+</span>
+{% endblock content %}

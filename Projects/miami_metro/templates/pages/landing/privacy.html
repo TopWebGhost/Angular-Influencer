@@ -1,0 +1,169 @@
+{% extends 'base.html' %}
+{% load compressed %}
+{% if visitor.base_brand %}
+{% block bottom_js %}
+{% compressed_js 'angular_dashboard' %}
+{% compressed_js 'angular_brand_navigation' %}
+<script type="text/javascript">
+(function(){
+angular.module("theshelf").value('nav_config', {
+    tab: "{{selected_tab}}",
+    sub_tab: "{{sub_page}}",
+    visible: {% if hide_sidebar %}false{% else %}true{% endif %},
+});
+angular.module("theshelf").value('trial', false);
+{% if selected_tab == "competitors" %}
+angular.module("theshelf").value('dashboard_brand', null);
+{% else %}
+angular.module("theshelf").value('dashboard_brand', {text: '{{visitor.brand.name}}', value: '{{visitor.brand.domain_name}}'});
+{% endif %}
+})();
+</script>
+{% endblock %}
+{% endif %}
+{% block content %}
+{% include 'popups/contact_us_lb.html' with popup_type="contact-us-popup" %}
+{% include 'popups/signup_lb.html' with popup_type="signup-popup" %}
+{% include 'popups/login_lb.html' %}
+{% include 'popups/forgot_password_lb.html' with popup_type="forgot-password-popup" %}
+
+<span class="dashboard_content">
+
+    <div class="terms">
+        <div class="main_title">Shelf Inc. Privacy Policy</div>
+
+
+        <div class="terms_extra">Effective Date:  January 1, 2014</div>
+        <div class="starter_paragraph">At The Shelf, privacy is a top priority and We are firmly committed to guarding the confidence You have placed in Us and to use, responsibly and professionally, any information You provide. We won’t ask You for personal information unless We feel it is necessary to provide our Service. We won’t share Your personal information with anyone except to comply with the law, develop our products, or protect our rights. And we will never sell personal information to any third party. </div>
+        <div class="starter_paragraph">This Privacy Policy applies to transactions and activities and data gathered through the service (“”Service”) provided on our website. The purpose of this Privacy Policy is to notify You of what information of Yours is collected; how the information is used; with whom the information may be shared; what choices are available to You regarding collection, use and distribution of the Information; what kind of security procedures are in place to protect the loss, misuse or alteration of Information under Our control; and how You can correct any inaccuracies in the information.  </div>
+        <div class="starter_paragraph">Please note that this Privacy Policy is a legally binding agreement made between You ("You," "Your," or "Yourself") and Shelf, Inc., a Delaware corporation whose principal office is located at 200 Hoover Avenue, Unit 1211, Las Vegas, Nevada 89101 ("The Shelf” "We," "Us" or "Our").</div>
+
+
+
+        <div class="terms_sub_header">1.  Your Information</div>
+        <div class="terms_para">In order to operate the Service, and to provide You with information about products or services that may be of interest to You, We may collect (a) "personal information" (i.e. information that could be used to contact You directly such as full name, postal address, phone number, credit/debit card information, or email address); (b) "demographic information" (i.e. information that You submit, or that We collect, including, but not limited to, zip code, hometown, gender,  age/birth date, browsing history information, searching history information, and registration history information); (c) “geo-locational data” (i.e. information that can be used to identify Your physical location); and (d) “meta-data” (i.e. information which describes how, when and by whom a particular set of data was collected, and how the data is formatted. Collectively, this information is called “Your Information”.</div>
+        <div class="terms_para">You may be able to login to Our Service through various online third party social media accounts, such as Facebook, by providing Your third party account login information, or allowing Us to access Your third party account, to the extent permitted under the terms governing such account. By granting Us such access to Your third party accounts, You agree that We may access, make available and store (if applicable) any information that You have provided to and stored in Your third party account so that it is available on and through the Service, including, without limitation any information regarding friends, contacts or following/followed lists. If You desire to have Your blog "verified" by The Shelf, We may also require You to grant Us access to personal information on Your Google analytics pages to verify Your ownership of Your blog. </div>
+
+
+
+
+        <div class="terms_sub_header">2.  Information Transfer</div>
+        <div class="terms_para">We do not sell or rent Your Information to third parties for their marketing purposes without Your explicit consent and We only use Your information as described in this Privacy Policy. We view protection of privacy as a critical community principle. We understand clearly that Your information and Your trust is one of Our most important assets. We store and process Your information on computers that are protected by physical as well as technological security devices. We use third parties to verify and certify Our privacy principles. If You object to Your Information being transferred or used in this way, please do not use or access Our Service.</div>
+        <div class="terms_para">We may share aggregate information that does not identify You personally to match You with third party marketing partners that We believe offer products or services that may be of interest to You.  Please note that, while the aggregate data We provide will not identify You personally, in some instances third parties may be able to “de-anonymize” aggregate data to identify You personally based on additional information they have about You or that they receive from third parties.  While We do not intend for third parties to de-anonymize the aggregate data We provide, if You are concerned about potentially being personally identified by Our third party marketing partners, You should not use the Service.</div>
+        <div class="terms_para">In addition, as We continue to develop Our business, We might sell or buy subsidiaries, or business units.  In such transactions, customer information generally is one of the transferred business assets but remains subject to applicable data protection laws and the promises made in any pre-existing privacy policy.  Also, in the unlikely event that We, or substantially all of Our assets are acquired, customer information will of course be one of the transferred assets.</div>
+
+
+
+
+        <div class="terms_sub_header">3.  Credit Card Storage </div>
+        <div class="terms_para">Your payment or banking information, including credit card information, will be stored by a third party, which is PCI compliant and exceeds industry standards for financial security. Your payment or banking information may be used to charge applicable fees as specified in the Terms of Use. </div>
+
+
+
+
+        <div class="terms_sub_header">4.  Material You Choose to Reveal</div>
+        <div class="terms_para">You may post information, including personal information, on areas of the Service that may be viewed by other users or the public, although We recommend that You do not do so.  We urge You to use good judgment. Do not post any information, including without limitation, personal information, that You do not want other users to know.  Many internet connections are public and/or not secure, and other users using that same connection may have access to Your information; please make sure that You are using a secure internet connection.</div>
+        <div class="terms_para">YOU ASSUME ALL RESPONSIBILITY FOR ANY LOSS OF PRIVACY OR OTHER HARM RESULTING FROM YOUR VOLUNTARY DISCLOSURE OF PERSONAL INFORMATION.  </div>
+
+
+
+
+        <div class="terms_sub_header">5.  Cookies/Personal Identifiers  </div>
+        <div class="terms_para">In addition to the information gathered as described above, We may use cookies  or similar data storage technologies (“personal identifiers’’) which are necessary to enable Your use of the Service. We will use commercially reasonable efforts, if technically feasible, to delete these personal identifiers from Your device once no longer necessary for such purposes. If You have given Your consent, We may further use these personal identifiers to track the content You view, and the nature of Your interactions with other users of the Service each time You use the Service, so that We can better serve You when You return to the Service. We may also use such personal identifiers to help advertisers and publishers serve and manage ads provided on and through the Service.  </div>
+        <div class="terms_para">Because personal identifiers allow You to take advantage of some of the essential features of the Service, We recommend that You allow access.  For instance, if You block or otherwise reject personal identifiers, You may l not be able to use any services that require You to sign in.  </div>
+
+
+
+
+        <div class="terms_sub_header">6.  Web Beacons</div>
+        <div class="terms_para">For our website, a “Web beacon,” also sometimes called a pixel tag or transparent GIF, is an object that is embedded in a web page.  It is usually invisible to You, but allows website operators to check whether You have viewed a particular web page or email communication.  We may place web beacons on our website, and in emails We send to You.  </div>
+
+
+
+
+        <div class="terms_sub_header">7.  Third Parties’ Use of Web Beacons and  Personal Identifiers</div>
+        <div class="terms_para">The Service may include third-party advertising, links to other websites, and other content from third-party businesses. These third-party sites, businesses, and advertisers, or advertising companies working on their behalf, may use Web beacons and personal identifiers to measure the effectiveness of their ads, personalize or optimize advertising content and to track users who link from their respective websites to the Service.  </div>
+        <div class="terms_para">We do not have access to or control over such Web beacons or personal identifiers that these third parties may use.  We are not responsible for the privacy practices or the content of these third-party websites.  You are encouraged to review the privacy policies of the different websites You visit. </div>
+        <div class="terms_para">Some third-party advertising companies may provide a mechanism to opt-out of their technology.  For more information about the opt-out process, You may visit the Network Advertising Initiative website, available at http://www.networkadvertising.org/managing/opt_out.asp.</div>
+
+
+
+
+        <div class="terms_sub_header">8.  How We Use Personal Information</div>
+        <div class="terms_para"><b>We may use Your information: </b>
+            <ul>
+                <li>To provide You with our Service. </li>
+                <li>To respond to Your requests or provide You with further information about The Shelf or our Service and new developments thereto. </li>
+                <li>To provide You with personalized content and ads. </li>
+                <li>To give Our website and product developers information that may be useful for developing new features and products for customers.  </li>
+                <li>To improve the content and navigability of the Service.</li>
+                <li>To alert You to new features, products, events and special offers.</li>
+                <li>To enforce Our Terms of Use.</li>
+                <li>When forwarding Digital Millennium Copyright Act (“DMCA”) infringement notifications, take down notices and counter notices.  By submitting a DMCA infringement notification, counter notice or other communication, You consent to have this communication forwarded to the person or entity that stored or transmitted the content addressed by Your communications.  For notices other than DMCA infringement notifications and counter notices, You may request that we edit out Your name and contact information.  However, DMCA infringement notifications and counter notices (including any personal information set forth in the notifications) will be forwarded as submitted to us without any deletions.</li>
+                <li>In connection with contests, giveaways and other promotions that You may choose to participate in.  Any information You submit in connection with promotions will be subject to the terms of the promotion, not this Privacy Policy.  You will be given the option to consent to the use of Your information at the time You sign up for the promotion.  You will not be required to participate in any promotion, contest or giveaway. </li>
+                <li>If required to do so by law, court order or other government or law enforcement authority or regulatory agency; or, if We believe in good faith that disclosing this information is necessary or advisable, including, for example, to protect the rights, property, or safety of The Shelf, You, users, or others.  This includes exchanging information with other companies and organizations for fraud protection and credit risk reduction.</li>
+                <li>From time to time, We may also use information gathered from You and other users in the aggregate, such as by publishing a report on trends in the usage of the Service.   </li>
+                <li>Any third party with whom We are allowed to share Your personal information is authorized to use Your personal information in accordance with Our contractual arrangements with such third parties and in accordance with their own privacy policies, over which We have no control, and You agree that We are not responsible or liable for any of their actions or omissions. Those who contact You will need to be instructed directly by You regarding Your preferences for the use of Your personal information by them.</li>
+                <li>We may host discussions or other moderated forums for users who can help each other with technical and general questions. Topics for discussion may include technical support questions and problems, suggestions for improvement, or anything else that relates to the Service. Please remember that any information that is disclosed in this area becomes public information and You should exercise caution when deciding to disclose Your personal information.</li>
+            </ul>
+        </div>
+
+
+
+        <div class="terms_sub_header">9.  Ownership of Content</div>
+        <div class="terms_para">Our databases automatically update any personal information You edit in Your account, or that You request We edit. Information transmitted through boards, chats, polls or through any other means remains in Our databases. Keep this in mind if You decide to communicate personal information through any of these means.</div>
+        <div class="terms_para">All Content (as defined in the Terms of Use) You provide shall be considered to be Your Content. The Shelf does not assert any ownership over Your Content and You retain full ownership of, and responsibility for, Your Content and any intellectual property rights associated with Your Content. The Shelf makes no effort to review any of Your Content for any purpose, including but not limited to, for accuracy, legality or non-infringement, and The Shelf is not responsible for any such Content. You warrant and represent to Us that You have the right to enable the Service to use Your Content without violating any rights You might have in such Content or any third party rights in such Content.  You may remove Your Content from the Service at any time; however You acknowledge that We may retain archived copies of Your Content. Under no circumstances will The Shelf be liable in any way for Your Content, including, but not limited to, any errors or omissions in any Content, or any loss or damage of any kind incurred as a result of the use of any Content posted, transmitted or otherwise made available via the Service. </div>
+        <div class="terms_para">We do not sell Your Content to third parties. By making Your Content available to Our Service, You are granting Us a non-exclusive, royalty-free, transferable, sub-licensable, worldwide license to use, host, display, store, cache, reproduce, publish, transmit, modify, re-format, re-arrange, distribute, and adapt (including, without limitation, in order to conform it to the requirements of any networks, devices, services, or media through which the Service is available), and create derivative works of Your Content. The rights You grant to Us are for the limited purpose of operating and providing the Service, improving the Service, and allowing Us to develop new services. This includes the right to systematically browse Your  blog site Content and Your social media Content (to the extent such Content has been made public) via Our Service software. The reference in this license to "derivative works" is not intended to give Us a right to make substantive changes or derivations to Your Content, but does enable other users to redistribute Your Content by means of their own accounts in a manner that allows users to, for example, add captions, text, commentary, filters, photo-editing, or other Content in connection with Your Content. </div>
+
+
+
+        <div class="terms_sub_header">10. Information Retention</div>
+        <div class="terms_para">To preserve the integrity of Our databases, Our standard procedures call for Us to retain information submitted by users for an indefinite length of time. The Shelf understands Your submissions as consent to store all Your information in one place for this indefinite length of time, if We so wish. If required by law, as is the case to comply with the Children's Online Privacy Protection Act (COPPA), We will nullify user information by erasing it from Our database. We will also respond to written user requests to nullify account information. </div>
+
+
+
+
+        <div class="terms_sub_header">11. Choice/Opt-Out</div>
+        <div class="terms_para">The Shelf provides users the opportunity to opt-out of receiving communications from Us and Our partners at the point where We request personal information about a visitor. The Shelf also gives users the option to remove their information from Our database, to not receive future communications or to no longer receive Our service.</div>
+
+
+
+
+        <div class="terms_sub_header">12. Special Cases in Which We Share Personal Information</div>
+        <div class="terms_para">We may disclose personal information when We determine that such disclosure is necessary to comply with applicable law, to cooperate with law enforcement or to protect the interests or safety of The Shelf or other visitors to the Service. We also may disclose Your personal information to Our subsidiary and parent companies and businesses, and other affiliated legal entities and businesses with whom We are under common control. Whenever personal information is disclosed under this paragraph, We may also disclose Your demographic information along with it, on a non-anonymous basis. All of Our parent, subsidiary and affiliated legal entities and businesses that receive Your personal information or non-anonymous demographic information from Us will comply with the terms of this Privacy Policy with respect to their use and disclosure of such information.</div>
+
+
+
+
+        <div class="terms_sub_header">13. Our Security Precautions</div>
+        <div class="terms_para">Your profile is password-protected so that only You have access to Your account information. If You have registered for Your The Shelf account using the single-sign on or account synchronization applications of Facebook, Twitter, or other social network services, then Your login and password shall be the same as Your social network login and password. In order to maintain this protection, do not give Your password to anyone. The Shelf staff will never proactively reach out to You and ask for any personal account information, including Your password.  For our Web Application, You should sign out of Your account and the browser window before someone else  obtains access. You should never share devices. This will help protect Your information entered on public terminals from disclosure to third parties.</div>
+        <div class="terms_para">Unfortunately, no data transmission can be guaranteed to be 100% secure. As a result, We cannot guarantee the security of any information You transmit, and You do so at Your own risk. If You have any further questions on this issue, please refer to The Shelf Terms of Use. The Shelf expressly disclaims any liability that may arise should any other individuals obtain the information You submit.</div>
+
+
+
+
+        <div class="terms_sub_header">14. Children   </div>
+        <div class="terms_para">The Service is not directed to children under the age of 13.  We do not knowingly collect information from anyone we know to be under 13 years of age.  </div>
+
+
+
+
+        <div class="terms_sub_header">15. European Union Users </div>
+        <div class="terms_para">Our business is located primarily in the United States. If You provide information to us, the information will be transferred out of the European Union (EU) to the United States. By providing personal information to us, You are consenting to its storage and use as described herein. </div>
+
+
+
+
+        <div class="terms_sub_header">16. Changing our Privacy Policy for Previously Gathered Information</div>
+        <div class="terms_para">If at any point We decide to use particular personal information in a manner materially different from that stated at the time it was collected, We will notify users by way of an email and Your continued use of the Service will constitute Your acceptance of the new use terms. We also encourage You to review this Privacy Policy periodically. By using the Service, You do hereby represent and warrant that You have read, understand and agree to all terms of this Privacy Policy. </div>
+
+
+
+
+        <div class="terms_sub_header">17. Contacting The Shelf</div>
+        <div class="terms_para">If You have any questions about this Privacy Policy, the practices of The Shelf or Your dealings with The Shelf, You may contact Us at support@theshelf.com.</div>
+
+    </div>
+
+</span>
+{% endblock %}

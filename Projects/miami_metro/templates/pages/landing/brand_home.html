@@ -1,0 +1,163 @@
+{% extends "base.html" %}
+
+{% load compressed %}
+
+{% block title %}The Shelf: Connecting Top Fashion Bloggers and Brands{% endblock title %}
+{% block meta_description %}
+    <meta name="description" content="The Shelf: Instant access to a directory of thousands of top fashion bloggers. We help you discover, research, and keep track of the bloggers you collaborate with.">
+{% endblock meta_description %}
+
+{% block custom_header %}{% include "widgets/landing_nav_header.html" with page='brands' %}{% endblock %}
+
+{% block main_controller %}ng-controller="BrandHomeCtrl"{% endblock main_controller %}
+
+
+{% block content %}
+
+    {% if DEBUG %}    
+
+    <!-- HEADER -->
+    <!-- HEADER -->
+    <div class="header home">
+        <div class="header_txt">
+            <!--h1 class="main">Work with Bloggers &amp; Influencers</h1-->
+            <h1 class="main">Grow Your Business Using Influencer Marketing</h1>
+            <h2 class="sub">The Shelf is #1 Platform for Influencer Marketing for Fashion &nbsp; / &nbsp; Beauty &nbsp; / &nbsp; Lifestyle verticals.</h2>
+        </div>
+        <div class="button_container">
+            <a href="#" id="big_brand_btn" class="button signup" click-emitter="openSignupPopup" args='{"initial_type": "brand"}'><b>I'm a Brand/Agency</b></a>
+            <a href="#" id="big_blogger_btn" class="button signup" click-emitter="openSignupPopup" args='{"initial_type": "blogger"}'><b>I'm an Influencer</b></a>
+        </div>
+        <div class="photo_credits">All photography by : <a href="http://streetscout.me/street-style/fashion" target="_blank" class="link">StreetScout.me</a>
+        </div>
+    </div>
+
+
+    <div class="body_row clearfix white_row">
+        <div class="just_text_section">
+            <div class="med_cursive_center">Finding the right influencers for a campaign requires more than just looking at follower counts. As a brand, you need to find individuals who match in style, vibe, and target demographic. The Shelf streamlines the blogger outreach process with our highly advanced toolset, ensuring your company is in touch with the perfect bloggers for your brand and campaigns.</div>
+        </div>
+        <div class="content_area thirds desc_cards content_90 w_border_top_section">
+            <div class="little_title">Sample Search Scenarios</div>
+            <div class="content_bucket">
+                <div class="the_image"><img src="../../../mymedia/site_folder/images/page_graphics/home/new/filter_type_1.png"/></div>
+                <h2 class="mini_title">Selling : </h2>
+                <h2 class="the_title">Artisan Handmade Nose Rings</h2>
+                <p class="body_text"><span class="sub_text">Requirements : </span>Bloggers with an edgy style; Blogging about items from: ASOS, Topshop, Nasty Gal; Live within the United States and Canada; Bloggers should have an engaged audience and a reasonable Instagram following.</p>
+                <p class="the_tags">
+                    <span class="the_tag">US</span>
+                    <span class="the_tag">Canada</span>
+                    <span class="the_tag">ASOS</span>
+                    <span class="the_tag">Topshop</span>
+                    <span class="the_tag">Nasty Gal</span>
+                    <span class="the_tag">Nose ring</span>
+                    <span class="the_tag">Women</span>
+                    <span class="the_tag">Instagram:1K-10K</span>
+                    <span class="the_tag">Comments:10-30</span>
+                </p>
+            </div>
+            <div class="content_bucket">
+                <div class="the_image"><img src="../../../mymedia/site_folder/images/page_graphics/home/new/filter_type_2.png"/></div>
+                <h2 class="mini_title">Selling : </h2>
+                <h2 class="the_title">High-end Indian Clothing</h2>
+                <p class="body_text"><span class="sub_text">Requirements : </span>Bloggers don’t have to be Indian, but needs to have mentioned items like: saris, kurtas, jootis; Mentions of Indian designers: Manish Malhotra, Rita Kumar; The items they endorse should be on the higher-end in terms of price; High-engagement on their blog.</p>
+                <p class="the_tags">
+                    <span class="the_tag">Manish Malhotra</span>
+                    <span class="the_tag">Rita Kumar</span>
+                    <span class="the_tag">Sari</span>
+                    <span class="the_tag">Kurti</span>
+                    <span class="the_tag">Jooti</span>
+                    <span class="the_tag">Indian</span>
+                    <span class="the_tag">Women</span>
+                    <span class="the_tag">High-End</span>
+                    <span class="the_tag">Comments:40+</span>
+                </p>
+            </div>
+            <div class="content_bucket">
+                <div class="the_image"><img src="../../../mymedia/site_folder/images/page_graphics/home/new/filter_type_3.png"/></div>
+                <h2 class="mini_title">Selling : </h2>
+                <h2 class="the_title">Minimalistic Men’s Watches</h2>
+                <p class="body_text"><span class="sub_text">Requirements : </span>Bloggers need to discuss men’s items; Brand mentions of: Issey Miyake, Nadir; Men who would like our watches probably like brands like: Jack Spade and J. Crew; High-end price range; Very large pinterest following so that product shots get passed around heavily.</p>
+                <p class="the_tags">
+                    <span class="the_tag">Issey Miyake</span>
+                    <span class="the_tag">Nadir</span>
+                    <span class="the_tag">Jack Spade</span>
+                    <span class="the_tag">J. Crew</span>
+                    <span class="the_tag">Watch</span>
+                    <span class="the_tag">Husband</span>
+                    <span class="the_tag">Boyfriend</span>
+                    <span class="the_tag">Men</span>
+                    <span class="the_tag">Mid-High End</span>
+                    <span class="the_tag">Minimalistic</span>
+                    <span class="the_tag">Pinterest:40K+</span>
+                </p>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <div class="body_row gray_row more_top_no_bottom clearfix">
+        <div class="content_area">
+            <h2 class="title">A Big Data Solution</h2>
+            <div class="subtext padding_bottom_0">We have analyzed billions of data-points for more than 100,000 fashion/beauty/lifestyle influencers. By connecting the dots between brands, influencers, consumers, purchases, and individual products our “global ecommerce-interest” graph was born! With this incredibly analytical, and dare we say, powerful tool in your brand’s toolbox, you will be able to plan for the most effective campaigns possible.</div>
+            <img src="../../../mymedia/site_folder/images/page_graphics/home/new/graph.png" alt="The Shelf : Global Ecommerce-interest Graph"/>
+        </div>
+    </div>
+   
+
+    <div class="body_row clearfix more_top_and_bottom white_row">
+        <div class="content_area thirds icons2_subtitle_text content_90">
+            <h2 class="title">Brands / Agencies / Bloggers</h2>
+            <div class="content_bucket">
+                <div class="icon_img">
+                    <span class="icon-misc_loc_building3"></span>
+                </div>
+                <h2 class="mini_title">For Brands</h2>
+                <h2 class="the_title">Influencer Marketing Platform</h2>
+                <p class="body_text">Our self-serve platform mimics the process of manually setting up campaigns, while streamlining all parts that are time-consuming and tedious. Using The Shelf, you’ll be able to find exactly who you need to work with in minutes rather than days. Kiss endless spreadsheet making and labor intensive research goodbye!</p>
+                <br/>
+                <a href="{% url debra.account_views.selfserve %}"  class="square_bt sm gray_bt" >Learn More</a>
+            </div>
+            <div class="content_bucket">
+                <div class="icon_img">
+                    <span class="icon-misc_files_list"></span>
+                </div>
+                <h2 class="mini_title">For Agencies</h2>
+                <h2 class="the_title">Most Extensive Database</h2>
+                <p class="body_text">Not to toot our own horn, but many agencies have told us that our product is more detailed thorough than any other platform they’ve tried.  We give you access to the largest selection of fashion/beauty bloggers in one place, with ecommerce-relevant filters, outreach features, downloadable lists, and more.</p>
+                <br/>
+                <a href="{% url debra.account_views.agency %}"  class="square_bt sm gray_bt" >Learn More</a>
+            </div>
+            <div class="content_bucket">
+                <div class="icon_img">
+                    <span class="icon-social_blog"></span>
+                </div>
+                <h2 class="mini_title">For Bloggers</h2>
+                <h2 class="the_title">Get in Front of Brands</h2>
+                <p class="body_text">We make it easy for bloggers to get exposure to tons of super-relevant brands.  When you signup, we’ll generate a profile for you that stays updated in real-time.  Think of it as your online media kit.  (TONS of features are coming soon, so stay tuned.)</p>
+                <br/>
+                <a href="{% url debra.shelfnetwork_views.shelfnetwork_bloggers %}"  class="square_bt sm gray_bt" >Learn More</a>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <div class="body_row gray_row clearfix">
+        <div class="content_area">
+            <h2 class="title">The Power of Bloggers</h2>
+            <div class="subtext">Branded content is becoming less and less effective. Consumers rely on non-biased opinions from people who they trust. Blogs influence more purchase decisions than any other form of social media. Why? Because bloggers are our friends. They are authentic and we believe in them.</div>
+            <div class="mini_subtext">TechnoratiMedia : 2013 Digital Influence Report</div>
+            <img src="../../../mymedia/site_folder/images/page_graphics/home/new/brand_bar_chart.png" alt="The Shelf : Fashion Blogger Clout"/>
+        </div>
+    </div>
+
+
+    {% include "snippets/universal_footer.html" %}
+
+    {% endif %}
+
+{% endblock content %}

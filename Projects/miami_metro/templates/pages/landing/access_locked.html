@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+{% load compressed intercom %}
+
+{% block title %}Access Locked{% endblock title %}
+
+{% block whole_body_class %}fun_bg_color_plain{% endblock whole_body_class %}
+{% block main_controller %}ng-controller="AccessLockedCtrl"{% endblock main_controller %}
+{% block custom_header %}{% endblock %}
+
+{% block content %}
+    <div stripe-popup key="{{ stripe_key }}" payment-url="{% url debra.payment_views.brand_payment %}?next={% url debra.search_views.blogger_search %}" promo-url="{% url debra.payment_views.check_coupon %}" save-url="{% url debra.brand_account_views.change_cc %}"></div>
+
+    <div class="fun_bg_color home_body">
+        <div class="lightbox dynamic bl_bg_lb w_logo main">
+            <div class="logo_centerer">
+                <div class="icon-social_0_shelf_shelf3a"></div>
+            </div>
+            <div class="container">
+                {% comment %}
+                <div cc-edit-popup key="{{ stripe_key }}" save-url="{% url debra.brand_account_views.change_cc %}"></div>
+                {% endcomment %}
+
+                <div class="content_area">
+                    <div class="content_area_container px1000 login_lb">
+                        <h1 class="lb_title gray xxlarge white">Access locked</h1>
+                        <div class="subti gray">
+                            {{reason}}
+                        </div>
+                        {% if suspend_reason == "stripe_plan_deleted" %}
+                        <div style="text-align: center;">
+                            {% comment %}
+                            <div class="square_bt green_bt xl" style="margin: 20px auto;" ng-click="openCCEditPopup()">Change credit card info</div>
+                            {% endcomment %}
+                            {% if visitor.has_brand and visitor.brand_subscribed and plan %}
+                                <div class="square_bt green_bt xl" style="margin: 20px auto;" ng-click="openStripePopup('{{ plan.name }}', false, null, {{ plan.amount }}, '{{ plan.type }}', '{{ plan.interval }}', '{{ plan.interval_count }}')">Checkout</div>
+                            {% endif %}
+                        </div>
+                        {% endif %}
+                        <br/>
+                        <br/>
+                        <br/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+
+{% block extra_head %}
+    <script type="text/javascript" src="https://checkout.stripe.com/checkout.js"></script>
+    <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+    {% compressed_js 'pricing' %}
+{% endblock extra_head %}
+
+{% block bottom_js %}
+    <script type="text/javascript">
+        var stripe_client = stripe.init("{{ stripe_key }}", "{% url debra.payment_views.brand_payment %}?next={% url debra.search_views.blogger_search %}");
+    </script>
+{% endblock %}

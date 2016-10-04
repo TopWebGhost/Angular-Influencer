@@ -1,0 +1,113 @@
+{% extends 'pages/search/base.html' %}
+
+{% block title %}Search bloggers{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.4.3/morris.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.2/raphael-min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.4.3/morris.min.js"></script>
+{% endblock %}
+
+{% block page_css %}
+<!--link rel="stylesheet" href="/mymedia/site_folder/css/dropdowns.css" /-->
+{% endblock %}
+{% block bottom_js %}
+{{ block.super }}
+<script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+<script type="text/javascript">
+(function(){
+{% if not brand_subscribed %}
+angular.module("theshelf").value('trial', true);
+{% else %}
+angular.module("theshelf").value('trial', false);
+{% endif %}
+angular.module("theshelf").value('popularity', [{% for entry in popularity %}{title: "{{entry.title}}",count: "{{entry.count}}"},{% endfor %}]);
+angular.module("theshelf").value('categories', [{% for category in categories %}{title: "{{category.title}}",category: "{{category.category}}" },{% endfor %}]);
+angular.module("theshelf").value('brands', [{% for brand in brands %}{title: "{{brand.brand__name|linebreaksbr|cut:'<br />'}}",count: "{{brand.sum_endorsed}}"},{% endfor %}]);
+angular.module("theshelf").value('locations', [{% for location in locations %}{title: "{{location.title}}", value: "{{location.value}}", count: "{{location.count}}"},{% endfor %}]);
+angular.module("theshelf").value('priceranges', [{% for entry in priceranges %}{title: "{{entry.title}}", text: "{{entry.text}}", count: "{{entry.count}}"},{% endfor %}]);
+angular.module("theshelf").value('genders', [{% for entry in genders %}{title: "{{entry.title}}"},{% endfor %}]);
+angular.module("theshelf").value('socials', [{% for entry in social %}{value: "{{entry.value}}", icon: "{{entry.icon}}"},{% endfor %}]);
+angular.module("theshelf").value('ageGroups', [{% for entry in age_groups %}{value: "{{entry.value}}", icon: "{{entry.icon}}"},{% endfor %}]);
+angular.module("theshelf").value('activity', [{% for entry in activity %}{value: "{{entry.value}}", icon: "{{entry.icon}}"},{% endfor %}]);
+angular.module("theshelf").value('enabled_filters', [{% for filter in enabled_filters %}"{{filter}}",{% endfor %}]);
+})();
+</script>
+{% endblock %}
+
+
+{% block search_content %}
+<!-- IF ANYTHING GETS EDITED, YOU NEED TO EDIT ON BLOGGERS.HTML TOO!!!!!!! -->
+<!-- IF ANYTHING GETS EDITED, YOU NEED TO EDIT ON BLOGGERS.HTML TOO!!!!!!! -->
+<!-- IF ANYTHING GETS EDITED, YOU NEED TO EDIT ON BLOGGERS.HTML TOO!!!!!!! -->
+<!-- IF ANYTHING GETS EDITED, YOU NEED TO EDIT ON BLOGGERS.HTML TOO!!!!!!! -->
+<!-- IF ANYTHING GETS EDITED, YOU NEED TO EDIT ON BLOGGERS.HTML TOO!!!!!!! -->
+<!-- IF ANYTHING GETS EDITED, YOU NEED TO EDIT ON BLOGGERS.HTML TOO!!!!!!! -->
+<!-- IF ANYTHING GETS EDITED, YOU NEED TO EDIT ON BLOGGERS.HTML TOO!!!!!!! -->
+
+<span ng-controller="BloggersSearchCtrl" id="bloggers_root" ng-cloak>
+
+    {% if not brand_subscribed %}
+    <div generic-popup auto-open-delay="50" layer="1">
+        <div class="content_area_container px500">
+            <div ng-if="state == 'opened'">
+                <h1 class="lb_title xl">Welcome!</h1>
+                <div class="mini_title">You are in Trial Mode...</div>
+                <div class="instruction_txt small">Trial Mode allows you to perform 40 different search queries<br/>And we'll only show 15 results for each query.<br/>Upgrade if you'd like to see more.</div>
+                <a ng-click="close()">
+                    <button class="square_bt md teal_bt submit_button">Continue Your Trial</button>
+                </a>&nbsp;
+
+                <!-- <a href="{% url debra.account_views.pricing %}">
+                    <button class="square_bt md teal_bt submit_button">Upgrade</button>
+                </a> -->
+                <a href="{% url debra.account_views.pricing %}" {# click-emitter="openUpgradePopup" #}>
+                    <button class="square_bt md teal_bt submit_button" >Upgrade</button>
+                </a>
+                </div>
+            <div ng-if="state == 'buy'">
+                {% include 'snippets/pricing_options.html' %}
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+<!-- IF ANYTHING GETS EDITED, YOU NEED TO EDIT ON BLOGGERS.HTML TOO!!!!!!! -->
+<!-- IF ANYTHING GETS EDITED, YOU NEED TO EDIT ON BLOGGERS.HTML TOO!!!!!!! -->
+<!-- IF ANYTHING GETS EDITED, YOU NEED TO EDIT ON BLOGGERS.HTML TOO!!!!!!! -->
+<!-- IF ANYTHING GETS EDITED, YOU NEED TO EDIT ON BLOGGERS.HTML TOO!!!!!!! -->
+<!-- IF ANYTHING GETS EDITED, YOU NEED TO EDIT ON BLOGGERS.HTML TOO!!!!!!! -->
+<!-- IF ANYTHING GETS EDITED, YOU NEED TO EDIT ON BLOGGERS.HTML TOO!!!!!!! -->
+<!-- IF ANYTHING GETS EDITED, YOU NEED TO EDIT ON BLOGGERS.HTML TOO!!!!!!! -->
+
+    <!--div favorite-popup source="{% url debra.job_posts_views.get_influencer_groups %}" target="{% url debra.job_posts_views.set_influencer_groups %}" add-group="{% url debra.job_posts_views.add_influencer_groups %}"></div-->
+    <div class="blogger_search_page">
+        <div class="search_sidebar" blogger-search-filters {% if debug %}debug{% endif %}>
+        </div>
+        <div class="search_inline_header">
+            <fieldset class="typical_form search_keyword lighter_field">
+                <span ng-controller="KeywordFilterCtrl">
+                    <div class="type_select"
+                        dropdown-select="types"
+                        dropdown-model="type_selected"
+                        dropdown-onchange="updateType(selected)">
+                    </div>
+                    <input type="text" ng-model="keyword" placeholder="Search..."/>
+                </span>
+            </fieldset>
+            {% comment %}
+            <fieldset class="typical_form small_field view_by_dd" style="{% templatetag openvariable %}mode == 'bloggers' && 'right:240px'{% templatetag closevariable %} ">
+                <div class="mode_select" dropdown-select="modes" dropdown-model="mode_selected" dropdown-onchange="updateMode()"></div>
+                <div class="filter_label">View By</div>
+            </fieldset>
+            {% endcomment %}
+        </div>
+        <div class="mode_container bloggers_container" blogger-container type="{{type}}" pricing-url="{% url debra.account_views.pricing %}" ng-class="{'mode_hidden': mode != 'bloggers'}">
+        </div>
+        <div class="mode_container middle-content-wrapper" ng-class="{'mode_hidden': mode != 'posts'}">
+            <div product-feed filter='blog' source="{% url debra.search_views.posts_search_json %}" mode='mode' {% if not brand_subscribed %}trial{% endif %}></div>
+        </div>
+    </div>
+</span>
+{% endblock %}
+

@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% load compressed %}
+
+{% block title %}The Shelf: Fashion Blogger Outreach{% endblock title %}
+{% block meta_description %}
+    <meta name="description" content="The Shelf">
+{% endblock meta_description %}
+
+{% block extra_head %}
+    <script type="text/javascript" src="https://checkout.stripe.com/checkout.js"></script>
+    <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+    {% compressed_js 'pricing' %}
+{% endblock extra_head %}
+
+{% block body_class %}pricing_page {% if not visitor.base_brand.flag_one_time_fee_on and visitor.base_brand.is_agency and visitor.base_brand.flag_show_other_plans %}agency_pricing{% endif %}{% endblock body_class %}
+
+{% block custom_header %}{% include "widgets/landing_nav_header.html" with page='pricing' %}{% endblock %}
+
+{% block content %}
+    <!--
+    {% if shelf_user %}
+    <div class="header pricing" style="height:530px;">
+        <div class="header_txt">
+            <div class="main">Our Pricing Plans</div>
+            <div class="sub">Click one of the plans below to upgrade.<div style="font-size:13px; padding-top:10px;">You are currently in Trial Mode.</div></div>
+        </div>
+        <div class="photo_credits">Photography by : <a href="http://streetscout.me/street-style/fashion" target="_blank" class="link">StreetScout.me</a></div>
+    </div>
+    {% else %}
+    <div class="header pricing">
+        <div class="header_txt">
+            <div class="main">Our Pricing Plans</div>
+            <div class="sub">Choose one of our plans below, or try it first!</div>
+        </div>
+        <div class="button_container">
+            <a href="#" class="button launch-popup" data-popup-type="signup">Start Your Trial Now</a>
+        </div>
+        <div class="photo_credits">Photography by : <a href="http://streetscout.me/street-style/fashion" target="_blank" class="link">StreetScout.me</a></div>
+    </div>
+    {% endif %}
+    -->
+
+    <!--div class="body_row gray_row clearfix last_child">
+        <div class="title" style="margin-top:70px;">Pricing</div>
+        <div class="subtext">Choose a pricing plan or do some test runs!</div>
+        <div class="centerer"><div class="square_bt xl cyan_bt">Test Run</div></div>
+    </div-->
+    {% include 'snippets/pricing_options.html' %}
+    <div class="x_50 x_space"></div>
+    {% include "snippets/universal_footer.html" %}
+{% endblock content %}
+
+{% block bottom_js %}
+    <script type="text/javascript">
+        var stripe_client = stripe.init("{{ stripe_key }}", "{% url debra.payment_views.brand_payment %}?next={% url debra.search_views.blogger_search %}");
+    </script>
+{% endblock %}

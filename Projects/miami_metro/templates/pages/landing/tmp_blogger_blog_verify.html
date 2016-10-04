@@ -1,0 +1,81 @@
+{% load compressed i18n intercom %}
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="utf-8">
+    <title>{% block title %}{% endblock %}</title>
+    <LINK REL="SHORTCUT ICON" HREF="/mymedia/site_folder/images/global/favicon.ico">
+    <!--This is for hosting email on google. They need to verify we own this domain theshelf.com -->
+
+    <!--** Global CSS **-->
+    <link href="/mymedia/site_folder/css/jquery.Jcrop.css" type="text/css" rel="stylesheet" />
+    <link href="/mymedia/site_folder/css/old/introjs.min.css" text="text/css" rel="stylesheet" />
+    <link href="/mymedia/site_folder/css/style.css" media="screen" rel="stylesheet" />
+    <link href="/mymedia/site_folder/css/global.less" media="screen" rel="stylesheet/less" />
+    <link href="/mymedia/site_folder/css/laurens_font.less" media="screen" rel="stylesheet/less" />
+
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script type="text/javascript" src="/mymedia/site_folder/js/vendor/less-1.4.1.js"></script>
+    {% compressed_js 'core_head' %}
+
+</head>
+
+<body class="white_bg simple_w_logo">
+    <span ng-app="theshelf" ng-cloak>
+        <div class="black_overlay" style="display:none;"></div>
+        {% include 'popups/contact_us_lb.html' with popup_type="contact-us-popup" %}
+        <div blog-badge-popup badge-verify-url="{% url debra.account_views.trigger_badge_verify %}"></div>
+        <div class="logo_centerer">
+            <div class="icon-social_0_shelf_shelf3a"></div>
+        </div>
+        <div class="content_area">
+            <h1 class="page_lb_title">Last Step!</h1>
+            <div class="page_instruction_txt">
+                We just need to make sure that you own {{blog_url}}.
+                <br/>The easiest way is to put one of these badges on your blog’s sidebar or footer.
+                <br/>
+                <br/>Just click on any of the badge you like, and a pop-up will instruct you on how to put this on your blog.
+                <br/>Problem? <a class="launch-popup txt_link darker_teal" href="#" data-popup-type="contact_us" broadcaster="openContactForm">Contact Us</a>, and we’ll help you confirm your account over email.
+
+
+            </div>
+            <div class="badge_container">
+                <div class="badge tall" click-emitter="openBlogBadgePopup" args='{"badge_name": "widget1_tall", "blog_url_stripped": "{{blog_url_stripped}}"}'>
+                    <img src="https://s3.amazonaws.com/theshelfnetwork/badges/widget1_tall.jpg" />
+                </div>
+                <div class="badge tall" click-emitter="openBlogBadgePopup" args='{"badge_name": "widget2_tall", "blog_url_stripped": "{{blog_url_stripped}}"}'>
+                    <img src="https://s3.amazonaws.com/theshelfnetwork/badges/widget2_tall.jpg" />
+                </div>
+                <div class="badge tall last_child" click-emitter="openBlogBadgePopup" args='{"badge_name": "widget3_tall", "blog_url_stripped": "{{blog_url_stripped}}"}'>
+                    <img src="https://s3.amazonaws.com/theshelfnetwork/badges/widget3_tall.jpg" />
+                </div>
+                <br/>
+                <div class="badge short" click-emitter="openBlogBadgePopup" args='{"badge_name": "widget1_short", "blog_url_stripped": "{{blog_url_stripped}}"}'>
+                    <img src="https://s3.amazonaws.com/theshelfnetwork/badges/widget1_short.jpg" />
+                </div>
+                <div class="badge short" click-emitter="openBlogBadgePopup" args='{"badge_name": "widget2_short", "blog_url_stripped": "{{blog_url_stripped}}"}'>
+                    <img src="https://s3.amazonaws.com/theshelfnetwork/badges/widget2_short.jpg" />
+                </div>
+                <div class="badge short last_child" click-emitter="openBlogBadgePopup" args='{"badge_name": "widget3_short", "blog_url_stripped": "{{blog_url_stripped}}"}'>
+                    <img src="https://s3.amazonaws.com/theshelfnetwork/badges/widget3_short.jpg" />
+                </div>
+
+            </div>
+        </div>
+    </span>
+    {% compressed_js 'core' %}
+    {% compressed_js 'angular_core' %}
+    {% include "snippets/angular_sentry_conf.html" %}
+    {% compressed_js 'angular_app' %}
+    {% block bottom_js %}
+    {% endblock %}
+    {% include 'snippets/server_side_vars.html' %}
+
+    {% intercom_tag %}
+</body>
+
+</html>

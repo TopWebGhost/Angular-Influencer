@@ -1,0 +1,53 @@
+﻿{% extends "base.html" %}
+
+{% load compressed %}
+
+{% block title %}Bloggers: Join The Shelf Blogger Network{% endblock title %}
+{% block meta_description %}
+    <meta name="description" content="Join The Shelf blogger network. A community for fashion bloggers and brands to connect.">
+{% endblock meta_description %}
+
+{% block custom_header %}{% include "widgets/landing_nav_header.html" %}{% endblock %}
+
+{% block main_controller %}ng-controller="BrandHomeCtrl"{% endblock main_controller %}
+
+
+{% block body_class %}whole_page{% endblock body_class %}
+
+<!-- <body class="home_body {% if flavour == "mobile" %} ipad_body{% endif %}" style="height:100%; overflow:hidden;"> -->
+
+{% block content %}
+
+    <div class="header header_entire_height">
+        <div class="vertical_center_content">
+            <div class="header_txt">
+                <h1 class="main">Join The Shelf Network</h1>
+                <h2 class="sub">A community for influencers and brands to connect...</h2>
+            </div>
+            <div class="button_container">
+                <a href="#" id="big_brand_btn" class="button signup" click-emitter="openSignupPopup" args='{"initial_type": "brand"}'><b>I'm a Brand</b></a>
+                <a href="#" id="big_blogger_btn" class="button signup" click-emitter="openSignupPopup" args='{"initial_type": "blogger"}'><b>I'm an Influencer</b></a>
+            </div>
+            <div class="extra_links">
+                <a class="txt_link simple" click-emitter="openLearnMoreBloggers">Learn More</a>
+            </div>
+        </div>
+        <div class="photo_credits">Photography by : <a href="http://streetscout.me/street-style/fashion" target="_blank" class="link">StreetScout.me</a></div>
+    </div>
+    <div learn-more-bloggers-popup></div>
+
+{% endblock content %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
