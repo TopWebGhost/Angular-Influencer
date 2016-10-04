@@ -1,0 +1,45 @@
+{% extends 'pages/job_posts/base.html' %}
+{% block title %}Blogger Campaigns | connecting top fashion bloggers and brands{% endblock %}
+{% block search_content %}
+
+<div class="page_title_section">
+    <div class="page_title">All Campaigns</div>
+</div>
+<div class="salvattore_grid" data-columns>
+{% for post in posts %}
+<div class="le_campaign_block" style="width: 290px;">
+    <div class="campaign_row">
+        <div class="campaign_block">
+            <div class="brand_name">{{post.creator.name}}</div>
+            <div class="campaign_name">{{post.title}}</div>
+        </div>
+    </div>
+    <div class="campaign_row">
+        <div class="campaign_block left">
+            <div class="label">Post Type</div>
+            <div class="text_input">{{post.collab_type_verbose}}</div>
+        </div>
+        <div class="campaign_block">
+            <div class="label">Dates <span>(for applying)</span></div>
+            <div class="text_input">{{post.date_start}} &nbsp;-&nbsp; {{post.date_end}}</div>
+        </div>
+    </div>
+    <div class="campaign_row last_child">
+        <div class="campaign_block full_width">
+            <div class="label">Details <span>(about the campaign)</span></div>
+            <div class="text_para">{{post.details}}</div>
+        </div>
+        <div class="campaign_block full_width second_child">
+            <div class="label">Who Should Apply</div>
+            <div class="text_para">{{post.who_should_apply}}</div>
+        </div>
+    </div>
+    <div class="campaign_row last_child">
+        <div class="square_bt black_bt md" direct a-href="{% url debra.job_posts_views.view post.id %}">View Campaign</div>
+    </div>
+</div>
+{% endfor %}
+</div>
+
+{% endblock %}
+

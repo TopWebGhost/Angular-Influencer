@@ -1,0 +1,13 @@
+<div>
+    {% if influencer.shelf_user.userprofile.name %}
+    <p>Hi, {{ influencer.shelf_user.userprofile.first_name }}</p>
+    {% else %}
+    <p>Hi,</p>
+    {% endif %}
+    <p>
+        Thanks for participating in the {{ contract.campaign.title }}. To be reimbursed as per the contract, please enter your paypal information by following this link:
+        <a href="{{ contract.blogger_tracking_url }}#/4">{{ contract.blogger_tracking_url }}#4</a>
+        <br/><br/>
+    </p>
+    <p>Thanks,<br />{{ user.userprofile.first_name }}</p>
+</div>

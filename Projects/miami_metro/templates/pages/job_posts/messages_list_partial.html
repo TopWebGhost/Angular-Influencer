@@ -1,0 +1,467 @@
+<!--# encoding: utf-8-->
+{% load custom_filters %}
+
+<div class="message_sidebar">
+    <div class="main_tab">
+        <span class="main_tab_text show_button show_all {% if all_selected %}selected{% endif %}" ng-click="changeLocation('{% url debra.job_posts_views.list_messages %}')">All Messages</span>
+    </div>
+    <div class="main_tab">
+        <span class="main_tab_text show_button show_generic {% if direct_selected %}selected{% endif %}" ng-click="changeLocation('{% url debra.job_posts_views.list_messages section='direct' %}')">Direct Messages</span>
+    </div>
+    <div class="main_tab">
+        <span class="main_tab_text show_button show_campaign {% if campaign_selected != None %}selected{% endif %}" ng-click="changeLocation('{% url debra.job_posts_views.list_messages section='campaigns' %}')">Campaigns</span>
+        {% if campaign_selected != None %}
+        <div class="main_tab_drillin" ng-if="true || show_collections">
+            {% for campaign in campaigns %}
+            <div class="subtab show_button show_campaign_id_{{campaign.id}} {% if campaign_selected == campaign.id %}selected{% endif %}" ng-click="changeLocation('{% url debra.job_posts_views.list_messages section='campaigns' section_id=campaign.id %}')">
+                {% if campaign.archived %}<span>(Archived)</span>{% endif %}
+                <span>{{campaign.title}}</span>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+    <div class="main_tab">
+        <span class="main_tab_text show_button show_collection {% if collection_selected != None %}selected{% endif %}" ng-click="changeLocation('{% url debra.job_posts_views.list_messages section='collections' %}')">Collections</span>
+        {% if collection_selected != None %}
+        <div class="main_tab_drillin" ng-if="true || show_collections">
+            {% for collection in collections %}
+            <div class="subtab show_button show_collection_id_{{collection.id}} {% if collection_selected == collection.id %}selected{% endif %}" ng-click="changeLocation('{% url debra.job_posts_views.list_messages section='collections' section_id=collection.id %}')">
+                {% if collection.archived %}<span>(Archived)</span>{% endif %}
+                <span>{{collection.name}}</span>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+
+<div class="messages_content messages_only_view">
+    
+    <div class="dashboard_top_section">
+        <div class="search_name_row clearfix messages_tab">
+            <div class="right_header_section campaign_drill search_widget">
+                <fieldset class="typical_form">
+                    <input type="text" name="search" placeholder="Search" ng-model="messagesData.searchQuery" ng-keypress="$event.which === 13 && search()">
+                </fieldset>
+                {% verbatim %}
+                <button class="square_bt" ng-click="search()">Search</button>
+                {% endverbatim %}
+            </div>
+            {% if request.user.userprofile.flag_can_edit_contracts %}
+<!--                 <div class="columns_trigger_label">
+    <fieldset><label>Show/Hide more columns:</label></fieldset>
+</div> -->
+                <div class="columns_trigger_buttons">
+                    <!--
+                    <span
+                        class="table_filter_button"
+                        ng-repeat="(key, header) in headers|orderObjectBy:'value':false"
+                        ng-click="header.visible = !header.visible"
+                        ng-class="{toggled: header.visible}"
+                    >{{ header.text }}</span>
+                    -->
+                    <button
+                        ns-popover
+                        ns-popover-placement="bottom"
+                        ns-popover-template="<div messages-page-columns-select-popover set-url='{% url debra.job_posts_views.set_messages_visible_columns %}'></div>"
+                        ns-popover-theme="ns-popover-tooltip-theme"
+                        ns-popover-timeout="-1"
+                        ns-popover-plain="true"
+                        class="square_bt gray_bt sm"
+                    >Displayed Columns</button>
+                </div>
+                {% comment %}
+                <div class="campaign_drill" style="float: right; margin: 10px 380px; width: 360px;">
+                    <a href="{% if search_query %}?q={{ search_query }}{% else %}.{% endif %}"><div class="table_filter_button{% if stage_selected == None %} toggled{% endif %}">All - {{ total_count }}</div></a>
+                    {% for stage in stages_list %}
+                        <a href="?stage={{ stage.value }}{% if search_query %}&q={{ search_query }}{% endif %}"><div class="table_filter_button{% if stage_selected == stage.value %} toggled{% endif %}">{{ stage.text }} - {{ stage.count }}</div></a>
+                    {% endfor %}
+                </div>
+                {% endcomment %}
+            {% endif %}
+            <div class="name_section">
+                <div class="page_title">Messages ({{ total_count }})</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="campaign_tab_row_container">
+        <div class="campaign_tab_row clearfix">
+            <a href="{% if search_query %}?q={{ search_query }}{% else %}.{% endif %}"><div class="campaign_tab{% if stage_selected == None %} selected{% endif %}">All - {{ total_count }}</div></a>
+            {% for stage in stages_list %}
+                <a href="?stage={{ stage.value }}{% if search_query %}&q={{ search_query }}{% endif %}"><div class="campaign_tab{% if stage_selected == stage.value %} selected{% endif %}">{{ stage.text }} - {{ stage.count }}</div></a>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div id="bloggers_root">
+        <div respond-popup url="{% url debra.job_posts_views.send_response %}" subject="Response from {{visitor.brand.name}}"></div>
+        <div class="campaign_drillin_table" style="margin-top: 0!important; overflow: visible;">
+            {% if not mailboxes %}
+            <div class="missing_content">
+                <div class="missing_text">
+                    You didn't send any messages yet.
+                </div>
+            </div>
+            {% else %}
+            
+            <table class="messages-table">
+                <thead>
+                    <tr>
+                        {% verbatim %}
+                        <th
+                            ng-repeat="(key, header) in headers|orderObjectBy:'value':false"
+                            ng-show="header.visible"
+                            sorting-column
+                            ng-class="{sorting_desc: header.value == sortBy && sortDirection == 1, sorting_asc: header.value == sortBy && sortDirection != 1}"
+                            refresh-params="?sort_by={{ header.value }}&sort_direction={{ nextSortDirection(header) }}&q={{ messagesData.searchQuery }}"
+                        >{{ header.text }}</th>
+                        {% endverbatim %}
+                        {% comment %}
+                        {% for key, header in headers.items %}
+                            <th{% if header.sortable %} sorting-column class="{% if sort_by == header.value %}sorting_{% if sort_direction == 1 %}desc{% else %}asc{% endif %}{% endif %}" refresh-params="?sort_direction={% if sort_by != header.value or sort_direction == 1%}0{% else %}1{% endif %}&sort_by={{ header.value }}"{% endif %}>{{ header.text }}</th>
+                        {% endfor %}
+                        {% endcomment %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for mailbox in mailboxes %}
+                    {% with mailbox.contract as contract %}
+                    <tr class="mailbox {{mailbox.classes}}" mailbox-table-row initial-stage="{{ mailbox.stage }}" mailbox-id="{{ mailbox.id }}" update-url="{% url debra.job_posts_views.update_model %}" {% if contract %}contract-id="{{ contract.id }}"{% endif %}>
+                        <td class="first_box" ng-show="headers['influencer'].visible">
+                            <div class="influence_img" ng-click="show('{{mailbox.details_url}}')">
+                                <div class="influence_img_inner">
+                                    <img class="imgfit" src="{{mailbox.influencer.profile_pic}}">
+                                </div>
+                            </div>
+                            <div class="influence_info">
+                                {% if mailbox.influencer.name %}<span class="name">{{mailbox.influencer.name|unescape}}</span> <br/> {% endif %}
+                                {% if mailbox.influencer.name and mailbox.influencer.blogname %}<span class="of_text">of</span>&nbsp;{% endif %}
+                                {% if mailbox.influencer.blogname %}<span class="site">
+                                    {% if visitor.base_brand.flag_show_dummy_data %}
+                                        <a class="txt_link lessergray" click-emitter="featureLocked">{{mailbox.influencer.blogname|unescape}}</a>
+                                    {% else %}
+                                        <a class="txt_link lessergray" href="{{mailbox.influencer.blog_url}}" target="blank">{{mailbox.influencer.blogname|unescape}}</a>
+                                    {% endif %}
+                                </span>{% endif %}<br/>
+                                <div class="follower_row">
+                                    {% if mailbox.tw_fol %}<span class="icon-social_twitter"></span><span class="count"> {{mailbox.tw_fol}}</span>{% endif %}
+                                    {% if mailbox.ig_fol %}<span class="icon-social_instagram2"></span><span class="count"> {{mailbox.ig_fol}}</span>{% endif %}
+                                    {% if mailbox.fb_likes %}<span class="icon-social_facebook"></span><span class="count">{{mailbox.fb_likes}}</span>{% endif %}
+                                    {% if mailbox.pin_fol %}<span class="icon-social_pinterest"></span><span class="count">{{mailbox.pin_fol}}</span>{% endif %}
+                                    {% if mailbox.youtube_fol %}<span class="icon-social_youtube"></span><span class="count">{{mailbox.youtube_fol}}</span>{% endif %}
+                                </div>
+                                <div class="influence_actions">
+                                    <!--a class="square_bt xxs gray_bt less_pad" blogger-more-info reload ng-click="show('{{mailbox.details_url}}')">
+                                        <span class="icon-misc_magnify2"></span>
+                                        <span class="button_txt">View Profile</span>
+                                    </a-->
+                                </div>
+                            </div>
+                        </td>
+                        <td class="centered_td" mailbox-table-cell style="min-width: 180px; width: 180px;" ng-show="headers['stage'].visible">
+                            <div class="id_status">
+                                <h1 ng-show="stages.updating">Updating...</h1>
+                                <div class="order_select"
+                                    dropdown-select="stages.options"
+                                    dropdown-model="stages.selected"
+                                    dropdown-onchange="stages.update(selected)"
+                                    dropdown-disabled="stages.updating">
+                                </div>
+                            </div>
+                        </td>
+                        {% with mailbox.emails_count_agr as emails_count %}
+                        {% with mailbox.subject_agr as subject %}
+                        {% with mailbox.opened_count_agr as opened_count %}
+                        {% with mailbox.reply_stamp_agr|common_date_format:visitor as reply_stamp %}
+                        {% with mailbox.post_stamp_agr|common_date_format:visitor as post_stamp %}
+                        <td class="centered_td{% if request.user.userprofile.flag_can_edit_contracts %} subject{% endif %}" ng-show="headers['subject'].visible">
+                            <div class="id_status">
+                                <div class="email_subject">
+                                    <a ng-click='toggleConversation({{mailbox.id}}, "{{mailbox.influencer.name|unescape|escapejs}}", $event)'>
+                                        {% if subject %}
+                                        {{subject}}
+                                        {% else %}
+                                        Click to view emails
+                                        {% endif %}
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="id_status">
+                                <span class="status">Sent</span>
+                                <span class="date">{{post_stamp}}</span>
+                            </div>
+                        </td>
+                        <td class="centered_td" ng-show="headers['opened_count'].visible">
+                            <div class="id_status">
+                                <span class="larger_number">{{opened_count}}</span>
+                                <span class="number_label">Open{{opened_count|pluralize}}</span>
+                            </div>
+                        </td>
+                        <td class="centered_td" ng-show="headers['messages_count'].visible">
+                            <div class="id_status">
+                                <span class="larger_number">{{emails_count}}</span>
+                                <span class="number_label">Message{{emails_count|pluralize}}</span>
+                            </div>
+                        </td>
+                        <td class="centered_td" ng-show="headers['last_reply'].visible">
+                            {% if reply_stamp %}
+                            <div class="id_status">
+                                <span class="date">{{reply_stamp}}</span>
+                            </div>
+                            {% endif %}
+                        </td>
+                        <td class="centered_td" mailbox-table-cell ng-show="headers['starting_price'].visible">
+                            {% if contract %}
+                                {% verbatim %}
+                                <div>{{ values.startingPrice || "---" }}</div>
+                                {% endverbatim %}
+                                <div post-analytics-update class="edit_field_in_table" target-url="{% url debra.job_posts_views.edit_contract contract.id %}" values-list='{"startingPrice": {{ contract.starting_price }} }'>
+                                    <div class="editing_area clearfix">
+                                        <fieldset >
+                                            <input type="number" ng-model="values.startingPrice">
+                                        </fieldset>
+                                        <button ng-click="$event.stopPropagation();!loading && update({starting_price: values.startingPrice})" class="update_btn">
+                                            <span ng-show="loading">Updating...</span>
+                                            <span ng-hide="loading || error">Update</span>
+                                            <span ng-show="error">Error!</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            {% else %}
+                                <div>---</div>
+                            {% endif %}
+                        </td>
+                        <td class="centered_td" mailbox-table-cell ng-show="headers['negotiated_price'].visible">
+                            {% if contract %}
+                                {% verbatim %}
+                                <div>{{ values.negotiatedPrice || "---" }}</div>
+                                {% endverbatim %}
+                                <div post-analytics-update class="edit_field_in_table" target-url="{% url debra.job_posts_views.edit_contract contract.id %}" values-list='{"negotiatedPrice": {{ contract.negotiated_price|default_if_none:"0" }} }'>
+                                    <div class="editing_area clearfix">
+                                        <fieldset >
+                                            <input type="number" ng-model="values.negotiatedPrice">
+                                        </fieldset>
+                                        <button ng-click="$event.stopPropagation();!loading && update({negotiated_price: values.negotiatedPrice})" class="update_btn">
+                                            <span ng-show="loading">Updating...</span>
+                                            <span ng-hide="loading || error">Update</span>
+                                            <span ng-show="error">Error!</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            {% else %}
+                                <div>---</div>
+                            {% endif %}
+                        </td>
+                        <td class="centered_td" mailbox-table-cell ng-show="headers['deliverables'].visible">
+                            {% if contract %}
+                                {% verbatim %}
+                                <div>{{ values.deliverables || "---" }}</div>
+                                {% endverbatim %}
+                                <div post-analytics-update class="edit_field_in_table" target-url="{% url debra.job_posts_views.edit_contract contract.id %}" values-list='{"deliverables": "{{ contract.deliverables|default_if_none:''|escapejs }}"}'>
+                                    <div class="editing_area clearfix">
+                                        <fieldset >
+                                            <textarea rows="6" cols="60" ng-model="values.deliverables"></textarea>
+                                        </fieldset>
+                                        <button ng-click="$event.stopPropagation();!loading && update({deliverables: values.deliverables})" class="update_btn">
+                                            <span ng-show="loading">Updating...</span>
+                                            <span ng-hide="loading || error">Update</span>
+                                            <span ng-show="error">Error!</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            {% else %}
+                                <div>---</div>
+                            {% endif %}
+                        </td>
+                        <td class="centered_td" mailbox-table-cell ng-show="headers['extra_details'].visible">
+                            {% if contract %}
+                                {% verbatim %}
+                                <div>{{ values.extraDetails || "---" }}</div>
+                                {% endverbatim %}
+                                <div post-analytics-update class="edit_field_in_table" target-url="{% url debra.job_posts_views.edit_contract contract.id %}" values-list='{"extraDetails": "{{ contract.extra_details|default_if_none:''|escapejs }}"}'>
+                                    <div class="editing_area clearfix">
+                                        <fieldset >
+                                            <textarea rows="6" cols="60" ng-model="values.extraDetails"></textarea>
+                                        </fieldset>
+                                        <button ng-click="$event.stopPropagation();!loading && update({extra_details: values.extraDetails})" class="update_btn">
+                                            <span ng-show="loading">Updating...</span>
+                                            <span ng-hide="loading || error">Update</span>
+                                            <span ng-show="error">Error!</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            {% else %}
+                                <div>---</div>
+                            {% endif %}
+                        </td>
+                        <td class="centered_td" mailbox-table-cell ng-show="headers['address'].visible">
+                            {% if contract %}
+                                {% verbatim %}
+                                <div>{{ values.bloggerAddress || "---" }}</div>
+                                {% endverbatim %}
+                                <div post-analytics-update class="edit_field_in_table" target-url="{% url debra.job_posts_views.edit_contract contract.id %}" values-list='{"bloggerAddress": "{{ contract.blogger_address|default_if_none:''|escapejs }}"}'>
+                                    <div class="editing_area clearfix">
+                                        <fieldset >
+                                            <textarea rows="6" cols="60" ng-model="values.bloggerAddress"></textarea>
+                                        </fieldset>
+                                        <button ng-click="$event.stopPropagation();!loading && update({blogger_address: values.bloggerAddress})" class="update_btn">
+                                            <span ng-show="loading">Updating...</span>
+                                            <span ng-hide="loading || error">Update</span>
+                                            <span ng-show="error">Error!</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            {% else %}
+                                <div>---</div>
+                            {% endif %}
+                        </td>
+                        <td class="centered_td" mailbox-table-cell ng-show="headers['project_timeframe'].visible">
+                            {% if contract %}
+                                {% verbatim %}
+                                <div>{{ values.startDate || "---" }} - {{ values.latestDate || "---" }}</div>
+                                {% endverbatim %}
+                                <div post-analytics-update class="edit_field_in_table" target-url="{% url debra.job_posts_views.edit_contract contract.id %}" values-list='{"startDate": "{{ contract.start_date|date:"Y-m-d" }}", "latestDate": "{{ contract.latest_date|date:"Y-m-d" }}"}'>
+                                    <div class="editing_area clearfix">
+                                        <fieldset >
+                                            <input type="date" ng-model="values.startDate">
+                                        </fieldset>
+                                        <fieldset >
+                                            <input type="date" ng-model="values.latestDate">
+                                        </fieldset>
+                                        <button ng-click="$event.stopPropagation();!loading && update({start_date: values.startDate, latest_date: values.latestDate})" class="update_btn">
+                                            <span ng-show="loading">Updating...</span>
+                                            <span ng-hide="loading || error">Update</span>
+                                            <span ng-show="error">Error!</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            {% else %}
+                                <div>---</div>
+                            {% endif %}
+                        </td>
+                        <td class="centered_td" mailbox-table-cell ng-show="headers['edit_contract_details'].visible" style="width: 100px; max-width: 100px;">
+                            <div class="id_status">
+                                {% verbatim %}
+                                <button ng-click="openEditPopup({values: allValues, mId: mailboxId, cId: contractId})" class="square_bt gray_bt sm">Edit</button>
+                                {% endverbatim %}
+                            </div>
+                        </td>
+                        <td class="centered_td" mailbox-table-cell {% if contract %}send-url="{% url debra.job_posts_views.send_tracking_code contract.id %}"{% endif %} ng-show="headers['product_url'].visible" status="{{ contract.tracking_status }}" status-name="{{ contract.tracking_status_name }}" status-color="{{ contract.tracking_status_color }}">
+                            {% if contract %}
+                                <div style="font-weight: bold; margin-bottom: 5px;">
+                                    {% verbatim %}
+                                    <span ng-style="{color: status.color}">{{ status.name }}</span>
+                                    {% endverbatim %}
+                                </div>
+                                {% verbatim %}
+                                <div>{{ values.productUrl || "---" }}</div>
+                                {% endverbatim %}
+                                <div post-analytics-update class="edit_field_in_table" target-url="{% url debra.job_posts_views.edit_contract contract.id %}" values-list='{"productUrl": "{{ contract.product_url|default_if_none:''|escapejs }}"}'>
+                                    <div class="editing_area clearfix">
+                                        <fieldset >
+                                            <input type="text" ng-model="values.productUrl">
+                                        </fieldset>
+                                        <button ng-click="$event.stopPropagation();!loading && update({product_url: values.productUrl})" class="update_btn">
+                                            <span ng-show="loading">Updating...</span>
+                                            <span ng-hide="loading || error">Update</span>
+                                            <span ng-show="error">Error!</span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <a class="square_bt gray_bt sm" href="{% url debra.job_posts_views.blogger_tracking_page_preview contract.id %}" target="_blank">
+                                    <span>Preview</span>
+                                </a>
+                                <a ng-show="values.productUrl && !showEdit" class="square_bt gray_bt sm" ng-click="send()">
+                                    <span ng-hide="isDirty()">
+                                        <span ng-show="status.value == {{ contract.TRACKING_STATUS_NON_SENT }}">Send</span>
+                                        <span ng-hide="status.value == {{ contract.TRACKING_STATUS_NON_SENT }}">Re-Send</span>
+                                    </span>
+                                    <span ng-show="loading">Sending...</span>
+                                    <span ng-show="error">Error!</span>
+                                </a>
+                            {% else %}
+                                 <div>---</div>
+                            {% endif %}
+                        </td>
+                        <td class="centered_td" mailbox-table-cell style="min-width: 140px; width: 140px;" {% if contract %}send-url="{% url debra.job_posts_views.send_contract contract.id %}"{% endif %} ng-show="headers['send_contract'].visible" status="{{ contract.status }}" status-name="{{ contract.status_name }}" status-color="{{ contract.status_color }}">
+                            {% if contract %}
+                                <div style="font-weight: bold; margin-bottom: 5px;">
+                                    {% verbatim %}
+                                    <span ng-style="{color: status.color}">{{ status.name }}</span>
+                                    {% endverbatim %}
+                                </div>
+                                <div>
+                                    <a class="square_bt gray_bt sm" href="{{ contract.preview_document_url }}" target="_blank">
+                                        <span>Preview</span>
+                                    </a>
+                                    <a class="square_bt gray_bt sm" ng-click="send()">
+                                        <span ng-hide="isDirty()">
+                                            <span ng-show="status.value == {{ contract.STATUS_NON_SENT }}">Send</span>
+                                            <span ng-hide="status.value == {{ contract.STATUS_NON_SENT }}">Re-Send</span>
+                                        </span>
+                                        <span ng-show="loading">Sending...</span>
+                                        <span ng-show="error">Error!</span>
+                                    </a>
+                                </div>
+                                <div ng-show="status.value == {{ contract.STATUS_SIGNED }}">
+                                    <a class="square_bt gray_bt sm" href="{{ contract.signed_document_url }}" target="_blank">Download</a>
+                                </div>
+                            {% else %}
+                                <div>---</div>
+                            {% endif %}
+                        </td>
+                        <td class="centered_td" mailbox-table-cell style="min-width: 140px; width: 140px;" {% if contract %}send-url="{% url debra.job_posts_views.send_add_post_link contract.id %}"{% endif %} ng-show="headers['send_email_to_add_posts'].visible" status="{{ contract.posts_adding_status }}" status-name="{{ contract.posts_adding_status_name }}" status-color="{{ contract.posts_adding_status_color }}">
+                            {% if contract %}
+                                <div ng-hide="status.value == {{ contract.POSTS_ADDING_STATUS_NON_SENT }}" style="font-weight: bold; margin-bottom: 5px;">
+                                    {% verbatim %}
+                                    <span ng-style="{color: status.color}">{{ status.name }}</span>
+                                    {% endverbatim %}
+                                </div>
+                                <a ng-show="status.value == {{ contract.POSTS_ADDING_STATUS_NON_SENT }}" class="square_bt gray_bt sm" ng-click="send()">
+                                    <span ng-hide="isDirty()">Send</span>
+                                    <span ng-show="loading">Sending...</span>
+                                    <span ng-show="error">Error!</span>
+                                </a>
+                            {% else %}
+                                <div>---</div>
+                            {% endif %}
+                        </td>
+                        <td class="centered_td" mailbox-table-cell style="min-width: 140px; width: 140px;" {% if contract %}send-url="{% url debra.job_posts_views.send_paypal_info_request contract.id %}"{% endif %} ng-show="headers['paypal_info'].visible" status="{{ contract.paypal_info_status }}" status-name="{{ contract.paypal_info_status_name }}" status-color="{{ contract.paypal_info_status_color }}">
+                            {% if contract %}
+                                <div style="font-weight: bold; margin-bottom: 5px;">
+                                    {{ contract.info_json.additional_data.paypal_username }}
+                                </div>
+                                <div ng-hide="status.value == {{ contract.PAYPAL_INFO_STATUS_NON_SENT }}" style="font-weight: bold; margin-bottom: 5px;">
+                                    {% verbatim %}
+                                    <span ng-style="{color: status.color}">{{ status.name }}</span>
+                                    {% endverbatim %}
+                                </div>
+                                <a ng-show="status.value == {{ contract.PAYPAL_INFO_STATUS_NON_SENT }}" class="square_bt gray_bt sm" ng-click="send()">
+                                    <span ng-hide="isDirty()">Send</span>
+                                    <span ng-show="loading">Sending...</span>
+                                    <span ng-show="error">Error!</span>
+                                </a>
+                            {% else %}
+                                <div>---</div>
+                            {% endif %}
+                        </td>
+                        {% endwith %}
+                        {% endwith %}
+                        {% endwith %}
+                        {% endwith %}
+                        {% endwith %}
+                    </tr>
+                    <tr class="mailbox_conversation {{mailbox.conversation_classes}}" id="conversation_{{mailbox.id}}" thread="generic" blogger-conversation map-id="{{mailbox.id}}" map="{{mailbox.id}}" source="{% url debra.job_posts_views.get_conversations mailbox.id 'generic' %}"></tr>
+                    {% endwith %}
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% endif %}
+        </div>
+    </div>
+    {% load paginator %}
+    {% paginator object_list=mailboxes request=request %}
+</div>

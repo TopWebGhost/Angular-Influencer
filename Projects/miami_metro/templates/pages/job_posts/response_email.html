@@ -1,0 +1,11 @@
+<div>
+    <p>{{note|safe}}</p>
+
+    {% if data.with_link %}
+        <br/>
+        {% if job and job_mapping %}
+            Click here to see details: <a href="http://app.theshelf.com{% url debra.job_posts_views.invite job_mapping.id %}">http://app.theshelf.com{% url debra.job_posts_views.invite job_mapping.id %}</a>
+            <br/>
+        {% endif %}
+    {% endif %}
+</div>

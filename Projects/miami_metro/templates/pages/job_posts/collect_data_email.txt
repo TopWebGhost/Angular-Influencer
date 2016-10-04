@@ -1,0 +1,15 @@
+{% if note %}
+    {{ note|safe }}
+{% else %}
+    <p>Hey {{ influencer.first_name }},</p></br>
+
+    <p>Now that we've decided on the logistics, I just wanted to shoot you over a quick form for you to fill up with a few details for the campaign.</p></br>
+
+    <p>To get to the form, just click on this link <a href="{{ contract.blogger_tracking_url }}#/5">{{ contract.blogger_tracking_url }}#/5</a>, and you'll land on the form page.</p></br>
+
+    <p>If you could just review the details that are already filled in to make sure that they are correct. As well as fill in the remaining fields, I can get everything over to you very soon.</p></br>
+
+    <p>I'm super excited to get started!</p></br>
+
+    <p>{{ user.userprofile.first_name }}</p>
+{% endif %}

@@ -1,0 +1,53 @@
+{% extends 'pages/job_posts/campaign_base.html' %}
+{% load compressed %}
+{% load custom_filters %}
+
+{% block extra_directives %}
+{% endblock extra_directives %}
+
+
+{% block main_controller %}ng-controller="TableCtrl as tableCtrl"{% endblock main_controller %}
+
+
+{% block controller %}ng-controller="BrandTaxonomyTableCtrl as brandTaxonomyTableCtrl"{% endblock controller %}
+
+
+{% block bottom_js %}
+    {{ block.super }}
+    <script type="text/javascript">
+    (function(){
+    angular.module("theshelf")
+        .value('brandTaxonomyData', {
+            // 'sections': {{ section_switcher.to_dict|jsonify|safe }},
+            'headers': {{ headers|jsonify|safe }},
+        });
+    })();
+    </script>
+{% endblock %}
+
+
+{% block dashboard_middle_header_section_wrapper %}
+{% endblock dashboard_middle_header_section_wrapper %}
+
+
+{% block dashboard_top_controls %}
+    <div>
+        <fieldset class="">
+            <label for="">Style Tag</label><input type="text" ng-model="brandTaxonomyTableCtrl.styleTag" />
+        </fieldset>
+        <fieldset class="">
+            <label for="">Product Tag</label><input type="text" ng-model="brandTaxonomyTableCtrl.productTag"/>
+        </fieldset>
+        <fieldset class="">
+            <label for="">Price Tag</label><input type="text" ng-model="brandTaxonomyTableCtrl.priceTag"/>
+        </fieldset>
+    </div>
+    <button ng-click="brandTaxonomyTableCtrl.filter()"><span>Apply Filters</span></button>
+{% endblock dashboard_top_controls %}
+
+
+{% block dashboard_content %}
+    <div id="post_analytics_root">
+        {% include 'snippets/generic_table/base.html' %}
+    </div>
+{% endblock dashboard_content %}

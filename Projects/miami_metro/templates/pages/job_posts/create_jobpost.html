@@ -1,0 +1,362 @@
+{% extends 'pages/job_posts/base.html' %}
+{% load custom_filters %}
+{% block title %}{{op}} job post | connecting top fashion bloggers and brands{% endblock %}
+{% block body_class %}lt_gray_bg{% endblock %}
+{% block bottom_js %}
+{{ block.super }}
+<script type="text/javascript">
+(function(){
+{% comment %}
+angular.module("theshelf").value('trial', false);
+angular.module("theshelf").value('popularity', [{% for entry in popularity %}{title: "{{entry.title}}",count: "{{entry.count}}"},{% endfor %}]);
+angular.module("theshelf").value('categories', [{% for category in categories %}{title: "{{category.category}}",leaf: {% if category.leaf %}{{category.leaf}}{% else %}null{% endif %} },{% endfor %}]);
+angular.module("theshelf").value('brands', [{% for brand in brands %}{title: "{{brand.brand__name|linebreaksbr|cut:'<br />'}}",count: "{{brand.sum_endorsed}}"},{% endfor %}]);
+angular.module("theshelf").value('locations', [{% for location in locations %}{title: "{{location.title}}", value: "{{location.value}}", count: "{{location.count}}"},{% endfor %}]);
+angular.module("theshelf").value('priceranges', [{% for entry in priceranges %}{title: "{{entry.title}}", text: "{{entry.text}}", count: "{{entry.count}}"},{% endfor %}]);
+angular.module("theshelf").value('genders', [{% for entry in genders %}{title: "{{entry.title}}"},{% endfor %}]);
+angular.module("theshelf").value('socials', [{% for entry in social %}{value: "{{entry.value}}", icon: "{{entry.icon}}"},{% endfor %}]);
+angular.module("theshelf").value('ageGroups', [{% for entry in age_groups %}{value: "{{entry.value}}", icon: "{{entry.icon}}"},{% endfor %}]);
+angular.module("theshelf").value('activity', [{% for entry in activity %}{value: "{{entry.value}}", icon: "{{entry.icon}}"},{% endfor %}]);
+angular.module("theshelf").value('enabled_filters', [{% for filter in enabled_filters %}"{{filter}}",{% endfor %}]);
+{% endcomment %}
+angular.module("theshelf").value('defaults', {
+    title: '{% if form.title.value %}{{form.title.value|escapejs}}{% endif %}',
+    collab_type: {% if job_post.collab_type %}{value: "{{job_post.collab_type|escapejs}}", text: "{{job_post.collab_type_verbose|escapejs}}"}{% else %}{value: '{{collab_types.0.0|escapejs}}', text:"{{collab_types.0.1|escapejs}}"}{% endif %},
+    collection: {% if job_post.collection and not job_post.collection.system_collection %}{value: "{{job_post.collection.id|escapejs}}", text: "{{job_post.collection.name|escapejs}}".replace("&#39;", "'")}{% else %}{value: null, text: "Not associated with a collection"}{% endif %},
+    details: '{% if form.details.value %}{{form.details.value|escapejs}}{% endif %}',
+    who: '{% if form.who_should_apply.value %}{{form.who_should_apply.value|escapejs}}{% endif %}',
+    description: '{% if form.description.value %}{{form.description.value|escapejs}}{% endif %}',
+    cover_img_url: {% if form.cover_img_url.value %}'{{form.cover_img_url.value|escapejs}}'{% else %}null{% endif %},
+    published: {% if form.published.value %}true{% else %}false{% endif %},
+    filters: {% if form.filter_json.value %}{{form.filter_json.value|safe}}{% else %}null{% endif %},
+    mentions_required: {% if form.mentions_required.value %}"{{ form.mentions_required.value|safe|escapejs }}"{% else %}null{% endif %},
+    hashtags_required: {% if form.hashtags_required.value %}"{{ form.hashtags_required.value|safe|escapejs }}"{% else %}null{% endif %},
+    client_name: {% if form.client_name.value %}"{{ form.client_name.value|safe|escapejs }}"{% else %}null{% endif %},
+    date_start: {% if form.date_start.value %}"{{ form.date_start.value|safe|escapejs }}"{% else %}null{% endif %},
+    date_end: {% if form.date_end.value %}"{{ form.date_end.value|safe|escapejs }}"{% else %}null{% endif %},
+    utm_source: {% if form.utm_source.value %}"{{ form.utm_source.value|safe|escapejs }}"{% else %}null{% endif %},
+    utm_medium: {% if form.utm_medium.value %}"{{ form.utm_medium.value|safe|escapejs }}"{% else %}null{% endif %},
+    utm_campaign: {% if form.utm_campaign.value %}"{{ form.utm_campaign.value|safe|escapejs }}"{% else %}null{% endif %},
+}); 
+angular.module("theshelf").value('collab_types', [
+    {% for type in collab_types %}
+    {value: '{{type.0}}', text:"{{type.1}}"},
+    {% endfor %}
+]);
+})();
+angular.module("theshelf").value('collections', [
+    {
+        text: "Not associated with a collection", value: null
+    },
+    {% for collection in collections %}
+    {
+        text: '{{collection.name|escapejs}}'.replace("&#39;", "'"), value: {{collection.id}}
+    },
+    {% endfor %}
+]);
+</script>
+{% endblock %}
+
+
+{% block search_content %}
+
+{% comment %}
+<!--{% if is_edit %}
+<div class="breadcrumb_container">
+    <a class="breadcrumb_nav_item" href="{% url debra.job_posts_views.list_jobs %}">
+        <span class="bread_text">All Campaigns</span>
+    </a>
+    <div class="breadcrumb_nav_item"><span class="icon-arrow_l_arr_2"></span></div>
+    <div class="breadcrumb_nav_item" href="">
+        <span class="bread_text">
+        {{job_post.title}}
+        </span>
+    </div>
+</div>
+{% endif %}-->
+{% endcomment %}
+
+{% comment %}
+{% with job_post.applied_count as applicants %}
+{% with job_post.invited_count as invites %}
+{% endcomment %}
+<div class="dashboard_top_section">
+    <div class="search_name_row clearfix">
+        {% comment %}
+        <div class="right_header_section campaign_drill">
+            <a class="square_bt" style="margin-left:10px;" href="{% url debra.job_posts_views.edit job_post.id %}">Edit Post</a>
+            <a class="square_bt" href="{% url debra.job_posts_views.view job_post.id %}">View Post</a>
+        </div>
+        {% endcomment %}
+        <div class="name_section">
+            <div class="page_title" style="float:left;">{% if is_edit %}{{job_post.title}}{% else %}New Campaign{% endif %}</div>
+            {% if is_edit %}
+            <div class="campaign_extras">
+                {% if job_post.published %}
+                <span class="campaign_info_block">Posted : {{job_post.date_publish}} </span>
+                {% else %}
+                <a class="campaign_info_block txt_link bright_pink" href="{% url debra.job_posts_views.edit job_post.id %}">Not Published</a>
+                {% endif %}
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+
+
+{% comment %}
+<!--{% if is_edit %}
+<div class="campaign_tab_row_container">
+    <div class="campaign_tab_row clearfix" data-spy="affix" data-offset-top="200">
+        {% if job_post.collection %}
+        {% if job_post.collection.system_collection %}
+        <div class="campaign_tab" direct a-href="{% url debra.job_posts_views.list_details_jobpost job_post.id %}#/favorites">{{job_post.collection.influencers_count}} Bookmarked</div>
+        <div class="campaign_tab" direct a-href="{% url debra.job_posts_views.list_details_jobpost job_post.id %}#/favorites">{{job_post.collection.influencers_count}} {{job_post.collection.name}}</div>
+        {% endif %}
+        {% endif %}
+        <div class="campaign_tab" direct a-href="{% url debra.job_posts_views.list_details_jobpost job_post.id %}#/all">{{invites}} Invite{{invites|pluralize}}</div>
+        <div class="campaign_tab" direct a-href="{% url debra.job_posts_views.list_details_jobpost job_post.id %}#/applicants">{{applicants}} Applicant{{applicants|pluralize}}</div>
+    </div>
+</div>
+{% endif %}-->
+{% endcomment %}
+{% comment %}
+{% endwith %}
+{% endwith %}
+{% endcomment %}
+
+<div class="campaign_setup clearfix" ng-controller="JobPostCtrl">
+    <form name="job_post" method="POST" action="{{action}}">
+        {% csrf_token %}
+        <div class="account_wrapper w_border_around">
+            <div class="account_title">Campaign Details</div>
+            <div class="account_hint">Fill in these campaign details with info about the campaign.</div>
+            {% if form.errors %}
+            <div class="account_hint" style="color: red; font-weight: bold">There were errors in form, we couldn't save it. Please review form and try again.</div>
+            {% endif %}
+
+            <div class="content_wrapper clearfix">
+
+                <fieldset class="typical_form three_quarter left">
+
+                    <fieldset class="typical_form halfer left">
+                        <label>Title of Campaign</label>
+                        <input name="title" ng-model="post_data.title" type="text">
+                        <label style="padding-top: 5px; display: block; color: red; font-weight: bold; text-align: center">{{form.title.errors}}</label>
+                    </fieldset>
+
+                    <fieldset class="typical_form halfer right">
+                        <label>Client Name</label>
+                        <input name="client_name" ng-model="post_data.client_name" type="text">
+                        <label style="padding-top: 5px; display: block; color: red; font-weight: bold; text-align: center">{{form.client_name.errors}}</label>
+                    </fieldset>
+
+                </fieldset>
+
+                <fieldset class="typical_form three_quarter left">
+
+
+                    <fieldset class="typical_form halfer left">
+                        <label>Mentions Required (comma-separated)</label>
+                        <input name="mentions_required" ng-model="post_data.mentions_required" type="text" placeholder="@mention1, @mention2">
+                        <label style="padding-top: 5px; display: block; color: red; font-weight: bold; text-align: center">{{form.mentions_required.errors}}</label>
+                    </fieldset>
+                    <fieldset class="typical_form halfer right">
+                        <label>Hashtags Required (comma-separated)</label>
+                        <input name="hashtags_required" ng-model="post_data.hashtags_required" type="text" placeholder="#hashtag1, #hashtag2">
+                        <label style="padding-top: 5px; display: block; color: red; font-weight: bold; text-align: center">{{form.hashtags_required.errors}}</label>
+                    </fieldset>
+
+                </fieldset>
+
+                <fieldset class="typical_form three_quarter left">
+
+                    <fieldset class="typical_form halfer left">
+                        <label>Collaboration Type</label>
+                        <input id="collab_type" name="collab_type" type="hidden" >
+                        <div dropdown-select="collab_types" dropdown-model="post_data.collab_type_tmp" dropdown-onchange="updateCollabType(selected)"></div>
+                        <label style="padding-top: 5px; display: block; color: red; font-weight: bold; text-align: center">{{form.collab_type.errors}}</label>
+                    </fieldset>
+
+                    <fieldset class="typical_form halfer right">
+                        <label>Campaign date</label>
+                        <div ng-date-range bind="dateRangeModel" opens="center" class="date_range_field" {% if is_edit and form.date_start.value and form.date_end.value %}start-date="{{form.date_start.value}}" end-date="{{form.date_end.value}}"{% else %}start-date="{{ min_date}}" end-date=""{% endif %} {% if not is_edit %}min-date="{{ min_date }}"{% endif %} no-max-date=""></div>
+                        {% verbatim %}
+                        <input type="hidden" name="date_start" value="{{post_data.date_start}}" />
+                        <input type="hidden" name="date_end" value="{{post_data.date_end}}" />
+                        {% endverbatim %}
+                        {% if form.date_start.errors or form.date_end.errors %}
+                            {% if form.date_start.errors %}
+                                <label style="padding-top: 5px; width: 200px; display: block; color: red; font-weight: bold; text-align: center">{{form.date_start.errors}}</label>
+                            {% else %}
+                                <label style="padding-top: 5px; width: 200px; display: block; color: red; font-weight: bold; text-align: center">{{form.date_end.errors}}</label>
+                            {% endif %}
+                        {% endif %}
+                    </fieldset>
+
+                </fieldset>
+
+                <fieldset class="typical_form three_quarter left">
+                    
+                    <fieldset class="typical_form third left">
+                        <label>UTM Source</label>
+                        <input name="utm_source" ng-model="post_data.utm_source" type="text" placeholder="">
+                        <label style="padding-top: 5px; display: block; color: red; font-weight: bold; text-align: center">{{form.utm_source.errors}}</label>
+                    </fieldset>
+
+                    <fieldset class="typical_form third left">
+                        <label>UTM Medium</label>
+                        <input name="utm_medium" ng-model="post_data.utm_medium" type="text" placeholder="">
+                        <label style="padding-top: 5px; display: block; color: red; font-weight: bold; text-align: center">{{form.utm_medium.errors}}</label>
+                    </fieldset>
+
+                    <fieldset class="typical_form third right">
+                        <label>UTM Campaign</label>
+                        <input name="utm_campaign" ng-model="post_data.utm_campaign" type="text" placeholder="">
+                        <label style="padding-top: 5px; display: block; color: red; font-weight: bold; text-align: center">{{form.utm_campaign.errors}}</label>
+                    </fieldset>
+
+                </fieldset>
+
+                {% comment %}
+                <div id="editor" class="typical_form smaller_field" style="overflow:scroll; height: 200px;"></div>
+
+                {% endcomment %}
+
+                <fieldset class="typical_form clearit">
+                    <label>Details</label>
+                    <div name="details" wysiwyg-editor ng-model="post_data.details" tabindex="2"></div>
+
+                    <label style="padding-top: 5px; display: block; color: red; font-weight: bold; text-align: center">{{form.details.errors}}</label>
+                </fieldset>
+                <fieldset class="typical_form clearit">
+                    <label>Who Should Apply</label>
+                    <div name="who_should_apply" wysiwyg-editor ng-model="post_data.who" tabindex="2"></div>
+
+                    <label style="padding-top: 5px; display: block; color: red; font-weight: bold; text-align: center">{{form.who_should_apply.errors}}</label>
+                </fieldset>
+
+            </div>
+
+            {% comment %}
+            <div class="sect_divider"></div>
+
+            <div class="account_title">Describe your Brand</div>
+            <div class="content_wrapper clearfix">
+                <fieldset class="typical_form clearit">
+                    <label>Your style, vibe... who you are</label>
+                    <textarea name="description" rows="3" ng-model="post_data.description" class="comment_field"></textarea>
+                    <label style="display: block; color: red; font-weight: bold; text-align: center">{{form.description.errors}}</label>
+                </fieldset>
+            </div>
+            {% endcomment %}
+
+            <div class="sect_divider"></div>
+
+
+            <div class="account_title">Cover Image</div>
+            <div class="account_hint">Do you want to upload a cover image for the campaign page?</div>
+            <div class="upload_image_prev clearfix">
+                <input type="hidden" name="cover_img_url" id="cover_img_url" />
+                <div class="image_prev" ng-if="cover_img_url">
+                </div>
+                <div class="square_bt lg teal_bt cover_pic" image-upload ng-click="upload('{% url masuka.image_manipulator.upload_campaign_cover %}', '{{image_sizes.cover.0}}:{{image_sizes.cover.1}}')" no-reload success-bc="coverImageSet">
+                    <span ng-if="!cover_img_url">
+                    Upload Cover Image
+                    </span>
+                    <span ng-if="cover_img_url">
+                    Replace Cover Image
+                    </span>
+                </div>
+            </div>
+
+            <div class="sect_divider"></div>
+
+            <div class="account_title">Campaign Attachment</div>
+            <div class="account_hint">Do you want to attach pdf file to campaign page? (The file size shouldn't exceed <strong>{{ max_campaign_attachment_size|filesizeformat }}</strong>)</div>
+            <div class="upload_image_prev clearfix">
+                <label ng-if="attachmentUploadError" style="padding-top: 5px; display: block; color: red; font-weight: bold; text-align: center" ng-bind="attachmentUploadError"></label>
+                <label ng-if="uploadMessage" style="display: block; color: #00DBB9; font-weight: bold; text-align: left" ng-bind="uploadMessage"></label>
+                <input id="attach_upload" type="file" nv-file-select="" uploader="uploader" style="display: none;" accept="application/pdf"/>
+                {% if job_post.attachment_url %}
+                <a href="{{job_post.attachment_url}}" target="_blank">
+                <div class="square_bt lg teal_bt">  
+                    See current file
+                </div>
+                </a>
+                {% endif %}
+                <div class="square_bt lg teal_bt" ng-click="select_file()" ng-if="!uploader.isUploading">
+                    {% if job_post.attachment_url %}
+                    Change file
+                    {% else %}
+                    Select file
+                    {% endif %}
+                </div>
+                <div class="square_bt lg teal_bt disabled" ng-if="uploader.isUploading">
+                    {% verbatim %}
+                    Uploading: {{ uploader.queue.0.progress }}%
+                    {% endverbatim %}
+                </div>
+
+            </div>
+
+            {% comment %}
+
+            <!--div class="sect_divider"></div>
+
+            <div class="account_title">What kind of influencer would you like?</div>
+            <div class="account_hint" style="margin-bottom:40px;">Select filters to specify what type of influencer you are looking for.</div>
+            <div class="content_wrapper clearfix" style="border:1px solid #dedede; border-left:none; margin-bottom:40px;">
+                <input type="hidden" id="filter_json" name="filter_json" />
+                <div class="export_filters" target-search-filters></div>
+            </div>
+
+
+            <div class="sect_divider" id="association" style="border-top:none;"></div>
+
+            {% if visitor.user|get_setting_default_false:'enabled_collection_view' %}
+            <div class="account_title">Bind This Campaign to a Custom Collection</div>
+            <div class="account_hint" style="margin-bottom:40px;">Users tend to link campaigns to a CUSTOM Collection if they are planning on using that same set of bloggers in multiple campaigns.  By using the CUSTOM collection, you only need to create your outreach list once, instead of for each individual campaign.  If you choose not to link your campaign to a CUSTOM collection, you can simply bookmark bloggers directly to this campaign.</div>
+            <div class="content_wrapper clearfix">
+                <fieldset class="typical_form third left">
+                    <input id="collection" name="collection" type="hidden" >
+                    <div dropdown-select="collections" dropdown-model="post_data.collection_tmp" dropdown-onchange="updateCollection()"></div>
+                </fieldset>
+            </div>
+            {% endif %}
+            <!--div class="account_title" style="font-size:25px; margin-top:70px; font-weight:600;">Are you ready to publish this post?</div>
+            <div class="account_hint" style="margin-bottom:20px;">You can save it and publish the post later, or you can publish now...  which would allow bloggers to apply to the campaign.</div>
+            <div class="content_wrapper clearfix">
+                <fieldset class="typical_form clearit">
+                    <div class="cb_or_rb_wrap">
+                    <input type="checkbox" id="publish" name="published" ng-model="post_data.published" ng-checked="published" />
+                    <label for="publish" ng-click="togglePublish()">
+                        <span class="graphic plus_btn"></span>Publish post
+                    </label>
+                    </div>
+                </fieldset>
+            </div-->
+
+            {% endcomment %}
+
+
+            <div style="clear:both;">
+                <br/>
+                <br/>
+                <br/>
+                {% if job_post.published %}
+                <input type="submit" class="square_bt xl teal_bt" ng-class="{'inactive': form_errors }" value="Update" ng-disabled="form_errors" ng-click="!form_errors && save()"/>
+                {% else %}
+                <input type="submit" class="square_bt xl green_bt" value="Create Campaign Post" ng-click="saveAndPublish()" />
+                {% endif %}
+                <a href="{% url debra.job_posts_views.list_jobs %}">
+                    <div class="square_bt xl teal_bt inactive">Cancel</div>
+                </a>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+{% endblock %}

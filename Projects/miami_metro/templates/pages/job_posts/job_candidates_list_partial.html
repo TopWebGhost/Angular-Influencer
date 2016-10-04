@@ -1,0 +1,182 @@
+{% load custom_filters %}
+<div change-associations-popup url="{% url debra.job_posts_views.get_job_collection_associations job.id %}"></div>
+
+{% with job.applied_count_sql as applicants %}
+{% with job.invited_count_sql as invites %}
+<!--div class="breadcrumb_container campaign_drillin">
+    <a class="breadcrumb_nav_item" href="{% url debra.job_posts_views.list_jobs %}">
+        <span class="bread_text">All Campaigns</span>
+    </a>
+    <div class="breadcrumb_nav_item"><span class="icon-arrow_l_arr_2"></span></div>
+    <div class="breadcrumb_nav_item" href="">
+        <span class="bread_text">{{job.title}}</span>
+    </div>
+</div-->
+
+<div class="dashboard_top_section">
+    <div class="search_name_row clearfix">
+        <div class="right_header_section campaign_drill">
+            <a class="square_bt" href="{% url debra.job_posts_views.edit job.id %}" ><span>Edit Post</span></a>
+            <a class="square_bt" href="{% url debra.job_posts_views.view job.id %}"><span>View Post</span></a>
+        </div>
+        <div class="name_section">
+            <div class="page_title" style="float:left;">{{job.title}}</div>
+            <div class="campaign_extras">
+                {% if job.published %}
+                <span class="campaign_info_block">Posted : <b>{{job.date_publish|date:"F j, Y" }}</b></span>
+                {% else %}
+                <a class="campaign_info_block txt_link bright_pink" href="{% url debra.job_posts_views.edit job.id %}">Not Published</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div favorited-table id="bloggers_root" disable-routing>
+    <div class="campaign_tab_row_container" table-controls>
+        <div class="campaign_tab_row clearfix">
+            {% comment %}
+            <div class="campaign_tab" ng-class="{selected: table_mode=='all'}" ng-click="showAll()">{{invites}} Invite{{invites|pluralize}}</div>
+            <div class="campaign_tab" ng-class="{selected: table_mode=='applicants'}" ng-click="showApplicants()">{{applicants}} Applicant{{applicants|pluralize}}</div>
+            {% endcomment %}
+            <a href="{% url debra.job_posts_views.list_details_jobpost job.id 'candidates' %}"><div class="campaign_tab {% if show_candidates %}selected{% endif %}">{{invites}} Invite{{invites|pluralize}}</div></a>
+            <a href="{% url debra.job_posts_views.list_details_jobpost job.id 'applicants' %}"><div class="campaign_tab {% if show_applicants %}selected{% endif %}">{{applicants}} Applicant{{applicants|pluralize}}</div></a>
+        </div>
+    </div>
+    <div class="campaign_drillin_table">
+        {% if show_candidates and not candidates %}
+            {% comment %}
+            <div class="missing_content"  ng-show="table_mode == 'applicants' || table_mode == 'all'">
+            {% endcomment %}
+            <div class="missing_content">
+                <div class="missing_text">
+                    You haven't invited any bloggers yet for this campaign.  There are many ways to do this.  You can invite them from the Blogger Search.  You can invite them from a Collection.
+                    {% if job.collection %}
+                    &nbsp;
+                    {% else %}
+                    And you can associate this campaign to a collection, so that the bloggers in that collection show up on this page in the Favorites tab.
+                    {% endif %}
+                </div>
+                <a class="square_bt lg teal_bt" href="{% url debra.search_views.blogger_search %}">Search For Bloggers</a>
+            </div>
+        {% else %}
+
+        {% if show_applicants and not applicants %}
+            {% comment %}
+            <div class="missing_content" ng-show="table_mode == 'applicants'">
+            {% endcomment %}
+            <div class="missing_content">
+                <div class="missing_text">No one has applied to this campaign yet.</div>
+            </div>
+        {% endif %}
+        <div ng-show="table_mode == 'applicants' || table_mode == 'all'">
+            <div respond-popup no-close-outside url="{% url debra.job_posts_views.send_response %}" subject="Response from {{visitor.brand.name}}" thread="job"></div>
+            <table>
+                <tbody>
+                    {% for candidate in items %} {% with candidate.influencer as influencer %}
+                    <tr id="candidate_{{candidate.id}}" class="invited" {% if not candidate.applied_flag %}ng-hide="table_mode == 'applicants'"{% endif %}>
+
+                        <td class="first_box">
+                            <div class="influence_img" ng-click="show('{{candidate.details_url}}')">
+                                <div class="influence_img_inner">
+                                    <img class="imgfit" src="{{influencer.profile_pic}}">
+                                </div>
+                            </div>
+                            <div class="influence_info">
+                                <span class="name">{{influencer.name|unescape}}</span> <br/> <span class="of_text">of</span>&nbsp;
+                                <span class="site">
+                                    {% if visitor.base_brand.flag_show_dummy_data %}
+                                        <a class="txt_link lessergray" click-emitter="featureLocked">{{influencer.blogname|unescape}}</a>
+                                    {% else %}
+                                    <a class="txt_link lessergray" href="{{influencer.blog_url}}" target="blank">{{influencer.blogname|unescape}}</a>
+                                    {% endif %}
+                                </span><br/>
+                                <div class="follower_row">
+                                    {% if candidate.tw_fol %}<span class="icon-social_twitter"></span><span class="count"> {{candidate.tw_fol}}</span>{% endif %}
+                                    {% if candidate.ig_fol %}<span class="icon-social_instagram2"></span><span class="count"> {{candidate.ig_fol}}</span>{% endif %}
+                                    {% if candidate.fb_likes %}<span class="icon-social_facebook"></span><span class="count">{{candidate.fb_likes}}</span>{% endif %}
+                                    {% if candidate.pin_fol %}<span class="icon-social_pinterest"></span><span class="count">{{candidate.pin_fol}}</span>{% endif %}
+                                    {% if candidate.youtube_fol %}<span class="icon-social_youtube"></span><span class="count">{{candidate.youtube_fol}}</span>{% endif %}
+                                </div>
+                                <div class="influence_actions">
+                                    <!--a class="square_bt xxs gray_bt less_pad" blogger-more-info reload ng-click="show('{{candidate.details_url}}')">
+                                        <span class="icon-misc_magnify2"></span>
+                                        <span class="button_txt">View Profile</span>
+                                    </a-->
+                                    {% comment %}
+                                    <a class="square_bt xxs gray_bt less_pad" ng-click="submitDelete({{candidate.id}}, '{% url debra.job_posts_views.remove_candidate_from_campaign %}')">
+                                        <span class="icon-misc_files_trash5"></span>
+                                        <span class="button_txt">Delete</span>
+                                    </a>
+                                    {% endcomment %}
+                                </div>
+                            </div>
+                        </td>
+                        {% with candidate.emails_count_agr as emails_count %}
+                        {% with candidate.opened_count_agr as opened_count %}
+                        {% with candidate.reply_stamp_agr|common_date_format:visitor as reply_stamp %}
+                        {% with candidate.post_stamp_agr|common_date_format:visitor as post_stamp %}
+                        <td>
+                            <div class="id_status">
+                                <div class="email_subject">
+                                <a ng-click="toggleConversation({{candidate.id}}, '{{influencer.name|unescape|escapejs}}')">
+                                    {% if candidate.email_subject_agr %}
+                                    {{candidate.email_subject_agr}} ({{emails_count}} email{{emails_count|pluralize}})
+                                    {% else %}
+                                    Click to show emails
+                                    {% endif %}
+                                </a>
+                                </div>
+                            </div>
+                            <div class="id_status">
+                                <span class="status">Original sent:</span>
+                                <span class="date">{{post_stamp}}</span>
+                            </div>
+                        </td>
+                        <td class="centered_td">
+                            <div class="id_status">
+                                <span class="larger_number">{{opened_count}}</span>
+                                <span class="number_label">Open{{opened_count|pluralize}}</span>
+                            </div>
+                        </td>
+                        <td class="centered_td">
+                            <div class="id_status">
+                                <span class="larger_number">{{emails_count}}</span>
+                                <span class="number_label">Message{{emails_count|pluralize}}</span>
+                            </div>
+                        </td>
+                        <td class="centered_td">
+                            {% if reply_stamp %}
+                            <div class="id_status">
+                                <span class="date">{{reply_stamp}}</span>
+                            </div>
+                            {% endif %}
+                        </td>
+                        {% endwith %}
+                        {% endwith %}
+                        {% endwith %}
+                        {% endwith %}
+                        </td>
+                    </tr>
+                    <tr id="conversation_{{candidate.id}}" blogger-conversation thread="job" map-id="{{candidate.id}}" map="{{candidate.id}}" source="{% url debra.job_posts_views.get_conversations candidate.id 'job' %}" {% if not candidate.applied_flag %}ng-hide="table_mode == 'applicants'"{% endif %}></tr>
+                    {% endwith %}{% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% endif %}
+        <div ng-show="table_mode == 'favorites'">
+        <div respond-popup no-close-outside url="{% url debra.job_posts_views.send_response %}" subject="Response from {{visitor.brand.name}}" thread="collection"></div>
+        </div>
+    </div>
+</div>
+
+{% endwith %}
+{% endwith %}
+
+{% load paginator %}
+{% if show_candidates %}
+    {% paginator object_list=candidates request=request %}
+{% else %}
+    {% paginator object_list=applicants request=request %}
+{% endif %}

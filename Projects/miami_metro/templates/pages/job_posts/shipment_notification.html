@@ -1,0 +1,9 @@
+{% if note %}
+    {{ note|safe }}
+{% else %}
+    <p>Hey {{ influencer.first_name }}, just wanted to let you know your package is in the mail! In case you need it, here's the tracking code: {{ contract.shipment_tracking_code }}.</p>
+    <p>Would you mind doing me a quick favor? Whenever you get the package, would you mind coming back to this email and clicking the link below so that I know you have everything that you need?</p>
+    <p><a href="{{ contract.blogger_shipment_received_url }}">{{ contract.blogger_shipment_received_url }}</a></p>
+    <p>Thank you so much! That's going to really help me! And looking forward to getting started!!!</p>
+    <p>{{ user.userprofile.first_name }}</p>
+{% endif %}

@@ -1,0 +1,104 @@
+{% load custom_filters %}
+<div respond-popup no-close-outside url="{% url debra.job_posts_views.send_response %}" subject="Response from {{visitor.brand.name}}" thread="collection"></div>
+<div class="breadcrumb_container campaign_drillin">
+    <a class="breadcrumb_nav_item" href="{% url debra.search_views.saved_views_tags %}">
+        <span class="bread_text">All Tags</span>
+    </a>
+    <div class="breadcrumb_nav_item"><span class="icon-arrow_l_arr_2"></span></div>
+    <div class="breadcrumb_nav_item" href="">
+        <span class="bread_text">{{group.name}}</span>
+    </div>
+</div>
+
+<div class="page_title_section campaign_drillin" ng-controller="FavoritesCtrl">
+    <div edit-collection-popup edit-group="{% url debra.job_posts_views.edit_influencer_groups %}"></div>
+    <div class="page_title">{{group.name}}</div>
+    <div class="campaign_extras"></div>
+</div>
+
+<div favorited-table id="bloggers_root" influencers="[{% for influencer in influencers %}{{ influencer.influencer.id }}{% if not forloop.last %},{% endif %}{% endfor %}]">
+    <div class="campaign_drillin_table">
+        {% if not influencers %}
+        <div class="missing_content">
+            <div class="missing_text">You haven't selected any bloggers yet for this campaign. You can use the blogger Search Engine to find relevant bloggers for your campaign. Save them as favorites, and then they will show up here for you to send them invite.</div>
+            <a class="square_bt lg teal_bt" href="{% url debra.search_views.blogger_search %}">search engine</a>
+        </div>
+        {% else %}
+
+        {% if not applicants %}
+        <div class="missing_content" ng-if="mode == 'applicants'">
+            <div class="missing_text">No one has applied to this campaign yet. If you'd like to invite people to your campaign, you can use our blogger Search Engine to find relevant bloggers for your campaign. Save them as favorites, and then they will show up in the Favorites tab for you to send them invite.</div>
+            <a class="square_bt lg teal_bt" href="{% url debra.search_views.blogger_search %}">search engine</a>
+        </div>
+        {% endif %}
+        <div style="margin: 10px; position: fixed; top: 20px; right: 20px;">
+            <button class="square_bt md teal_bt" ng-click="doOpenFavoritePopup({influencers: influencer, groups: '{{ groups_list }}'})">
+                <span class="follow icon-misc_value_star2"></span>
+                <span>Tag</span>
+            </button>
+        </div>
+        <table>
+            <tbody>
+                {% for influencer in influencers %}
+                <tr admin-influencer-row influencer-id="{{ influencer.influencer.id }}" save-url="{% url debra.job_posts_views.set_influencer_groups %}" id="mapping_{{influencer.influencer.id}}" class="favorited {% if influencer.status == 5 %}applied{% endif %}">
+
+                    <td class="first_box" style="width: 400px;">
+                        <div class="influence_img" ng-click="show('{{influencer.details_url}}')">
+                            <div class="influence_img_inner" style="width: 125px; height: 125px;">
+                                <img class="imgfit" src="{{influencer.influencer.profile_pic_url}}" style="width: 125px;">
+                            </div>
+                        </div>
+
+                        <div class="influence_info">
+                            <span class="name">{{influencer.influencer.name|unescape|default:"N/A"|safe}}</span>&nbsp;
+                            <input type="checkbox" class="cb_or_rb_wrap" ng-model="id_to_influencer[{{ influencer.influencer.id }}].selected" /> <br/> <span class="of_text">of</span>&nbsp;
+                            <span class="site"><a class="txt_link lessergray" href="{{influencer.influencer.blog_url}}" target="blank">{{influencer.influencer.blogname|unescape|safe}}</a></span><br/>
+                            <div class="site" style="padding-top: 3px;">
+                                <span>{{ influencer.influencer.demographics_location|default_if_none:"N/A" }}</span>
+                                <span class="site" style="padding-left: 10px;">{{ influencer.influencer.average_num_posts|floatformat:"0"|default_if_none:"?" }}/m</span>
+                            </div>
+                            <div class="follower_row">
+                                {% if influencer.tw_fol %}<span class="icon-social_twitter"></span><span class="count"> {{influencer.tw_fol}}</span>{% endif %}
+                                {% if influencer.ig_fol %}<span class="icon-social_instagram2"></span><span class="count"> {{influencer.ig_fol}}</span>{% endif %}
+                                {% if influencer.fb_likes %}<span class="icon-social_facebook"></span><span class="count">{{influencer.fb_likes}}</span>{% endif %}
+                                {% if influencer.pin_fol %}<span class="icon-social_pinterest"></span><span class="count">{{influencer.pin_fol}}</span>{% endif %}
+                                {% if influencer.youtube_fol %}<span class="icon-social_youtube"></span><span class="count">{{influencer.youtube_fol}}</span>{% endif %}
+                            </div>
+                            <div class="influence_actions">
+                                <!--a class="square_bt xxs gray_bt less_pad" blogger-more-info reload ng-click="show('{{influencer.details_url}}')">
+                                    <span class="icon-misc_magnify2"></span>
+                                    <span class="button_txt">View Profile</span>
+                                </a-->
+                                <a class="square_bt xxs gray_bt less_pad" ng-click="submitDelete({{influencer.influencer.id}}, {{ group.id }}, '{% url debra.job_posts_views.remove_influencer_from_groups %}')">
+                                    <span class="icon-misc_files_trash5"></span>
+                                    <span class="button_txt">Delete</span>
+                                </a>
+                            </div>
+                        </div>
+                    </td>
+
+                    <td>
+                        <div admin-influencer-groups groups="{{ influencer.all_groups_json }}"></div>
+                    </td>
+                    <td style="width: 100px; padding-left: 29px;">
+                        <div ng-hide="status.saving">
+                            <button class="square_bt md teal_bt" ng-class="{inactive: !status.dirty}" ng-disabled="!status.dirty" ng-click="done()">Done</button>
+                            <button class="square_bt md teal_bt" ng-class="{inactive: !status.dirty}" ng-disabled="!status.dirty" ng-click="clear()">Clear</button>
+                        </div>
+                        <div ng-show="status.saving">
+<!--                             <div class="co_loader_non_ajax" style="top: 205px; position: relative">
+    <ul class="bokeh"><li></li><li></li><li></li><li></li></ul>
+</div> -->
+                            <div main-loader style="top: 205px; position: relative"></div>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% endif %}
+    </div>
+</div>
+
+{% load paginator %}
+{% paginator object_list=influencers request=request %}

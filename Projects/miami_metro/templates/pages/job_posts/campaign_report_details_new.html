@@ -1,0 +1,1879 @@
+{% extends 'pages/job_posts/base.html' %}
+{% load compressed %}
+{% load custom_filters %}
+
+{% block title %}Campaign Report | connecting top fashion bloggers and brands{% endblock %}
+{% block body_class %}lt_gray_bg{% endblock %}
+
+{% block main_controller %}ng-controller="PostAnalyticsCtrl"{% endblock main_controller %}
+
+{% block extra_dc_class %}{% if landing_page %}no_sidebar actions_always_visible{% endif %}{% endblock extra_dc_class %}
+
+{% block bottom_js %}
+{% compressed_js 'angular_saved_searches' %}
+{% if section == 'campaign_overview' %}
+    {% compressed_js 'campaign_overview' %}
+{% endif %}
+<script type="text/javascript">
+(function(){
+angular.module("theshelf")
+    .value('nav_config', {
+        tab: "{{selected_tab}}",
+        sub_tab: "{{sub_page}}",
+        visible: {% if hide_sidenav %}false{% else %}true{% endif %},
+    })
+    .value('dashboard_brand', null);
+})();
+</script>
+{% include 'snippets/sticky_headers_js.html' with table_body_wrapper=".table-body" table_header_wrapper=".table-header" %}
+{% endblock %}
+
+{% block extra_directives %}
+    {% comment %}
+    <div blogger-approval-popup
+        client-approval-invite-url="{% url debra.search_views.client_approval_invite_send report.id %}"
+        approval-status-change-url="{% url debra.search_views.blogger_approval_status_change brand_id report.id user_id %}"
+    ></div>
+    {% endcomment %}
+    <div invite-to-report-popup url=''></div>
+{% endblock extra_directives %}
+
+{% block search_content %}
+    <div id="bloggers_root" resize ng-controller="TableCtrl as tableCtrl">
+
+        {% if not landing_page %}
+            <div class="campaign_tab_row_container" affixed>
+                <div class="campaign_tab_row clearfix">
+                    {% for key, section in campaign_switcher.sections %}
+                        {% if section.visible %}
+                            <a href="{{ section.url }}">
+                                <div class="campaign_tab{% if section.selected %} selected{% endif %}">{{ section.text }}</div>
+                            </a>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+
+        <!-- THIS ENTIRE DIV I ADDED. I COPIED IT FROM THE BLOGGER'S DASHBAORD. BUT IT WILL NEED TO BE INTEGRATED WITH YOUR CODE -->
+        <!-- THIS ENTIRE DIV I ADDED. I COPIED IT FROM THE BLOGGER'S DASHBAORD. BUT IT WILL NEED TO BE INTEGRATED WITH YOUR CODE -->
+        <!-- THIS ENTIRE DIV I ADDED. I COPIED IT FROM THE BLOGGER'S DASHBAORD. BUT IT WILL NEED TO BE INTEGRATED WITH YOUR CODE -->
+        <!-- THIS ENTIRE DIV I ADDED. I COPIED IT FROM THE BLOGGER'S DASHBAORD. BUT IT WILL NEED TO BE INTEGRATED WITH YOUR CODE -->
+        <!-- THIS ENTIRE DIV I ADDED. I COPIED IT FROM THE BLOGGER'S DASHBAORD. BUT IT WILL NEED TO BE INTEGRATED WITH YOUR CODE -->
+        <!-- THIS ENTIRE DIV I ADDED. I COPIED IT FROM THE BLOGGER'S DASHBAORD. BUT IT WILL NEED TO BE INTEGRATED WITH YOUR CODE -->
+        <div class="reporting_page_image">
+            <div class="prof_block">
+                <div class="prof_bg frame">
+                    <div {% if campaign.cover_img_url %}bg-image="{{ campaign.cover_img_url }}?rand={{ rand }}"{% else %}bg-image="https://s3.amazonaws.com/theshelf-email-marketing-images/site/home/new_home_sept_2015/headers/misc_headers/misc_header_floral.jpg"{% endif %} class="generic_cover_img{% if not campaign.info_json.cover_image_blur_off %} css_blur{% endif %}"></div>
+                    {% comment %}
+                    <img {% if campaign.cover_img_url %}src="{{ campaign.cover_img_url }}?rand={{ rand }}"{% else %}src="https://s3.amazonaws.com/theshelf-email-marketing-images/site/home/new_home_sept_2015/headers/misc_headers/misc_header_floral.jpg"{% endif %} class="nav_cover_img{% if not campaign.info_json.cover_image_blur_off %} css_blur{% endif %}" alt="cover image" />
+                    {% endcomment %}
+                    <div class="prof_content">
+                        {% if campaign.profile_img_url %}
+                            <div class="prof_circ pic_upload">
+                                <img class="" src="{{ campaign.profile_img_url }}?rand={{ rand }}" alt="profile image" /> 
+                            </div>
+                        {% else %}
+                            <div class="prof_circ default">
+                                <div class="text_logo">{{ campaign.client_name|default_if_none:"---" }}</div>
+                            </div>
+                        {% endif %}
+                        <div class="prof_info">
+                            <h1 class="prof_title white one_line">
+                                <span class="cover_main_title">{{ campaign.client_name|default_if_none:"---" }}</span>
+                                <span class="cover_secondary_title">{{ campaign.title }}</span>
+                                <span class="cover_data">influencers: <strong>{{ influencers_count }}</strong></span> &nbsp; &nbsp;
+                            </h1>
+                        </div>
+                        {% if not landing_page %}
+                            <div class="follow_prof">
+                                
+                                <a broadcaster class="simple_follow_btn square_bt on_teal sm less_pad italic_version" ng-click="$event.preventDefault(); $event.stopPropagation(); broadcasterCtrl.broadcast('openInviteToReportPopup', {clientLink: '{{ public_link }}', campaignName: '{{ campaign.title|default_if_none:""|escapejs }}'})">Submit To Client</a>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- I'M TURNING THIS OFF BECAUSE I'M PUTTING IT INTO THAT COVER IMAGE. BUT CHECK TO MAKE SURE THAT I DIDN'T MISS SOMETHING BECAUSE I'M NOT REALLY SURE WHAT ALL OF THIS CODE DOES. -->
+        <!-- 
+        <div class="dashboard_top_section transparent_bar">
+            <div class="search_name_row clearfix">
+
+                <div class="name_section" {% if landing_page %}{% endif %}>
+                    <div class="page_title">
+                        <span class="brand_name">
+                        {% if campaign.client_name %}<strong>{{ campaign.client_name }}</strong> : {% endif %}
+                        <span>{{ campaign.title }} : {{ campaign_switcher.selected_section.text }}</span></span>
+                        <span class="info">influencers: {{ influencers_count }}</span> &nbsp; &nbsp;
+                        {% if not landing_page %}
+                            <a broadcaster class="square_bt dashboard_btn gray_bt xs rounded_bt" ng-click="$event.preventDefault(); $event.stopPropagation(); broadcasterCtrl.broadcast('openInviteToReportPopup', {clientLink: '{{ public_link }}', campaignName: '{{ campaign.title|default_if_none:""|escapejs }}'})">Submit To Client</a>
+                        {% endif %}
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        -->
+
+        <div class="dashboard_top_controls pipeline_controls clearfix" {% if landing_page %}style="position:relative; z-index:2;"{% endif %}>
+            <div class="dashboard_row_section deprecated_filters new_reporting">
+                {% for key, section in sections.items %}
+                    <a href="{% if hash_key %}{% url debra.job_posts_views.campaign_report campaign.id key hash_key %}{% else %}{% url debra.job_posts_views.campaign_report campaign.id key %}{% endif %}">
+                        <button class="filter_button {% if section.selected %} selected{% endif %}">
+                            <span>{{ section.text }}</span>
+                        </button>
+                    </a>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="dashboard_top_controls sub_stage_counts clearfix"  {% if landing_page %}style="position:relative; z-index:2;"{% endif %}>
+            {% if section != 'campaign_overview' %}
+                <!-- <span class="mini_title">View Posts</span> -->
+                {% for post_type in post_types %}
+                    {% if post_type.count > 0 %}
+                        <a href="{% if post_type.value %}?post_type={{ post_type.value }}{% else %}.{% endif %}" {% if post_type.class %}class="{{ post_type.class }}"{% endif %}>
+                            <button class="sub_filter_button{% if post_type.selected %} selected{% endif %}">
+                                <span>{{ post_type.text }} - {{ post_type.count }}</span>
+                            </button>
+                        </a>
+                    {% endif %}
+                {% endfor %}
+                {% comment %}
+                    <span class="mini_title" style="margin-left: 50px;">Actions</span>
+                    <a class="square_bt gray_bt sm rounded_bt" href="{% url debra.search_views.post_analytics_collection_edit campaign.post_collection_id %}" target="_blank">Add Post</a>
+                    <a class="square_bt gray_bt sm rounded_bt" href="{% url debra.dataexport_views.export_campaign_report_view campaign.id %}" target="_blank">Export</a>
+                    <a class="square_bt gray_bt sm rounded_bt" href="" target="_blank">Invite Client</a>
+                {% endcomment %}
+            {% endif %}
+        </div>
+
+        {% if section == 'campaign_overview' %}
+            <div campaign-overview class="aggregate_campaign_analytics_rep no_bot_bord" campaign-id="{{ campaign.id }}">
+                
+                <!-- MAIN PROGRESS SECTION -->
+                <!-- MAIN PROGRESS SECTION -->
+                <!-- MAIN PROGRESS SECTION -->
+                <!-- MAIN PROGRESS SECTION -->
+                <!-- MAIN PROGRESS SECTION -->
+                <div class="aggregate_campaign_analytics_section">
+                    <div class="rep_row_content">
+                        <div class="rep_row_title">Campaign Progress</div>
+                    </div>
+
+                    {% verbatim %}
+
+                    <div class="rep_row_content w_flex_stretch">
+                            <!-- BlogStatus section -------------------------------------------------------------------------->
+                            <!-- BlogStatus section -------------------------------------------------------------------------->
+                            <!-- BlogStatus section -------------------------------------------------------------------------->
+                            <!-- BlogStatus section -------------------------------------------------------------------------->
+                        <div class="main_content_block rep_flex_block rep_highlevel_progress_block social_globe3" ng-repeat="item in BlogStatus.data" ng-hide="BlogStatus.loading">
+                            <div class="rep_corn_icon1" style="background: {{ item.blockColor }};"><span class="{{ item.iconTitle }}"></span></div>
+                            <div class="rep_pie_chart_container rep_chart_container">
+                                <div class="rep_fake">
+                                    <c3chart bindto-id="donutChart{{ item.idNum }}" >
+                                        <chart-column column-id="donutChart{{ item.idNum }}1"
+                                                      column-values="{{ 100 - item.percent }}"
+                                                      column-color="#cdcdcd"
+                                                      column-type="donut" />
+                                        <chart-column column-id="donutChart{{ item.idNum }}2"
+                                                      column-values="{{ item.percent }}"
+                                                      column-color="{{ item.blockColor }}"
+                                                      column-type="donut" />
+                                        <chart-legend show-legend="false"/>
+                                        <chart-size chart-width="110" chart-height="110"/>
+                                        <chart-donut width="10" show-label="false" title="{{ item.percent | number:1 }}%"/>
+                                    </c3chart>
+                                </div>
+                            </div>
+                            <div class="rep_fraction">{{ item.totalPostsGone }} / {{ item.totalPostsRequired }}</div>
+                            <div class="rep_fraction_title">{{ item.platformName }} Posts</div>
+                            <div class="outer-center1">
+                                <div class="rep_inf_row inner-center" >
+                                    <div class="rep_inf_in_row" ng-repeat="influencer in BlogRandomInfluencers.data"  data-toggle="tooltip" data-placement="top" data-original-title="{{ influencer.name }}">
+                                        <a href="{{ influencer.pic }}" target="_blank">
+                                            <img src="{{ influencer.pic }}"/>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="main_content_block rep_flex_block rep_highlevel_progress_block social_globe3" ng-show="BlogStatus.loading" main-loader ></div>
+                            <!------------------------------------------------------------------------------------------------->
+                            <!------------------------------------------------------------------------------------------------->
+                            <!------------------------------------------------------------------------------------------------->
+                            <!------------------------------------------------------------------------------------------------->
+
+                            <!-- InstagramStatus section -------------------------------------------------------------------------->
+                            <!-- InstagramStatus section -------------------------------------------------------------------------->
+                            <!-- InstagramStatus section -------------------------------------------------------------------------->
+                            <!-- InstagramStatus section -------------------------------------------------------------------------->
+
+                        <div class="main_content_block rep_flex_block rep_highlevel_progress_block social_globe3"  ng-repeat="item in InstagramStatus.data" ng-hide="InstagramStatus.loading">
+                            <div class="rep_corn_icon1" style="background: {{ item.blockColor }};"><span class="{{ item.iconTitle }}"></span></div>
+                            <div class="rep_pie_chart_container rep_chart_container">
+                                <div class="rep_fake">
+                                    <c3chart bindto-id="donutChart{{ item.idNum }}" >
+                                        <chart-column column-id="donutChart{{ item.idNum }}1"
+                                                      column-values="{{ 100 - item.percent }}"
+                                                      column-color="#cdcdcd"
+                                                      column-type="donut" />
+                                        <chart-column column-id="donutChart{{ item.idNum }}2"
+                                                      column-values="{{ item.percent }}"
+                                                      column-color="{{ item.blockColor }}"
+                                                      column-type="donut" />
+                                        <chart-legend show-legend="false"/>
+                                        <chart-size chart-width="110" chart-height="110"/>
+                                        <chart-donut width="10" show-label="false" title="{{ item.percent | number:1 }}%"/>
+                                    </c3chart>
+                                </div>
+                            </div>
+                            <div class="rep_fraction">{{ item.totalPostsGone }} / {{item.totalPostsRequired}}</div>
+                            <div class="rep_fraction_title">{{ item.platformName }} Posts</div>
+                            <div class="outer-center1">
+                                <div class="rep_inf_row inner-center" >
+                                    <div class="rep_inf_in_row" ng-repeat="influencer in InstagramRandomInfluencers.data"  data-toggle="tooltip" data-placement="top" data-original-title="{{ influencer.name }}">
+                                        <a href="{{ influencer.pic }}" target="_blank">
+                                            <img src="{{ influencer.pic }}"/>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="main_content_block rep_flex_block rep_highlevel_progress_block social_globe3" ng-show="InstagramStatus.loading" main-loader ></div>
+                            <!------------------------------------------------------------------------------------------------->
+                            <!------------------------------------------------------------------------------------------------->
+                            <!------------------------------------------------------------------------------------------------->
+                            <!------------------------------------------------------------------------------------------------->
+
+                            <!-- FacebookStatus section -------------------------------------------------------------------------->
+                            <!-- FacebookStatus section -------------------------------------------------------------------------->
+                            <!-- FacebookStatus section -------------------------------------------------------------------------->
+                            <!-- FacebookStatus section -------------------------------------------------------------------------->
+
+                        <div class="main_content_block rep_flex_block rep_highlevel_progress_block social_globe3"  ng-repeat="item in FacebookStatus.data"  ng-hide="FacebookStatus.loading">
+                            <div class="rep_corn_icon1" style="background: {{ item.blockColor }};"><span class="{{ item.iconTitle }}"></span></div>
+                            <div class="rep_pie_chart_container rep_chart_container">
+                                <div class="rep_fake">
+                                    <c3chart bindto-id="donutChart{{ item.idNum }}" >
+                                        <chart-column column-id="donutChart{{ item.idNum }}1"
+                                                      column-values="{{ 100 - item.percent }}"
+                                                      column-color="#cdcdcd"
+                                                      column-type="donut" />
+                                        <chart-column column-id="donutChart{{ item.idNum }}2"
+                                                      column-values="{{ item.percent }}"
+                                                      column-color="{{ item.blockColor }}"
+                                                      column-type="donut" />
+                                        <chart-legend show-legend="false"/>
+                                        <chart-size chart-width="110" chart-height="110"/>
+                                        <chart-donut width="10" show-label="false" title="{{ item.percent | number:1 }}%"/>
+                                    </c3chart>
+                                </div>
+                            </div>
+                            <div class="rep_fraction">{{ item.totalPostsGone }} / {{item.totalPostsRequired}}</div>
+                            <div class="rep_fraction_title">{{ item.platformName }} Posts</div>
+                            <div class="outer-center1">
+                                <div class="rep_inf_row inner-center" >
+                                    <div class="rep_inf_in_row" ng-repeat="influencer in InstagramRandomInfluencers.data"  data-toggle="tooltip" data-placement="top" data-original-title="{{ influencer.name }}">
+                                        <a href="{{ influencer.pic }}" target="_blank">
+                                            <img src="{{ influencer.pic }}"/>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="main_content_block rep_flex_block rep_highlevel_progress_block social_globe3" ng-show="FacebookStatus.loading" main-loader ></div>
+                            <!------------------------------------------------------------------------------------------------->
+                            <!------------------------------------------------------------------------------------------------->
+                            <!------------------------------------------------------------------------------------------------->
+                            <!------------------------------------------------------------------------------------------------->
+
+                            <!-- TwitterStatus section -------------------------------------------------------------------------->
+                            <!-- TwitterStatus section -------------------------------------------------------------------------->
+                            <!-- TwitterStatus section -------------------------------------------------------------------------->
+                            <!-- TwitterStatus section -------------------------------------------------------------------------->
+
+                        <div class="main_content_block rep_flex_block rep_highlevel_progress_block social_globe3"  ng-repeat="item in TwitterStatus.data" ng-hide="TwitterStatus.data.loading">
+                            <div class="rep_corn_icon1" style="background: {{ item.blockColor }};"><span class="{{ item.iconTitle }}"></span></div>
+                            <div class="rep_pie_chart_container rep_chart_container">
+                                <div class="rep_fake">
+                                    <c3chart bindto-id="donutChart{{ item.idNum }}" >
+                                        <chart-column column-id="donutChart{{ item.idNum }}1"
+                                                      column-values="{{ 100 - item.percent }}"
+                                                      column-color="#cdcdcd"
+                                                      column-type="donut" />
+                                        <chart-column column-id="donutChart{{ item.idNum }}2"
+                                                      column-values="{{ item.percent }}"
+                                                      column-color="{{ item.blockColor }}"
+                                                      column-type="donut" />
+                                        <chart-legend show-legend="false"/>
+                                        <chart-size chart-width="110" chart-height="110"/>
+                                        <chart-donut width="10" show-label="false" title="{{ item.percent | number:1 }}%"/>
+                                    </c3chart>
+                                </div>
+                            </div>
+                            <div class="rep_fraction">{{ item.totalPostsGone }} / {{item.totalPostsRequired}}</div>
+                            <div class="rep_fraction_title">{{ item.platformName }} Posts</div>
+                            <div class="outer-center1">
+                                <div class="rep_inf_row inner-center" >
+                                    <div class="rep_inf_in_row" ng-repeat="influencer in TwitterRandomInfluencers.data"  data-toggle="tooltip" data-placement="top" data-original-title="{{ influencer.name }}">
+                                        <a href="{{ influencer.pic }}" target="_blank">
+                                            <img src="{{ influencer.pic }}"/>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="main_content_block rep_flex_block rep_highlevel_progress_block social_globe3" ng-show="TwitterStatus.loading" main-loader ></div>
+                            <!------------------------------------------------------------------------------------------------->
+                            <!------------------------------------------------------------------------------------------------->
+                            <!------------------------------------------------------------------------------------------------->
+                            <!------------------------------------------------------------------------------------------------->
+
+                            <!-- PinterestStatus section -------------------------------------------------------------------------->
+                            <!-- PinterestStatus section -------------------------------------------------------------------------->
+                            <!-- PinterestStatus section -------------------------------------------------------------------------->
+                            <!-- PinterestStatus section -------------------------------------------------------------------------->
+
+                        <div class="main_content_block rep_flex_block rep_highlevel_progress_block social_globe3"   ng-repeat="item in PinterestStatus.data" ng-hide="PinterestStatus.loading">
+                            <div class="rep_corn_icon1" style="background: {{ item.blockColor }};"><span class="{{ item.iconTitle }}"></span></div>
+                            <div class="rep_pie_chart_container rep_chart_container">
+                                <div class="rep_fake">
+                                    <c3chart bindto-id="donutChart{{ item.idNum }}" >
+                                        <chart-column column-id="donutChart{{ item.idNum }}1"
+                                                      column-values="{{ 100 - item.percent }}"
+                                                      column-color="#cdcdcd"
+                                                      column-type="donut" />
+                                        <chart-column column-id="donutChart{{ item.idNum }}2"
+                                                      column-values="{{ item.percent }}"
+                                                      column-color="{{ item.blockColor }}"
+                                                      column-type="donut" />
+                                        <chart-legend show-legend="false"/>
+                                        <chart-size chart-width="110" chart-height="110"/>
+                                        <chart-donut width="10" show-label="false" title="{{ item.percent | number:1 }}%"/>
+                                    </c3chart>
+                                </div>
+                            </div>
+                            <div class="rep_fraction">{{ item.totalPostsGone }} / {{item.totalPostsRequired}}</div>
+                            <div class="rep_fraction_title">{{ item.platformName }} Posts</div>
+                            <div class="outer-center1">
+                                <div class="rep_inf_row inner-center" >
+                                    <div class="rep_inf_in_row" ng-repeat="influencer in PinterestRandomInfluencers.data"  data-toggle="tooltip" data-placement="top" data-original-title="{{ influencer.name }}">
+                                        <a href="{{ influencer.pic }}" target="_blank">
+                                            <img src="{{ influencer.pic }}"/>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="main_content_block rep_flex_block rep_highlevel_progress_block social_globe3" ng-show="PinterestStatus.loading" main-loader ></div>
+                            <!------------------------------------------------------------------------------------------------->
+                            <!------------------------------------------------------------------------------------------------->
+                            <!------------------------------------------------------------------------------------------------->
+                            <!------------------------------------------------------------------------------------------------->
+                    </div>
+
+                    {% endverbatim %}
+
+
+                </div>
+
+
+
+
+
+
+                <!-- MAIN HIGHLEVEL OVERVIEW SECTION -->
+                <!-- MAIN HIGHLEVEL OVERVIEW SECTION -->
+                <!-- MAIN HIGHLEVEL OVERVIEW SECTION -->
+                <!-- MAIN HIGHLEVEL OVERVIEW SECTION -->
+                <!-- MAIN HIGHLEVEL OVERVIEW SECTION -->
+                <div class="aggregate_campaign_analytics_section">
+                    <div class="rep_row_content">
+                        <div class="rep_row_title">Highlevel Campaign Details</div>
+                    </div>
+                    <div class="rep_row_content w_flex_stretch">
+                        <!-- location -->
+                        <!-- location -->
+                        <!-- location -->
+                        <div class="main_content_block rep_flex_block influencer_location">
+                            <div class="block_header clearfix">
+                                <div class="block_title">Influencer Locations</div>
+                                <div class="block_desc">View the locations of all influencers who have posted for this campaign.</div>
+                            </div>
+                            <div ng-hide="campaignMap.loading">
+                                <div id="campaignMapContainer" style="position: relative;"></div>
+                            </div>
+                            <div ng-show="campaignMap.loading" main-loader class=""></div>
+                        </div>
+
+                        <!-- Total Impressions -->
+                        <!-- Total Impressions -->
+                        <!-- Total Impressions -->
+                        <div class="main_content_block rep_flex_block total_impressions">
+                            <div class="block_header clearfix">
+                                <div class="block_title">Total Impressions</div>
+                                <div class="block_desc">View the total impressions and growth across the course of the campaign.</div>
+                            </div>
+                            {% verbatim %}
+                            <div class="rep_chart_container">
+                                <div class="rep_fake" ng-hide="CumulativeImpressionsTimeSeries.loading" ng-repeat="item in CumulativeImpressionsTimeSeries.data">
+                                    <div class="rep_chart_block">
+                                        <c3chart bindto-id="lineAreaChart" padding-right="20" padding-left="20">
+                                            <chart-column column-id="x1"
+                                                          column-values="{{ item.date }}"/>
+                                            <chart-column column-id="areaBlog1"
+                                                          column-name="Cumulative Impressions"
+                                                          column-color="#aaaaaa"
+                                                          column-values="{{ item.count }}"
+                                                          column-type="area"/>
+                                            <!--
+                                            <chart-column column-id="areaFacebook1"
+                                                          column-name="Facebook"
+                                                          column-color="#5b99fc"
+                                                          column-values="13000,20500,36000,48800,60000"
+                                                          column-type="area"/>
+                                            <chart-column column-id="areaTwitter1"
+                                                          column-name="Twitter"
+                                                          column-color="#6fe2e5"
+                                                          column-values="110000,120000,130000,140000,150000"
+                                                          column-type="area"/>
+                                            <chart-column column-id="areaInstagram1"
+                                                          column-name="Instagram"
+                                                          column-color="#fcc862"
+                                                          column-values="40000,56000,67000,68000,80000"
+                                                          column-type="area"/>
+                                            <chart-column column-id="areaPinterest1"
+                                                          column-name="Pinterest"
+                                                          column-color="#f85f71"
+                                                          column-values="11000,21000,38000,49000,50000"
+                                                          column-type="area"/>
+                                                          -->
+                                            <chart-legend show-legend="false"/>
+                                            <chart-size chart-width="320" chart-height="300"/>
+                                            <chart-points show-point="true"/>
+                                            <chart-axes values-x="x1"/>
+                                            <chart-axis>
+                                                <chart-axis-x show="true" axis-type="timeseries" axis-x-format="%Y-%m-%d" axis-min="{{ item.minDate }}" axis-max="{{ item.maxDate }}">
+                                                    <chart-axis-x-tick tick-format-time="%Y-%m-%d" tick-outer="false" tick-fit="false" tick-count="4"/>
+                                                </chart-axis-x>
+                                                <chart-axis-y show="ture" axis-inner="true">
+                                                    <chart-axis-y-tick tick-format="," tick-outer="false" tick-fit="false" />
+                                                </chart-axis-y>
+                                            </chart-axis>
+                                        </c3chart>
+                                    </div>
+                                </div>
+                                <div ng-show="CumulativeImpressionsTimeSeries.loading" main-loader class="block_content"></div>
+                            </div>
+                            {% endverbatim %}
+                        </div>
+
+                        <!-- Total Engagements -->
+                        <!-- Total Engagements -->
+                        <!-- Total Engagements -->
+                        <div class="main_content_block rep_flex_block total_engagements">
+                            <div class="block_header clearfix">
+                                <div class="block_title">Total Engagements</div>
+                                <div class="block_desc">View the total engagements and growth across the course of the campaign.</div>
+                            </div>
+                            <div class="rep_chart_container">
+                                <div class="rep_fake">
+                                    {% verbatim %}
+                                    <div class="rep_chart_block" ng-hide="TotalEngagements.loading" ng-repeat="item in TotalEngagements.data">
+                                        <c3chart bindto-id="lineAreaChart2" padding-right="20" padding-left="20">
+                                            <chart-column column-id="x2"
+                                                          column-values="{{ item.date }}"/>
+                                            <chart-column column-id="t-eng"
+                                                          column-name="Total Engagements"
+                                                          column-color="#aaaaaa"
+                                                          column-values="{{ item.count }}"
+                                                          column-type="area"/>
+<!--
+                                            <chart-column column-id="areaFacebook2"
+                                                          column-name="Facebook"
+                                                          column-color="#5b99fc"
+                                                          column-values="13000,20500,36000,48800,60000"
+                                                          column-type="area"/>
+                                            <chart-column column-id="areaTwitter2"
+                                                          column-name="Twitter"
+                                                          column-color="#6fe2e5"
+                                                          column-values="110000,120000,130000,140000,150000"
+                                                          column-type="area"/>
+                                            <chart-column column-id="areaInstagram2"
+                                                          column-name="Instagram"
+                                                          column-color="#fcc862"
+                                                          column-values="40000,56000,67000,68000,80000"
+                                                          column-type="area"/>
+                                            <chart-column column-id="areaPinterest2"
+                                                          column-name="Pinterest"
+                                                          column-color="#f85f71"
+                                                          column-values="11000,21000,38000,49000,50000"
+                                                          column-type="area"/>-->
+                                            <chart-legend show-legend="false"/>
+                                            <chart-size chart-width="320" chart-height="300"/>
+                                            <chart-points show-point="true"/>
+                                            <chart-axes values-x="x2"/>
+                                            <chart-axis>
+                                                <chart-axis-x show="true" axis-type="timeseries" axis-x-format="%Y-%m-%d" axis-min="{{ item.minDate }}" axis-max="{{ item.maxDate }}">
+                                                    <chart-axis-x-tick tick-format-time="%Y-%m-%d" tick-outer="false" tick-fit="false" tick-count="5"/>
+                                                </chart-axis-x>
+                                                <chart-axis-y show="ture" axis-inner="true">
+                                                    <chart-axis-y-tick tick-format="," tick-outer="false" tick-fit="true" />
+                                                </chart-axis-y>
+                                            </chart-axis>
+                                        </c3chart>
+                                    </div>
+                                    <div ng-show="TotalEngagements.loading" main-loader class="block_content"></div>
+                                    {% endverbatim %}
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- engagement -->
+                    <!-- engagement -->
+                    <!-- engagement -->
+                    <!--
+                    <div class="rep_row_content">
+                        <div class="main_content_block rep_flex_block engagement_timeline">
+                            <div class="block_header clearfix">
+                                <div class="block_title">Engagement Timeline</div>
+                                <div class="block_desc">Distribution of posting dates across platforms. Hover over circles to view influencers.</div>
+                            </div>
+                            {% verbatim %}
+
+                            <div ng-hide="BlogEngagementTimeline.loading" class="rep_chart_container">
+                                <div class="rep_fake">
+                                    <div class="rep_chart_block" ng-repeat="item in engagementTimeline.data">
+                                        <div class="rep_block_name" style="color: {{ item.blockColor }}">{{ item.eventType }}</div>
+                                        <div id="BbChart{{ item.eventType }}"></div>
+
+                                        <c3chart bindto-id="scatterChart{{ item.idNum }}">
+                                            <chart-column column-id="point{{ item.idNum }}"
+                                                          column-name="{{ item.eventType }}"
+                                                          column-color="{{ item.blockColor }}"
+                                                          column-values="{{ item.yValue }}"
+                                                          column-type="scatter"/>
+                                            <chart-column column-id="point{{ item.idNum }}_x"
+                                                          column-values="{{ item.xDate }}"/>
+                                            <chart-legend show-legend="false"/>
+                                            <chart-size chart-width="{{ responsiveWidth2 }}" chart-height="40"/>
+                                            <chart-points show-point="true" point-radius="10"/>
+                                            <chart-axes values-x="point{{ item.idNum }}_x" values-Xs="point{{ item.idNum }}:point{{ item.idNum }}_x"/>
+                                            <chart-axis>
+                                                <chart-axis-x show="false" axis-type="timeseries" axis-x-format="%Y-%m-%d">
+                                                    <chart-axis-x-tick tick-format-time="%Y-%m-%d"/>
+                                                </chart-axis-x>
+                                                <chart-axis-y show="false" padding-top="25">
+                                                </chart-axis-y>
+                                            </chart-axis>
+                                        </c3chart>
+                                    </div>
+                                    <div class="rep_chart_block">
+                                        <div class="rep_block_name" style="color: #aaaaaa;">Blog</div>
+                                        <div id="BbChartBlog"></div>
+                                    </div>
+                                    <div class="rep_chart_block">
+                                        <div class="rep_block_name" style="color: #fcc862;">Instagram</div>
+                                        <div id="BbChartInstagram"></div>
+                                    </div>
+                                    <div class="rep_chart_block">
+                                        <div class="rep_block_name" style="color: #5b99fc;">Facebook</div>
+                                        <div id="BbChartFacebook"></div>
+                                    </div>
+                                    <div class="rep_chart_block">
+                                        <div class="rep_block_name" style="color: #6fe2e5;">Twitter</div>
+                                        <div id="BbChartTwitter"></div>
+                                    </div>
+                                    <div class="rep_chart_block">
+                                        <div class="rep_block_name" style="color: #f85f71;">Pinterest</div>
+                                        <div id="BbChartPinterest"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div ng-show="BlogEngagementTimeline.loading" main-loader class=""></div>
+
+                            {% endverbatim %}
+                        </div>
+                    </div>-->
+
+                    <!-- stat overview table -->
+                    <!-- stat overview table -->
+                    <!-- stat overview table -->
+                    {% verbatim %}
+                    <table class="stat_overview_table">
+                        <thead>
+                        <tr>
+                            <th>Platforms</th>
+                            <th>Posts</th>
+                            <th>Impressions</th>
+                            <th>Engagements</th>
+                            <th>Eng/Impre.</th>
+                            <th>Top Posts</th>
+                            <th>Lowest Posts</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        <tr ng-repeat="item in BlogStatus.data" ng-hide="BlogStatus.loading">
+                            <td>{{item.platformName}}</td>
+                            <td>{{item.totalPostsGone}}</td>
+                            <td>{{item.totalImpressions}}</td>
+                            <td>{{item.totalEngagements}}</td>
+                            <td>
+                                <div class="rep_chart_container">
+                                    <div class="rep_fake">
+                                        <c3chart bindto-id="pieChart{{ item.platformName }}">
+                                            <chart-column column-id="pieSection1"
+                                                          column-name="{{ item.platformName }}"
+                                                          column-color="{{ item.blockColor1 }}"
+                                                          column-values="{{ item.totalEngagements }}"
+                                                          column-type="pie"/>
+                                            <chart-column column-id="pieSection2"
+                                                          column-name="{{ item.platformName }}"
+                                                          column-values="{{ item.totalImpressions }}"
+                                                          column-color="{{ item.blockColor }}"
+                                                          column-type="pie"/>
+                                            <chart-legend show-legend="false"/>
+                                            <chart-size chart-width="80" chart-height="80"/>
+                                            <chart-pie threshold-label="0"/>
+                                        </c3chart>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="table_rep_inf_row">
+                                    <div class="rep_inf_in_row" ng-repeat="post in BlogTLPosts.topPosts" data-toggle="tooltip" data-placement="top" data-original-title="{{ post.title }}">
+                                        <a href="{{ post.url }}" target="_blank">
+                                            <img src="{{ post.pic }}"/>
+                                        </a>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="table_rep_inf_row">
+                                    <div class="rep_inf_in_row" ng-repeat="post in BlogTLPosts.lowerPosts" data-toggle="tooltip" data-placement="top" data-original-title="{{ post.title }}">
+                                        <a href="{{ post.url }}" target="_blank">
+                                            <img src="{{ post.pic }}"/>
+                                        </a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr ng-repeat="item in InstagramStatus.data" ng-hide="InstagramStatus.loading">
+                            <td>{{item.platformName}}</td>
+                            <td>{{item.totalPostsGone}}</td>
+                            <td>{{item.totalImpressions}}</td>
+                            <td>{{item.totalEngagements}}</td>
+                            <td>
+                                <div class="rep_chart_container">
+                                    <div class="rep_fake">
+                                        <c3chart bindto-id="pieChart{{ item.platformName }}">
+                                            <chart-column column-id="pieSection1"
+                                                          column-name="{{ item.platformName }}"
+                                                          column-color="{{ item.blockColor1 }}"
+                                                          column-values="{{ item.totalEngagements }}"
+                                                          column-type="pie"/>
+                                            <chart-column column-id="pieSection2"
+                                                          column-name="{{ item.platformName }}"
+                                                          column-values="{{ item.totalImpressions }}"
+                                                          column-color="{{ item.blockColor }}"
+                                                          column-type="pie"/>
+                                            <chart-legend show-legend="false"/>
+                                            <chart-size chart-width="80" chart-height="80"/>
+                                            <chart-pie threshold-label="0"/>
+                                        </c3chart>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="table_rep_inf_row">
+                                    <div class="rep_inf_in_row" ng-repeat="post in InstagramTLPosts.topPosts" data-toggle="tooltip" data-placement="top" data-original-title="{{ post.title }}">
+                                        <a href="{{ post.url }}" target="_blank">
+                                            <img src="{{ post.pic }}"/>
+                                        </a>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="table_rep_inf_row">
+                                    <div class="rep_inf_in_row" ng-repeat="post in InstagramTLPosts.lowerPosts" data-toggle="tooltip" data-placement="top" data-original-title="{{ post.title }}">
+                                        <a href="{{ post.url }}" target="_blank">
+                                            <img src="{{ post.pic }}"/>
+                                        </a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr ng-repeat="item in FacebookStatus.data" ng-hide="FacebookStatus.loading">
+                            <td>{{item.platformName}}</td>
+                            <td>{{item.totalPostsGone}}</td>
+                            <td>{{item.totalImpressions}}</td>
+                            <td>{{item.totalEngagements}}</td>
+                            <td>
+                                <div class="rep_chart_container">
+                                    <div class="rep_fake">
+                                        <c3chart bindto-id="pieChart{{ item.platformName }}">
+                                            <chart-column column-id="pieSection1"
+                                                          column-name="{{ item.platformName }}"
+                                                          column-color="{{ item.blockColor1 }}"
+                                                          column-values="{{ item.totalEngagements }}"
+                                                          column-type="pie"/>
+                                            <chart-column column-id="pieSection2"
+                                                          column-name="{{ item.platformName }}"
+                                                          column-values="{{ item.totalImpressions }}"
+                                                          column-color="{{ item.blockColor }}"
+                                                          column-type="pie"/>
+                                            <chart-legend show-legend="false"/>
+                                            <chart-size chart-width="80" chart-height="80"/>
+                                            <chart-pie threshold-label="0"/>
+                                        </c3chart>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="table_rep_inf_row">
+                                    <div class="rep_inf_in_row" ng-repeat="post in FacebookTLPosts.topPosts" data-toggle="tooltip" data-placement="top" data-original-title="{{ post.title }}">
+                                        <a href="{{ post.url }}" target="_blank">
+                                            <img src="{{ post.pic }}"/>
+                                        </a>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="table_rep_inf_row">
+                                    <div class="rep_inf_in_row" ng-repeat="post in FacebookTLPosts.lowerPosts" data-toggle="tooltip" data-placement="top" data-original-title="{{ post.title }}">
+                                        <a href="{{ post.url }}" target="_blank">
+                                            <img src="{{ post.pic }}"/>
+                                        </a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr ng-repeat="item in TwitterStatus.data" ng-hide="TwitterStatus.loading">
+                            <td>{{item.platformName}}</td>
+                            <td>{{item.totalPostsGone}}</td>
+                            <td>{{item.totalImpressions}}</td>
+                            <td>{{item.totalEngagements}}</td>
+                            <td>
+                                <div class="rep_chart_container">
+                                    <div class="rep_fake">
+                                        <c3chart bindto-id="pieChart{{ item.platformName }}">
+                                            <chart-column column-id="pieSection1"
+                                                          column-name="{{ item.platformName }}"
+                                                          column-color="{{ item.blockColor1 }}"
+                                                          column-values="{{ item.totalEngagements }}"
+                                                          column-type="pie"/>
+                                            <chart-column column-id="pieSection2"
+                                                          column-name="{{ item.platformName }}"
+                                                          column-values="{{ item.totalImpressions }}"
+                                                          column-color="{{ item.blockColor }}"
+                                                          column-type="pie"/>
+                                            <chart-legend show-legend="false"/>
+                                            <chart-size chart-width="80" chart-height="80"/>
+                                            <chart-pie threshold-label="0"/>
+                                        </c3chart>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="table_rep_inf_row">
+                                    <div class="rep_inf_in_row" ng-repeat="post in TwitterTLPosts.topPosts" data-toggle="tooltip" data-placement="top" data-original-title="{{ post.title }}">
+                                        <a href="{{ post.url }}" target="_blank">
+                                            <img src="{{ post.pic }}"/>
+                                        </a>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="table_rep_inf_row">
+                                    <div class="rep_inf_in_row" ng-repeat="post in TwitterTLPosts.lowerPosts" data-toggle="tooltip" data-placement="top" data-original-title="{{ post.title }}">
+                                        <a href="{{ post.url }}" target="_blank">
+                                            <img src="{{ post.pic }}"/>
+                                        </a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr ng-repeat="item in PinterestStatus.data" ng-hide="PinterestStatus.loading">
+                            <td>{{item.platformName}}</td>
+                            <td>{{item.totalPostsGone}}</td>
+                            <td>{{item.totalImpressions}}</td>
+                            <td>{{item.totalEngagements}}</td>
+                            <td>
+                                <div class="rep_chart_container">
+                                    <div class="rep_fake">
+                                        <c3chart bindto-id="pieChart{{ item.platformName }}">
+                                            <chart-column column-id="pieSection1"
+                                                          column-name="{{ item.platformName }}"
+                                                          column-color="{{ item.blockColor1 }}"
+                                                          column-values="{{ item.totalEngagements }}"
+                                                          column-type="pie"/>
+                                            <chart-column column-id="pieSection2"
+                                                          column-name="{{ item.platformName }}"
+                                                          column-values="{{ item.totalImpressions }}"
+                                                          column-color="{{ item.blockColor }}"
+                                                          column-type="pie"/>
+                                            <chart-legend show-legend="false"/>
+                                            <chart-size chart-width="80" chart-height="80"/>
+                                            <chart-pie threshold-label="0"/>
+                                        </c3chart>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="table_rep_inf_row">
+                                    <div class="rep_inf_in_row" ng-repeat="post in PinterestTLPosts.topPosts" data-toggle="tooltip" data-placement="top" data-original-title="{{ post.title }}">
+                                        <a href="{{ post.url }}" target="_blank">
+                                            <img src="{{ post.pic }}"/>
+                                        </a>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="table_rep_inf_row" >
+                                    <div class="rep_inf_in_row" ng-repeat="post in PinterestTLPosts.lowerPosts" data-toggle="tooltip" data-placement="top" data-original-title="{{ post.title }}">
+                                        <a href="{{ post.url }}" target="_blank">
+                                            <img src="{{ post.pic }}"/>
+                                        </a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div ng-show="PinterestStatus.loading" main-loader class="block_content"></div>
+
+                    {% endverbatim %}
+
+                </div>
+
+
+                <!-- MAIN BLOG SECTION -->
+                <!-- MAIN BLOG SECTION -->
+                <!-- MAIN BLOG SECTION -->
+                <!-- MAIN BLOG SECTION -->
+                <!-- MAIN BLOG SECTION -->
+                <div class="aggregate_campaign_analytics_section no_bot_bord">
+                    <div class="rep_row_content">
+                        <div class="rep_row_title">Blog Reporting</div>
+                    </div>
+                    <!-- top 5 blogs -->
+                    <!-- top 5 blogs -->
+                    <!-- top 5 blogs -->
+                    {% verbatim %}
+                    <div class="rep_row_content top_5_blogs" ng-hide="BlogPostSamples.loading">
+                        <div class="main_content_block rep_flex_block" ng-repeat="item in BlogPostSamples.posts">
+                            <div class="rep_post_title">{{ item.title }}</div>
+                            <div class="rep_post_date">{{ item.createDate }}</div>
+                            <div class="rep_post_content">{{ item.content }}</div>
+                            <div class="rep_post_img">
+                                <a href="{{ item.url }}" target="_blank">
+                                    <img src="{{ item.postImage }}"/>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div ng-show="BlogPostSamples.loading" main-loader class="block_content"></div>
+                    {% endverbatim %}
+                    <!-- blog impressions and clicks -->
+                    <!-- blog impressions and clicks -->
+                    <!-- blog impressions and clicks -->
+                    <div class="rep_row_content">
+                        <div class="main_content_block rep_flex_block blog_impressions">
+                            <div class="block_header clearfix">
+                                <div class="block_title">Blog impressions &amp; click-throughs</div>
+                                <div class="block_desc">The bar chart below can be toggled between impressions or click throughs using the buttons below.</div>
+                            </div>
+                            {% verbatim %}
+                            <div ng-hide="ClickThroughsTimeSeries.loading" ng-repeat="item in ClickThroughsTimeSeries.data">
+                                <div class="block_header_tab_bar clearfix">
+                                    <div ng-class="impBtnClass" ng-click="changeClass1()">
+                                        <div class="block_num">{{ ImpressionsTimeSeries.totalImpressions }}</div>
+                                        <div class="block_num_label">impressions</div>
+                                    </div>
+                                    <div ng-class="cliBtnClass" ng-click="changeClass2()">
+                                        <div class="block_num">{{ ClickThroughsTimeSeries.clicks }}</div>
+                                        <div class="block_num_label">clicks</div>
+                                    </div>
+                                </div>
+                                <div class="rep_chart_container">
+                                    <div class="rep_fake">
+                                        <!--<div class="rep_block"></div>-->
+                                        <c3chart bindto-id="barchart11" show-labels="false">
+                                            <chart-column column-id="x2"
+                                                          column-values="{{ item.date }}"/>
+                                            <chart-column column-id="bar11"
+                                                          column-name="Clicks"
+                                                          column-color="#79a1d4"
+                                                          column-values="{{ item.count }}"
+                                                          column-type="bar"/>
+                                            <chart-column column-id="bar22"
+                                                          column-name="Impressions"
+                                                          column-color="#e859d5"
+                                                          column-values="{{ ImpressionsTimeSeries.data[0].count }}"
+                                                          column-type="bar"/>
+                                            <!--
+                                            <chart-column column-id="bar33"
+                                                          column-name="Bar 3"
+                                                          column-color="#d0d88b"
+                                                          column-values="160,200,400,600,450,350,160,200,400,600,450,350,160,200,400,600,450,350,160,200,400,600,450,350,220,50,100,200,300,350,450,50,100,200,300,350,450,50,100,200,300,350,450,50,100,200,300,350,450"
+                                                          column-type="bar"/>
+                                                          -->
+                                            <chart-bar ratio="0.6"/>
+                                            <chart-axes values-x="x2"/>
+                                            <chart-group group-values="bar11,bar22"/>
+                                            <chart-size chart-height="300"/>
+                                            <chart-grid show-x="false" show-y="true"/>
+                                            <chart-legend show-legend="false"/>
+                                            <chart-axis>
+                                                <chart-axis-x show="false" axis-type="timeseries" axis-x-format="%Y-%m-%d">
+                                                    <chart-axis-x-tick tick-format-time="%Y-%m-%d" tick-outer="false"/>
+                                                </chart-axis-x>
+                                                <chart-axis-y show="false" axis-inner="true">
+                                                </chart-axis-y>
+                                            </chart-axis>
+                                        </c3chart>
+                                    </div>
+                                </div>
+                            </div>
+                            <div ng-show="ClickThroughsTimeSeries.loading" main-loader class="block_content"></div>
+                            {% endverbatim %}
+                        </div>
+                    </div>
+
+
+                    <!-- virality of blog posts -->
+                    <!-- virality of blog posts -->
+                    <!-- virality of blog posts -->
+                    {% verbatim %}
+                    <div class="rep_row_content">
+                        <div class="main_content_block post_virality clearfix">
+                            <div class="block_header clearfix">
+                                <div class="block_title">Virality of blog posts</div>
+                                <div class="block_desc">This is a breakdown of the network virality of all blog posts in the campaign.</div>
+                            </div>
+                            <div class="area_with_sections w_flex_stretch_section">
+                                <div class="main_content_block_section rep_flex_section section_40">
+                                    <div class="rep_chart_container">
+                                        <div class="rep_fake" ng-repeat="item in BlogStatus.data" ng-hide="BlogStatus.loading">
+                                            <c3chart bindto-id="donutChart11" >
+                                                <chart-column column-id="pinterest1"
+                                                              column-name="REPINS"
+                                                              column-values="{{ item.repinsCount }}"
+                                                              column-color="#ed4e53"
+                                                              column-type="donut" />
+                                                <chart-column column-id="facebook2"
+                                                              column-name="FACEBOOK SHARES"
+                                                              column-values="{{ item.facebookCount }}"
+                                                              column-color="#6b8aff"
+                                                              column-type="donut" />
+                                                <chart-column column-id="google3"
+                                                              column-name="GOOGLE+"
+                                                              column-values="{{ item.gplusCount }}"
+                                                              column-color="#942931"
+                                                              column-type="donut" />
+                                                <chart-legend show-legend="true"/>
+                                                <chart-donut width="40" show-label="false" title="Blog Post Shares"/>
+                                            </c3chart>
+                                        </div>
+                                        <div class="rep_fake" ng-show="BlogStatus.loading"></div>
+                                    </div>
+                                </div>
+                                <div class="main_content_block_section rep_flex_section section_20 social_pinterest">
+                                    <div class="rep_corn_icon"></div>
+                                    <div class="padded_section">
+                                        <div class="block_num">{{ BlogStatus.data[0].repinsCount }}</div>
+                                        <div class="block_num_label">Pinterest</div>
+                                        <div class="person_list" ng-hide="BlogTopInfluencers.loading">
+                                            <div class="person_individual" ng-repeat="influencer in BlogTopInfluencers.Pinterest">
+                                                <div class="person_img">
+                                                    <img src="{{ influencer.pic }}"/>
+                                                </div>
+                                                <div class="person_text">{{ influencer.name }}</div>
+                                            </div>
+                                        </div>
+                                        <div ng-show="BlogTopInfluencers.loading" main-loader class="block_content"></div>
+                                    </div>
+                                </div>
+                                <div class="main_content_block_section rep_flex_section section_20 social_facebook">
+                                    <div class="rep_corn_icon"></div>
+                                    <div class="padded_section">
+                                        <div class="block_num">{{ BlogStatus.data[0].facebookCount }}</div>
+                                        <div class="block_num_label">Facebook</div>
+                                        <div class="person_list" ng-hide="BlogTopInfluencers.loading">
+                                            <div class="person_individual" ng-repeat="influencer in BlogTopInfluencers.Twitter">
+                                                <div class="person_img">
+                                                    <img src="{{ influencer.pic }}"/>
+                                                </div>
+                                                <div class="person_text">{{ influencer.name }}</div>
+                                            </div>
+                                        </div>
+                                        <div ng-show="BlogTopInfluencers.loading" main-loader class="block_content"></div>
+                                    </div>
+                                </div>
+                                <div class="main_content_block_section rep_flex_section section_20 social_gplus">
+                                    <div class="rep_corn_icon"></div>
+                                    <div class="padded_section">
+                                        <div class="block_num">{{ BlogStatus.data[0].gplusCount }}</div>
+                                        <div class="block_num_label">Google+</div>
+                                        <div class="person_list">
+                                            <div class="person_list" ng-hide="BlogTopInfluencers.loading">
+                                                <div class="person_individual" ng-repeat="influencer in BlogTopInfluencers.Gplus">
+                                                    <div class="person_img">
+                                                        <img src="{{ influencer.pic }}"/>
+                                                    </div>
+                                                    <div class="person_text">{{ influencer.name }}</div>
+                                                </div>
+                                            </div>
+                                            <div ng-show="BlogTopInfluencers.loading" main-loader class="block_content"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endverbatim %}
+
+
+                    <!-- blog math -->
+                    <!-- blog math -->
+                    <!-- blog math -->
+
+                    <div class="rep_row_content">
+                        <div class="main_content_block blog_math clearfix">
+                            <div class="block_header clearfix">
+                                <div class="block_title">A little bit of math fun</div>
+                                <div class="block_desc">To calculate the actions (comments, clicks, engagement) <> Impressions ratio, see the below calculations.</div>
+                            </div>
+                            {% verbatim %}
+                            <div class="area_with_sections no_borders w_flex_stretch_section">
+                                <div class="main_content_block_section rep_flex_section">
+                                    <div class="math_num_block">
+                                        <div class="math_num">{{ BlogStatus.data[0].repinsCount }}</div>
+                                        <div class="math_label">Pinterest</div>
+                                        <div class="math_icon social_pinterest"><span class="icon-social_pinterest"></span></div>
+                                    </div>
+                                </div>
+
+                                <div class="main_content_block_section rep_flex_section">
+                                    <div class="math_num_block">
+                                        <div class="math_function_sign">+</div>
+                                    </div>
+                                </div>
+
+                                <div class="main_content_block_section rep_flex_section">
+                                    <div class="math_num_block">
+                                        <div class="math_num">{{ BlogStatus.data[0].facebookCount }}</div>
+                                        <div class="math_label">Facebook</div>
+                                        <div class="math_icon social_facebook"><span class="icon-social_facebook"></span></div>
+                                    </div>
+                                </div>
+
+                                <div class="main_content_block_section rep_flex_section">
+                                    <div class="math_num_block">
+                                        <div class="math_function_sign">+</div>
+                                    </div>
+                                </div>
+
+                                <div class="main_content_block_section rep_flex_section">
+                                    <div class="math_num_block">
+                                        <div class="math_num">{{ BlogStatus.data[0].gplusCount }}</div>
+                                        <div class="math_label">Google+</div>
+                                        <div class="math_icon social_gplus"><span class="icon-social_gplus"></span></div>
+                                    </div>
+                                </div>
+
+                                <div class="main_content_block_section rep_flex_section">
+                                    <div class="math_num_block">
+                                        <div class="math_function_sign">+</div>
+                                    </div>
+                                </div>
+
+                                <div class="main_content_block_section rep_flex_section">
+                                    <div class="math_num_block">
+                                        <div class="math_num">{{ BlogStatus.data[0].commentsCount }}</div>
+                                        <div class="math_label">Comments+</div>
+                                        <div class="math_icon"><span class="icon-letter_quotes3"></span></div>
+                                    </div>
+                                </div>
+
+                                <div class="main_content_block_section rep_flex_section">
+                                    <div class="math_num_block">
+                                        <div class="math_function_sign">+</div>
+                                    </div>
+                                </div>
+
+                                <div class="main_content_block_section rep_flex_section">
+                                    <div class="math_num_block">
+                                        <div class="math_num">{{ BlogStatus.data[0].totalClicks }}</div>
+                                        <div class="math_label">Clicks</div>
+                                        <div class="math_icon"><span class="icon-misc_device_cursor"></span></div>
+                                    </div>
+                                </div>
+
+                                <div class="main_content_block_section rep_flex_section">
+                                    <div class="math_num_block">
+                                        <div class="math_function_sign">=</div>
+                                    </div>
+                                </div>
+
+                                <div class="main_content_block_section rep_flex_section">
+                                    <div class="math_num_block">
+                                        <div class="math_num">{{ BlogStatus.data[0].totalEngagements }}</div>
+                                        <div class="math_label">Total Engagement</div>
+                                        <div class="math_icon"><span class="icon-misc_value_thumbsup2"></span></div>
+                                    </div>
+                                </div>
+
+                                <div class="main_content_block_section rep_flex_section">
+                                    <div class="math_num_block">
+                                        <div class="math_function_sign">&amp;</div>
+                                    </div>
+                                </div>
+
+                                <div class="main_content_block_section rep_flex_section">
+                                    <div class="math_num_block">
+                                        <div class="math_num">{{ BlogStatus.data[0].percentAudience }}%</div>
+                                        <div class="math_label">Of Audience</div>
+                                        <div class="math_icon"><span class="icon-misc_chart_pie"></span></div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endverbatim %}
+                        </div>
+                    </div>
+
+                    <!-- top posts -->
+                    <!-- top posts -->
+                    <!-- top posts -->
+                    <div class="rep_row_content top_posts_row clearfix">
+                        <!--div class="block_header no_white_box clearfix">
+                            <div class="block_title">Top Performing Influencers</div>
+                            <div class="block_desc">As well as the post that performed best.</div>
+                        </div-->
+                        <div class="top_post">
+                            {% verbatim %}
+                            <!--
+                            <div ng-hide="topPosts.loading" >
+                                <div ng-repeat="post in topPosts.list.results">
+                                    <div ng-if="post.platform == 'photos'" feed-item feed-item-photos item="post" ugc-view></div>
+                                    <div ng-if="post.platform == 'youtube'" feed-item feed-item-youtube item="post" ugc-view></div>
+                                    <div ng-if="post.platform == 'facebook'" feed-item feed-item-facebook item="post" ugc-view></div>
+                                    <div ng-if="post.platform == 'blog'" feed-item feed-item-blog item="post" ugc-view></div>
+                                    <div ng-if="post.platform == 'tweets'" feed-item feed-item-photos item="tweets" ugc-view></div>
+                                    <div ng-if="post.platform == 'pins'" feed-item feed-item-pins item="post" ugc-view></div>
+                                </div>
+                            </div>
+                            <div ng-show="topPosts.loading" main-loader class="block_content"></div>
+                            -->
+                            {% endverbatim %}
+                        </div>
+                    </div>
+                    <div class="xspace x_40"></div>
+
+                </div>
+
+                <!-- MAIN SOCIAL SECTION -->
+                <!-- MAIN SOCIAL SECTION -->
+                <!-- MAIN SOCIAL SECTION -->
+                <!-- MAIN SOCIAL SECTION -->
+                <!-- MAIN SOCIAL SECTION -->
+                <div class="aggregate_campaign_analytics_section">
+                    <div class="rep_row_content1">
+                        <div class="rep_row_title1">Social Reporting</div>
+                    </div>
+                    <div class="rep_row_content">
+                        <div class="ugc_row">
+                            <div class="block_header_tab_bar_w_icons clearfix">
+                                <div class="block_header_tab social_instagram2 active_soc_btn">
+                                    <div class="block_num"><span class="icon-social_instagram"></span></div>
+                                    <div class="block_num_label"></div>
+                                </div>
+                                <div class="block_header_tab social_facebook">
+                                    <div class="block_num"><span class="icon-social_facebook"></span></div>
+                                    <div class="block_num_label"></div>
+                                </div>
+                                <div class="block_header_tab social_twitter">
+                                    <div class="block_num"><span class="icon-social_twitter"></span></div>
+                                    <div class="block_num_label"></div>
+                                </div>
+                                <div class="block_header_tab social_pinterest">
+                                    <div class="block_num"><span class="icon-social_pinterest"></span></div>
+                                    <div class="block_num_label"></div>
+                                </div>
+                                <div class="block_header_tab social_youtube">
+                                    <div class="block_num"><span class="icon-social_youtube"></span></div>
+                                    <div class="block_num_label"></div>
+                                </div>
+                            </div>
+
+                            <div class="row_content">
+                                <div class="analytics_block">
+                                    {% verbatim %}
+
+                                    <div ng-hide="instagramPhotos.loading" class="block_content" id="insta_block">
+                                        <ul class="images-grid ugc_photos">
+                                            <li ng-repeat="photo1 in instagramPhotos.list1">
+                                                <div class="ugc_photo_wrapper">
+                                                    <a href="{{ photo1.url }}" target="_blank">
+                                                        <div class="cropped-image" bg-image="{{ photo1.img }}" hide-on-error></div>
+                                                        <!--<img class="imgfit" src="{{ photo1.img }}" alt="instagram">-->
+                                                    </a>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                        <ul class="images-grid ugc_photos">
+                                            <li ng-repeat="photo2 in instagramPhotos.list2">
+                                                <div class="ugc_photo_wrapper">
+                                                    <a href="{{ photo2.url }}" target="_blank">
+                                                        <div class="cropped-image" bg-image="{{ photo2.img }}" hide-on-error></div>
+                                                        <!--<img class="imgfit" src="{{ photo2.img }}" alt="instagram">-->
+                                                    </a>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div ng-show="instagramPhotos.loading" main-loader class="block_content"></div>
+
+                                    {% endverbatim %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="rep_row_content w_flex_stretch">
+                        <!-- Social Performance Metrics -->
+                        <div class="main_content_block rep_flex_block social_perf_metrics">
+                            <div class="block_header clearfix">
+                                <div class="block_title">Instagram Metrics</div>
+                                <div class="block_desc">All data viewable as time series.</div>
+                            </div>
+                            <div class="vertical_content_blocks">
+                                {% verbatim %}
+                                <div class="vertical_content_block_section">
+                                    <div class="vert_cont_float_left">
+                                        <div class="icon_section"><span class="icon-misc_very_view"></span></div>
+                                        <div class="numbers_section">
+                                            <div class="number_text_yo">{{ ImpressionsTimeSeries.totalImpressions }}</div>
+                                            <div class="label_text_yo">Impressions</div>
+                                        </div>
+                                    </div>
+                                    <div class="vert_cont_float_right">
+                                        <div class="rep_chart_container">
+                                            <div class="rep_fake" ng-hide="ImpressionsTimeSeries.loading" ng-repeat="item in ImpressionsTimeSeries.data">
+                                                <c3chart bindto-id="impBarChart" show-labels="false">
+                                                    <chart-column column-id="x2"
+                                                                  column-values="{{ item.date }}"/>
+                                                    <chart-column column-id="bar11"
+                                                                  column-name="Impressions"
+                                                                  column-color="#F7C600"
+                                                                  column-values="{{ item.count }}"
+                                                                  column-type="bar"/>
+                                                    <chart-bar ratio="0.6"/>
+                                                    <chart-size chart-height="130"/>
+                                                    <chart-grid show-x="false" show-y="false"/>
+                                                    <chart-legend show-legend="false"/>
+                                                    <chart-axes values-x="x2"/>
+                                                    <chart-axis>
+                                                        <chart-axis-x show="false" axis-type="timeseries" axis-x-format="%Y-%m-%d">
+                                                            <chart-axis-x-tick tick-format-time="%Y-%m-%d" tick-outer="false"/>
+                                                        </chart-axis-x>
+                                                        <chart-axis-y show="false" axis-inner="true">
+                                                        </chart-axis-y>
+                                                    </chart-axis>
+                                                </c3chart>
+                                            </div>
+                                            <div ng-show="ImpressionsTimeSeries.loading" main-loader class="block_content"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endverbatim %}
+                                {% verbatim %}
+                                <div class="vertical_content_block_section">
+                                    <div class="vert_cont_float_left">
+                                        <div class="icon_section"><span class="icon-misc_value_heart"></span></div>
+                                        <div class="numbers_section">
+                                            <div class="number_text_yo">{{ InstagramLikes.data[0].totalCount }}</div>
+                                            <div class="label_text_yo">Likes</div>
+                                        </div>
+                                    </div>
+                                    <div class="vert_cont_float_right">
+                                        <div class="rep_chart_container">
+                                            <div class="rep_fake" ng-hide="InstagramLikes.loading" ng-repeat="item in InstagramLikes.data">
+                                                <c3chart bindto-id="likBarChart" show-labels="false">
+                                                    <chart-column column-id="x2"
+                                                                  column-values="{{ item.date }}"/>
+                                                    <chart-column column-id="bar22"
+                                                                  column-name="Instagram Likes"
+                                                                  column-color="#F7C600"
+                                                                  column-values="{{ item.count }}"
+                                                                  column-type="bar"/>
+                                                    <chart-bar ratio="0.8"/>
+                                                    <chart-size chart-height="130"/>
+                                                    <chart-grid show-x="false" show-y="false"/>
+                                                    <chart-legend show-legend="false"/>
+                                                    <chart-axes values-x="x2"/>
+                                                    <chart-axis>
+                                                        <chart-axis-x show="false" axis-type="timeseries" axis-x-format="%Y-%m-%d">
+                                                            <chart-axis-x-tick tick-format-time="%Y-%m-%d" tick-outer="false"/>
+                                                        </chart-axis-x>
+                                                        <chart-axis-y show="false" axis-inner="true">
+                                                        </chart-axis-y>
+                                                    </chart-axis>
+                                                </c3chart>
+                                            </div>
+                                            <div ng-show="InstagramLikes.loading" main-loader class="block_content"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="vertical_content_block_section">
+                                    <div class="vert_cont_float_left">
+                                        <div class="icon_section"><span class="icon-letter_quotes3"></span></div>
+                                        <div class="numbers_section">
+                                            <div class="number_text_yo">{{ InstagramComments.data[0].totalCount }}</div>
+                                            <div class="label_text_yo">Comments</div>
+                                        </div>
+                                    </div>
+                                    <div class="vert_cont_float_right">
+                                        <div class="rep_chart_container">
+                                            <div class="rep_fake" ng-hide="InstagramComments.loading" ng-repeat="item in InstagramComments.data">
+                                                <c3chart bindto-id="comBarChart" show-labels="false">
+                                                    <chart-column column-id="x3"
+                                                                  column-values="{{ item.date }}"/>
+                                                    <chart-column column-id="bar33"
+                                                                  column-name="Instagram Comments"
+                                                                  column-color="#F7C600"
+                                                                  column-values="{{ item.count }}"
+                                                                  column-type="bar"/>
+                                                    <chart-bar ratio="0.8"/>
+                                                    <chart-size chart-height="130"/>
+                                                    <chart-grid show-x="false" show-y="false"/>
+                                                    <chart-legend show-legend="false"/>
+                                                    <chart-axes values-x="x3"/>
+                                                    <chart-axis>
+                                                        <chart-axis-x show="false" axis-type="timeseries" axis-x-format="%Y-%m-%d">
+                                                            <chart-axis-x-tick tick-format-time="%Y-%m-%d" tick-outer="false"/>
+                                                        </chart-axis-x>
+                                                        <chart-axis-y show="false" axis-inner="true">
+                                                        </chart-axis-y>
+                                                    </chart-axis>
+                                                </c3chart>
+                                            </div>
+                                            <div ng-show="InstagramComments.loading" main-loader class="block_content"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endverbatim %}
+                            </div>
+                        </div>
+
+                        <!-- Influencer's Social Performance Compared to Each Other -->
+                        <div class="main_content_block rep_flex_block influencer_social_perf">
+                            <div class="block_header clearfix">
+                                <div class="block_title">Influencer Performance</div>
+                                <div class="block_desc">Hover over the bubbles to understand influencer’s stats.</div>
+                            </div>
+                            <div class="rep_chart_container">
+                                <div class="rep_fake" style="background: white;">
+                                    <div id="bubbleContainer"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                    <!-- social math -->
+                    <!-- social math -->
+                    <!-- social math -->
+
+                    <div class="rep_row_content">
+                        <div class="main_content_block blog_math clearfix">
+                            <div class="block_header clearfix">
+                                <div class="block_title">A little bit of social media math</div>
+                                <div class="block_desc">To calculate the actions (comments, clicks, engagement) <> Impressions ratio, see the below calculations.</div>
+                            </div>
+                            {% verbatim %}
+                            <div class="area_with_sections no_borders w_flex_stretch_section">
+                                <div class="main_content_block_section rep_flex_section">
+                                    <div class="math_num_block">
+                                        <div class="math_num">{{ InstagramStatus.data[0].totalPostsGone }}</div>
+                                        <div class="math_label">Live Posts</div>
+                                        <div class="math_icon social_pinterest"><span class="icon-people_photo"></span></div>
+                                    </div>
+                                </div>
+
+                                <div class="main_content_block_section rep_flex_section">
+                                    <div class="math_num_block">
+                                        <div class="math_function_sign">+</div>
+                                    </div>
+                                </div>
+                                <!--
+                                <div class="main_content_block_section rep_flex_section">
+                                    <div class="math_num_block">
+                                        <div class="math_num">{{ InstagramStatus.data[0].totalPostsRequired }}</div>
+                                        <div class="math_label">Pending Posts</div>
+                                        <div class="math_icon social_facebook"><span class="icon-people_photo"></span></div>
+                                    </div>
+                                </div>
+
+                                <div class="main_content_block_section rep_flex_section">
+                                    <div class="math_num_block">
+                                        <div class="math_function_sign">+</div>
+                                    </div>
+                                </div>-->
+
+                                <div class="main_content_block_section rep_flex_section">
+                                    <div class="math_num_block">
+                                        <div class="math_num">{{ InstagramStatus.data[0].commentsCount }}</div>
+                                        <div class="math_label">Comments</div>
+                                        <div class="math_icon social_gplus"><span class="icon-letter_quotes3"></span></div>
+                                    </div>
+                                </div>
+
+                                <div class="main_content_block_section rep_flex_section">
+                                    <div class="math_num_block">
+                                        <div class="math_function_sign">+</div>
+                                    </div>
+                                </div>
+
+                                <div class="main_content_block_section rep_flex_section">
+                                    <div class="math_num_block">
+                                        <div class="math_num">{{ InstagramStatus.data[0].likesCount }}</div>
+                                        <div class="math_label">Likes</div>
+                                        <div class="math_icon"><span class="icon-misc_value_heart"></span></div>
+                                    </div>
+                                </div>
+
+                                <div class="main_content_block_section rep_flex_section">
+                                    <div class="math_num_block">
+                                        <div class="math_function_sign">+</div>
+                                    </div>
+                                </div>
+
+                                <div class="main_content_block_section rep_flex_section">
+                                    <div class="math_num_block">
+                                        <div class="math_num">{{ InstagramStatus.data[0].totalEngagements }}</div>
+                                        <div class="math_label">Total Engagement</div>
+                                        <div class="math_icon"><span class="icon-misc_device_cursor"></span></div>
+                                    </div>
+                                </div>
+
+                                <div class="main_content_block_section rep_flex_section">
+                                    <div class="math_num_block">
+                                        <div class="math_function_sign">=</div>
+                                    </div>
+                                </div>
+
+                                <div class="main_content_block_section rep_flex_section">
+                                    <div class="math_num_block">
+                                        <div class="math_num">{{ InstagramStatus.data[0].percentAudience }}%</div>
+                                        <div class="math_label">of Audience</div>
+                                        <div class="math_icon"><span class="icon-misc_chart7"></span></div>
+                                    </div>
+                                </div>
+
+                                <div class="main_content_block_section rep_flex_section">
+                                    <div class="math_num_block">
+                                        <div class="math_function_sign">&amp;</div>
+                                    </div>
+                                </div>
+
+                                <div class="main_content_block_section rep_flex_section">
+                                    <div class="math_num_block">
+                                        <div class="math_num">{{ InstagramStatus.data[0].totalImpressions }}</div>
+                                        <div class="math_label">Impressions</div>
+                                        <div class="math_icon"><span class="icon-misc_very_view"></span></div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endverbatim %}
+                        </div>
+                    </div>
+                    <!-- posting timeline -->
+                    <!-- posting timeline -->
+                    <!-- posting timeline -->
+
+
+                    <div class="rep_row_content w_flex_stretch">
+                        {% verbatim %}
+
+                        <div class="main_content_block rep_flex_block posting_timeline">
+                            <div class="block_header clearfix">
+                                <div class="block_title">Posting Timeline</div>
+                                <div class="block_desc">Distribution of posting dates across platforms. Hover over circles to view influencers.</div>
+                            </div>
+                            <div class="rep_chart_container">
+                                <div ng-hide="platformPostsTimeSeries.loading" class="rep_fake">
+                                    <div class="rep_chart_block" ng-repeat="item in platformPostsTimeSeries.data">
+                                        <div class="rep_block_name" style="color: {{ item.blockColor }}">{{ item.platformName }}</div>
+                                        <c3chart ng-if="item.idNum!=4" bindto-id="splineChart{{ item.idNum }}" padding-right="20" padding-left="20">
+                                            <chart-column column-id="x"
+                                                          column-values="{{ item.xDate }}"/>
+                                            <chart-column column-id="{{ item.platformName }}"
+                                                          column-name="{{ item.platformName }}"
+                                                          column-color="{{ item.blockColor }}"
+                                                          column-values="{{ item.yValue }}"
+                                                          column-type="area-spline"/>
+                                            <chart-legend show-legend="false"/>
+                                            <chart-size chart-width="{{ responsiveWidth2 }}" chart-height="50"/>
+                                            <chart-points show-point="false"/>
+                                            <chart-axes values-x="x"/>
+                                            <chart-tooltip show-tooltip="true"/>
+                                            <chart-axis>
+                                                <chart-axis-x show="false" axis-type="timeseries" axis-min="{{ platformPostsTimeSeries.minDate }}" axis-max="{{ platformPostsTimeSeries.maxDate }}">
+                                                    <chart-axis-x-tick tick-format="%Y-%m-%d" tick-outer="false" tick-fit="false"/>
+                                                </chart-axis-x>
+                                                <chart-axis-y show="false">
+                                                </chart-axis-y>
+                                            </chart-axis>
+                                        </c3chart>
+                                        <c3chart ng-if="item.idNum==4" bindto-id="splineChart{{ item.idNum }}" padding-right="20" padding-left="20">
+                                            <chart-column column-id="x"
+                                                          column-values="{{ item.xDate }}"/>
+                                            <chart-column column-id="{{ item.platformName }}"
+                                                          column-name="{{ item.platformName }}"
+                                                          column-color="{{ item.blockColor }}"
+                                                          column-values="{{ item.yValue }}"
+                                                          column-type="area-spline"/>
+                                            <chart-legend show-legend="false"/>
+                                            <chart-size chart-width="{{ responsiveWidth2 }}" chart-height="70"/>
+                                            <chart-points show-point="false"/>
+                                            <chart-axes values-x="x"/>
+                                            <chart-tooltip show-tooltip="true"/>
+                                            <chart-axis>
+                                                <chart-axis-x show="true" axis-type="timeseries" axis-min="{{ platformPostsTimeSeries.minDate }}" axis-max="{{ platformPostsTimeSeries.maxDate }}">
+                                                    <chart-axis-x-tick tick-format="%Y-%m-%d" tick-outer="false" tick-fit="false"/>
+                                                </chart-axis-x>
+                                                <chart-axis-y show="false">
+                                                </chart-axis-y>
+                                            </chart-axis>
+                                        </c3chart>
+                                    </div>
+                                </div>
+                                <div ng-show="platformPostsTimeSeries.loading" main-loader class="block_content"></div>
+                            </div>
+                        </div>
+
+                        <!-- posting calendar -->
+                        <!-- posting calendar -->
+                        <!-- posting calendar -->
+                        <!--
+                        <div class="main_content_block rep_flex_block posting_calendar" ng-controller="ViewChangeClickCtrl as vm">
+                            <div class="block_header clearfix">
+                                <div class="block_title">Posting Dates</div>
+                                <div class="block_desc">Check out all past post dates as well as upcoming posting dates.</div>
+                            </div>
+                            <div class="block_header_tab_bar clearfix">
+                                <div class="block_header_tab1" mwl-date-modifier date="vm.viewDate" decrement="vm.calendarView">
+                                    <div class="block_num_label">Previous</div>
+                                </div>
+                                <div class="block_header_tab1" mwl-date-modifier date="vm.viewDate" set-to-today>
+                                    <div class="block_num_label">Today</div>
+                                </div>
+                                <div class="block_header_tab1" mwl-date-modifier date="vm.viewDate" increment="vm.calendarView">
+                                    <div class="block_num_label">Next</div>
+                                </div>
+                                <div class="block_header_tab1" ng-click="vm.calendarViewYear()">
+                                    <div class="block_num_label" >Year</div>
+                                </div>
+                                <div class="block_header_tab1" ng-click="vm.calendarViewMonth()">
+                                    <div class="block_num_label" >Month</div>
+                                </div>
+                            </div>
+                            <div class="rep_chart_container">
+                                <div class="rep_fake">
+                                    <div class="text-center calendarHead">{{ vm.viewTitle }}</div>
+                                    <mwl-calendar
+                                            events="vm.events"
+                                            view="vm.calendarView"
+                                            view-title="vm.viewTitle"
+                                            view-date="vm.viewDate"
+                                            on-view-change-click="vm.viewChangeClicked(calendarDate, calendarNextView)">
+                                    </mwl-calendar>
+                                </div>
+                            </div>
+                        </div>-->
+
+                        {% endverbatim %}
+                    </div>
+
+                </div>
+                <!--
+                <div class="aggregate_campaign_analytics_section">
+                    <div class="rep_row_content">
+                        <div class="rep_row_title rep_row_title1">Campaign ROI Reporting</div>
+                    </div>-->
+                    <!-- stat overview table -->
+                    <!-- stat overview table -->
+                    <!-- stat overview table -->
+                <!--
+                    <table class="stat_overview_table">
+                        <thead>
+                            <tr>
+                                <th>Platforms</th>
+                                <th>Posts</th>
+                                <th>Impressions</th>
+                                <th>Engagements</th>
+                                <th>Eng/Impre.</th>
+                                <th>Top Posts</th>
+                                <th>Lowest Posts</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Blog</td>
+                                <td>12</td>
+                                <td>4,310,780</td>
+                                <td>935</td>
+                                <td>
+                                    <div class="rep_chart_container">
+                                        <div class="rep_fake">
+                                            <c3chart bindto-id="pieChart1">
+                                                <chart-column column-id="data11"
+                                                              column-name="data11"
+                                                              column-color="#aaaaaa"
+                                                              column-values="10"
+                                                              column-type="pie"/>
+                                                <chart-column column-id="data12_x"
+                                                              column-name="data12"
+                                                              column-values="100"
+                                                              column-color="#7b7b7b"
+                                                              column-type="pie"/>
+                                                <chart-legend show-legend="false"/>
+                                                <chart-size chart-width="80" chart-height="80"/>
+                                                <chart-pie show-label="false"/>
+                                                <chart-axis>
+                                                    <chart-axis-x show="false" padding-right="20" padding-left="20">
+                                                    </chart-axis-x>
+                                                    <chart-axis-y show="false" padding-top="25">
+                                                    </chart-axis-y>
+                                                </chart-axis>
+                                            </c3chart>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="table_rep_inf_row">
+                                        <div class="rep_inf_in_row"><img src="https://media.licdn.com/mpr/mpr/shrinknp_400_400/AAEAAQAAAAAAAAiNAAAAJDFjNDdhNDM4LTZkYWItNGY5ZC1hOTEwLWZlMzI4MDQyYjQ1MA.jpg"/></div>
+                                        <div class="rep_inf_in_row"><img src="https://media.licdn.com/mpr/mpr/shrinknp_400_400/AAEAAQAAAAAAAAiNAAAAJDFjNDdhNDM4LTZkYWItNGY5ZC1hOTEwLWZlMzI4MDQyYjQ1MA.jpg"/></div>
+                                        <div class="rep_inf_in_row"><img src="https://media.licdn.com/mpr/mpr/shrinknp_400_400/AAEAAQAAAAAAAAiNAAAAJDFjNDdhNDM4LTZkYWItNGY5ZC1hOTEwLWZlMzI4MDQyYjQ1MA.jpg"/></div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="table_rep_inf_row">
+                                        <div class="rep_inf_in_row"><img src="https://media.licdn.com/mpr/mpr/shrinknp_400_400/AAEAAQAAAAAAAAiNAAAAJDFjNDdhNDM4LTZkYWItNGY5ZC1hOTEwLWZlMzI4MDQyYjQ1MA.jpg"/></div>
+                                        <div class="rep_inf_in_row"><img src="https://media.licdn.com/mpr/mpr/shrinknp_400_400/AAEAAQAAAAAAAAiNAAAAJDFjNDdhNDM4LTZkYWItNGY5ZC1hOTEwLWZlMzI4MDQyYjQ1MA.jpg"/></div>
+                                        <div class="rep_inf_in_row"><img src="https://media.licdn.com/mpr/mpr/shrinknp_400_400/AAEAAQAAAAAAAAiNAAAAJDFjNDdhNDM4LTZkYWItNGY5ZC1hOTEwLWZlMzI4MDQyYjQ1MA.jpg"/></div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Pinterest</td>
+                                <td>13</td>
+                                <td>4,310,780</td>
+                                <td>935</td>
+                                <td>
+                                    <div class="rep_chart_container">
+                                        <div class="rep_fake">
+                                            <c3chart bindto-id="pieChart5">
+                                                <chart-column column-id="data51"
+                                                              column-name="data51"
+                                                              column-color="#f85f71"
+                                                              column-values="10"
+                                                              column-type="pie"/>
+                                                <chart-column column-id="data52_x"
+                                                              column-name="data52"
+                                                              column-values="100"
+                                                              column-color="#e13716"
+                                                              column-type="pie"/>
+                                                <chart-legend show-legend="false"/>
+                                                <chart-size chart-width="80" chart-height="80"/>
+                                                <chart-pie show-label="false"/>
+                                                <chart-axis>
+                                                    <chart-axis-x show="false" padding-right="20" padding-left="20">
+                                                    </chart-axis-x>
+                                                    <chart-axis-y show="false" padding-top="25">
+                                                    </chart-axis-y>
+                                                </chart-axis>
+                                            </c3chart>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="table_rep_inf_row">
+                                        <div class="rep_inf_in_row"><img src="https://media.licdn.com/mpr/mpr/shrinknp_400_400/AAEAAQAAAAAAAAiNAAAAJDFjNDdhNDM4LTZkYWItNGY5ZC1hOTEwLWZlMzI4MDQyYjQ1MA.jpg"/></div>
+                                        <div class="rep_inf_in_row"><img src="https://media.licdn.com/mpr/mpr/shrinknp_400_400/AAEAAQAAAAAAAAiNAAAAJDFjNDdhNDM4LTZkYWItNGY5ZC1hOTEwLWZlMzI4MDQyYjQ1MA.jpg"/></div>
+                                        <div class="rep_inf_in_row"><img src="https://media.licdn.com/mpr/mpr/shrinknp_400_400/AAEAAQAAAAAAAAiNAAAAJDFjNDdhNDM4LTZkYWItNGY5ZC1hOTEwLWZlMzI4MDQyYjQ1MA.jpg"/></div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="table_rep_inf_row">
+                                        <div class="rep_inf_in_row"><img src="https://media.licdn.com/mpr/mpr/shrinknp_400_400/AAEAAQAAAAAAAAiNAAAAJDFjNDdhNDM4LTZkYWItNGY5ZC1hOTEwLWZlMzI4MDQyYjQ1MA.jpg"/></div>
+                                        <div class="rep_inf_in_row"><img src="https://media.licdn.com/mpr/mpr/shrinknp_400_400/AAEAAQAAAAAAAAiNAAAAJDFjNDdhNDM4LTZkYWItNGY5ZC1hOTEwLWZlMzI4MDQyYjQ1MA.jpg"/></div>
+                                        <div class="rep_inf_in_row"><img src="https://media.licdn.com/mpr/mpr/shrinknp_400_400/AAEAAQAAAAAAAAiNAAAAJDFjNDdhNDM4LTZkYWItNGY5ZC1hOTEwLWZlMzI4MDQyYjQ1MA.jpg"/></div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Instagram</td>
+                                <td>15</td>
+                                <td>4,310,780</td>
+                                <td>935</td>
+                                <td>
+                                    <div class="rep_chart_container">
+                                        <div class="rep_fake">
+                                            <c3chart bindto-id="pieChart2">
+                                                <chart-column column-id="data21"
+                                                              column-name="data21"
+                                                              column-color="#fcc862"
+                                                              column-values="30"
+                                                              column-type="pie"/>
+                                                <chart-column column-id="data52_x"
+                                                              column-name="data52"
+                                                              column-values="70"
+                                                              column-color="#e1d215"
+                                                              column-type="pie"/>
+                                                <chart-legend show-legend="false"/>
+                                                <chart-size chart-width="80" chart-height="80"/>
+                                                <chart-pie show-label="false"/>
+                                                <chart-axis>
+                                                    <chart-axis-x show="false" padding-right="20" padding-left="20">
+                                                    </chart-axis-x>
+                                                    <chart-axis-y show="false" padding-top="25">
+                                                    </chart-axis-y>
+                                                </chart-axis>
+                                            </c3chart>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="table_rep_inf_row">
+                                        <div class="rep_inf_in_row"><img src="https://media.licdn.com/mpr/mpr/shrinknp_400_400/AAEAAQAAAAAAAAiNAAAAJDFjNDdhNDM4LTZkYWItNGY5ZC1hOTEwLWZlMzI4MDQyYjQ1MA.jpg"/></div>
+                                        <div class="rep_inf_in_row"><img src="https://media.licdn.com/mpr/mpr/shrinknp_400_400/AAEAAQAAAAAAAAiNAAAAJDFjNDdhNDM4LTZkYWItNGY5ZC1hOTEwLWZlMzI4MDQyYjQ1MA.jpg"/></div>
+                                        <div class="rep_inf_in_row"><img src="https://media.licdn.com/mpr/mpr/shrinknp_400_400/AAEAAQAAAAAAAAiNAAAAJDFjNDdhNDM4LTZkYWItNGY5ZC1hOTEwLWZlMzI4MDQyYjQ1MA.jpg"/></div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="table_rep_inf_row">
+                                        <div class="rep_inf_in_row"><img src="https://media.licdn.com/mpr/mpr/shrinknp_400_400/AAEAAQAAAAAAAAiNAAAAJDFjNDdhNDM4LTZkYWItNGY5ZC1hOTEwLWZlMzI4MDQyYjQ1MA.jpg"/></div>
+                                        <div class="rep_inf_in_row"><img src="https://media.licdn.com/mpr/mpr/shrinknp_400_400/AAEAAQAAAAAAAAiNAAAAJDFjNDdhNDM4LTZkYWItNGY5ZC1hOTEwLWZlMzI4MDQyYjQ1MA.jpg"/></div>
+                                        <div class="rep_inf_in_row"><img src="https://media.licdn.com/mpr/mpr/shrinknp_400_400/AAEAAQAAAAAAAAiNAAAAJDFjNDdhNDM4LTZkYWItNGY5ZC1hOTEwLWZlMzI4MDQyYjQ1MA.jpg"/></div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Twitter</td>
+                                <td>2</td>
+                                <td>4,310,780</td>
+                                <td>935</td>
+                                <td>
+                                    <div class="rep_chart_container">
+                                        <div class="rep_fake">
+                                            <c3chart bindto-id="pieChart3">
+                                                <chart-column column-id="data31"
+                                                              column-name="data31"
+                                                              column-color="#5b99fc"
+                                                              column-values="100"
+                                                              column-type="pie"/>
+                                                <chart-column column-id="data32_x"
+                                                              column-name="data32"
+                                                              column-values="100"
+                                                              column-color="#1587e0"
+                                                              column-type="pie"/>
+                                                <chart-legend show-legend="false"/>
+                                                <chart-size chart-width="80" chart-height="80"/>
+                                                <chart-pie show-label="false"/>
+                                                <chart-axis>
+                                                    <chart-axis-x show="false" padding-right="20" padding-left="20">
+                                                    </chart-axis-x>
+                                                    <chart-axis-y show="false" padding-top="25">
+                                                    </chart-axis-y>
+                                                </chart-axis>
+                                            </c3chart>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="table_rep_inf_row">
+                                        <div class="rep_inf_in_row"><img src="https://media.licdn.com/mpr/mpr/shrinknp_400_400/AAEAAQAAAAAAAAiNAAAAJDFjNDdhNDM4LTZkYWItNGY5ZC1hOTEwLWZlMzI4MDQyYjQ1MA.jpg"/></div>
+                                        <div class="rep_inf_in_row"><img src="https://media.licdn.com/mpr/mpr/shrinknp_400_400/AAEAAQAAAAAAAAiNAAAAJDFjNDdhNDM4LTZkYWItNGY5ZC1hOTEwLWZlMzI4MDQyYjQ1MA.jpg"/></div>
+                                        <div class="rep_inf_in_row"><img src="https://media.licdn.com/mpr/mpr/shrinknp_400_400/AAEAAQAAAAAAAAiNAAAAJDFjNDdhNDM4LTZkYWItNGY5ZC1hOTEwLWZlMzI4MDQyYjQ1MA.jpg"/></div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="table_rep_inf_row">
+                                        <div class="rep_inf_in_row"><img src="https://media.licdn.com/mpr/mpr/shrinknp_400_400/AAEAAQAAAAAAAAiNAAAAJDFjNDdhNDM4LTZkYWItNGY5ZC1hOTEwLWZlMzI4MDQyYjQ1MA.jpg"/></div>
+                                        <div class="rep_inf_in_row"><img src="https://media.licdn.com/mpr/mpr/shrinknp_400_400/AAEAAQAAAAAAAAiNAAAAJDFjNDdhNDM4LTZkYWItNGY5ZC1hOTEwLWZlMzI4MDQyYjQ1MA.jpg"/></div>
+                                        <div class="rep_inf_in_row"><img src="https://media.licdn.com/mpr/mpr/shrinknp_400_400/AAEAAQAAAAAAAAiNAAAAJDFjNDdhNDM4LTZkYWItNGY5ZC1hOTEwLWZlMzI4MDQyYjQ1MA.jpg"/></div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Facebook</td>
+                                <td>9</td>
+                                <td>4,310,780</td>
+                                <td>935</td>
+                                <td>
+                                    <div class="rep_chart_container">
+                                        <div class="rep_fake">
+                                            <c3chart bindto-id="pieChart4">
+                                                <chart-column column-id="pieSection1"
+                                                              column-name="data41"
+                                                              column-color="#6fe2e5"
+                                                              column-values="50"
+                                                              column-type="pie"/>
+                                                <chart-column column-id="pieSection2"
+                                                              column-name="data42"
+                                                              column-values="50"
+                                                              column-color="#14cde1"
+                                                              column-type="pie"/>
+                                                <chart-legend show-legend="false"/>
+                                                <chart-size chart-width="80" chart-height="80"/>
+                                                <chart-pie show-label="false" threshold-label="0.5"/>
+                                            </c3chart>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="table_rep_inf_row">
+                                        <div class="rep_inf_in_row"><img src="https://media.licdn.com/mpr/mpr/shrinknp_400_400/AAEAAQAAAAAAAAiNAAAAJDFjNDdhNDM4LTZkYWItNGY5ZC1hOTEwLWZlMzI4MDQyYjQ1MA.jpg"/></div>
+                                        <div class="rep_inf_in_row"><img src="https://media.licdn.com/mpr/mpr/shrinknp_400_400/AAEAAQAAAAAAAAiNAAAAJDFjNDdhNDM4LTZkYWItNGY5ZC1hOTEwLWZlMzI4MDQyYjQ1MA.jpg"/></div>
+                                        <div class="rep_inf_in_row"><img src="https://media.licdn.com/mpr/mpr/shrinknp_400_400/AAEAAQAAAAAAAAiNAAAAJDFjNDdhNDM4LTZkYWItNGY5ZC1hOTEwLWZlMzI4MDQyYjQ1MA.jpg"/></div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="table_rep_inf_row">
+                                        <div class="rep_inf_in_row"><img src="https://media.licdn.com/mpr/mpr/shrinknp_400_400/AAEAAQAAAAAAAAiNAAAAJDFjNDdhNDM4LTZkYWItNGY5ZC1hOTEwLWZlMzI4MDQyYjQ1MA.jpg"/></div>
+                                        <div class="rep_inf_in_row"><img src="https://media.licdn.com/mpr/mpr/shrinknp_400_400/AAEAAQAAAAAAAAiNAAAAJDFjNDdhNDM4LTZkYWItNGY5ZC1hOTEwLWZlMzI4MDQyYjQ1MA.jpg"/></div>
+                                        <div class="rep_inf_in_row"><img src="https://media.licdn.com/mpr/mpr/shrinknp_400_400/AAEAAQAAAAAAAAiNAAAAJDFjNDdhNDM4LTZkYWItNGY5ZC1hOTEwLWZlMzI4MDQyYjQ1MA.jpg"/></div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                   </div>-->
+        {% elif section == 'post_stats' %}
+            <div id="post_analytics_root">
+                <div class="report_top_stuff">
+                    {% comment %}
+                    <a class="square_bt gray_bt sm" href="{{ public_link }}" target="_blank">Preview</a>
+                    <a class="square_bt gray_bt sm" href="" ng-click="$event.preventDefault();submitToClient({clientLink: '{{ public_link }}', status: {{ collection.approval_status }} })">Submit To Client</a>
+                    {% endcomment %}
+                </div>
+                {% comment %}
+                {% include "pages/search/roi_prediction_report_influencer_stats_details_partial.html" with disable_posts_expand="true" %}
+                {% endcomment %}
+                {% include 'snippets/generic_table/pipeline_table.html' %}
+            </div>
+        {% elif section == 'user_generated_content' %}
+            <div class="blogger_feed" id="bloggers_root">
+                <div product-feed filter='{{ filter_key }}' source='' paginated {% if DEBUG %}debug{% endif %} ugc-view show-buttons></div>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

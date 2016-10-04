@@ -1,0 +1,167 @@
+{% load custom_filters %}
+<div respond-popup no-close-outside url="{% url debra.job_posts_views.send_response %}" subject="Response from {{visitor.brand.name}}" thread="collection"></div>
+<div class="breadcrumb_container campaign_drillin">
+    <a class="breadcrumb_nav_item" href="{% url debra.search_views.saved_views_tags %}">
+        <span class="bread_text">All Tags</span>
+    </a>
+    <div class="breadcrumb_nav_item"><span class="icon-arrow_l_arr_2"></span></div>
+    <div class="breadcrumb_nav_item" href="">
+        <span class="bread_text">{{group.name}}</span>
+    </div>
+</div>
+
+<div class="page_title_section campaign_drillin" ng-controller="FavoritesCtrl">
+    <div edit-collection-popup edit-group="{% url debra.job_posts_views.edit_influencer_groups %}"></div>
+    <div class="page_title">{{group.name}}</div>
+    <div class="campaign_extras">
+        {% comment %}
+        {% with group.job_post.all as jobs %}
+        {% if jobs %}
+        <span class="campaign_info_block">Collection is associated with {{jobs.count}} campaign{{jobs.count|pluralize}}:&nbsp; {% for job in jobs %}<b><a class="darkest_teal txt_link" href="{% url debra.job_posts_views.list_details_jobpost job.id %}">{{job.title}}</a>{% if not forloop.last %}&nbsp; / &nbsp; {% endif %}</b>{% endfor %}.
+        {% else %}
+        <span class="campaign_info_block">Collection is not associated to any campaign.</span>
+        {% endif %}
+        <span class="campaign_info_block icon-misc_files_pencil3 edit_collection bs_tooltip" title="Edit Collection" ng-click="editGroup('{{group.id}}', '{{group.name|escapejs}}', '{{group.description|escapejs}}', [{% for j in jobs %}{{j.id}},{% endfor %}])"></span>
+        {% endwith %}
+        {% endcomment %}
+    </div>
+</div>
+
+<div favorited-table id="bloggers_root">
+    <div class="campaign_drillin_table">
+        {% if not influencers %}
+        <div class="missing_content">
+            <div class="missing_text">You haven't selected any bloggers yet for this campaign. You can use the blogger Search Engine to find relevant bloggers for your campaign. Save them as favorites, and then they will show up here for you to send them invite.</div>
+            <a class="square_bt lg teal_bt" href="{% url debra.search_views.blogger_search %}">search engine</a>
+        </div>
+        {% else %}
+
+        {% if not applicants %}
+        <div class="missing_content" ng-if="mode == 'applicants'">
+            <div class="missing_text">No one has applied to this campaign yet. If you'd like to invite people to your campaign, you can use our blogger Search Engine to find relevant bloggers for your campaign. Save them as favorites, and then they will show up in the Favorites tab for you to send them invite.</div>
+            <a class="square_bt lg teal_bt" href="{% url debra.search_views.blogger_search %}">search engine</a>
+        </div>
+        {% endif %}
+        <table>
+            <tbody>
+                {% for influencer in influencers %}
+                <tr id="mapping_{{influencer.influencer.id}}" class="favorited {% if influencer.status == 5 %}applied{% endif %}">
+
+                    <td class="first_box">
+                        <div class="influence_img" ng-click="show('{{influencer.details_url}}')">
+                            <div class="influence_img_inner">
+                                <img class="imgfit" src="{{influencer.influencer.profile_pic_url}}">
+                            </div>
+                        </div>
+
+                        <div class="influence_info">
+                            <span class="name">{{influencer.influencer.name|unescape}}</span> <br/> <span class="of_text">of</span>&nbsp;
+                            <span class="site"><a class="txt_link lessergray" href="{{influencer.influencer.blog_url}}" target="blank">{{influencer.influencer.blogname|unescape}}</a></span><br/>
+                            <div class="follower_row">
+                                {% if influencer.tw_fol %}<span class="icon-social_twitter"></span><span class="count"> {{influencer.tw_fol}}</span>{% endif %}
+                                {% if influencer.ig_fol %}<span class="icon-social_instagram2"></span><span class="count"> {{influencer.ig_fol}}</span>{% endif %}
+                                {% if influencer.fb_likes %}<span class="icon-social_facebook"></span><span class="count">{{influencer.fb_likes}}</span>{% endif %}
+                                {% if influencer.pin_fol %}<span class="icon-social_pinterest"></span><span class="count">{{influencer.pin_fol}}</span>{% endif %}
+                                {% if influencer.youtube_fol %}<span class="icon-social_youtube"></span><span class="count">{{influencer.youtube_fol}}</span>{% endif %}
+                            </div>
+                            <div class="influence_actions">
+                                <!--a class="square_bt xxs gray_bt less_pad" blogger-more-info reload ng-click="show('{{influencer.details_url}}')">
+                                    <span class="icon-misc_magnify2"></span>
+                                    <span class="button_txt">View Profile</span>
+                                </a-->
+                                <a class="square_bt xxs gray_bt less_pad" ng-click="submitDelete({{influencer.influencer.id}}, {{ group.id }}, '{% url debra.job_posts_views.remove_influencer_from_groups %}')">
+                                    <span class="icon-misc_files_trash5"></span>
+                                    <span class="button_txt">Delete</span>
+                                </a>
+                            </div>
+                        </div>
+                    </td>
+
+                    <td>
+                        {% comment %}
+                        {% with mapping.post_stamp|common_date_format:visitor as post_stamp %}
+                        {% if mapping.mailbox %}
+                        <div class="id_status">
+                            <div class="email_subject">
+                            <a ng-click="toggleConversation('col_{{mapping.mailbox.id}}', '{{influencer.name|escapejs}}', {{influencer.id}})">
+                                {% if mapping.email_subject %}
+                                {{mapping.email_subject}}
+                                {% else %}
+                                Click to view {{mapping.group.name}} emails
+                                {% endif %}
+                            </a>
+                            </div>
+                        </div>
+                        <div class="id_status">
+                            <span class="status">Original sent:</span>
+                            <span class="date">{{post_stamp}}</span>
+                        </div>
+                        {% endif %}
+                        {% endwith %}
+                        {% for job in mapping.jobs.all %}
+                        {% if job.mailbox %}
+                        {% with job.mailbox.subject as subject %}
+                        {% with job.post_stamp|common_date_format:visitor as post_stamp %}
+                        <div class="id_status">
+                            <div class="email_subject">
+                            <a ng-click="toggleConversation('job_{{job.mailbox.id}}', '{{influencer.name|escapejs}}', {{influencer.id}})">
+                                {% if subject %}
+                                {{subject}}
+                                {% else %}
+                                Click to show {{job.job.title}} emails
+                                {% endif %}
+                            </a>
+                            </div>
+                        </div>
+                        <div class="id_status">
+                            <span class="status">Original sent:</span>
+                            <span class="date">{{post_stamp}}</span>
+                        </div>
+                        {% endwith %}
+                        {% endwith %}
+                        {% endif %}
+                        {% endfor %}
+                        <br/>
+                        {% endcomment %}
+
+                        <a class="square_bt xs gray_bt less_pad" ng-click="invite({userId: {{ influencer.influencer.id }}, groupId: {{group.id}}, template: '<p>Hi{% if influencer.influencer.name %} {{ influencer.influencer.name|unescape|escapejs }}{% endif %},</p><p>We are big fans of your style and would love to invite you to our campaign for {{ visitor.brand.name|escapejs }}.</p><p>If you\'re interested, either just reply to this email or visit the post (link below) to see more details.</p><p>We look forward to your response,</p><p>{{visitor.user.name|unescape|escapejs}}<br/><a href=\'http://{{visitor.brand.domain_name|escapejs}}\'>{{visitor.brand.name|escapejs }}</a></p>', subject: 'We at {{visitor.brand.name|escapejs}} love your blog - interested in working together?', jobIds: {{influencer.job_ids_list|safe}} })" >
+                            <span class="icon-social_envelope"></span>
+                            <span class="button_txt">Send Message</span>
+                        </a>
+                    </td>
+                    <td>
+                        <div class="id_status">
+                            <span class="number_label" style="text-align:left;">Campaign{{influencer.all_jobs_list|length|pluralize}}</span>
+                            <div class="status" style="text-align:left; margin-bottom: 10px;">
+                                {% for job in influencer.all_jobs_list %}
+                                <a href="{% url debra.job_posts_views.list_details_jobpost job.0 %}" class="txt_link darker_teal">{{job.1}}</a>{% if not forloop.last %},{% endif %}
+                                {% endfor %}
+                            </div>
+                            <span class="number_label" style="text-align:left;">Collection{{influencer.other_groups_list|length|pluralize}}</span>
+                            <div class="status" style="text-align:left; margin-bottom: 10px;">
+                                {% for group in influencer.other_groups_list %}
+                                    <a href="{% url debra.job_posts_views.list_details group.id %}" class="txt_link darker_teal">{{ group.name }}</a>{% if not forloop.last  %},{% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                {% comment %}
+                {% if mapping.mailbox %}
+                <tr class="conversation_{{mapping.mailbox.id}}" blogger-conversation thread="generic" map-id="{{mapping.mailbox.id}}" map="col_{{mapping.mailbox.id}}" source="{% url debra.job_posts_views.get_conversations mapping.mailbox.id 'generic' %}"></tr>
+                {% endif %}
+                {% for job in mapping.jobs.all %}
+                {% if job.mailbox %}
+                <tr class="conversation_{{mapping.mailbox.id}}" blogger-conversation thread="generic" map-id="{{job.mailbox.id}}" map="job_{{job.mailbox.id}}" source="{% url debra.job_posts_views.get_conversations job.mailbox.id 'generic' %}"></tr>
+                {% endif %}
+                {% endfor %}
+                {% endcomment %}
+                {% endfor %}
+            </tbody>
+        </table>
+        {% endif %}
+    </div>
+</div>
+
+{% load paginator %}
+{% paginator object_list=influencers request=request %}

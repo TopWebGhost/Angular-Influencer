@@ -1,0 +1,12 @@
+{% if note %}
+    {{ note|safe }}
+{% else %}
+    <div>
+        <p>Hi {{ influencer.first_name }},</p><br />
+
+        <p>I have one more quick thing... could you please click on this link <a href="{{ job_mapping.contract.link }}">{{ job_mapping.contract.link }}</a> and complete the instructions on that page to digitally sign our contract. It's pretty short and shouldn't take much time! No need to print. You'll get instructions for how to sign online.</p><br />
+
+        <p>Thanks!</p>
+        <p>{{ user.userprofile.first_name }}</p>
+    </div>
+{% endif %}

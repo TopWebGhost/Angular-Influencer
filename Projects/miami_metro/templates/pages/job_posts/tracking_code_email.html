@@ -1,0 +1,12 @@
+{% if note %}
+    {{ note|safe }}
+{% else %}
+    <div>
+        <p>Hi {{ influencer.first_name }},</p>
+        <p>
+            Please, follow this link to setup your tracking:
+            <a href="{{ contract.blogger_tracking_url }}">{{ contract.blogger_tracking_url }}</a>
+        </p>
+        <p>Thanks,<br />{{ user.userprofile.first_name }}</p>
+    </div>
+{% endif %}

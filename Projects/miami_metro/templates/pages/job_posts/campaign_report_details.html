@@ -1,0 +1,304 @@
+{% extends 'pages/job_posts/base.html' %}
+{% load compressed %}
+{% load custom_filters %}
+{% load humanize %}
+
+{% block title %}Campaign Report | connecting top fashion bloggers and brands{% endblock %}
+{% block body_class %}lt_gray_bg{% endblock %}
+
+{% block main_controller %}ng-controller="PostAnalyticsCtrl"{% endblock main_controller %}
+
+{% block extra_dc_class %}{% if landing_page %}no_sidebar actions_always_visible{% endif %}{% endblock extra_dc_class %}
+
+{% block bottom_js %}
+{% compressed_js 'angular_saved_searches' %}
+{% if section == 'campaign_overview' %}
+    {% compressed_js 'campaign_overview' %}
+{% endif %}
+<script type="text/javascript">
+(function(){
+angular.module("theshelf")
+    .value('nav_config', {
+        tab: "{{selected_tab}}",
+        sub_tab: "{{sub_page}}",
+        visible: {% if hide_sidenav %}false{% else %}true{% endif %},
+    })
+    .value('dashboard_brand', null);
+})();
+</script>
+{% include 'snippets/sticky_headers_js.html' with table_body_wrapper=".table-body" table_header_wrapper=".table-header" %}
+{% endblock %}
+
+{% block extra_directives %}
+    {% comment %}
+    <div blogger-approval-popup
+        client-approval-invite-url="{% url debra.search_views.client_approval_invite_send report.id %}"
+        approval-status-change-url="{% url debra.search_views.blogger_approval_status_change brand_id report.id user_id %}"
+    ></div>
+    {% endcomment %}
+    <div invite-to-report-popup url=''></div>
+{% endblock extra_directives %}
+
+{% block search_content %}
+    <div id="bloggers_root" ng-controller="TableCtrl as tableCtrl">
+
+        {% if not landing_page %}
+            <div class="campaign_tab_row_container" affixed>
+                <div class="campaign_tab_row clearfix">
+                    {% for key, section in campaign_switcher.sections %}
+                        {% if section.visible %}
+                            <a href="{{ section.url }}">
+                                <div class="campaign_tab{% if section.selected %} selected{% endif %}">{{ section.text }}</div>
+                            </a>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+        <div class="dashboard_top_section transparent_bar">
+            <div class="search_name_row clearfix">
+
+                <div class="name_section{% if campaign.id == 696 %} centra{% endif %}" {% if landing_page %}{% endif %}>
+                    <div class="page_title">
+                        <span class="brand_name">
+                        {% if campaign.client_name %}<strong>{{ campaign.client_name }}</strong> : {% endif %}
+                        <span>{{ campaign.title }} : {{ campaign_switcher.selected_section.text }}</span></span>
+                        <span class="info">influencers: {{ influencers_count }}</span> &nbsp; &nbsp;
+                        {% if not landing_page %}
+                            <a broadcaster class="square_bt dashboard_btn gray_bt xs rounded_bt" ng-click="$event.preventDefault(); $event.stopPropagation(); broadcasterCtrl.broadcast('openInviteToReportPopup', {clientLink: '{{ public_link }}', campaignName: '{{ campaign.title|default_if_none:""|escapejs }}'})">Submit To Client</a>
+                        {% endif %}
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="dashboard_top_controls pipeline_controls clearfix" {% if landing_page %}style="position:relative; z-index:2;"{% endif %}>
+            <div class="dashboard_row_section deprecated_filters">
+                {% for key, section in sections.items %}
+                    <a href="{% if hash_key %}{% url debra.job_posts_views.campaign_report campaign.id key hash_key %}{% else %}{% url debra.job_posts_views.campaign_report campaign.id key %}{% endif %}">
+                        <button class="filter_button {% if section.selected %} selected{% endif %}">
+                            <span>{{ section.text }}</span>
+                        </button>
+                    </a>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="dashboard_top_controls sub_stage_counts clearfix"  {% if landing_page %}style="position:relative; z-index:2;"{% endif %}>
+            {% if section != 'campaign_overview' %}
+                <!-- <span class="mini_title">View Posts</span> -->
+                {% for post_type in post_types %}
+                    {% if post_type.count > 0 %}
+                        <a href="{% if post_type.value %}?post_type={{ post_type.value }}{% else %}.{% endif %}" {% if post_type.class %}class="{{ post_type.class }}"{% endif %}>
+                            <button class="sub_filter_button{% if post_type.selected %} selected{% endif %}">
+                                <span>{{ post_type.text }} - {{ post_type.count }}</span>
+                            </button>
+                        </a>
+                    {% endif %}
+                {% endfor %}
+                {% comment %}
+                    <span class="mini_title" style="margin-left: 50px;">Actions</span>
+                    <a class="square_bt gray_bt sm rounded_bt" href="{% url debra.search_views.post_analytics_collection_edit campaign.post_collection_id %}" target="_blank">Add Post</a>
+                    <a class="square_bt gray_bt sm rounded_bt" href="{% url debra.dataexport_views.export_campaign_report_view campaign.id %}" target="_blank">Export</a>
+                    <a class="square_bt gray_bt sm rounded_bt" href="" target="_blank">Invite Client</a>
+                {% endcomment %}
+            {% endif %}
+        </div>
+
+        {% if section == 'campaign_overview' %}
+            <div campaign-overview class="aggregate_campaign_analytics_report" campaign-id="{{ campaign.id }}">
+
+                <div class="aggregate_campaign_analytics_row">
+                    <div class="row_content">
+
+                        <div class="analytics_block influencer_list">
+                            {% verbatim %}
+                            <div class="block_header clearfix">
+                                <div class="block_title">Top Influencers</div>
+                                <div ng-hide="topInfluencers.loading" class="block_stats">Total: {{ topInfluencers.totalCount }}</div>
+                            </div>
+                            <div ng-hide="topInfluencers.loading" class="block_content">
+                                <div class="influencer_block" ng-repeat="influencer in topInfluencers.list">
+                                    <div blogger-more-info ng-click="show(influencer.details_url, {isBloggerApproval: true, campaignId: topInfluencers.campaignId})">
+                                        <div class="influence_img">
+                                            <div class="influence_img_inner">
+                                                <img class="imgfit" ng-src="{{influencer.pic}}">
+                                            </div> 
+                                        </div>
+                                        <div class="influence_info">
+                                            <span class="name" ng-show="influencer.user_name">{{influencer.user_name}}</span>
+                                            <br ng-show="influencer.user_name" />
+                                            <span ng-show="influencer.user_name && influencer.blog_name">
+                                                <span class="of_text">of</span>&nbsp;
+                                            </span>
+                                            <span class="site" ng-show="influencer.blog_name">
+                                                <a ng-hide="context.showDummyData" class="txt_link gray" ng-href="{{ influencer.blog_page }}" target="blank">{{ influencer.blog_name }}</a>
+                                                <a ng-show="context.showDummyData" class="txt_link gray" ng-click="$event.stopPropagation()" click-emitter="featureLocked">{{ influencer.blog_name }}</a>
+                                            </span><br/>
+                                            <div class="follower_row">
+                                                <span ng-show="influencer.Twitter_fol" class="icon-social_twitter"></span><span ng-show="influencer.Twitter_fol" class="count"> {{influencer.Twitter_fol|number:0}}</span>
+                                                <span ng-show="influencer.Instagram_fol" class="icon-social_instagram2"></span><span ng-show="influencer.Instagram_fol" class="count"> {{influencer.Instagram_fol|number:0}}</span>
+                                                <span ng-show="influencer.Facebook_fol" class="icon-social_facebook"></span><span ng-show="influencer.Facebook_fol" class="count">{{influencer.Facebook_fol|number:0}}</span>
+                                                <span ng-show="influencer.Pinterest_fol" class="icon-social_pinterest"></span><span ng-show="influencer.Pinterest_fol" class="count">{{influencer.Pinterest_fol|number:0}}</span>
+                                                <span ng-show="influencer.Youtube_fol" class="icon-social_youtube"></span><span ng-show="influencer.Youtube_fol" class="count">{{influencer.Youtube_fol|number:0}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endverbatim %}
+                            <div ng-show="topInfluencers.loading" main-loader class="block_content"></div>
+                        </div>
+
+                        <div class="analytics_block influencer_location">
+                            <div class="block_header clearfix">
+                                <div class="block_title">Location</div>
+                                <div ng-hide="campaignMap.loading" class="block_stats"></div>
+                            </div>
+                            <div ng-hide="campaignMap.loading" class="block_content">
+                                <div id="campaignMapContainer" style="position: relative;"></div>
+                            </div>
+                            <div ng-show="campaignMap.loading" main-loader class="block_content"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="aggregate_campaign_analytics_row" ng-hide="true">
+                    <div class="row_title">Engagement</div>
+                    <div class="row_content">
+
+                        <div class="analytics_block">
+                            {% verbatim %}
+                            <div class="block_header clearfix">
+                                <div class="block_title">Distribution</div>
+                                <div ng-hide="engagementDistribution.loading" class="block_stats">Total Engagements: {{ engagementDistribution.totalCount }}</div>
+                            </div>
+                            <div ng-hide="engagementDistribution.loading" class="block_content">
+                                {{ engagementDistribution.counts }}
+                            </div>
+                            <div ng-show="engagementDistribution.loading" main-loader class="block_content"></div>
+                            {% endverbatim %}
+                        </div>
+
+                        <div class="analytics_block" ng-hide="true">
+                            {% verbatim %}
+                            <div class="block_header clearfix">
+                                <div class="block_title">Timeline</div>
+                                <div ng-hide="engagementTimeline.loading" class="block_stats">Campaign Dates: December 15, 2015 - January 1, 2016</div>
+                            </div>
+                            <div ng-hide="engagementTimeline.loading" class="block_content">
+                                <div id="engagement_timeline_chart"></div>
+                            </div>
+                            <div ng-show="engagementTimeline.loading" main-loader class="block_content"></div>
+                            {% endverbatim %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="aggregate_campaign_analytics_row numbers_row">
+                    {% verbatim %}
+                    <div class="row_title">Post Engagement Stats</div>
+                    <div class="row_content">
+
+                        <div class="analytics_block" ng-repeat="(platform, counts) in postStats.counts">
+                            <div class="block_header clearfix">
+                                <div class="block_title"><div ng-class="platformIconClasses(platform)"></div><div class="network_title">{{ platform }} Post</div></div>
+                                <div class="block_stats" style="margin: 8px;">Total: {{ postStats.postCounts[platform] }}</div>
+                            </div>
+                            <div class="block_content">
+                                <div class="number_wrapper" ng-repeat="(param, data) in counts|orderObjectBy:'order':false">
+                                    <div class="data_count">{{ data.count }}</div>
+                                    <div class="data_title">{{ data.title }}</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="analytics_block" ng-repeat="(platform, counts) in postImpressions.data">
+                            <div class="block_header clearfix">
+                                <div class="block_title"><div class="icon-social_globe3"></div><div class="network_title">{{ platform }}</div></div>
+                                <!--<div class="block_stats" style="margin: 8px;">Total: {{ postStats.postCounts[platform] }}</div>-->
+                            </div>
+                            <div class="block_content">
+                                <div class="number_wrapper" ng-repeat="(param, data) in counts|orderObjectBy:'order':false">
+                                    <div class="data_count">{{ data.count }}</div>
+                                    <div class="data_title">{{ data.title }}</div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    {% endverbatim %}
+                </div>
+
+                <div class="aggregate_campaign_analytics_row top_posts_row">
+                    <div class="row_title">Top Posts</div>
+                    <div class="row_content">
+
+                        <div>
+                            {% verbatim %}
+                            <div ng-hide="topPosts.loading" >
+                                <div ng-repeat="post in topPosts.list.results">
+                                    <div feed-item item="post" options="topPosts.itemOptions">
+                                    
+                                    <!--
+                                    <div ng-if="post.platform == 'photos'" feed-item feed-item-photos item="post" ugc-view></div>
+                                    <div ng-if="post.platform == 'youtube'" feed-item feed-item-youtube item="post" ugc-view></div>
+                                    <div ng-if="post.platform == 'facebook'" feed-item feed-item-facebook item="post" ugc-view></div>
+                                    <div ng-if="post.platform == 'blog'" feed-item feed-item-blog item="post" ugc-view></div>
+                                    <div ng-if="post.platform == 'tweets'" feed-item feed-item-photos item="tweets" ugc-view></div>
+                                    <div ng-if="post.platform == 'pins'" feed-item feed-item-pins item="post" ugc-view></div>
+                                    -->
+                                </div>
+                            </div>
+                            <div ng-show="topPosts.loading" main-loader class="block_content"></div>
+                            {% endverbatim %}
+                        </div>
+                        
+                    </div>
+                </div>
+
+                <div class="aggregate_campaign_analytics_row ugc_row">
+                    <div class="row_title">User-Generated Content</div>
+                    <div class="row_content">
+                        <div class="analytics_block">
+                            {% verbatim %}
+                            <div ng-hide="instagramPhotos.loading" class="block_content">
+                                <ul class="images-grid ugc_photos">
+                                    <li ng-repeat="photo in instagramPhotos.list">
+                                        <div class="ugc_photo_wrapper" style="width: 200px; height: 200px;">
+                                            <a href="{{ photo.url }}" target="_blank">
+                                                <div class="cropped-image" bg-image="{{ photo.img }}" hide-on-error></div>
+                                                <!-- <img class="imgfit" src="{{ photo.img }}" alt=""> -->
+                                            </a>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div ng-show="instagramPhotos.loading" main-loader class="block_content"></div>
+                            {% endverbatim %}
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        {% elif section == 'post_stats' %}
+            <div id="post_analytics_root">
+                <div class="report_top_stuff">
+                    {% comment %}
+                    <a class="square_bt gray_bt sm" href="{{ public_link }}" target="_blank">Preview</a>
+                    <a class="square_bt gray_bt sm" href="" ng-click="$event.preventDefault();submitToClient({clientLink: '{{ public_link }}', status: {{ collection.approval_status }} })">Submit To Client</a>
+                    {% endcomment %}
+                </div>
+                {% comment %}
+                {% include "pages/search/roi_prediction_report_influencer_stats_details_partial.html" with disable_posts_expand="true" %}
+                {% endcomment %}
+                {% include 'snippets/generic_table/pipeline_table.html' %}
+            </div>
+        {% elif section == 'user_generated_content' %}
+            <div class="blogger_feed" id="bloggers_root">
+                <div product-feed filter='{{ filter_key }}' source='' paginated {% if DEBUG %}debug{% endif %} ugc-view show-buttons></div>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

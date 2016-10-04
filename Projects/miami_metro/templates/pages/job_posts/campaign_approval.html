@@ -1,0 +1,57 @@
+{% extends 'pages/job_posts/campaign_setup_details.html' %}
+{% load compressed %}
+{% load custom_filters %}
+
+{% block extra_directives %}
+    <div blogger-approval-popup
+        client-approval-invite-url="{% url debra.search_views.client_approval_invite_send campaign.report.id %}"
+        approval-status-change-url="{% url debra.search_views.blogger_approval_status_change request.visitor.base_brand.id campaign.report.id request.user.id %}"
+    ></div>
+{% endblock extra_directives %}
+
+
+{% block dashboard_middle_header_section_wrapper %}
+    <div class="buttons_with_nowhere_else_to_go">
+        <a class="square_bt dashboard_btn gray_bt xs rounded_bt" href="{{ public_link }}?preview=1" target="_blank">Preview</a>
+
+        <a
+            broadcaster
+            class="square_bt gray_bt dashboard_btn xs rounded_bt"
+            ng-click="$event.preventDefault(); $event.stopPropagation(); broadcasterCtrl.broadcast('openBloggerApprovalPopup', {clientLink: '{{ public_link|escapejs }}', status: {{ campaign.influencer_collection.approval_status }}, campaignName: '{{ campaign.title|escapejs }}'})"
+        >Submit To Client</a>
+
+        {% if counts.approve_status_counts.0 > 0 %}
+            {% comment %}
+            <a
+                request-button
+                ng-click="!requestButtonCtrl.loaded && requestButtonCtrl.doRequest({method: 'POST', successCb: pageReload, url: '?delete_pending=1', data: {}})"
+                class="txt_link" style="color:#F5154B; font-size:11px; font-style:italic;">
+                <span ng-hide="requestButtonCtrl.loading">Delete All Pending</span>
+                <span ng-show="requestButtonCtrl.loading">Deleting...</span>
+            </a>
+            {% endcomment %}
+        {% endif %}
+
+    </div>
+
+{% endblock dashboard_middle_header_section_wrapper %}
+
+
+{% block dashboard_top_controls %}
+    {{ block.super }}
+    <div class="dashboard_top_controls sub_stage_counts clearfix">
+        {% verbatim %}
+            <a ng-href="{{ section.url }}" ng-repeat="section in pipelineCtrl.approvalSections" ng-if="section.visible" class="{{ section.extra.class }}">
+                <button class="sub_filter_button" ng-class="{selected: section.selected}">
+                    <span class="filter_name">{{ section.text }} </span> <span class="filter_count">{{ section.count }}</span><span class="filter_new_count" ng-if="section.extra.unread_count">{{ section.extra.unread_count }}</span>
+                </button>
+            </a>
+        {% endverbatim %}
+    </div>
+{% endblock dashboard_top_controls %}
+
+{% block dashboard_content %}
+    <div id="post_analytics_root">
+        {% include 'snippets/generic_table/pre_outreach_pipeline_table.html' %}
+    </div>
+{% endblock dashboard_content %}

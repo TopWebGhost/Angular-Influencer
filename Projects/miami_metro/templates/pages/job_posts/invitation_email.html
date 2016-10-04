@@ -1,0 +1,23 @@
+<div>
+    {% if note %}
+    <p>{{note|safe}}</p>
+    {% else %}
+    <b>Hello {% if mapping %}{{mapping.influencer.first_name|title}}{% else %}{{ influencer.first_name }}{% endif %}!</b>
+    <div>{{brand.name|title}} wants to invite you to {{job.title}}!</div>
+    {% endif %}
+
+    {% if brand.flag_previous_campaign_link_version %}
+        <br/>
+        {% if test_send %}
+            {% if job %}
+                <i>Here should be rendered an invitation link to the following campaign page: <b>{{ job.title }}</b></i>
+            {% endif %}
+        {% else %}
+            {% if job and job_mapping and user.userprofile.flag_default_invitation_campaign != job.id %}
+            Click here to see details: <a href="http://app.theshelf.com{% url debra.job_posts_views.invite job_mapping.id %}">http://app.theshelf.com{% url debra.job_posts_views.invite job_mapping.id %}</a>
+            <br/>
+            {% endif %}
+        {% endif %}
+    {% endif %}
+
+</div>

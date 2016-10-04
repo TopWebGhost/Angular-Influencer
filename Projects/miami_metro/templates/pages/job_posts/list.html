@@ -1,0 +1,218 @@
+{% extends 'pages/job_posts/base.html' %}
+{% load humanize %}
+{% block title %}Blogger Campaigns | connecting top fashion bloggers and brands{% endblock %}
+{% block body_class %}lt_gray_bg{% endblock %}
+
+{% block extra_directives %}
+    <div campaign-create-popup update-url="{% url debra.job_posts_views.campaign_create %}"></div>
+{% endblock extra_directives %}
+{% block search_content %}
+
+
+    
+    <div class="dashboard_top_section">
+        <div class="search_name_row clearfix">
+            <div class="name_section">
+                <div class="page_title">All Campaigns</div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="the_collections" ng-controller="JobPostListCtrl">
+        <div class="collection_outer_wrapper">
+            <div class="a_collection_container collection_button clearfix" ng-click="openCampaignCreatePopup()">
+                {% comment %}
+                <div class="add_collection_btn" a-href="{% url debra.job_posts_views.add %}" direct>
+                {% endcomment %}
+                <div class="add_collection_btn" >
+                    <div>
+                        <div class="icon-letter_plus04"></div>
+                        <div class="btn_txt">Add Campaign</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% for post in posts %}
+        <div class="collection_outer_wrapper" id="post_{{post.id}}">
+            {% comment %}
+            <a href="{% url debra.job_posts_views.list_details_jobpost post.id %}" class="a_collection_container a_campaign_container feed_item clearfix">
+            {% endcomment %}
+            <a href="{% url debra.job_posts_views.campaign_setup post.id %}" class="a_collection_container a_campaign_container feed_item clearfix">
+                {% comment %}
+                <div class="no_items_overlay"></div>
+                {% endcomment %}
+                <div class="tag_btns">
+                    <div class="tag_button" ng-click="$event.preventDefault(); $event.stopPropagation()">
+                        {% comment %}
+                        <div class="icon-misc_magnify2 bs_tooltip" data-placement="right" title="View Public Post" direct a-href="{% url debra.job_posts_views.view post.id %}"></div>
+                        {% endcomment %}
+                        <div class="icon-misc_magnify2 bs_tooltip" data-placement="right" title="View Public Post" direct a-href="{% url debra.job_posts_views.campaign_setup post.id %}"></div>
+                    </div>
+                    <div class="tag_button" ng-click="$event.preventDefault(); $event.stopPropagation()">
+                        {% comment %}
+                        <div class="icon-misc_files_pencil3 edit_collection bs_tooltip" data-placement="right" title="Edit Post" direct a-href="{% url debra.job_posts_views.edit post.id %}"></div>
+                        {% endcomment %}
+                        <div class="icon-misc_files_pencil3 edit_collection bs_tooltip" data-placement="right" title="Edit Post" direct a-href="{% url debra.job_posts_views.campaign_create post.id %}"></div>
+                    </div>
+                    <div class="tag_button" ng-click="$event.preventDefault(); $event.stopPropagation()">
+                        <div confirm confirm-title="Are you sure?" message="Do you want to delete campaign '{{post.title}}'?" yes-url="{% url debra.job_posts_views.delete post.id %}" yes-cb="removePost({{post.id}})" class="delete_collection bs_tooltip"  title="Delete Post" data-placement="right">
+                            <div class="icon-misc_files_trash4"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="title_row" style="height: initial!important;">
+                    <div class="top_text_wrapper">
+                        <div class="title_txt">{% if post.client_name %}<span style="font-weight: bold;">{{ post.client_name }}</span>: {% endif %}{{post.title}}</div>
+                        <div class="info_row beneath_header">
+                            <div class="info_group">
+                                <div class="info_sub_group">
+                                    <!--span class="the_label">Owner: </span>
+                                    <span class="info">{% if post.creator == visitor.base_brand %}You{% else %}{{ post.creator.name }}{% endif %}</span>
+                                    &nbsp; &nbsp; &nbsp; &nbsp;-->
+                                    <span class="the_label">Spent: </span>
+                                    <span class="info">${{ post.agr_spent|default_if_none:"0"|intcomma }}</span>
+                                    &nbsp; &nbsp; &nbsp;
+                                </div>
+                                <div class="info_sub_group">
+                                    <span class="info txt_link_round lightergray" ng-click="$event.preventDefault(); $event.stopPropagation()" a-href="{% url debra.job_posts_views.campaign_create post.id %}">
+                                    Settings</span>&nbsp; &nbsp; &nbsp;
+                                    <span class="info txt_link_round lightergray" ng-click="$event.preventDefault(); $event.stopPropagation()" a-href="{% url debra.job_posts_views.campaign_report post.id %}">
+                                    Reporting</span>
+                                </div>
+                                {% comment %}
+                                <span class="info">{{post.collab_type_verbose}}</span>
+                                {% if post.published %}
+                                <span class="info">{{post.date_publish}}</span>
+                                {% else %}
+                                <span class="info" direct a-href="{% url debra.job_posts_views.edit group.job_post.id %}">Not posted</span>
+                                {% endif %}
+                                {% endcomment %}
+                            </div>
+                        </div>
+                    </div>
+                
+                    <div class="info_row pipeline_stage_holder">
+
+                        {% comment %}
+                        {% for count in post.list_counts %}
+                            <div class="individual_row">
+                                <div class="data_section">
+                                    <div class="the_label">{{ count.name }}: </div><div class="info">{{ count.value }}</div>
+                                </div>
+                                <div class="link_section" ng-click="$event.preventDefault(); $event.stopPropagation()">
+                                    <div a-href="{{ count.url }}">View</div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                        {% endcomment %}
+
+                        {% for key, section in post.stage_switcher.sections %}
+                            
+                            <div ng-click="$event.preventDefault(); $event.stopPropagation()" {% if section.visible %}a-href="{{ section.url }}"{% endif %} class="clearfix individual_row {% if section.visible %}{% else %}not_active_pipe_stage{% endif %} {% if section.extra.class %} {{ section.extra.class }}{% endif %}">
+                                <div class="data_section">
+                                    <div class="the_label">{{ section.text }}: </div>
+                                    <div class="info">{{ section.count|default_if_none:"0" }}</div>
+                                    {% if section.extra.unread_count %}<div class="count_o_unread">{{ section.extra.unread_count }}</div>{% endif %}
+                                </div>
+                                <div class="link_section">
+                                    <div>View</div>
+                                </div>
+                            </div>
+                            
+                        {% endfor %}
+
+                        {% comment %}
+                        {% if post.collection %}
+                        <div class="count_block">
+                            <span class="count">{{post.collection.influencers_count}}</span><br/>
+                            <span class="the_label">Bookmarked</span>
+                        </div>
+                        {% endif %}
+                        {% endcomment %}
+                        {% comment %}
+                        <div class="count_block">
+                            <span class="count">{{post.invited_count_sql}}</span><br/>
+                            <span class="the_label">Invited</span>
+                        </div>
+                        <div class="count_block last_child">
+                            <span class="count">{{post.applied_count_sql}}</span><br/>
+                            <span class="the_label">Replied/Applicants</span>
+                        </div>
+                        {% endcomment %}
+                    </div>
+                </div>
+                <!--div class="square_bt teal_bt md">View Details</div-->
+            </a>
+            {% comment %}
+            <div class="edit_title">
+                <div class="icon-misc_magnify2 bs_tooltip" data-placement="right" title="View Public Post" direct a-href="{% url debra.job_posts_views.view post.id %}"></div>
+                <div class="icon-misc_files_pencil3 edit_collection bs_tooltip" data-placement="right" title="Edit Post" direct a-href="{% url debra.job_posts_views.edit post.id %}"></div>
+                <div confirm confirm-title="Are you sure?" message="Do you want to delete campaign '{{post.title}}'?" yes-url="{% url debra.job_posts_views.delete post.id %}" yes-cb="removePost({{post.id}})" class="delete_collection bs_tooltip"  title="Delete Post" data-placement="right">
+                    <div class="icon-misc_files_trash4"></div>
+                </div>
+            </div>
+            {% endcomment %}
+        </div>
+        {% endfor %}
+    </div>
+
+
+
+
+    {% comment %}
+    <div class="job_post_table">
+        <table>
+            <thead>
+                <tr style="background:transparent;">
+                    <th style="padding-left:60px;">Campaign Name</th>
+                    <th>Status</th>
+                    <th>Post Type</th>
+                    <th>Bookmarked</th>
+                    {% if DEBUG %}
+                    <th>Applicants</th>
+                    <th>Invited</th>
+                    {% endif %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for post in posts %}
+                <tr class="hover_rows">
+                    <td class="row_title" a-href="{% url debra.job_posts_views.list_details post.collection.id %}" direct>
+                        <span class="title_txt">{{post.title}}&nbsp;</span>
+                        <br/>
+                        <a class="square_bt xs teal_bt" href="{% url debra.job_posts_views.list_details post.collection.id %}">Open Campaign</a>
+                    </td>
+                    <td class="row_cell">
+                        {% if post.published %}
+                        <span>Posted : {{post.date_publish}} </span>
+                        {% else %}
+                        <a class="posted_status" href="{% url debra.job_posts_views.edit group.job_post.id %}">Not Published</a>
+                        {% endif %}
+                        <br/>
+                        <a class="xsmall lessgray txt_link serif_ital" href="{% url debra.job_posts_views.view post.id %}">Public-View</a>&nbsp;
+                        <a class="xsmall lessgray txt_link serif_ital" href="{% url debra.job_posts_views.edit post.id %}">Edit Post</a>&nbsp;
+                        <span confirm title="Are you sure?" message="Do you want to delete campaign '{{post.title}}'?" yes-url="{% url debra.job_posts_views.delete post.id %}" then-url="{% url debra.job_posts_views.list_jobs %}">
+                            <a class="xsmall lessgray txt_link serif_ital">Delete</a>
+                        </span>
+                    </td>
+                    <td class="row_cell">{{post.collab_type_verbose}}&nbsp;</td>
+                    <td class="row_cell">{{post.collection.influencers_count}}</td>
+                    {% if DEBUG %}
+                    <td class="row_cell">{{post.collection.applied_count}}</td>
+                    <td class="row_cell">{{post.collection.invited_count}}</td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endcomment %}
+
+
+{% endblock %}
+
+
+

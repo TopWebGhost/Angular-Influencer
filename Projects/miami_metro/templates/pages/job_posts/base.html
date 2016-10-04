@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load compressed %}
+
+{% block title %}
+{{ page_title }}
+{% endblock %}
+
+{% block meta_description %}
+<meta name="description" content="{{ meta_description }}">
+{% endblock %}
+
+{% block bottom_js %}
+{% compressed_js 'angular_jobposts' %}
+{% compressed_js 'angular_brand_navigation' %}
+<script type="text/javascript">
+(function(){
+angular.module("theshelf")
+    .value('nav_config', {
+        tab: "{{selected_tab}}",
+        sub_tab: "{{sub_page}}",
+        visible: {% if hide_sidenav %}false{% else %}true{% endif %},
+    })
+    .value('dashboard_brand', null);
+})();
+</script>
+{% endblock %}
+
+{% block extra_head %}
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.4.3/morris.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.2/raphael-min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.4.3/morris.min.js"></script>
+{% endblock extra_head %}
+
+{% block content %}
+    <span class="dashboard_content {% block extra_dc_class %}{% endblock %}">
+    <div invite-popup no-close-outside can-set-subject url="{% url debra.job_posts_views.send_invitation %}" brand-name="{{visitor.brand.name}}" settings-url="{% url debra.brand_account_views.account_landing %}"></div>
+    <div display-message-popup message="During Trial, you are not allowed to send messages. Please upgrade to use this feature."></div>
+    <div feature-locked-popup link="{% url debra.account_views.pricing %}" link-title="Upgrade" plan-name="{{visitor.plan_name_mapped|title}}"></div>
+    <div confirmation-popup></div>
+    {% block extra_directives %}
+    {% endblock extra_directives %}
+    {% block search_content %}
+    {% endblock %}
+    </span>
+{% endblock %}
+
+
+
+
+
+
+
+
+

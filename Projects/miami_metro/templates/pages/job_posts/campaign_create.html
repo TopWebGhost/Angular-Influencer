@@ -1,0 +1,41 @@
+{% extends 'pages/job_posts/base.html' %}
+{% load compressed %}
+{% load custom_filters %}
+
+{% block title %}Campaign Setup{% endblock %}
+{% block body_class %}lt_gray_bg{% endblock %}
+
+{% block ng_app %}ng-app="theshelf.campaign"{% endblock ng_app %}
+{% block main_controller %}{% endblock main_controller %}
+
+{% block bottom_js %}
+    {% compressed_js 'pdf_view' %}
+    {% compressed_js 'angular_saved_searches' %}
+    {% compressed_js 'angular_campaign' %}
+    <script type="text/javascript">
+    (function(){
+    angular.module("theshelf")
+        .value('nav_config', {
+            tab: "{{selected_tab}}",
+            sub_tab: "{{sub_page}}",
+            visible: {% if hide_sidenav %}false{% else %}true{% endif %},
+        })
+        .value('dashboard_brand', null);
+    })();
+    </script>
+{% endblock %}
+
+{% block extra_directives %}
+    <div pdf-document-popup></div>
+{% endblock extra_directives %}
+
+{% block search_content %}
+    <div ng-cloak>
+        <form name="accordionForm" form-handler novalidate>
+            <div ui-view></div>
+        </form>
+    </div>
+{% endblock search_content %}
+
+    
+

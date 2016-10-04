@@ -1,0 +1,11 @@
+<div>
+
+    <b>Hello {{mapping.group.owner_brand.name|title}}!</b>
+    <div>{{influencer.name|title}} applied to {{job.title}}!</div>
+    {% if note %}
+    <p>{{note|safe}}</p>
+    {% endif %}
+    <br/>
+
+    <div>You can reply to this email.</div>
+</div>

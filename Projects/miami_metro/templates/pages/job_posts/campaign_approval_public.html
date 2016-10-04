@@ -1,0 +1,123 @@
+{% extends 'pages/job_posts/campaign_base.html' %}
+{% load compressed %}
+{% load custom_filters %}
+
+{% block title %}Post Analytics | connecting top fashion bloggers and brands{% endblock %}
+{% block body_class %}lt_gray_bg{% endblock %}
+
+{% block main_controller %}ng-controller="TableCtrl as tableCtrl"{% endblock main_controller %}
+
+{% block extra_dc_class %}{% if not user.is_authenticated %}no_sidebar actions_always_visible{% endif %}{% endblock extra_dc_class %}
+
+{% block bottom_js %}
+    {{ block.super}}
+    <script type="text/javascript">
+    (function(){
+    angular.module("theshelf")
+        .value('approvalData', {
+            'sections': {{ approve_status_switcher.to_dict|jsonify|safe }},
+            'previewMode': {% if preview %}true{% else %}false{% endif %},
+            'approveStatuses': {{ approve_statuses|jsonify|safe }},
+            'brandId': {{ brand_id }},
+            'reportId': {{ report.id }},
+            'userId': {{ user_id }},
+            'userFirstName': "{{ reportOwner.first_name|default_if_none:""|escapejs }}",
+            'clientLink': "{{ public_link|escapejs }}",
+            'campaignId': {{ campaign.id }},
+            'campaignName': "{{ campaign.title|escapejs }}",
+            'approvalStatus': {{ campaign.influencer_collection.approval_status }},
+            'collectionId': {{ campaign.influencer_collection.id }},
+        });
+    })();
+    </script>
+{% endblock %}
+
+{% block extra_directives %}
+    <div blogger-approval-popup
+        client-approval-invite-url="{% url debra.search_views.client_approval_invite_send report.id %}"
+        approval-status-change-url="{% url debra.search_views.blogger_approval_status_change brand_id report.id user_id %}"
+    ></div>
+{% endblock extra_directives %}
+
+{% block search_content %}
+    <div ng-controller="PublicApprovalReportCtrl as approvalCtrl">
+
+        {% if preview %}
+            <div class="extra_info_bar">
+                <span class="bar_text">This is the public view of your post.</span>
+                <div class="bar_actions">
+                    <a class="square_bt white xs" href="{% if campaign %}{% url debra.job_posts_views.campaign_approval campaign.id %}{% else %}{% url debra.search_views.blogger_approval_report report.id %}{% endif %}">Go Back</a>
+                </div>
+            </div>
+        {% endif %}
+
+        <div class="campaign_tab_row_container">
+            <div class="campaign_tab_row clearfix">
+                {% verbatim %}
+                    <a ng-href="{{ section.url }}" ng-repeat="section in approvalCtrl.data.sections" ng-if="section.visible" class="{{ section.extra.class }}">
+                        <div class="campaign_tab" ng-class="{selected: section.selected}">
+                            {{ section.text }} - {{ section.count }}
+                        </div>
+                    </a>
+                {% endverbatim %}
+            </div>
+        </div>
+
+        <div class="dashboard_top_section transparent_bar">
+            <div class="search_name_row clearfix">
+                <div class="right_header_section post_analtyics_drillin_right">
+                    <form name="form" novalidate>
+                        <fieldset class="typical_form search_keyword lighter_field" ng-if="!approvalCtrl.submitted">
+                            <a class="square_bt dashboard_btn gray_bt xs rounded_bt" ng-click="approvalCtrl.submit()">
+                                <span ng-show="approvalCtrl.submitting">Submitting...</span>
+                                <span ng-hide="approvalCtrl.submitting">Finished with Approval</span>
+                            </a>
+                        </fieldset>
+                        {% comment %}
+                        {% if collection.approval_status < 2 %}
+                            <fieldset ng-show="editingLocked" class="typical_form search_keyword lighter_field">
+                                <a class="square_bt dashboard_btn gray_bt xs rounded_bt" ng-click="makeSelections({preview: {% if preview %}true{% else %}false{% endif %}})"><span>Make Selections</span></a>
+                            </fieldset>
+                            <fieldset ng-hide="editingLocked" class="typical_form search_keyword lighter_field">
+                                <a class="square_bt dashboard_btn gray_bt xs rounded_bt" ng-click="approveSaveSubmit({brandId: {{ brand_id }}, reportId: {{ report.id }}, userId: {{ user_id }}, userFirstName: '{{ reportOwner.first_name|default_if_none:"" }}', approve: true, status: {{ collection.approval_status }}})"><span>Finished and Submit</span></a>
+                                <a class="square_bt dashboard_btn gray_bt xs rounded_bt" ng-click="approveSave({{ brand_id }})">
+                                    <span ng-hide="approveLoading">Save and Keep Editing</span>
+                                    <span ng-show="approveLoading">Saving</span>
+                                </a>
+                            </fieldset>
+                        {% else %}
+                        {% endif %}
+                        {% endcomment %}
+                    </form>
+
+                    
+                </div>
+                <div class="name_section{% if campaign.id == 696 %} centra{% endif %}" {% if not user.is_authenticated %}{% endif %}>
+                    <div class="page_title">
+                        {% if campaign %}Influencer Approval for {{ campaign.title }} campaign{% else %}{{ report.name }}{% endif %}
+                        <span class="name_count">({{ counts.total }} influencer{{ counts.total|pluralize }})</span> &nbsp; &nbsp; 
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+
+        <div class="top_of_page_instructions">
+            <p>Below are the influencers selected for this campaign. Please review them and use the radio buttons to approve / remove the influencers you like/dislike. Click "Finished with Approval" when you are finished with all of your selections.</p>
+        </div>
+
+        {% if collection.is_updating %}
+            <div class="alert_message_to_user">
+                <h1>We're still adding influencers to your approval report.</h1>
+            </div>
+        {% endif %}
+
+    
+        <div id="post_analytics_root">
+            <div class="report_top_stuff">
+            </div>
+            {% include 'snippets/generic_table/pre_outreach_pipeline_table.html' %}
+        </div>
+    </div>
+{% endblock %}

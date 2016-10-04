@@ -1,0 +1,228 @@
+{% extends 'base.html' %}
+{% load custom_filters compressed %}
+
+{% block title %}
+Invitation to campaign | connecting top fashion bloggers and brands
+{% endblock %}
+
+{% block meta_description %}
+<meta name="description" content="{{ meta_description }}">
+{% endblock %}
+
+{% block bottom_js %}
+{{ block.super }}
+{% compressed_js 'angular_invite_apply' %}
+{% endblock %}
+
+{% comment %}
+
+    IMPORTANT !
+
+    this is invitation as bloggers will see it, preview is in
+    "templates/pages/job_posts/view.html"
+    please change both places
+
+{% endcomment %}
+{% block body_class %}white_bg{% endblock %}
+{% block content %}
+{% include 'popups/signup_lb.html' with popup_type="signup-popup" %}
+{% include 'popups/login_lb.html' %}
+{% include 'popups/forgot_password_lb.html' with popup_type="forgot-password-popup" %}
+
+<div apply-popup url="{% url debra.job_posts_views.apply_invitation mapping.id %}" brand-name="{{job_post.creator.name}}"></div>
+<div class="public_post dashboard_content camp_no_nav {% if visitor.influencer %}blogger_logged_in_view width_overwrite_logged_in{% else %}blogger_logged_in_view width_overwrite{% endif %}">
+    <div class="prof_block">
+        <div class="prof_bg frame">
+            {% if job_post.cover_img_url %}
+            <img src="{{job_post.cover_img_url}}" class="nav_cover_img {% if job_post.oryg_creator.flag_blur_camp_cover %}css_blur{% endif %}" alt="cover image" style="z-index: -1">
+            {% else %}
+            <img src="https://s3.amazonaws.com/influencer-images/417166cover_image.jpg.small.jpg" class="nav_cover_img {% if job_post.oryg_creator.flag_blur_camp_cover %}css_blur{% endif %}" alt="cover image" style="z-index: -1">
+            {% endif %}
+            <div class="page_title_section">
+                <div class="page_title brand_name white">{{job_post.creator.name}}</div>
+                <div class="page_title thinner white">{{job_post.title}}</div>
+                <div class="centerer">
+                {% if signed_up %}
+                    {% if logged_in %}
+                        {% if active %}
+                        <div class="square_bt rounded lg white" style="margin:20px 0;" click-emitter="openApplyPopup">Apply to Campaign</div>
+                        {% else %}
+                        <div class="square_bt rounded lg white" style="margin:20px 0;">You have already accepted this invitation</div>
+                        {% endif %}
+                    {% else %}
+                    <div class="page_title brand_name white" style="margin-bottom: 5px;">Reply to the Invite Email</div>
+                    <div class="page_title brand_name white" style="margin: 0 auto;">or</div>
+                    <div class="square_bt rounded lg white" style="margin:5px 0;" click-emitter="openLoginPopup">Login to apply</div>
+                    {% comment %}
+                    <div class="square_bt rounded lg white" style="margin:20px 0;" click-emitter="openLoginPopup">Login to apply</div>
+                    {% endcomment %}
+                    {% endif %}
+                {% else %}
+                <div class="page_title brand_name white" style="margin-bottom: 5px;">Reply to the Invite Email</div>
+                <div class="page_title brand_name white" style="margin: 0 auto;">or</div>
+                <div class="square_bt rounded lg white" style="margin:5px 0;" click-emitter="openSignupPopup" args='{"initial_type": "blogger"}'>Sign up to apply</div>
+                {% comment %}
+                <div class="square_bt rounded lg white" style="margin:20px 0;" click-emitter="openSignupPopup" args='{"initial_type": "blogger"}'>Signup to apply</div>
+                {% endcomment %}
+                {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="add_padding_content_wrapper centered_content" style="margin-bottom:50px;">
+            <div class="le_campaign_drillin">
+            <div class="campaign_sections_row clearfix">
+                <div class="campaign_sect_left">
+                    <div class="section_title">Job Description</div>
+                    <div class="campaign_row">
+                        <div class="campaign_block">
+                            <div class="label">Post Type</div>
+                            <div class="text_input">{{job_post.collab_type_verbose}}</div>
+                        </div>
+                        <div class="campaign_block right">
+                            <div class="label">Posted Date</div>
+                            <div class="text_input">{{job_post.date_publish}}</div>
+                        </div>
+                    </div>
+                    <div class="campaign_row">
+                        <div class="campaign_block full_width">
+                            <div class="label">Details <span>(about the campaign)</span></div>
+                            <div class="text_para">{{job_post.details|safe}}</div>
+                        </div>
+                        <div class="campaign_block full_width">
+                            <div class="label">Who Should Apply</div>
+                            <div class="text_para">{{job_post.who_should_apply|safe}}</div>
+                        </div>
+                    </div>
+                    <div class="campaign_row last_child">
+                        <div class="campaign_block">
+                            <div class="filters">
+                                <div class="section_title">Ideal Candidate</div>
+                                {% if filters.gender %}
+                                <div class="filterby_row"><span class="filter_label">Gender</span>
+                                    {% for gender in filters.gender %}
+                                    <span class="the_filter">{{gender}}</span>
+                                    {% endfor %}
+                                </div>
+                                {% endif %}
+                                {% if filters.location %}
+                                <div class="filterby_row"><span class="filter_label">Location</span>
+                                    {% for location in filters.location %}
+                                    <span class="the_filter">{{location}}</span>
+                                    {% endfor %}
+                                </div>
+                                {% endif %}
+                                {% if filters.popularity %}
+                                <div class="filterby_row"><span class="filter_label">Popularity</span>
+                                    {% for popularity in filters.popularity %}
+                                    <span class="the_filter">{{popularity}}</span>
+                                    {% endfor %}
+                                </div>
+                                {% endif %}
+                                {% if filters.social %}
+                                <div class="filterby_row"><span class="filter_label">Engagement</span>
+                                    {% if filters.social.range_min %}
+                                    <span class="the_filter">Over {{filters.social.range_min}} {{filters.social.value}} followers</span>
+                                    {% endif %}
+                                    {% if filters.social.range_max %}
+                                    <span class="the_filter">Under {{filters.social.range_max}} {{filters.social.value}} followers</span>
+                                    {% endif %}
+                                </div>
+                                {% endif %}
+                                {% if filters.category %}
+                                <div class="filterby_row"><span class="filter_label">Category</span>
+                                    {% for category in filters.category %}
+                                    <span class="the_filter">{{category|title}}</span>
+                                    {% endfor %}
+                                </div>
+                                {% endif %}
+                                {% if filters.brand %}
+                                <div class="filterby_row"><span class="filter_label">Brands</span>
+                                    {% for brand in filters.brand %}
+                                    <span class="the_filter">{{brand}}</span>
+                                    {% endfor %}
+                                </div>
+                                {% endif %}
+                                {% if filters.priceranges %}
+                                <div class="filterby_row"><span class="filter_label">Price-range of items</span>
+                                    {% for priceranges in filters.priceranges %}
+                                    <span class="the_filter">{{priceranges}}</span>
+                                    {% endfor %}
+                                </div>
+                                {% endif %}
+                                {% if filters.engagement %}
+                                <div class="filterby_row"><span class="filter_label">Comments</span>
+                                    {% if filters.engagement.range_min %}
+                                    <span class="the_filter">Over {{filters.engagement.range_min}} avg comments</span>
+                                    {% endif %}
+                                    {% if filters.engagement.range_max %}
+                                    <span class="the_filter">Under {{filters.engagement.range_max}} avg comments</span>
+                                    {% endif %}
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% if job_post.attachment_url %}
+                        <div class="campaign_block right">
+                            <a href="{{job_post.attachment_url}}" class="square_bt rounded lg white" target="_blank">View Attachment</a>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="campaign_sect_right">
+                    <div class="brand_info">
+                        <div class="brand_logo"><img src="{{job_post.creator.profile_pic}}" class="imgfit" /></div>
+                        <div class="brand_name">{{job_post.creator.name}}</div>
+                        {% if job_post.creator.pseudoinfluencer.description %}
+                        <div class="brand_blurb" see-more>
+                        <span class="see_more_content">{{job_post.creator.pseudoinfluencer.description}}</span>
+                        <span class="see_more_link">See More</span>
+                        </div>
+                        {% endif %}
+                        <div><a target="_blank" href="http://{{job_post.creator.brand_weblink}}" class="square_bt blk_outline_lt_gray_inside xs">{{job_post.creator.name}} Website</a>
+                        {% if job_post.creator.pseudoinfluencer.blog_url %}
+                        <a target="_blank" href="{{influencer.blog_url}}" class="square_bt blk_outline_lt_gray_inside xs">{% if job_post.creator.pseudoinfluencer.blogname %}{{ job_post.creator.pseudoinfluencer.blogname|unescape }}{% else %}{{job_post.creator.name}}'s Blog{% endif %}</a>
+                        </div>
+                        {% endif %}
+
+                        <div class="soc_row medium" style="margin-top:40px;">
+                                {% if social_data.facebook_page %}
+                                    <a class="icon-social_facebook" href="{{ social_data.facebook_page }}" target="_blank" itemprop="url"></a>
+                                {% endif %}
+                                {% if social_data.twitter_page %}
+                                    <a class="icon-social_twitter" href="{{social_data.twitter_page}}" target="_blank" itemprop="url"></a>
+                                {% endif %}
+                                {% if social_data.pinterest_page %}
+                                    <a class="icon-social_pinterest" href="{{social_data.pinterest_page}}" target="_blank" itemprop="url"></a>
+                                {% endif %}
+                                {% if social_data.instagram_page %}
+                                    <a class="icon-social_instagram2" href="{{social_data.instagram_page}}" target="_blank" itemprop="url"></a>
+                                {% endif %}
+                                {% if social_data.etsy_page %}
+                                    <a class="icon-social_etsy" href="{{social_data.etsy_page}}" target="_blank" itemprop="url"></a>
+                                {% endif %}
+                                {% if social_data.store_page %}
+                                    <a class="icon-misc_loc_building3" href="{{social_data.store_page}}" target="_blank" itemprop="url"></a>
+                                {% endif %}
+                                {% if social_data.youtube_page %}
+                                    <a class="icon-social_youtube" href="{{social_data.youtube_page}}" target="_blank" itemprop="url"></a>
+                                {% endif %}
+                        </div>
+                        {% if other_camps %}
+                        <div class="campaign_links">
+                            <div class="label">Other campaigns</div>
+                            <div class="text_para">
+                                {% for camp in other_camps %}
+                                <a class="txt_link darker_teal" href="{% url debra.job_posts_views.invite camp.id %}">{{camp.job.title}}</a><br/>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

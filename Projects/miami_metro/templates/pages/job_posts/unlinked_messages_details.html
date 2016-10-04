@@ -1,0 +1,95 @@
+{% extends 'snippets/generic_table.html' %}
+{% load compressed %}
+{% load custom_filters %}
+
+
+{% block title %}Messages{% endblock %}
+
+
+{% block controller %}ng-controller="MessagesCtrl as messagesCtrl"{% endblock controller %}
+
+
+{% block bottom_js %}
+    {{ block.super }}
+    <script type="text/javascript">
+        (function(){
+            angular.module("theshelf")
+                .value('messagesData', {
+                    'sections': {{ switcher.to_dict|jsonify|safe }},
+                });
+        })();
+    </script>
+{% endblock %}
+
+
+{% block extra_directives %}
+    {{ block.super }}
+    <div mailbox-more-info-popup
+        update-url="{% url debra.job_posts_views.update_model %}"
+        extra-data-url="{% url debra.job_posts_views.load_document_specific_fields %}"
+    ></div>
+{% endblock extra_directives %}
+
+
+{% block dashboard_top_controls_content %}
+    <div class="x_space x_20"></div>
+    <div class="dashboard_row_section deprecated_filters">
+        {% verbatim %}
+        <a ng-href="{{ section.url }}" ng-repeat="section in messagesCtrl.sections" class="{{ section.extra.class }}">
+            <button class="filter_button" ng-class="{selected: section.selected}">
+                <span class="filter_name">{{ section.text }} </span> <span class="filter_count">{{ section.count }}</span><span class="filter_new_count" ng-if="section.extra.unread_count">{{ section.extra.unread_count }}</span>
+            </button>
+        </a>
+        {% endverbatim %}
+    </div>
+{% endblock dashboard_top_controls_content %}
+
+
+{% block dashboard_title %}Messages ({{ messages_count }}){% endblock dashboard_title %}
+
+
+{% block dashboard_sidebar %}
+    <div class="message_sidebar">
+        <div class="main_tab">
+            <a class="main_tab_text show_button show_all{% if section == None %} selected{% endif %}" href="{% url debra.job_posts_views.list_messages %}">All Messages</a>
+        </div>
+        <div class="main_tab">
+            <a class="main_tab_text show_button show_generic{% if section == 'direct' %} selected{% endif %}" href="{% url debra.job_posts_views.list_messages section='direct' %}">Direct Messages</a>
+        </div>
+        <div class="main_tab">
+            <a class="main_tab_text show_button show_campaign{% if section == 'campaigns' %} selected{% endif %}" href="{% url debra.job_posts_views.list_messages section='campaigns' %}">Campaigns</a>
+            {% if section == 'campaigns' %}
+                <div class="main_tab_drillin">
+                    {% for campaign in campaigns %}
+                        <a class="subtab show_button show_campaign_id_{{campaign.id}}{% if campaign_id == campaign.id %} selected{% endif %}" href="{% url debra.job_posts_views.list_messages section='campaigns' section_id=campaign.id %}">
+                            {% if campaign.archived %}<span>(Archived)</span>{% endif %}
+                            <span>{{campaign.title}}</span>
+                        </a>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+        <div class="main_tab">
+            <a class="main_tab_text show_button show_collection{% if section == 'collections' %} selected{% endif %}" href="{% url debra.job_posts_views.list_messages section='collections' %}">Collections</a>
+            {% if section == 'collections' %}
+                <div class="main_tab_drillin">
+                    {% for collection in collections %}
+                        <a class="subtab show_button show_collection_id_{{collection.id}} {% if collection_id == collection.id %}selected{% endif %}" href="{% url debra.job_posts_views.list_messages section='collections' section_id=collection.id %}">
+                            {% if collection.archived %}<span>(Archived)</span>{% endif %}
+                            <span>{{collection.name}}</span>
+                        </a>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock dashboard_sidebar %}
+
+{% block dashboard_wrapper_classes %}messages_only_view messages_content{% endblock dashboard_wrapper_classes %}
+
+
+{% block dashboard_content %}
+    <div id="post_analytics_root">
+        {% include 'snippets/generic_table/unlinked_messages_table.html' %}
+    </div>
+{% endblock dashboard_content %}

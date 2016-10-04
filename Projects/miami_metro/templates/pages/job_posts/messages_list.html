@@ -1,0 +1,17 @@
+{% extends 'pages/job_posts/base.html' %}
+{% load custom_filters %}
+{% block title %}Messages | connecting top fashion bloggers and brands{% endblock %}
+{% block body_class %}lt_gray_bg{% endblock %}
+
+{% block search_content %}
+<span messages stages-list="{{ stages_list|jsonify }}" search-query="{{ search_query|default_if_none:''|escapejs }}" headers="{{ headers|jsonify }}" sort-direction="{{ sort_direction }}" sort-by="{{ sort_by }}"{% if visitor.base_brand.flag_previous_campaign_link_version %} old-campaign-links-enabled{% endif %}>
+    <div main-loader ng-show="partialLoading"></div>
+    <div class="messages_partial" ng-hide="partialLoading">
+        {{partial_content|safe}}
+    </div>
+</span>
+{% endblock %}
+
+{% block extra_directives %}
+    <div mailbox-more-info-popup update-url="{% url debra.job_posts_views.update_model %}" extra-data-url="{% url debra.job_posts_views.load_document_specific_fields %}"></div>
+{% endblock extra_directives %}

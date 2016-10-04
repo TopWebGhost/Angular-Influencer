@@ -1,0 +1,328 @@
+{% extends 'snippets/generic_table.html' %}
+{% load compressed %}
+{% load custom_filters %}
+
+
+{% block title %}Campaign Pipeline{% endblock %}
+
+
+{% block controller %}ng-controller="PipelineCtrl as pipelineCtrl"{% endblock controller %}
+
+
+{% block bottom_js %}
+    {% compressed_js 'pdf_view' %}
+    {{ block.super }}
+    <script type="text/javascript">
+    (function(){
+    angular.module("theshelf")
+        .value('pipelineData', {
+            'sections': {{ section_switcher.to_dict|jsonify|safe }},
+            'approvalSections': {{ section_switcher.wrapper.child_switchers.approve_status_switcher.to_dict|jsonify|safe }},
+            'headers': {{ headers|jsonify|safe }},
+            'ALL_STAGE': -1,
+            'ARCHIVED_STAGE': {{ InfluencerJobMapping.CAMPAIGN_STAGE_ARCHIVED }},
+            'info': {{ campaign.info_json|jsonify|safe }},
+            'templateContext': {{ campaign.template_context_json|jsonify|safe }},
+            'postApprovalEnabled': {% if campaign.creator.flag_post_approval_enabled %}true{% else %}false{% endif %},
+            'campaignId': {{ campaign.id }},
+        });
+    })();
+    </script>
+{% endblock %}
+
+
+{% block extra_directives %}
+    {{ block.super }}
+    <div pdf-document-popup></div>
+    <div send-email-popup></div>
+    <div mailbox-more-info-popup
+        update-url="{% url debra.job_posts_views.update_model %}"
+        extra-data-url="{% url debra.job_posts_views.load_document_specific_fields %}"
+    ></div>
+
+    <div fixed-white-background-popup custom-popup open-event-name="openRequirementsPopup">
+        {% verbatim %}
+            <div class="content_area_container a_form_page px1000">
+                <div ng-if="state == 'opened'" class="a_form_page_content" style="padding-top:40px;">
+                    <div class="a_form_group padding_40_sides clearfix">                        
+                        <div class="form_title">Edit requirements for this influencer.</div>
+                         <div class="form_instruction main_instructions">Edit here if you want the requirements to be reflected on this one influencer. If you want to change requirements for all influencers, use the <a a-href="{{ customPopupCtrl.openOptions.setupUrl }}" class="txt_link darker_teal">Setup page</a>.</div>
+                    </div>
+                    
+                    <div class="form_divider w_30_0_pad_mag"></div>
+                    <div ng-form="deliverablesForm" class="a_form_group padding_40_sides clearfix" requester attached-form="deliverablesForm" on-form-dirty="requesterCtrl.doRequest({method: 'POST', url: '/update_model/', successCb: customPopupCtrl.updatedCb, data: {modelName: 'Contract', id: customPopupCtrl.openOptions.contractId, values: {deliverables: customPopupCtrl.openOptions.values.deliverables}}}); deliverablesForm.$setPristine()">  
+                        <div class="inner_section">
+                            <div class="form_small_title">Deliverables <span ng-show="requesterCtrl.loading">(Updating)</span></div>
+                            <div class="deliverables ns-popover-tooltip">
+                                <div class="deliverable popover_form" ng-class="platformWrappers(name)" ng-repeat="(name, data) in customPopupCtrl.openOptions.values.deliverables">
+                                    <div class="deliverable_text">
+                                        <span class="popover_icon" ng-class="platformIcons(name)"></span><span class="popover_label">{{ name | capitalize }}</span>
+                                    </div>
+                                    <select ng-options="number for number in range10" ng-model="data.value" ng-disabled="requesterCtrl.loading"></select>
+                                </div>
+                            </div>
+                            <div class="x_space x_30"></div>
+                        </div>
+                    </div>
+                    <div class="form_divider w_0_0_pad_mag"></div>
+                    <div class="a_form_group padding_40_sides clearfix">  
+                        <div class="flex_row_steps">
+                            <fieldset ng-form="postRequirementsForm" class="typical_form step_container halfer left" requester>
+                                <div class="step_section padding_40">
+                                    <div class="short_stacked_row">
+                                        <div class="form_small_title">Post Requirements</div>
+                                        <fieldset class="typical_form">
+                                            <textarea rows="6" cols="60" ng-model="customPopupCtrl.openOptions.values.requirements" name="requirements" style="resize: none;"></textarea>
+                                        </fieldset>
+                                    </div>
+                                    <button class="normal_bt sm teal_bt" ng-class="{'inactive': postRequirementsForm.$pristine || requester.loading}" ng-click="requesterCtrl.doRequest({method: 'POST', url: '/update_model/', successCb: customPopupCtrl.updatedCb, data: {modelName: 'Contract', id: customPopupCtrl.openOptions.contractId, values: {extra_details: customPopupCtrl.openOptions.values.requirements}}}); postRequirementsForm.$setPristine()" ng-disabled="postRequirementsForm.$pristine || requesterCtrl.loading">
+                                        <span ng-hide="requesterCtrl.loading">Save</span>
+                                        <span ng-show="requesterCtrl.loading">Saving...</span>
+                                    </button>
+                                </div>
+                            </fieldset>
+                            <fieldset ng-form="dateRangeForm" class="typical_form step_container halfer right" requester attached-form="dateRangeForm" on-form-dirty="requesterCtrl.doRequest({method: 'POST', successCb: customPopupCtrl.updatedCb, url: '/update_model/', data: {modelName: 'Contract', id: customPopupCtrl.openOptions.contractId, values: {start_date: customPopupCtrl.openOptions.values.dateRange.startDate, latest_date: customPopupCtrl.openOptions.values.dateRange.endDate}}}); dateRangeForm.$setPristine()">
+                                <div class="step_section padding_40">
+                                    <div class="short_stacked_row">
+                                        <div class="form_small_title">Date Range <span ng-show="requesterCtrl.loading">(Updating)</span></div>
+                                        <div date-range-picker ng-model="customPopupCtrl.openOptions.values.dateRange" name="dateRange" ng-disabled="requesterCtrl.loading"></div>
+                                    </div>
+                                    <div class="x_space x_20"></div>
+                                    <br/>
+                                </div>
+                            </fieldset>
+                        </div>
+                    </div>
+
+                        
+
+                    <!--
+
+                    <div class="lb_form_row_wrapper clearfix">
+                        <div class="lb_mini_title">Deliverables</div>
+                        <div class="lb_form_row">
+                            <div class="deliverables ns-popover-tooltip">
+                                <div class="deliverable popover_form" ng-repeat="(name, data) in customPopupCtrl.openOptions.values.deliverables">
+                                    <div class="deliverable_text">
+                                        <span class="popover_icon" ng-class="platformIcons(name)"></span><span class="popover_label">{{ name | capitalize }}</span>
+                                    </div>
+                                    <select ng-options="number for number in range10" ng-model="data.value"></select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="lb_form_row_wrapper clearfix">
+                        <div class="subsection">
+                            <div class="beside_text">
+                                <div class="lb_mini_title w_bottom_margin_10">Post Requirements</div>
+                                <fieldset>
+                                    <textarea rows="4" cols="60" ng-model="customPopupCtrl.openOptions.values.requirements" style="resize: none;"></textarea>
+                                </fieldset>
+                            </div>
+                        </div>
+                        <div class="subsection right">
+                            <div class="beside_text">
+                                <div class="lb_mini_title w_bottom_margin_10">Date Range</div>
+                                <div date-range-wrapper start-date-bind="customPopupCtrl.openOptions.values.startDate" end-date-bind="customPopupCtrl.openOptions.values.latestDate" class="table_vers_date_picker">
+                                    <div ng-if="customPopupCtrl.openOptions.values.startDate && customPopupCtrl.openOptions.values.latestDate" ng-date-range bind="dateRangeModel" start-date="{{ customPopupCtrl.openOptions.values.startDate }}" end-date="{{ customPopupCtrl.openOptions.values.latestDate }}" opens="center" class="date_range_field" no-max-date=""></div>
+                                    <div ng-if="!(customPopupCtrl.openOptions.values.startDate && customPopupCtrl.openOptions.values.latestDate)" ng-date-range bind="dateRangeModel" opens="center" class="date_range_field" no-max-date=""></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    -->
+                </div>
+            </div>
+        {% endverbatim %}
+    </div>
+
+    <div fixed-white-background-popup custom-popup open-event-name="openCampaignDetailsPopup">
+        {% verbatim %}
+            <div class="content_area_container px900">
+                <div ng-if="state == 'opened'">
+                    <h1 class="lb_title">
+                        Review the Global Campaign Details
+                        <a class="lb_btn_beside_title small_beside_btn" ng-href="{{ customPopupCtrl.openOptions.setupUrl }}">Edit Details in Setup</a>
+                    </h1> 
+                    <div class="lb_instruction_txt no_margin slightly_larger_instructions">It's a good idea to review your global campaign details once before you start sending them out to influencers. These will appear on their campaign overview page so that they can keep your objectives in mind while preparing your collaboration.</div>
+                    <div class="lb_content_wrapper clearfix">
+                        <div class="subsection">
+                            <div>
+                                <div class="lb_mini_title">Description of Objective</div>
+                                <div class="lb_instruction_txt no_margin" ng-bind-html="customPopupCtrl.openOptions.values.description" ng-if="customPopupCtrl.openOptions.values.description"></div>
+                                <div class="lb_instruction_txt no_margin" ng-if="!customPopupCtrl.openOptions.values.description">---</div><br/>
+                            </div>
+
+                            <div>
+                                <div class="lb_mini_title">Info About Your Company</div>
+                                <div class="lb_instruction_txt no_margin" ng-bind-html="customPopupCtrl.openOptions.values.whoShouldApply" ng-if="customPopupCtrl.openOptions.values.whoShouldApply"></div>
+                                <div class="lb_instruction_txt no_margin" ng-if="!customPopupCtrl.openOptions.values.whoShouldApply">---</div>
+                            </div>
+                        </div>
+                        <div class="subsection right">
+
+                            <div class="beside_text">
+                                <div class="lb_mini_title">Mentions</div>
+                                <div class="lb_instruction_txt no_margin slightly_larger_instructions">{{ customPopupCtrl.openOptions.values.mentionsRequired || "---" }}</div>
+                            </div>
+                            <div class="beside_text">
+                                <div class="lb_mini_title">Hashtags</div>
+                                <div class="lb_instruction_txt no_margin slightly_larger_instructions">{{ customPopupCtrl.openOptions.values.hashtagsRequired || "---" }}</div>
+                            </div>
+                            <div class="beside_text">
+                                <div class="lb_mini_title">Company Name</div>
+                                <div class="lb_instruction_txt no_margin slightly_larger_instructions">{{ customPopupCtrl.openOptions.values.clientName || "---" }}</div>
+                            </div>
+                            <div class="beside_text">
+                                <div class="lb_mini_title">Company URL</div>
+                                <div class="lb_instruction_txt no_margin slightly_larger_instructions">{{ customPopupCtrl.openOptions.values.clientUrl || "---" }}</div>
+                            </div>
+                            <div class="beside_text">
+                                <div class="lb_mini_title">Campaign Name</div>
+                                <div class="lb_instruction_txt no_margin slightly_larger_instructions">{{ customPopupCtrl.openOptions.values.campaignName || "---" }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endverbatim %}
+    </div>
+
+    <div fixed-white-background-popup custom-popup open-event-name="openProductInfoPopup">
+        {% verbatim %}
+            <div class="content_area_container px900">
+                <div ng-if="state == 'opened'">
+                    <h1 class="lb_title">
+                        Review the Global Campaign Details
+                        <a
+                            request-button
+                            class="lb_btn_beside_title small_beside_btn"
+                            ng-click="requestButtonCtrl.doRequest({method: 'POST', url: '/update_model/', successCb: customPopupCtrl.updatedCb, data: {modelName: 'Contract', id: customPopupCtrl.openOptions.contractId, values: {product_url: customPopupCtrl.openOptions.values.productUrl}, json_fields: {info: {restrictions: customPopupCtrl.openOptions.values.restrictions, blogger_additional_info: customPopupCtrl.openOptions.values.preferences} } } })"
+                        >
+                            <span ng-hide="requestButtonCtrl.loading">Save</span>
+                            <span ng-show="requestButtonCtrl.loading">Saving...</span>
+                        </a>
+                    </h1> 
+                    <p class="lb_instruction_txt no_margin slightly_larger_instructions">Edit here if you want the updates only on this one influencer. Otherwise, use the <a ng-href="{{ customPopupCtrl.openOptions.setupUrl }}" class="txt_link darker_teal">Setup page</a>
+                    </p>
+
+                    <div class="lb_form_row_wrapper w_top_border clearfix">
+                        <div class="lb_mini_title w_bottom_margin_10">Product URL</div>
+                        <div class="lb_form_row">
+                            <fieldset class="typical_form">
+                                <input type="url" ng-model="customPopupCtrl.openOptions.values.productUrl" />
+                            </fieldset>
+                        </div>
+                    </div>
+                    <div class="lb_content_wrapper clearfix">
+                        <div class="subsection" ng-if="customPopupCtrl.openOptions.restrictionsOn">
+                            <div class="lb_mini_title w_bottom_margin_10">Restrictions</div>
+                            <div class="lb_form_row">
+                                <fieldset class="typical_form">
+                                    <textarea rows="6" cols="60" ng-model="customPopupCtrl.openOptions.values.restrictions" style="resize: none;"></textarea>
+                                </fieldset>
+                            </div>
+                        </div>
+
+                        <div class="subsection" ng-class="{right: customPopupCtrl.openOptions.restrictionsOn}" ng-if="customPopupCtrl.openOptions.preferencesOn">
+                            <div class="lb_mini_title w_bottom_margin_10">Product Preferences</div>
+                            <div class="lb_form_row">
+                                <fieldset class="typical_form">
+                                    <textarea rows="6" cols="60" ng-model="customPopupCtrl.openOptions.values.preferences" style="resize: none;"></textarea>
+                                </fieldset>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endverbatim %}
+    </div>
+
+    <div contract-pipeline-popup custom-popup open-event-name="openContractDetailsPopup"></div>
+
+
+{% endblock extra_directives %}
+
+{% block dashboard_title %}
+    <span>{{ campaign.title }} : {{ section_switcher.selected_section.text }}</span>
+{% endblock dashboard_title %}
+
+
+{% block dashboard_top_controls_content %}
+
+    {% block pipeline_stages %}
+        <div class="dashboard_row_section">
+            {% verbatim %}
+                <!--span class="mini_title">The Pipeline</span-->
+                <a ng-href="{{ section.url }}" ng-repeat="section in pipelineCtrl.filters" class="{{ section.extra.class }}" ng-if="section.visible">
+                    <button class="filter_button" ng-class="{selected: section.selected}">
+                        <span class="filter_name">{{ section.text }} </span> <span class="filter_count" ng-if="section.count > -1">{{ section.count }}</span><span class="filter_new_count" ng-if="section.extra.unread_count">{{ section.extra.unread_count }}</span>
+                    </button>
+                </a>
+            {% endverbatim %}
+        </div>
+        {% comment %}
+        <div class="dashboard_row_section">
+            {% verbatim %}
+                <a ng-href="{{ section.url }}" ng-repeat="section in pipelineCtrl.views" ng-if="section.visible">
+                    <button class="view_section_button" ng-class="{selected: section.selected}">
+                        <span class="filter_name">{{ section.text }} </span> <span class="filter_count" ng-if="section.count > -1">{{ section.count }}</span><span class="filter_new_count" ng-if="section.extra.unread_count">{{ section.extra.unread_count }}</span>
+                    </button>
+                </a>
+            {% endverbatim %}
+        </div>
+        {% endcomment %}
+    {% endblock pipeline_stages %}
+
+    {% if table_id  %}
+        <div class="dashboard_row_section">
+            <!--span class="mini_title">Actions</span-->
+            {% comment %}
+            <a request-button class="square_bt gray_bt sm rounded_bt less_kerning" ng-click="requestButtonCtrl.doRequest({method: 'GET', successCb: requestButtonCtrl.pageReload, url: '?hard=1'})">
+                <span ng-hide="requestButtonCtrl.loading">Spread automatically</span>
+                <span ng-show="requestButtonCtrl.loading">Loading...</span>
+            </a>
+            {% endcomment %}
+            <button
+                ns-popover
+                ns-popover-placement="bottom"
+                ns-popover-template="<div messages-page-columns-select-popover with-apply set-url='?set_visible_columns=1&campaign_stage={{ section_switcher.selected }}'></div>"
+                ns-popover-theme="ns-popover-tooltip-theme"
+                ns-popover-timeout="-1"
+                ns-popover-plain="true"
+                class="square_bt dashboard_btn gray_bt xs rounded_bt plus_columns_btn"
+            >+ Columns</button>
+        </div>
+    {% endif %}
+
+    {% if can_move_to_next_stage %}
+        <div ng-if="!pipelineCtrl.moveBloggersButtonLoaded" class="dashboard_row_section">
+            <button ng-click="!pipelineCtrl.moveBloggersButtonLoading && pipelineCtrl.moveAllBloggers({stage: 'next'})" class="square_bt dashboard_btn gray_bt xs rounded_bt plus_columns_btn">
+                <span ng-hide="pipelineCtrl.moveBloggersButtonLoading">Move All Bloggers To The Next Stage</span>
+                <span ng-show="pipelineCtrl.moveBloggersButtonLoading">Moving...</span>
+            </button>
+        </div>
+    {% endif %}
+{% endblock dashboard_top_controls_content %}
+
+
+{% block dashboard_right_header_section_wrapper %}
+    {{ block.super }}
+    <div class="view_extras_buttons">
+        {% verbatim %}
+            <a ng-href="{{ section.url }}" ng-repeat="section in pipelineCtrl.views" ng-if="section.visible">
+                <button class="view_section_button" ng-class="{selected: section.selected}">
+                    <span class="filter_name">{{ section.text }} </span> <span class="filter_count" ng-if="section.count > -1">{{ section.count }}</span><span class="filter_new_count" ng-if="section.extra.unread_count">{{ section.extra.unread_count }}</span>
+                </button>
+            </a>
+        {% endverbatim %}
+    </div>
+{% endblock dashboard_right_header_section_wrapper %}
+
+
+{% block dashboard_content %}
+    <div id="post_analytics_root">
+        {% include 'snippets/generic_table/outreach_pipeline_table.html' %}
+    </div>
+{% endblock dashboard_content %}
