@@ -1,0 +1,124 @@
+<!-- I don't think we use this anymore -->
+<!-- I don't think we use this anymore -->
+<!-- I don't think we use this anymore -->
+<!-- I don't think we use this anymore -->
+<!-- I don't think we use this anymore -->
+<!-- I don't think we use this anymore -->
+<!-- I don't think we use this anymore -->
+<!-- I don't think we use this anymore -->
+<!-- I don't think we use this anymore -->
+<!-- I don't think we use this anymore -->
+
+
+{% extends 'pages/dataexport/base.html' %}
+{% block title %}Data export | connecting top fashion bloggers and brands{% endblock %}
+
+{% block bottom_js %}
+{{ block.super }}
+<script type="text/javascript">
+(function(){
+angular.module("theshelf").value('trial', false);
+angular.module("theshelf").value('popularity', [{% for entry in popularity %}{title: "{{entry.title}}",count: "{{entry.count}}"},{% endfor %}]);
+angular.module("theshelf").value('categories', [{% for category in categories %}{title: "{{category.category}}",leaf: {% if category.leaf %}{{category.leaf}}{% else %}null{% endif %} },{% endfor %}]);
+angular.module("theshelf").value('brands', [{% for brand in brands %}{title: "{{brand.brand__name|linebreaksbr|cut:'<br />'}}",count: "{{brand.sum_endorsed}}"},{% endfor %}]);
+angular.module("theshelf").value('locations', [{% for location in locations %}{title: "{{location.title}}", value: "{{location.value}}", count: "{{location.count}}"},{% endfor %}]);
+angular.module("theshelf").value('priceranges', [{% for entry in priceranges %}{title: "{{entry.title}}", text: "{{entry.text}}", count: "{{entry.count}}"},{% endfor %}]);
+angular.module("theshelf").value('genders', [{% for entry in genders %}{title: "{{entry.title}}"},{% endfor %}]);
+angular.module("theshelf").value('socials', [{% for entry in social %}{value: "{{entry.value}}", icon: "{{entry.icon}}"},{% endfor %}]);
+angular.module("theshelf").value('ageGroups', [{% for entry in age_groups %}{value: "{{entry.value}}", icon: "{{entry.icon}}"},{% endfor %}]);
+angular.module("theshelf").value('activity', [{% for entry in activity %}{value: "{{entry.value}}", icon: "{{entry.icon}}"},{% endfor %}]);
+angular.module("theshelf").value('enabled_filters', [{% for filter in enabled_filters %}"{{filter}}",{% endfor %}]);
+})();
+</script>
+{% endblock %}
+
+
+{% block search_content %}
+<div class="edit_account">
+
+    <div class="account_wrapper">
+        <div class="account_title">Campaign Details</div>
+        <div class="account_hint">Fill in these campaign details with info about the campaign. :)</div>
+
+        <form name="collab_form">
+            <div class="content_wrapper clearfix">
+                <fieldset class="typical_form smaller_field third left">
+                    <label>Title of Campaign</label>
+                    <input name="posturl" ng-model="last_collab_data.post_url" type="text" required>
+                </fieldset>
+                <fieldset class="typical_form smaller_field third">
+                    <label for="id_brandname">Brand name</label>
+                    <input id="id_brandname" name="brandname" ng-model="last_collab_data.brand_name" type="text" required>
+                </fieldset>
+                <fieldset class="typical_form smaller_field third right">
+                    <label>Brand url</label>
+                    <input name="brandurl" ng-model="last_collab_data.brand_url" type="text" required>
+                </fieldset>
+                <fieldset class="typical_form smaller_field third left">
+                    <label>Collaboration Type</label>
+                    <select name="collab_type" ng-model="last_collab_data.collab_type" required>
+                        {% for type in collab_types %}
+                        <option value="{{type.1}}">{{type.1}}</option>
+                        {% endfor %}
+                    </select>
+                </fieldset>
+                <fieldset class="typical_form smaller_field third">
+                    <label>Campaign date</label>
+                    <input id="campaign_date" type="text" />
+                </fieldset>
+
+                <fieldset class="typical_form smaller_field third right">
+                    <label>Campaign date</label>
+                    <input id="campaign_date" type="text" />
+                </fieldset>
+                <fieldset class="typical_form smaller_field clearit">
+                    <label>Details (what type of campaign, extra details, how did it go, etc.)</label>
+                    <textarea name="details" rows="3" ng-model="last_collab_data.details" class="comment_field" required></textarea>
+                </fieldset>
+                <fieldset class="typical_form smaller_field clearit">
+                    <label>Who Should Apply</label>
+                    <textarea name="details" rows="3" ng-model="last_collab_data.details" class="comment_field" required></textarea>
+                </fieldset>
+            </div>
+        </form>
+
+        <div class="sect_divider"></div>
+
+        <div class="account_title">Describe your Brand</div>
+        <div class="account_hint" style="margin-bottom:40px;">Select the tags that best represent what you are looking for and what type of brand you are.
+            <br/>
+        </div>
+        <div class="content_wrapper clearfix">
+        </div>
+
+        <div class="sect_divider"></div>
+
+        <div class="account_title">What Kind of Blogger do you want</div>
+        <div class="account_hint" style="margin-bottom:40px;">Select the Comment Range and Gender to specify what type of blogger you are looking for.
+            <br/>
+        </div>
+        <div class="content_wrapper clearfix">
+            <div target-search-filters></div>
+        </div>
+
+        <div style="clear:both;">
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <button class="square_bt md teal_bt" ng-click="save()">Save</button>
+            <a href="{{influencer.about_page}}">
+                <button class="square_bt md teal_bt inactive">Cancel</button>
+            </a>
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock %}

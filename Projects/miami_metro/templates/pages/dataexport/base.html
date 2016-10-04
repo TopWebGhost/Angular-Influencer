@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load compressed %}
+
+{% block title %}
+{{ page_title }}
+{% endblock %}
+
+{% block meta_description %}
+<meta name="description" content="{{ meta_description }}">
+{% endblock %}
+
+{% block bottom_js %}
+{% compressed_js 'angular_dataexport' %}
+{% endblock %}
+
+{% block content %}
+    <div feature-locked-popup link="{% url debra.account_views.pricing %}" link-title="Upgrade" plan-name="{{visitor.plan_name_mapped|title}}"></div>
+    {% block search_content %}
+    {% endblock %}
+{% endblock %}
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,19 @@
+{% extends 'pages/dataexport/base.html' %}
+{% block title %}Data export | connecting top fashion bloggers and brands{% endblock %}
+
+{% block search_content %}
+
+<div class="blogger_search_page" ng-controller="DataexportCtrl">
+<div export-popup request-url="{% url debra.dataexport_views.export_request %}"></div>
+
+{% comment %}
+You can style link in any way, just leave
+click-emitter="openExportPopup" args='{"type": "top_1000"}'
+to launch popup.
+{% endcomment %}
+
+<a click-emitter="openExportPopup" args='{"type": "top_1000"}'><div class="xs square_bt gray_bt">Top 1000 most popular influencers</div></a>
+
+</div>
+
+{% endblock %}

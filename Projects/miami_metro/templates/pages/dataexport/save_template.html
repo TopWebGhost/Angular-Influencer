@@ -1,0 +1,53 @@
+{% extends 'pages/dataexport/base.html' %}
+{% block title %}Data export | connecting top fashion bloggers and brands{% endblock %}
+
+{% block bottom_js %}
+{{ block.super }}
+<script type="text/javascript">
+(function(){
+angular.module("theshelf").value('trial', false);
+angular.module("theshelf").value('popularity', [{% for entry in popularity %}{title: "{{entry.title}}",count: "{{entry.count}}"},{% endfor %}]);
+angular.module("theshelf").value('categories', [{% for category in categories %}{title: "{{category.category}}",leaf: {% if category.leaf %}{{category.leaf}}{% else %}null{% endif %} },{% endfor %}]);
+angular.module("theshelf").value('brands', [{% for brand in brands %}{title: "{{brand.brand__name|linebreaksbr|cut:'<br />'}}",count: "{{brand.sum_endorsed}}"},{% endfor %}]);
+angular.module("theshelf").value('locations', [{% for location in locations %}{title: "{{location.title}}", value: "{{location.value}}", count: "{{location.count}}"},{% endfor %}]);
+angular.module("theshelf").value('priceranges', [{% for entry in priceranges %}{title: "{{entry.title}}", text: "{{entry.text}}", count: "{{entry.count}}"},{% endfor %}]);
+angular.module("theshelf").value('genders', [{% for entry in genders %}{title: "{{entry.title}}"},{% endfor %}]);
+angular.module("theshelf").value('socials', [{% for entry in social %}{value: "{{entry.value}}", icon: "{{entry.icon}}"},{% endfor %}]);
+angular.module("theshelf").value('ageGroups', [{% for entry in age_groups %}{value: "{{entry.value}}", icon: "{{entry.icon}}"},{% endfor %}]);
+angular.module("theshelf").value('activity', [{% for entry in activity %}{value: "{{entry.value}}", icon: "{{entry.icon}}"},{% endfor %}]);
+angular.module("theshelf").value('enabled_filters', [{% for filter in enabled_filters %}"{{filter}}",{% endfor %}]);
+})();
+</script>
+{% endblock %}
+
+
+{% block search_content %}
+
+<div class="blogger_search_page" ng-controller="DataexportCtrl">
+{% comment %}
+You can style link in any way, just leave
+click-emitter="openExportPopup" args='{"type": "top_1000"}'
+to launch popup.
+{% endcomment %}
+{% if show_filters %}
+<div class="export_filters" dataexport-search-filters {% if DEBUG %}debug{% endif %}>
+</div>
+{% endif %}
+<form name="templateForm" ng-controller="SaveTemplateForm" method="POST" action="{% url debra.dataexport_views.dataexport_save_template %}">
+    {% csrf_token %}
+    <input type="hidden" name="query" ng-value="query">
+    <fieldset class="typical_form darkest_field">
+        <input name="type" placeholder="Type of campaign" type="text" required ng-model="type"/>
+    </fieldset>
+    <fieldset class="typical_form darkest_field">
+        <textarea name="description" placeholder="Description" ng-model="desc"></textarea>
+    </fieldset>
+    <fieldset class="typical_form last_child third">
+        <input type="submit" value="Save as template" class="square_bt xl cyan_bt submit_button" ng-disabled="templateForm.$invalid" ng-class="{disabled: templateForm.$invalid}">
+        <br />
+    </fieldset>
+</form>
+
+</div>
+
+{% endblock %}
