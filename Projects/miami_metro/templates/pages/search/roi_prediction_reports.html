@@ -1,0 +1,81 @@
+{% extends 'pages/search/saved_views.html' %} 
+{% load compressed custom_filters %}
+
+{% block page_title %}ROI-Prediction Reports{% endblock page_title %}
+
+{% comment %}
+{% block page_extra_text %}
+    To create a report of all posts within a campaign, use this page to create a new collection, and from there, simply add the urls that you want to track.
+{% endblock page_extra_text %}
+{% endcomment %}
+
+{% block table_controls %}
+{% endblock table_controls %}
+
+{% block extra_directives %}
+    <div add-report-popup
+        target-url="{% url debra.job_posts_views.add_roi_prediction_report %}"
+        add-collection-url="{% url debra.job_posts_views.add_post_analytics_collection %}"
+        get-collections-url="{% url debra.search_views.post_analytics_collections %}"
+    ></div>
+    <div edit-collection-popup edit-group="{% url debra.job_posts_views.edit_roi_prediction_report %}"></div>
+{% endblock extra_directives %}
+
+{% block actual_content %}
+
+    {% comment %}<div class="a_collection_container clearfix" ng-click="addReport()">{% endcomment %}
+    <div class="collection_outer_wrapper">  
+        <div class="a_collection_container collection_button clearfix" a-href="{% url debra.search_views.roi_prediction_report_create %}" direct>
+            <div class="add_collection_btn_sm">
+                <div>
+                    <div class="icon-letter_plus04"></div>
+                    <div class="btn_txt">Create new Report</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% for group in groups %}
+    <div class="collection_outer_wrapper" id="group_{{group.id}}">
+        <a href="{% url debra.search_views.roi_prediction_report group.id %}" class="a_collection_container feed_item clearfix {% if group.items_number == 0 %}no_items{% endif %}">
+            <div class="tag_btns">
+                <div class="tag_button">
+                    {% comment %}
+                    <div class="icon-misc_files_pencil3 edit_collection" ng-click="$event.preventDefault();editGroup({id: '{{group.id}}', name: '{{group.name|escapejs}}', desc: '', jobs: []})"></div>
+                    {% endcomment %}
+                    <div class="icon-misc_files_pencil3 edit_collection" ng-click="$event.preventDefault()" a-href="{% url debra.search_views.roi_prediction_report_edit group.id %}" direct></div>
+                </div>
+                <div class="tag_button" ng-click="$event.preventDefault();deleteGroup('{{group.id}}', '{% url debra.job_posts_views.del_roi_prediction_report %}')">
+                    <div class="icon-misc_files_trash4"></div>
+                </div>
+            </div>
+            <div class="title_row" style="height: initial;">
+                <div class="title_txt">{{group.name}}</div>
+                <div class="info_row clearfix">
+                    <div class="info_group">
+                        <span class="the_label">Date : </span>
+                        <span class="info">{{group.created_date|date:"n/j/Y"}}</span>
+                    </div>
+                    <div class="info_group">
+                        <span class="the_label">Posts : </span>
+                        <span class="info">{{group.items_number|default:"0"}}</span>
+                    </div>
+                    <div class="info_group">
+                        <span class="the_label">Influencers : </span>
+                        <span class="info">{{group.influencers_number|default:"0"}}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="no_items_overlay"></div>
+            <div class="img_row_hover_wrapper clearfix">
+                <div class="img_row clearfix">
+                    {% for img in group.imgs %}
+                    <div class="img_container" bg-image="{{img}}"></div>
+                    {% endfor %}
+                </div>
+            </div>
+        </a>
+    </div>
+    {% endfor %}
+
+{% endblock actual_content %}

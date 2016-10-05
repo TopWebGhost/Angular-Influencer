@@ -1,0 +1,98 @@
+{% extends 'pages/job_posts/base.html' %}
+{% load compressed %}
+{% load custom_filters %}
+
+{% block title %}Post Analytics | connecting top fashion bloggers and brands{% endblock %}
+{% block body_class %}lt_gray_bg{% endblock %}
+
+{% block main_controller %}ng-controller="PostAnalyticsCtrl"{% endblock main_controller %}
+
+{% block bottom_js %}
+{% compressed_js 'angular_saved_searches' %}
+<script type="text/javascript">
+(function(){
+angular.module("theshelf")
+    .value('nav_config', {
+        tab: "{{selected_tab}}",
+        sub_tab: "{{sub_page}}",
+        visible: {% if hide_sidenav %}false{% else %}true{% endif %},
+    })
+    .value('dashboard_brand', null);
+})();
+</script>
+{% endblock %}
+
+{% block extra_directives %}
+{% endblock extra_directives %}
+
+{% block search_content %}
+    <div>
+    
+        <div class="dashboard_top_section">
+            <div class="search_name_row clearfix">
+                <div class="right_header_section post_analtyics_drillin_right">
+                    <form name="form" novalidate>
+                        <fieldset class="typical_form search_keyword lighter_field">
+                            <a class="add_post_btn" href="{% url debra.search_views.roi_prediction_report_edit report.id %}"><span>Edit Report</span></a>
+                            {% comment %}
+                            <button class="add_post_btn" ng-click="openAddPostAnalyticsUrlsPopup({endpoint: '{% url debra.brand_dashboard.posts_analytics %}', editNameUrl: '{% url debra.job_posts_views.edit_roi_prediction_report %}', reportId: {{ report.id }}, reportName: '{{ report.name }}', collectionId: {{ collection.id }} })"><span>Edit Report</span></button> 
+                            <div class="lightergray" style="float:right; padding:10px 5px; font-size:12px; .sans_type;">or</div>
+                            <span class="add_post_btn" ng-click="!form.newPostUrl.$error.required && !form.newPostUrl.$error.url && addPostUrl('{% url debra.brand_dashboard.posts_analytics %}', {{ collection.id }})">+</span>
+                            <div class="search_input" style="float:left;">
+                                <input type="url" ng-model="newPostUrl" placeholder="Add New Post URL" ng-keypress="inputKeyPress($event, '{% url debra.brand_dashboard.posts_analytics %}', {{ collection.id }})" required="" name="newPostUrl"/>
+                            </div>
+                            <div style="color: red; padding-bottom: 5px;" ng-show="form.newPostUrl.$error.url">Enter a valid url.</div>
+                            {% endcomment %}
+                        </fieldset>
+                    </form>
+
+                    
+                </div>
+                <div class="name_section">
+                    <div class="page_title">
+                        {{ report.name }} 
+                        <span class="name_count">({{ data_count }} influencer{{ data_count|pluralize }}, {{ report.items_number}} post{{ report.items_number|pluralize }})</span> &nbsp; &nbsp; 
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% comment %}
+        <div class="campaign_tab_row_container" table-controls>
+            <div class="campaign_tab_row clearfix" style="border-bottom: 1px solid #C4C4C4;">
+                <a href="{% url debra.search_views.roi_prediction_report_influencer_stats report.id %}"><div class="campaign_tab {% if sub_page == 'influencer_stats' %}selected{% endif %}">Influencer Stats</div></a>
+                <a href="{% url debra.search_views.roi_prediction_report report.id %}"><div class="campaign_tab {% if sub_page == 'post_specific_stats' %}selected{% endif %}">Post Specific Stats</div></a>
+            </div>
+        </div>
+        {% endcomment %}
+
+        <div class="breadcrumb_container campaign_drillin">
+            <a class="breadcrumb_nav_item" href="{% url debra.search_views.roi_prediction_reports %}">
+                <span class="bread_text">All ROI-Prediction Reports</span>
+            </a>
+            <div class="breadcrumb_nav_item"><span class="icon-arrow_l_arr_2"></span></div>
+            <div class="breadcrumb_nav_item" href="">
+                <span class="bread_text">{{report.name}}</span>
+            </div>
+        </div>
+
+        {% if collection.is_updating %}
+            <div class="alert_message_to_user">
+                <h1>Thanks for adding urls for tracking, we'll send an email when they are done. In the meantime, you can refresh this page to see the progress.</h1>
+            </div>
+        {% endif %}
+
+    
+        <div id="post_analytics_root">
+            <div class="report_top_stuff">
+                {% comment %}
+                <a class="square_bt gray_bt sm" href="{% url debra.dataexport_views.export_post_analytics_collection_view collection.id %}" target="_blank">Download in XLS</a>
+                {% endcomment %}
+                <a class="square_bt gray_bt sm" ng-click="$event.preventDefault();confirmAndGo('{% url debra.search_views.refresh_post_analytics_collection collection.id %}')">Re-calculate</a>
+                <a class="square_bt gray_bt sm" href="{% url debra.search_views.blogger_approval_report report.id %}" target="_blank">Blogger Approval Report</a>
+                {% comment %}<a class="square_bt gray_bt sm" href="javascript:window.location.href=window.location.href">Refresh</a>{% endcomment %}
+            </div>
+            {{influencer_stats_partial_content|safe}}
+        </div>
+    </div>
+{% endblock %}

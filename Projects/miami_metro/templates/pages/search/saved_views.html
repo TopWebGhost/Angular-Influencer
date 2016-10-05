@@ -1,0 +1,61 @@
+{% extends 'pages/job_posts/base.html' %} 
+{% load compressed %}
+{% load custom_filters %}
+
+{% block title %}Bloggers list | connecting top fashion bloggers and brands{% endblock %} 
+
+{% block bottom_js %}
+{% compressed_js 'angular_saved_searches' %}
+{% compressed_js 'angular_brand_navigation' %}
+<script type="text/javascript">
+(function(){
+angular.module("theshelf")
+    .value('nav_config', {
+        tab: "{{selected_tab}}",
+        sub_tab: "{{sub_page}}",
+        visible: {% if hide_sidenav %}false{% else %}true{% endif %},
+    })
+    .value('dashboard_brand', null);
+})();
+</script>
+{% endblock %}
+
+{% block main_controller %}ng-controller="FavoritesCtrl"{% endblock main_controller %}
+
+{% block body_class %}lt_gray_bg{% endblock %}
+{% block search_content %}
+    <div class="dashboard_top_section">
+        <div class="search_name_row clearfix">
+            <div class="name_section">
+                <div class="page_title">{% block page_title %}{% endblock %}</div>
+                {% comment %}
+                <div class="campaign_extras">
+                    <div class="campaign_info_block">{% block page_extra_text %}{% endblock %}</div>
+                </div>
+                {% endcomment %}
+            </div>
+        </div>
+    </div>
+
+
+    {% block table_controls %}
+        <div class="campaign_tab_row_container" table-controls>
+            <div class="campaign_tab_row clearfix" style="border-bottom: 1px solid #C4C4C4;">
+                <a href="{% url debra.search_views.saved_views_tags %}"><div class="campaign_tab {% if sub_page == 'tags' %}selected{% endif %}">All Tags</div></a>
+                {% comment %}<a href="{% url debra.search_views.saved_views_favorites %}"><div class="campaign_tab {% if sub_page == 'favorites' %}selected{% endif %}">Favorites</div></a>{% endcomment %}
+                <a href="{% url debra.search_views.saved_views_searches %}"><div class="campaign_tab {% if sub_page == 'saved_searches' %}selected{% endif %}">Saved Searches</div></a>
+                {% comment %}
+                <a href="{% url debra.search_views.saved_views_posts %}"><div class="campaign_tab {% if sub_page == 'saved_posts' %}selected{% endif %}">Saved Posts</div></a>
+                {% endcomment %}
+            </div>
+        </div>
+    {% endblock %}
+
+    <div class="campaign_drillin_table {% if sub_page == 'saved_searches' %}wider_landing_pg_columns{% endif %}">
+        <div class="blogger_search_page the_collections">
+            
+                {% block actual_content %}
+                {% endblock actual_content %}
+        </div>
+    </div>
+{% endblock search_content %}

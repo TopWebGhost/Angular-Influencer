@@ -1,0 +1,61 @@
+{% extends 'pages/job_posts/base.html' %} 
+{% load custom_filters %} {% block title %}Bloggers list | connecting top fashion bloggers and brands{% endblock %} 
+{% block body_class %}lt_gray_bg{% endblock %}
+{% block search_content %}
+<span ng-controller="FavoritesCtrl">
+
+    <div add-collection-popup add-group="{% url debra.job_posts_views.add_influencer_groups %}"></div>
+    <div edit-collection-popup edit-group="{% url debra.job_posts_views.edit_influencer_groups %}"></div>
+    <div confirmation-popup></div>
+    <div bookmark-popup></div>
+    {% comment %}
+    <div favorite-popup source="{% url debra.job_posts_views.get_influencer_groups %}" target="{% url debra.job_posts_views.set_influencer_groups %}" add-group="{% url debra.job_posts_views.add_influencer_groups %}"></div>
+    {% encomment %}
+
+    <div class="page_title_section">
+        <div class="page_title">Blogger Collections</div>
+        <div class="campaign_extras">
+            <div class="campaign_info_block">When you <span class="icon-misc_value_star2 darker_yellow" style="font-size:15px; position:relative; top:2px;"></span> BOOKMARK bloggers, they will show up here.  From here, you can invite them to campaigns, or send them a message.  If you haven't created a Campaign yet, you'll need to go to the <a class="txt_link darker_teal" href="{% url debra.job_posts_views.list_jobs %}">Campaigns Tab.</a></div>
+        </div>
+    </div>
+    <div class="blogger_search_page the_collections">
+        <div class="a_collection_container collection_button clearfix" ng-click="addCollection()">
+            <div class="add_collection_btn_sm">
+                <div>
+                    <div class="icon-letter_plus04"></div>
+                    <div class="btn_txt">Add Blogger Collection</div>
+                </div>
+            </div>
+        </div>
+
+        {% for group in groups %}
+        <div class="collection_outer_wrapper" id="group_{{group.id}}">
+            <a href="{% url debra.job_posts_views.list_details group.id %}" class="a_collection_container clearfix {% if group.influencers_count == 0 %}no_items{% endif %}">
+                <div class="no_items_overlay"></div>
+                <div class="img_row_hover_wrapper">
+                    <div class="img_row clearfix">
+                        {% for img in group.imgs %}
+                        <div class="img_container" bg-image="{{img}}"></div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="title_row">
+                    <div class="title_txt">{{group.name}}</div>
+                    <div class="info_row">
+                        <!--span class="the_label">Date</span>
+                        <span class="info">{{group.created_date|date:"n/j/Y"}}</span-->
+                        <span class="the_label">Blogger Count</span>
+                        <span class="info">{{group.bloggers_count}}</span>
+                    </div>
+                </div>
+            </a>
+            <div class="edit_title">
+                <div class="icon-misc_files_pencil3 edit_collection" ng-click="editGroup({id: '{{group.id}}', name: '{{group.name|escapejs}}', desc: '{{group.description}}', jobs: [{% for j in group.job_posts.all %}{{j.id}},{% endfor %}]})"></div>
+                <div class="icon-misc_files_trash4 delete_collection" ng-click="deleteGroup('{{group.id}}', '{% url debra.job_posts_views.delete_influencer_groups %}')"></div>
+                <div class="icon-misc_very_book" ng-show="context.isAtulTestAccount" ng-click="$window.location.replace('{% url debra.job_posts_views.list_details group.id 'admin' %}')"></div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</span>
+{% endblock %}

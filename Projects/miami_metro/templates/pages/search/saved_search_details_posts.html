@@ -1,0 +1,26 @@
+{% extends "pages/search/saved_search_details.html" %}
+{% load custom_filters %}
+
+{% block main_controller %}ng-controller="BloggersSearchCtrl"{% endblock main_controller %}
+
+{% block page_css %}
+    <link href="/mymedia/site_folder/css/angular-datepicker.css" media="screen" type="text/css" rel="stylesheet" />
+{% endblock page_css %}
+
+{% block search_filters %}
+    {% include "snippets/saved_search_filters.html" with posts_total="Non-empty string here" %}
+{% endblock search_filters %}
+
+{% block campaign_extras %}
+    {% verbatim %}
+    <div ng-date-range min="minRangeDate" bind="dateRangeModel" max="maxRangeDate" limit="limitRangeDate" style="float:right; height:100%; display:table;"></div>
+    {% endverbatim %}
+{% endblock campaign_extras %}
+
+{% block actual_content %}
+    <div id="bloggers_root">
+        <div saved-search saved-search-query="{{ query.query }}">
+            <div product-feed filter="{{ platform_filter }}" source="{% url debra.search_views.saved_search_details section query.id %}" debug paginated propagate-total></div>
+        </div>
+    </div>
+{% endblock actual_content %}

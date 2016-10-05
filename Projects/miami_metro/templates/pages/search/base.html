@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load compressed %}
+
+
+{% block title %}
+{{ page_title }}
+{% endblock %}
+
+{% block meta_description %}
+<meta name="description" content="{{ meta_description }}">
+{% endblock %}
+
+{% block bottom_js %}
+{% compressed_js 'angular_search' %}
+{% compressed_js 'angular_brand_navigation' %}
+<script type="text/javascript">
+(function(){
+angular.module("theshelf").value('nav_config', {
+    tab: "{{selected_tab}}",
+    sub_tab: "{{sub_page}}",
+    visible: {% if selected_tab == 'search_bloggers' %}false{% else %}true{% endif %},
+});
+})();
+</script>
+{% endblock %}
+
+
+{% block content %}
+    {% if visitor.has_brand and visitor.brand_subscribed %}<span class="dashboard_content">{% endif %}
+    {% block pre_search_content %}    	
+    {% endblock pre_search_content %}
+    {% block search_content %}
+    {% endblock %}
+    {% if visitor.has_brand and visitor.brand_subscribed %}</span>{% endif %}
+{% endblock %}

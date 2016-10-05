@@ -1,0 +1,64 @@
+{% extends 'pages/search/saved_views.html' %}
+{% load compressed %}
+
+{% block page_title %}All Saved Views{% endblock page_title %}
+{% block page_extra_text %}
+    If you save s search query while on the search, it will show up here where you can run reports and engage socially.
+{% endblock page_extra_text %}
+
+{% block extra_directives %}
+    <div add-collection-popup
+        popup-title="Create a Saved Search"
+        popup-instruction="On the Search page, you can apply filters and perform keyword searches.
+            When you have a good selection, you can click the 'SAVE SEARCH' button from that page. It will then show up here."
+        redirect-url="{% url debra.search_views.main_search %}"
+        redirect-btn-text="Go to Search"
+    ></div>
+    <div edit-collection-popup edit-group="{% url debra.search_views.edit_saved_searches %}"></div>
+{% endblock extra_directives %}
+
+{% block actual_content %}
+    <div class="collection_outer_wrapper">  
+        <div class="a_collection_container collection_button clearfix" ng-click="addCollection()">
+            <div class="add_collection_btn_sm">
+                <div>
+                    <div class="icon-letter_plus04"></div>
+                    <div class="btn_txt">Create new search</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% for query in saved_queries %}
+        <div class="collection_outer_wrapper" id="group_{{query.id}}">
+            <a href="{% url debra.search_views.saved_search_details 'influencers' query.id %}" class="a_collection_container clearfix">
+                <div class="tag_btns">
+                    <div class="tag_button">
+                        <div class="icon-misc_files_pencil3 edit_collection" ng-click="$event.preventDefault();editGroup({id: '{{query.id}}', name: '{{query.name|escapejs}}', desc: '', jobs: []})"></div>
+                    </div>
+                    <div class="tag_button">
+                        <div class="icon-misc_files_trash4" ng-click="$event.preventDefault();deleteGroup('{{query.id}}', '{% url debra.search_views.delete_saved_search %}')"></div>
+                    </div>
+                </div>
+
+                <!--div class="edit_title">
+                    <div class="icon-misc_files_pencil3 edit_collection" ng-click=""></div>
+                </div-->
+                <div class="title_row" style="height: initial;">
+                <div class="title_txt">{{query.name}}</div>
+                <div class="info_row clearfix">
+                    {% include "snippets/saved_search_filters.html" %}
+                </div>
+            </div>
+                <div class="no_items_overlay"></div>
+                <div class="img_row_hover_wrapper">
+                    <div class="img_row clearfix">
+                        {% for img in query.imgs %}
+                        <div class="img_container" bg-image="{{img}}"></div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </a>
+        </div>
+    {% endfor %}
+{% endblock actual_content %}

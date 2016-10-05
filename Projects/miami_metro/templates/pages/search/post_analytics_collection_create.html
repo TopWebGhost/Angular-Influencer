@@ -1,0 +1,99 @@
+{% extends 'pages/job_posts/base.html' %}
+{% load compressed %}
+{% load custom_filters %}
+
+{% block title %}Post Analytics | connecting top fashion bloggers and brands{% endblock %}
+{% block body_class %}lt_gray_bg{% endblock %}
+
+{% block main_controller %}ng-controller="PostAnalyticsCtrl"{% endblock main_controller %}
+
+{% block bottom_js %}
+{% compressed_js 'angular_saved_searches' %}
+<script type="text/javascript">
+(function(){
+angular.module("theshelf")
+    .value('nav_config', {
+        tab: "{{selected_tab}}",
+        sub_tab: "{{sub_page}}",
+        visible: {% if hide_sidenav %}false{% else %}true{% endif %},
+    })
+    .value('dashboard_brand', null);
+})();
+</script>
+{% endblock %}
+
+{% block extra_directives %}
+{% endblock extra_directives %}
+
+{% block search_content %}
+    <div>
+    
+        <div class="dashboard_top_section">
+            <div class="search_name_row clearfix">
+                <div class="right_header_section post_analtyics_drillin_right">
+                    <form name="form" novalidate>
+                        <fieldset class="typical_form search_keyword lighter_field">
+                            {% comment %}
+                            <button class="add_post_btn" ng-click="openAddPostAnalyticsUrlsPopup({endpoint: '{% url debra.brand_dashboard.posts_analytics %}', editNameUrl: '{% url debra.job_posts_views.edit_post_analytics_collection %}', collectionId: {{ collection.id }}, collectionName: '{{ collection.name }}'})"><span>Edit Collection</span></button> 
+                            <div class="lightergray" style="float:right; padding:10px 5px; font-size:12px; .sans_type;">or</div>
+                            <span class="add_post_btn" ng-click="!form.newPostUrl.$error.required && !form.newPostUrl.$error.url && addPostUrl('{% url debra.brand_dashboard.posts_analytics %}', {{ collection.id }})">+</span>
+                            <div class="search_input" style="float:left;">
+                                <input type="url" ng-model="newPostUrl" placeholder="Add New Post URL" ng-keypress="inputKeyPress($event, '{% url debra.brand_dashboard.posts_analytics %}', {{ collection.id }})" required="" name="newPostUrl"/>
+                            </div>
+                            <div style="color: red; padding-top: 10px;" ng-show="form.newPostUrl.$error.url">Enter a valid url.</div>
+                            {% endcomment %}
+                            <a href="{% url debra.search_views.post_analytics_collections %}" ng-hide="state == 'saving'" ng-class="{disabled: !isChanged()}" class="add_post_btn left" ng-click="cancelChanged($event)"><span>Cancel Changes</span></a>
+                            <button class="add_post_btn" ng-class="{disabled: !canSave()}" ng-click="canSave() && state !== 'loading' && addPostUrl()">
+                                <span ng-hide="state == 'saving'">Save Changes</span>
+                                <span ng-show="state == 'saving'">Saving Changes ...</span>
+                            </button>
+                        </fieldset>
+                    </form>
+
+                    
+                </div>
+                <div class="name_section">
+                    <div class="page_title">
+                        Create new collection
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="breadcrumb_container campaign_drillin" style="display: none;">
+            <a class="breadcrumb_nav_item" href="{% url debra.search_views.post_analytics_collections %}">
+                <span class="bread_text">All Post Analytics Collections</span>
+            </a>
+
+            <div class="breadcrumb_nav_item"><span class="icon-arrow_l_arr_2"></span></div>
+
+            <div class="breadcrumb_nav_item" href="">
+                <span class="bread_text">Create</span>
+            </div>
+        </div>
+
+        <div id="post_analytics_root">
+            {% comment %}
+            <div class="report_top_stuff">
+                <a class="square_bt gray_bt sm" href="{% url debra.dataexport_views.export_post_analytics_collection_view collection.id %}" target="_blank">Download in XLS</a>
+                <a class="square_bt gray_bt sm" ng-click="$event.preventDefault();confirmAndGo('{% url debra.search_views.refresh_post_analytics_collection collection.id %}')">Re-calculate</a>
+                <a class="square_bt gray_bt sm" href="javascript:window.location.href=window.location.href">Refresh</a>
+            </div>
+            {% endcomment %}
+            <div add-post-analytics-urls-popup
+                endpoint="{% url debra.brand_dashboard.posts_analytics %}"
+                on-success-redirect-url="{% url debra.search_views.post_analytics_collections %}"
+            ></div>
+
+            {% comment %}
+                <div add-post-analytics-urls-popup
+                endpoint="{% url debra.brand_dashboard.posts_analytics %}"
+                edit-name-url="{% url debra.job_posts_views.edit_post_analytics_collection %}"
+                collection-id="{{ collection.id }}"
+                collection-name="{{ collection.name }}"
+                on-success-redirect-url="{% url debra.search_views.post_analytics_collection collection.id %}"
+            ></div>
+            {% endcomment %}
+        </div>
+    </div>
+{% endblock %}

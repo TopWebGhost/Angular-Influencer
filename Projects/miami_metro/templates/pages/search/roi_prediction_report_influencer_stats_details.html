@@ -1,0 +1,148 @@
+{% extends 'pages/job_posts/base.html' %}
+{% load compressed %}
+{% load custom_filters %}
+
+{% block title %}Post Analytics | connecting top fashion bloggers and brands{% endblock %}
+{% block body_class %}lt_gray_bg{% endblock %}
+
+{% block main_controller %}ng-controller="PostAnalyticsCtrl"{% endblock main_controller %}
+
+{% block bottom_js %}
+{{ block.super }}
+{% compressed_js 'angular_saved_searches' %}
+{% endblock %}
+
+{% block extra_directives %}
+    <div add-post-analytics-urls-popup></div>
+{% endblock extra_directives %}
+
+{% block search_content %}
+    <div>
+    
+        <div class="dashboard_top_section">
+            <div class="search_name_row clearfix">
+                <div class="right_header_section post_analtyics_drillin_right">
+                    <form name="form" novalidate>
+                        <fieldset class="typical_form search_keyword lighter_field">
+                            <button class="add_post_btn" ng-click="openAddPostAnalyticsUrlsPopup({endpoint: '{% url debra.brand_dashboard.posts_analytics %}', editNameUrl: '{% url debra.job_posts_views.edit_roi_prediction_report %}', reportId: {{ report.id }}, reportName: '{{ report.name }}', collectionId: {{ collection.id }} })"
+                            <div class="lightergray" style="float:right; padding:10px 5px; font-size:12px; .sans_type;">or</div>
+                            <span class="add_post_btn" ng-click="!form.newPostUrl.$error.required && !form.newPostUrl.$error.url && addPostUrl('{% url debra.brand_dashboard.posts_analytics %}', {{ collection.id }})">+</span>
+                            <div style="color: red; padding-bottom: 5px;" ng-show="form.newPostUrl.$error.url">Enter a valid url.</div>
+                            <div class="search_input" style="float:left;">
+                                <input type="url" ng-model="newPostUrl" placeholder="Add New Post URL" ng-keypress="inputKeyPress($event, '{% url debra.brand_dashboard.posts_analytics %}', {{ collection.id }})" required="" name="newPostUrl"/>
+                            </div>
+                        </fieldset>
+                    </form>
+
+                    
+                </div>
+                <div class="name_section">
+                    <div class="page_title">
+                        {{ report.name }} 
+                        <span class="name_count">({{ data_count }})</span> &nbsp; &nbsp; 
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="campaign_tab_row_container" table-controls>
+            <div class="campaign_tab_row clearfix" style="border-bottom: 1px solid #C4C4C4;">
+                <a href="{% url debra.search_views.roi_prediction_report_influencer_stats report.id %}"><div class="campaign_tab {% if sub_page == 'influencer_stats' %}selected{% endif %}">Influencer Stats</div></a>
+                <a href="{% url debra.search_views.roi_prediction_report report.id %}"><div class="campaign_tab {% if sub_page == 'post_specific_stats' %}selected{% endif %}">Post Specific Stats</div></a>
+            </div>
+        </div>
+
+        <div class="breadcrumb_container campaign_drillin">
+            <a class="breadcrumb_nav_item" href="{% url debra.search_views.roi_prediction_reports %}">
+                <span class="bread_text">All ROI-Prediction Reports</span>
+            </a>
+            <div class="breadcrumb_nav_item"><span class="icon-arrow_l_arr_2"></span></div>
+            <div class="breadcrumb_nav_item" href="">
+                <span class="bread_text">{{report.name}}</span>
+            </div>
+        </div>
+
+        {% if collection.is_updating %}
+            <div class="alert_message_to_user">
+                <h1>Thanks for adding urls for tracking, we'll send an email when they are done. In the meantime, you can refresh this page to see the progress.</h1>
+            </div>
+        {% endif %}
+
+    
+        <div>
+            <div class="report_top_stuff">
+                {% comment %}
+                <a class="square_bt gray_bt sm" href="{% url debra.dataexport_views.export_post_analytics_collection_view collection.id %}" target="_blank">Download in XLS</a>
+                <a class="square_bt gray_bt sm" ng-click="$event.preventDefault();confirmAndGo('{% url debra.search_views.refresh_post_analytics_collection collection.id %}')">Re-calculate</a>
+                {% endcomment %}
+                <a class="square_bt gray_bt sm" href="javascript:window.location.href=window.location.href">Refresh</a>
+            </div>
+            <div class="campaign_drillin_table_wrapper">
+                <div class="campaign_drillin_table fixed_width_table">
+                {% if not paginated_data_list %}
+                    <div class="missing_content">
+                        <div class="missing_text">
+                            You didn't add any post analytics yet.
+                        </div>
+                    </div>
+                {% else %}
+                    <table id="influencer_roi_prediction_report_table" influencer-stats-table>
+                        <thead>
+                            <tr>
+                                {% for field, header in fields %}
+                                    {% if not field in fields_hidden %}
+                                        <th sorting-column class="{{ field }} {% if sort_by == forloop.counter %} sorting_{% if sort_direction == 1 %}desc{% else %}asc{% endif %}{% endif %}" refresh-params="?sort_direction={% if sort_by != forloop.counter or sort_direction == 1%}0{% else %}1{% endif %}&sort_by={{ forloop.counter }}">{{ header }}</th>
+                                    {% endif %}
+                                {% endfor %}
+                            </tr>
+                        </thead>
+
+                        <tfoot>
+                            <tr>
+                                {% for field, total in total_values %}
+                                    {% if not field in fields_hidden %}
+                                        <td class="column_{{ forloop.counter }}">{{ total|default_if_none:"---" }}</td>
+                                    {% endif %}
+                                {% endfor %}
+                            </tr>
+
+                            <tr>
+                                {% for field, perc in percentage %}
+                                    {% if not field in fields_hidden %}
+                                        <td class="column_{{ forloop.counter }}">{{ perc|default_if_none:"---" }}</td>
+                                    {% endif %}
+                                {% endfor %}
+                            </tr>
+                        </tfoot>
+
+                        <tbody>
+                            {% for row_data in paginated_data_list %}
+                                <tr ng-click="expandPosts({{ row_data.id }})">
+                                    {% for key, value in row_data.items %}
+                                        {% if not key in fields_hidden %}
+                                            {% if key in fields_loading and value == None %}
+                                                <td class="{{ key }} column_{{ forloop.counter }}">Loading...</td>
+                                            {% else %}
+                                                {% if value.keys and 'include_template' in value.keys %}
+                                                    <td post-analytics-cell ng-class="{fetching_data: values.isQad == false}" class="{{ key }} column_{{ forloop.counter }}">{% include value.include_template with row_data=row_data %}</td>
+                                                {% else %}
+                                                    <td class="{{ key }} column_{{ forloop.counter }}">{{ value|default_if_none:"---" }}</td>
+                                                {% endif %}
+                                            {% endif %}
+                                        {% endif %}
+                                    {% endfor %}
+                                </tr>
+                                <tr id="posts_for_{{ row_data.id }}">
+                                    {% include row_data.posts_info.include_template with data=row.data.posts_info %}
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+
+                    {% load paginator %}
+                    {% paginator object_list=paginated_queryset request=request %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

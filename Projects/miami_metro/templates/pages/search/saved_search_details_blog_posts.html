@@ -1,0 +1,9 @@
+{% extends "pages/search/saved_search_details.html" %}
+
+{% block actual_content %}
+    <div id="bloggers_root">
+        <div saved-search saved-search-query="{{ query.query }}">
+            <div product-feed filter="blog" source="{% url debra.search_views.saved_search_details 'blog_posts' query.id %}"></div>
+        </div>
+    </div>
+{% endblock actual_content %}

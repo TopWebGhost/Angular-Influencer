@@ -1,0 +1,61 @@
+{% if not paginated_data_list %}
+    <div class="missing_content">
+        <div class="missing_text">
+            You didn't add any post analytics yet.
+        </div>
+    </div>
+{% else %}
+    <table id="post_roi_prediction_report_table">
+        <thead>
+            <tr>
+                {% for field, header in fields %}
+                    {% if not field in fields_hidden %}
+                        <th sorting-column class="{% if sort_by == forloop.counter %} sorting_{% if sort_direction == 1 %}desc{% else %}asc{% endif %}{% endif %}" refresh-params="?sort_direction={% if sort_by != forloop.counter or sort_direction == 1%}0{% else %}1{% endif %}&sort_by={{ forloop.counter }}">{{ header }}</th>
+                    {% endif %}
+                {% endfor %}
+                <th>Actions</th>
+            </tr>
+        </thead>
+
+        <tfoot>
+            <tr>
+                {% for field, total in total_values %}
+                    {% if not field in fields_hidden %}
+                        <td class="column_{{ forloop.counter }}">{{ total|default_if_none:"---" }}</td>
+                    {% endif %}
+                {% endfor %}
+            </tr>
+
+            <tr>
+                {% for field, perc in percentage %}
+                    {% if not field in fields_hidden %}
+                        <td class="column_{{ forloop.counter }}">{{ perc|default_if_none:"---" }}</td>
+                    {% endif %}
+                {% endfor %}
+            </tr>
+        </tfoot>
+
+        <tbody>
+            {% for row_data in paginated_data_list %}
+                <tr>
+                    {% for key, value in row_data.items %}
+                        {% if not key in fields_hidden %}
+                            {% if key in fields_loading and value == None %}
+                                <td class="column_{{ forloop.counter }}">Loading...</td>
+                            {% else %}
+                                {% if value.keys and 'include_template' in value.keys %}
+                                    <td post-analytics-cell ng-class="{fetching_data: values.isQad == false}" class="column_{{ forloop.counter }}">{% include value.include_template with row_data=row_data %}</td>
+                                {% else %}
+                                    <td class="column_{{ forloop.counter }}">{{ value|default_if_none:"---" }}</td>
+                                {% endif %}
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
+                    <td>
+                        <button ng-click="removePostAnalytics('{% url debra.search_views.del_post_analytics row_data.id %}')" class="icon_button icon-misc_files_trash4"></button>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endif %}

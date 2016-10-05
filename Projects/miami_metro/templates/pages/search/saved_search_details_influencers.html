@@ -1,0 +1,11 @@
+{% extends "pages/search/saved_search_details.html" %}
+
+{% block main_controller %}ng-controller="BloggersSearchCtrl"{% endblock main_controller %}
+
+{% block actual_content %}
+    <div id="bloggers_root">
+        <div saved-search saved-search-query="{{ query.query }}">
+            <div class="mode_container bloggers_container" blogger-container type="all" {% if DEBUG %}debug{% endif %}></div>
+        </div>
+    </div>
+{% endblock actual_content %}

@@ -1,0 +1,159 @@
+youtube_info extends 'pages/search/base.html' %}
+{% load custom_filters %}
+
+{% block title %}Search bloggers{% endblock %}
+
+<!-- I THINK THIS FILE WAS DELETED...  MAGIC, IF WE DON'T NEED IT CAN YOU MOVE IT TO THE ARCHIVE FOLDER. -->
+<!-- I THINK THIS FILE WAS DELETED...  MAGIC, IF WE DON'T NEED IT CAN YOU MOVE IT TO THE ARCHIVE FOLDER. -->
+<!-- I THINK THIS FILE WAS DELETED...  MAGIC, IF WE DON'T NEED IT CAN YOU MOVE IT TO THE ARCHIVE FOLDER. -->
+<!-- I THINK THIS FILE WAS DELETED...  MAGIC, IF WE DON'T NEED IT CAN YOU MOVE IT TO THE ARCHIVE FOLDER. -->
+<!-- I THINK THIS FILE WAS DELETED...  MAGIC, IF WE DON'T NEED IT CAN YOU MOVE IT TO THE ARCHIVE FOLDER. -->
+<!-- I THINK THIS FILE WAS DELETED...  MAGIC, IF WE DON'T NEED IT CAN YOU MOVE IT TO THE ARCHIVE FOLDER. -->
+<!-- I THINK THIS FILE WAS DELETED...  MAGIC, IF WE DON'T NEED IT CAN YOU MOVE IT TO THE ARCHIVE FOLDER. -->
+<!-- I THINK THIS FILE WAS DELETED...  MAGIC, IF WE DON'T NEED IT CAN YOU MOVE IT TO THE ARCHIVE FOLDER. -->
+<!-- I THINK THIS FILE WAS DELETED...  MAGIC, IF WE DON'T NEED IT CAN YOU MOVE IT TO THE ARCHIVE FOLDER. -->
+<!-- I THINK THIS FILE WAS DELETED...  MAGIC, IF WE DON'T NEED IT CAN YOU MOVE IT TO THE ARCHIVE FOLDER. -->
+<!-- I THINK THIS FILE WAS DELETED...  MAGIC, IF WE DON'T NEED IT CAN YOU MOVE IT TO THE ARCHIVE FOLDER. -->
+<!-- I THINK THIS FILE WAS DELETED...  MAGIC, IF WE DON'T NEED IT CAN YOU MOVE IT TO THE ARCHIVE FOLDER. -->
+<!-- I THINK THIS FILE WAS DELETED...  MAGIC, IF WE DON'T NEED IT CAN YOU MOVE IT TO THE ARCHIVE FOLDER. -->
+<!-- I THINK THIS FILE WAS DELETED...  MAGIC, IF WE DON'T NEED IT CAN YOU MOVE IT TO THE ARCHIVE FOLDER. -->
+<!-- I THINK THIS FILE WAS DELETED...  MAGIC, IF WE DON'T NEED IT CAN YOU MOVE IT TO THE ARCHIVE FOLDER. -->
+<!-- I THINK THIS FILE WAS DELETED...  MAGIC, IF WE DON'T NEED IT CAN YOU MOVE IT TO THE ARCHIVE FOLDER. -->
+<!-- I THINK THIS FILE WAS DELETED...  MAGIC, IF WE DON'T NEED IT CAN YOU MOVE IT TO THE ARCHIVE FOLDER. -->
+<!-- I THINK THIS FILE WAS DELETED...  MAGIC, IF WE DON'T NEED IT CAN YOU MOVE IT TO THE ARCHIVE FOLDER. -->
+{% block search_content %}
+<!--h1>Collection name: {{group.name}} <small>{{group.description}}</small></h1-->
+<div class="breadcrumb_container">
+    <div class="breadcrumb_container">
+    <a class="breadcrumb_nav_item" href="{% url debra.search_views.saved_views_tags %}">
+        <span class="bread_text">All Tags</span>
+    </a>
+    <div class="breadcrumb_nav_item">
+        <span class="bread_text">&nbsp; &#187; &nbsp;{{group.name}}</span>
+    </div>
+</div>
+</div>
+
+<div class="page_title_section">
+    <div class="page_title">{{group.name}}</div>
+    <div class="campaign_extras">
+        <a class="square_bt gray_bt sm">View Post</a>
+        <a class="square_bt gray_bt sm">Edit Post</a>
+        <span class="campaign_info_block">Posted : 8/9/2014 </span>
+        <span class="campaign_info_block">Invites Sent : 23</span>
+        <span class="campaign_info_block">Applicants : 8</span>
+    </div>
+</div>
+
+
+<div class="campaign_tab_row clearfix">
+    <div class="campaign_tab selected">## Favorites</div>
+    <div class="campaign_tab">## Applicants</div>
+</div>
+<div class="campaign_drillin_table">
+    <table>
+        <tbody>
+            {% for mapping in mappings %} {% with mapping.influencer as influencer %}
+            <tr id="mapping_{{mapping.id}}">
+                <td><img src="{{influencer.profile_pic}}" height="84px" style="padding:7px;"></td>
+                <td>
+                    <span class="name">{{influencer.name|unescape}}</span> &nbsp; <span class="of_text">of</span> &nbsp;
+                    <span class="site"><a class="txt_link lessergray" href="{{influencer.blog_url}}" target="blank">{{influencer.blogname|unescape}}</a></span><br/>
+                    <div class="follower_row">
+                        <span class="icon-social_twitter"></span><span class="count">&nbsp;{{mapping.tw_fol}}</span>
+                        <span class="icon-social_instagram2"></span><span class="count">&nbsp;{{mapping.ig_fol}}</span>
+                        <span class="icon-social_facebook"></span><span class="count">&nbsp;{{mapping.fb_likes}}</span>
+                        <span class="icon-social_pinterest"></span><span class="count">&nbsp;{{mapping.pin_fol}}</span>
+                        <span class="icon-social_youtube"></span><span class="count">&nbsp;{{mapping.youtube_fol}}</span>
+                        <!--span class="icon-social_speech2"></span><span class="count">Posts/M {{mapping.post_per_month}}</span>
+                        <span class="icon-letter_quotes"></span><span class="count">Comments/Post {{mapping.num_comments}}</span-->
+                    </div>
+                </td>
+                <td>
+                    <div class="id_status">Messaged on 4/4/2014</div>
+                    <a class="square_bt xs gray_bt less_pad" href=""><span class="icon-misc_shapes_stripes"></span><span class="button_txt">Invite</span></a>
+                    <a class="square_bt xs gray_bt less_pad" href=""><span class="icon-misc_magnify2"></span><span class="button_txt">View Profile</span></a>
+                    <a class="square_bt xs gray_bt less_pad" href=""><span class="icon-misc_files_pencil3"></span><span class="button_txt">Delete</span></a>
+                </td>
+            </tr>
+            {% endwith %}{% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<!--div class="blogger_search_page" id="favorited_table_root" ng-controller="FavoritesTableCtrl">
+    <div email-bloggers-popup selected-bloggers="selected_bloggers" default-email="{{user.email}}" url="{% url debra.search_views.send_email_to_influencers %}"></div>
+    <div favorite-popup source="{% url debra.search_views.get_influencer_groups %}" target="{% url debra.search_views.set_influencer_groups %}" add-group="{% url debra.search_views.add_influencer_groups %}"></div>
+
+    <table favorited-table class="data_table">
+        <thead>
+            <tr>
+                {% if DEBUG %}
+                <th><i class="icon-letter_checkbox4" style="padding: 6px"></i></th>
+                {% endif %}
+                <th>Pic</th>
+                <th>Name</th>
+                <th>Blog</th>
+                <th>Email</th>
+                <th><i class="icon-social_twitter bs_tooltip" data-placement="top" rel="tooltip" title="Twitter"></i></th>
+                <th><i class="icon-social_instagram2 bs_tooltip" data-placement="top" rel="tooltip" title="Instagram"></i></th>
+                <th><i class="icon-social_facebook bs_tooltip" data-placement="top" rel="tooltip" title="Facebook"></i></th>
+                <th><i class="icon-social_pinterest bs_tooltip" data-placement="top" rel="tooltip" title="Pinterest"></i></th>
+                <th>Posts/Month</th>
+                <th>Comments</th>
+                <th>Stage</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for mapping in mappings %} {% with mapping.influencer as influencer %}
+            <tr id="mapping_{{mapping.id}}">
+                {% if DEBUG %}
+                <td>
+                    <span class="blogger_select" style="display: none" data-id="{{influencer.id}}"></span>
+                    <button class="icon-letter_check4" ng-if="selected_bloggers[{{influencer.id}}]" ng-click="selected_bloggers[{{influencer.id}}]=false"></button>
+                    <button class="icon-letter_x06" ng-if="!selected_bloggers[{{influencer.id}}]" ng-click="selected_bloggers[{{influencer.id}}]=true"></button>
+                </td>
+                {% endif %}
+                <td style="padding:0;"><img src="{{influencer.profile_pic}}" height="64px" style="padding:7px;"></td>
+                <td>{{influencer.name}}</td>
+                <td><a class="txt_link gray" href="{{influencer.blog_url}}" target="blank">{{influencer.blogname}}</a></td>
+                <td>{{influencer.email}}</td>
+                <td>{{mapping.tw_fol}}</td>
+                <td>{{mapping.ig_fol}}</td>
+                <td>{{mapping.fb_likes}}</td>
+                <td>{{mapping.pin_fol}}</td>
+                <td>{{mapping.post_per_month}}</td>
+                <td>{{mapping.num_comments}}</td>
+                <td>
+                    <select class="influencer_status" data-mapping-id="{{mapping.id}}" data-mapping-selector="#mapping_{{mapping.id}}" data-url="{% url debra.search_views.edit_influencer_mapping %}">
+                        {% for choice in status_choices %}
+                        <option value="{{choice.0}}" {% if choice.0 == mapping.status %}selected{% endif %}>{{choice.1}}</option>
+                        {% endfor %}
+                    </select>
+                </td>
+                <td>
+                    <button class="icon-misc_magnify2 delete_collection" ng-click="show('{{mapping.details_url}}')"></button>
+                    <div class="icon-misc_files_trash2 delete_collection" style="font-size:13px; padding:2px;" ng-click="submitDelete({{mapping.id}}, '#mapping_{{mapping.id}}', '{% url debra.search_views.remove_influencer_from_groups %}')"></div>
+                </td>
+            </tr>
+            {% endwith %} {% endfor %}
+        </tbody>
+    </table>
+
+</div-->
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

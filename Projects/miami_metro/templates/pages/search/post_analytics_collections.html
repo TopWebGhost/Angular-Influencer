@@ -1,0 +1,79 @@
+{% extends 'pages/search/saved_views.html' %} 
+{% load custom_filters %}
+
+{% block page_title %}Post Analytics Collections{% endblock page_title %}
+
+{% block table_controls %}
+{% endblock table_controls %}
+
+{% comment %}
+{% block page_extra_text %}
+    To create a report of all posts within a campaign, use this page to create a new collection, and from there, simply add the urls that you want to track.
+{% endblock page_extra_text %}
+{% endcomment %}
+
+
+
+{% block extra_directives %}
+    <div add-collection-popup
+        add-group="{% url debra.job_posts_views.add_post_analytics_collection %}"
+        popup-title="Create a Post Analytics Collection"
+        adding-text="Adding a Post Analytics Collection"
+    ></div>
+    <div edit-collection-popup edit-group="{% url debra.job_posts_views.edit_post_analytics_collection %}"></div>
+{% endblock extra_directives %}
+
+{% block actual_content %}
+
+    {% comment %}<div class="a_collection_container clearfix" ng-click="addCollection()">{% endcomment %}
+    <div class="collection_outer_wrapper">    
+        <div class="a_collection_container collection_button clearfix" a-href="{% url debra.search_views.post_analytics_collection_create %}" direct>
+            <div class="add_collection_btn_sm">
+                <div>
+                    <div class="icon-letter_plus04"></div>
+                    <div class="btn_txt">Create new Post Analytics Collection</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% for group in groups %}
+    <div class="collection_outer_wrapper" id="group_{{group.id}}">
+        <a href="{% url debra.search_views.post_analytics_collection group.id %}" class="a_collection_container clearfix {% if not group.items_number %}no_items{% endif %}">
+            <div class="tag_btns">
+                <div class="tag_button">
+                    {% comment %}
+                    <div class="icon-misc_files_pencil3 edit_collection" ng-click="$event.preventDefault();editGroup({id: '{{group.id}}', name: '{{group.name|escapejs}}', desc: '', jobs: []})"></div>
+                    {% endcomment %}
+                    <div class="icon-misc_files_pencil3 edit_collection" ng-click="$event.preventDefault()" a-href="{% url debra.search_views.post_analytics_collection_edit group.id %}" direct></div>
+                </div>
+                <div class="tag_button" ng-click="$event.preventDefault();deleteGroup('{{group.id}}', '{% url debra.job_posts_views.del_post_analytics_collection %}')">
+                    <div class="icon-misc_files_trash4"></div>
+                </div>
+            </div>
+            <div class="title_row" style="height: initial;">
+                <div class="title_txt">{{group.name}}</div>
+                <div class="info_row clearfix">
+                    <div class="info_group">
+                        <span class="the_label">Date : </span>
+                        <span class="info">{{group.created_date|date:"n/j/Y"}}</span>
+                    </div>
+                    <div class="info_group">
+                        <span class="the_label">Total : </span>
+                        <span class="info">{{group.items_number|default:"0"}}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="no_items_overlay"></div>
+            <div class="img_row_hover_wrapper clearfix">
+                <div class="img_row clearfix">
+                    {% for img in group.imgs %}
+                    <div class="img_container" bg-image="{{img}}"></div>
+                    {% endfor %}
+                </div>
+            </div>
+        </a>
+    </div>
+    {% endfor %}
+
+{% endblock actual_content %}

@@ -1,0 +1,109 @@
+{% extends 'pages/job_posts/base.html' %}
+{% load compressed %}
+{% load custom_filters %}
+
+{% block title %}Post Analytics | connecting top fashion bloggers and brands{% endblock %}
+{% block body_class %}lt_gray_bg{% endblock %}
+
+{% block main_controller %}ng-controller="PostAnalyticsCtrl"{% endblock main_controller %}
+
+{% block extra_dc_class %}{% if not user.is_authenticated %}no_sidebar actions_always_visible{% endif %}{% endblock extra_dc_class %}
+
+{% block bottom_js %}
+{% compressed_js 'angular_saved_searches' %}
+<script type="text/javascript">
+(function(){
+angular.module("theshelf")
+    .value('nav_config', {
+        tab: "{{selected_tab}}",
+        sub_tab: "{{sub_page}}",
+        visible: {% if hide_sidenav %}false{% else %}true{% endif %},
+    })
+    .value('dashboard_brand', null);
+})();
+</script>
+{% endblock %}
+
+{% block extra_directives %}
+    <div blogger-approval-popup
+        client-approval-invite-url="{% url debra.search_views.client_approval_invite_send report.id %}"
+        approval-status-change-url="{% url debra.search_views.blogger_approval_status_change brand_id report.id user_id %}"
+    ></div>
+{% endblock extra_directives %}
+
+{% block search_content %}
+    <div>
+
+        {% if preview %}
+        <div class="extra_info_bar">
+            <span class="bar_text">This is the public view of your post.</span>
+            <div class="bar_actions">
+                <a class="square_bt white xs" href="{% if report.campaign %}{% url debra.job_posts_views.campaign_approval report.campaign.id %}{% else %}{% url debra.search_views.blogger_approval_report report.id %}{% endif %}">Go Back</a>
+            </div>
+        </div>
+        {% endif %}
+        <div class="campaign_tab_row_container">
+            <div class="campaign_tab_row clearfix">
+                {% comment %}
+                <a href="."><div class="campaign_tab{% if approve_status == -1 %} selected{% endif %}">All - {{ total_count|default_if_none:"0" }}</div></a>
+                {% endcomment %}
+                {% for status in statuses %}
+                    <a href="?approve_status={{ status.value }}{% if preview %}&preview=1{% endif %}"><div class="campaign_tab{% if approve_status == status.value %} selected{% endif %}">{{ status.name }} - {{ status.count|default_if_none:"0" }}</div></a>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="dashboard_top_section transparent_bar">
+            <div class="search_name_row clearfix">
+                <div class="right_header_section post_analtyics_drillin_right">
+                    <form name="form" novalidate>
+                        {% if collection.approval_status < 2 %}
+                        <fieldset ng-show="editingLocked" class="typical_form search_keyword lighter_field">
+                            <a class="square_bt dashboard_btn gray_bt xs rounded_bt" ng-click="makeSelections({preview: {% if preview %}true{% else %}false{% endif %}})"><span>Make Selections</span></a>
+                        </fieldset>
+                        <fieldset ng-hide="editingLocked" class="typical_form search_keyword lighter_field">
+                            <a class="square_bt dashboard_btn gray_bt xs rounded_bt" ng-click="approveSaveSubmit({brandId: {{ brand_id }}, reportId: {{ report.id }}, userId: {{ user_id }}, userFirstName: '{{ reportOwner.first_name|default_if_none:"" }}', approve: true, status: {{ collection.approval_status }}})"><span>Finished and Submit</span></a>
+                            <a class="square_bt dashboard_btn gray_bt xs rounded_bt" ng-click="approveSave({{ brand_id }})">
+                                <span ng-hide="approveLoading">Save and Keep Editing</span>
+                                <span ng-show="approveLoading">Saving</span>
+                            </a>
+                        </fieldset>
+                        {% else %}
+                            {% comment %}
+                            <fieldset class="typical_form search_keyword lighter_field">
+                                <a class="square_bt dashboard_btn gray_bt xs rounded_bt" ng-click="moreEdits({status: {{ collection.approval_status }} })"><span>More Edits</span></a>
+                            </fieldset>
+                            {% endcomment %}
+                        {% endif %}
+                    </form>
+
+                    
+                </div>
+                <div class="name_section{% if campaign.id == 696 %} centra{% endif %}" {% if not user.is_authenticated %}{% endif %}>
+                    <div class="page_title">
+                        {% if report.campaign %}Influencer Approval for {{ report.campaign.title }} campaign{% else %}{{ report.name }}{% endif %}
+                        <span class="name_count">({{ total_count }} influencer{{ total_count|pluralize }})</span> &nbsp; &nbsp; 
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+
+        <div class="top_of_page_instructions">
+            <p>Below are the influencers selected for this campaign. Please review them and use the radio buttons to approve / remove the influencers you like/dislike. Click Save periodically so that you don't lose data if you happen to leave the page. And Click SAVE & SUBMIT when you are finished with all of your selections.</p>
+        </div>
+
+        {% if collection.is_updating %}
+            <div class="alert_message_to_user">
+                <h1>We're still adding influencers to your approval report.</h1>
+            </div>
+        {% endif %}
+
+    
+        <div id="post_analytics_root">
+            <div class="report_top_stuff">
+            </div>
+            {% include "pages/search/roi_prediction_report_influencer_stats_details_partial.html" with disable_posts_expand="true" disable_editing="true" %}
+        </div>
+    </div>
+{% endblock %}

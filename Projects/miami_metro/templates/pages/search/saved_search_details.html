@@ -1,0 +1,54 @@
+{% extends 'pages/job_posts/base.html' %}
+{% load compressed %}
+{% load custom_filters %}
+
+{% block title %}Bloggers list | connecting top fashion bloggers and brands{% endblock %} 
+{% block body_class %}lt_gray_bg{% endblock %}
+
+{% block bottom_js %}
+    {% compressed_js 'angular_saved_searches' %}
+    {% compressed_js 'angular_brand_navigation' %}
+    <script type="text/javascript">
+    (function(){
+    angular.module("theshelf")
+        .value('nav_config', {
+            tab: "{{selected_tab}}",
+            sub_tab: "{{sub_page}}",
+            visible: {% if hide_sidenav %}false{% else %}true{% endif %},
+        })
+        .value('dashboard_brand', null);
+    })();
+    </script>
+{% endblock %}
+
+{% block search_content %}
+    <div class="page_title_section">
+        <div class="page_title">{{ query.name }}</div>
+        <div class="campaign_extras">
+            <div class="info_row clearfix">
+                {% block search_filters %}
+                    {% include "snippets/saved_search_filters.html" %}
+                {% endblock search_filters %}
+            </div>
+            {% block campaign_extras %}
+            {% endblock campaign_extras %}
+        </div>
+    </div>
+
+    <div class="campaign_tab_row_container" table-controls>
+        <div class="campaign_tab_row clearfix" style="border-bottom: 1px solid #C4C4C4;">
+            {% for section in sections %}
+                <a href="{% url debra.search_views.saved_search_details section query.id %}">
+                    <div class="campaign_tab{% if sub_page == section %} selected{% endif %}">{{ section|underscore_capitalize }}</div>
+                </a>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="campaign_drillin_table">
+        <div class="blogger_search_page the_collections">
+            {% block actual_content %}
+            {% endblock actual_content %}
+        </div>
+    </div>
+{% endblock search_content %}
