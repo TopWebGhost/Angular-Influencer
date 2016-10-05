@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+{% load compressed %}
+{% load custom_filters %}
+{% load widget_tweaks %}
+
+{% block title %}
+{{ page_title }}
+{% endblock %}
+
+{% block meta_description %}
+<meta name="description" content="{{ meta_description }}">
+{% endblock %}
+
+{% block page_js %}
+{% compressed_js 'middle_content' %}
+{% endblock %}
+
+{% block content %}
+<div class="og-expander" style="width:100%;position:static;padding-top:25px;">
+    <div id="item_details" itemscope itemtype="http://data-vocabulary.org/Product">
+        <meta itemprop="currency" content="USD" />
+        <div class="content">
+            <div id="item_dynamic">
+                <!-- TOP SECTION -->
+                <!-- TOP SECTION -->
+                <div class="top_sect clearfix">
+                    <div class="details_image">
+                        <img src="{{ item.img_url_panel_view }}" alt="{{ model.name }} image" itemprop="image" />
+                    </div>
+                    <div class="itm_info_right">
+                        <div class="itm_info_right_content">
+                            <!-- this is detailed item info, dynamically populated after page load -->
+                            <div class="right_content">
+                                <div class="item_basic_info">
+                                    <div class="itm_title">
+                                        <div class="store_name">
+                                            <a href="{{ brand.profile_url }}" class="store_link">
+                                            {% if brand.icon_id %}<span class="just_icon icon-00_brand_{{brand.icon_id}}"></span>{% endif %}
+                                            <span class="store_txt" itemprop="brand">{{ brand.name|remove_dot_com }}</span>
+                                            </a>
+                                        </div>
+                                        <div class="itm_name dotdot" itemprop="name">{{ model.name }}</div>
+                                        <div class="price_soc_row">
+                                            {% if item.current_product_price.price > 0 %}
+                                            <div class="itm_price">
+                                                {%  if item.current_product_price.orig_price > item.current_product_price.price %}
+                                                    <p class="price on_sale" itemprop="price">${{item.current_product_price.price|floatformat:2}}&nbsp;<span class="discounted">${{item.current_product_price.orig_price|floatformat:2}}</span></p>
+                                                {% else %}
+                                                    <p class="price" itemprop="price">${{item.current_product_price.price|floatformat:2}}</p>
+                                                {%  endif %}
+                                            </div>
+                                            {%  endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bottom_sect">
+                    <div class="bottom_sect_content">
+                        <!-- this goes below the other stuff -->
+                        <div class="bottom_content">
+                            <div class="itm_stats_row">
+                                <div class="stats_itm bs_tooltip" title="Go to {{ shelfer_shelf.name|remove_dot_com }} Shelf.">
+                                    <div class="stat_img sidebar_shelf_img circ_pic">
+                                        {% if shelfer_shelf.shelf_img %}<img src="{{ shelfer_shelf.shelf_img }}" />{% endif %}
+                                    </div>
+                                    <a href="{{ shelfer_prof.profile_url }}?q={{ shelfer_shelf.id }}">
+                                        <div class="stat_info">
+                                            <div class="stat_label">On Shelf :</div>
+                                            <div class="stat_name">{{ shelfer_shelf.name|remove_dot_com }}</div>
+                                        </div>
+                                    </a>
+                                </div>
+                                {% if shelfer_prof %}
+                                <div class="stats_itm bs_tooltip" title="View profile for {{ shelfer_prof|user_name_or_email }}.">
+                                    <div class="stat_img">
+                                        <img src="{{ shelfer_prof|best_pic_for_profile }}" />
+                                    </div>
+                                    <div class="stat_info">
+                                        <div class="stat_label">Shelved By :</div>
+                                        <div class="stat_name">{{ shelfer_prof|user_name_or_email }}</div>
+                                    </div>
+                                </div>
+                                {% endif %}
+                                <div class="stats_itm last_child">
+                                    <div class="stat_img">
+                                        <div class="icon-social_0_shelf_icon3"></div>
+                                    </div>
+                                    <div class="stat_info">
+                                        <div class="stat_label">Reshelved :</div>
+                                        <div class="stat_name">{{ num_reshelves }}</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="extra_itms_container">
+                                <div class="title">Similar Items</div>
+                                <div class="extra_itms salvattore_grid" data-columns>
+                                {% for item in similar_items %}
+                                    {% if item.img_url_feed_view %}
+                                    <div class="extra_itms_bk clearfix">
+                                        <div class="img_wrapper">
+                                            <img src="{{ item.img_url_feed_view }}" />
+                                        </div>
+                                    </div>
+                                    {% endif %}
+                                {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
