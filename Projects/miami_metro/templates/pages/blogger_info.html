@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+<!-- Page Content starts here -->
+<!-- Page Content starts here -->
+{% block content %}
+{% load custom_filters %}
+<table>
+{% for influencer, platforms in result_list.items %}
+<tr>
+    <div>Influencer: {{ influencer.blog_url }}  {{influencer.email}}</div>
+</tr>
+<tr> 
+<td>Url</td><td>About</td><td>Description</td><td>Num posts</td><td>Num comments</td><td>Num followers</td><td>Num following</td>
+</tr>
+<tr>
+    <div>
+    {% for plat in platforms %}
+    <tr>
+        <td> {{ plat.url}} </td>
+        <td> {{ plat.about}} </td>
+        <td> {{ plat.description}} </td>
+        <td> {{ plat.num_posts}} </td>
+        <td> {{ plat.num_comments}} </td>        
+        <td> {{ plat.num_followers}} </td>
+        <td> {{ plat.num_following}} </td>
+        
+    </tr>
+    {% endfor %}
+    </div>
+</tr>
+{% endfor %}
+</table>
+{% endblock %}

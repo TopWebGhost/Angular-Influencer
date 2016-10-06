@@ -1,0 +1,491 @@
+{% load compressed %}
+{% load custom_filters %}
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="google-site-verification" content="4ihQ4JGXsbdOEzzh8udPXAsHyQr68MmLa5KXFRsIZpo" />
+
+    <title>Buy smartly -- Blog smartly -- Network with fellow Bloggers -- TheShelf</title>
+    <meta name="description" content="Tools to help you grow your blog, find interesting brand campaigns to work on, inspire and be inspired by other bloggers. ">
+    <!--** Global CSS **-->
+    <link href="/mymedia/site_folder/css/global.less" media="screen" rel="stylesheet/less" />
+    <link href="/mymedia/site_folder/css/laurens_font.less" media="screen" rel="stylesheet/less"  />
+
+    <!--** Global Js **-->
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+
+    <!-- Google Fonts -->
+    <script type="text/javascript">
+    WebFontConfig = {
+      google: { families: [ 'Raleway:400,200,100,300,500,600,700,800,900' ] }
+    };
+    (function() {
+      var wf = document.createElement('script');
+      wf.src = ('https:' == document.location.protocol ? 'https' : 'http') +
+              '://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js';
+      wf.type = 'text/javascript';
+      wf.async = 'true';
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(wf, s);
+
+    })();
+    </script>
+
+    <!-- Global Vendor Js -->
+    <script type="text/javascript" src="//www.google.com/jsapi"></script>
+    {% compressed_js 'core_head' %}
+
+    <!-- Google Vis Library -->
+    <script type="text/javascript">
+    google.load("visualization", "1", {packages:["corechart"]});
+    </script>
+</head>
+
+<!-- <body style="background:#d9d9d9;"> -->
+<body style="background:#333333;">
+
+
+
+
+
+    <!-- Blogger Details Panel -->
+    <div class="blogger_details_panel_btns">
+        <div class="panel_btn close_panel"><span class="icon-letter_x02"></span></div>
+        <br/>
+        <div class="panel_btn favorite">
+            <span class="icon-misc_value_star2"></span>
+            <br/>
+            <span class="panel_txt">favorite</span>
+        </div>
+    </div>
+    <div class="blogger_details_panel">
+        <div class="nano">
+            <div class="content">
+
+
+
+
+
+
+                <div class="cover">
+                    <div class="overlay">
+                        <div class="centerer">
+                            <div class="overlay_button more_info" data-get-url="{% url debra.search_views.blogger_info user.id %}"><span class="icon-misc_magnify2"></span><span class="btn_txt">More Info</span></div>
+                            {% if shelf_user %}
+                            {% if user.shelf_user.userprofile %}
+                            <div class="follow_prof" style="padding-top:10px;">
+                                <p class="simple_follow_btn unfollow square_bt on_teal sm italic_version{% if not user.shelf_user.userprofile|is_followed_by:shelf_user %} hidden{% endif %} inactive" data-follow-url="{% url debra.shelf_views.toggle_follow shelf_user.id user.shelf_user.userprofile.id %}">Unfollow This User</p>
+                                <p class="simple_follow_btn follow square_bt on_teal sm italic_version{% if user.shelf_user.userprofile|is_followed_by:shelf_user %} hidden{% endif %}" data-follow-url="{% url debra.shelf_views.toggle_follow shelf_user.id user.shelf_user.userprofile.id %}">Follow This User</p>
+                            </div>
+                            {% endif %}
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="cover_img"><img src="{{ user.platform_set.all|fb_pic:"cover" }}"/></div>
+                    <div class="cover_txt">
+                        {% if user.name %}
+                        <div class="name">{{ user.name }}</div>
+                        {% else %}
+                        <div class="name">Blogger</div>
+                        {% endif %}
+                        <div class="of_text">of</div>
+                        <div class="blog">{{ user.blog_url }}</div>
+                    </div>
+                    <div class="profile_pic"><img src="{{ user.platform_set.all|fb_pic:"profile" }}"/></div>
+                </div>
+
+
+
+
+
+
+                <div class="body_content">
+
+                    <div class="description">If you are familiar with Ivory Lane, you know how important my family is to me. My blog is an extension of the style I developed while growing up in a house of sassy girls, me and my 3 sisters. One of my sisters, Rachel, has a style blog of her own.</div>
+                    <div class="social_row clearfix">
+                        <div class="outer-center">
+                            <div class="inner-center">
+                            {% for platform in user.platform_set.all %}
+                                {% if platform.platform_name != 'Wordpress' and platform.platform_name != 'Blogspot' and platform.platform_name != 'Custom' and platform.platform_name != 'Bloglovin' %}
+                                <div class="social_block">
+                                    {% if platform.platform_name == "Twitter" %}
+                                    <div class="icon-social_twitter"></div>
+                                    <div class="items">
+                                        <span>{{ platform.num_followers|zero_if_none }} followers<br/></span>
+                                        <span>{{ platform.posting_rate|zero_if_none|floatformat }} tweets/month<br/></span>
+                                        <span>{{ platform.avg_numshares_overall|zero_if_none|floatformat }}  avg. retweet</span>
+                                    </div>
+                                    {% endif %}
+                                    {% if platform.platform_name == "Facebook" %}
+                                    <div class="icon-social_facebook"></div>
+                                    <div class="items">
+                                        <span>{{ platform.num_followers|zero_if_none }} followers<br/></span>
+                                        <span>{{ platform.posting_rate|zero_if_none|floatformat }} posts/month<br/></span>
+                                        <span>{{ platform.avg_numcomments_overall|zero_if_none|floatformat }} avg. comments<br/></span>
+                                        <span>{{ platform.avg_numshares_overall|zero_if_none|floatformat }} avg. shares<br/></span>
+                                        <span>{{ platform.avg_numlikes_overall|zero_if_none|floatformat }} avg. likes</span>
+                                    </div>
+                                    {% endif %}
+                                    {% if platform.platform_name == "Instagram" %}
+                                    <div class="icon-social_instagram2"></div>
+                                    <div class="items">
+                                        <span>{{ platform.num_followers|zero_if_none }} followers<br/></span>
+                                        <span>{{ platform.numposts|zero_if_none|floatformat }} photos/month<br/></span>
+                                        <span>{{ platform.avg_numlikes_overall|zero_if_none|floatformat }} avg. likes<br/></span>
+                                        <span>{{ platform.avg_numcomments_overall|zero_if_none|floatformat }} avg. comments</span>
+                                    </div>
+                                    {% endif %}
+                                    {% if platform.platform_name == "Pinterest" %}
+                                    <div class="icon-social_pinterest"></div>
+                                    <div class="items">
+                                        <span>{{ platform.num_followers|zero_if_none }} followers<br/></span>
+                                        <span>{{ platform.numposts|zero_if_none|floatformat }} pins/month<br/></span>
+                                        <span>{{ platform.avg_numshares_overall|zero_if_none|floatformat }} avg. re-pins<br></span>
+                                        <span>{{ platform.avg_numcomments_overall|zero_if_none|floatformat }} avg. comments</span>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                                {% endif %}
+                            {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="divider_tag">
+                        <div class="tag">Blog Posts Stats</div>
+                    </div>
+
+                    <div class="blog_stats_row clearfix">
+                        <div class="outer-center">
+                            <div class="inner-center">
+                                <div class="blog_stat_block">
+                                    <div class="icon-social_speech2"></div>
+                                    <div class="sub_title">Blog Posts</div>
+                                    <div class="sub_txt">per month</div>
+                                    <div class="number_count">{{ user.average_num_posts }}</div>
+                                </div>
+                                <div class="blog_stat_block">
+                                    <div class="icon-letter_quotes"></div>
+                                    <div class="sub_title">comments</div>
+                                    <div class="sub_txt">per post</div>
+                                    <div class="number_count">{{user.average_num_comments_per_post|floatformat }}</div>
+                                </div>
+                                <div class="blog_stat_block">
+                                    <div class="icon-misc_very_present2"></div>
+                                    <div class="sub_title">giveaways</div>
+                                    <div class="sub_txt">per month</div>
+                                    <div class="number_count">4</div>
+                                </div>
+                                <div class="blog_stat_block">
+                                    <div class="icon-letter_quotes"></div>
+                                    <div class="sub_title">comments</div>
+                                    <div class="sub_txt">per giveaway</div>
+                                    <div class="number_count">456</div>
+                                </div>
+                                <!--div class="blog_stat_block">
+                                    <div class="icon-misc_shop_hanger2"></div>
+                                    <div class="sub_title">sponsored items</div>
+                                    <div class="sub_txt">per month</div>
+                                    <div class="number_count">76</div>
+                                </div-->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="divider_tag">
+                        <div class="tag">Brands Endorsed by Blogger</div>
+                    </div>
+
+                    <div class="endorsed_brands">
+                        <div class="brands">
+                            <div class="brand">Lulus <span class="number">(45)</span></div>
+                            <div class="brand">The Limited <span class="number">(45)</span></div>
+                            <div class="brand">Net A Porter <span class="number">(45)</span></div>
+                            <div class="brand">Aldo <span class="number">(45)</span></div>
+                            <div class="brand">Gap <span class="number">(45)</span></div>
+                            <div class="brand">Crocks <span class="number">(45)</span></div>
+                            <div class="brand">Chloe &amp; Isabel <span class="number">(45)</span></div>
+                            <div class="brand">ShopBop <span class="number">(45)</span></div>
+                            <div class="brand">Lucky <span class="number">(45)</span></div>
+                            <div class="brand">Sheinside <span class="number">(45)</span></div>
+                            <div class="brand">Banana Republic <span class="number">(45)</span></div>
+                            <div class="brand">Lulus <span class="number">(45)</span></div>
+                            <div class="brand">The Limited <span class="number">(45)</span></div>
+                            <div class="brand">Net A Porter <span class="number">(45)</span></div>
+                            <div class="brand">Aldo <span class="number">(45)</span></div>
+                            <div class="brand">Gap <span class="number">(45)</span></div>
+                            <div class="brand">Crocks <span class="number">(45)</span></div>
+                            <div class="brand">Chloe &amp; Isabel <span class="number">(45)</span></div>
+                            <div class="brand">ShopBop <span class="number">(45)</span></div>
+                            <div class="brand">Lucky <span class="number">(45)</span></div>
+                            <div class="brand">Sheinside <span class="number">(45)</span></div>
+                            <div class="brand">Banana Republic <span class="number">(45)</span></div>
+                            <div class="brand">The Limited <span class="number">(45)</span></div>
+                            <div class="brand">Net A Porter <span class="number">(45)</span></div>
+                            <div class="brand">Aldo <span class="number">(45)</span></div>
+                            <div class="brand">Gap <span class="number">(45)</span></div>
+                            <div class="brand">Crocks <span class="number">(45)</span></div>
+                            <div class="brand">Chloe &amp; Isabel <span class="number">(45)</span></div>
+                            <div class="brand">ShopBop <span class="number">(45)</span></div>
+                            <div class="brand">Lucky <span class="number">(45)</span></div>
+                            <div class="brand">Sheinside <span class="number">(45)</span></div>
+                            <div class="brand">Banana Republic <span class="number">(45)</span></div>
+                        </div>
+                    </div>
+
+                    <div class="divider_tag">
+                        <div class="tag">Brands who have sponsored content</div>
+                    </div>
+
+                    <div class="endorsed_brands">
+                        <div class="brands">
+                            <div class="brand">Lulus <span class="number">(45)</span></div>
+                            <div class="brand">The Limited <span class="number">(45)</span></div>
+                            <div class="brand">Net A Porter <span class="number">(45)</span></div>
+                            <div class="brand">Aldo <span class="number">(45)</span></div>
+                            <div class="brand">Gap <span class="number">(45)</span></div>
+                            <div class="brand">Crocks <span class="number">(45)</span></div>
+                            <div class="brand">Chloe &amp; Isabel <span class="number">(45)</span></div>
+                            <div class="brand">ShopBop <span class="number">(45)</span></div>
+                            <div class="brand">Lucky <span class="number">(45)</span></div>
+                            <div class="brand">Sheinside <span class="number">(45)</span></div>
+                            <div class="brand">Banana Republic <span class="number">(45)</span></div>
+                            <div class="brand">Lulus <span class="number">(45)</span></div>
+
+                        </div>
+                    </div>
+
+                    <div class="divider_tag">
+                        <div class="tag">Recently Featured Items</div>
+                    </div>
+
+                    <div class="extra_itms_container clearfix">
+                        <div class="extra_itms salvattore_grid clearfix" data-columns>
+                        {% for item in her_items %}
+                            {% if item.img_url_feed_view %}
+                            <div class="extra_itms_bk clearfix" data-ajax-path="{% url debra.item_views.item_info user.shelf_user.userprofile.id item.id %}">
+                                <div class="img_wrapper">
+                                    <img src="{{ item.img_url_feed_view }}" data-img-url-panel-view="{% if item.img_url_panel_view %}{{ item.img_url_panel_view }}{% else %}{{ item.img_url_feed_view }}{% endif %}" />
+                                </div>
+                                <div class="image_label_price">
+                                    <p class="the_name">Saks <span class="brand">Kate Spade</span></p>
+                                    <!--p class="price on_sale">$85.00 <span class="discounted">$100.00</span></p-->
+                                </div>
+                            </div>
+                            {% endif %}
+                        {% endfor %}
+                        </div>
+                        <div class="bottom_btn_container">
+                            <div class="centerer"><div class="lg square_bt solid_blk rounded">View All Items</div></div>
+                            <div class="notation">This opens in another tab, so you don’t lose your place.</div>
+                        </div>
+                    </div>
+
+                    <div class="divider_tag">
+                        <div class="tag">Recent Blog Posts</div>
+                    </div>
+
+                    <div class="extra_blog_posts">
+                        <!-- feed of 6 recent blog posts should go here -->
+                        <div class="bottom_btn_container" style="padding-bottom:30px;">
+                            <div class="centerer"><div class="lg square_bt solid_blk rounded">View All Blog Posts</div></div>
+                            <div class="notation">This opens in another tab, so you don’t lose your place.</div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+
+
+
+
+
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Old stuff...  ignore -->
+    <div class="middle-content-wrapper hidden">
+        <div class="global_blogger_admin">
+
+            <div class="blogger_container">
+
+                <!-- ID ROW -->
+                <div class="indi_row id_row">
+                    <div class="indi_section id_person_section">
+                        <div class="cover_photo"><img src="http://2.bp.blogspot.com/-eDDmvXApEdM/Uu8tRYzaklI/AAAAAAAACr4/VHpGPAzIMdM/s1600/stuartweitzman-boots.png"/></div>
+                        <div class="top_content">
+                            <div class="prof_pic"><img src="https://scontent-a-sjc.xx.fbcdn.net/hphotos-prn1/t1/1231286_197427507113378_587423736_n.png"/></div>
+                            <div class="person_text">
+                                <input type="text" class="name" placeholder="Name" />
+                                <input type="text" class="email" placeholder="Email" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="indi_section id_blog_section">
+                        <div class="blog_text">
+                            <input type="text" class="blog" placeholder="Blog Name" />
+                            <input type="text" class="url" placeholder="URL" />
+                            <a href="#" class="txt_link darker_teal serif_ital xsmall">Go to blog</a>
+                        </div>
+                    </div>
+                    <div class="indi_section id_level_section">
+                        <div class="checkboxes">
+                            <input class="check" type="checkbox" name="#" value="#">Widget Access<br>
+                            <input class="check" type="checkbox" name="#" value="#">Accuracy Validated<br>
+                            <input class="check" type="checkbox" name="#" value="#">Trendsetter<br>
+                        </div>
+                    </div>
+                    <div class="indi_section last_child id_button_section">
+                        <div class="btn_container">
+                            <span class="square_bt gray_bt xs">Login</span>
+                            <br/>
+                            <span class="square_bt gray_bt xs">Don't Show User</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SOCIAL ROW -->
+                <div class="indi_row social_row clearfix">
+                    <div class="social_block_container">
+                        <div class="social_block">
+                            <div class="icon-social_facebook"></div>
+                            <input type="text" class="social_url" placeholder="Facebook URL" />
+                            <div class="items">x followers<br>x posts/month<br>x comments<br>x shares<br>x likes</div>
+                            <div class="extra_options">
+                                <div class="trash icon-misc_files_trash2"></div>
+                                <input class="blogger_issue issue" type="checkbox" name="#" value="#">Blogger
+                                <input class="crawler_issue issue" type="checkbox" name="#" value="#">Crawler
+                            </div>
+                        </div>
+                        <div class="social_block">
+                            <div class="icon-social_twitter"></div>
+                            <input type="text" class="social_url" placeholder="Twitter URL" />
+                            <div class="items">x followers<br>x tweets/month<br>x retweet<br>x replies<br>x favorites</div>
+                            <div class="extra_options">
+                                <div class="trash icon-misc_files_trash2"></div>
+                                <input class="blogger_issue issue" type="checkbox" name="#" value="#">Blogger
+                                <input class="crawler_issue issue" type="checkbox" name="#" value="#">Crawler
+                            </div>
+                        </div>
+                        <div class="social_block">
+                            <div class="icon-social_pinterest"></div>
+                            <input type="text" class="social_url" placeholder="Pinterest URL" />
+                            <div class="items">x followers<br>x pins/month<br>x re-pins<br>x comments</div>
+                            <div class="extra_options">
+                                <div class="trash icon-misc_files_trash2"></div>
+                                <input class="blogger_issue issue" type="checkbox" name="#" value="#">Blogger
+                                <input class="crawler_issue issue" type="checkbox" name="#" value="#">Crawler
+                            </div>
+                        </div>
+                        <div class="social_block">
+                            <div class="icon-social_instagram2"></div>
+                            <input type="text" class="social_url" placeholder="Instagram URL" />
+                            <div class="items">x followers<br>x posts/month<br>x likes<br>x comments</div>
+                            <div class="extra_options">
+                                <div class="trash icon-misc_files_trash2"></div>
+                                <input class="blogger_issue issue" type="checkbox" name="#" value="#">Blogger
+                                <input class="crawler_issue issue" type="checkbox" name="#" value="#">Crawler
+                            </div>
+                        </div>
+                        <div class="social_block">
+                            <div class="icon-social_blog_lovin"></div>
+                            <input type="text" class="social_url" placeholder="BlogLovin URL" />
+                            <div class="items">x followers<br>x likes</div>
+                            <div class="extra_options">
+                                <div class="trash icon-misc_files_trash2"></div>
+                                <input class="blogger_issue issue" type="checkbox" name="#" value="#">Blogger
+                                <input class="crawler_issue issue" type="checkbox" name="#" value="#">Crawler
+                            </div>
+                        </div>
+                        <!-- repeats -->
+                        <div class="social_block">
+                            <div class="icon-social_facebook"></div>
+                            <input type="text" class="social_url" placeholder="BlogLovin URL" />
+                            <div class="items">x followers<br>x posts/month<br>x comments<br>x shares<br>x likes</div>
+                            <div class="extra_options">
+                                <div class="trash icon-misc_files_trash2"></div>
+                                <input class="blogger_issue issue" type="checkbox" name="#" value="#">Blogger
+                                <input class="crawler_issue issue" type="checkbox" name="#" value="#">Crawler
+                            </div>
+                        </div>
+                        <div class="social_block">
+                            <div class="icon-social_twitter"></div>
+                            <input type="text" class="social_url" placeholder="BlogLovin URL" />
+                            <div class="items">x followers<br>x tweets/month<br>x retweet<br>x replies<br>x favorites</div>
+                            <div class="extra_options">
+                                <div class="trash icon-misc_files_trash2"></div>
+                                <input class="blogger_issue issue" type="checkbox" name="#" value="#">Blogger
+                                <input class="crawler_issue issue" type="checkbox" name="#" value="#">Crawler
+                            </div>
+                        </div>
+                        <div class="social_block">
+                            <div class="icon-social_pinterest"></div>
+                            <input type="text" class="social_url" placeholder="BlogLovin URL" />
+                            <div class="items">x followers<br>x pins/month<br>x re-pins<br>x comments</div>
+                            <div class="extra_options">
+                                <div class="trash icon-misc_files_trash2"></div>
+                                <input class="blogger_issue issue" type="checkbox" name="#" value="#">Blogger
+                                <input class="crawler_issue issue" type="checkbox" name="#" value="#">Crawler
+                            </div>
+                        </div>
+                        <div class="social_block">
+                            <div class="icon-social_instagram2"></div>
+                            <input type="text" class="social_url" placeholder="BlogLovin URL" />
+                            <div class="items">x followers<br>x posts/month<br>x likes<br>x comments</div>
+                            <div class="extra_options">
+                                <div class="trash icon-misc_files_trash2"></div>
+                                <input class="blogger_issue issue" type="checkbox" name="#" value="#">Blogger
+                                <input class="crawler_issue issue" type="checkbox" name="#" value="#">Crawler
+                            </div>
+                        </div>
+                        <div class="social_block">
+                            <div class="icon-social_blog_lovin"></div>
+                            <input type="text" class="social_url" placeholder="BlogLovin URL" />
+                            <div class="items">x followers<br>x likes</div>
+                            <div class="extra_options">
+                                <div class="trash icon-misc_files_trash2"></div>
+                                <input class="blogger_issue issue" type="checkbox" name="#" value="#">Blogger
+                                <input class="crawler_issue issue" type="checkbox" name="#" value="#">Crawler
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ACTIONS ROW -->
+                <div class="actions_row indi_row">
+                    <div class="xl square_bt solid_blk">Save</div>
+                </div>
+                <div class="my_iframe"></div>
+
+
+            </div>
+
+
+        </div>
+    </div>
+    {% compressed_js 'middle_content' %}
+    {% compressed_js 'core' %}
+</body>
+</html>

@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% load compressed %}
+
+{% block title %}
+{{ page_title }}
+{% endblock %}
+
+{% block meta_description %}
+<meta name="description" content="{{ meta_description }}">
+{% endblock %}
+
+{% block page_js %}
+{% compressed_js 'middle_content_sidebar' %}
+{% endblock %}
+
+{% block content %}
+<div class="main w_sidebar">
+    <div class="container">                               
+        {% if "myshelf" == request.path %}
+        {% include 'tutorials/myshelf_tutorial.html' with tutorial_page="ajax_fake_shelves" %}
+        {% endif %}
+        {% if "inspiration" in request.path %}
+        {% include 'tutorials/feed_tutorial.html' with tutorial_page="ajax_fake_feed" %}
+        {% endif %}
+    
+        <!-- Welcome Lightbox -->
+        {% include 'popups/welcome_lb.html' with popup_type="welcome-popup" %}
+        <!-- Generic Message Lightbox -->
+        {% include 'popups/generic_message_lb.html' with popup_type="generic-message-popup" title="Shelf Removal" message="Hey! This shelf was automagically created for you from your blog posts. To turn these off, please visit your about page." %}
+        <!-- Generic Confirmation Lightbox -->
+        {% include 'popups/generic_confirmation_lb.html' with popup_type="generic-confirmation-popup" %}
+        <!-- Login Lb -->
+        {% include 'popups/login_lb.html' with popup_type="login-popup" %}
+        {% include 'popups/signup_lb.html' with popup_type="signup-popup" %}
+        <!-- Password Reset Lightbox -->
+        {% include 'popups/forgot_password_lb.html' with popup_type="forgot-password-popup" %}
+        <!-- Add To Shelf Lightbox -->
+        {% include 'popups/add_to_shelves_lb.html' with popup_type="add-to-shelves-popup" %}
+
+        <!-- Item Details Container -->
+        <div class="og-expander" style="margin-left:-1500px">
+            {% include 'widgets/item_info.html' %}
+        </div>            
+    
+        <!-- Sidebar -->
+        <!-- Create Shelf Lightbox -->
+        {% if shelf_user and page_user_prof.id == shelf_user.id %}
+            {% include 'popups/create_shelf_lb.html' with popup_type="create-shelf-popup" %}
+        {% endif %}
+        <div class="barside nano{% if not shelf_user %} not_logged_in{% endif %}" data-spy="affix" data-offset-top="200">
+            {{ sidebar }}  <!-- loading side_bar.html -->
+        </div>
+
+        <!-- Loader Image -->
+        {% include 'snippets/loader.html' with hidden=1 %}
+        <!-- Middle Item Grid -->
+        <div class="salvattore_grid item_grid new_feed_wrapper clearfix uninitialized_feed" data-columns>
+            {{ middle }}
+        </div>                  
+    </div>
+</div>
+{% endblock %}

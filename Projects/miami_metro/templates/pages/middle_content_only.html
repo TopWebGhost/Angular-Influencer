@@ -1,0 +1,68 @@
+<!-- this template is used for following, followers, explore/inspiration, and trendsetters -->
+{% extends 'base.html' %}
+{% load compressed %}
+
+{% block title %}
+{{ page_title }}
+{% endblock %}
+
+{% block meta_description %}
+<meta name="description" content="{{ meta_description }}">
+{% endblock %}
+
+{% block page_js %}
+{% compressed_js 'middle_content' %}
+{% endblock %}
+
+{% block content %}
+<div class="middle-content-wrapper" ng-controller="MiddleContentCtrl">
+
+    <!-- FILTERS ...  THESE MIGHT NEED TO BE MOVED TO A DIFFERENT FILE
+    -->
+<!--     {% if feed_type == 'items' %}
+    <div class="feed_filters clearfix">
+        <span class="filter_all filter" ng-class="{'selected': selected=='all'}" ng-click="selected='all'">All</span>
+        <span class="filter_blog filter" ng-class="{'selected': selected=='blog'}" ng-click="selected='blog'">Blog Posts</span>
+        <span class="filter_product filter" ng-class="{'selected': selected=='product'}" ng-click="selected='product'">Products</span>
+        <span class="filter_instagram filter" ng-class="{'selected': selected=='instagram'}" ng-click="selected='instagram'">Instagram Photos</span>
+    </div>
+    {% endif %} -->
+
+    {% if filtered_shelf %}
+        <div class="shelf_name_title">{{ filtered_shelf.name }}</div>
+    {% endif %}
+    <!-- Lightboxes -->
+    {% if shelf_user and page_user_prof.id == shelf_user.id %}
+        {% include 'popups/create_shelf_lb.html' with popup_type="create-shelf-popup" %}
+        {% include 'popups/edit_shelf_lb.html' with popup_type="edit-shelf-popup" %}
+        {% include "popups/generic_confirmation_lb.html" with popup_type="generic-confirmation-popup" %}
+    {% endif %}
+    {% include 'popups/add_to_shelves_lb.html' with popup_type="add-to-shelves-popup" %}
+    {% include 'popups/login_lb.html' with popup_type="login-popup" %}
+    {% include 'popups/signup_lb.html' with popup_type="signup-popup" %}
+    {% include 'popups/forgot_password_lb.html' with popup_type="forgot-password-popup" %}
+    {% include 'popups/photo_lb.html' with popup_type="photo-popup" %}
+
+
+    <!-- Item Details Container -->
+    <div class="og-expander" style="margin-left:-1500px">
+        {% include 'widgets/item_info.html' %}
+    </div>
+
+    <!-- Middle Content -->
+    {% if page_name == "inspiration" %}
+        <div product-feed filter='{{feed_filter}}' source='/explore/inspiration/json/'></div>
+    {% elif page_name == "myshelf" %}
+        <div product-feed filter='{{feed_filter}}' source=''></div>
+    {% else %}
+        {% if not empty %}
+        <div class="{% if not explore_page %}salvattore_grid{%endif%} feed_wrapper {% if user_feed %}feed_container{% else %}new_feed_wrapper{% endif %} clearfix {% if feed_type == 'items'    %}uninitialized_feed{% endif %}{% if one_column %} one-column{% endif %}" data-feed-type="{{ feed_type }}" data-intro="This is your feed" {% if not explore_page %}data-columns{%endif%}>
+            {{ middle }}
+        </div>
+        {% else %}
+            {{ middle }}
+        {% endif %}
+    {% endif %}
+
+</div>
+{% endblock %}

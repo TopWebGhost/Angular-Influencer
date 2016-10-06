@@ -1,0 +1,600 @@
+{% extends 'base.html' %}
+{% load compressed %}
+{% load custom_filters %}
+
+{% block title %}
+{{ page_title }}
+{% endblock %}
+
+{% block meta_description %}
+<meta name="description" content="{{ meta_description }}">
+{% endblock %}
+
+{% block page_js %}
+{% compressed_js 'about_me' %}
+{% endblock %}
+
+<!-- Page Content starts here -->
+<!-- Page Content starts here -->
+{% block content %}
+{% if page_user_prof.id == shelf_user.id %}
+    <!-- Edit Profile Lightbox -->
+    {% include 'popups/edit_profile.html' with popup_type="edit-profile-popup" %}
+    <!-- Edit Profile Confirmation Lightbox -->
+    {% include 'popups/generic_confirmation_lb.html' with popup_type="generic-confirmation-popup" %}
+    <!-- Submit Blog Url Lightbox -->
+    {% include 'popups/submit_blog_url_lb.html' with popup_type="submit-blog-url-popup" %}
+    <!-- Password Reset Lightbox -->
+    {% include 'popups/forgot_password_lb.html' with popup_type="forgot-password-popup" %}
+{% endif %}
+<!-- Login Lightbox -->
+{% include 'popups/login_lb.html' with popup_type="login-popup" next=next %}
+
+<div class="about_wrapper semi_partial" itemscope itemtype="http://data-vocabulary.org/Person">
+	<div class="masonry_wrapper">
+		<!-- My Stats Widget -->
+        <!--if a user is visiting another users profile and that user doesn't have a story, hide this section -->
+        {% if page_user_prof.id != shelf_user.id and not page_user_prof.has_story %}
+        {% else %}
+		<div class="masonry_item col_single">
+			<div class="ab_widget text_wgt">
+				<div class="wgt_header">{% if page_user_prof.id == shelf_user.id %}My {% endif %}Story</div>
+				<div class="body_content clearfix">
+                    <!-- if a user is visiting another users profile and that user doesn't have a name, hide this section -->
+                    {% if page_user_prof.id != shelf_user.id and not page_user_prof.name %}
+                    {% else %}
+					<p>
+						<span class="sub_header">Name&nbsp; :</span>
+                        {% if page_user_prof.brand %}
+                        <span class="parag_big" itemprop="name">{{ page_user_prof.brand.name|remove_dot_com }}</span>
+						{% elif page_user_prof.name %}
+						<span class="parag_big" itemprop="name">{{ page_user_prof.name }}</span>
+						{% else %}
+                        <span class="parag_big light">your name? <a href="#" class="txt_link darker_teal edit_story_launcher">Edit.</a></span>
+						{% endif %}
+					</p>
+                    {% endif %}
+                    <!--if a user is visiting another users profile and that user doesn't have a blog, hide this section -->
+                    {% if page_user_prof.id != shelf_user.id and not page_user_prof.blog_name %}
+                    {% else %}
+					<p class="w_space">
+                        <span class="sub_header">Blog Name&nbsp; :</span>
+                        {% if page_user_prof.blog_name %}
+						<span class="parag_big" itemprop="affiliation">{{ page_user_prof.blog_name }}</span>
+						{% else %}
+                        <span class="parag_big light">if you have one... <a href="#" class="txt_link darker_teal edit_story_launcher">Edit.</a></span>
+                        {% endif %}
+					</p>
+                    {% endif %}
+                    <!--if a user is visiting another users profile and that user doesn't have a bio, hide this section -->
+                    {% if page_user_prof.id != shelf_user.id and not page_user_prof.aboutme %}
+                    {% else %}
+					<div class="w_space">
+						<p class="sub_header">Quick Bio&nbsp; :</p>
+						{% if page_user_prof.aboutme %}
+						<p class="parag">{{ page_user_prof.aboutme }}</p>
+						{% else %}
+                        <p class="parag light">A little bit about yourself...  what do you do for fun...  where's your favorite vacation spot...  or whatever else. <a href="#" class="txt_link darker_teal launch-popup edit_story_launcher" data-popup-type="edit_profile">Edit.</a></p>
+						{% endif %}
+					</div>
+                    {% endif %}
+				</div>
+                {% if page_user_prof.id == shelf_user.id %}<a href="#"><div class="edit_bar edit_story_launcher">Edit</div></a>{% endif %}
+			</div>
+		</div>
+        {% endif %}
+
+		<!-- Shelved Items Widget -->
+        <!--if a user is visiting another users profile and that user doesn't have shelved items, hide this section -->
+        {% if page_user_prof.id == shelf_user.id or page_user_prof.num_items_in_shelves > 0 %}
+		<div class="masonry_item col_single">
+			<div class="ab_widget items_wgt">
+				<div class="wgt_header">New Items</div>
+                {% if page_user_prof.num_items_in_shelves > 0 %}
+				<div class="image_cont clearfix salvattore_grid" data-columns>
+		            {% for item in recently_shelved %}
+                        {% if item.img_url_thumbnail_view %}<div class="sh_img"><img src="{{ item.img_url_thumbnail_view }}" alt="item image" /></div>{% endif %}
+		            {% endfor %}
+				</div>
+				<div class=" tall"></div>
+				<a href="{% url debra.shelf_views.shelf_home page_user_prof.id %}" class="more_bar">View All</a>
+                {% else %}
+                    {% if page_user_prof.id == shelf_user.id %}
+                    <div class="image_cont blank_content">
+                        <div class="blank_message">You haven't shelved anything yet! You can bookmark stuff while you shop or check out the feed!<br/>
+                            <a href="{% url debra.explore_views.inspiration %}" class="square_bt on_teal_dk less_pad xs">View Feed</a>
+                        </div>
+                        <img skip src="/mymedia/site_folder/images/page_graphics/account/items_blank.png" alt="no items image" />
+                    </div>
+                    {% endif %}
+                {% endif %}
+			</div>
+		</div>
+        {% endif %}
+
+
+		<!-- The User's List of Shelves Widget -->
+        <!--if a user is visiting another users profile and that user doesn't have shelves, hide this section -->
+        <!-- $$$$$ TESTING REMOVAL $$$$$ -->
+        {% if not testing_removal %}
+        {% if shelves|length > 0 %}
+		<div class="masonry_item col_single">
+			<div class="shelf_wgt ab_widget">
+				<div class="wgt_header">{% if page_user_prof.id == shelf_user.id %}My {% endif %}Shelves</div>
+		        {% for shelf in shelves %}
+                <div class="bar_element user_shelf clearfix">
+                    <div class="sidebar_shelf_img circ_pic">{% if shelf.shelf_img %}<img src="{{ shelf.shelf_img}}" alt="shelf image" />{% endif %}</div>
+                    <p class="bar_elem_txt">
+                        <span class="sans_type xsmall uppercase lessgray">{{ shelf.name }}</span>
+                        <br/>
+                        <span class="serif_ital xxsmall lightgray">{{ shelf.num_items }} items / </span>
+                    </p>
+                </div>
+		        {% endfor %}
+                <a href="{% url debra.shelf_views.shelf_home page_user_prof.id %}" class="more_bar">View All</a>
+		    </div>
+		</div>
+        {% else %}
+            {% if page_user_prof.id == shelf_user.id %}
+            <div class="masonry_item col_single">
+                <div class="shelf_wgt ab_widget">
+                    <div class="image_cont blank_content">
+                        <div class="blank_message">You haven't created any Shelves yet...  You can create Shelves on your Shelf page.<br/>
+                            <a href="{% url debra.shelf_views.shelf_home page_user_prof.id %}" class="square_bt on_teal_dk less_pad xs">My Shelves</a>
+                        </div>
+                        <img skip src="/mymedia/site_folder/images/page_graphics/account/shelves_blank.png" alt="no shelves image" />
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        {% endif %}
+        {% endif %}
+
+
+
+
+
+
+
+		<!-- My Links Widget -->
+        <!--if a user is visiting another users profile and that user doesn't have social links, hide this section -->
+        {% if page_user_prof.id != shelf_user.id and not page_user_prof.has_social_links %}
+        {% else %}
+		<div class="masonry_item col_single">
+			<div class="ab_widget text_wgt">
+				<div class="wgt_header">{% if page_user_prof.id == shelf_user.id %}My {% endif %}Links</div>
+                {% if page_user_prof.has_social_links %}
+				<div class="body_content clearfix">
+		            {% if page_user_prof.social.facebook_page %}
+					<div class="link_row">
+						<a href="{{ page_user_prof.social.facebook_page }}" target="_blank" itemprop="url">
+							<span class="icon-social_facebook tooltip_top" title="Facebook page"></span>
+							<span class="link_txt">{{ page_user_prof.social.facebook_page }}</span>
+						</a>
+					</div>
+		            {% endif %}
+		            {% if page_user_prof.social.twitter_page %}
+		            <div class="link_row">
+		            	<a href="{{page_user_prof.social.twitter_page}}" target="_blank" itemprop="url">
+		            		<span class="icon-social_twitter tooltip_top" title="Twitter"></span>
+		            		<span class="link_txt">{{ page_user_prof.social.twitter_page }}</span>
+		            	</a>
+		            </div>
+		            {% endif %}
+		            {% if page_user_prof.social.pinterest_page %}
+		            <div class="link_row">
+		            	<a href="{{page_user_prof.social.pinterest_page}}" target="_blank" itemprop="url">
+		            		<span class="icon-social_pinterest tooltip_top" title="Pinterest"></span>
+		            		<span class="link_txt">{{ page_user_prof.social.pinterest_page }}</span>
+		            	</a>
+		            </div>
+		            {% endif %}
+		            {% if page_user_prof.social.blog_page %}
+		            <div class="link_row">
+		            	<a href="{{page_user_prof.social.blog_page}}" target="_blank" itemprop="url">
+		            		<span class="icon-letter_quotes" title="Blog"></span>
+		            		<span class="link_txt">{{ page_user_prof.social.blog_page }}</span>
+		            	</a>
+		            </div>
+		            {% endif %}
+		            {% if page_user_prof.social.web_page %}
+		            <div class="link_row">
+		            	<a href="{{page_user_prof.social.web_page}}" target="_blank" itemprop="url">
+		            		<span class="icon-social_globe2 tooltip_top" title="Website"></span>
+		            		<span class="link_txt">{{ page_user_prof.social.web_page }}</span>
+		            	</a>
+		            </div>
+		            {% endif %}
+		            {% if page_user_prof.social.instagram_page %}
+		            <div class="link_row">
+		            	<a href="{{page_user_prof.social.instagram_page}}" target="_blank" itemprop="url">
+		            		<span class="icon-social_instagram2 tooltip_top" title="Photos"></span>
+		            		<span class="link_txt">{{ page_user_prof.social.instagram_page }}</span>
+		            	</a>
+		            </div>
+		            {% endif %}
+		            {% if page_user_prof.social.etsy_page %}
+		                <div class="link_row">
+		                    <a href="{{page_user_prof.social.etsy_page}}" target="_blank" itemprop="url">
+		                        <span class="icon-social_etsy tooltip_top" title="Photos"></span>
+		                        <span class="link_txt">{{ page_user_prof.social.etsy_page }}</span>
+		                    </a>
+		                </div>
+		            {% endif %}
+                    {% if page_user_prof.social.store_page %}
+		                <div class="link_row">
+		                    <a href="{{page_user_prof.social.store_page}}" target="_blank" itemprop="url">
+		                        <span class="icon-misc_shop_price2 tooltip_top" title="Photos"></span>
+		                        <span class="link_txt">{{ page_user_prof.social.store_page }}</span>
+		                    </a>
+		                </div>
+		            {% endif %}
+		            {% if page_user_prof.social.bloglovin_page %}
+		            <div class="link_row">
+		            	<a href="{{page_user_prof.social.bloglovin_page}}" target="_blank" itemprop="url">
+		            		<span class="icon-social_blog_lovin tooltip_top" title="Blog Lovin"></span>
+		            		<span class="link_txt">{{ page_user_prof.social.bloglovin_page }}</span>
+		            	</a>
+		            </div>
+		            {% endif %}
+                    {% if page_user_prof.social.youtube_page %}
+		            <div class="link_row">
+		            	<a href="{{page_user_prof.social.youtube_page}}" target="_blank" itemprop="url">
+		            		<span class="icon-social_youtube tooltip_top" title="Blog Lovin"></span>
+		            		<span class="link_txt">{{ page_user_prof.social.youtube_page }}</span>
+		            	</a>
+		            </div>
+		            {% endif %}
+				</div>
+                {% else %}
+                <div class="people_wrapper blank_content">
+                    <div class="blank_message">You should update your social media links so that people can find you!<br/><a href="#" class="square_bt on_teal_dk less_pad xs edit_links_launcher">Update</a></div>
+                    <img skip src="/mymedia/site_folder/images/page_graphics/account/social_media_blank.png" alt="blank links image" />
+                </div>
+                {% endif %}
+                {% if page_user_prof.id == shelf_user.id %}<a href="#" class="edit_links_launcher"><div class="edit_bar">Edit</div></a>{% endif %}
+			</div>
+		</div>
+        {% endif %}
+
+
+		<!-- My Overview Widget -->
+        <!--if a user is visiting another users profile and that user doesn't have style entered, hide this section -->
+        {% if page_user_prof.id != shelf_user.id and not page_user_prof.has_style %}
+        {% else %}
+		<div class="masonry_item col_single">
+			<div class="ab_widget text_wgt last_child">
+				<div class="wgt_header">{% if page_user_prof.id == shelf_user.id %}My {% endif %}Style</div>
+				<div class="body_content clearfix">
+					<div>
+						<p class="sub_header">Style Description&nbsp; :</p>
+						{% if page_user_prof.style_bio %}
+						<p class="parag">
+		                    {{ page_user_prof.style_bio }}
+		                </p>
+		                {% else %}
+                            {% if page_user_prof.id == shelf_user.id %}
+		                    <p class="parag light">Use this area to describe your style...  and what inspires you.  <a href="#" class="txt_link darker_teal edit_style_launcher">Edit.</a></p>
+                            {% endif %}
+		                {% endif %}
+					</div>
+					<div class="x_space x_20"></div>
+					<div class="w_space w_padding">
+						<p class="sub_header">Tag Representing Your Style&nbsp; :</p>
+						<p>
+                            {% for tag in style_tags %}
+                            <span class="tags">{{ tag }}</span>
+                            {% endfor %}
+						</p>
+					</div>
+				</div>
+                {% if page_user_prof.id == shelf_user.id %}<a href="#"><div class="edit_bar edit_style_launcher">Edit</div></a>{% endif %}
+			</div>
+		</div>
+        {% endif %}
+
+
+
+
+		<!-- User's Posts Widget
+		<div class="ab_widget col_double blog_wgt last_child">
+			<div class="wgt_header">Blog Posts</div>
+				<div class="post_container">
+					<div class="text_block">
+						<div class="title">Hello Test Post</div>
+						<div class="com_count">25 comments &nbsp; / &nbsp; 35 likes</div>
+						<div class="body_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam sodales libero nisl, id suscipit eros lacinia id. Sed eget nibh ultrices, dictum risus non, posuere velit. Suspendisse imperdiet nulla enim, sed varius augue viverra sed. Donec justo sapien, tincidunt vitae ultricies at, lobortis sed tellus. </div>
+					</div>
+					<div class="img_container">
+						<img src="http://2.bp.blogspot.com/-gYnca6UL3fg/UkD8gBdF0eI/AAAAAAAABjE/mC4jFRjGyV4/s1600/emilyjacksonivorylane1.png" />
+					</div>
+				</div>
+				<div class="post_container">
+					<div class="text_block">
+						<div class="title">Hello Test Post</div>
+						<div class="com_count">25 comments &nbsp; / &nbsp; 35 likes</div>
+						<div class="body_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam sodales libero nisl, id suscipit eros lacinia id. Sed eget nibh ultrices, dictum risus non, posuere velit. Suspendisse imperdiet nulla enim, sed varius augue viverra sed. Donec justo sapien, tincidunt vitae ultricies at, lobortis sed tellus. </div>
+					</div>
+					<div class="img_container">
+						<img src="http://2.bp.blogspot.com/-kTJEIDhfyuI/UkJQ96V4JrI/AAAAAAAABj0/UIfRmCdT6wY/s1600/emilyjackson-ivorylane-3.png" />
+					</div>
+				</div>
+				<div class="post_container">
+					<div class="text_block">
+						<div class="title">Hello Test Post</div>
+						<div class="com_count">25 comments &nbsp; / &nbsp; 35 likes</div>
+						<div class="body_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam sodales libero nisl, id suscipit eros lacinia id. Sed eget nibh ultrices, dictum risus non, posuere velit. Suspendisse imperdiet nulla enim, sed varius augue viverra sed. Donec justo sapien, tincidunt vitae ultricies at, lobortis sed tellus. </div>
+					</div>
+					<div class="img_container">
+						<img src="http://2.bp.blogspot.com/-zyuREoZNI9Q/Uj-iPS2voqI/AAAAAAAABh0/WRvdQ272_AQ/s1600/hautehippie-emilyjackson-ivorylane.png" />
+					</div>
+				</div>
+			<div class="fadeout tall"></div>
+			<div class="more_bar">View All</div>
+		</div>-->
+
+
+
+
+
+
+
+		<!-- Who is Following the User Widget -->
+        <!--if a user is visiting another users profile and that user doesn't have followers, hide this section -->
+        {% if page_user_prof.id != shelf_user.id and page_user_prof.num_followers == 0 %}
+        {% else %}
+		<div class="masonry_item col_single">
+			<div class="followers_wgt ab_widget">
+				<div class="wgt_header">{% if page_user_prof.id == shelf_user.id %}Following Me{% else %}Followers{% endif %}</div>
+                {% if page_user_prof.num_followers == 0 %}
+		        <div class="people_wrapper blank_content">
+					<div class="blank_message">You don't have followers yet, you can try following some people!<br/><a href="{% url debra.explore_views.trendsetters %}" class="square_bt on_teal_dk less_pad xs">find people</a></div>
+                    <img skip src="/mymedia/site_folder/images/page_graphics/account/followers_blank.png" alt="follower image" />
+				</div>
+                {% else %}
+                <div class="people_wrapper salvattore_grid" data-columns>
+                    {% for follow in follower_images %}
+                        <div class="person aspect_container">
+                            <img src="{{ follow.user|best_pic_for_profile }}.small.jpg" alt="follower image" />
+                        </div>
+                    {% endfor %}
+                </div>
+                <!-----$$$$$ TESTING REMOVAL $$$$$----->
+                {% if not testing_removal %}
+                <a href="{% url debra.shelf_views.followers page_user_prof.id %}"><div class="more_bar">View All</div></a>
+                {% endif %}
+                {% endif %}
+		    </div>
+		</div>
+        {% endif %}
+
+		<!-- Who the User Follows Widget -->
+        <!--if a user is visiting another users profile and that user isn't following anyone, hide this section -->
+        {% if page_user_prof.id != shelf_user.id and page_user_prof.num_following == 0 %}
+        {% else %}
+		<div class="masonry_item col_single">
+			<div class="followers_wgt ab_widget last_child">
+				<div class="wgt_header">{% if page_user_prof.id == shelf_user.id %}Who I Follow{% else %}Following{% endif %}</div>
+                {% if page_user_prof.num_following == 0 %}
+				<div class="people_wrapper blank_content">
+					<div class="blank_message">You're not following anyone yet!<br/><a href="{% url debra.explore_views.trendsetters %}" class="square_bt on_teal_dk less_pad xs">find people</a></div>
+					<img skip src="/mymedia/site_folder/images/page_graphics/account/following_blank.png" alt="following image" />
+				</div>
+                {% else %}
+                <div class="people_wrapper aspect_container salvattore_grid" data-columns>
+                    {% for follow in following_images %}
+                    <div class="person aspect_container">
+                        {% if follow.following.brand %}
+                            {% if follow.following.brand.icon_id %}
+                                <span class="w_bg_color icon-00_brand_{{follow.following.brand.icon_id}} brand_fittext fit_text_logos"></span>
+                            {% else %}
+                                <span class="brand_missing_icon">{{follow.following.brand.name}}</span>
+                            {% endif %}
+                        {% else %}
+                        <img skip src="{{ follow.following|best_pic_for_profile }}.small.jpg" alt="following image"/>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                </div>
+                <!-----$$$$$ TESTING REMOVAL $$$$$----->
+                {% if not testing_removal %}
+                <a href="{% url debra.shelf_views.following page_user_prof.id %}"><div class="more_bar">View All</div></a>
+                {% endif %}
+                {% endif %}
+		    </div>
+		</div>
+        {% endif %}
+
+
+		<!-- HIGHLIGHTED SHELVER -->
+        <!--if a user is visiting another users profile and that user doesn't have a collage, hide this section -->
+        {% if page_user_prof.id == shelf_user.id or page_user_prof.has_collage %}
+		<div class="masonry_item col_double_triple{% if brand_about and not page_user_prof.brand.is_active %} unedited_collage{% endif %}">
+			<div class="ab_widget hl_shelver_wgt last_child">
+				<div class="wgt_header">{% if page_user_prof.id == shelf_user.id %}My {% endif %}Style Collage</div>
+				<div class="body_txt">{% if page_user_prof.id == shelf_user.id %}On the Highlighted Shelver page, we’ll have a grid of images that defines your style. It will look like the example below.  And it will be much bigger.  Use the upload form to the right to insert images that showcase your style.  (This needs to be complete before you show up){% endif %}</div>
+		        <div class="hl_shelver_container">
+		            <div class="fd_hl_shelver" style="margin-top:0; padding-bottom:19%;">
+		                <div class="le_bucket" style="height:100%;">
+		                    <div class="le_block block_1">
+		                        <div class="top collage-image pic_upload">
+		                            {% if page_user_prof.image1 == None%}
+		                            <img class="collage_image1" src="/mymedia/site_folder/images/page_graphics/highlighted_shelver/fpo_342x74.jpg" alt="collage image 1" />
+		                            {% else %}
+		                            <img class="collage_image1" src="{{page_user_prof.image1}}?{{rand}}" alt="collage image 1" itemprop="photo" />
+		                            {% endif %}
+		                        </div>
+		                        <div class="btm collage-image pic_upload">
+		                            {% if page_user_prof.image2 == None%}
+		                            <img class="collage_image2" src="/mymedia/site_folder/images/page_graphics/highlighted_shelver/fpo_342x278.jpg" alt="collage image 2" />
+		                            {% else %}
+		                            <img class="collage_image2" src="{{page_user_prof.image2}}?{{rand}}" alt="collage image 2" itemprop="photo" />
+		                            {% endif %}
+		                        </div>
+		                    </div>
+		                	<div class="le_block block_2 collage-image pic_upload">
+		                        {% if page_user_prof.image3 == None%}
+		                        <img class="collage_image3" src="/mymedia/site_folder/images/page_graphics/highlighted_shelver/fpo_177x352.jpg" alt="collage image 3" />
+		                        {% else %}
+		                        <img class="collage_image3" src="{{page_user_prof.image3}}?{{rand}}" alt="collage image 3" itemprop="photo" />
+		                        {% endif %}
+		                    </div>
+		                    <div class="le_block block_3 collage-image pic_upload">
+		                        {% if page_user_prof.image4 == None%}
+		                        <img class="collage_image4" src="/mymedia/site_folder/images/page_graphics/highlighted_shelver/fpo_276x352.jpg" alt="collage image 4" />
+		                        {% else %}
+		                        <img class="collage_image4" src="{{page_user_prof.image4}}?{{rand}}" alt="collage image 4" itemprop="photo" />
+		                        {% endif %}
+		                    </div>
+		                    <div class="le_block block_4">
+		                        <div class="top collage-image pic_upload {% if page_user_prof.brand %}brand_image{% endif %}">
+                                    {% if page_user_prof.brand %}
+                                        {% if page_user_prof.brand.icon_id %}
+                                        <div class="hl_brand_logo fit_text icon-00_brand_{{page_user_prof.brand.icon_id}}"></div>
+                                        {% else %}
+                                        <div class="brand_missing_icon">{{ page_user_prof.brand.name|remove_dot_com }}</div>
+                                        {% endif %}
+                                    {% else %}
+                                        {% if page_user_prof.image5 == None%}
+                                        <img class="collage_image5 collage-image" src="/mymedia/site_folder/images/page_graphics/highlighted_shelver/fpo_322x176.jpg" alt="collage image 5" />
+                                        {% else %}
+                                        <img class="collage_image5 collage-image pic_upload" src="{{page_user_prof.image5}}?{{rand}}" alt="collage image 5" itemprop="photo" />
+                                        {% endif %}
+                                    {% endif %}
+		                        </div>
+                                {% if not page_user_prof.brand %}
+		                        <div class="btm collage-image pic_upload">
+                                    {% if page_user_prof.image6 == None%}
+                                    <img class="collage_image6" src="/mymedia/site_folder/images/page_graphics/highlighted_shelver/fpo_322x176b.jpg" alt="collage image 6" />
+                                    {% else %}
+                                    <img class="collage_image6" src="{{page_user_prof.image6}}?{{rand}}" alt="collage image 6" itemprop="photo" />
+                                    {% endif %}
+                                </div>
+                                {% endif %}
+		                    </div>
+		                    <div class="le_block block_5 collage-image pic_upload">
+		                        {% if page_user_prof.image7 == None%}
+		                        <img class="collage_image7" src="/mymedia/site_folder/images/page_graphics/highlighted_shelver/fpo_195x352.jpg" alt="collage image 7" />
+		                        {% else %}
+		                        <img class="collage_image7" src="{{page_user_prof.image7}}?{{rand}}" alt="collage image 7" />
+		                        {% endif %}
+		                    </div>
+		                    <div class="le_block block_6 collage-image pic_upload">
+		                        {% if page_user_prof.image8 == None%}
+		                        <img class="collage_image8" src="/mymedia/site_folder/images/page_graphics/highlighted_shelver/fpo_402x352.jpg" alt="collage image 8" />
+		                        {% else %}
+		                        <img class="collage_image8" src="{{page_user_prof.image8}}?{{rand}}" alt="collage image 8" itemprop="photo" />
+		                        {% endif %}
+		                    </div>
+		                    <div class="le_block block_7">
+		                        <div class="top collage-image pic_upload">
+		                            {% if page_user_prof.image9 == None%}
+		                            <img class="collage_image9" src="/mymedia/site_folder/images/page_graphics/highlighted_shelver/fpo_187x176.jpg" alt="collage image 9" />
+		                            {% else %}
+		                            <img class="collage_image9" src="{{page_user_prof.image9}}?{{rand}}" alt="collage image 9" itemprop="photo" />
+		                            {% endif %}
+		                        </div>
+		                        <div class="btm collage-image pic_upload">
+		                            {% if page_user_prof.image10 == None%}
+		                            <img class="collage_image10" src="/mymedia/site_folder/images/page_graphics/highlighted_shelver/fpo_187x176b.jpg" alt="collage image 10" />
+		                            {% else %}
+		                            <img class="collage_image10" src="{{page_user_prof.image10}}?{{rand}}" alt="collage image 10" itemprop="photo" />
+		                            {% endif %}
+		                        </div>
+		                    </div>
+		                </div>
+		            </div>
+		        </div>
+		        {% if page_user_prof.id == shelf_user.id %}<a class="edit_bar edit_collage_launcher" href="#">Edit</a>{% endif %}
+			</div>
+		</div>
+		{% endif %}
+
+        <!-- Private content divider for Profile Owners Only -->
+        {% if page_user_prof.id == shelf_user.id %}
+		<div class="masonry_item private_content">
+        	<p class="center_text"><span class="divider_label">Visible Only To You</span></p>
+        </div>
+        <!-- Edit your Email Settings -->
+        <div class="masonry_item col_single">
+			<div class="ab_widget private">
+				<div class="wgt_header">Email Settings</div>
+				<div class="body_txt">
+					We want to make sure that you get useful emails from us...  because we hate spam as much as the next guy.  <span class="icon-people_smile2" style="position:relative; top:2px;"></span>
+					<br/>
+					<br/>
+					<a class="square_bt on_teal_dk less_pad xs edit_preferences_launcher">edit them here</a>
+					<br/>
+				</div>
+		    </div>
+		</div>
+		<!-- Edit your Profile Settings -->
+        <div class="masonry_item col_single">
+			<div class="ab_widget private">
+				<div class="wgt_header">Account Settings</div>
+				<div class="body_txt">
+					You can change your password and email here...  and if The Shelf isn't for you, you can deactivate your account.
+					<br/>
+					<br/>
+					<a class="square_bt on_teal_dk less_pad xs edit_settings_launcher">edit them here</a>
+					<br/>
+				</div>
+		    </div>
+		</div>
+		<!-- Contact Us to get involved -->
+        <div class="masonry_item col_single">
+			<div class="ab_widget private teal_callout">
+				<div class="wgt_header">Get Involved</div>
+				<div class="body_txt">
+					Do you want to work with us?  We have a number of bloggers that help us out with content creation, curation, social media, etc.  So get in touch!
+					<br/>
+					<br/>
+					<a class="square_bt on_teal_dk less_pad xs launch-popup" data-popup-type="contact_us">Contact Us</a>
+					<br/>
+				</div>
+		    </div>
+		</div>
+        {% endif %}
+
+
+
+
+		<!-- User's Posts Widget
+		<div class="ab_widget col_double blog_wgt last_child">
+			<div class="wgt_header">Blog Posts</div>
+				<div class="post_container">
+					<div class="text_block">
+						<div class="title">Hello Test Post</div>
+						<div class="com_count">25 comments &nbsp; / &nbsp; 35 likes</div>
+						<div class="body_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam sodales libero nisl, id suscipit eros lacinia id. Sed eget nibh ultrices, dictum risus non, posuere velit. Suspendisse imperdiet nulla enim, sed varius augue viverra sed. Donec justo sapien, tincidunt vitae ultricies at, lobortis sed tellus. </div>
+					</div>
+					<div class="img_container">
+						<img src="http://2.bp.blogspot.com/-gYnca6UL3fg/UkD8gBdF0eI/AAAAAAAABjE/mC4jFRjGyV4/s1600/emilyjacksonivorylane1.png" />
+					</div>
+				</div>
+				<div class="post_container">
+					<div class="text_block">
+						<div class="title">Hello Test Post</div>
+						<div class="com_count">25 comments &nbsp; / &nbsp; 35 likes</div>
+						<div class="body_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam sodales libero nisl, id suscipit eros lacinia id. Sed eget nibh ultrices, dictum risus non, posuere velit. Suspendisse imperdiet nulla enim, sed varius augue viverra sed. Donec justo sapien, tincidunt vitae ultricies at, lobortis sed tellus. </div>
+					</div>
+					<div class="img_container">
+						<img src="http://2.bp.blogspot.com/-kTJEIDhfyuI/UkJQ96V4JrI/AAAAAAAABj0/UIfRmCdT6wY/s1600/emilyjackson-ivorylane-3.png" />
+					</div>
+				</div>
+				<div class="post_container">
+					<div class="text_block">
+						<div class="title">Hello Test Post</div>
+						<div class="com_count">25 comments &nbsp; / &nbsp; 35 likes</div>
+						<div class="body_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam sodales libero nisl, id suscipit eros lacinia id. Sed eget nibh ultrices, dictum risus non, posuere velit. Suspendisse imperdiet nulla enim, sed varius augue viverra sed. Donec justo sapien, tincidunt vitae ultricies at, lobortis sed tellus. </div>
+					</div>
+					<div class="img_container">
+						<img src="http://2.bp.blogspot.com/-zyuREoZNI9Q/Uj-iPS2voqI/AAAAAAAABh0/WRvdQ272_AQ/s1600/hautehippie-emilyjackson-ivorylane.png" />
+					</div>
+				</div>
+			<div class="fadeout tall"></div>
+			<div class="more_bar">View All</div>
+		</div>-->
+	</div>
+</div>
+{% endblock %}

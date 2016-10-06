@@ -1,0 +1,66 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('.correct').click(function(){
+                console.log('clicked on correct');                         
+                var prop = $(this).parent().attr('itemprop');
+                var old_value= $(this).parent().attr('itemval');       
+                var wishlist_id = "{{item.id}}";
+                var cmd = "tag="+prop+"&wid="+wishlist_id+"&correct=1&new_value="+encodeURIComponent(old_value);
+                console.log(cmd);
+                $(this).css('background:gray;');
+                $.get('/save_xpath_test_result/?'+cmd, function() {                    
+                    $(this).css('background:gray;');
+                })
+            });
+            
+            $('.incorrect').click(function (){
+                console.log('clicked on incorrect');                
+                var prop = $(this).parent().attr('itemprop');
+                var new_value=prompt("Please enter correct value for "+prop,"");
+                if (new_value == null)
+                    return;
+                var wishlist_id = "{{item.id}}";
+                var cmd = "tag="+prop+"&wid="+wishlist_id+"&correct=0&new_value="+encodeURIComponent(new_value);
+                console.log(cmd);                
+                $.get('/save_xpath_test_result/?'+cmd, function() {
+                    //alert("Done");
+                    $(this).css('background:gray;');
+                })
+            });
+        });
+
+    </script>
+</head>
+<body>
+<div> Results for models.WishlistItem.id = {{item.id}}, URL = {{item.product_model.prod_url}}</div>
+<div style="float:left;">
+    <table border="1">
+        <tr>
+            <td><span >Name: <span class="value">{{name}}<span></span></td>
+            <td itemprop="name" itemval="{{name}}"><span class="correct" style="cursor:pointer;padding:5px; background:green; color:white; margin:0 10px; width:100px;">Click here if correct</span></td>
+            <td itemprop="name" itemval="{{name}}"><span class="incorrect" style="cursor:pointer;padding:5px; background:red; color:white; margin:0 10px; width:100px;">Click here if incorrect</span></td>
+
+        </tr>
+        <tr></tr>
+        <tr>
+            <td><span >Price: <span class="value">{{price}}</span></span></td>
+            <td itemprop="price" itemval="{{price}}"><span class="correct" style="cursor:pointer;padding:5px; background:green; color:white; margin:0 10px; width:100px;">Click here if correct</span></td>
+            <td itemprop="price" itemval="{{price}}"><span class="incorrect" style="cursor:pointer;padding:5px; background:red; color:white; margin:0 10px; width:100px;">Click here if incorrect</span></td>
+        </tr>
+        <tr>
+            <td><span >Image: <img src="{{img}}"/></span></td>
+            <td itemprop="img" itemval="{{img}}"><span class="correct" style="cursor:pointer;padding:5px; background:green; color:white; margin:0 10px; width:100px; vertical-align:top;">Click here if correct</span></td>
+            <td itemprop="img" itemval="{{img}}"><span class="incorrect" style="cursor:pointer;padding:5px; background:red; color:white; margin:0 10px; width:100px; vertical-align:top;">Click here if incorrect</span></td>
+        </tr>
+    </table>
+
+    <a href="//127.0.0.1:8000/xpath_tester/?curid={{curid}}"><div style="cursor:pointer;padding:10px; background:pink; color:white; margin:0 10px; width:100px;">Next</div></a>
+</div>
+<iframe src="{{item.product_model.prod_url}}" style="width:800px;height:800px;">
+
+
+</body>
+</html>
