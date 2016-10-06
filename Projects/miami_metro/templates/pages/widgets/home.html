@@ -1,0 +1,41 @@
+{% extends 'pages/widgets/base.html' %}
+
+{% block widget_content %}
+{% include 'popups/add_to_shelves_lb.html' with popup_type="add-to-shelves-popup" %}
+<div class="widgets_home">
+    <div class="bar_top bar_sect">
+        <div class="header_txt">Select Your Widget</div>
+        <div class="bar_instruct">Right now we offer three...  but more are on the way.</div>
+        <!--div class="bar_hint">or  if you don’t have a shelf of these items... <a class="txt_link darker_teal">Create One Here</a>  </div-->
+    </div>
+    
+    <div class="content_area side_layout">
+        <a href="{% url grid_collage shelf_user.id %}" class="content_bucket with_margins with_border clearfix"  style="display: inline-block;">
+            <div class="text_block">
+                <h2 class="title">Product Collage</h2>
+                <p class="body_text">Put together a roundup of items and display as an interactive widget OR export an image</p>
+                <div class="square_bt teal_bt sm">Create One!</div>
+            </div>
+            <div class="dl_image"><img src="/mymedia/site_folder/images/page_graphics/company/press/screenshots/widget_collage_3.png"/></div>
+        </a>
+        
+        <a href="{% url scrollable_collage shelf_user.id %}" class="content_bucket with_margins with_border clearfix"  style="display: inline-block;">
+            <div class="text_block">
+                <h2 class="title">Item Carousel</h2>
+                <p class="body_text">Use our carousel widget for displaying your affiliate links in a visual way at the bottom of your blog post.</p>
+                <div class="square_bt teal_bt sm">Create One!</div>
+            </div>
+            <div class="dl_image"><img src="/mymedia/site_folder/images/page_graphics/company/press/screenshots/widget_carousel_2.png"/></div>
+        </a>
+        
+        <a href="{% url debra.widget_views.view_lotterys shelf_user.id %}" class="content_bucket with_margins with_border clearfix"  style="display: inline-block;">
+            <div class="text_block">
+                <h2 class="title">Lottery Maker</h2>
+                <p class="body_text">Use our lottery maker to allow your readers to enter giveaways.</p>
+                <div class="square_bt teal_bt sm">Create One!</div>
+            </div>
+            <div class="dl_image"><img src="/mymedia/site_folder/images/page_graphics/company/press/screenshots/widget_giveaway_3.png"/></div>
+        </a>
+    </div>
+</div>
+{% endblock %}

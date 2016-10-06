@@ -1,0 +1,85 @@
+{% extends 'pages/widgets/base.html' %}
+{% load custom_filters %}
+{% load macros %}
+
+{% macro lottery_boxes lotterys finished %}
+    {% for lottery in lotterys %}
+    <div class="bk {{ lottery.theme }}">
+        <a href="{% url debra.widget_views.edit_lottery shelf_user.id lottery.id %}" class="header">
+            <p class="title">{{ lottery.name }}</p>
+            <p class="date"><span>{{ lottery.start_date|date_format:"%m.%d.%Y" }}</span>&nbsp; &mdash; &nbsp;<span>{{ lottery.end_date|date_format:"%m.%d.%Y" }}</span></p>
+        </a>
+        <div class="btns_row">
+            {% if lottery.has_ended %}
+            <a class="btn" href="{% url debra.widget_views.duplicate_lottery shelf_user.id lottery.id %}"><span class="icon-misc_files_files"></span><br/>Duplicate</a>
+            {% else %}
+            <a class="btn" href="{% url debra.widget_views.edit_lottery shelf_user.id lottery.id %}"><span class="icon-misc_files_pencil3"></span><br/>Edit</a>
+            <a class="btn" href="{% url debra.widget_views.preview_lottery shelf_user.id lottery.id %}"><span class="icon-social_speech4"></span><br/>Embed</a>
+            {% endif %}
+            <a class="btn" href="{% url debra.widget_views.preview_lottery shelf_user.id lottery.id %}"><span class="icon-misc_very_view"></span><br/>Preview</a>
+            <a class="btn" href="{% url debra.widget_views.lottery_analytics shelf_user.id lottery.id %}"><span class="icon-misc_chart2"></span><br/>Track</a>
+            <a class="btn" href="{% url debra.widget_views.lottery_analytics shelf_user.id lottery.id %}"><span class="icon-misc_very_diamond"></span><br/>Winner</a>
+        </div>
+        <div class="data_row clearfix">
+            <div class="data_block">
+                <div class="label"># of Entries</div>
+                <div class="count">{{ lottery.total_points_completed|zero_if_none }}</div>
+            </div>
+            <div class="data_block">
+                <div class="label"># of Participants</div>
+                <div class="count">{{ lottery.self_entries|length }}</div>
+            </div>
+        </div>
+        <div class="data_row status_row clearfix">
+            <span class="label">Status &nbsp; &nbsp; </span>
+            <span class="status">
+                {% if finished %}
+                Finished
+                {% else %}
+                    {% if lottery.hasnt_started %}
+                    Hasn't Started
+                    {% else %}
+                    Currently Running
+                    {% endif %}
+                {% endif %}
+            </span>
+        </div>
+    </div>
+    {% endfor %}
+{% endmacro %}
+
+
+{% block widget_content %}
+<div class="lottery_wrapper all_lotteries">
+	<div class="salvattore_grid clearfix" data-columns>
+		<div class="bk lot_button">
+			<a href="{% url debra.widget_views.new_lottery shelf_user.id %}" class="txt">
+				<span class="icon-letter_plus07"></span>
+				<br/>
+				New
+				<br/>
+				Lottery
+			</a>
+		</div>
+		<div class="bk lot_button">
+			<div class="txt">
+				<span class="icon-misc_very_video"></span>
+				<br/>
+				Watch
+				<br/>
+				Video
+			</div>
+		</div>
+        {% usemacro lottery_boxes current_lotterys 0 %}
+    </div>
+    <div class="widget_screen">
+        <div class="bar_top divider">
+            <div class="header_txt">Lotteries that have finished</div>
+            <div class="bar_instruct">These lotteries have already ended. If you want to reuse any of these, just click DUPLICATE</div>
+        </div>
+    </div>
+    <div class="salvattore_grid clearfix" data-columns>
+        {% usemacro lottery_boxes finished_lotterys 1 %}
+	</div>
+</div>
+{% endblock %}

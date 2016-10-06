@@ -1,0 +1,71 @@
+{% extends 'pages/widgets/base.html' %}
+{% load custom_filters %}
+
+{% block widget_content %}
+<div class="lottery_wrapper">
+    <div class="widget_screen">
+        <div class="tab_container nano">
+            <div class="content">
+                <div class="previous_link">
+                </div>
+                <!--div class="tab_title giveaway_name">{{ lottery.name }}</div-->
+                <div class="tab_wrapper">
+                    <a href="{% url debra.widget_views.edit_lottery shelf_user.id lottery.id %}" class="tab_group">
+                        <div class="main_tab">
+                            <span class="icon-misc_files_pencil3"></span>
+                            <span>Create</span>
+                        </div>
+                    </a>
+                    <a class="tab_group selected">
+                        <div class="main_tab">
+                            <span class="icon-misc_very_view"></span>
+                            <span>Preview &plus; Code</span>
+                        </div>
+                    </a>
+                    {% if lottery.has_entries %}
+                    <a href="{% url debra.widget_views.lottery_analytics shelf_user.id lottery.id %}" class="tab_group">
+                    {% else %}
+                    <a class="tab_group launch-popup" data-popup-type="generic_message">
+                    {% endif %}
+                        <div class="main_tab">
+                            <span class="icon-misc_chart2"></span>
+                            <span>Analytics &plus; Winner</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="widget_content">
+            <div class="iframe_preview_container">
+                <div class="bar_top short">
+                    <div class="header_txt">Copy Code</div>
+                    <div class="bar_big_hint">Copy and paste this code into the HTML view of your blog setup page.</div>
+                </div>
+                <div class="copy_box">
+                    <fieldset class="typical_form lighter_field w_courier">
+                        <textarea rows="3" cols="60"><iframe src="http://app.theshelf.com{{ embeddable_url }}" style="width:100%;height:650px;border:none !important;"></iframe></textarea>
+                    </fieldset>
+                    <h4 class="rale_1" style="margin-top:15px;">(or for WordPress)</h4>
+                    <fieldset class="typical_form lighter_field w_courier">
+                        <textarea rows="2" cols="60"><a href="http://app.theshelf.com{{ embeddable_url }}">Check out my Shelf Lottery</a></textarea>
+                    </fieldset>
+                </div>
+                <div class="w_padding_top">
+                    <div class="bar_top">
+                        <div class="header_txt">The Preview</div>
+                        {% if lottery.hasnt_started %}
+                         <div class="bar_big_hint">This lottery is currently in preview mode.  You can walk through it as many times as you want.  Click the RESET button when you are finished. When the lottery begins, all "preview" entries will be reset automatically.</div>
+                        <a class="square_bt on_teal_dk md" href="{% url debra.widget_views.clear_test_entries shelf_user.id lottery.id %}?next={{ request.path }}">Reset</a>
+                        {% endif %}
+                       
+                    </div>
+                    <div class="iframe_display">
+                        {% include 'snippets/loader.html' %}
+                        <iframe src="{{ embeddable_url }}"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

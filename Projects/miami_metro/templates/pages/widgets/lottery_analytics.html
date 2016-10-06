@@ -1,0 +1,132 @@
+{% extends 'pages/widgets/base.html' %}
+{% load custom_filters %}
+
+{% block widget_js %}
+<script type="text/javascript" src="/mymedia/site_folder/js/vendor/jquery.dataTables.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('.results_table').dataTable( {
+	        "bScrollInfinite": true,
+	        "bScrollCollapse": true,
+	        "sScrollY": "200px"
+	    });
+	});
+</script>
+{% endblock %}
+
+{% block widget_content %}
+{% include 'popups/choose_lottery_winner_lb.html' with popup_type="choose-lottery-winner-popup" %}
+<div class="lottery_wrapper">
+    <div class="widget_screen">
+        <div class="tab_container nano">
+            <div class="content">
+                <div class="previous_link">
+                </div>
+                <div class="tab_wrapper">
+                    <a href="{% url debra.widget_views.edit_lottery shelf_user.id lottery.id %}" class="tab_group">
+                        <div class="main_tab">
+                            <span class="icon-misc_files_pencil3"></span>
+                            <span>Create</span>
+                        </div>
+                    </a>
+                    <a href="{% url debra.widget_views.preview_lottery shelf_user.id lottery.id %}" class="tab_group">
+                        <div class="main_tab">
+                            <span class="icon-misc_very_view"></span>
+                            <span>Preview &plus; Code</span>
+                        </div>
+                    </a>
+                    </a>
+                    <div class="tab_group selected">
+                        <div class="main_tab">
+                            <span class="icon-misc_chart2"></span>
+                            <span>Analytics &plus; Winner</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="widget_content">
+            <!-- RESULTS -->
+            <div class="lottery_analytics">
+                <div class="bar_top short">
+                    <div class="header_txt">{{ lottery.name }}</div>
+                    <div class="bar_instruct">From {{ lottery.start_date|date_format:"%B %d" }} To {{ lottery.end_date|date_format:"%B %d %Y" }}</div>
+                </div>
+                <div class="mini_form">
+                    <div class="stat_table">
+                        <div class="stat_title">Quick Stats</div>
+                        <div class="top_block">
+                            <div class="winner_row">
+                                <span class="stat_label">The Winner(s)</span>
+                                <span class="stat_word">
+                                    <ul class="lottery_winners">
+                                    {% if lottery_winners %}
+                                        {% for winner in lottery_winners %}
+                                        <li data-winner-id="{{ winner.id }}">{{ winner.entry.user.user.email }}</li>
+                                        {% endfor %}
+                                    {% else %}
+                                        <li>--</li>
+                                    {% endif %}
+                                    </ul>
+                                </span>
+                            </div>
+                            <div class="button_container">
+                                <div class="launch-popup square_bt rounded lg royal_blue_bt" data-popup-type="choose_lottery_winner">Choose A Winner</div>
+                                <div class="square_bt rounded lg royal_blue_bt simple_post_btn" data-post-url="{% url debra.widget_views.show_winners shelf_user.id lottery.id %}">Update Widget with Winners</div>
+                            </div>
+                        </div>
+                        <div class="stat_row">
+                            <div class="stat_block">
+                                <div class="stat_label"># of Participants</div>
+                                <div class="stat_number">{{ num_participants }}</div>
+                            </div>
+                            <div class="stat_block">
+                                <div class="stat_label"># of Entries</div>
+                                <div class="stat_number">{{ entries|length }}</div>
+                            </div>
+                            <div class="stat_block">
+                                <div class="stat_label">Average # of Tasks</div>
+                                <div class="stat_number">{{ average_tasks }}</div>
+                            </div>
+                            <div class="stat_block">
+                                <div class="stat_label">Time Remaining<br/><span class="serif_ital lowercase">(days : hours : minutes)</span></div>
+                                <div class="stat_number">
+                                    {% if lottery.has_ended %}
+                                    Lottery has ended
+                                    {% else %}
+                                    {{ time_remaining.days }}:{{ time_remaining.hours }}:{{ time_remaining.minutes }}
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="lottery_table">
+                        <table class="results_table data_table">
+                            <thead>
+                                <tr>
+                                    <th>Email</th>
+                                    <th>#</th>
+                                    <th>Task</th>
+                                    <th>Task Validation</th>
+                                    <th>Time</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for entry in entries %}
+                                <tr>
+                                    <td>{{ entry.entry.user.user.email }}</td>
+                                    <td>{{ forloop.counter }}</td>
+                                    <td>{{ entry.task|task_rendered_value }}</td>
+                                    <td>{{ entry.entry_validation }}</td>
+                                    <td>{{ entry.touch_datetime }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

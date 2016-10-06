@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load compressed %}
+
+{% block title %}
+{{ page_title }}
+{% endblock %}
+
+{% block meta_description %}
+<meta name="description" content="{{ meta_description }}">
+{% endblock %}
+
+{% block page_js %}
+{% compressed_js 'widgets' %}
+
+{% block widget_js %}
+{% endblock %}
+{% endblock %}
+
+{% block content %}
+    <!-- Generic Message Lightbox for if no entries in lottery -->
+    {% include "popups/generic_message_lb.html" with popup_type="generic-message-popup" title="No Entries Yet.." message="Sorry, this page isn't accessible because there are no entries currently.  Check back once your giveaway is up and running." %}
+    <!-- Generic Confirmation Lightbox -->
+    {% include "popups/generic_confirmation_lb.html" with popup_type="generic-confirmation-popup" %}
+    <!-- Affiliate Link Shelf LightBox -->
+    {% include "popups/affiliate_link_shelf_lb.html" with popup_type="affiliate-link-shelf-popup" %}
+    {% block widget_content %}
+    {% endblock %}
+{% endblock %}
+
+{% block uservoice %}
+{% endblock %}
+
+
+
+
+
+

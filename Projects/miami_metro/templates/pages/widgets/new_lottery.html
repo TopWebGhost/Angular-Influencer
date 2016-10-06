@@ -1,0 +1,539 @@
+{% extends 'pages/widgets/base.html' %}
+{% load macros %}
+{% load widget_tweaks %}
+{% load custom_filters %}
+
+
+{% macro nav_buttons step_num %}
+<div class="step_btn next_btn {% if not edit_mode and step_num == 1 %}inactive{% endif %} {% if step_num == 1 or step_num == 4 %}generate_lottery{% endif %}">
+    {% if step_num == 1 %}Save{% else %}Next{% endif %}<span class="icon-arrow_r_arr_3"></span>
+</div>
+{% endmacro %}
+
+{% block widget_js %}
+<script type="text/javascript">
+    var lottery = new Lottery($('.lottery_wrapper'), "{% url create_embeddable_lottery shelf_user.id %}", {% if edit_mode %}true{% else %}false{% endif %}, {% if edit_mode %}{
+        render_embeddable_url: "{{ embeddable_url }}",
+        create_prize_url: "{% url debra.widget_views.create_lottery_prize shelf_user.id lottery.id %}",
+        create_task_url: "{% url debra.widget_views.create_lottery_task shelf_user.id lottery.id %}",
+        preview_url: "{% url debra.widget_views.preview_lottery shelf_user.id lottery.id %}"
+    }{% else %}{}{% endif %});
+
+    {% if edit_mode %}
+        /* create a lottery prize instance for each prize in this lottery */
+        {% for prize_dict in created_prizes %}
+        var added_prize_container = $('.added_section[data-prize-id="{{ prize_dict.prize.id }}"]');
+        var prize = new Prize(added_prize_container, null, "{{ prize_dict.prize.id }}", lottery, "{{ prize_dict.prize.description }}", "{{ prize_dict.prize.brand }}", "{{ prize_dict.prize.quantity }}");
+        prize.add_item(added_prize_container.next('.dropdown'), true);
+        {% endfor %}
+
+        /* create a lottery task instance for each task in this lottery */
+        {% for task_obj in created_tasks %}
+        var added_task_container = $('.added_section[data-task-id="{{ task_obj.task.id }}"]');
+        var task = new Task(added_task_container, null, "{{ task_obj.task.id }}", lottery,
+                "{% if task_obj.task.task_dict == task_obj.task.CUSTOM%}Custom Rule{% else %}{{ task_obj.task|task_rendered_value }}{% endif %}",
+                {{ task_obj.task|boolean_for_javascript }}, {{ task_obj.task.point_value }});
+        task.add_item(added_task_container.next('.dropdown'), true);
+        {% endfor %}
+    {% endif %}
+</script>
+{% endblock %}
+
+{% block widget_content %}
+<div class="lottery_wrapper lt_gray_radial">
+    <!-- Tabs -->
+    <div class="tab_container nano open">
+        <div class="content">
+            <div class="previous_link">
+            </div>
+            <!--div class="tab_title giveaway_name">{% if lottery %}{{ lottery.name }}{% else %}New Giveaway{% endif %}</div-->
+            <div class="tab_wrapper">
+                <div class="tab_group selected">
+                    <div class="main_tab"><span class="icon-misc_files_pencil3"></span><span>Create<span></div>
+                    <div class="mini_tabs">
+                        <span class="tab tab1 selected {% if edit_mode %}complete{% endif %}" data-step-num="1">Giveaway Details</span><br/>
+                        <span class="tab tab2 {% if edit_mode %}complete{% else %}disabled{% endif %}" data-step-num="2" data-toggle="tooltip" {% if edit_mode %}title="go to this step"{% else %}title="The steps have to be completed in order, click the next button to continue"{% endif %}>Create Prize</span><br/>
+                        <span class="tab tab3 {% if edit_mode %}complete{% else %}disabled{% endif %}" data-step-num="3" data-toggle="tooltip" {% if edit_mode %}title="go to this step"{% else %}title="The steps have to be completed in order, click the next button to continue"{% endif %}>Define Rules</span><br/>
+                        <span class="tab tab4 {% if edit_mode %}complete{% else %}disabled{% endif %}" data-step-num="4" data-toggle="tooltip" {% if edit_mode %}title="go to this step"{% else %}title="The steps have to be completed in order, click the next button to continue"{% endif %}>Write Terms</span><br/>
+                    </div>
+                </div>
+                {% if edit_mode %}
+                <a href="{% url debra.widget_views.preview_lottery shelf_user.id lottery.id %}" class="tab_group preview_tab">
+                    <div class="main_tab">
+                        <span class="icon-misc_very_view"></span>
+                        <span>Preview &plus; Code</span>
+                    </div>
+                </a>
+                {% if lottery.has_entries %}
+                <a href="{% url debra.widget_views.lottery_analytics shelf_user.id lottery.id %}"  class="tab_group">
+                {% else %}
+                <a class="tab_group launch-popup" data-popup-type="generic_message">
+                {% endif %}
+                    <div class="main_tab">
+                        <span class="icon-misc_chart2"></span>
+                        <span>Analytics &plus; Winner</span>
+                    </div>
+                </a>
+                {% else %}
+                <a class="tab_group preview_tab">
+                    <div class="main_tab">
+                        <span class="icon-misc_very_view"></span>
+                        <span>Preview &plus; Code</span>
+                    </div>
+                </a>
+                <a class="tab_group launch-popup" data-popup-type="generic_message">
+                    <div class="main_tab">
+                        <span class="icon-misc_chart2"></span>
+                        <span>Analytics &plus; Winner</span>
+                    </div>
+                </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <!-- Step 1 -->
+    <!-- Step 1 -->
+    <div class="widget_screen step1">
+        <div class="widget_content">
+            <div class="bar_top">
+            </div>
+            <div class="mini_form clearfix px500">
+                <form method="post" autocomplete="off" class="create_lottery_form" action="{% url debra.widget_views.create_lottery shelf_user.id %}">{% csrf_token %}
+                    <fieldset class="typical_form super_field lighter_field">
+                        <div class="required">
+                            <label>Giveaway Name</label>
+                            {{ create_lottery_form.name|attr:"placeholder:Name Your Giveaway"|add_class:"req" }}
+                        </div>
+                    </fieldset>
+                    <fieldset class="typical_form super_field lighter_field halfer calendar no_margin">
+                        <div class="required">
+                            <label><span class="icon-misc_time_calendar label_icon"></span><span class="label_txt">Start Date</span></label>
+                            {{ create_lottery_form.start_date|attr:"placeholder:mm-dd-yyyy"|add_class:"req datepicker date-req start_date" }}
+                        </div>
+                    </fieldset>
+                    <fieldset class="typical_form super_field lighter_field halfer right calendar no_margin">
+                        <div class="required">
+                            <label><span class="icon-misc_time_calendar label_icon"></span><span class="label_txt">End Date</span></label>
+                            {{ create_lottery_form.end_date|attr:"placeholder:mm-dd-yyyy"|add_class:"req datepicker date-req end_date after-date"|attr:"data-after:.start_date" }}
+                        </div>
+                    </fieldset>
+                    <div class="time_zone_fields clearfix">
+                        <div class="trigger_time_zone clearfix">
+                            <div class="text w_leading">
+                                We have all giveaways starting/ending at 12:00AM PST of the dates chosen.  If you want to edit that, click below.
+                                <span class="txt_link_round teal_outline edit_lottery_time">Edit Time</span>
+                            </div>
+                        </div>
+                        <div class="time_form_wrapper">
+                            <div class="revealed_time_forms clearfix">
+                                <fieldset class="typical_form larger_field lighter_field third left timer no_margin">
+                                    <div>
+                                        <label><span class="icon-misc_time_clock label_icon"></span><span class="label_txt">Start Time</span></label>
+                                        {{ create_lottery_form.start_time|attr:"placeholder:hh:mm:ss"|add_class:"timepicker" }}
+                                    </div>
+                                </fieldset>
+                                <fieldset class="typical_form larger_field lighter_field third timer no_margin">
+                                    <div>
+                                        <label><span class="icon-misc_time_clock label_icon"></span><span class="label_txt">End Time</span></label>
+                                        {{ create_lottery_form.end_time|attr:"placeholder:hh:mm:ss"|add_class:"timepicker" }}
+                                    </div>
+                                </fieldset>
+                                <fieldset class="typical_form larger_field lighter_field third right timer no_margin">
+                                    <div>
+                                        <label><span class="icon-misc_time_clock label_icon"></span><span class="label_txt">Timezone</span></label>
+                                        {{ create_lottery_form.timezone }}
+                                    </div>
+                                </fieldset>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swatch_row">
+                        <div class="required">
+                            <div class="label">Theme &amp; Button Color</div>
+                            {% for name,value in themes_for_template %}
+                            <div class="swatch_container">
+                                <div class="{{ name }} th_swatch{% if name == create_lottery_form.theme.value %} selected{% endif %}" data-theme="{{ name }}"></div>
+                            </div>
+                            {% endfor %}
+                            {{ create_lottery_form.theme }}
+                        </div>
+                    </div>
+                    {{ create_lottery_form.terms|add_class:"lottery_terms hidden" }}
+                    {% if lottery %}
+                    {% render_field create_lottery_form.exists_id  class="exists_id" value=lottery.id %}
+                    {% else %}
+                    {{ create_lottery_form.exists_id|add_class:'lottery_id' }}
+                    {% endif %}
+                </form>
+            </div>
+            {% usemacro nav_buttons 1 %}
+        </div>
+    </div>
+
+
+    <!-- Step 2 -->
+    <!-- Step 2 -->
+    <div class="widget_screen step2 disabled">
+        <div class="widget_content">
+            <div class="bar_top">
+            </div>
+            <div class="mini_form clearfix px550">
+                <div class="add_something_container prize_form clearfix">
+                    <div class="add_section_btn addable">
+                        <div class="button_content">
+                            <span class="icon-letter_plus05"></span>
+                            <span class="default_txt">Add a prize</span>
+                        </div>
+                    </div>
+                    <!-- dropdown on button click -->
+                    <div class="dropdown hidden prize_dropdown">
+                        <div class="prize_form_wrapper">
+                            <form method="post" class="create_prize_form">{% csrf_token %}
+                                <fieldset class="typical_form super_field lighter_field w_100">
+                                    <div class="required">
+                                        <label>What is the prize?</label>
+                                        {{ create_prize_form.description|attr:"placeholder:a product or giftcard...  etc."|add_class:"req description" }}
+                                    </div>
+                                </fieldset>
+                                <fieldset class="typical_form super_field lighter_field three_quarter">
+                                    <div>
+                                        <label>Brand</label>
+                                        {{ create_prize_form.brand|attr:"placeholder:brand name"|add_class:"brand"  }}
+                                    </div>
+                                </fieldset>
+                                <fieldset class="typical_form super_field lighter_field quarter right">
+                                    <div class="required">
+                                        <label>How Many</label>
+                                        {{ create_prize_form.quantity|attr:"placeholder:#"|add_class:"req req-number quantity"  }}
+                                    </div>
+                                </fieldset>
+                                <div class="save_cancel_combo">
+                                    <div class="square_bt teal_bt lg save inactive">Save</div>
+                                    <div class="or_cancel">&nbsp; or &nbsp; <a class="txt_link darker_teal">cancel</a></div>
+                                </div>
+                                {{ create_prize_form.exists_id|add_class:"exists_id" }}
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="add_something_container prize_form clearfix added_items">
+                    <!-- EDITING EXISTING LOTTERY -->
+                    <!-- EDITING EXISTING LOTTERY -->
+                    {% if created_prizes %}
+                        {% for prize_dict in created_prizes %}
+                        <div class="added_section clearfix" data-prize-id="{{ prize_dict.prize.id }}" data-delete-url="{% url delete_lottery_prize shelf_user.id lottery.id prize_dict.prize.id %}">
+                            <div class="item_box addable">
+                                <div class="button_content bs_tooltip" title="edit this prize">
+                                    <span class="added_item_info">
+                                        <span class='default_txt count'>{{ prize_dict.prize.quantity }}</span>
+                                        <span class='default_txt prize'>{{ prize_dict.prize.description }}</span>
+                                        {% if prize_dict.prize.brand %}
+                                        <span class='default_txt extra'>from</span>
+                                        <span class='default_txt brand'>{{ prize_dict.prize.brand }}</span>
+                                        {% endif %}
+                                    </span>
+                                    <div class="overlay"><span class="overlay_txt">edit</span><span class="icon-misc_files_pencil3"></span></div>
+                                </div>
+                                <span class="delete icon-letter_x05 bs_tooltip" title="delete this prize"></span>
+                            </div>
+                            <div class="dropdown hidden prize_dropdown">
+                                <div class="prize_form_wrapper">
+                                    <form method="post" class="create_prize_form">{% csrf_token %}
+                                        <fieldset class="typical_form super_field lighter_field w_100">
+                                            <div class="required">
+                                                <label>What is the prize?</label>
+                                                {{ prize_dict.form.description|attr:"placeholder:a product or giftcard...  etc."|add_class:"req description" }}
+                                            </div>
+                                        </fieldset>
+                                        <fieldset class="typical_form super_field lighter_field three_quarter">
+                                            <div>
+                                                <label>Brand</label>
+                                                {{ prize_dict.form.brand|attr:"placeholder:brand name"|add_class:"brand"  }}
+                                            </div>
+                                        </fieldset>
+                                        <fieldset class="typical_form super_field lighter_field quarter right">
+                                            <div class="required">
+                                                <label>How Many</label>
+                                                {{ prize_dict.form.quantity|attr:"placeholder:#"|add_class:"req req-number quantity"  }}
+                                            </div>
+                                        </fieldset>
+                                        <div class="save_cancel_combo">
+                                            <div class="square_bt teal_bt lg save">Save</div>
+                                            <div class="or_cancel">&nbsp; or &nbsp; <a class="txt_link darker_teal">cancel</a></div>
+                                        </div>
+                                        {% render_field create_prize_form.exists_id  class="exists_id" value=prize_dict.prize.id %}
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    {% endif %}
+                    <!-- END EDITING EXISTING LOTTERY -->
+                    <!-- END EDITING EXISTING LOTTERY -->
+                    <div class="added_section clearfix hidden placeholder">
+                        <div class="item_box addable">
+                            <div class="button_content bs_tooltip" title="edit this prize">
+                                <span class="added_item_info"><img src="/mymedia/site_folder/images/global/ajax-loader.gif" /></span>
+                                <div class="overlay"><span class="overlay_txt">edit</span><span class="icon-misc_files_pencil3"></span></div>
+                            </div>
+                            <span class="delete icon-letter_x05 bs_tooltip" title="delete this prize"></span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Image selection -->
+            <!--<div class="select_image_block hidden">
+                    <div class="img_wrapper">
+                        <span class="icon-00_brand_tory_burch"></span>
+                        <!--img src="http://db8wx92cyv3pf.cloudfront.net/v2-img-for-feed-http%3A__images.anthropologie.com_is_image_Anthropologie_28939239_059_b%3F%24product410x615%24"/
+                    </div>
+                    <div class="text_wrapper">
+                        <div class="label">Giveaway Image</div>
+                        <div class="xtra_instructions">What image do you want to represent the giveaway...  <br/> you can use the brand name (shown on left) or upload your own image.</div>
+                        <div class="btn_row">
+                            <span class="square_bt sm gray_bt less_pad">use this logo</span>
+                            <span class="or_txt">or</span>
+                            <span class="square_bt sm gray_bt less_pad">use this logo</span>
+                            <span class="or_txt">or</span>
+                            <span class="txt_link darker_teal">no image</span>
+                        </div>
+                    </div>
+                </div>-->
+            </div>
+            {% usemacro nav_buttons 2 %}
+        </div>
+    </div>
+
+
+    <!-- Step 3 -->
+    <!-- Step 3 -->
+    <div class="widget_screen step3 disabled">
+        <div class="widget_content">
+            <div class="bar_top">
+            </div>
+            <div class="mini_form clearfix px550">
+                <div class="add_something_container requirement_form">
+                    <div class="add_section_btn addable">
+                        <div class="button_content">
+                            <span class="icon-letter_plus05"></span>
+                            <span class="default_txt">Add a requirement</span>
+                        </div>
+                    </div>
+                    <!-- dropdown to choose task -->
+                    <div class="dropdown selection hidden">
+                        {% for task in tasks_for_template %}
+                        <div class="drop_row {{ task.meta.css_class }}" data-task-type="{{ task.name }}">
+                            <span class="social_icon"></span>
+                            <span class="row_txt">{{ task|task_rendered_value }}</span>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <!-- dropdown for task details -->
+                    {% for task in tasks_for_template %}
+                    <div class="dropdown form hidden {{ task.meta.css_class }}">
+                        <form class="create_task_form {{ task.name }}" method="post" data-task-css="{{ task.meta.css_class }}">{% csrf_token %}
+                            <div class="header">
+                                <span class="social_icon"></span><span class="header_txt">{{ task|task_rendered_value }}</span>
+                            </div>
+                            <div class="sub_bar">
+                                {{ create_task_form.mandatory|add_class:"mandatory dont_delete" }}Mandatory
+                                {{ create_task_form.validation_required|add_class:"validation_required dont_delete" }}Validation Required
+                            </div>
+                            <div class="requirement_form_wrapper">
+                                <div class="point_value_container clearfix">
+                                    <div class="label">Point Value</div>
+                                    {% for value,text in points_for_template %}
+                                        <div class="point{% if value == 1 %} selected{% endif %}">&plus;{{ text }}</div>
+                                    {% endfor %}
+                                </div>
+                                {% if task.meta.type == "url" or task.name == 'custom' %}
+                                <fieldset class="typical_form super_field">
+                                    {% if task.name == 'custom' %}
+                                        <div class="required">
+                                            <label>Title of the entry</label>
+                                            {% render_field create_task_form.url_target_name placeholder="Ex. Newsletter Signup" class="url_target_name req" %}
+                                        </div>
+                                    {% else %}
+                                        <div>
+                                            <label>{% if task.meta.prompt2 %}{{ task.meta.prompt2 }}{% else %}Name{% endif %}</label>
+                                            {% if task.meta.prompt2 %}
+                                            {% render_field create_task_form.url_target_name placeholder=task.meta.prompt2 class="url_target_name" %}
+                                            {% else %}
+                                            {% render_field create_task_form.url_target_name placeholder="name of person or company" class="url_target_name" %}
+                                            {% endif %}
+                                        </div>
+                                    {% endif %}
+                                </fieldset>
+                                {% endif %}
+                                <fieldset class="typical_form super_field">
+                                    <div class="required">
+                                        <label>{{ task.meta.prompt }}</label>
+                                        {% if task.meta.type  == 'text' %}
+                                            {% if task.name == 'custom' %}
+                                                {% render_field create_task_form.requirement_text rows="2" placeholder="required text" class="requirement_txt custom_text req" %}
+                                            {% else %}
+                                                {% render_field create_task_form.requirement_text rows="2" placeholder="required text" class="requirement_txt req" %}
+                                            {% endif %}
+                                        {% else %}
+                                        {% render_field create_task_form.requirement_url value=shelf_user|url_for_task:task placeholder="enter URL" class="requirement_url req req-url dont_delete" %}
+                                        {% endif %}
+                                    </div>
+                                </fieldset>
+                                {% if task.name == 'custom' %}
+                                <fieldset class="typical_form super_field">
+                                    <div>
+                                        {{ create_task_form.custom_option|add_class:"dont_delete" }}
+                                    </div>
+                                </fieldset>
+                                {% endif %}
+                                <div class="save_cancel_combo">
+                                    <div class="square_bt teal_bt lg save">Save</div>
+                                    <div class="or_cancel">&nbsp; or &nbsp; <a class="txt_link darker_teal">cancel</a></div>
+                                </div>
+                            </div>
+                            {% render_field create_task_form.task value=task.name class="task_name dont_delete" %}
+                            {{ create_task_form.point_value|add_class:"points_input dont_delete" }}
+                            {{ create_task_form.step_id|add_class:"step_id dont_delete" }}
+                            {{ create_task_form.exists_id|add_class:"exists_id" }}
+                            <input type="hidden" value="{{ task|task_rendered_value }}" class="task_display_name dont_delete" /> <!-- not processed server side -->
+                        </form>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <div class="add_something_container requirement_form clearfix added_items added_tasks">
+                    <!-- EDITING MODE, EXISTING TASKS -->
+                    <!-- EDITING MODE, EXISTING TASKS -->
+                    {% if created_tasks %}
+                        {% for task_obj in created_tasks %}
+                        <div class="added_section clearfix {{ task_obj.task.task_dict.meta.css_class }}" data-task-id="{{ task_obj.task.id }}" data-delete-url="{% url delete_lottery_task shelf_user.id lottery.id task_obj.task.id %}">
+                            <div class="item_box addable">
+                                <div class="button_content">
+                                    <span class="social_icon"></span>
+                                    <span class="added_item_info">
+                                        <span class='default_txt prize'>{{ task_obj.task|task_rendered_value }}</span>
+                                        <span class='default_txt extra'> for</span>
+                                        <span class='default_txt brand'>{{task_obj.task.point_value}}</span><span class='default_txt extra'> points</span>
+                                        <span class='default_txt count'>{% if task_obj.task.mandatory %}is mandatory{% else %}is not mandatory{% endif %}</span>
+                                    </span>
+                                    <div class="overlay"><span class="overlay_txt">edit</span><span class="icon-misc_files_pencil3"></span></div>
+                                </div>
+                                <span class="delete icon-letter_x05"></span>
+                            </div>
+                            <div class="dropdown form hidden {{ task_obj.task.task_dict.meta.css_class }}">
+                                <form class="create_task_form {{ task_obj.task.task_dict.name }}" method="post">{% csrf_token %}
+                                    <div class="header">
+                                        <span class="social_icon"></span>
+                                        <span class="header_txt">
+                                        {% if task_obj.task.task_dict == task_obj.task.CUSTOM %}Custom Rule{% else %}{{ task_obj.task|task_rendered_value }}{% endif %}
+                                        </span>
+                                    </div>
+                                    <div class="sub_bar">
+                                        {{ task_obj.form.mandatory|add_class:"mandatory dont_delete" }}Mandatory
+                                        {{ task_obj.form.validation_required|add_class:"validation_required" }}Validation Required
+                                    </div>
+                                    <div class="requirement_form_wrapper">
+                                        <div class="point_value_container clearfix">
+                                            <div class="label">Point Value</div>
+                                            {% for value,text in points_for_template %}
+                                                <div class="point{% if value == task_obj.task.point_value %} selected{% endif %}">&plus;{{ text }}</div>
+                                            {% endfor %}
+                                        </div>
+                                        {% if task_obj.task.task_dict.meta.type == "url" or task_obj.task.task_dict.name == 'custom' %}
+                                        <fieldset class="typical_form super_field">
+                                            <div>
+                                            {% if task_obj.task.task_dict.name == 'custom' %}
+                                                <label for="id_url_target_name">Title of the entry</label>
+                                                {% render_field task_obj.form.url_target_name placeholder="Ex. Newsletter Signup" class="url_target_name" %}
+                                            {% else %}
+                                                <label for="id_url_target_name">{% if task.meta.prompt2 %}{{ task.meta.prompt2 }}{% else %}Name{% endif %}</label>
+                                                {% if task.meta.prompt2 %}
+                                                {% render_field task_obj.form.url_target_name placeholder=task.meta.prompt2 class="url_target_name" %}
+                                                {% else %}
+                                                {% render_field task_obj.form.url_target_name placeholder="name of person or company" class="url_target_name" %}
+                                                {% endif %}
+                                            {% endif %}
+                                            </div>
+                                        </fieldset>
+                                        {% endif %}
+                                        <fieldset class="typical_form super_field">
+                                            <div class="required">
+                                                <label>{{ task_obj.task.task_dict.meta.prompt }}</label>
+                                                {% if task_obj.task.task_dict.meta.type  == 'text' %}
+                                                    {% if task_obj.task.task_dict.name == 'custom' %}
+                                                        {% render_field task_obj.form.requirement_text rows="2" placeholder="required text" class="requirement_txt custom_text req" %}
+                                                    {% else %}
+                                                        {% render_field task_obj.form.requirement_text rows="2" placeholder="required text" class="requirement_txt req" %}
+                                                    {% endif %}
+                                                {% else %}
+                                                {% render_field task_obj.form.requirement_url value=shelf_user|url_for_task:task_obj.task placeholder="enter URL" class="requirement_url req req-url dont_delete" %}
+                                                {% endif %}
+                                            </div>
+                                        </fieldset>
+                                        {% if task_obj.task.task == 'custom' %}
+                                        <fieldset class="radio_select_row">
+                                            <div>
+                                                {{ task_obj.form.custom_option|add_class:"dont_delete" }}
+                                            </div>
+                                        </fieldset>
+                                        {% endif %}
+                                        <div class="save_cancel_combo">
+                                            <div class="square_bt teal_bt lg save">Save</div>
+                                            <div class="or_cancel">&nbsp; or &nbsp; <a class="txt_link darker_teal">cancel</a></div>
+                                        </div>
+                                    </div>
+                                    {% render_field task_obj.form.task class="task_name dont_delete" %}
+                                    {{ task_obj.form.point_value|add_class:"points_input dont_delete" }}
+                                    {{ task_obj.form.step_id|add_class:"step_id dont_delete" }}
+                                    {% render_field create_task_form.exists_id value=task_obj.task.id class="exists_id" %}
+                                    <input type="hidden" value="{{ task_obj.task.task_dict|task_rendered_value }}" class="task_display_name dont_delete" /> <!-- not processed server side -->
+                                </form>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    {% endif %}
+                    <!-- END EDITING MODE, EXISTING TASKS -->
+                    <!-- END EDITING MODE, EXISTING TASKS -->
+                    <div class="added_section clearfix hidden">
+                        <div class="item_box addable">
+                            <div class="button_content">
+                                <span class="social_icon"></span>
+                                <span class="added_item_info"><img src="/mymedia/site_folder/images/global/ajax-loader.gif" /></span>
+                                <div class="overlay"><span class="overlay_txt">edit</span><span class="icon-misc_files_pencil3"></span></div>
+                            </div>
+                            <span class="delete icon-letter_x05"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% usemacro nav_buttons 3 %}
+        </div>
+    </div>
+
+
+    <!-- Step 4 -->
+    <!-- Step 4 -->
+    <div class="widget_screen step4 disabled">
+        <div class="widget_content">
+            <div class="bar_top">
+                <div class="header_txt">Terms</div>
+                <div class="bar_instruct">Fill out the terms that you want your readers to know about.</div>
+            </div>
+            <div class="mini_form clearfix px600">
+                 <fieldset class="typical_form super_field lighter_field">
+                    <label>Terms and Conditions</label>
+                     <!-- this data gets copied into the actual terms field on the first page -->
+                     <textarea class="temp_terms">{% if lottery %}{{ lottery.terms }}{% endif %}</textarea>
+                </fieldset>
+            </div>
+            {% usemacro nav_buttons 4 %}
+        </div>
+        <div class="no_prizes_error hidden">
+            <h1>no prizes added</h1>
+        </div>
+        <div class="no_tasks_error hidden">
+            <h1>no tasks added</h1>
+        </div>
+    </div>
+</div>
+{% endblock %}

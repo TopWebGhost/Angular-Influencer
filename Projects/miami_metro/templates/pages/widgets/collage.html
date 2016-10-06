@@ -1,0 +1,125 @@
+{% extends 'pages/widgets/base.html' %}
+{% load widget_tweaks %}
+
+{% block widget_js %}
+<script type="text/javascript">
+    new CollageWidget($('.blogger_widget'), "{{ collage_type }}", "{% url create_embeddable_collage shelf_user.id %}", "{% url masuka.image_manipulator.download_image shelf_user.id %}");
+</script>
+{% endblock %}
+
+{% block widget_content %}
+<div class="blogger_widget clearfix lt_gray_radial" data-user-url="{% url debra.shelf_views.shelf_home shelf_user.id %}">
+    <div class="error_message hidden"><p class="message_text">You need to select a Shelf first...  select one by clicking on it.</p></div>
+    <!-- Tabs -->
+{#    <div class="tab_container nano collage_tabs open">#}
+{#        <div class="content">#}
+{#            <div class="previous_link">#}
+{#            </div>#}
+{#            <div class="tab_title giveaway_name"></div>#}
+{#            <div class="tab_wrapper">#}
+{#                <div class="tab_group selected create_tabs">#}
+{#                    <div class="main_tab"><span class="icon-misc_files_pencil3"></span><span>Create</span></div>#}
+{#                    <div class="mini_tabs">#}
+{#                        <span class="tab tab1 selected" data-step-num="1">1: Choose Shelf</span><br/>#}
+{#                        <span class="tab tab2 disabled" data-step-num="2" data-toggle="tooltip" title="The steps have to be completed in order, click the next button to continue">2: Choose Items</span><br/>#}
+{#                        <span class="tab tab3 disabled" data-step-num="3" data-toggle="tooltip" title="The steps have to be completed in order, click the next button to continue">3: Layout</span><br/>#}
+{#                    </div>#}
+{#                </div>#}
+{#                <div class="tab_group preview_tabs disabled">#}
+{#                    <div class="main_tab tab tab4" data-step-num="4"><span class="icon-misc_very_view"></span><span>Code</span></div>#}
+{#                </div>#}
+{#            </div>#}
+{#        </div>#}
+{#    </div>#}
+    <!-- Step 1 -->
+    <div class="widget_shelves widget_screen step1">
+        <div class="widget_content clearfix">
+            <!-- title block for the first sidebar -->
+            <div class="bar_top">
+                <div class="header_txt">Choose A Shelf</div>
+                <div class="bar_instruct">Select the Shelf which contains the items you want in your collage?</div>
+                <div class="bar_hint">or  if you don’t have a shelf of these items... <a class="txt_link darker_teal launch-popup" data-popup-type="affiliate_link_shelf">Create One Here</a></div>
+            </div>
+            <div class="mini_form px600">
+                <!-- loading shelves_list.html -->
+                <div class="users_shelves">
+                    {{ sidebar }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Step 2 -->
+    <div class="widget_screen step2 disabled">
+        <div class="widget_content clearfix">
+            <div class="step_btn prev_btn"><span class="icon-arrow_l_arr_3"></span>Back</div>
+            <div class="step_btn next_btn create_collage_btn">Next <span class="icon-arrow_r_arr_3"></span></div>
+            <div class="bar_top">
+                <div class="header_txt">Item Selection</div>
+                <div class="bar_instruct">Select the items you want in your collage by clicking them.</div>
+                <a href="#" class="txt_link_round teal_outline select_all serif_ital xsmall">Select All</a>
+            </div>
+            <div class="mini_form px600">
+                <div class="salvattore_grid collage_pick_items bar_bottom" data-columns></div>
+            </div>
+        </div>
+    </div>
+    {% include 'snippets/loader.html' with hidden=1 %}
+
+
+    <!-- Step 3 -->
+    <div class="widget_screen step3 disabled">
+        <!-- THE COLLAGE CREATOR, SHOWN AFTER THE IMAGES HAVE BEEN CHOSEN FOR THE COLLAGE -->
+        <!-- we have to cram stuff in here that is vital for correct display of images on blog sites -->
+        <div class="widget_content clearfix">
+            <div class="step_btn prev_btn"><span class="icon-arrow_l_arr_3"></span>Back</div>
+            <!-- title block for the first sidebar -->
+            <div class="bar_top short">
+                <div class="header_txt">{% if collage_type == 'grid_collage' %}Choose Your Layout{% else %}Preview Carousel{% endif %}</div>
+                <div class="bar_instruct">{% if collage_type == 'grid_collage' %}Click the SHUFFLE button to rearrange/resize the items{% endif %}</div>
+            </div>
+            <div class="widget_actions">
+                {% if collage_type == 'grid_collage' %}<a class="shuffle collage_creator_el square_bt teal_bt sm" href="#">Shuffle Items</a>{% endif %}
+                <a class="copy collage_creator_el step_btn smaller" href="#"><span class="icon-arrow_r_arr_3"></span> Get Code</a>
+                {% if collage_type == 'grid_collage' %}<a class="share collage_creator_el step_btn share smaller" href="#"><span class="icon-social_facebook"></span>Share</a>{% endif %}
+                {% if collage_type == 'grid_collage' %}
+                    <form method="get">
+                        <button type="submit" class="download collage_creator_el step_btn download smaller"><span class="icon-misc_files_download"></span> Download</button>
+                    </form>
+                {% endif %}
+            </div>
+            <div class="collage_creator_container {{ collage_type }}">
+                <iframe data-src="http://app.theshelf.com{% url debra.item_views.ga_tracking shelf_user.id 0 %}" style="display:none;"></iframe>
+                <div class="mini_form">
+                    <div class="collage_creator {{ collage_type }}" data-html2canvas-proxy="{% url html2canvas_proxy %}" data-collage-upload="{% url masuka.image_manipulator.create_shelf_share_screenshot shelf_user.id %}">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Step 4 -->
+    <div class="widget_screen step4 disabled">
+        <div class="widget_content clearfix collage_html preview">
+            <div class="step_btn prev_btn"><span class="icon-arrow_l_arr_3"></span>Back</div>
+            <div class="bar_top">
+                <div class="header_txt">Generate Code</div>
+                <div class="bar_instruct">Copy and paste the code below directly into your HTML editor of your blog post.</div>
+            </div>
+            <div class="mini_form px600">
+                <!--iframe></iframe-->
+                <div class='copy-box toggle_loader'>
+                    <textfield class="typical_form lighter_field larger_field w_courier blog_code">
+                        <textarea rows='4' cols='60'></textarea>
+                    </textfield>
+                    <h4 class="rale_1" style="margin-top:15px;">(or for WordPress)</h4>
+                    <textfield class="typical_form lighter_field larger_field w_courier wordpress_code">
+                        <textarea rows='3' cols='60'></textarea>
+                    </textfield>
+                </div>
+                {% include 'snippets/loader.html' with hidden=1 %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
