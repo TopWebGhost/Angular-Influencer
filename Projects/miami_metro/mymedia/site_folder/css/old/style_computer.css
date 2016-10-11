@@ -1,0 +1,40 @@
+@charset "UTF-8";
+/* CSS Document */
+
+
+
+
+
+
+
+	
+
+
+	
+	
+
+
+			
+
+
+
+
+			
+			
+/* Account Tag */ 
+.account_divider .gray_tag { width: 100%; margin: 0 auto; position: relative; z-index: 50; cursor:default; }
+.account_divider p.gray_tag_bg {
+    background: transparent url(../../images/bgs/account_tag_right.png) no-repeat scroll bottom right; color: #fff; display: block; float: left; padding-right:23px;
+    font-family: 'Dosis', sans-serif; font-weight: 400; font-size: 15px; text-transform:uppercase; text-decoration: none; }
+.account_divider p.gray_tag_bg span {
+    background: transparent url(../../images/bgs/account_tag_span.png) no-repeat bottom left; display: block; line-height: 14px; padding:7px 10px 10px 36px; } 	
+
+
+/* Company Tag --- Overrides */ 
+#company_page .account_divider .gray_tag { z-index:2!important; }
+#company_page .account_divider p.gray_tag_bg { background: transparent url(../../images/bgs/account_tag_right2.png) no-repeat scroll bottom right; font-size: 17px; text-transform:none; }
+#company_page .account_divider p.gray_tag_bg span { background: transparent url(../../images/bgs/account_tag_span2.png) no-repeat bottom left; } 	
+			
+			
+			
+

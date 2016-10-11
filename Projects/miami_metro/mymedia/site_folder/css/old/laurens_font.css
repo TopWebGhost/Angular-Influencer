@@ -1,0 +1,633 @@
+/* LAUREN'S ICON FONT */
+/* LAUREN'S ICON FONT */
+/* LAUREN'S ICON FONT */
+@font-face {
+    font-family:'svgfont_2regular'; 
+    src:url('../font/laurens_font-webfont.eot');
+    src:url('../font/laurens_font-webfont.eot?#iefix') format('embedded-opentype'), 
+    url('../font/laurens_font-webfont.woff') format('woff'),
+    url('../font/laurens_font-webfont.ttf') format('truetype'), 
+    url('../font/laurens_font-webfont.svg#svgfont_2regular') format('svg'); 
+    font-weight:100!important;
+    font-style:normal; }
+
+[class^="icon-"]:before, [class*=" icon-"]:before { font-family:svgfont_2regular; font-weight:100; font-style:normal; }
+
+
+
+
+
+/* MAIN FONT STYLES */
+/* MAIN FONT STYLES */
+/* MAIN FONT STYLES 
+[class^="icon-"]:before, [class*=" icon-"]:before { font-family: svgfont_2regular; font-weight: 100; font-style: normal; display: inline-block; text-decoration: inherit; }
+a [class^="icon-"], a [class*=" icon-"] { display: inline-block; text-decoration: inherit; }
+.icon-large:before { vertical-align: top; font-size: 1.3333333333333333em; }
+.btn [class^="icon-"], .btn [class*=" icon-"] 
+ line-height: .9em; }
+li [class^="icon-"], li [class*=" icon-"] { display: inline-block; width: 1.25em; text-align: center; }
+li .icon-large[class^="icon-"], li .icon-large[class*=" icon-"] width: 1.875em; }
+li[class^="icon-"], li[class*=" icon-"] { margin-left: 0; list-style-type: none; }
+li[class^="icon-"]:before, li[class*=" icon-"]:before { text-indent: -2em; text-align: center; }
+li[class^="icon-"].icon-large:before, li[class*=" icon-"].icon-large:before { text-indent: -1.3333333333333333em; }*/
+
+
+
+
+/******************************** THE ICONS ********************************/
+/******************************** THE ICONS ********************************/
+/******************************** THE ICONS ********************************/
+/******************************** THE ICONS ********************************/
+/* BRANDS */
+/* BRANDS */
+.icon-00_brand_zara_ico:before { content:"\e0d3"; }
+.icon-00_brand_zara:before { content:"\e0d4"; }
+.icon-00_brand_zappos_ico:before { content:"\e0d5"; }
+.icon-00_brand_zappos:before { content:"\e0d6"; }
+.icon-00_brand_white_house_black_market_ico:before { content:"\e0d7"; }
+.icon-00_brand_white_house_black_market:before { content:"\e0d8"; }
+.icon-00_brand_victorias_secret_ico:before { content:"\e0d9"; }
+.icon-00_brand_victorias_secret:before { content:"\e0da"; }
+.icon-00_brand_urban_outfitters_ico:before { content:"\e0db"; }
+.icon-00_brand_urban_outfitters:before { content:"\e0dc"; }
+.icon-00_brand_ulta:before { content:"\e0dd"; }
+.icon-00_brand_tory_burch_ico:before { content:"\e0de"; }
+.icon-00_brand_tory_burch:before { content:"\e0df"; }
+.icon-00_brand_top_shop_ico:before { content:"\e0e0"; }
+.icon-00_brand_top_shop:before { content:"\e0e1"; }
+.icon-00_brand_tieks:before { content:"\e0e2"; }
+.icon-00_brand_target_ico:before { content:"\e0e3"; }
+.icon-00_brand_target:before { content:"\e0e4"; }
+.icon-00_brand_steve_madden_ico:before { content:"\e0e5"; }
+.icon-00_brand_steve_madden:before { content:"\e0e6"; }
+.icon-00_brand_stella_and_dot_ico:before { content:"\e0e7"; }
+.icon-00_brand_stella_and_dot:before { content:"\e0e8"; }
+.icon-00_brand_sosie_ico:before { content:"\e0e9"; }
+.icon-00_brand_sosie:before { content:"\e0ea"; }
+.icon-00_brand_sole_society_ico:before { content:"\e0eb"; }
+.icon-00_brand_sole_society:before { content:"\e0ec"; }
+.icon-00_brand_simply_be_ico:before { content:"\e0ed"; }
+.icon-00_brand_simply_be:before { content:"\e0ee"; }
+.icon-00_brand_shopbop_ico:before { content:"\e0ef"; }
+.icon-00_brand_shopbop:before { content:"\e0f0"; }
+.icon-00_brand_shabby_apple_ico:before { content:"\e0f1"; }
+.icon-00_brand_shabby_apple:before { content:"\e0f2"; }
+.icon-00_brand_sephora_ico:before { content:"\e0f3"; }
+.icon-00_brand_sephora:before { content:"\e0f4"; }
+.icon-00_brand_saks_off_fifth:before { content:"\e0f5"; }
+.icon-00_brand_saks_ico:before { content:"\e0f6"; }
+.icon-00_brand_saks:before { content:"\e0f7"; }
+.icon-00_brand_ruche_ico:before { content:"\e0f8"; }
+.icon-00_brand_ruche:before { content:"\e0f9"; }
+.icon-00_brand_roxy_ico:before { content:"\e0fa"; }
+.icon-00_brand_roxy:before { content:"\e0fb"; }
+.icon-00_brand_revolve_ico:before { content:"\e0fc"; }
+.icon-00_brand_revolve:before { content:"\e0fd"; }
+.icon-00_brand_rei:before { content:"\e0fe"; }
+.icon-00_brand_ralph_lauren_ico:before { content:"\e0ff"; }
+.icon-00_brand_ralph_lauren:before { content:"\e100"; }
+.icon-00_brand_quiksilver_ico:before { content:"\e101"; }
+.icon-00_brand_quiksilver:before { content:"\e102"; }
+.icon-00_brand_pottery_barn_ico:before { content:"\e103"; }
+.icon-00_brand_pottery_barn:before { content:"\e104"; }
+.icon-00_brand_polo2_ico:before { content:"\e105"; }
+.icon-00_brand_polo2:before { content:"\e106"; }
+.icon-00_brand_polo:before { content:"\e107"; }
+.icon-00_brand_piperlime_ico:before { content:"\e108"; }
+.icon-00_brand_piperlime:before { content:"\e109"; }
+.icon-00_brand_pacsun_ico:before { content:"\e10a"; }
+.icon-00_brand_pacsun:before { content:"\e10b"; }
+.icon-00_brand_outnet_ico:before { content:"\e10c"; }
+.icon-00_brand_outnet:before { content:"\e10d"; }
+.icon-00_brand_osh_kosh:before { content:"\e10e"; }
+.icon-00_brand_old_navy_ico:before { content:"\e10f"; }
+.icon-00_brand_old_navy:before { content:"\e110"; }
+.icon-00_brand_nordstrom_rack:before { content:"\e000"; }
+.icon-00_brand_nordstrom_ico:before { content:"\e001"; }
+.icon-00_brand_nordstrom:before { content:"\e002"; }
+.icon-00_brand_nm_lastcall:before { content:"\e003"; }
+.icon-00_brand_nm_cusp:before { content:"\e004"; }
+.icon-00_brand_nine_west_ico:before { content:"\e005"; }
+.icon-00_brand_nine_west:before { content:"\e006"; }
+.icon-00_brand_nike_ico:before { content:"\e007"; }
+.icon-00_brand_nike:before { content:"\e008"; }
+.icon-00_brand_new_york_and_co_ico:before { content:"\e009"; }
+.icon-00_brand_new_york_and_co:before { content:"\e00a"; }
+.icon-00_brand_net_a_porter_ico:before { content:"\e00b"; }
+.icon-00_brand_net_a_porter:before { content:"\e00c"; }
+.icon-00_brand_neiman_marcus_ico:before { content:"\e00d"; }
+.icon-00_brand_neiman_marcus:before { content:"\e00e"; }
+.icon-00_brand_nasty_gal_ico:before { content:"\e00f"; }
+.icon-00_brand_nasty_gal:before { content:"\e010"; }
+.icon-00_brand_nanette_lepore:before { content:"\e011"; }
+.icon-00_brand_modcloth_ico:before { content:"\e012"; }
+.icon-00_brand_modcloth:before { content:"\e013"; }
+.icon-00_brand_mango_ico:before { content:"\e014"; }
+.icon-00_brand_mango:before { content:"\e015"; }
+.icon-00_brand_madewell_ico:before { content:"\e016"; }
+.icon-00_brand_madewell:before { content:"\e017"; }
+.icon-00_brand_macys_ico:before { content:"\e018"; }
+.icon-00_brand_macys:before { content:"\e019"; }
+.icon-00_brand_lulus_ico:before { content:"\e01a"; }
+.icon-00_brand_lulus:before { content:"\e01b"; }
+.icon-00_brand_lululemon_ico:before { content:"\e01c"; }
+.icon-00_brand_lululemon:before { content:"\e01d"; }
+.icon-00_brand_loren_hope_ico:before { content:"\e01e"; }
+.icon-00_brand_loren_hope:before { content:"\e01f"; }
+.icon-00_brand_loft_outlet:before { content:"\e020"; }
+.icon-00_brand_loft_ico:before { content:"\e021"; }
+.icon-00_brand_loft:before { content:"\e022"; }
+.icon-00_brand_llbean_ico:before { content:"\e023"; }
+.icon-00_brand_llbean:before { content:"\e024"; }
+.icon-00_brand_limited_ico:before { content:"\e025"; }
+.icon-00_brand_limited:before { content:"\e026"; }
+.icon-00_brand_lilly_pulitizer_ico:before { content:"\e027"; }
+.icon-00_brand_lilly_pulitizer:before { content:"\e028"; }
+.icon-00_brand_lane_bryant_ico:before { content:"\e029"; }
+.icon-00_brand_lane_bryant:before { content:"\e02a"; }
+.icon-00_brand_landsend:before { content:"\e02b"; }
+.icon-00_brand_kohls:before { content:"\e02c"; }
+.icon-00_brand_kate_spade_ico:before { content:"\e02d"; }
+.icon-00_brand_kate_spade:before { content:"\e02e"; }
+.icon-00_brand_juicy_couture:before { content:"\e02f"; }
+.icon-00_brand_jcrew:before { content:"\e030"; }
+.icon-00_brand_jcp:before { content:"\e031"; }
+.icon-00_brand_jcrew_factory:before { content:"\e032"; }
+.icon-00_brand_ily_couture_ico:before { content:"\e033"; }
+.icon-00_brand_ily_couture:before { content:"\e034"; }
+.icon-00_brand_hollister_ico:before { content:"\e035"; }
+.icon-00_brand_hollister:before { content:"\e036"; }
+.icon-00_brand_hm:before { content:"\e037"; }
+.icon-00_brand_gymboree:before { content:"\e038"; }
+.icon-00_brand_gilly_hicks_ico:before { content:"\e039"; }
+.icon-00_brand_gilly_hicks:before { content:"\e03a"; }
+.icon-00_brand_garnet_hill_ico:before { content:"\e03b"; }
+.icon-00_brand_garnet_hill:before { content:"\e03c"; }
+.icon-00_brand_gap_outlet:before { content:"\e03d"; }
+.icon-00_brand_gap:before { content:"\e03e"; }
+.icon-00_brand_french_connection_ico:before { content:"\e03f"; }
+.icon-00_brand_french_connection:before { content:"\e040"; }
+.icon-00_brand_free_people_ico:before { content:"\e041"; }
+.icon-00_brand_free_people:before { content:"\e042"; }
+.icon-00_brand_francescas_ico:before { content:"\e043"; }
+.icon-00_brand_francescas:before { content:"\e044"; }
+.icon-00_brand_fossil:before { content:"\e045"; }
+.icon-00_brand_forever_21_ico:before { content:"\e046"; }
+.icon-00_brand_forever_21:before { content:"\e047"; }
+.icon-00_brand_fab:before { content:"\e048"; }
+.icon-00_brand_express_ico:before { content:"\e049"; }
+.icon-00_brand_express:before { content:"\e04a"; }
+.icon-00_brand_etsy_ico:before { content:"\e04b"; }
+.icon-00_brand_etsy:before { content:"\e04c"; }
+.icon-00_brand_ebay:before { content:"\e04d"; }
+.icon-00_brand_dvf:before { content:"\e04e"; }
+.icon-00_brand_dsw_ico:before { content:"\e04f"; }
+.icon-00_brand_dsw:before { content:"\e050"; }
+.icon-00_brand_dorothy_perkins_ico:before { content:"\e051"; }
+.icon-00_brand_dorothy_perkins:before { content:"\e052"; }
+.icon-00_brand_dillards_ico:before { content:"\e053"; }
+.icon-00_brand_dillards:before { content:"\e054"; }
+.icon-00_brand_crate_and_barrel_ico:before { content:"\e055"; }
+.icon-00_brand_crate_and_barrel:before { content:"\e056"; }
+.icon-00_brand_coldwater_creek:before { content:"\e057"; }
+.icon-00_brand_coach_ico:before { content:"\e058"; }
+.icon-00_brand_coach:before { content:"\e059"; }
+.icon-00_brand_club_monaco:before { content:"\e05a"; }
+.icon-00_brand_childrens_place:before { content:"\e05b"; }
+.icon-00_brand_chicos_ico:before { content:"\e05c"; }
+.icon-00_brand_chicos:before { content:"\e05d"; }
+.icon-00_brand_boden:before { content:"\e05e"; }
+.icon-00_brand_bloomingdales_ico:before { content:"\e05f"; }
+.icon-00_brand_bloomingdales:before { content:"\e060"; }
+.icon-00_brand_bergdorf_ico:before { content:"\e061"; }
+.icon-00_brand_bergdorf:before { content:"\e062"; }
+.icon-00_brand_bcbg_ico:before { content:"\e063"; }
+.icon-00_brand_bcbg:before { content:"\e064"; }
+.icon-00_brand_baublebar_ico:before { content:"\e065"; }
+.icon-00_brand_baublebar:before { content:"\e066"; }
+.icon-00_brand_barneys:before { content:"\e067"; }
+.icon-00_brand_banana_republic_ico:before { content:"\e068"; }
+.icon-00_brand_banana_republic:before { content:"\e069"; }
+.icon-00_brand_athleta_ico:before { content:"\e06a"; }
+.icon-00_brand_athleta:before { content:"\e06b"; }
+.icon-00_brand_asos:before { content:"\e06c"; }
+.icon-00_brand_anthropologie_ico:before { content:"\e06d"; }
+.icon-00_brand_anthropologie:before { content:"\e06e"; }
+.icon-00_brand_ann_taylor_ico:before { content:"\e06f"; }
+.icon-00_brand_ann_taylor_factory:before { content:"\e070"; }
+.icon-00_brand_ann_taylor:before { content:"\e071"; }
+.icon-00_brand_american_eagle_ico:before { content:"\e072"; }
+.icon-00_brand_american_eagle:before { content:"\e073"; }
+.icon-00_brand_american_apparel_ico:before { content:"\e074"; }
+.icon-00_brand_american_apparel:before { content:"\e075"; }
+.icon-00_brand_amazon_icon:before { content:"\e076"; }
+.icon-00_brand_amazon:before { content:"\e077"; }
+.icon-00_brand_aldo_ico:before { content:"\e078"; }
+.icon-00_brand_aldo:before { content:"\e079"; }
+.icon-00_brand_aeropostale_ico:before { content:"\e07a"; }
+.icon-00_brand_aeropostale:before { content:"\e07b"; }
+.icon-00_brand_aerie_ico:before { content:"\e07c"; }
+.icon-00_brand_aerie:before { content:"\e07d"; }
+.icon-00_brand_abercrombie_ico:before { content:"\e07e"; }
+.icon-00_brand_abercrombie:before { content:"\e07f"; }
+.icon-00_brand_6pm_ico:before { content:"\e080"; }
+.icon-00_brand_6pm:before { content:"\e081"; }
+
+
+/* LETTERS */
+/* LETTERS */
+.icon-letter_x12:before { content:"\e17b"; }
+.icon-letter_x11:before { content:"\e17c"; }
+.icon-letter_x10:before { content:"\e17d"; }
+.icon-letter_x09:before { content:"\e17e"; }
+.icon-letter_x08:before { content:"\e17f"; }
+.icon-letter_x07:before { content:"\e180"; }
+.icon-letter_x06:before { content:"\e181"; }
+.icon-letter_x05:before { content:"\e182"; }
+.icon-letter_x04:before { content:"\e183"; }
+.icon-letter_x03:before { content:"\e184"; }
+.icon-letter_x02:before { content:"\e185"; }
+.icon-letter_x01:before { content:"\e186"; }
+.icon-letter_quotes2:before { content:"\e187"; }
+.icon-letter_quotes:before { content:"\e188"; }
+.icon-letter_question2:before { content:"\e189"; }
+.icon-letter_question:before { content:"\e18a"; }
+.icon-letter_plus12:before { content:"\e18b"; }
+.icon-letter_plus11:before { content:"\e18c"; }
+.icon-letter_plus10:before { content:"\e18d"; }
+.icon-letter_plus09:before { content:"\e18e"; }
+.icon-letter_plus08:before { content:"\e18f"; }
+.icon-letter_plus07:before { content:"\e190"; }
+.icon-letter_plus06:before { content:"\e191"; }
+.icon-letter_plus05:before { content:"\e192"; }
+.icon-letter_plus04:before { content:"\e193"; }
+.icon-letter_plus03:before { content:"\e194"; }
+.icon-letter_plus02:before { content:"\e195"; }
+.icon-letter_plus01:before { content:"\e196"; }
+.icon-letter_info2:before { content:"\e197"; }
+.icon-letter_info:before { content:"\e198"; }
+.icon-letter_exclamation4:before { content:"\e199"; }
+.icon-letter_exclamation3:before { content:"\e19a"; }
+.icon-letter_exclamation2:before { content:"\e19b"; }
+.icon-letter_exclamation:before { content:"\e19c"; }
+.icon-letter_dollar2:before { content:"\e19d"; }
+.icon-letter_dollar:before { content:"\e19e"; }
+.icon-letter_checkbox4:before { content:"\e19f"; }
+.icon-letter_checkbox3:before { content:"\e082"; }
+.icon-letter_checkbox2:before { content:"\e083"; }
+.icon-letter_checkbox:before { content:"\e084"; }
+.icon-letter_check_circle:before { content:"\e085"; }
+.icon-letter_check4:before { content:"\e086"; }
+.icon-letter_check3:before { content:"\e087"; }
+.icon-letter_check2:before { content:"\e088"; }
+.icon-letter_check:before { content:"\e089"; }
+.icon-letter_amp3:before { content:"\e08a"; }
+.icon-letter_amp2:before { content:"\e08b"; }
+.icon-letter_amp:before { content:"\e08c"; }
+
+
+/* COMPOUNDS */
+/* COMPOUNDS */
+.icon-compound_price_watch:before { content:"\e08f"; }
+.icon-compound_people_ad:before { content:"\e090"; }
+.icon-compound_grid_5:before { content:"\e091"; }
+.icon-compound_grid_4:before { content:"\e092"; }
+.icon-compound_grid_3:before { content:"\e093"; }
+.icon-compound_grid_2:before { content:"\e094"; }
+.icon-compound_grid_1:before { content:"\e095"; }
+.icon-compound_girl_row:before { content:"\e096"; }
+.icon-compound_girl_plus_money:before { content:"\e097"; }
+.icon-compound_girl_plus_dress:before { content:"\e098"; }
+.icon-compound_clothing_numbers:before { content:"\e099"; }
+.icon-compound_b1g1:before { content:"\e09a"; }
+
+/* CLOTHING */
+/* CLOTHING */
+.icon-clothing_watch:before { content:"\e09b"; }
+.icon-clothing_sweater:before { content:"\e09c"; }
+.icon-clothing_stripedtie:before { content:"\e09d"; }
+.icon-clothing_skirt:before { content:"\e09e"; }
+.icon-clothing_shirt3:before { content:"\e09f"; }
+.icon-clothing_shirt2:before { content:"\e0a0"; }
+.icon-clothing_shirt:before { content:"\e0a1"; }
+.icon-clothing_purse:before { content:"\e0a2"; }
+.icon-clothing_pants2:before { content:"\e0a3"; }
+.icon-clothing_pants:before { content:"\e0a4"; }
+.icon-clothing_ladydress:before { content:"\e0a5"; }
+.icon-clothing_knickers:before { content:"\e0a6"; }
+.icon-clothing_heel:before { content:"\e0a7"; }
+.icon-clothing_glasses2:before { content:"\e0a8"; }
+.icon-clothing_glasses:before { content:"\e0a9"; }
+.icon-clothing_flippies:before { content:"\e0aa"; }
+.icon-clothing_cowboy:before { content:"\e0ab"; }
+.icon-clothing_coat2:before { content:"\e0ac"; }
+.icon-clothing_coat:before { content:"\e0ad"; }
+.icon-clothing_case:before { content:"\e0ae"; }
+.icon-clothing_cartman:before { content:"\e0af"; }
+.icon-clothing_carrycase:before { content:"\e0b0"; }
+
+/* ARROWS */
+/* ARROWS */
+.icon-arrow_u_arr_7:before { content:"\e0b1"; }
+.icon-arrow_u_arr_6:before { content:"\e0b2"; }
+.icon-arrow_u_arr_5:before { content:"\e0b3"; }
+.icon-arrow_u_arr_4:before { content:"\e0b4"; }
+.icon-arrow_u_arr_3:before { content:"\e0b5"; }
+.icon-arrow_u_arr_2:before { content:"\e0b6"; }
+.icon-arrow_u_arr_1:before { content:"\e0b7"; }
+.icon-arrow_r_arr_7:before { content:"\e0b8"; }
+.icon-arrow_r_arr_6:before { content:"\e0b9"; }
+.icon-arrow_r_arr_5:before { content:"\e0ba"; }
+.icon-arrow_r_arr_4:before { content:"\e0bb"; }
+.icon-arrow_r_arr_3:before { content:"\e0bc"; }
+.icon-arrow_r_arr_2:before { content:"\e0bd"; }
+.icon-arrow_r_arr_1:before { content:"\e0be"; }
+.icon-arrow_l_arr_7:before { content:"\e0bf"; }
+.icon-arrow_l_arr_6:before { content:"\e0c0"; }
+.icon-arrow_l_arr_5:before { content:"\e0c1"; }
+.icon-arrow_l_arr_4:before { content:"\e0c2"; }
+.icon-arrow_l_arr_3:before { content:"\e0c3"; }
+.icon-arrow_l_arr_2:before { content:"\e0c4"; }
+.icon-arrow_l_arr_1:before { content:"\e0c5"; }
+.icon-arrow_d_arr_7:before { content:"\e0c6"; }
+.icon-arrow_d_arr_6:before { content:"\e0c7"; }
+.icon-arrow_d_arr_5:before { content:"\e0c8"; }
+.icon-arrow_d_arr_4:before { content:"\e0c9"; }
+.icon-arrow_d_arr_3:before { content:"\e0ca"; }
+.icon-arrow_d_arr_2:before { content:"\e0cb"; }
+.icon-arrow_d_arr_1:before { content:"\e0cc"; }
+.icon-arrow_0_reload:before { content:"\e0cd"; }
+.icon-arrow_0_minimize2:before { content:"\e0ce"; }
+.icon-arrow_0_minimize:before { content:"\e0cf"; }
+.icon-arrow_0_expand2:before { content:"\e0d0"; }
+.icon-arrow_0_expand:before { content:"\e0d1"; }
+.icon-arrow_0_4arrows:before { content:"\e0d2"; }
+
+
+/* MISC */
+/* MISC */
+
+.icon-misc_very_view:before { content:"\e205"; }
+.icon-misc_very_video:before { content:"\e206"; }
+.icon-misc_very_puzzle:before { content:"\e207"; }
+.icon-misc_very_present2:before { content:"\e208"; }
+.icon-misc_very_present:before { content:"\e209"; }
+.icon-misc_very_link:before { content:"\e20a"; }
+.icon-share:before { content:"\e20a"; }
+.icon-misc_very_filter:before { content:"\e20b"; }
+.icon-misc_very_feedback:before { content:"\e20c"; }
+.icon-misc_very_diamond:before { content:"\e20d"; }
+.icon-misc_very_crown2:before { content:"\e20e"; }
+.icon-misc_very_crown:before { content:"\e20f"; }
+.icon-misc_very_bulb:before { content:"\e210"; }
+.icon-misc_very_book2:before { content:"\e111"; }
+.icon-misc_very_book:before { content:"\e112"; }
+.icon-misc_value_thumbsup2:before { content:"\e113"; }
+.icon-misc_value_thumbsup:before { content:"\e114"; }
+.icon-misc_value_thumbsdown2:before { content:"\e115"; }
+.icon-misc_value_thumbsdown:before { content:"\e116"; }
+.icon-misc_value_star3:before { content:"\e117"; }
+.icon-misc_value_star2:before { content:"\e118"; }
+.icon-misc_value_star:before { content:"\e119"; }
+.icon-misc_value_pin:before { content:"\e11a"; }
+.icon-misc_value_heart2:before { content:"\e11b"; }
+.icon-misc_value_heart:before { content:"\e11c"; }
+.icon-misc_value_flag:before { content:"\e11d"; }
+.icon-misc_value_clip:before { content:"\e11e"; }
+.icon-misc_tool3:before { content:"\e11f"; }
+.icon-misc_tool2:before { content:"\e120"; }
+.icon-misc_tool:before { content:"\e121"; }
+.icon-misc_time_hourglass:before { content:"\e122"; }
+.icon-misc_time_clock2:before { content:"\e123"; }
+.icon-misc_time_clock:before { content:"\e124"; }
+.icon-misc_time_calendar3:before { content:"\e125"; }
+.icon-misc_time_calendar2:before { content:"\e126"; }
+.icon-misc_time_calendar:before { content:"\e127"; }
+.icon-misc_shop_price4:before { content:"\e128"; }
+.icon-misc_shop_price3:before { content:"\e129"; }
+.icon-misc_shop_price2:before { content:"\e12a"; }
+.icon-misc_shop_price:before { content:"\e12b"; }
+.icon-misc_shop_money_safe:before { content:"\e12c"; }
+.icon-misc_shop_money_pig:before { content:"\e12d"; }
+.icon-misc_shop_money_bag:before { content:"\e12e"; }
+.icon-misc_shop_hanger4:before { content:"\e12f"; }
+.icon-misc_shop_hanger3:before { content:"\e130"; }
+.icon-misc_shop_hanger2:before { content:"\e131"; }
+.icon-misc_shop_hanger:before { content:"\e132"; }
+.icon-misc_shop_deal_percent2:before { content:"\e133"; }
+.icon-misc_shop_deal_percent:before { content:"\e134"; }
+.icon-misc_shop_deal_b1g1:before { content:"\e135"; }
+.icon-misc_shop_cart:before { content:"\e136"; }
+.icon-misc_shop_barcode2:before { content:"\e137"; }
+.icon-misc_shop_barcode:before { content:"\e138"; }
+.icon-misc_shop_bag3:before { content:"\e139"; }
+.icon-misc_shop_bag2:before { content:"\e13a"; }
+.icon-misc_shop_bag:before { content:"\e13b"; }
+.icon-misc_shapes_stripes:before { content:"\e13c"; }
+.icon-misc_shapes_9grid:before { content:"\e13d"; }
+.icon-misc_shapes_4grid:before { content:"\e13e"; }
+.icon-misc_security_lock4:before { content:"\e13f"; }
+.icon-misc_security_lock3:before { content:"\e140"; }
+.icon-misc_security_lock2:before { content:"\e141"; }
+.icon-misc_security_lock:before { content:"\e142"; }
+.icon-misc_security_key:before { content:"\e143"; }
+.icon-misc_magnify4:before { content:"\e144"; }
+.icon-misc_magnify3:before { content:"\e145"; }
+.icon-misc_magnify2:before { content:"\e146"; }
+.icon-misc_magnify:before { content:"\e147"; }
+.icon-misc_loc_truck:before { content:"\e148"; }
+.icon-misc_loc_tour:before { content:"\e149"; }
+.icon-misc_loc_plane2:before { content:"\e14a"; }
+.icon-misc_loc_plane:before { content:"\e14b"; }
+.icon-misc_loc_marker2:before { content:"\e14c"; }
+.icon-misc_loc_marker:before { content:"\e14d"; }
+.icon-misc_loc_building4:before { content:"\e14e"; }
+.icon-misc_loc_building3:before { content:"\e14f"; }
+.icon-misc_loc_building2:before { content:"\e150"; }
+.icon-misc_loc_building:before { content:"\e151"; }
+.icon-misc_files_gears:before { content:"\e08d"; }
+.icon-misc_files_gear:before { content:"\e08e"; }
+.icon-misc_files_upload2:before { content:"\e152"; }
+.icon-misc_files_upload:before { content:"\e153"; }
+.icon-misc_files_trash4:before { content:"\e154"; }
+.icon-misc_files_trash3:before { content:"\e155"; }
+.icon-misc_files_trash2:before { content:"\e156"; }
+.icon-misc_files_trash:before { content:"\e157"; }
+.icon-misc_files_save:before { content:"\e158"; }
+.icon-misc_files_pencil3:before { content:"\e159"; }
+.icon-misc_files_pencil2:before { content:"\e15a"; }
+.icon-misc_files_pencil:before { content:"\e15b"; }
+.icon-misc_files_null:before { content:"\e15c"; }
+.icon-misc_files_files:before { content:"\e15d"; }
+.icon-misc_files_file:before { content:"\e15e"; }
+.icon-misc_files_edit:before { content:"\e15f"; }
+.icon-misc_files_download3:before { content:"\e160"; }
+.icon-misc_files_download2:before { content:"\e161"; }
+.icon-misc_files_download:before { content:"\e162"; }
+.icon-misc_files_crop3:before { content:"\e163"; }
+.icon-misc_files_crop2:before { content:"\e164"; }
+.icon-misc_files_crop:before { content:"\e165"; }
+.icon-misc_files_add_file:before { content:"\e166"; }
+.icon-misc_device_iphone:before { content:"\e167"; }
+.icon-misc_device_fingerclick:before { content:"\e168"; }
+.icon-misc_device_cursor2:before { content:"\e169"; }
+.icon-misc_device_cursor:before { content:"\e16a"; }
+.icon-misc_device_computer3:before { content:"\e16b"; }
+.icon-misc_device_computer2:before { content:"\e16c"; }
+.icon-misc_device_computer:before { content:"\e16d"; }
+.icon-misc_device_camera:before { content:"\e16e"; }
+.icon-misc_color5:before { content:"\e16f"; }
+.icon-misc_color4:before { content:"\e170"; }
+.icon-misc_color3:before { content:"\e171"; }
+.icon-misc_color2:before { content:"\e172"; }
+.icon-misc_color:before { content:"\e173"; }
+.icon-misc_chart3:before { content:"\e174"; }
+.icon-misc_chart2:before { content:"\e175"; }
+.icon-misc_chart:before { content:"\e176"; }
+.icon-misc_alert4:before { content:"\e177"; }
+.icon-misc_alert3:before { content:"\e178"; }
+.icon-misc_alert2:before { content:"\e179"; }
+.icon-misc_alert:before { content:"\e17a"; }
+
+/* PEOPLE */
+/* PEOPLE */
+.icon-people_two_people:before { content:"\e1e4"; }
+.icon-people_smile4:before { content:"\e1e5"; }
+.icon-people_smile3:before { content:"\e1e6"; }
+.icon-people_smile2:before { content:"\e1e7"; }
+.icon-people_smile:before { content:"\e1e8"; }
+.icon-people_plus:before { content:"\e1e9"; }
+.icon-people_photo4:before { content:"\e1ea"; }
+.icon-people_photo3:before { content:"\e1eb"; }
+.icon-people_photo2:before { content:"\e1ec"; }
+.icon-people_photo:before { content:"\e1ed"; }
+.icon-people_person_chat:before { content:"\e1ee"; }
+.icon-people_person:before { content:"\e1ef"; }
+.icon-people_networking:before { content:"\e1f0"; }
+.icon-people_like_someone:before { content:"\e1f1"; }
+.icon-people_laugh4:before { content:"\e1f2"; }
+.icon-people_laugh3:before { content:"\e1f3"; }
+.icon-people_laugh2:before { content:"\e1f4"; }
+.icon-people_laugh:before { content:"\e1f5"; }
+.icon-people_id2:before { content:"\e1f6"; }
+.icon-people_id:before { content:"\e1f7"; }
+.icon-people_frown4:before { content:"\e1f8"; }
+.icon-people_frown3:before { content:"\e1f9"; }
+.icon-people_frown2:before { content:"\e1fa"; }
+.icon-people_frown:before { content:"\e1fb"; }
+.icon-people_following3:before { content:"\e1fc"; }
+.icon-people_following2:before { content:"\e1fd"; }
+.icon-people_following:before { content:"\e1fe"; }
+.icon-people_followers3:before { content:"\e1ff"; }
+.icon-people_followers2:before { content:"\e200"; }
+.icon-people_followers:before { content:"\e201"; }
+.icon-people_avatar3:before { content:"\e202"; }
+.icon-people_avatar2:before { content:"\e203"; }
+.icon-people_avatar:before { content:"\e204"; }
+
+/* SOCIAL */
+/* SOCIAL */
+.icon-social_speech:before { content:"\e1ac"; }
+.icon-social_speech2:before { content:"\e1ab"; }
+.icon-social_youtube2:before { content:"\e1a0"; }
+.icon-social_youtube:before { content:"\e1a1"; }
+.icon-social_wp2:before { content:"\e1a2"; }
+.icon-social_wp:before { content:"\e1a3"; }
+.icon-social_vimeo:before { content:"\e1a4"; }
+.icon-social_twitter2:before { content:"\e1a5"; }
+.icon-social_twitter:before { content:"\e1a6"; }
+.icon-social_tumblr:before { content:"\e1a7"; }
+.icon-social_speech5:before { content:"\e1a8"; }
+.icon-social_speech4:before { content:"\e1a9"; }
+.icon-social_speech3:before { content:"\e1aa"; }
+.icon-social_pinterest2:before { content:"\e1b0"; }
+.icon-social_pinterest:before { content:"\e1b1"; }
+.icon-social_picassa:before { content:"\e1b2"; }
+.icon-social_linkedin2:before { content:"\e1b3"; }
+.icon-social_linkedin:before { content:"\e1b4"; }
+.icon-social_instagram3:before { content:"\e1b5"; }
+.icon-social_instagram2:before { content:"\e1b6"; }
+.icon-social_instagram:before { content:"\e1b7"; }
+.icon-social_gplus2:before { content:"\e1b8"; }
+.icon-social_gplus:before { content:"\e1b9"; }
+.icon-social_globe4:before { content:"\e1ba"; }
+.icon-social_globe3:before { content:"\e1bb"; }
+.icon-social_globe2:before { content:"\e1bc"; }
+.icon-social_globe:before { content:"\e1bd"; }
+.icon-social_flickr2:before { content:"\e1be"; }
+.icon-social_flickr:before { content:"\e1bf"; }
+.icon-social_facebook2:before { content:"\e1c0"; }
+.icon-social_facebook:before { content:"\e1c1"; }
+.icon-social_etsy2:before { content:"\e1c2"; }
+.icon-social_etsy:before { content:"\e1c3"; }
+.icon-social_envelope8:before { content:"\e1c4"; }
+.icon-social_envelope7:before { content:"\e1c5"; }
+.icon-social_envelope6:before { content:"\e1c6"; }
+.icon-social_envelope5:before { content:"\e1c7"; }
+.icon-social_envelope4:before { content:"\e1c8"; }
+.icon-social_envelope3:before { content:"\e1c9"; }
+.icon-social_envelope2:before { content:"\e1ca"; }
+.icon-social_envelope:before { content:"\e1cb"; }
+.icon-social_blogger:before { content:"\e1cc"; }
+.icon-social_blog_lovin:before { content:"\e1cd"; }
+.icon-social_at:before { content:"\e1ce"; }
+.icon-social_0_shelf_the:before { content:"\e1cf"; }
+.icon-social_0_shelf_shelfit:before { content:"\e1d0"; }
+.icon-social_0_shelf_shelf_w_beta:before { content:"\e1df"; }
+.icon-social_0_shelf_shelf3c:before { content:"\e1ad"; }
+.icon-social_0_shelf_shelf3b:before { content:"\e1d2"; }
+.icon-social_0_shelf_shelf3b_thin:before { content:"\e1da"; }
+.icon-social_0_shelf_shelf3a:before { content:"\e1d3"; }
+.icon-social_0_shelf_shelf2c:before { content:"\e1d4"; }
+.icon-social_0_shelf_shelf2b:before { content:"\e1d5"; }
+.icon-social_0_shelf_shelf2a:before { content:"\e1d6"; }
+.icon-social_0_shelf_shelf1c:before { content:"\e1d7"; }
+.icon-social_0_shelf_shelf1b:before { content:"\e1d8"; }
+.icon-social_0_shelf_shelf1a:before { content:"\e1d9"; }
+.icon-social_0_shelf_shelf:before { content:"\e1ad"; }
+.icon-social_0_shelf_icon4:before { content:"\e1db"; }
+.icon-social_0_shelf_icon3:before { content:"\e1dc"; }
+.icon-social_0_shelf_icon2:before { content:"\e1dd"; }
+.icon-social_0_shelf_icon:before { content:"\e1de"; }
+.icon-social_0_shelf_beta2:before { content:"\e1d9"; }
+.icon-social_0_shelf_beta:before { content:"\e1d8"; }
+.icon-social_0_share:before { content:"\e1e1"; }
+.icon-social_0_rss:before { content:"\e1e2"; }
+.icon-social_0_connected:before { content:"\e1e3"; }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

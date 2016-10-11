@@ -1,0 +1,642 @@
+@charset "UTF-8";
+/* CSS Document */
+
+
+html { height:100%; font-family:'Dosis', 'Helvetica Neue', sans-serif; }
+
+
+
+
+/* TABLE */
+/* TABLE */
+/* TABLE */
+body { background-color:#c4c4c4; padding:30px;}
+#le_tables {  }
+table  { margin-bottom:20px; clear:both; border-collapse:collapse; background-color:#fff; }
+thead { height:10px; background:#fff; }
+th { padding:10px 20px; font-size:12px; text-transform:uppercase; color:#fff; border:1px solid #c4c4c4; text-align:center;}
+td { padding:10px 20px; margin:0; border:1px solid #c4c4c4; }
+td select { width:100px; }
+td input { width:100px; }
+td.icon-table { color:#fff; }
+
+
+
+
+
+.promo_number {  }
+.promo_action {  }
+td.promo_action { width:220px; }
+td.promo_action .teal_btn { float:left; margin-bottom:10px; }
+td.promo_action select {  float:left; margin-right:10px; width:50px; }
+td.icon-table { color:#fff; line-height:.3; padding:20px; font-size:68px!important; }
+.drop_dn {  }
+.date_dn {  }
+.promo_parameters {  }
+.txt_area {  }
+.txt_link {  }
+
+
+
+
+
+
+
+
+/* STORE SPECIFIC */
+/* STORE SPECIFIC */
+/* STORE SPECIFIC */
+table.gap td.icon-table:before { content: "\f000"; }
+table.gap td { color:#000432; }
+table.gap th, table.gap td .teal_btn span { background-color:#000432; }
+
+table.banana td.icon-table:before { content: "\f0a4"; }   
+table.banana td { color:#66a842; }
+table.banana th, table.banana td .teal_btn span { background-color:#66a842; }
+
+table.athleta td.icon-table:before { content: "\f002"; }   
+table.athleta td { color:#f95f64; }
+table.athleta th, table.athleta td .teal_btn span { background-color:#f95f64; }
+
+table.piperlime td.icon-table:before { content: "\f003"; }   
+table.piperlime td { color:#00b7f1; }
+table.piperlime th, table.piperlime td .teal_btn span { background-color:#00b7f1; }
+
+table.old_navy td.icon-table:before { content: "\f004"; }   
+table.old_navy td { color:#dabd03; }
+table.old_navy th, table.old_navy td .teal_btn span { background-color:#dabd03; }
+
+table.express td.icon-table:before { content: "\f005"; }   
+table.express td { color:#58d7c3; }
+table.express th, table.express td .teal_btn span { background-color:#58d7c3; }
+
+table.jcrew td.icon-table:before { content: "\f006"; }   
+table.jcrew td { color:#d80f8c; }
+table.jcrew th, table.jcrew td .teal_btn span { background-color:#d80f8c; }
+
+table.nyac1 td.icon-table:before { content: "\f007"; }   
+table.nyac1 td { color:#8f278f; }
+table.nyac1 th, table.nyac1 td .teal_btn span { background-color:#8f278f; }
+
+table.nyac2 td.icon-table:before { content: "\f008"; }     
+table.nyac2 td { color:#39b54a; }
+table.nyac2 th, table.nyac2 td .teal_btn span { background-color:#39b54a; }
+
+table.abercrombie td.icon-table:before { content: "\f009"; }   
+table.abercrombie td { color:#f95f64; }
+table.abercrombie th, table.abercrombie td .teal_btn span { background-color:#f95f64; }
+
+table.gilly_hicks td.icon-table:before { content: "\f00a"; }   
+table.gilly_hicks td { color:#00b7f1; }
+table.gilly_hicks th, table.gilly_hicks td .teal_btn span { background-color:#00b7f1; }
+
+table.hollister td.icon-table:before { content: "\f00b"; }   
+table.hollister td { color:#dabd03; }
+table.hollister th, table.hollister td .teal_btn span { background-color:#dabd03; }
+
+table.ann_taylor td.icon-table:before { content: "\f00c"; }    
+table.ann_taylor td { color:#58d7c3; }
+table.ann_taylor th, table.ann_taylor td .teal_btn span { background-color:#58d7c3; }
+
+table.loft td.icon-table:before { content: "\f00d"; }   
+table.loft td { color:#d80f8c; }
+table.loft th, table.loft td .teal_btn span { background-color:#d80f8c; }
+
+table.aeropostale td.icon-table:before { content: "\f00e"; }   
+table.aeropostale td { color:#8f278f; }
+table.aeropostale th, table.aeropostale td .teal_btn span { background-color:#8f278f; }
+
+table.anthropologie td.icon-table:before { content: "\f010"; }   
+table.anthropologie td { color:#39b54a; }
+table.anthropologie th, table.anthropologie td .teal_btn span { background-color:#39b54a; }
+
+table.american_eagle td.icon-table:before { content: "\f011"; }   
+table.american_eagle td { color:#000432; }
+table.american_eagle th, table.american_eagle td .teal_btn span { background-color:#000432; }
+
+table.aerie td.icon-table:before { content: "\f012"; }   
+table.aerie td { color:#66a842; }
+table.aerie th, table.aerie td .teal_btn span { background-color:#66a842; }
+
+table.chicos td.icon-table:before { content: "\f013"; }   
+table.chicos td { color:#f95f64; }
+table.chicos th, table.chicos td .teal_btn span { background-color:#f95f64; }
+
+table.white_house_black_market td.icon-table: { content: "\f014"; } 
+table.white_house_black_market td { color:#00b7f1; }
+table.white_house_black_market th, table.white_house_black_market td .teal_btn span { background-color:#00b7f1; }
+
+table.childrens_place td.icon-table:before { content: "\f015"; }   
+table.childrens_place td { color:#dabd03; }
+table.childrens_place th, table.childrens_place td .teal_btn span { background-color:#dabd03; }
+
+table.coach td.icon-table:before { content: "\f016"; }   
+table.coach td { color:#58d7c3; }
+table.coach th, table.coach td .teal_btn span { background-color:#58d7c3; }
+
+table.pottery_barn td.icon-table:before { content: "\f017"; }   
+table.pottery_barn td { color:#d80f8c; }
+table.pottery_barn th, table.pottery_barn td .teal_btn span { background-color:#d80f8c; }
+
+table.rei td.icon-table:before { content: "\f018"; }   
+table.rei td { color:#8f278f; }
+table.rei th, table.rei td .teal_btn span { background-color:#8f278f; }
+
+table.victorias_secret td.icon-table:before { content: "\f019"; }   
+table.victorias_secret td { color:#39b54a; }
+table.victorias_secret th, table.victorias_secret td .teal_btn span { background-color:#39b54a; }
+
+table.urban_outfitters td.icon-table:before { content: "\f01a"; }   
+table.urban_outfitters td { color:#000432; }
+table.urban_outfitters th, table.urban_outfitters td .teal_btn span { background-color:#000432; }
+
+table.dsw td.icon-table:before { content: "\f01b"; }   
+table.dsw td { color:#66a842; }
+table.dsw th, table.dsw td .teal_btn span { background-color:#66a842; }
+
+table.ralph_lauren td.icon-table:before { content: "\f01c"; }   
+table.ralph_lauren td { color:#f95f64; }
+table.ralph_lauren th, table.ralph_lauren td .teal_btn span { background-color:#f95f64; }
+
+table.lane_bryant td.icon-table:before { content: "\f01d"; }   
+table.lane_bryant td { color:#00b7f1; }
+table.lane_bryant th, table.lane_bryant td .teal_btn span { background-color:#00b7f1; }
+
+table.coldwater_creek td.icon-table:before { content: "\f01e"; }   
+table.coldwater_creek td { color:#dabd03; }
+table.coldwater_creek th, table.coldwater_creek td .teal_btn span { background-color:#dabd03; }
+
+/* \f020 doesn't work in Safari. all shifted one down */
+table.nike td.icon-table:before { content: "\f021"; } 
+table.nike td { color:#58d7c3; }
+table.nike th, table.nike td .teal_btn span { background-color:#58d7c3; }
+
+table.hm td.icon-table:before { content: "\f022"; }
+table.hm td { color:#d80f8c; }
+table.hm th, table.hm td .teal_btn span { background-color:#d80f8c; }
+
+table.llbean td.icon-table:before { content: "\f023"; }
+table.llbean td { color:#8f278f; }
+table.llbean th, table.llbean td .teal_btn span { background-color:#8f278f; }
+
+table.landsend td.icon-table:before { content: "\f024"; } 
+table.landsend td { color:#39b54a; }
+table.landsend th, table.landsend td .teal_btn span { background-color:#39b54a; }
+
+table.williams_sonoma td.icon-table:before { content: "\f025"; }   
+table.williams_sonoma td { color:#000432; }
+table.williams_sonoma th, table.williams_sonoma td .teal_btn span { background-color:#000432; }
+
+table.crate_and_barrel td.icon-table:before { content: "\f026"; }   
+table.crate_and_barrel td { color:#000432; }
+table.crate_and_barrel th, table.crate_and_barrel td .teal_btn span { background-color:#000432; }
+
+table.osh_kosh td.icon-table:before { content: "\f027"; }   
+table.osh_kosh td { color:#66a842; }
+table.osh_kosh th, table.osh_kosh td .teal_btn span { background-color:#66a842; }
+
+table.forever_21 td.icon-table:before { content: "\f028"; }   
+table.forever_21 td { color:#f95f64; }
+table.forever_21 th, table.forever_21 td .teal_btn span { background-color:#f95f64; }
+
+table.modcloth td.icon-table:before { content: "\f02e"; }   
+table.modcloth td { color:#00b7f1; }
+table.modcloth th, table.modcloth td .teal_btn span { background-color:#00b7f1; }
+
+table.saks td.icon-table:before { content: "\f029"; }   
+table.saks td { color:#dabd03; }
+table.saks th, table.saks td .teal_btn span { background-color:#dabd03; }
+
+table.nordstrom td.icon-table:before { content: "\f0c9"; }
+table.nordstrom td { color:#58d7c3; }
+table.nordstrom th, table.nordstrom td .teal_btn span { background-color:#58d7c3; }
+
+table.neiman_marcus td.icon-table:before { content: "\f02b"; }
+table.neiman_marcus td { color:#d80f8c; }
+table.neiman_marcus th, table.neiman_marcus td .teal_btn span { background-color:#d80f8c; }
+
+table.macys td.icon-table:before { content: "\f02c"; }
+table.macys td { color:#8f278f; }
+table.macys th, table.macys td .teal_btn span { background-color:#8f278f; }
+
+table.dillards td.icon-table:before { content: "\f02d"; }
+table.dillards td { color:#39b54a; }
+table.dillards th, table.dillards td .teal_btn span { background-color:#39b54a; }
+
+table.nasty_gal td.icon-table:before { content: "\f02f"; }
+table.nasty_gal td { color:#000432; }
+table.nasty_gal th, table.nasty_gal td .teal_btn span { background-color:#000432; }
+
+table.bloomingdales td.icon-table:before { content: "\f030"; }
+table.bloomingdales td { color:#000432; }
+table.bloomingdales th, table.bloomingdales td .teal_btn span { background-color:#000432; }
+
+table.amazon td.icon-table:before { content: "\f031"; }
+table.amazon td { color:#66a842; }
+table.amazon th, table.amazon td .teal_btn span { background-color:#66a842; }
+
+table.zappos td.icon-table:before { content: "\f032"; }
+table.zappos td { color:#f95f64; }
+table.zappos th, table.zappos td .teal_btn span { background-color:#f95f64; }
+
+table.gymboree td.icon-table:before { content: "\f033"; }
+table.gymboree td { color:#00b7f1; }
+table.gymboree th, table.gymboree td .teal_btn span { background-color:#00b7f1; }
+
+table.polo td.icon-table:before { content: "\f0cc"; }
+table.polo td { color:#dabd03; }
+table.polo th, table.polo td .teal_btn span { background-color:#dabd03; }
+
+table.sephora td.icon-table:before { content: "\f035"; }
+table.sephora td { color:#58d7c3; }
+table.sephora th, table.sephora td .teal_btn span { background-color:#58d7c3; }
+
+table.six_pm td.icon-table:before { content: "\f087"; }
+table.six_pm td { color:#d80f8c; }
+table.six_pm th, table.six_pm td .teal_btn span { background-color:#d80f8c; }
+
+table.asos td.icon-table:before { content: "\f088"; }
+table.asos td { color:#8f278f; }
+table.asos th, table.asos td .teal_btn span { background-color:#8f278f; }
+
+table.barneys td.icon-table:before { content: "\f089"; }
+table.barneys td { color:#39b54a; }
+table.barneys th, table.barneys td .teal_btn span { background-color:#39b54a; }
+
+table.jcrew_factory td.icon-table:before { content: "\f08a"; }
+table.jcrew_factory td { color:#66a842; }
+table.jcrew_factory th, table.jcrew_factory td .teal_btn span { background-color:#66a842; }
+
+table.madewell td.icon-table:before { content: "\f08b"; }
+table.madewell td { color:#f95f64; }
+table.madewell th, table.madewell td .teal_btn span { background-color:#f95f64; }
+
+table.topshop td.icon-table:before { content: "\f098" }
+table.topshop td { color:#00b7f1; }
+table.topshop th, table.topshop td .teal_btn span { background-color:#00b7f1; }
+
+table.aldo td.icon-table:before { content: "\f0a0"; }
+table.aldo td { color:#dabd03; }
+table.aldo th, table.aldo td .teal_btn span { background-color:#dabd03; }
+
+table.american_apparel td.icon-table:before { content: "\f0a1"; }
+table.american_apparel td { color:#58d7c3; }
+table.american_apparel th, table.american_apparel td .teal_btn span { background-color:#58d7c3; }
+
+table.baublebar td.icon-table:before { content: "\f0a5"; }
+table.baublebar td { color:#d80f8c; }
+table.baublebar th, table.baublebar td .teal_btn span { background-color:#d80f8c; }
+
+table.bcbg td.icon-table:before { content: "\f0a6"; }
+table.bcbg td { color:#8f278f; }
+table.bcbg th, table.bcbg td .teal_btn span { background-color:#8f278f; }
+
+table.bergdorf td.icon-table:before { content: "\f0a7"; }
+table.bergdorf td { color:#39b54a; }
+table.bergdorf th, table.bergdorf td .teal_btn span { background-color:#39b54a; }
+
+table.boden td.icon-table:before { content: "\f0a8"; }
+table.boden td { color:#66a842; }
+table.boden th, table.boden td .teal_btn span { background-color:#66a842; }
+
+table.club_monaco td.icon-table:before { content: "\f0a9"; }
+table.club_monaco td { color:#f95f64; }
+table.club_monaco th, table.club_monaco td .teal_btn span { background-color:#f95f64; }
+
+table.dorothy_perkins td.icon-table:before { content: "\f0aa"; }
+table.dorothy_perkins td { color:#00b7f1; }
+table.dorothy_perkins th, table.dorothy_perkins td .teal_btn span { background-color:#00b7f1; }
+
+table.dvf td.icon-table:before { content: "\f0ab"; }
+table.dvf td { color:#dabd03; }
+table.dvf th, table.dvf td .teal_btn span { background-color:#dabd03; }
+
+table.ebay td.icon-table:before { content: "\f0ac"; }
+table.ebay td { color:#58d7c3; }
+table.ebay th, table.ebay td .teal_btn span { background-color:#58d7c3; }
+
+table.etsy td.icon-table:before { content: "\f0ad"; }
+table.etsy td { color:#d80f8c; }
+table.etsy th, table.etsy td .teal_btn span { background-color:#d80f8c; }
+
+table.fab td.icon-table:before { content: "\f0ae"; }
+table.fab td { color:#8f278f; }
+table.fab th, table.fab td .teal_btn span { background-color:#8f278f; }
+
+table.fossil td.icon-table:before { content: "\f0b0"; }
+table.fossil td { color:#39b54a; }
+table.fossil th, table.fossil td .teal_btn span { background-color:#39b54a; }
+
+table.francescas td.icon-table:before { content: "\f0b1"; }
+table.francescas td { color:#66a842; }
+table.francescas th, table.francescas td .teal_btn span { background-color:#66a842; }
+
+table.free_people td.icon-table:before { content: "\f0b2"; }
+table.free_people td { color:#f95f64; }
+table.free_people th, table.free_people td .teal_btn span { background-color:#f95f64; }
+
+table.french_connection td.icon-table:before { content: "\f0b3"; }
+table.french_connection td { color:#00b7f1; }
+table.french_connection th, table.french_connection td .teal_btn span { background-color:#00b7f1; }
+
+table.garnet_hill td.icon-table:before { content: "\f0b5"; }
+table.garnet_hill td { color:#dabd03; }
+table.garnet_hill th, table.garnet_hill td .teal_btn span { background-color:#dabd03; }
+
+table.ily_couture td.icon-table:before { content: "\f0b6"; }
+table.ily_couture td { color:#58d7c3; }
+table.ily_couture th, table.ily_couture td .teal_btn span { background-color:#58d7c3; }
+
+table.jcp td.icon-table:before { content: "\f0b7"; }
+table.jcp td { color:#d80f8c; }
+table.jcp th, table.jcp td .teal_btn span { background-color:#d80f8c; }
+
+table.juicy_couture td.icon-table:before { content: "\f0b8"; }
+table.juicy_couture td { color:#8f278f; }
+table.juicy_couture th, table.juicy_couture td .teal_btn span { background-color:#8f278f; }
+
+table.kate_spade td.icon-table:before { content: "\f0b9"; }
+table.kate_spade td { color:#39b54a; }
+table.kate_spade th, table.kate_spade td .teal_btn span { background-color:#39b54a; }
+
+table.kohls td.icon-table:before { content: "\f0ba"; }
+table.kohls td { color:#66a842; }
+table.kohls th, table.kohls td .teal_btn span { background-color:#66a842; }
+
+table.lilly_pulitzer td.icon-table:before { content: "\f0bb"; }
+table.lilly_pulitzer td { color:#f95f64; }
+table.lilly_pulitzer th, table.lilly_pulitzer td .teal_btn span { background-color:#f95f64; }
+
+table.limited td.icon-table:before { content: "\f0bc"; }
+table.limited td { color:#00b7f1; }
+table.limited th, table.limited td .teal_btn span { background-color:#00b7f1; }
+
+table.loren_hope td.icon-table:before { content: "\f0be"; }
+table.loren_hope td { color:#dabd03; }
+table.loren_hope th, table.loren_hope td .teal_btn span { background-color:#dabd03; }
+
+table.lululemon td.icon-table:before { content: "\f0c0"; }
+table.lululemon td { color:#58d7c3; }
+table.lululemon th, table.lululemon td .teal_btn span { background-color:#58d7c3; }
+
+table.lulus td.icon-table:before { content: "\f0c1"; }
+table.lulus td { color:#d80f8c; }
+table.lulus th, table.lulus td .teal_btn span { background-color:#d80f8c; }
+
+table.mango td.icon-table:before { content: "\f0c2"; }
+table.mango td { color:#8f278f; }
+table.mango th, table.mango td .teal_btn span { background-color:#8f278f; }
+
+table.nanette_lepore td.icon-table:before { content: "\f0c3"; }
+table.nanette_lepore td { color:#39b54a; }
+table.nanette_lepore th, table.nanette_lepore td .teal_btn span { background-color:#39b54a; }
+
+table.net_a_porter td.icon-table:before { content: "\f0c4"; }
+table.net_a_porter td { color:#66a842; }
+table.net_a_porter th, table.net_a_porter td .teal_btn span { background-color:#66a842; }
+
+table.nine_west td.icon-table:before { content: "\f0c5"; }
+table.nine_west td { color:#f95f64; }
+table.nine_west th, table.nine_west td .teal_btn span { background-color:#f95f64; }
+
+table.nm_cusp td.icon-table:before { content: "\f0c6"; }
+table.nm_cusp td { color:#00b7f1; }
+table.nm_cusp th, table.nm_cusp td .teal_btn span { background-color:#00b7f1; }
+
+table.nm_lastcall td.icon-table:before { content: "\f0c7"; }
+table.nm_lastcall td { color:#dabd03; }
+table.nm_lastcall th, table.nm_lastcall td .teal_btn span { background-color:#dabd03; }
+
+table.nordstrom_rack td.icon-table:before { content: "\f0c8"; }
+table.nordstrom_rack td { color:#58d7c3; }
+table.nordstrom_rack th, table.nordstrom_rack td .teal_btn span { background-color:#58d7c3; }
+
+table.outnet td.icon-table:before { content: "\f0ca"; }
+table.outnet td { color:#d80f8c; }
+table.outnet th, table.outnet td .teal_btn span { background-color:#d80f8c; }
+
+table.pacsun td.icon-table:before { content: "\f0cb"; }
+table.pacsun td { color:#8f278f; }
+table.pacsun th, table.pacsun td .teal_btn span { background-color:#8f278f; }
+
+table.quiksilver td.icon-table:before { content: "\f0cd"; }
+table.quiksilver td { color:#39b54a; }
+table.quiksilver th, table.quiksilver td .teal_btn span { background-color:#39b54a; }
+
+table.revolve td.icon-table:before { content: "\f0ce"; }
+table.revolve td { color:#66a842; }
+table.revolve th, table.revolve td .teal_btn span { background-color:#66a842; }
+
+table.roxy td.icon-table:before { content: "\f0d0"; }
+table.roxy td { color:#f95f64; }
+table.roxy th, table.roxy td .teal_btn span { background-color:#f95f64; }
+
+table.ruche td.icon-table:before { content: "\f0d1"; }
+table.ruche td { color:#00b7f1; }
+table.ruche th, table.ruche td .teal_btn span { background-color:#00b7f1; }
+
+table.saks_off_fifth td.icon-table:before { content: "\f0d2"; }
+table.saks_off_fifth td { color:#dabd03; }
+table.saks_off_fifth th, table.saks_off_fifth td .teal_btn span { background-color:#dabd03; }
+
+table.shabby_apple td.icon-table:before { content: "\f0d3"; }
+table.shabby_apple td { color:#58d7c3; }
+table.shabby_apple th, table.shabby_apple td .teal_btn span { background-color:#58d7c3; }
+
+table.simply_be td.icon-table:before { content: "\f0d4"; }
+table.simply_be td { color:#d80f8c; }
+table.simply_be th, table.simply_be td .teal_btn span { background-color:#d80f8c; }
+
+table.sole_society td.icon-table:before { content: "\f0d5"; }
+table.sole_society td { color:#8f278f; }
+table.sole_society th, table.sole_society td .teal_btn span { background-color:#8f278f; }
+
+table.sosie td.icon-table:before { content: "\f0d6"; }
+table.sosie td { color:#39b54a; }
+table.sosie th, table.sosie td .teal_btn span { background-color:#39b54a; }
+
+table.stella_and_dot td.icon-table:before { content: "\f0d7"; }
+table.stella_and_dot td { color:#66a842; }
+table.stella_and_dot th, table.stella_and_dot td .teal_btn span { background-color:#66a842; }
+
+table.steve_madden td.icon-table:before { content: "\f0d8"; }
+table.steve_madden td { color:#f95f64; }
+table.steve_madden th, table.steve_madden td .teal_btn span { background-color:#f95f64; }
+
+table.target td.icon-table:before { content: "\f0d9"; }
+table.target td { color:#00b7f1; }
+table.target th, table.target td .teal_btn span { background-color:#00b7f1; }
+
+table.tieks td.icon-table:before { content: "\f0da"; }
+table.tieks td { color:#dabd03; }
+table.tieks th, table.tieks td .teal_btn span { background-color:#dabd03; }
+
+table.tory_burch td.icon-table:before { content: "\f0db"; }
+table.tory_burch td { color:#58d7c3; }
+table.tory_burch th, table.tory_burch td .teal_btn span { background-color:#58d7c3; }
+
+table.ulta td.icon-table:before { content: "\f0dc"; }
+table.ulta td { color:#d80f8c; }
+table.ulta th, table.ulta td .teal_btn span { background-color:#d80f8c; }
+
+table.zara td.icon-table:before { content: "\f0dd"; }
+table.zara td { color:#8f278f; }
+table.zara th, table.zara td .teal_btn span { background-color:#8f278f; }
+
+table.shopbop td.icon-table:before { content: "\f0de"; }
+table.shopbop td { color:#39b54a; }
+table.shopbop th, table.shopbop td .teal_btn span { background-color:#39b54a; }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* TEAL BUTTON */     
+/* TEAL BUTTON */     
+/* TEAL BUTTON */   
+.teal_btn { margin-top:3px; }
+input.teal_btn { margin-top:0; }
+.teal_btn span, input.teal_btn {
+    background:#41d0bb; padding:4px 12px; border:#fff solid 2px; color:#fff; font-size:12.5px;
+    text-decoration:none; font-weight:600; font-family: 'Dosis', sans-serif !important; text-transform:uppercase; 
+	-moz-border-radius:15px; -webkit-border-radius:15px; -khtml-border-radius:15px; border-radius:15px; cursor:pointer;
+	-moz-box-shadow:1px 1px 2px rgba(0,0,0,0.3); -webkit-box-shadow:1px 1px 2px rgba(0,0,0,0.3); box-shadow:1px 1px 2px rgba(0,0,0,0.3); }
+.teal_btn span:hover, input.teal_btn:hover { background:#fff; color:#41d0bb; border:#41d0bb solid 2px; }
+.teal_btn.no_extras span, input.teal_btn.no_extras { border:none; -moz-box-shadow:none; -webkit-box-shadow:none; box-shadow:none; }
+.teal_btn.no_extras.following span, input.teal_btn.no_extras.following { background:#999; }
+.teal_btn.no_extras:hover span, input.teal_btn.no_extras:hover { background:#f33e44; color:#fff; }
+
+
+
+
+
+
+
+/******************************** TEXT STYLES ********************************/
+/******************************** TEXT STYLES ********************************/
+/******************************** TEXT STYLES ********************************/
+/******************************** TEXT STYLES ********************************/
+/* FONT */
+.display_light { font-family:'Dosis', 'Helvetica Neue', sans-serif !important;font-weight:100;}
+.display_book { font-family:'Dosis', 'Helvetica Neue', sans-serif !important;font-weight:400;}
+.display_bold { font-family:'Dosis', 'Helvetica Neue', sans-serif !important;font-weight:600;}
+.hint_italics { font-family:Georgia, "Times New Roman", Times, serif; font-size:11px; font-style:italic;}
+.section_label { font-family:Arial, Helvetica, sans-serif; font-size:10px; text-transform:uppercase; }
+.para { font-family:Helvetica, Arial, sans-serif; line-height:1.6; }
+
+/* SIZE */
+.xxlarge { font-size:65px;  }
+.xlarge { font-size:50px; }
+.larger { font-size:40px; }
+.large { font-size:35px; }
+.less_large { font-size:30px; }
+.more_medium { font-size:26px; }
+.medium_plus { font-size:23px; }
+.medium { font-size:20px; }
+.smallermedium { font-size:17px; }
+.small { font-size:14px; }
+.xsmall { font-size:12px; }
+.xxsmall { font-size:11px; }
+
+/* COLOR */
+.teal { color:#41d0bb; }
+.dark_blue { color:#2e3593; }
+.gray { color:#656565; }
+.lessgray { color:#838383; }
+.lightgray { color:#A5A5A5; }
+.lightergray { color:#c4c4c4; }
+.white { color:#fff; }
+.white_on_blue { color:#c1c3df; }
+.cyan { color:#00b7f1; }
+.black { color:#000; }
+
+/* MISC */
+.center_text { text-align:center; display:block; }
+.xmargin { margin:0 50px; }
+.hundred_percent { width:100%; }
+.strike_through { text-decoration:line-through; }
+
+/* CASE */
+.uppercase { text-transform:uppercase; }
+.lowercase { text-transform:lowercase; }
+
+/* TEXT WRAPS */
+.one_line { width:100%; overflow:hidden; text-overflow:ellipsis; display:block; white-space:nowrap; } /* elipsis */
+.two_line { max-height:2.8em !important; } /* needed for elipsis */
+
+/* LIST */
+ol { list-style-position:inside; }
+ol li { padding-top:8px; }
+
+/* TEXT LINK */
+.text_link { text-decoration:none; color:#19b79f!important; cursor:pointer; }
+.text_link:hover { color:#40b1a0; text-decoration:underline; }
+.under_link { border-bottom:1px #c4c4c4 solid; opacity:0.8; }
+.under_link:hover { opacity:1; }
+
+
+

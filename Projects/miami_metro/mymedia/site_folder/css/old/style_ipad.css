@@ -1,0 +1,136 @@
+@charset "UTF-8";
+/* CSS Document */
+
+
+
+
+
+/* HACK FOR IPAD BACKGROUND COLORS */
+/* HACK FOR IPAD BACKGROUND COLORS */
+/* HACK FOR IPAD BACKGROUND COLORS */
+#waypoints_wrapper{	width:100%; min-width:1100px; }
+#investors{	width:100%; min-width:1100px; }
+#blank_slate { width:100%; min-width:1100px;}
+
+
+
+
+
+
+
+/* BOOKMARKLET NAV BUTTON */
+/* BOOKMARKLET NAV BUTTON */
+/* BOOKMARKLET NAV BUTTON */
+.nav_bookmarklet { float:right; margin:14px 30px 0 0; }
+.nav_bookmarklet p.hint_italics { color:#999; float:right; margin:11px 19px 0 0; }
+.nav_bookmarklet img { float:right; }
+
+
+
+
+
+
+
+
+
+/* BOOKMARKLET NAV BUTTON */
+/* BOOKMARKLET NAV BUTTON */
+/* BOOKMARKLET NAV BUTTON */
+.nav_bookmarklet { float:right; margin:14px 30px 0 0; }
+.nav_bookmarklet p.hint_italics { color:#999; float:right; margin:11px 19px 0 0; }
+.nav_bookmarklet img { float:right; }
+
+
+
+
+
+
+
+
+/******************************** SHELF ********************************/
+/******************************** SHELF ********************************/
+/******************************** SHELF ********************************/
+/******************************** SHELF ********************************/
+#shelf_page .white_tag { 
+	margin:0 auto; position: relative; z-index:50; cursor:default; 
+    background: rgba(255,255,255,0.8);
+    color:#999; display:block; float:left; padding:8px 18px; 
+	border-left:#c4c4c4 solid 1px; border-right:#c4c4c4 solid 1px; border-bottom:#c4c4c4 solid 1px;
+    font-family:'Dosis', sans-serif; font-weight:400; font-size:15px; text-transform:uppercase; text-decoration:none;
+	-moz-box-shadow:8px 0 8px -8px rgba(0,0,0,0.5), -8px 0 8px -8px rgba(0,0,0,0.5), 0 8px 8px -8px rgba(0,0,0,0.5);
+	-webkit-box-shadow:8px 0 8px -8px rgba(0,0,0,0.5), -8px 0 8px -8px rgba(0,0,0,0.5), 0 8px 8px -8px rgba(0,0,0,0.5);
+	box-shadow:8px 0 8px -8px rgba(0,0,0,0.5), -8px 0 8px -8px rgba(0,0,0,0.5), 0 8px 8px -8px rgba(0,0,0,0.5);  }
+
+
+
+/* account section divider tag */
+/* account section divider tag */
+/* account section divider tag */
+#account_sec .gray_tag { width:100%; }
+#account_sec .gray_tag_bg { width:100%; text-align:center; }
+#account_sec .account_divider span {
+	color:#fff; padding:10px 20px; background-color:#d5d5d5; margin:0 auto; display:inline-block; }
+
+/* TRASH/COMPARE BUTTONS */
+/* TRASH/COMPARE BUTTONS */
+/* TRASH/COMPARE BUTTONS */
+
+#shelf_page .caroufredsel_wrapper ul p.gray.small, 
+#shelf_page .caroufredsel_wrapper ul p.strikethrough { display:block; }
+#shelf_page .caroufredsel_wrapper ul p.strikethrough { text-decoration:line-through; float:left; }
+#shelf_page .caroufredsel_wrapper ul p span.sale { color:#f03337; font-weight:600; }
+
+
+#shelf_page .i_btn_row { width:100px; top:31px; z-index:100; position:absolute; margin:0 0 0; display:none; }
+#shelf_page a {text-decoration:none!important; }
+#shelf_page .i_btn_row p {margin:0 0 9px; height:26px; }
+#shelf_page .i_btn_row span.i_overlay_btn  { 
+	height:26px; margin:2px 0 0; padding:3px 6px 3px; 
+	background:rgba(255, 255, 255, .9);
+	color:#27d1b7; font-size:17px; font-family:'Dosis', 'Helvetica Neue', sans-serif !important;font-weight: 400; }
+#shelf_page .i_btn_row span.i_overlay_btn:hover  { background:#41d0bb; color:#fff; }	
+#shelf_page .i_btn_row span.delete_item { 
+	display:block; background:url(../images/page_graphics/shelf/trash_icon.png) no-repeat top; width:26px; height:29px; margin-top:-2px; }
+#shelf_page .i_btn_row span.delete_item:hover { background-position:bottom; }
+#shelf_page .caroufredsel_wrapper ul p.display_book { padding-top:3px; clear:both; padding-top:3px; position:relative; }
+#shelf_page li .minimize_btn { 
+	background:url(../images/page_graphics/shelf/minimize_btn.png) no-repeat top; 
+	width:50px; height:45px; display:block; 
+	margin-left:100px; top:28px; position:absolute; cursor:pointer; display:none; }
+#shelf_page li .minimize_btn:hover { background-position:bottom; }
+#shelf_page .btn_trash { background-position:left bottom; }
+
+
+
+
+
+/******************************** BLANK SLATE ********************************/
+/******************************** BLANK SLATE ********************************/
+/******************************** BLANK SLATE ********************************/
+#blank_slate .ipad_bookmarklet h1 { padding-top:15px; } 
+/* BLANK SLATE -- SHOP 2 PAGE */
+/* BLANK SLATE -- SHOP 2 PAGE */
+#blank_slate .page_content.shop_2 .left_column { float:left; margin:0 90px 0 45px;}
+#blank_slate .page_content.shop_2 .right_column { float:left; }
+#blank_slate .page_content.shop_2 .left_column .text_block { width:500px; }
+#blank_slate .page_content.shop_2 h1 { margin-top:15px; } 
+#blank_slate .page_content.shop_2 h2 { line-height:.7; margin-bottom:15px; }
+/* BLANK SLATE -- 2 COLUMN INSTRUCTIONS */
+/* BLANK SLATE -- 2 COLUMN INSTRUCTIONS */
+#blank_slate .content_row { width:1024px; }
+#blank_slate .content_row h2 { margin:0 0 15px; }
+#blank_slate .content_row .column { float:left; width:500px; margin-bottom:30px;}
+#blank_slate .content_row .column_third { float:left; width:300px; margin:0 60px 30px 0;}
+#blank_slate .content_row .column_third.red_headed_step {  margin:0 0 30px 0;}
+#blank_slate .content_row .column .content_block_left { float:left; padding-right:20px; }
+#blank_slate .content_row .column .content_block_left h2 { text-align:left; }
+#blank_slate .content_row .column .content_block_right { float:left; padding-left:55px; }
+#blank_slate .content_row .column .text_block { width:500px; }
+#blank_slate .content_row span.button_box { padding:0 5px; margin:0 5px; border:1px solid #fff; } 
+#blank_slate .content_row .copy_js { 
+	width:800px; margin:40px auto 123px; background:#fff; color:#ee4646; clear:both; padding:20px 30px;  
+	font-family:"Courier New", Courier, monospace; font-weight:bold; line-height:1.8; font-size:14px; text-wrap:normal;
+	-moz-border-radius:15px; -webkit-border-radius:15px; -khtml-border-radius:15px; border-radius:15px; 
+	-moz-box-shadow: inset 2px 2px 4px rgba(0,0,0,0.15); 
+	-webkit-box-shadow: inset 2px 2px 4px rgba(0,0,0,0.15); 
+	box-shadow:inset 2px 2px 4px rgba(0,0,0,0.15); }
