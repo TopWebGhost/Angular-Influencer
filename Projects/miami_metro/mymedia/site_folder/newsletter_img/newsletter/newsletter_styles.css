@@ -1,0 +1,122 @@
+
+/************ CLIENT SPECIFIC STYLES ************/
+/************ CLIENT SPECIFIC STYLES ************/
+#outlook a { padding:0; } /* Force Outlook to provide a "view in browser" button. */
+body { width:100% !important; } 
+.ReadMsgBody{ width:100%; } 
+.ExternalClass{ width:100%; } /* Force Hotmail to display emails at full width */
+body { -webkit-text-size-adjust:none; } /* Prevent Webkit platforms from changing default text sizes. */
+
+
+/************ RESET STYLES ************/
+/************ RESET STYLES ************/
+body { margin:0; padding:0; }
+img { border:0; height:auto; line-height:100%; outline:none; text-decoration:none; }
+table td { border-collapse:collapse; }
+#backgroundTable { height:100% !important; margin:0; padding:0; width:100% !important; }
+
+
+/************ STANDARD STYLING : COMMON PAGE ELEMENTS *************/
+/************ STANDARD STYLING : COMMON PAGE ELEMENTS *************/
+body, #backgroundTable { background-color:#fff; font-family:Georgia, "Times New Roman", Times, serif; font-style:italic; font-weight:normal; }
+#templateContainer { }
+
+
+/************ PREHEADER : SHORT AREA AT TOP OF PAGE; *************/
+/************ PREHEADER : SHORT AREA AT TOP OF PAGE; *************/
+#templatePreheader { background-color:#fff; }
+.preheaderContent div { color:#acacac; font-family:Georgia, "Times New Roman", Times, serif; font-style:italic; font-size:10px; line-height:100%; text-align:center; }  
+
+
+/************ LINKS *************/
+/************ LINKS *************/
+.headerContent a:link, 
+.headerContent a:visited, /* Yahoo! Mail Override */ 
+.headerContent a .yshortcuts /* Yahoo! Mail Override */ { color:#58D7C3; font-weight:normal; text-decoration:underline; }
+.bodyContent div a:link, 
+.bodyContent div a:visited, /* Yahoo! Mail Override */ 
+.bodyContent div a .yshortcuts, /* Yahoo! Mail Override */
+.bodyContent a:link, 
+.bodyContent a:visited, /* Yahoo! Mail Override */ 
+.bodyContent a .yshortcuts /* Yahoo! Mail Override */  { color:#58D7C3; font-weight:normal; text-decoration:underline; }
+.preheaderContent div a:link, 
+.preheaderContent div a:visited, /* Yahoo! Mail Override */ 
+.preheaderContent div a .yshortcuts /* Yahoo! Mail Override */  { color:#58D7C3; font-weight:normal; text-decoration:none; line-height:1.8; font-size:11px; }
+.footerContent div a:link, 
+.footerContent div a:visited, /* Yahoo! Mail Override */ 
+.footerContent div a .yshortcuts /* Yahoo! Mail Override */ { color:#58D7C3; font-weight:normal; text-decoration:underline; }   
+
+
+/************ TEXT *************/
+/************ TEXT *************/
+h2, .h2 { 
+    color:#000; display:block; font-family:Arial; font-size:14px; font-weight:normal; line-height:100%; margin-top:0; margin-right:0; margin-bottom:10px; margin-left:0; 
+    text-align:center; font-style:normal; height:40px; text-transform:uppercase; letter-spacing:.2em; font-weight:bold; }
+.uppercase_callout_text { font-family:Arial; font-size:13px; text-transform:uppercase; font-weight:normal; font-style:normal; color:#7f7f7f; letter-spacing:.1em; text-align:center; }
+.uppercase_callout_text.larger { font-size: 16px; color:#000; }
+
+/************ HEADER *************/
+/************ HEADER *************/
+#templateHeader { background-color:#FFFFFF; border-bottom:0; }
+.headerContent { 
+    color:#202020; font-family:Arial; font-size:34px; font-weight:bold; line-height:100%; padding:0; text-align:center; vertical-align:middle;
+    /*border-bottom-width:1px; border-bottom-style:solid;  border-bottom-color:#e2e2e2;*/ }
+#headerImage { height:auto; max-width:700px; }
+
+
+/************ PAGE BODY *************/
+/************ PAGE BODY *************/
+#templateContainer, .bodyContent { background-color:#FFFFFF; }
+.bodyContent div { color:#8f8f8f; font-size:14px; line-height:1.8; text-align:center; }
+.bodyContent img { display:inline; height:auto; }
+
+/************ FOOTER *************/
+/************ FOOTER *************/
+#templateFooter { background-color:#FFFFFF; border-top:0; }
+.footerContent div { color:#707070; font-family:Arial; font-size:12px; line-height:125%; text-align:left; }
+.footerContent img { display:inline; }
+#social { border-top-width:1px; border-top-style:solid; border-top-color:#e2e2e2; border-bottom-width:1px; border-bottom-style:solid; border-bottom-color:#e2e2e2; }
+#social div { text-align:center; }
+#utility { background-color:#FFFFFF; border:0; }
+#utility div { text-align:center; }
+
+/************ SALE ALERT CONTENT *************/
+/************ SALE ALERT CONTENT *************/
+.intro_text { border-bottom-color:#e2e2e2; border-bottom-style:solid; border-bottom-width:1px; }
+.section_label { font-family:Arial; color:#8F8F8F; font-size:11px; text-align:left; text-transform:uppercase; font-style:normal; width:111px; height:50px; }
+.highlight_stats { 
+    font-family:Georgia, "Times New Roman", Times, serif; font-style:italic; font-weight:normal; color:#8f8f8f; font-size:36px; text-align:left; font-style:normal; width:300px; 
+    height:50px; letter-spacing:-0.05em; text-transform:lowercase; }
+.highlight_stats.sale { color:#58d7c3; }
+.item_image {  
+    max-width:250px; margin-right:20px; /*border-top-width:1px; border-top-style:solid; border-top-color:#e2e2e2; border-bottom-width:1px; border-bottom-style:solid; border-bottom-color:#e2e2e2; 
+    border-left-width:1px; border-left-style:solid;  border-left-color:#e2e2e2; border-right-width:1px; border-right-style:solid;  border-right-color:#e2e2e2;*/  }
+.item_info_table { margin-top:75px; }
+.sale_content_block>td>table { border-bottom-width:1px; border-bottom-style:solid; border-bottom-color:#e2e2e2; }
+.sale_content_block.first_child>td { border-top-width:1px; border-top-style:solid; border-top-color:#e2e2e2; }
+.bodyContent a.sale_links { color:#8f8f8f; font-weight:normal; text-decoration:none; line-height:1.8; font-size:13px; position:relative; top:-4px; }
+.bodyContent td.sale_link_row { border-top-width:1px; border-top-style:solid; border-top-color:#e2e2e2; height:60px; vertical-align:middle;}
+.bodyContent td.sale_link {  border-right-width:1px; border-right-style:solid; border-right-color:#e2e2e2; height:30px;}
+.bodyContent .sale_link img { margin-left:15px; }
+.bodyContent .sale_link img.first_child { margin-left:0; }
+.bodyContent .sale_link.last_child { border-right-width:none; border-right-style:none; border-right-color:none; }
+.hint_text { font-size:11px; color:#8f8f8f; height:50px;}
+
+
+/************ WELCOME EMAIL *************/
+/************ WELCOME EMAIL *************/
+.black_callout { 
+    background:#000; color:#b5b5b5; height:172px; text-align:center; font-family:Arial; font-style:normal; font-size:12px; line-height:1.9; font-weight:normal; 
+    letter-spacing:.1em; text-transform:uppercase; }
+.black_callout a { font-family:Georgia, "Times New Roman", Times, serif; font-style:italic; font-weight:normal; font-size:14px; text-transform:lowercase; }
+.divider_numeral { height:150px;}
+
+/************ CURATED EMAIL *************/
+/************ CURATED EMAIL *************/
+.collection_shelf {}
+.curated_item img { max-width:170px; }
+.collection_shelf_title { height:170px;}
+
+
+
+
