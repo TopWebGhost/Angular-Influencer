@@ -1,0 +1,97 @@
+<div class="dashboard_block blog_post_block" ng-class="{brand_relevant_highlight: item.highlight, facebook_block: facebook}" data-id="{{ item.id }}">
+    <a class="hoverable_area clearfix">
+
+        <!-- <div class="overlay_btns clearfix" ng-if="false && header">
+            <div class="overlay_button more_info" blogger-more-info ng-click="show(item.user.details_url)" ng-if="item.user.details_url">
+                <span class="icon-misc_magnify2"></span>
+                <span class="overlay_btn_txt">View Profile</span>
+            </div>
+            <div class="follow_prof overlay_button" ng-show="item.user.can_favorite&&bookmarks" ng-if="!trial" ng-click="openFavoritePopup({influencer: item.user.id})">
+                <span class="unfollow icon-misc_value_star" ng-class="{'hidden': !item.user.is_favoriting}"></span>
+                <span class="follow icon-misc_value_star2" ng-class="{'hidden': item.user.is_favoriting}"></span>
+                <span class="overlay_btn_txt">Tag</span>
+            </div>
+            <div class="overlay_button" ng-click="message(item.user.id)" ng-if="debug" ng-show="item.user.can_favorite" >
+                <span class="follow icon-social_envelope6"></span>
+                <span class="overlay_btn_txt">Message or Invite</span>
+            </div>
+        </div> -->
+
+
+        <div class="view_details_btn" ng-if="header">
+            <div class="outer-center">
+                <div class="inner-center">
+                    <div class="icon-misc_magnify2"></div>
+                    <div class="btn_txt">{{ item.user.blog_name }}</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="hoverable_contents clearfix" blogger-more-info ng-click="$event.stopPropagation();postRedirect() && show(user.details_url)">
+            <div class="social_label" ng-if="showSocialLabel"><div ng-class="{'icon-social_facebook2': facebook, 'icon-letter_quotes2': !facebook}"></div></div>
+            <div class="dash_row clearfix universal_block_header" ng-if="header">
+                <div class="profile_pic">
+                    <!-- <img class="imgfit" keep-aspect ng-src="{{item.user.pic}}" /> -->
+                    <div style="background-image: url({{item.user.pic}});" ></div>
+                </div>
+                <div class="profile_info">
+                    <span ng-show="item.user.user_name" class="name">{{item.user.user_name}}</span> &nbsp;
+                    <span ng-show="item.user.user_name && item.user.blog_name" class="of_text">of</span>
+                    <br ng-show="item.user.user_name && item.user.blog_name"/>
+                    <span ng-show="item.user.blog_name" class="site">{{item.user.blog_name}}</span>
+                </div>
+            </div>
+            <div class="dash_row clearfix universal_block_header" ng-if="showSocials">
+                <div class="follower_row">
+                    <div class="icon_block" ng-if="item.user.Twitter_fol"><span class="icon-social_twitter"></span><span class="count"> {{item.user.Twitter_fol}}</span></div>
+                    <div class="icon_block" ng-if="item.user.Instagram_fol"><span class="icon-social_instagram2"></span><span class="count"> {{item.user.Instagram_fol}}</span></div>
+                    <div class="icon_block" ng-if="item.user.Facebook_fol"><span class="icon-social_facebook"></span><span class="count">{{item.user.Facebook_fol}}</span></div>
+                    <div class="icon_block" ng-if="item.user.Pinterest_fol"><span class="icon-social_pinterest"></span><span class="count">{{item.user.Pinterest_fol}}</span></div>
+                    <div class="icon_block" ng-if="item.user.Youtube_fol"><span class="icon-social_youtube"></span><span class="count">{{item.user.Youtube_fol}}</span></div>
+                    <div class="icon_block" ng-if="item.user.coms"><span class="icon-letter_quotes"></span><span class="count"> {{item.user.coms|float}}</span></div>
+                </div>
+            </div>
+            <div class="dash_row clearfix universal_block_header" style="display: block;" ng-if="showButtons">
+                <div class="clearfix btn_row" blogger-buttons></div>
+            </div>
+            <div class="post_content">
+                <div class="post_title" ng-if="item.title" ng-bind-html="item.title_safe"></div>
+                <div class="post_date" ng-if="item.create_date">{{ item.create_date }}</div>
+                <div class="post_text" ng-bind-html="item.content_safe"></div>
+            </div>
+            <div class="post_pic">
+                <img ng-src="{{item.post_img}}" ng-if="item.post_img" imageonload notify-on-load="refreshSalvattore" />
+            </div>
+        </div>
+
+    </a>
+
+    <div class="sm_post_images" ng-if="item.products">
+        <a ng-repeat="product in item.products" class="bs_tooltip sm_post_img" href="{{product.url}}" target="_blank" data-placement="top" title="{{product.brand_name}}" style="width: 65px; height: 65px">
+            <img ng-src="{{ product.pic }}" class="imgfit" />
+        </a>
+    </div>
+    
+<!--     <div>
+    <div class="post_date" ng-if="item.create_date">Date: {{ item.create_date }}</div>
+    <div class="post_date" ng-if="item.comments_count">Comments: {{ item.comments_count }}</div>
+    <div class="post_date" ng-if="item.clicks_count">Clicks: {{ item.clicks_count }}</div>
+    <div class="post_date" ng-if="item.impressions_count">Impressions: {{ item.impressions_count }}</div>
+</div> -->
+
+    <!--div class="who_footer clearfix" blogger-more-info ng-click="show(item.user.details_url)">
+        <div class="pic_label">
+            <div class="circ_pic">
+                <img ng-src="{{ item.user.pic }}" />
+            </div>
+            <div class="bar_elem_txt dotdot">
+                <span class="blogger_name">{{ item.user.user_name }}</span>
+                <span ng-show="item.user.blog_name">
+                    <span class="of_txt">of</span>
+                    <span class="blog_name">{{ item.user.blog_name }}</span>
+                </span>
+            </div>
+        </div>
+    </div-->
+
+</div>

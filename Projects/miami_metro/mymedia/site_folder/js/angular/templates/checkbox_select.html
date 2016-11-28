@@ -1,0 +1,14 @@
+<div class="type_select wrap-dd-select" ng-class="{active: active}">
+    <input type="text" style="height:0;padding:0;margin:0;border:0;" />
+    <div class="selected">
+        <span ng-transclude></span>
+    </div>
+    <ul class="dropdown">
+        <li ng-repeat="option in options" class="dropdown-item cb_or_rb_wrap" ng-click="toggle(option)" ng-class="{disabled: option.disabled}">
+            <input type="checkbox" ng-checked="isSelected(option)" />
+            <label>
+                <span class="graphic plus_btn"></span><span ng-bind-html="option.text"></span>
+            </label>
+        </li>
+    </ul>
+</div>

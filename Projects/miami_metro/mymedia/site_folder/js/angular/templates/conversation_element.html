@@ -1,0 +1,112 @@
+<tr class="messages_container" ng-if="visible">
+    <td colspan="{{ visibleColumnsNumber() }}">
+        <div class="loading_message" ng-if="state == 'loading'">Loading conversations</div>
+        <div ng-if="state == 'loaded'" >
+
+            <!--<a class="square_bt teal_bt lg" ng-click="respond()" ng-show="!showReplyForm">Reply</a>-->
+            <div class="reply_row clearfix">
+                <a class="square_bt reply_lg_message_button" ng-click="setReplyFormVisible(true)" ng-hide="showReplyForm">Reply</a>
+                <div class="reply_title">Messages with {{who}}</div>
+                <a ng-if="oldCampaignLinksEnabled" class="square_bt teal_bt lg" ng-click="respond({with_link: true})">Reply With Campaign Link</a>
+                <a class="refresh_bt" ng-click="do_refresh()"><span class="icon-arrow_0_reload"></span></a>
+                <!-- <a class="refresh_bt" ng-click="do_refresh()">{{refresh_text}}</a> -->
+            </div>
+
+            <div class="message_block clearfix" ng-show="showReplyForm">
+                <form name="email_form" class="clearfix">
+                    <fieldset class="typical_form clearit">
+                        <!-- <input ng-model="subject" type="text" name="subject" required tabindex="1" /> -->
+                        <div>
+                            <div wysiwyg-editor ng-model="sendOptions.template" tabindex="2"></div>
+                            <!-- <div upload-panel></div> -->
+                            <div upload-panel class="message_handling_btn_row">
+                                <button class="normal_bt rounded md teal_bt" ng-class="{'inactive': uploader.isUploading || respondStatus == 'sending'}" ng-disabled="uploader.isUploading || respondStatus == 'sending'" ng-click="uploader.isUploading || respond({reload: reload})">
+                                    <span ng-hide="respondStatus == 'sending' || respondStatus == 'error'">Send Message</span>
+                                    <span ng-show="respondStatus == 'sending'">Sending...</span>
+                                    <span ng-show="respondStatus == 'error'">Error!</span>
+                                </button>
+
+                                <button class="normal_bt rounded md teal_bt inactive" style="float:right;" ng-click="setReplyFormVisible(false)">Cancel</button>
+                                <button class="txt_link rale_3 darker_teal" ng-click="selectFile()" ng-if="uploader">Add Attachment</button>
+
+                                <!-- <button class="txt_link rale_3 darker_teal"  ng-class="{'inactive': uploader.isUploading }" ng-disabled="{{ uploader.isUploading }}" ng-click="uploader.isUploading || send({sendMode: 'dev_test'})" ng-show="context.isSuperuser">Send DEV Test Email</button> -->
+
+                                <button ng-hide="hideSendTest" class="txt_link rale_3 darker_teal" ng-class="{'inactive': uploader.isUploading || respondStatus == 'sending'}" ng-disabled="uploader.isUploading || respondStatus == 'sending'" ng-click="uploader.isUploading || respond({sendMode: 'test'})">Send Test Email</button>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+
+            <div class="message_block" ng-repeat="msg in data" ng-if="msg.type == 1">
+                <div class="white_wrap flex_sect clearfix">
+                    <div class="message_author flex_inner_sect">
+                        <div class="influence_info clearfix">
+                            <div class="influence_img" ng-if="msg.direction == 1 && brandLogo">
+                                <div class="generic_cover_img" bg-image="{{ brandLogo }}" style="height:33px;"></div>
+                            </div>
+                            <span class="name" ng-if="msg.direction == 1">You</span>
+                            <div class="influence_img" ng-if="msg.img">
+                                <!--<img ng-src="{{msg.img}}" height="33px">-->
+                                <div class="generic_cover_img" bg-image="{{ msg.img }}" style="height:33px;"></div>
+                            </div>
+                            <div class="name" ng-if="msg.direction == 2">{{msg.author}}</div>
+                        </div>
+                        <div class="form_divider w_10_10_pad_mag"></div>
+                        <div class="date influence_info" title="{{msg.ts|date:'short'}}">
+                            <div class="mess_inf_sub_titl">Date:</div> 
+                            <div class="mess_inf_sub_cont">{{msg.ts | date:'short'}}</div>
+                        </div>
+                        <div class="x_space x_10"></div>
+                        <!-- <div class="date" ng-if="msg.collection">Collection: {{msg.collection}}</div> -->
+                        <!-- <div class="date" ng-if="msg.campaign">Campaign: {{msg.campaign}}</div> -->
+                        <div class="date influence_info">
+                            <div class="mess_inf_sub_titl">Subject:</div> 
+                            <div class="mess_inf_sub_cont">{{msg.msg.subject}}</div>
+                        </div>
+                        <div class="x_space x_10"></div>
+                        <div class="form_divider w_10_0_pad_mag"></div>
+                        <div class="influence_info">
+                            <a ng-hide="msg.loadingEvents == 'loaded'" class="mini_action_btn" ng-click="loadEvents(msg)">
+                                <span ng-show="!msg.loadingEvents">View Opens &amp; Clicks</span>
+                                <span ng-show="msg.loadingEvents == 'loading'">Loading...</span>
+                                <span ng-show="msg.loadingEvents == 'error'">Error!</span>
+                            </a>
+                        </div>
+                        <div ng-show="msg.loadingEvents == 'loaded'" class="loaded_events" ng-repeat="event in msg.events">
+                            <span ng-if="event.type == 2"><span class="icon-misc_device_cursor"></span> Clicked link on {{event.ts|date:"short"}}</span>
+                            <span ng-if="event.type == 3"><span class="icon-misc_very_view"></span> Opened on {{event.ts|date:"short"}}</span>
+                            <span ng-if="event.type == 4"><span class="icon-letter_checkbox2"></span> Delivered on {{event.ts|date:"short"}}</span>
+                            <span ng-if="event.type == 5"><span class="icon-misc_very_view"></span> Marked as spam on {{event.ts|date:"short"}}</span>
+                            <span ng-if="event.type == 6"><span class="icon-arrow_0_curved_down"></span> Bounced on {{event.ts|date:"short"}}</span>
+                        </div>
+                    </div>
+                    <div class="actual_message flex_inner_sect" bind-html-compile="msg.msg.body">
+                    </div>
+
+                    <div class="attachments" ng-if="msg.attachments">
+                        <ul>
+                            <li ng-repeat="attachment in msg.attachments">
+                                <span class="icon-misc_magnify"></span>
+                                <a target="_blank" href="{{ attachment.path }}">{{ attachment.name }}</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="shadow_fade_bg"></div>    
+            </div>
+
+            <div class="btn_at_bottom">
+                <button class="normal_bt rounded teal_bt xl" ng-click="refresh({appendData: true})" ng-if="canLoadMore" ng-class="{'inactive': refreshing}" ng-disabled="refreshing">
+                    <span ng-hide="refreshing">Load More Messages</span>
+                    <span ng-show="refreshing">Loading...</span>
+                </button>
+            </div>
+
+<!--             <a class="square_bt teal_bt lg" ng-click="respond()">Reply</a>
+<a class="square_bt teal_bt lg" ng-click="do_refresh()">{{refresh_text}}</a> -->
+            <!--a class="square_bt teal_bt lg" ng-click="close()">Hide</a-->
+
+        </div>
+    </td>
+</tr>

@@ -1,0 +1,45 @@
+<div white-background-popup>
+    <div class="content_area_container px500 login_lb">
+        <h1 class="lb_title xxlarge login_title">Login</h1>
+        <!-- signin row -->
+        <form name="login_form">
+            <div class="sign_log_row" style="margin-bottom:15px;">
+                <fieldset class="typical_form small_field brand_sign_log_vertical">
+                    <div class="required">
+                        <input id="login_form_id_1" ng-model="lf1" name="email" placeholder="email@gmail.com" type="email" class="required req email"  ng-pattern="emailPattern" required />
+                    </div>
+                </fieldset>
+                <fieldset class="typical_form small_field brand_sign_log_vertical">
+                    <div class="required">
+                        <input id="login_form_id_2" ng-model="lf2" name="password" placeholder="password" type="password" class="required req" value="Some value"  required />
+                    </div>
+                </fieldset>
+                <fieldset class="typical_form center_text">
+                    <input id="login_form_submit_btn" type="submit" value="{{message}}" class="square_bt lg cyan_bt submit_button" style="margin:17px auto;" ng-click="login_form.$valid&&login()" ng-disabled="login_form.$invalid" ng-class="{disabled: login_form.$invalid}">
+                    <br />
+                </fieldset>
+            </div>
+            <div class="error_message_fieldset" style="clear:both;" ng-if="error">
+                <fieldset class="typical_form">
+                    <div>
+                        <label class="server_error" ng-bind-html="error"></label>
+                    </div>
+                </fieldset>
+            </div>
+        </form>
+        <div class="sign_log_row">
+            <div class="forgot_row">
+                <p class="serif_ital lessgray xxsmall center_text clear">
+                    <span><a href="#" class="txt_link gray launch-popup" data-popup-type="forgot_password">Forgot</a> &nbsp; your password?</span>
+                </p>
+            </div>
+        </div>
+        <!-- divider -->
+        <!--div class="sign_log_row">
+            <p class="serif_ital lessgray xxsmall center_text clear">
+                <span>If you have previously signed up using Facebook account please use 'Forgot your password' option above and enter email associated with that Facebook account. You will be able to login using your email and new password.</span>
+            </p>
+        </div-->
+    </div>
+</div>
+</div>

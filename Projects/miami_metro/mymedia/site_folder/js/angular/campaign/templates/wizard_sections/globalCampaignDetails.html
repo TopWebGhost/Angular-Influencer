@@ -1,0 +1,146 @@
+<div ng-controller="GlobalCampaignDetailsCtrl as vm">
+    <ng-form name="sectionForm" form-handler="globalCampaignDetails" novalidate>
+        <div class="a_form_group padding_40_all clearfix">
+            <div class="form_instruction main_instructions">It’s time to get started with your campaign! Be sure to fill in all of the details. Miss something or need to change it? No worries. You can revisit this page at any point in the campaign. We’re here to help. Get in touch with your account manager or simply click on the round help button in the lower right corner. We got you.<br/><span class="small_hint"></span></div>
+        </div>
+
+
+
+        <div class="form_divider w_30_0_pad_mag"></div>
+
+
+
+
+
+         <div class="a_form_group padding_40_all clearfix">
+            <div class="form_mid_title">Brand Details</div>
+            <div class="form_instruction">Are you running this campaign for your own brand? Or on behalf of the client? The details below need to reflect the information you wish to provide to the influencers.</div>
+
+
+            <div class="inner_section">
+                <fieldset class="typical_form third left">
+                    <label>Campaign Name : </label>
+                    <input ng-model="wizardCtrl.campaignData.title" type="name" required class="" placeholder="Campaign Name" name="campaignName">
+                    <span ng-show="sectionForm.campaignName.$error.required" class="pav_validation">Enter non-empty name</span>
+                </fieldset>
+                <fieldset class="typical_form third left">
+                    <label>Brand Name : </label>
+                    <input ng-model="wizardCtrl.campaignData.clientName" type="name" class="" placeholder="Client Name" name="clientName">
+                    <span ng-hide="true" class="pav_validation">Enter non-empty name</span>
+                </fieldset>
+                <fieldset class="typical_form third right">
+                    <label>Brand URL : </label>
+                    <input ng-model="wizardCtrl.campaignData.clientUrl" type="url" class="" placeholder="Client URL" name="clientUrl">
+                    <span ng-show="sectionForm.clientUrl.$error.url" class="pav_validation">Enter a valid URL</span>
+                </fieldset>
+            </div>
+        </div>
+            
+
+        <div class="form_divider w_0_30_pad_mag"></div>
+
+            
+        <div class="a_form_group padding_40_sides clearfix">
+            <div class="flex_row_steps">
+                <fieldset class="typical_form step_container halfer left">
+                    <div class="step_section">
+                        <div class="form_mid_title">Campaign Objectives</div>
+                        <div class="form_instruction">Let the influencers know what you’re trying to achieve through your campaign.</div>
+                        <div ng-model="wizardCtrl.campaignData.description" wysiwyg-editor tabindex="4"></div>
+                    </div>
+                    <div class="x_space x_30"></div>
+                </fieldset>
+                <fieldset class="typical_form step_container halfer right">
+                    <div class="step_section">
+                        <div class="form_mid_title">Company Information</div>
+                        <div class="form_instruction">Let the influencers know more about your company and information to convey to their readers.</div>
+                        <div ng-model="wizardCtrl.campaignData.whoShouldApply" wysiwyg-editor tabindex="5"></div>
+                    </div>
+                    <div class="x_space x_30"></div>
+                </fieldset>
+            </div>
+        </div>
+
+
+
+        <div class="form_divider"></div>
+
+
+
+        <div class="a_form_group padding_40_sides clearfix">
+            <div class="flex_row_steps">
+                <fieldset class="typical_form step_container halfer left">
+                    <div class="step_section">
+                        <div class="form_mid_title">@Mentions</div>
+                        <div class="form_instruction">Which @mention do you want the influencers to use on social media? If there’s more than one, please comma separate them.</div>
+                        <fieldset class="typical_form">
+                            <input type="text" ng-model="wizardCtrl.campaignData.mentionsRequired" placeholder="@mention1, @mention2" tabindex="6">
+                        </fieldset>
+                    </div>
+                </fieldset>
+
+
+                <fieldset class="typical_form step_container halfer right">
+                    <div class="step_section">
+                        <div class="form_mid_title">#Hashtags</div>
+                        <div class="form_instruction">Which branded hashtags do you want the influencers to use on social media? If there’s more than one, please comma separate them.</div>
+                        <fieldset class="typical_form">
+                            <input type="text" ng-model="wizardCtrl.campaignData.hashtagsRequired" placeholder="#hashtag1, #hashtag2" tabindex="7">
+                        </fieldset>
+                        <br/><br/>
+                    </div>
+                </fieldset>
+            </div>
+        </div>
+
+
+
+        <div class="form_divider w_30_0_pad_mag"></div>
+
+
+        <div class="a_form_group padding_40_all clearfix">
+            <div class="form_mid_title">Your Campaign Images</div>
+            <div class="form_instruction">As soon as you start outreach, prospective influencers will be able to check out your campaign overview page. These images will show up at the top of the page, similar to a social media profile.</div>
+            <div class="x_space x_30"></div>
+            <div class="flex_row_steps">
+                <fieldset class="typical_form step_container quarter left">
+                    <div class="step_section padding_40_right_only">
+                        <div class="form_caps_title">Your Logo</div>
+                        <!-- <div class="form_instruction form_instruct_less_margin">Do you want to include your logo? If so, upload it here, and it will replace the textual version of your brand's name.</div> -->
+                        <div class="picture_sub_section">
+                            <div profile-image-uploader ng-model="wizardCtrl.campaignData.profileImgUrl" upload-url="wizardCtrl.campaignData.profileImgUploadUrl" image-size="wizardCtrl.campaignData.profileImgSize" default-logo-text="wizardCtrl.campaignData.clientName" name="profileImage"></div>
+                        </div>
+                    </div>
+                    <div class="x_space x_30"></div>
+                </fieldset>
+                <fieldset class="typical_form step_container three_quarter right">
+                    <div class="step_section padding_40_sides">
+                        <div class="form_caps_title">Cover Image</div>
+                        <!-- <div class="form_instruction form_instruct_less_margin">You can replace the current background image with one of your branded image. A slight blur is applied to the iamge that will appear on the influencer's campaign overview page. So keep that in mind.</div> -->
+                        <div class="picture_sub_section">
+                            <div cover-image-uploader ng-model="wizardCtrl.campaignData.coverImgUrl" upload-url="wizardCtrl.campaignData.coverImgUploadUrl" upload-data="{campaign_id: wizardCtrl.campaignData.id}" image-size="wizardCtrl.campaignData.coverImgSize" ng-class="{'css_blur_img_only': !wizardCtrl.campaignData.info.coverImageBlurOff}" name="coverImage"></div>
+
+                            <div class="cb_or_rb_wrap" style="float:right; margin-right:105px; margin-top:-20px;">
+                                <input type="checkbox" name="cover_image_blur_off" id="cover_image_blur_off" ng-model="wizardCtrl.campaignData.info.coverImageBlurOff" ng-click="wizardCtrl.campaignData.info.coverImageBlurOff = !wizardCtrl.campaignData.info.coverImageBlurOff" ng-checked="wizardCtrl.campaignData.info.coverImageBlurOff" />
+                                <label for="cover_image_blur_off">
+                                    <span class="graphic plus_btn"></span>Turn Off Blur
+                                </label>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="x_space x_30"></div>
+                </fieldset>
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+        <div class="form_divider w_0_60_pad_mag"></div>
+    </ng-form>
+</div>

@@ -1,0 +1,67 @@
+<div>
+
+    <!-- KEYWORD SEARCH MODES -->
+    <div class="search_type_row" style="float: none!important; padding-bottom: 10px;">
+        <span class="search-type-button" ng-class="{toggled: !ms.isAndOrFilterOn()}" ng-click="switchKeywordMode(false)">Regular</span>
+        <span class="search-type-button" ng-class="{toggled: ms.isAndOrFilterOn()}" ng-click="switchKeywordMode(true)">Advanced</span>
+    </div>
+
+    <!-- <div ng-hide="kwExpr.isDone" style="padding-bottom: 10px; color: rgb(82, 238, 244);">Keyword expression editing mode turned on</div> -->
+
+    <!-- CONCATENATION TYPES -->
+    <div class="search_type_row" style="float: none!important;">
+        <span
+            class="search-type-button"
+            ng-class="{toggled: kwExpr.groupConcatenator() == concatenator}"
+            ng-repeat="concatenator in kwExpr.groupConcatenators track by $index"
+            ng-click="!isLoading() && kwExpr.setGroupConcatenator(concatenator)">{{ concatenator.text() }}
+        </span>
+    </div>
+
+    <div ng-repeat="(groupIndex, group) in kwExpr.groups track by $index" class="keyword_search_field" style="padding-top: 10px;">
+        <span ng-repeat="(kwIndex, kw) in group.keywords track by $index">
+
+            <fieldset class="typical_form search_keyword xsmall_field" style="padding-bottom: 10px;">
+
+                <div class="search_input keyword_expression" style="position: relative;">
+                    <input type="text"
+                        tabindex="{{ kw.index() }}"
+                        style="display: inline-block; width: 90%;"
+                        ng-model="kw.value"
+                        placeholder="Type in a keyword..."
+                        ng-readonly="isLoading()"
+                        ng-change="onChange({index: $index, last: $last, kw: kw, group: group})"
+                        ng-focus="ms.setType(ms.findType(kw.type))"
+                        ng-blur="onBlur({index: $index, last: $last, kw: kw, group: group})" />
+                    <span
+                        class="tog_arrow_up" style="display: inline-block; margin-left: 0;"
+                        dropdown-menu="ms.types"
+                        dropdown-model="kw.type"
+                        dropdown-disabled="isLoading()"
+                        dropdown-onchange="onTypeChange(selected)">
+                        <span class="icon-arrow_d_arr_4"></span>
+                    </span>
+                    <span ng-show="!$last" style="position: absolute; top: 17px; padding-left: 28px;" class="keyword_concatenator_label">OR</span>
+                </div>
+
+            </fieldset>
+
+        </span>
+
+        <span ng-show="!$last" class="group_concatenator_label">AND</span>
+
+    </div>
+
+    <div class="keyword_search_field" style="padding-top: 20px;">
+        <div class="or_btn" ng-click="!isLoading() && kwExpr.addGroup()">Add new set</div>
+    </div>
+
+    <div class="keyword_search_field" style="padding-top: 20px;">
+        <div class="or_btn" ng-click="!isLoading() && runSearch()">Run this search</div>
+    </div>
+
+    <div class="keyword_search_field" style="padding-top: 20px;" ng-hide="kwExpr.isComplete()">
+        <div class="or_btn" ng-click="!isLoading() && discard()">Discard</div>
+    </div>
+    
+</div>

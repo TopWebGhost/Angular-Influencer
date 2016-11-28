@@ -1,0 +1,107 @@
+
+<div fixed-white-background-popup>
+
+    <div ng-if="false">
+        <div class="content_area_container px800">
+            <h1 class="lb_title lg">Generate Influencer Approval Form</h1>
+            
+            <p class="instruction_txt">Compose a message to your client inviting them to view your influencer approval report.</p>
+            <div style="border-bottom:1px solid #c4c4c4; padding:15px 0;">
+                <button class="square_bt teal_bt sm" ng-click="setState('invite')"><span>Compose Email</span></button>                
+            </div>
+
+            <p class="instruction_txt small"><strong>Copy the link below</strong> and paste it into the email that you send to your client.</p>
+            <div class="badge_code_container clearfix" style="margin-top:20px;">
+                <div class="text_field_container">
+                    <textfield class="typical_form w_courier">
+                        <textarea cols="60" rows="3" class="badge_code" style="font-size:13px;">{{ clientLink }}</textarea>
+                        <button ng-show="approvalStatus < 1" class="square_bt gray_bt sm" style="margin-top: 20px;" ng-click="changeStatus(1)">Mark Sent</button>
+                    </textfield>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div ng-if="state == 'opened'">
+        <div class="content_area_container px800">
+            <h1 class="lb_title lg">Client Approval Invite</h1>
+            <p class="instruction_txt">Review the invite below, then click send. When your client is finished, you will receive a notification via email.</p>
+            <form ng-submit="inviteClient()" name="inviteForm">
+                <div class="form_row_20 clearfix">
+                    <fieldset class="typical_form third left">
+                        <input type="text" placeholder="Name" name="name" ng-model="messageData.name" required />
+                    </fieldset>
+                    <fieldset class="typical_form third left">    
+                        <input type="email" placeholder="Email" name="email" ng-model="messageData.email" required />
+                    </fieldset>
+                    <fieldset class="typical_form third">
+                        <input class="last_child" type="text" placeholder="Subject" name="subject" ng-model="messageData.subject" required />
+                    </fieldset>
+                </div>
+                <fieldset class="typical_form form_row_20">
+                    <!-- <textarea placeholder="Message" rows="5" style="resize: none;" name="message" ng-model="messageData.message" required></textarea> -->
+                    <div wysiwyg-editor ng-model="messageData.message"></div>
+                </fieldset>
+                <fieldset class="typical_form">
+                    <input type="submit" class="square_bt md teal_bt" ng-class="{'inactive': inviteForm.$invalid}" ng-disabled="inviteForm.$invalid" style="float: left; margin-right: 15px;" value="Send Email" />
+                    <!--a href="" ng-click="$event.preventDefault();setState('opened');" style="margin-left: 10px; padding-top: 10px; display: block; float: left;">view copyable link</a-->
+                </fieldset>
+            </form>
+        </div>
+    </div>
+    <div ng-if="state == 'loading'">
+        <div class="content_area_container px800 for_the_loader">
+            <div main-loader></div>
+        </div>
+    </div>
+    <div ng-if="state == 'invited'">   
+        <div class="content_area_container px800">
+            <h1 class="lb_title lg">Invitation is sent!</h1>
+            <p class="instruction_txt slightly_larger_instructions">As soon as your client submits the completed form, you'll receive an email notification.</p>
+        </div>
+    </div>
+
+    <div ng-if="state == 'error'">
+        <div class="content_area_container px800">
+            <h1 class="lb_title lg">Error!</h1>
+        </div>
+    </div>
+    <div ng-if="state == 'approve'">
+        <div class="content_area_container px800">
+            <h1 class="lb_title lg">Submit</h1>
+            <div class="instruction_txt slightly_larger_instructions clearfix" style="border-bottom:1px solid #c4c4c4;">
+                <div ng-repeat="status in countStats.list" class="approval_status">
+                    <div class="approval_status_text"><span>{{ status.text }}:</span></div>
+                    <div class="approval_status_count"><span>{{ status.count }}</span></div>
+                </div>
+            </div>
+            <p class="instruction_txt slightly_larger_instructions">Are you ready to submit this list as your final selections? After clicking Submit, an email will be automatically sent to your account manager, so that they can proceed to outreach.</p>
+            <fieldset class="typical_form lb_instruction_row_and_btn">
+                <button class="lb_mini_floated square_bt lg teal_bt" ng-click="approve()"><span>Submit</span></button>
+                <!--<span class="lb_mini_floated floated_lb_txt">or</span>
+                <a class="lb_mini_floated floated_lb_txt txt_link darker_teal" href="" ng-click="$event.preventDefault();saveTmp();">Save edits without submitting</a>-->
+            </fieldset>
+        </div>
+    </div>
+    <div ng-if="state == 'approved'">
+        <div class="content_area_container px800">
+            <h1 class="lb_title lg">Thanks!</h1>
+            <p class="instruction_txt larger_instructions">{{ userFirstName }} will be notified with your selections.</p>
+            <p class="instruction_txt slightly_larger_instructions">Your YES's and NO's can always be viewed on this page at any time during your campaign.</p>
+            <p ng-if="countStats.pendingCount > 0" class="instruction_txt slightly_larger_instructions">IMPORTANT : you still have {{ countStats.pendingCount }} influencers who you have not edited, so feel free to return to your Approval Form link at any time to finish your selection.
+            </p>
+        </div>
+    </div>
+    <div ng-if="state == 'moreEdits'">  
+        <div class="content_area_container px800">
+            <h1 class="lb_title lg" style="padding-bottom: 25px;">Do you want to make more edits?</h1>
+            <div style="padding-bottom: 30px;">
+                <p>You've already submitted this form... do you want to make more edits to it. If so, an email will be sent to your person letting them know to hold off on outreach until you resubmit.</p>
+            </div>
+            <fieldset class="typical_form">
+                <button class="square_bt lg teal_bt" style="float: left; margin-right: 15px;" ng-click="changeStatus(1)"><span>Start Editing</span></button>
+                <span style="display: block; float: left; padding-top: 10px;">or</span>
+                <a href="" ng-click="$event.preventDefault();close();" style="margin-left: 10px; padding-top: 10px; display: block; float: left;">Cancel</a>
+            </fieldset>
+        </div>
+    </div>
+</div>

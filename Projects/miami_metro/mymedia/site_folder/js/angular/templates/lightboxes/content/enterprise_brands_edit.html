@@ -1,0 +1,46 @@
+<div generic-popup>
+    <div class="content_area_container px900 clearfix enterprise_add_brand">
+        <div ng-if="state == 'refreshing'">
+            <h1 class="lb_title lg">Refreshing page</h1>
+		</div>
+        <div ng-if="state == 'saving'">
+            <h1 class="lb_title lg">Saving</h1>
+		</div>
+        <div ng-if="state == 'success'">
+            <h1 class="lb_title lg">Success</h1>
+		</div>
+        <div ng-if="state == 'opened'">
+            <h1 class="lb_title lg">Edit Your Brands</h1>
+	        <p class="instruction_txt">You can add and delete brands here.  Your monthly spend will be adjusted accordingly.  An additional charge of $100 will be made for each new brand.</p>
+
+	        <div class="floated_side first_child">
+		        <div class="small_title">Add New Brand</div>
+		        <fieldset class="typical_form form_row_30 smaller_field">
+					<label>Brand Url</label>
+					<div match-brand="{{matchBrandUrl}}" can-set-own></div>
+				</fieldset>
+				<fieldset class="typical_form form_row_30 smaller_field" ng-if="show_name">
+					<label>Brand Name</label>
+					<input type="text" ng-value="brandName()" ng-change="changeBrandName(brand_name_raw)" ng-model="brand_name_raw">
+				</fieldset>
+                <fieldset class="typical_form form_row_30 smaller_field" ng-if="!show_name && brand_name">
+                    <label>Brand Name: {{brand_name}}</label>
+                </fieldset>
+				<a href="#" class="square_bt teal_bt md" ng-class="{disabled: !brand_url || !brand_name}" ng-click="brand_url&&brand_name&&save()">Add Brand</a>
+                <!--div style="font-size: 10px">Additional charge of $100 will be made when adding new brand.</div-->
+		    </div>
+		    <div class="floated_side">
+		        <div class="small_title">Current Brands</div>
+		        <div class="brand_list">
+		        	<div class="brand_row" ng-repeat="brand in brands track by $index">
+		        		<span class="brand_name">{{brand}}</span><span class="icon-letter_x05" ng-click="remove(brand)"></span>
+		        	</div>
+		        </div>
+		    </div>
+	        <!--a href="#" class="square_bt teal_bt md">Add your fashion blog</a-->
+        </div>
+    </div>
+</div>
+
+
+

@@ -1,0 +1,96 @@
+<div white-background-popup>
+    <div class="content_area_container px600" style="width: 1200px!important;">
+
+        <div ng-if="state == 'add_report_error'">
+            <h1 class="lb_title lg">{{ errorMessage }}</h1>
+        </div>
+
+        <div ng-if="state == 'display_message'">
+            <h1 class="lb_title lg">{{ message_text }}</h1>
+        </div>
+
+        <div ng-if="state == 'loading'">
+            <div main-loader></div>
+        </div>
+
+        <div ng-if="state == 'after_report_added'">
+            <h1 class="lb_title lg">{{ afterReportAddedText }}</h1>
+            <a href="/">Go to the Main Search</a>
+        </div>
+
+        <div ng-if="state == 'add_report'">
+            <div class="report-edit-content">
+                <div class="report-wizard">
+                  <accordion close-others="oneAtATime">
+
+                    <accordion-group is-open="status[0]['is_open']" is-disabled="status[0]['can_edit'] == false" ng-class="{ 'current-step': current_step == 0, 'completed-step': status[0]['is_completed'] }">
+                        <accordion-heading>
+                            <div class="wizard-head-wrapper" ng-click="moveStep(0)">
+                                <span class="step-number">1</span>
+                                <span ng-show="reportData.name && !status[0]['is_open']">{{ reportData.name }}</span>
+                                <span ng-hide="reportData.name && !status[0]['is_open']">Name Your ROI-Prediction Report</span>
+                            </div>
+                        </accordion-heading>
+                        <p>Select a name for your report. This is not the name that will show up on the report you download. It's for your internal use only.</p>
+                        <form name="forms.form_step1" ng-submit="submitStep1()">
+                            <fieldset class="typical_form lighter_field quarter" style="width: 300px!important; float: left!important; margin-right: 15px!important;">
+                                <input name="report_name" ng-model="reportData.name" type="name" required class="ng-pristine ng-invalid ng-invalid-required" placeholder="Report Name" style="width: 100%!important;">
+                            </fieldset>
+                            <fieldset class="typical_form lighter_field quarter" style="margin-right: 15px!important;">
+                                <button type="submit" class="square_bt md teal_bt">Save</button>
+                            </fieldset>
+                        </form>
+                    </accordion-group>
+
+                    <accordion-group is-open="status[1]['is_open']" is-disabled="status[1]['can_edit'] == false" ng-class="{ 'current-step': current_step == 1, 'completed-step': status[1]['is_completed'] }">
+                        <accordion-heading>
+                            <div class="wizard-head-wrapper" ng-click="moveStep(1)">
+                                <span class="step-number">2</span>
+                                Link to a Post-Collection
+                            </div>
+                        </accordion-heading>
+                        <p>ROI prediction reports are based on historical post data. To run the most accurate report possible, we have you bookmark the actual posts that you want analyzed. Then we'll run the report over the influencers as well as their specific posts so that you have a more accurate idea of what a post with them would generate in terms of ROI. You can do this one of two ways.</p>
+                        <form name="forms.form_step2" ng-submit="submitStep2()">
+
+                            <ul style="height: 225px;">
+
+                                <li style="float: left; width: 55%; margin-right: 60px; padding-right: 60px;" class="vertical-line">
+                                    <h5 style="font-weight: 700;">1. If you have not created a list of posts:</h5>
+                                    <p>You can name your Post collection here. Then go back to the Search page, perform a search, and bookmark posts from the blog post page.</p>
+
+                                    <fieldset class="typical_form lighter_field quarter" style="width: 300px!important; float: left!important; margin-right: 15px!important;">
+                                        <input name="collection_name" ng-model="reportData.newCollectionName" type="name" required class="ng-pristine ng-invalid ng-invalid-required" placeholder="Post Collection Name" style="width: 100%!important;">
+                                    </fieldset>
+                                    <fieldset class="typical_form lighter_field quarter" style="margin-right: 15px!important;">
+                                        <button type="submit" class="square_bt md teal_bt">Save & Open Search</button>
+                                    </fieldset>
+                                </li>
+
+                                <li style="float: left; width: 35%;">
+                                    <h5 style="font-weight: 700;">2. If you already have a collection of posts:</h5>
+                                    <p>Select it from the dropdown of collections below.</p>
+
+                                    <fieldset class="typical_form halfer xsmall_field lighter_field" style="width: 65%; float: left!important; margin-right: 15px;">
+                                        <div class="post_collection_select"
+                                            dropdown-select="reportData.collections"
+                                            dropdown-model="reportData.selectedCollection"
+                                            dropdown-model-object="reportData"
+                                            dropdown-onchange="reportData.updateCollection()">
+                                        </div>
+                                    </fieldset>
+                                    <fieldset class="typical_form lighter_field quarter" style="width: 22%!important; margin-right: 15px!important;">
+                                        <button type="button" ng-click="submitStep2({selected: true})" class="square_bt xs teal_bt">Select</button>
+                                    </fieldset>
+                                </li>
+
+                            </ul>
+                        </form>
+                    </accordion-group>
+
+
+                </accordion>
+            </div>
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,47 @@
+<div white-background-popup>
+    <div class="content_area_container px700 contact" ng-show="state == 'opened'">
+        <h1 class="lb_title xxlarge">Add a new user</h1>
+        <div class="instruction_txt"></div>
+        <div ng-hide="loaded">
+            <div main-loader></div>
+        </div>
+        <div ng-show="loaded">
+            <form id="comment_form" class="clearfix" >
+                <div class="two_column clearfix">
+                    <fieldset class="typical_form">
+                        <div class="required">
+                            <label class="section_label ">Name</label>
+                            <span><input ng-model="data.name" id="id_name" type="text" class="req" name="name"></span>
+                        </div>
+                    </fieldset>
+                    <fieldset class="typical_form">
+                        <div class="required">
+                            <label class="section_label ">Email</label>
+                            <span><input ng-model="data.email" id="id_email" type="text" class="req email" name="email"></span>
+                        </div>
+                    </fieldset>
+                </div>
+                <fieldset class="typical_form last_child" ng-if="error">
+                    <label class="section_label " ng-bind-html="error">
+                    </label>
+                </fieldset>
+                <p class="center_text">
+                    <input type="submit" value="Submit!" class="square_bt xl teal_bt submit_button" id="comment_submit" ng-click="setState('confirm')">
+                </p>
+            </form>
+        </div>
+    </div>
+
+    <div class="content_area_container px700 contact" ng-show="state == 'confirm'">
+        <p class="instruction_txt">
+            <span class="smallermedium">Are you sure the email is correct and this person is part of your organization?</span>
+        </p>
+        <button class="square_bt md teal_bt" ng-click="confirm(true)">Yes</button>
+        <button class="square_bt md teal_bt inactive" ng-click="confirm(false)">No</button>
+    </div>
+
+    <div class="content_area_container px700 contact" ng-show="state == 'success'">
+        <h1 class="lb_title xxlarge">Success!</h1>
+    </div>
+
+</div>

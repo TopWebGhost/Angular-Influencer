@@ -1,0 +1,637 @@
+<div>
+    <div class="blogger_details_panel_overlay" ng-click="bpCtrl.close()"></div>
+    <div class="blogger_details_panel_main" style="z-index: 6; position: relative">
+        <div class="blogger_details_panel_btns">
+            <div class="panel_btn close_panel" ng-click="bpCtrl.close()"><span class="icon-letter_x02"></span></div>
+            <br/>
+            <span ng-if="bpCtrl.popup.mainLoader.isLoaded() && bpCtrl.isOutreachVisible()">
+                <div class="panel_btn big_btn message" ng-click="bpCtrl.openFavoritePopup({influencer: bpCtrl.user.id, user: bpCtrl.user})">
+                    <span class="follow icon-misc_value_star2"></span><br/>
+                    <span class="overlay_btn_txt">Tag</span>
+                </div>
+                <br/>      
+                <div class="panel_btn big_btn message" ng-click="bpCtrl.sendMessage({userId: bpCtrl.user.id, user: bpCtrl.user, reload: reload, event: $event, forceInvite: campaignId})" ng-if="bpCtrl.context.nonCampaignMessagingEnabled">
+                    <a ng-href="{{ bpCtrl.user.current_platform_page }}" target="_blank" style="color: inherit!important;">
+                        <span class="icon-social_envelope6"></span>
+                        <br/>
+                        <span class="panel_txt">Message</span>
+                    </a>
+                </div>
+            </span>
+        </div>
+        <div class="blogger_details_panel">
+            <div class="nano" prevent-disablescrolling>
+                <div ng-show="bpCtrl.popup.mainLoader.isLoading()">
+                    <div main-loader style="top: 205px; position: relative"></div>
+                </div>
+                <div ng-show="bpCtrl.popup.mainLoader.isLoaded()" class="content nano-content">
+                    <div class="cover">
+                        <div class="cover_img cropped" bg-image="{{ bpCtrl.user.cover_pic}}"><!-- <img ng-src="{{ bpCtrl.user.cover_pic}}"/> --></div>
+                        <div class="cover_txt">
+                            <div class="id_txt" >
+                                <span ng-show="bpCtrl.user.name">
+                                    <div class="name dotdot" ng-show="bpCtrl.user.blogname" ng-bind-html="bpCtrl.user.blogname"></div>
+                                    <div class="blog">{{bpCtrl.user.name}}</div>
+                                </span>
+                                <span ng-hide="bpCtrl.user.name">
+                                    <div class="name dotdot" ng-show="bpCtrl.user.blogname" ng-bind-html="bpCtrl.user.blogname"></div>
+                                </span>
+                                <div class="location">
+                                    {{ bpCtrl.user.demographics_location }}
+                                </div>
+                            </div>
+                            <div class="social_row" ng-hide="bpCtrl.context.showDummyData">
+                                <a ng-if="bpCtrl.user.profile.facebook_page" class="icon-social_facebook bs_tooltip" data-placement="top" track-me name="social-click" rel="tooltip" title="Facebook page" meta='{"platform": "Facebook", "url": "{{bpCtrl.user.profile.facebook_page}}"}' event="click" href="{{bpCtrl.user.profile.facebook_page}}" target="_blank"></a>
+                                <a ng-if="bpCtrl.user.profile.twitter_page" class="icon-social_twitter bs_tooltip" data-placement="top" track-me name="social-click" title="Twitter" meta='{"platform": "Twitter", "url": "{{bpCtrl.user.profile.twitter_page}}"}' event="click" href="{{bpCtrl.user.profile.twitter_page}}" target="_blank"></a>
+                                <a ng-if="bpCtrl.user.profile.pinterest_page" class="icon-social_pinterest bs_tooltip" data-placement="top" track-me name="social-click" title="Pinterest" meta='{"platform": "Pinterest", "url": "{{bpCtrl.user.profile.pinterest_page}}"}' event="click" href="{{bpCtrl.user.profile.pinterest_page}}" target="_blank"></a>
+                                <a ng-if="bpCtrl.user.profile.blog_page && !bpCtrl.user.has_artificial_blog_url" class="icon-social_blog bs_tooltip" data-placement="top" track-me name="social-click" title="Blog" meta='{"platform": "Blog", "url": "{{bpCtrl.user.profile.blog_page}}"}' event="click" href="{{bpCtrl.user.profile.blog_page}}" target="_blank"></a>
+                                <a ng-if="bpCtrl.user.profile.web_page" class="icon-social_globe2 bs_tooltip" data-placement="top" track-me name="social-click" title="Website" meta='{"platform": "Website", "url": "{{bpCtrl.user.profile.web_page}}"}' event="click" href="{{bpCtrl.user.profile.web_page}}" target="_blank"></a>
+                                <a ng-if="bpCtrl.user.profile.etsy_page" class="icon-social_store bs_tooltip" data-placement="top" track-me name="social-click" title="Store" meta='{"platform": "Etsy", "url": "{{bpCtrl.user.profile.etsy_page}}"}' event="click" href="{{bpCtrl.user.profile.etsy_page}}" target="_blank"></a>
+                                <a ng-if="bpCtrl.user.profile.store_page" class="icon-social_store bs_tooltip" data-placement="top" track-me name="social-click" title="Store" meta='{"platform": "Store", "url": "{{bpCtrl.user.profile.store_page}}"}' event="click" href="{{bpCtrl.user.profile.store_page}}" target="_blank"></a>
+                                <a ng-if="bpCtrl.user.profile.instagram_page" class="icon-social_instagram2 bs_tooltip" data-placement="top" track-me name="social-click" title="Photos" meta='{"platform": "Instagram", "url": "{{bpCtrl.user.profile.instagram_page}}"}' event="click" href="{{bpCtrl.user.profile.instagram_page}}" target="_blank"></a>
+                                <a ng-if="bpCtrl.user.profile.bloglovin_page" class="icon-social_blog_lovin bs_tooltip" data-placement="top" track-me name="social-click" title="Blog Lovin" meta='{"platform": "Blog Lovin", "url": "{{bpCtrl.user.profile.bloglovin_page}}"}' event="click" href="{{bpCtrl.user.profile.bloglovin_page}}" target="_blank"></a>
+                                <a ng-if="bpCtrl.user.profile.youtube_page" class="icon-social_youtube bs_tooltip" data-placement="top" track-me name="social-click" title="YouTube" meta='{"platform": "YouTube", "url": "{{bpCtrl.user.profile.youtube_page}}"}' event="click" href="{{bpCtrl.user.profile.youtube_page}}" target="_blank"></a>
+                            </div>
+                            <div class="social_row" ng-show="bpCtrl.context.showDummyData">
+                                <a ng-if="bpCtrl.user.profile.facebook_page" class="icon-social_facebook bs_tooltip" data-placement="top" track-me name="social-click" rel="tooltip" title="Facebook page" meta='{"platform": "Facebook", "url": "{{bpCtrl.user.profile.facebook_page}}"}'target="_blank" click-emitter="featureLocked"></a>
+                                <a ng-if="bpCtrl.user.profile.twitter_page" class="icon-social_twitter bs_tooltip" data-placement="top" track-me name="social-click" title="Twitter" meta='{"platform": "Twitter", "url": "{{bpCtrl.user.profile.twitter_page}}"}' target="_blank" click-emitter="featureLocked"></a>
+                                <a ng-if="bpCtrl.user.profile.pinterest_page" class="icon-social_pinterest bs_tooltip" data-placement="top" track-me name="social-click" title="Pinterest" meta='{"platform": "Pinterest", "url": "{{bpCtrl.user.profile.pinterest_page}}"}' target="_blank" click-emitter="featureLocked"></a>
+                                <a ng-if="bpCtrl.user.profile.blog_page && !bpCtrl.user.has_artificial_blog_url" class="icon-social_blog bs_tooltip" data-placement="top" track-me name="social-click" title="Blog" meta='{"platform": "Blog", "url": "{{bpCtrl.user.profile.blog_page}}"}' target="_blank" click-emitter="featureLocked"></a>
+                                <a ng-if="bpCtrl.user.profile.web_page" class="icon-social_globe2 bs_tooltip" data-placement="top" track-me name="social-click" title="Website" meta='{"platform": "Website", "url": "{{bpCtrl.user.profile.web_page}}"}' target="_blank" click-emitter="featureLocked"></a>
+                                <a ng-if="bpCtrl.user.profile.etsy_page" class="icon-social_store bs_tooltip" data-placement="top" track-me name="social-click" title="Store" meta='{"platform": "Etsy", "url": "{{bpCtrl.user.profile.etsy_page}}"}' target="_blank" click-emitter="featureLocked"></a>
+                                <a ng-if="bpCtrl.user.profile.store_page" class="icon-social_store bs_tooltip" data-placement="top" track-me name="social-click" title="Store" meta='{"platform": "Store", "url": "{{bpCtrl.user.profile.store_page}}"}' arget="_blank" click-emitter="featureLocked"></a>
+                                <a ng-if="bpCtrl.user.profile.instagram_page" class="icon-social_instagram2 bs_tooltip" data-placement="top" track-me name="social-click" title="Photos" meta='{"platform": "Instagram", "url": "{{bpCtrl.user.profile.instagram_page}}"}' target="_blank" click-emitter="featureLocked"></a>
+                                <a ng-if="bpCtrl.user.profile.bloglovin_page" class="icon-social_blog_lovin bs_tooltip" data-placement="top" track-me name="social-click" title="Blog Lovin" meta='{"platform": "Blog Lovin", "url": "{{bpCtrl.user.profile.bloglovin_page}}"}' target="_blank" click-emitter="featureLocked"></a>
+                                <a ng-if="bpCtrl.user.profile.youtube_page" class="icon-social_youtube bs_tooltip" data-placement="top" track-me name="social-click" title="YouTube" meta='{"platform": "YouTube", "url": "{{bpCtrl.user.profile.youtube_page}}"}' target="_blank" click-emitter="featureLocked"></a>
+                            </div>
+                        </div>
+                        <div class="profile_pic"><img keep-aspect class="imgfit" ng-src="{{ bpCtrl.user.profile_pic_url }}"/></div>
+                    </div>
+                    <div class="body_content">
+                        <div style="display:none;" class="description">{{ bpCtrl.user.description}}</div>
+
+
+
+                        
+                        
+
+
+                        <!-- R29 custom -->
+                        <!-- R29 custom -->
+                        <!-- R29 custom -->
+                        <div ng-if="bpCtrl.searchMethod.selected.value == 'r29'" class="content_chunk clearfix r29_profile_sect">
+                            <div class="divider_title">
+                                <div class="div_title_text">R29 Influencer Data</div>
+                                <div class="square_bt black_bt sm" ng-click="bpCtrl.openEditingPopup()">Edit Influencer Data</div>
+                            </div>
+                            <div class="a_form_group clearfix" style="padding:30px 50px 0;">  
+                                <div class="flex_row_steps">  
+
+                                    <!-- LEFT SIDE -->
+                                    <!-- LEFT SIDE -->
+                                    <!-- LEFT SIDE -->
+                                    <div class="typical_form step_container halfer left" style="width:45%;">
+                                        <div class="listing_set no_overflow_listing">
+                                            <div class="listing_label">Influencer</div>
+
+                                            <div class="listing_text" ng-class="{light_gray_placement_text: !bpCtrl.user.name.length}">{{ bpCtrl.user.name || "---" }}</div>  
+
+                                            <div class="listing_text" ng-class="{light_gray_placement_text: !bpCtrl.user.brand_custom_data.influencer_data.email.length}">{{ bpCtrl.user.brand_custom_data.influencer_data.email || "---" }}</div>  
+
+                                            <div class="listing_text" ng-class="{light_gray_placement_text: !bpCtrl.user.brand_custom_data.cell_phone.length}">{{ bpCtrl.user.brand_custom_data.cell_phone || "---" }}</div>
+
+                                            <div class="listing_text" ng-class="{light_gray_placement_text: !bpCtrl.user.brand_custom_data.age.length}">{{ bpCtrl.user.brand_custom_data.age || "---" }}</div>
+
+                                            <div class="listing_text" ng-class="{light_gray_placement_text: !bpCtrl.user.brand_custom_data.date_of_birth.length}">{{ bpCtrl.user.brand_custom_data.date_of_birth | date:'mediumDate' || "---" }}</div>  
+
+                                        </div>
+                                        <div class="listing_set no_overflow_listing">
+                                            <div class="listing_label">Location</div>
+                                            <div class="listing_text" ng-class="{light_gray_placement_text: !bpCtrl.user.brand_custom_data.mailing_address.length}">{{ bpCtrl.user.brand_custom_data.mailing_address || "---" }}</div>
+
+                                            <div class="listing_text">{{ bpCtrl.user.brand_custom_data.location_data.city }} {{ bpCtrl.user.brand_custom_data.location_data.state }} {{ bpCtrl.user.brand_custom_data.zip_code }}</div>
+
+                                            <div class="listing_text" ng-class="{light_gray_placement_text: !bpCtrl.user.brand_custom_data.location_data.country.length}">{{ bpCtrl.user.brand_custom_data.location_data.country || "---" }}</div>   
+                                        </div>
+                                        <div class="listing_set no_overflow_listing">
+                                            <div class="listing_label">representation</div>
+
+                                            <div class="listing_text" ng-class="{light_gray_placement_text: !bpCtrl.user.brand_custom_data.representation.length}">{{ bpCtrl.user.brand_custom_data.representation || "---"}}</div>
+
+                                            <div class="listing_text" ng-class="{light_gray_placement_text: !bpCtrl.user.brand_custom_data.rep_email_address.length}">{{ bpCtrl.user.brand_custom_data.rep_email_address || "---" }}</div>
+
+                                            <div class="listing_text" ng-class="{light_gray_placement_text: !bpCtrl.user.brand_custom_data.rep_phone.length}">{{ bpCtrl.user.brand_custom_data.rep_phone || "---" }}</div>   
+                                        </div> 
+                                    </div>
+
+                                    <!-- RIGHT SIDE -->
+                                    <!-- RIGHT SIDE -->
+                                    <!-- RIGHT SIDE -->
+                                    <div class="typical_form step_container halfer right" style="width:55%;">
+                                        <!-- tags -->
+                                        <div class="listing_set floated_listing social_form">
+                                            <div class="listing_label">Category</div>
+                                            <div class="listing_text" ng-class="{light_gray_placement_text: !bpCtrl.user.brand_custom_data.categories.length}">
+                                                <span ng-show="bpCtrl.user.brand_custom_data.categories.length" class="listing_tag" ng-repeat="tag in bpCtrl.user.brand_custom_data.categories track by $index">{{ tag }}</span>
+                                                <span ng-hide="bpCtrl.user.brand_custom_data.categories.length">---</span>
+                                            </div>
+                                        </div>
+                                        <div class="listing_set floated_listing social_form">
+                                            <div class="listing_label">Occupation</div>
+                                            <div class="listing_text" ng-class="{light_gray_placement_text: !bpCtrl.user.brand_custom_data.occupation.length}">
+                                                <span ng-show="bpCtrl.user.brand_custom_data.occupation.length" class="listing_tag" ng-repeat="tag in bpCtrl.user.brand_custom_data.occupation track by $index">{{ tag }}</span>
+                                                <span ng-hide="bpCtrl.user.brand_custom_data.occupation.length">---</span>
+                                            </div>
+                                        </div>
+                                        <div class="listing_set floated_listing social_form">
+                                            <div class="listing_label">Tags</div>
+                                            <div class="listing_text" ng-class="{light_gray_placement_text: !bpCtrl.user.brand_custom_data.tags.length}">
+                                                <span ng-show="bpCtrl.user.brand_custom_data.tags.length" class="listing_tag" ng-repeat="tag in bpCtrl.user.brand_custom_data.tags track by $index">{{ tag }}</span>
+                                                <span ng-hide="bpCtrl.user.brand_custom_data.tags.length">---</span>
+                                            </div>
+                                        </div>
+                                        <div class="listing_set floated_listing social_form">
+                                            <div class="listing_label">Sex</div>
+                                            <div class="listing_text" ng-class="{light_gray_placement_text: !bpCtrl.user.brand_custom_data.sex.length}">
+                                                <span ng-show="bpCtrl.user.brand_custom_data.sex.length" class="listing_tag" ng-repeat="tag in bpCtrl.user.brand_custom_data.sex track by $index">{{ tag }}</span>
+                                                <span ng-hide="bpCtrl.user.brand_custom_data.sex.length">---</span>
+                                            </div>
+                                        </div>
+                                        <div class="listing_set floated_listing social_form">
+                                            <div class="listing_label">Language</div>
+                                            <div class="listing_text" ng-class="{light_gray_placement_text: !bpCtrl.user.brand_custom_data.language.length}">
+                                                <span ng-show="bpCtrl.user.brand_custom_data.language.length" class="listing_tag" ng-repeat="tag in bpCtrl.user.brand_custom_data.language track by $index">{{ tag }}</span>
+                                                <span ng-hide="bpCtrl.user.brand_custom_data.language.length">---</span>
+                                            </div>
+                                        </div>
+                                        <div class="listing_set floated_listing social_form">
+                                            <div class="listing_label">Ethnicity</div>
+                                            <div class="listing_text" ng-class="{light_gray_placement_text: !bpCtrl.user.brand_custom_data.language.length}">
+                                                <span ng-show="bpCtrl.user.brand_custom_data.ethnicity.length" class="listing_tag" ng-repeat="tag in bpCtrl.user.brand_custom_data.ethnicity track by $index">{{ tag }}</span>
+                                                <span ng-hide="bpCtrl.user.brand_custom_data.ethnicity.length">---</span>
+                                            </div>
+                                        </div>
+
+                                        <!-- social -->
+                                        <div class="listing_set no_overflow_listing social_form" style="margin-top:40px;">
+                                            <div class="listing_label">links &amp; social</div>
+
+                                            <div class="listing_text social_text_block social_globe3" ng-class="{'no_link_avail': !bpCtrl.user.brand_custom_data.influencer_data.blog_url.length}">
+                                                <span class="icon_for_social"></span>
+                                                <span class="social_text" ng-if="bpCtrl.user.brand_custom_data.influencer_data.blog_url.length">&nbsp;<a href="{{ bpCtrl.user.brand_custom_data.influencer_data.blog_url }}" target="_blank">{{ bpCtrl.user.brand_custom_data.influencer_data.blogname }}</a></span></div>  
+                                            <div class="listing_text social_text_block social_instagram2" ng-class="{'no_link_avail': !bpCtrl.user.brand_custom_data.influencer_data.insta_url.length}">
+                                                <span class="icon_for_social"></span>
+                                                <span class="url_txt">&nbsp;instagram.com/</span>
+                                                <span class="social_text" ng-if="bpCtrl.user.brand_custom_data.influencer_data.insta_url.length"><a href="{{ bpCtrl.user.brand_custom_data.influencer_data.insta_url }}" target="_blank">{{ bpCtrl.user.brand_custom_data.influencer_data.blogname }}</a></span>
+                                            </div>  
+                                            <div class="listing_text social_text_block social_youtube" ng-class="{'no_link_avail': !bpCtrl.user.brand_custom_data.influencer_data.youtube_url.length}">
+                                                <span class="icon_for_social"></span>
+                                                <span class="url_txt">&nbsp;youtube.com/</span>
+                                                <span class="social_text" ng-if="bpCtrl.user.brand_custom_data.influencer_data.youtube_url.length"><a href="{{ bpCtrl.user.brand_custom_data.influencer_data.youtube_url }}" target="_blank">{{ bpCtrl.user.brand_custom_data.influencer_data.blogname }}</a></span>
+                                            </div>  
+                                            <div class="listing_text social_text_block social_snapchat" ng-class="{'no_link_avail': !bpCtrl.user.brand_custom_data.influencer_data.snapchat_username.length}">
+                                                <span class="icon_for_social"></span>
+                                                <span class="url_txt">&nbsp;snapchat.com/</span>
+                                                <span class="social_text" ng-if="bpCtrl.user.brand_custom_data.influencer_data.snapchat_username.length"><span>{{ bpCtrl.user.brand_custom_data.influencer_data.snapchat_username }}</span></span>
+                                            </div>  
+                                            <div class="listing_text social_text_block social_twitter" ng-class="{'no_link_avail': !bpCtrl.user.brand_custom_data.influencer_data.tw_url.length}">
+                                                <span class="icon_for_social"></span>
+                                                <span class="url_txt">&nbsp;twitter.com/</span>
+                                                <span class="social_text" ng-if="bpCtrl.user.brand_custom_data.influencer_data.tw_url.length"><a href="{{ bpCtrl.user.brand_custom_data.influencer_data.tw_url }}" target="_blank">{{ bpCtrl.user.brand_custom_data.influencer_data.blogname }}</a></span>
+                                            </div>  
+                                            <div class="listing_text social_text_block social_facebook" ng-class="{'no_link_avail': !bpCtrl.user.brand_custom_data.influencer_data.fb_url.length}">
+                                                <span class="icon_for_social"></span>
+                                                <span class="url_txt">&nbsp;facebook.com/</span>
+                                                <span class="social_text" ng-if="bpCtrl.user.brand_custom_data.influencer_data.fb_url.length"><a href="{{ bpCtrl.user.brand_custom_data.influencer_data.fb_url }}" target="_blank">{{ bpCtrl.user.brand_custom_data.influencer_data.blogname }}</a></span> 
+                                            </div> 
+                                            <div class="listing_text social_text_block social_pinterest" ng-class="{'no_link_avail': !bpCtrl.user.brand_custom_data.influencer_data.pin_url.length}">
+                                                <span class="icon_for_social"></span>
+                                                <span class="url_txt">&nbsp;pinterest.com/</span>
+                                                <span class="social_text" ng-if="bpCtrl.user.brand_custom_data.influencer_data.pin_url.length"><a href="{{ bpCtrl.user.brand_custom_data.influencer_data.pin_url }}" target="_blank">{{ bpCtrl.user.brand_custom_data.influencer_data.blogname }}</a></span>  
+                                            </div>
+                                        </div>
+                                    </div>
+                                
+                                </div>
+                                <div class="listing_set">
+                                    <div class="listing_label">Team Notes</div>
+                                    <div class="r29_notes" ng-class="{light_gray_placement_text: !bpCtrl.user.brand_custom_data.notes.length}">{{ bpCtrl.user.brand_custom_data.notes || "---" }}</div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <!-- ENGAGEMENT STATS -->
+                        <!-- ENGAGEMENT STATS -->
+                        <div class="content_chunk w_top_border_dividing">
+                            <!--div class="divider_tag">
+                                <div ng-hide="bpCtrl.user.has_artificial_blog_url" class="tag">Followers &amp; Engagement</div>
+                                <div ng-show="bpCtrl.user.has_artificial_blog_url" class="tag">Social Followers &amp; Engagement</div>
+                            </div-->
+                            <div class="divider_title">
+                                <div class="div_title_text w_title_border">Social Followers &amp; Engagement</div>
+                            </div>
+                            <!-- Social Table -->
+                            <div class="social_row_table social_row">
+                                <div class="social_block">
+                                    <span class="soc_tbl_row">
+                                        <span class="soc_tbl_item soc_tbl_header">Platform</span>
+                                        <span class="soc_tbl_item soc_tbl_header">Followers</span>
+                                        <span class="soc_tbl_item soc_tbl_header">Posts/Month</span>
+                                        <span class="soc_tbl_item soc_tbl_header">Av. Likes</span>
+                                        <span class="soc_tbl_item soc_tbl_header">Av. Comments</span>
+                                        <span class="soc_tbl_item soc_tbl_header">Av. Shares</span>
+                                        <span class="soc_tbl_item soc_tbl_header">Engage/Fol</span>
+                                    </span>
+                                </div>
+                                <div class="social_block social_wrapper" ng-repeat="platform in bpCtrl.user.platforms" ng-if="platform.show_on_feed" bindonce>
+                                    <span class="soc_tbl_row" bo-if="platform.show_on_feed && platform.platform_name == 'Twitter'">
+                                        <span class="soc_tbl_item icon-social_twitter"></span>
+                                        <span class="soc_tbl_item soc_tbl_num">
+                                            <span bo-if="platform.num_followers>0" bo-text="platform.num_followers | number:0"></span>
+                                        </span>
+                                        <span class="soc_tbl_item soc_tbl_num">
+                                            <span bo-if="platform.posting_rate>0" bo-text="platform.posting_rate | number:0"></span>
+                                        </span>
+                                        <span class="soc_tbl_item soc_tbl_num">
+                                            <span bo-if="platform.avg_numlikes_overall>0" bo-text="platform.avg_numlikes_overall | number:0"></span>
+                                        </span>
+                                        <span class="soc_tbl_item soc_tbl_num">--</span>
+                                        <span class="soc_tbl_item soc_tbl_num">
+                                            <span bo-if="platform.avg_numshares_overall>0" bo-text="platform.avg_numshares_overall | number:0"></span>
+                                        </span>
+                                        <span class="soc_tbl_item soc_tbl_num">
+                                            <span bo-if="platform.avg_numlikes_overall>0" bo-text="(100 * platform.avg_numlikes_overall / platform.num_followers | number:2) + '%'"></span>
+                                        </span>
+                                    </span>
+                                    <span class="soc_tbl_row" bo-if="platform.show_on_feed && platform.platform_name == 'Facebook'">
+                                        <span class="soc_tbl_item icon-social_facebook"></span>
+                                        <span class="soc_tbl_item soc_tbl_num">
+                                            <span bo-if="platform.num_followers>0" bo-text="platform.num_followers | number:0"></span>
+                                        </span>
+                                        <span class="soc_tbl_item soc_tbl_num">
+                                            <span bo-if="platform.posting_rate>0" bo-text="platform.posting_rate | number:0"></span>
+                                        </span>
+                                        <span class="soc_tbl_item soc_tbl_num">
+                                            <span bo-if="platform.avg_numlikes_overall>0" bo-text="platform.avg_numlikes_overall | number:0"></span>
+                                        </span>
+                                        <span class="soc_tbl_item soc_tbl_num">
+                                            <span bo-if="platform.avg_numcomments_overall>0" bo-text="platform.avg_numcomments_overall | number:0"></span>
+                                        </span>
+                                        <span class="soc_tbl_item soc_tbl_num">
+                                            <span bo-if="platform.avg_numshares_overall>0" bo-text="platform.avg_numshares_overall | number:0"></span>
+                                        </span>
+                                        <span class="soc_tbl_item soc_tbl_num">
+                                            <span bo-if="platform.avg_numlikes_overall>0" bo-text="(100 * platform.avg_numlikes_overall / platform.num_followers | number:2) + '%'"></span>
+                                        </span>
+                                    </span>
+                                    <span class="soc_tbl_row" bo-if="platform.show_on_feed && platform.platform_name == 'Instagram'">
+                                        <span class="soc_tbl_item icon-social_instagram2"></span>
+                                        <span class="soc_tbl_item soc_tbl_num">
+                                            <span bo-if="platform.num_followers>0" bo-text="platform.num_followers | number:0"></span>
+                                        </span>
+                                        <span class="soc_tbl_item soc_tbl_num">
+                                            <span bo-if="platform.posting_rate>0" bo-text="platform.posting_rate | number:0"></span>
+                                        </span>
+                                        <span class="soc_tbl_item soc_tbl_num">
+                                            <span bo-if="platform.avg_numlikes_overall>0" bo-text="platform.avg_numlikes_overall | number:0"><br/></span>
+                                        </span>
+                                        <span class="soc_tbl_item soc_tbl_num">
+                                            <span bo-if="platform.avg_numcomments_overall>0" bo-text="platform.avg_numcomments_overall | number:0"></span>
+                                        </span>
+                                        <span class="soc_tbl_item soc_tbl_num">--</span>
+                                        <span class="soc_tbl_item soc_tbl_num">
+                                            <span ng-if="platform.avg_numlikes_overall>0" bo-text="(100 * platform.avg_numlikes_overall / platform.num_followers | number:2) + '%'"></span>
+                                        </span>
+                                    </span>
+                                    <span class="soc_tbl_row" bo-if="platform.show_on_feed && platform.platform_name == 'Pinterest'">
+                                        <span class="soc_tbl_item icon-social_pinterest"></span>
+                                        <span class="soc_tbl_item soc_tbl_num">
+                                            <span bo-if="platform.num_followers>0" bo-text="platform.num_followers | number:0"></span>
+                                        </span>
+                                        <span class="soc_tbl_item soc_tbl_num">
+                                            <span bo-if="platform.posting_rate>0" bo-text="platform.posting_rate | number:0"></span>
+                                        </span>
+                                        <span class="soc_tbl_item soc_tbl_num">
+                                            <span bo-if="platform.avg_numlikes_overall>0" bo-text="platform.avg_numlikes_overall | number:0"></span>
+                                        </span>
+                                        <span class="soc_tbl_item soc_tbl_num">
+                                            <span bo-if="platform.avg_numcomments_overall>0" bo-text="platform.avg_numcomments_overall | number:0"></span>
+                                        </span>
+                                        <span class="soc_tbl_item soc_tbl_num">
+                                            <span bo-if="platform.avg_numshares_overall>0" bo-text="platform.avg_numshares_overall | number:0"></span>
+                                        </span>
+                                        <span class="soc_tbl_item soc_tbl_num">
+                                            <span bo-if="platform.avg_numlikes_overall>0" bo-text="(100 * platform.avg_numlikes_overall / platform.num_followers | number:2) + '%'"></span>
+                                        </span>
+                                    </span>
+                                    <span class="soc_tbl_row" bo-if="platform.show_on_feed && platform.platform_name == 'Youtube'">
+                                        <span class="soc_tbl_item icon-social_youtube"></span>
+                                        <span class="soc_tbl_item soc_tbl_num">
+                                            <span bo-if="platform.num_followers>0" bo-text="platform.num_followers | number:0"></span>
+                                        </span>
+                                        <span class="soc_tbl_item soc_tbl_num">
+                                            <span bo-if="platform.posting_rate>0" bo-text="platform.posting_rate | number:0"></span>
+                                        </span>
+                                        <span class="soc_tbl_item soc_tbl_num">
+                                            <span bo-if="platform.avg_numlikes_overall>0" bo-text="platform.avg_numlikes_overall | number:0"></span>
+                                        </span>
+                                        <span class="soc_tbl_item soc_tbl_num">
+                                            <span bo-if="platform.avg_numcomments_overall>0" bo-text="platform.avg_numcomments_overall | number:0"></span>
+                                        </span>
+                                        <span class="soc_tbl_item soc_tbl_num">
+                                            <span bo-if="platform.calculate_video_views>0" bo-text="(platform.calculate_video_views | number:0) + ' views'"></span>
+                                        </span>
+                                        <span class="soc_tbl_item soc_tbl_num">
+                                            <span bo-if="platform.avg_numlikes_overall>0" bo-text="(100 * platform.avg_numlikes_overall / platform.num_followers | number:2) + '%'"></span>
+                                        </span>
+                                    </span>
+                                </div>
+                                <div class="social_block social_wrapper" ng-if="!bpCtrl.user.has_artificial_blog_url && bpCtrl.user.average_num_comments_per_post>0">
+                                    <span class="soc_tbl_row">
+                                        <span class="soc_tbl_item icon-letter_quotes"></span>
+                                        <span class="soc_tbl_item soc_tbl_num">--</span>
+                                        <span class="soc_tbl_item soc_tbl_num">
+                                            <span>{{ bpCtrl.user.average_num_posts | number:0 }}</span>
+                                        </span>
+                                        <span class="soc_tbl_item soc_tbl_num">--</span>
+                                        <span class="soc_tbl_item soc_tbl_num">
+                                            <span>{{bpCtrl.user.average_num_comments_per_post | number:0 }}</span>
+                                        </span>
+                                        <span class="soc_tbl_item soc_tbl_num">--</span>
+                                        <span class="soc_tbl_item soc_tbl_num">--</span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                     
+
+                        <!-- BLOG AND SOCIAL ENGAGEMENT STATS -->
+                        <!-- BLOG AND SOCIAL ENGAGEMENT STATS -->
+                        <div ng-if="bpCtrl.popup.sections.engagementStats.isVisible()" class="content_chunk">
+                            <div class="divider_tag">
+                                <div class="tag">Follower Growth
+                                    <div class="tag_subtext">The timeseries below is calculated at least weekly and reflects follower growth for each social network.</div>
+                                </div>
+                            </div>
+
+                            <div ng-show="bpCtrl.popup.sections.engagementStats.loader.isLoading()">
+                                <div main-loader style="top: 205px; position: relative"></div> 
+                            </div>
+
+                            <div ng-show="bpCtrl.popup.sections.engagementStats.loader.isLoaded()">
+                                <div class="blog_stats_row clearfix">
+                                    <div class="blog_stat_block" style="width: 800px">
+                                        <div bpd-engagement-stats-chart></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+                        
+
+
+
+                        <!-- MONTHLY VISITS -->
+                        <!-- MONTHLY VISITS -->
+                        <div ng-if="bpCtrl.popup.sections.monthlyVisits.isVisible()" class="content_chunk">
+                            <div class="divider_title">
+                                <div class="div_title_text w_title_border">Traffic &amp; Audience Data</div>
+                            </div>
+                            <div>
+                                <div class="divider_tag">
+                                    <div class="tag">Unique Monthly Visitors
+                                        <div class="tag_subtext">The timeseries below reflects blog traffic.</div>
+                                    </div>
+                                </div>
+
+                                <div ng-show="bpCtrl.popup.sections.monthlyVisits.loader.isLoading()">
+                                    <div main-loader style="top: 205px; position: relative"></div>
+                                </div>
+
+                                <div ng-show="bpCtrl.popup.sections.monthlyVisits.loader.isLoaded()">
+                                    <div class="blog_stats_row clearfix">
+                                        <div class="blog_stat_block" style="width: 800px">
+                                            <div bpd-monthly-visits-chart></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <!-- DEMOGRAPHIC DATA (TRAFFIC SHARES + AGE DISTRIBUTION) -->
+                        <!-- DEMOGRAPHIC DATA (TRAFFIC SHARES + AGE DISTRIBUTION) -->
+                        <div ng-if="bpCtrl.popup.sections.ageDistribution.isVisible() || bpCtrl.popup.sections.trafficShares.isVisible()" class="content_chunk">
+                            <div>
+                                <div class="divider_tag">
+                                    <div class="tag">Demographic Data
+                                        <div class="tag_subtext">The visualizations below display data about this influencer's audience and traffic origins.</div>
+                                    </div>
+                                    <div class="x_space x_40"></div>
+                                </div>
+
+                                <div class="divider_tag"
+                                    ng-style="bpCtrl.popup.sections.ageDistribution.isVisible() ? {'width': '50%', 'float': 'left'} : {}"
+                                    ng-if="bpCtrl.popup.sections.trafficShares.isVisible()"
+                                ></div>
+
+                                <div class="divider_tag"
+                                    ng-style="bpCtrl.popup.sections.trafficShares.isVisible() ? {'width': '50%', 'float': 'right'} : {}"
+                                    ng-if="bpCtrl.popup.sections.ageDistribution.isVisible()"></div>
+
+                                <!-- TRAFFIC SHARES -->
+                                <!-- TRAFFIC SHARES -->
+                                <div ng-show="bpCtrl.popup.sections.trafficShares.loader.isLoading()">
+                                    <div main-loader style="top: 205px; position: relative"></div>
+                                </div>
+
+                                <div
+                                    ng-show="bpCtrl.popup.sections.trafficShares.loader.isLoaded() && bpCtrl.popup.sections.trafficShares.isVisible()"
+                                    ng-style="bpCtrl.popup.sections.ageDistribution.isVisible() ? {'width': '50%', 'display': 'inline-block'} : {}"
+                                    class="blog_stats_row clearfix"
+                                >
+                                    <div
+                                        class="blog_stat_block" ng-style="bpCtrl.popup.sections.ageDistribution.isVisible() ? {'width': '300px', 'margin': 'auto'} : {'width': '425px', 'margin': 'auto'}">
+                                        <div bpd-traffic-shares-chart></div>
+                                    </div>
+                                </div>
+
+                                <!-- AGE DISTRIBUTION -->
+                                <!-- AGE DISTRIBUTION -->
+                                <div
+                                    ng-if="bpCtrl.popup.sections.ageDistribution.isVisible()"
+                                    ng-style="bpCtrl.popup.sections.trafficShares.isVisible() ? {'width': '49%', 'display': 'inline-block'} : {}"
+                                    class="blog_stats_row clearfix"
+                                >
+                                    <div class="blog_stat_block" ng-style="{'width': '300px', 'margin': 'auto'}">
+                                        <div bpd-age-distribution-chart></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <!-- TOP COUNTRY SHARES -->
+                        <!-- TOP COUNTRY SHARES -->
+                        <div ng-if="bpCtrl.popup.sections.topCountryShares.isVisible()" class="content_chunk lt_gray_radial_2 map_divider">
+                            <div>
+                                <div class="divider_tag">
+                                    <div class="tag tag_smaller">Geographic Distribution of Audience
+                                        <div class="tag_subtext">The map below represents the global distribution of the influencer's audience.</div>
+                                    </div>
+                                </div>
+
+                                <div ng-show="bpCtrl.popup.sections.topCountryShares.loader.isLoading()">
+                                    <div main-loader style="top: 205px; position: relative"></div>
+                                </div>
+
+                                <div ng-show="bpCtrl.popup.sections.topCountryShares.loader.isLoaded()" class="blog_stats_row clearfix">
+                                    <div class="blog_stat_block" style="width: 800px">
+                                        <div bpd-top-country-shares-chart></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <!-- BRAND MENTIONS -->
+                        <!-- BRAND MENTIONS -->
+                        <div ng-if="bpCtrl.popup.sections.brandMentions.isVisible()" class="content_chunk">
+                            <div ng-show="bpCtrl.popup.sections.brandMentions.loader.isLoading()">
+                                <div main-loader style="top: 205px; position: relative"></div>
+                            </div>
+
+                            <div ng-show="bpCtrl.popup.sections.brandMentions.loader.isLoaded()">
+                                <div class="divider_title">
+                                    <div class="div_title_text w_title_border">Shopping Habits & Subject Matter</div>
+                                </div>
+                                <div class="divider_tag">
+                                    <div class="tag">Brand Mentions
+                                        <div class="tag_subtext">If the influencer provides links to brands/products within his/her posts, this chart shows the distribution and frequency of those brand/product mentions.</div>
+                                    </div>
+                                </div>
+                                <div bpd-brand-mentions-chart></div>
+                            </div>
+                        </div>
+
+
+
+                        <!-- POST CATEGORIES -->
+                        <!-- POST CATEGORIES -->
+                        <div ng-if="bpCtrl.popup.sections.categoryCoverage.isVisible()" class="content_chunk">
+                            <div class="divider_tag with_bord">
+                                <div class="tag">Category Coverage (Beta Feature)
+                                    <div class="tag_subtext">The majority of influencers cross over into multiple verticals, making it difficult to understand which influencers will be relevant. The gauges below represent how the subject matter of this influencer spreads out across the various lifestyle verticals.</div>
+                                </div>
+                            </div>
+                            <div class="blog_stats_row clearfix" style="margin-left: 7%; width: 90%;">
+                                <div bpd-category-chart></div>         
+                            </div>
+                        </div>
+
+
+                        
+                        <!-- ITEMS LIST -->
+                        <!-- ITEMS LIST -->
+                        <div ng-if="false" class="content_chunk">
+                            <div ng-hide="itemsLoaded">
+                                <div main-loader style="top: 205px; position: relative"></div>
+                            </div>
+
+                            <span ng-show="itemsLoaded">
+                                <span ng-hide="hideItems">
+                                    <div class="divider_tag">
+                                        <div class="tag">Recently Featured Items</div>
+                                    </div>
+                                    <div class="extra_itms_container clearfix">
+                                        <div class="extra_itms salvattore_grid clearfix" data-columns>
+                                        </div>
+                                        <div class="bottom_btn_container">
+                                            <a href="{{bpCtrl.user.profile.items_page}}" target="_blank" track-me event="click" name="profile-view" meta='{"url": "{{bpCtrl.user.profile.items_page}}"}'>
+                                            <div class="centerer"><div class="lg square_bt solid_blk rounded">View All Items</div></div>
+                                            </a>
+                                            <div class="notation">This opens in another tab, so you don’t lose your place.</div>
+                                        </div>
+                                    </div>
+                                </span>
+                            </span>
+                        </div>
+
+
+
+                        <!-- POSTS LIST AND POST BUTTONS -->
+                        <!-- POSTS LIST AND POST BUTTONS -->
+                        <div ng-if="bpCtrl.popup.sections.postsList.isVisible()" class="content_chunk gray_bg_sect">
+
+                            <!-- POST BUTTONS -->
+                            <!-- POST BUTTONS -->
+                            <!-- ONLY SHOW UP IF WE HAVE ANY POSTS -->
+                            <div class="outer-center">
+                                <div class="inner-center">
+                                    <div ng-if="bpCtrl.popup.sections.postCounts.isVisible()">
+                                        <div
+                                            class="bottom_btn_container"
+                                            ng-class="bpCtrl.platformWrappers(countSection.extraData.postType)"
+                                            ng-repeat="countSection in bpCtrl.popup.sections.postCounts.children"
+                                            ng-if="countSection.isVisible()"
+                                        >
+                                            <a
+                                                href="{{countSection.extraData.url}}"
+                                                target="_blank" track-me event="click" name="blog-view"
+                                                meta='{"url": "{{countSection.extraData.url}}"}'
+                                            >
+                                                <div class="view_posts_btn">
+                                                    <span ng-class="bpCtrl.platformIcons(countSection.extraData.postType)"></span>
+                                                    <span>View All {{ countSection.extraData.title }}</span></div>
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                    <div ng-if="!bpCtrl.popup.sections.postCounts.isVisible()">
+                                        <a href="{{bpCtrl.user.profile.any_social_page}}" target="_blank" track-me event="click" name="blog-view" meta='{"url": "{{bpCtrl.user.profile.any_social_page}}"}'>
+                                            <div class="view_posts_btn">View All Posts</div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <!-- POSTS LIST -->
+                            <!-- POSTS LIST -->
+                            <div ng-if="bpCtrl.popup.sections.postsList.isVisible()">
+                                <div ng-show="bpCtrl.popup.sections.postsList.loader.isLoading()">
+                                    <div main-loader style="top: 205px; position: relative"></div>
+                                </div>
+
+                                <div ng-show="bpCtrl.popup.sections.postsList.loader.isLoaded()">
+                                    <span>
+                                        <div class="divider_title">
+                                            <div class="div_title_text w_title_border">Recent Posts</div>
+                                        </div>
+
+                                        <div class="extra_blog_posts">
+                                            <div bpd-posts-list></div>
+                                        </div>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

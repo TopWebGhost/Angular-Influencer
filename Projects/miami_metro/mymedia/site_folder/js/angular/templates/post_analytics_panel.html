@@ -1,0 +1,76 @@
+<div class="blogger_box search_item dashboard_block">
+    <!-- ACTION BUTTONS .. show on hover -->
+    <div class="overlay_btns clearfix" style="right: 0px; left: auto;">
+        <div class="overlay_button more_info" blogger-more-info ng-click="show(user.details_url)" ng-if="user.details_url">
+            <span class="icon-misc_magnify2"></span>
+            <span class="overlay_btn_txt">View Profile</span>
+        </div>
+        <div class="follow_prof overlay_button" ng-show="user.can_favorite&&bookmarks" ng-if="!trial" ng-click="openFavoritePopup({influencer: user.id})">
+            <span class="follow icon-misc_value_star2"></span>
+            <span class="overlay_btn_txt">Tag</span>
+        </div>
+        <div class="follow_prof overlay_button" ng-if="!user.can_favorite&&bookmarks" click-emitter="featureLocked">
+            <span class="follow icon-misc_value_star2"></span>
+            <span class="overlay_btn_txt">Tag</span>
+        </div>
+        <div class="overlay_button" ng-click="message({userId: user.id, user: user})" ng-show="user.can_favorite" >
+            <span class="follow icon-social_envelope6"></span>
+            <span class="overlay_btn_txt">Message or Invite</span>
+        </div>
+        <div class="overlay_button" ng-click="remove()">
+            <span class="follow icon-letter_x02"></span>
+            <span class="overlay_btn_txt">Remove</span>
+        </div>
+   </div>
+    <div class="cover" blogger-more-info ng-click="show(user.details_url)">
+        <div class="cover_img">
+            <img ng-src="{{ post.post.post_image }}" alt="" ng-show="post.post.post_image">
+            <img ng-src="https://s3.amazonaws.com/theshelf-email-marketing-images/site/loading_images/{{ random }}.png" alt="" ng-hide="post.post.post_image">
+        </div>
+    </div>
+    <div class="body_content" blogger-more-info ng-click="show(user.details_url)">
+        <div class="id_txt">
+            <div class="name dotdot" style="max-height: 200px;">{{ post.post_url }}</div>
+            <div class="location" ng-show="post.post_found">
+                {{ post.post.create_date | date:'longDate' }}
+            </div>
+            <div class="location" ng-hide="post.post_found">
+                Loading...
+            </div>
+        </div>
+    </div>
+
+    <div class="body_content" blogger-more-info ng-click="show(user.details_url)">
+
+        <div class="social_row">
+            <div class="social_block" style="width: 70%;">
+
+                <div class="counter_row">
+                    <div class="icon-social_twitter"></div>
+                    <span class="follow_count">{{ post.count_tweets }}</span>
+                </div>
+
+                <div class="counter_row">
+                    <div class="icon-social_facebook"></div>
+                    <span class="follow_count">{{ post.count_fb_likes }} <span style="font-size: 11px;">(likes)</span></span>
+                </div>
+
+                <div class="counter_row">
+                    <div class="icon-social_facebook"></div>
+                    <span class="follow_count">{{ post.count_fb_shares }} <span style="font-size: 11px;">(shares)</span></span>
+                </div>
+
+                <div class="counter_row">
+                    <div class="icon-social_facebook"></div>
+                    <span class="follow_count">{{ post.count_fb_comments }} <span style="font-size: 11px;">(comments)</span></span>
+                </div>
+
+                <div class="counter_row">
+                    <div class="icon-social_pinterest"></div>
+                    <span class="follow_count">{{ post.count_pins }}</span>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

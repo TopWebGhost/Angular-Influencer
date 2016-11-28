@@ -1,0 +1,77 @@
+
+<div class="search_section toggle_section_open keyword_expression_section" ng-class="{editing: ms.isAndOrFilterOn() && !kwExpr.isComplete()}">
+    <div class="mini_title">
+        <span class="title">Keyword Search</span>
+        <span class="question bs_tooltip" title="" data-placement="top">?</span>
+    </div>
+    <div class="filter_content">
+
+        <!-- REGULAR SEARCH PANEL -->
+        <!-- ng-class="{unhide: showExtraTypes} -->
+        <div class="autocomplete_input" ng-hide="ms.isAndOrFilterOn()">
+
+            <!-- KEYWORD SEARCH MODES -->
+            <div class="search_type_row" style="float: none!important; padding-bottom: 10px;" ng-show="context.andOrFilterOn">
+                <span class="search-type-button" ng-class="{toggled: !ms.isAndOrFilterOn()}" ng-click="switchKeywordMode(false)">Regular</span>
+                <span class="search-type-button" ng-class="{toggled: ms.isAndOrFilterOn()}" ng-click="switchKeywordMode(true)">Advanced</span>
+            </div>
+
+            <!-- KEYWORD TYPES -->
+            <div class="search_type_row">
+                <span
+                    class="search-type-button"
+                    ng-class="{toggled: type === ms.getType()}"
+                    ng-repeat="type in ms.types"
+                    bindonce
+                    ng-click="ms.setType(type)" bo-text="type.text">
+                </span>
+                <!--<div class="tog_arrow_down" ng-show="mode === 'bloggers'" ng-click="showExtraTypes = true"><span class="icon-arrow_d_arr_4"></span></div>-->
+            </div>
+
+            <!-- PAVEL : THIS IS WHERE THOSE EXTRA FILTERS SHOULD GO -->
+            <div class="search_type_row no_show_row" ng-if="mode !== 'posts'">
+                <span
+                    class="search-type-button"
+                    ng-class="{toggled: type === ms.getType()}"
+                    ng-repeat="type in ms.types"
+                    bindonce
+                    ng-click="ms.setType(type)" bo-text="type.text">
+                </span>
+                <!--<div class="tog_arrow_up" ng-click="showExtraTypes = false"><span class="icon-arrow_u_arr_4"></span></div>-->
+            </div>
+            
+            <div class="keyword_search_field">
+                <fieldset class="typical_form search_keyword xsmall_field">
+                    <div class="search_input">
+                        <input type="text" ng-model="searchKeyword" ng-keypress="$event.keyCode == 13 && add_or_element()" placeholder="Search..." />
+                    </div>
+                </fieldset>
+                <div class="or_btn" ng-click="add_or_element()">Apply</div>
+            </div>
+
+        </div>
+
+        <!-- ADVANCED SEARCH PANEL -->
+        <div keyword-expression-editor class="autocomplete_input" ng-show="ms.isAndOrFilterOn() && context.andOrFilterOn">
+        </div>
+
+        <div class="search_dropdown_results clearfix" ng-if="open">
+            <div class="search_section" ng-if="isLoading()">
+                <div class="txt_area">
+                    <div class="title">Loading...</div>
+                </div>
+            </div>
+            <div class="search_section" ng-if="!isLoading()">
+                <div class="txt_area">
+                    <div class="entry" ng-repeat="option in options" ng-click="add_or_element(option.value)" ng-class="{selected: keyword==option.value}" bindonce>
+                        <div class="search_term" bo-text="option.label"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+

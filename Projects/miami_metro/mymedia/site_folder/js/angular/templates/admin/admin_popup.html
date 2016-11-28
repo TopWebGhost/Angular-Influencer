@@ -1,0 +1,14 @@
+<div ng-if="visible">
+    <div class="image_upload_overlay" style="background:#000; width: 100%; height: 100%; overflow: hidden; z-index: 9000; position: fixed; top: 0; left: 0">
+    </div>
+    <div class="lightbox image-upload-popup fixed bl_bg_lb" style="display: block; z-index: 9001; overflow: hidden">
+        <div class="container">
+            <div class="content_area">
+                <a class="close_button lightbox_close" ng-click="close()" ng-hide="state == 'uploading'"><p class="icon-letter_x02"></p></a>
+                <div class="content_area_container px800 signup-choice center_box" ng-transclude>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

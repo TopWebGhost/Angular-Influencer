@@ -1,0 +1,49 @@
+<!-- BOOKMARK BUTTON -->        
+<span class="blogger_action_btn follow_prof follow icon-misc_value_star2" ng-class="{btn_on: has_collections_in}" ng-if="user && user.can_favorite && bookmarks && !trial" ng-click="$event.stopPropagation();openFavoritePopup({influencer: user.id, user: user})"></span>
+
+<!--div class="search-page-marks collections-in" ng-if="has_collections_in">
+    <ul class="collections-list">
+        <li ng-repeat="(id, name) in user.collections_in">
+            <a ng-href="/campaigns/groups/{{ id }}" ng-click="$event.stopPropagation();">
+                <div class="wtf_why_wont_you_style">{{ name }}</div>
+            </a>
+        </li>
+    </ul>
+</div-->
+
+<!--  FEATURE LOCKED POPUP -->
+<span class="blogger_action_btn follow_prof follow icon-misc_value_star2" ng-if="user && !user.can_favorite && bookmarks" ng-click="$event.stopPropagation();" click-emitter="featureLocked"></span>
+
+<!-- MESSAGE BUTTON -->
+<span class="blogger_action_btn follow icon-social_envelope" style="position: relative;" ng-class="{btn_on: user.is_sent_email}" ng-if="user.can_favorite && context.nonCampaignMessagingEnabled">
+    <a bo-href="user.current_platform_page" target="_blank" ng-click="$event.stopPropagation();message({userId: user.id, user: user, item: item, event: $event})" style="color: inherit!important; position: absolute; top: 0px; left: 0px; width: 100%; height: 100%;"></a>
+</span>
+
+<!-- LINK TO POST'S URL -->
+<!--
+<span class="blogger_action_btn follow icon-arrow_0_box_diagonal" ng-show="item && !context.showDummyData" ng-click="$event.stopPropagation()" a-href="{{ item.url }}"></span>
+<span class="blogger_action_btn follow icon-arrow_0_box_diagonal" ng-show="item && context.showDummyData" ng-click="$event.stopPropagation()" click-emitter="featureLocked"></span>
+-->
+
+<!-- POST BOOKMARKING -->
+<!--
+<span class="blogger_action_btn follow icon-misc_very_bookmark" ng-class="{btn_on: item.is_bookmarked}" ng-show="context.predictionReportEnabled && item" ng-click="$event.stopPropagation();openFavoritePopup({post: item.id, item: item})"></span>
+-->
+
+<!-- SELECTION CHECKBOX FOR MASS ACTIONS -->
+<div>
+
+    <!-- FOR INFLUENCERS AND NON-BLOG POSTS -->
+    <div class="select_check cb_or_rb_wrap" ng-hide="showButtons || (context.predictionReportEnabled && item && item.platform == 'blog')" ng-click="$event.stopPropagation();">
+        <input bo-id="'admin_influencer_select_' + user.id" bo-attr bo-attr-name="'admin_influencer_select_' + user.id" type="checkbox" ng-model="user.selected" />
+        <label bo-attr bo-attr-for="'admin_influencer_select_' + user.id">Select <span class="graphic plus_btn"></span></label>
+    </div>
+
+    <!-- FOR BLOG POSTS -->
+    <!--
+    <div class="select_check cb_or_rb_wrap" ng-show="context.predictionReportEnabled && item && item.platform == 'blog'" ng-click="$event.stopPropagation();">
+        <input id="post_select_{{ item.id }}" name="post_select_{{ item.id }}" type="checkbox" ng-model="item.selected" />
+        <label for="post_select_{{ item.id }}">Select <span class="graphic plus_btn"></span></label>
+    </div>
+    -->
+</div>

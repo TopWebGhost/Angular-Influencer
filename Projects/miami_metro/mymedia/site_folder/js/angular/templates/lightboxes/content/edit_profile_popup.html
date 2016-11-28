@@ -1,0 +1,28 @@
+<div black-Background-popup>
+    <div class="content_area_container">
+        <div ng-if="state == 'saving'">
+            <div class="checkout px600 center_text">
+                <h1 class="lb_title">Saving your changes</h1>
+                <p class="instruction_txt">
+                    <span class="smallermedium">please wait...</span>
+                </p>
+            </div>
+        </div>
+        <div ng-if="state == 'saved'">
+            <div class="checkout px600 center_text">
+                <h1 class="lb_title">Success!</h1>
+                <p class="instruction_txt">
+                    <span class="smallermedium">One moment... we're taking you back to your profile page!</span>
+                </p>
+            </div>
+        </div>
+        <div ng-if="state == 'error'">
+            <div class="checkout px600 center_text">
+                <h1 class="lb_title">Error while saving</h1>
+                <p class="instruction_txt">
+                    <span class="smallermedium">This shouldn't happen... did you fill in the data correctly? Please double check it, or else just contact us!</span>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>

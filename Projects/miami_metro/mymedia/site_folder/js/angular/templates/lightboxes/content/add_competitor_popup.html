@@ -1,0 +1,16 @@
+<div generic-popup>
+    <div class="content_area_container px800">
+        <div ng-if="state == 'opened'">
+            <div match-brand="{{matchBrand}}" placeholder="Paste competitor url">
+            </div>
+            <br/>
+            <input value="Save" class="square_bt lg teal_bt submit_button rounded" ng-click="brand_url && save()" ng-disabled="!brand_url" ng-class="{disabled: !brand_url}">
+        </div>
+        <div ng-if="state == 'saving'"><h1 class="lb_title lg">Saving</h1></div>
+        <div ng-if="state == 'saved'"><h1 class="lb_title lg">Saved!</h1></div>
+        <div ng-if="state == 'error'"><h1 class="lb_title lg">Error</h1></div>
+    </div>
+</div>
+
+
+

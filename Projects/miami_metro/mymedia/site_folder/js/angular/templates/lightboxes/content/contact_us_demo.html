@@ -1,0 +1,58 @@
+<div white-background-popup>
+    <div class="content_area_container px700 contact">
+        <h1 class="lb_title xxlarge">Request A Demo!</h1>
+        <div class="instruction_txt">Important: Only brands/retailers should fill this up.</div>
+        <div ng-hide="loaded">
+            <div main-loader></div>
+        </div>
+        <div ng-show="loaded">
+            <form id="comment_form" class="clearfix" >
+                <div class="two_column clearfix">
+                    <fieldset class="typical_form">
+                        <div class="required">
+                            <label class="section_label ">Your Name</label>
+                            <span><input ng-model="data.name" id="id_name" type="text" class="req" name="name"></span>
+                        </div>
+                    </fieldset>
+                    <fieldset class="typical_form">
+                        <div class="required">
+                            <label class="section_label ">Your email address</label>
+                            <span><input ng-model="data.email" id="id_email" type="text" class="req email" name="email"></span>
+                        </div>
+                    </fieldset>
+                </div>
+                <div class="two_column clearfix">
+                    <fieldset class="typical_form">
+                        <div class="required">
+                            <label class="section_label ">Your Brand Name</label>
+                            <span><input ng-model="data.brand" id="id_brand" type="text" class="req" name="brand"></span>
+                        </div>
+                    </fieldset>
+                    <fieldset class="typical_form">
+                        <div class="required">
+                            <label class="section_label ">Your Brand url</label>
+                            <span><input ng-model="data.brandurl" id="id_brandurl" type="text" class="req" name="brandurl"></span>
+                        </div>
+                    </fieldset>
+                </div>
+                <div class="bottom_form">
+                    <fieldset class="typical_form">
+                        <div class="required">
+                            <label class="section_label ">Captcha</label>
+                            <br/>
+                            <span ng-bind-html="captcha"></span>
+                        </div>
+                    </fieldset>
+                </div>
+                <fieldset class="typical_form last_child" ng-if="error">
+                    <label class="section_label " ng-bind-html="error">
+                    </label>
+                </fieldset>
+                <p class="center_text">
+                    <input type="submit" value="Submit!" class="square_bt xl teal_bt submit_button" id="comment_submit" ng-click="submit(data)">
+                </p>
+            </form>
+        </div>
+    </div>
+
+</div>

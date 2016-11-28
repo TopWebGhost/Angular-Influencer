@@ -1,0 +1,41 @@
+
+<div generic-popup>
+    <div class="content_area_container px900 clearfix">
+        <div ng-if="state == 'saving'">
+            <h1 class="lb_title lg" style="color: #aaa!important;">Saving changes</h1>
+        </div>
+        <div ng-if="state == 'opened'">
+            <h1 class="lb_title lg" style="color: #aaa!important;">Are you an Agency?</h1>
+            <p class="instruction_txt xsmall" style="color: #aaa!important;">If you are a PR or marketing agency and you are in charge of multiple brands, then you should click YES.  Agencies will be set up with their agency name on the parent account, PLUS an account for every brand that they are working with.  When outreach is done, it will be done using the brand's credentials instead of the agency's credentials.</p>
+            <a class="square_bt teal_bt md" ng-click="isAgencyYes()">Yes</a>
+            <a class="square_bt teal_bt md" ng-click="isAgencyNo()">No</a>
+        </div>
+        <div ng-if="state == 'firstBrand'">
+            <h1 class="lb_title lg" style="color: #aaa!important;">Add your first brands</h1>
+            <p class="instruction_txt">You can add your first brand here.</p>
+
+            <div class="floated_side first_child">
+                <div class="small_title">Add New Brand</div>
+                <fieldset class="typical_form form_row_30 smaller_field">
+                    <label>Brand Url</label>
+                    <div match-brand="{{matchBrandUrl}}" can-set-own></div>
+                </fieldset>
+                <fieldset class="typical_form form_row_30 smaller_field" ng-if="show_name">
+                    <label>Brand Name</label>
+                    <input type="text" ng-value="brandName()" ng-change="changeBrandName(brand_name_raw)" ng-model="brand_name_raw">
+                </fieldset>
+                <fieldset class="typical_form form_row_30 smaller_field" ng-if="!show_name && brand_name">
+                    <label>Brand Name: {{brand_name}}</label>
+                </fieldset>
+                <a href="#" class="square_bt teal_bt md" ng-class="{disabled: !brand_url || !brand_name}" ng-click="brand_url&&brand_name&&save()">Add Brand</a>
+            </div>
+        </div>
+        <div ng-if="state == 'error'">
+            <h1 class="lb_title lg" style="color: #aaa!important;">{{ errorMessage }}</h1>
+            <a class="square_bt teal_bt md" ng-click="setState('opened')">Back</a>
+        </div>
+    </div>
+</div>
+
+
+

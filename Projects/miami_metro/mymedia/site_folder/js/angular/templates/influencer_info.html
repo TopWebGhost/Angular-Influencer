@@ -1,0 +1,34 @@
+<div class="influencer_block" blogger-more-info ng-click="show(influencer.details_url)" bindonce="influencer">
+    <div class="influence_img">
+        <div class="influence_img_inner">
+            <img class="imgfit" bo-src="influencer.profile_pic_url">
+        </div>
+    </div>
+
+    <div class="influence_info">
+        <span class="name" ng-show="influencer.name">{{influencer.name}}</span>
+        <br ng-show="influencer.name" />
+        <span ng-show="influencer.name && influencer.blogname">
+            <span class="of_text">of</span>&nbsp;
+        </span>
+        <span class="site" ng-show="influencer.blogname">
+            <a ng-hide="context.showDummyData" class="txt_link gray" ng-href="{{ influencer.blog_url }}" target="blank">{{ influencer.blogname }}</a>
+            <a ng-show="context.showDummyData" class="txt_link gray" ng-click="$event.stopPropagation()" click-emitter="featureLocked">{{ influencer.blogname }}</a>
+        </span><br/>
+        <div class="follower_row">
+            <span ng-repeat="platform in influencer.platforms" bindonce>
+                <span bo-if="platform.show_on_feed" bo-class="platformIcon(platform.platform_name)"></span><span class="count" bo-if="platform.show_on_feed" bo-text="' ' + (platform.num_followers | number:0)"></span>
+            </span>
+        </div>
+        <div class="influence_actions">
+            <a class="square_bt xxs gray_bt less_pad" ng-click="$event.stopPropagation();show(influencer.details_url)">
+                <span class="icon-misc_magnify2"></span>
+                <span class="button_txt">View Profile</span>
+            </a>
+            <a ng-if="influencerInfoCtrl.canEdit()" class="square_bt xxs gray_bt less_pad" ng-click="$event.stopPropagation();influencerInfoCtrl.openEditPopup({influencer: influencer})">
+                <!--<span class="icon-misc_magnify2"></span>-->
+                <span class="button_txt">Edit Data</span>
+            </a>
+        </div>
+    </div>
+</div>

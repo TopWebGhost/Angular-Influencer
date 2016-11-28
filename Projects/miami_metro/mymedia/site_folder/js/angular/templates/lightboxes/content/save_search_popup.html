@@ -1,0 +1,43 @@
+<div generic-popup>
+    <div ng-if="state != 'saving'" class="content_area_container px500">
+
+        <div ng-if="state == 'opened'">
+
+            <h1 class="lb_title lg">Save Search</h1>
+            <p class="instruction_txt small"></p>
+
+            <form name="form" novalidate>
+                <fieldset class="typical_form">
+                    <div class="required">
+                        <label for="searchName">Name</label>
+                        <input type="text" placeholder="Name" class="req add_shelf" required ng-model="data.viewName" name="searchName">
+                        <span ng-show="form.$dirty && form.searchName.$error.required" class="pav_validation">Enter non-empty name</span>
+                    </div>
+                </fieldset>
+
+                <div class="x_space x_30"></div>
+                
+                <div
+                  class="square_bt md teal_bt submit_button"
+                  ng-disabled="form.$invalid"
+                  ng-class="{inactive: form.$invalid}"
+                  ng-click="save()"
+                >
+                  <span ng-hide="state == 'saving' || state == 'error'">Save</span>
+                  <span ng-show="state == 'error'">Error!</span>
+                  <span ng-show="state == 'saving'">Saving...</span>
+                </div>
+            </form>
+
+        </div>
+
+        <!-- <div ng-if="state == 'saving'"><h1 class="lb_title lg">Saving</h1></div>
+        <div ng-if="state == 'saved'"><h1 class="lb_title lg">Saved!</h1></div>
+        <div ng-if="state == 'error'"><h1 class="lb_title lg">Error</h1></div> -->
+
+    </div>
+
+    <div ng-if="state == 'saving'" class="add_blogger_to_collection content_area_container">
+        <div main-loader></div>
+    </div>
+</div>

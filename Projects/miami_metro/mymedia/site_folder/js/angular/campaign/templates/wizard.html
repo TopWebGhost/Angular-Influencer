@@ -1,0 +1,109 @@
+<div class="campaign_tab_row_container">
+    <div class="campaign_tab_row clearfix" data-spy="affix" data-offset-top="0">
+        <a ng-show="section.visible" ng-href="{{ section.url }}" ng-repeat="section in wizardCtrl.campaignData.campaignSections">
+            <div class="campaign_tab" ng-class="{selected: section.selected }">{{ section.text }}</div>
+        </a>
+    </div>
+</div>
+
+<div class="dashboard_top_section transparent_bar">
+    <div class="search_name_row clearfix">
+        <div class="right_header_section post_analtyics_drillin_right">
+            <form name="form" novalidate>
+                <fieldset class="typical_form search_keyword lighter_field">
+                </fieldset>
+            </form>
+        </div>
+        <div class="name_section">
+            <div ng-if="!isSwitchingState && !wizardCtrl.error" class="page_title">
+                <span class="brand_name"><span>{{ wizardCtrl.campaignData.title }} : {{ wizardCtrl.campaignData.campaignSections[0].text }}</span></span>
+            </div>
+            <div ng-if="!isSwitchingState && wizardCtrl.error"><span>{{ wizardCtrl.error.text }}</span></div>
+            <div ng-if="isSwitchingState"><span>Loading...</span></div>
+        </div>
+    </div>
+</div>
+
+<div ng-if="!isSwitchingState && !wizardCtrl.error" class="centered_block setup_wizard">
+    <div class="report-edit-content">
+        <div class="report-wizard">
+            <accordion close-others="true">
+
+                <!-- TOP INSTRUCTIONS -->
+                <!-- TOP INSTRUCTIONS -->
+                <div class="a_form_group ">
+                    <div class="form_instruction main_instructions">This is your campaign setup page. You can fill in as much or as little as you'd like. And you can revisit this page at any point during your campaign. If you have questions about anything, it's best to get in touch with your account manager, or just click on the Green Help button in the lower right corner.</div>
+                </div>
+                <div class="x_space x_30"></div>
+
+                <accordion-group is-open="section.isOpen" is-disabled="!section.canEdit" ng-class="{'current-step': wizardCtrl.service.currentSection == section, 'completed-step': section.isCompleted }" ng-style="section.isOpen ? {'overflow': 'visible'} : {}" id="accordion_group_{{$index}}" ng-repeat="section in wizardCtrl.service.sections">
+                    <accordion-heading>
+                        <div class="wizard-head-wrapper clearfix" ng-click="wizardCtrl.preventToggle($event, section)">
+                            <span class="step-number">{{ section.order + 1 }}</span>
+                            <div class="header_bar_txt_sect">
+                                <span class="step_name">{{ section.name }}</span><br/>
+                                <span class="step_details">{{ section.description }}</span>
+                            </div>
+                        </div>
+                    </accordion-heading>
+
+                    <div ng-include="section.templateUrl" ng-if="section.templateUrl"></div>
+
+                    <button type="button" ng-show="section.isOpen" ng-click="$event.stopPropagation(); $event.preventDefault(); $state.go('wizard.section', {campaignId: $stateParams.campaignId, section: section.order + 2})" class="next-step-button" ng-class="{'ng-invalid': wizardCtrl.sectionState(section, $last) == 'invalid'}">
+                        <span ng-show="wizardCtrl.sectionState(section, $last) == 'invalid'">Invalid!</span>
+                        <span ng-show="wizardCtrl.sectionState(section, $last) == 'dirty'">Save</span>
+                        <span ng-show="wizardCtrl.sectionState(section, $last) == 'saving'">Saving...</span>
+                        <span ng-show="wizardCtrl.sectionState(section, $last) == 'next_step'">Next Step</span>
+                        <span ng-show="wizardCtrl.sectionState(section, $last) == 'done'">Done</span>
+                    </button>
+                </accordion-group>
+
+            </accordion>
+        </div>
+    </div>
+
+    <div class="x_space x_40"></div>
+
+    <div class="a_form_group slight_20_margin clearfix">
+        <div class="x_space x_10"></div>
+        <div class="flex_row_steps">
+            <fieldset class="typical_form step_container third left">
+                <div class="step_section no_top_margin">
+                    <div class="form_instruction main_instructions">If you're ready to start your outreach, click the button below. And if this is your first campaign, you might want to review the two sections to the right.</div>
+                    <button class="normal_bt xl teal_bt rounded" style="padding:15px 30px;" a-href="{{ wizardCtrl.campaignData.loadInfluencersUrl }}"><span>Load Influencers</span></button>
+                </div>
+            </fieldset>
+            <fieldset class="typical_form step_container third left">
+                <div class="step_section no_top_margin">
+                    <div class="form_instruction ">Here are a few things to keep in mind about the CONFIGURATION : </div>
+                    <div class="form_instruction">
+                        <ol>
+                            <li>You can come back here and edit this page at any time. (But it's a good idea to make sure that it's set up correctly before you begin outreach.)</li>
+                            <li>The one thing you can NOT change after "Loading Influencers", is the Approval Form. If this is enabled after loading influencers, it will need to stay enabled and vice versa. </li>
+                        </ol>
+                    </div>
+                </div>
+            </fieldset>
+
+            <fieldset class="typical_form step_container third right">
+                <div class="step_section no_top_margin">
+                    <div class="form_instruction ">Here are a few things to keep in mind about the EMAIL TEMPLATES: </div>
+                    <div class="form_instruction">
+                        <ol>
+                            <li>Don't worry too much about the email templates. The only one that you need for outreach is the very first template. The rest can be revisited later.</li>
+                            <li>All templates contain a link to the Campaign Overview page. Please make sure you've reviewed it by clicking on the button below. If you do NOT want to use this in any (or all) of your templates, you simply need to remove the "P.S. Check out the campaign overview page for more details" at the bottom of the templates and resave the Messages Section.</li>
+                        </ol>
+                    </div>
+                    <div class="normal_bt sm gray_bt rounded" a-href="{{ wizardCtrl.campaignData.overviewPageUrl }}">View Campaign Overview</div>
+                </div>
+            </fieldset>
+            
+        </div>
+    </div>
+    <div class="x_space x_40"></div>
+
+
+    
+</div>
+
+<div ng-if="isSwitchingState" main-loader></div>

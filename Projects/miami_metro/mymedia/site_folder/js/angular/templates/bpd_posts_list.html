@@ -1,0 +1,14 @@
+<div
+    masonry
+    item-selector=".masonry-grid-sizer"
+    column-width=".masonry-grid-sizer"
+    masonry-options="{ percentPosition: true, columnWidth: '.masonry-grid-sizer', transitionDuration: '0.8s', gutter: '.gutter-size' }"
+    class="feed_wrapper new_feed_wrapper"
+    preserve-order
+    reload-on-show
+>
+    <div class="gutter-size"></div>
+    <div masonry-brick class="masonry-grid-sizer" ng-repeat="post in postsListCtrl.posts" bindonce>
+        <div feed-item item="post" options="postsListCtrl.itemOptions"></div>
+    </div>
+</div>

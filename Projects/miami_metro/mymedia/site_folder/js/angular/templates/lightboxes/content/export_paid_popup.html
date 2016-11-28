@@ -1,0 +1,143 @@
+<div generic-popup>
+
+    <!-- PROMO CODE AND CONFIRMATION SCREEN -->
+    <div ng-if="state == 'opened'">
+        <div class="content_area_container checkout px500">
+            <h1 class="lb_title">{{package}}</h1>
+            <div class="form_row_40 clearfix">
+                <fieldset class="typical_form smaller_field">
+                    <label class="section_label">Promo Code&nbsp;<span style="text-transform:lowercase; letter-spacing:0;">(if you have one)</span></label>
+                    <div style="clear:both;">
+                        <input style="float:left; width:200px; margin-right:4px;" type="text" ng-model="paymentdata.tmpPromotionCode" placeholder="enter code here">
+                        <input type="submit" value="Redeem" class="square_bt sm gray_bt submit_button" ng-click="paymentdata.tmpPromotionCode && redeem(tmpPromotionCode)">
+                    </div>
+                </fieldset>
+            </div>
+            <div class="plan_pricing">
+                <div class="total_calc clearfix">
+                    <div class="price_tag">
+                        <span class="actual_price">${{amount}}</span>
+                    </div>
+                </div>
+            </div>
+            <input type="submit" value="Go to checkout" class="square_bt lg teal_bt submit_button rounded" ng-click="setState('checkout')">
+        </div>
+    </div>
+    <!-- CHECKING ON PROMO CODE DISCOUNT -->
+    <div ng-if="state == 'redeeming'">
+        <div class="content_area_container checkout px600">
+            <h1 class="lb_title">Calculating your savings.</h1>
+            <p class="instruction_txt">
+                <span class="smallermedium">Please wait...</span>
+            </p>
+        </div>
+    </div>
+    <!-- ERROR WITH REGISTRATION -->
+    <div ng-if="state == 'error'">
+        <div class="content_area_container checkout px600">
+            <h1 class="lb_title">Error</h1>
+            <p class="instruction_txt">
+                <span class="smallermedium">{{error}}</span>
+            </p>
+            <input type="submit" value="Go back" class="square_bt md teal_bt submit_button rounded" ng-click="setState('opened')">
+            <br>
+        </div>
+    </div>
+    <!-- CHECKOUT WITH YOUR CREDIT CARD -->
+    <div ng-if="state == 'checkout'">
+        <div class="content_area_container checkout px800">
+            <h1 class="lb_title">Credit Card Info</h1>
+            <form name="stripe" class="stripe">
+                <div class="form_row_40 clearfix">
+                    <fieldset class="typical_form">
+                        <label class="section_label">Your email address</label>
+                        <input type="email" ng-model="paymentdata.email" required>
+                    </fieldset>
+                </div>
+                <div class="form_row_40 clearfix">
+                    <fieldset class="typical_form third left" style="position: relative; z-index: 2">
+                        <label class="section_label">Credit Card Type</label>
+                        <div style="height:43px; width:100%;" dropdown-select="types" dropdown-model="cctype" dropdown-onchange="updateType(selected)"></div>
+                    </fieldset>
+                    <fieldset class="typical_form" style="position:relative">
+                        <label class="section_label">Credit Card Number</label>
+                        <input type="text" ng-model="stripedata.number" ui-mask="{{ccmask}}">
+                        <span style="position: absolute;top: 37px;right: 10px;color: green;" ng-if="stripedata.number && card_valid">&#x2713;</span>
+                    </fieldset>
+                </div>
+                <div class="form_row_40 clearfix">
+                    <fieldset class="typical_form third left">
+                        <label class="section_label">Exp Month</label>
+                        <div style="height:43px; width:100%;"
+                            dropdown-select="months"
+                            dropdown-model="exp_month"
+                            dropdown-onchange="updateExpMonth(selected)">
+                        </div>
+                    </fieldset>
+                    <fieldset class="typical_form third">
+                        <label class="section_label">Exp Year</label>
+                        <div style="height:43px; width:100%;"
+                            dropdown-select="years"
+                            dropdown-model="exp_year"
+                            dropdown-onchange="updateExpYear(selected)">
+                        </div>
+                    </fieldset>
+                    <fieldset class="typical_form third right">
+                        <label class="section_label">CVC code</label>
+                        <input type="text" ng-model="stripedata.cvc" ui-mask="{{cvcmask}}">
+                    </fieldset>
+                </div>
+                <div class="form_row_0 clearfix">
+                    <fieldset class="typical_form halfer">
+                        <div class="cb_or_rb_wrap">
+                            <input type="checkbox" id="agree" name="agreed" ng-model="agreed" ng-checked="agreed" required/>
+                            <label for="agree" ng-click="toggleAgree()">
+                                <span class="graphic plus_btn"></span>Agree to terms of service
+                            </label>
+                        </div>
+                    </fieldset>
+                    <fieldset class="typical_form halfer">
+                        <input type="submit" value="Submit" class="square_bt lg teal_bt submit_button rounded" ng-class="{disabled: stripe.$invalid}" ng-disabled="stripe.$invalid" ng-click="stripe.$valid&&getToken()">
+                    </fieldset>
+                </div>
+            </form>
+            <div class="gray_side_bar">
+                <div class="plan_name"><span style="font-weight:600">{{package}}</span></div>
+                <br/>
+                <div class="price_tag">
+                    <span class="actual_price">${{amount}}</span>
+                </div>
+                <br/>
+                <div class="extra_links">
+                    <a href="#" class="txt_link darker_teal" ng-click="setState('opened')">Do you have a promo code?</a><br/>
+                    <a href="#" class="txt_link darker_teal" ng-click="close()">Select a different export option</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- PROCESSING YOUR PAYMENT -->
+    <div ng-if="state == 'processing'">
+        <div class="content_area_container checkout px600">
+            <h1 class="lb_title">Processing your payment</h1>
+            <p class="instruction_txt">
+                <span class="smallermedium">Please wait</span>
+            </p>
+        </div>
+    </div>
+    <!-- CHANGING PLAN -->
+    <div ng-if="state == 'plan_change'">
+        <div class="content_area_container checkout px600">
+            <h1 class="lb_title">Changing your plan</h1>
+            <p class="instruction_txt">
+                <span class="smallermedium">Please wait</span>
+            </p>
+        </div>
+    </div>
+    <!-- SUCCESSFUL REGISTRATION -->
+    <div ng-if="state == 'success'">
+        <div class="content_area_container checkout px600">
+            <h1 class="lb_title">Success!</h1>
+        </div>
+    </div>
+
+</div>

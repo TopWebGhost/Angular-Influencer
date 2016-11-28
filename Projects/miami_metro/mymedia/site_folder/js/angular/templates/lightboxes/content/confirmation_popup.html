@@ -1,0 +1,30 @@
+<div generic-popup layer="40">
+
+    <div ng-if="state == 'opened'">
+        <div class="content_area_container px400">
+            <h1 class="lb_title">{{ titleText }}</h1>
+            <p class="instruction_txt">
+                <span ng-if="!htmlContent" class="small message">{{ message }}</span>
+                <span ng-if="htmlContent" class="small message" ng-bind-html="message"></span>
+            </p>
+            <div class="button_row">
+                <button class="square_bt teal_bt md confirm" ng-repeat="button in extraButtons" ng-click="button.cb()">{{ button.title }}</button>
+                <button class="square_bt teal_bt md confirm confirm_selection" ng-click="yes()" ng-hide="removeYesButton">{{ yesText }}</button>
+                <button class="square_bt teal_bt md confirm negate_selection" ng-click="no()" ng-hide="removeNoButton">{{ noText }}</button>
+            </div>
+        </div>
+    </div>
+
+    <div ng-if="state == 'working'">
+        <div class="content_area_container px400 for_the_loader">
+            <!--<h1 ng-hide="loading" class="lb_title">{{ workingText || "Wait a sec..." }}</h1>-->
+            <div main-loader></div>
+        </div>
+    </div>
+    <div ng-if="state == 'error'">
+        <div class="content_area_container px400">
+            <h1 class="lb_title lg">{{ error }}</h1>
+        </div>
+    </div>
+
+</div>

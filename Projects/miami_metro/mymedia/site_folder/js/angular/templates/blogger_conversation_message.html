@@ -1,0 +1,16 @@
+<div style="border: 1px solid grey;">
+    <div style="border-bottom: 1px solid grey;">
+        <span>From: {{ message.author }}</span>
+        <span>Date: {{ message.ts | amCalendar }} ({{ currentDateTime | amDifference : message.ts : 'days' }} days ago)</span>
+    </div>
+    <div class="actual_message" style="height: 250px; overflow: hidden;" ng-bind-html="message.msg.body"></div>
+    <div>
+        <div ng-class="{'tog_arrow_up': expandedMessage, 'tog_arrow_down': !expandedMessage}" ng-click="expandMessage()">
+            <span ng-class="{'icon-arrow_u_arr_4': expandedMessage, 'icon-arrow_d_arr_4': !expandedMessage}"></span>
+        </div>
+    </div>
+    <div style="border-top: 1px solid grey;">
+        <span>Viewed: {{ message.viewed_count }} times</span>
+        <time>Most recently: {{ message.last_viewed | amCalendar}}</time>
+    </div>
+</div>

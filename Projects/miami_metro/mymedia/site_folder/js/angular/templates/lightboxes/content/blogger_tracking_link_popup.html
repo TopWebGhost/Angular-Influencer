@@ -1,0 +1,43 @@
+<div generic-popup>
+    <div class="content_area_container px800">
+        <div ng-if="state == 'opened'">
+
+            <h1 class="lb_title lg">Tracking Links</h1>
+            <p class="instruction_txt small">
+            Add this snippet somewhere on your blog. When you finish, come back here and click OK, so that we can check. If you forget to click OK, its not the end of the world... We'll check your blog at the end of the day to make sure you were able to add it. Or <a class="launch-popup txt_link darker_teal" href="#" data-popup-type="contact_us" broadcaster="openContactForm">Contact Us</a> if you have issues.
+            </p>
+            <input type="submit" value="Done, it's up!" class="square_bt md teal_bt submit_button" ng-click="trigger_badge_verify()">
+            <div class="badge_code_container clearfix">
+                <div class="text_field_container">
+                    <textfield class="typical_form w_courier">
+                        <textarea cols="60" rows="6" class="badge_code" style="font-size:13px;">{{ trackingPixelSnippet }}</textarea>
+                    </textfield>
+                </div>
+            </div>
+        </div>
+
+        <div ng-if="state == 'verify'">
+            <h1 class="lb_title lg">Sending badge verification request</h1>
+        </div>
+
+        <div ng-if="state == 'error'">
+            <h1 class="lb_title lg">Network error. Try again later.</h1>
+        </div>
+
+        <div ng-if="state == 'success'">
+            <h1 class="lb_title lg">Request sent, we will email you in few minutes.</h1>
+        </div>
+
+        <div ng-if="state == 'no_badge'">
+            <h1 class="lb_title lg">We couldn't find badge on your blog :(</h1>
+        </div>
+
+        <div ng-if="state == 'bad_page'">
+            <h1 class="lb_title lg">There was problem during checking your blog. Try again later.</h1>
+        </div>
+
+    </div>
+</div>
+
+
+

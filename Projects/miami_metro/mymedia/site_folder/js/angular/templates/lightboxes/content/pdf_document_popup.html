@@ -1,0 +1,16 @@
+<div fixed-white-background-popup layer="30">
+
+    <div class="content_area_container for_the_loader px900 pdf_lightbox_container">
+        <div ng-if="state == 'opened'">
+            <h1 class="lb_title" ng-show="titleText">{{ titleText }}</h1>
+            <p class="instruction_txt"></p>
+
+            <ng-pdf template-url="{{ tsConfig.wrapTemplate('js/angular/templates/partials/pdf_canvas_partial.html') }}" canvasid="pdf" scale="page-fit"></ng-pdf>
+            
+        </div>
+        <div ng-if="state == 'error'">
+            <h1 class="lb_title lg">{{ error }}</h1>
+        </div>
+    </div>
+
+</div>

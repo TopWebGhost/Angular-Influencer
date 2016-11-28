@@ -1,0 +1,311 @@
+<div>
+    <div class="bloggers_container_wrapper" ng-switch="state">
+        <span ng-switch-when="wait_for_action">
+            <div class="missing_content">
+                <div ng-hide="loadInfluencersCtrl.tagsList.loaded" class="missing_text">
+                    <div ng-hide="searchMetaData.approvalEnabled">
+                        <p>Apply a tag group and/or use the filters on the left in order to show the group you wish to reach out to. Once you've pulled up the right group, then use this screen to add them to your pipeline after your first email is sent.</p>
+                    </div>
+                    <div ng-show="searchMetaData.approvalEnabled">
+                        <div style="font-size:20px; margin-bottom:10px;">
+                            <p ng-hide="loadInfluencersCtrl.tagsList.loaded">1. You can select a tag group using the dropdown below.</p>
+                            <p ng-show="loadInfluencersCtrl.tagsList.loaded">1. You've successfully added a tag group. Redirecting...</p>
+                        </div>
+
+                        <div class="tags_dropdown" ng-hide="loadInfluencersCtrl.tagsList.loaded">
+                            <fieldset class="typical_form" style="width: 300px;">
+                                <div class="order_select"
+                                    dropdown-select="loadInfluencersCtrl.tagsList.options"
+                                    dropdown-model="loadInfluencersCtrl.tagsList.selected"
+                                    dropdown-onchange="loadInfluencersCtrl.tagsList.update(selected)"
+                                    dropdown-disabled="loadInfluencersCtrl.tagsList.loading || loadInfluencersCtrl.tagsList.loaded"
+                                    dropdown-item-label="title">
+                                </div>
+                            </fieldset>
+                            <fieldset class="typical_form">
+                                <button class="square_bt gray_bt sm" ng-click="loadInfluencersCtrl.tagsList.add()">
+                                    <span ng-hide="loadInfluencersCtrl.tagsList.loading">Add</span>
+                                    <span ng-show="loadInfluencersCtrl.tagsList.loading">Adding...</span>
+                                </button>
+                            </fieldset>
+                        </div>
+                        <br/>
+                        <div style="font-size:20px;">
+                            <p>Or 2. You can use the filters on the left in order to pull up a big set of influencers, which you can then select influencers one by one.</p>
+                        </div>
+                    </div>
+                </div>
+                <div ng-show="loadInfluencersCtrl.tagsList.loaded" class="missing_text">
+                    <p>You've successfully added a tag group. Redirecting...</p>
+                </div>
+            </div>
+        </span>
+        <span ng-switch-when="no results">
+            <div class="missing_content">
+                <div class="missing_text">Your search didn't return any results... sorry!
+                    <br>If you think there's a mistake, contact us so that we can look into it.</div>
+                <a class="square_bt lg teal_bt launch-popup" data-popup-type="contact_us" broadcaster="openContactForm">contact us</a>
+            </div>
+        </span>
+        <span ng-switch-when="timeouted">
+            <div class="missing_content">
+                <div class="missing_text">The site is a bit slow right now, so please re-try in a bit.</div>
+                <!--<a class="square_bt lg teal_bt launch-popup" data-popup-type="contact_us" broadcaster="openContactForm">contact us</a>-->
+                <a class="square_bt lg teal_bt launch-popup" ng-click="$state.transitionTo($state.current, $stateParams, {reload: true})">Try Again</a>
+            </div>
+        </span>
+        <span ng-switch-when="ok">
+            <div ng-hide="isLoading()">
+
+                <div
+                    ng-if="bloggerContainerCtrl.viewMode.selected.value == 'grid'"
+                    masonry
+                    item-selector=".masonry-grid-sizer"
+                    column-width=".masonry-grid-sizer"
+                    masonry-options="{ percentPosition: true, columnWidth: '.masonry-grid-sizer', transitionDuration: '0.8s',  gutter: '.gutter-size' }"
+                    class="bloggers_container"
+                    preserve-order
+                    reload-on-show
+                >
+                    <div class="gutter-size"></div>
+                    <!--<div class="masonry-grid-sizer"></div>-->
+                    <div masonry-brick class="masonry-grid-sizer" bindonce ng-repeat="blogger in bloggers">
+                        <div blogger-info user="blogger" bookmarks></div>
+                    </div>
+                </div>
+
+                <div ng-if="bloggerContainerCtrl.viewMode.selected.value == 'table'" class="campaign_drillin_table fixed_width_table">
+                    <scrollable-table watch="bloggers">
+                        <table id="influencer_roi_prediction_report_table" influencer-stats-table>
+                            <thead>
+                                <th sortable-header class="cdt_influencer_column">Influencer</th>
+
+                                <th sortable-header class="cdt_occupation_column">Occupation</th>
+                                <th sortable-header class="cdt_categories_column">Categories</th>
+                                <th sortable-header class="cdt_sex_column">Sex</th>
+                                <th sortable-header class="cdt_ethnicity_column">Ethnicity</th>
+                                <th sortable-header class="cdt_language_column">Language</th>
+                                <th sortable-header class="cdt_representation_column">Representation</th>
+                                <th sortable-header class="cdt_rep_email_address_column">Rep Email Address</th>
+                                <th sortable-header class="cdt_rep_phone_column">Rep Phone</th>
+                                <th sortable-header class="cdt_tags_column">Tags</th>
+                                <th sortable-header class="cdt_notes_column">Notes</th>
+                                <th sortable-header class="cdt_age_column">Age</th>
+
+                                <th sortable-header class="cdt_date_of_birth_column">Date of Birth</th>
+                                <th sortable-header class="cdt_location_column">Location</th>
+                                <th sortable-header class="cdt_mailing_address_column">Mailing Address</th>
+                                <th sortable-header class="cdt_zip_code_column">Zip Code</th>
+                                <th sortable-header class="cdt_cell_phone_column">Cell Phone</th>
+                                <th sortable-header class="cdt_email_column">Email</th>
+                                <th sortable-header class="cdt_blog_url_column">Blog URL</th>
+                                <th sortable-header class="cdt_instagram_url_column">Instagram URL</th>
+                                <th sortable-header class="cdt_youtube_url_column">YouTube URL</th>
+                                <th sortable-header class="cdt_snapchat_column">Snapchat</th>
+                                <th sortable-header class="cdt_twitter_column">Twitter</th>
+                                <th sortable-header class="cdt_facebook_column">Facebook</th>
+                                <th sortable-header class="cdt_pinterest_column">Pinterest</th>
+
+                                <!--<th class="twitter_info">Twitter</th>
+                                <th class="pinterest_info">Pinterest</th>
+                                <th class="facebook_info">Facebook</th>
+                                <th class="instagram_info">Instagram</th>
+                                <th class="influencer_notes">Notes</th>-->
+
+                                <!--<th>Actions</th>-->
+                            </thead>
+                            <tfoot></tfoot>
+                            <tbody>
+                                <tr ng-repeat="influencer in bloggers track by $index" ng-class="{message_sent: influencer.invited_to && influencer.invited_to.indexOf(forceInvite) > -1, added_to_approval_report: influencer.influencer_analytics_collections_in.indexOf(searchMetaData.influencerAnalyticsCollectionId) > -1}">
+                                    <td class="cdt_influencer_column">
+                                        <div influencer-info></div>
+                                    </td>
+
+                                    <td class="cdt_occupation_column">
+                                        <div class="tag" ng-repeat="tag in influencer.brand_custom_data.occupation track by $index" bindonce bo-text="tag"></div>
+                                    </td>
+
+                                    <td class="cdt_categories_column">
+                                        <div class="tag" ng-repeat="tag in influencer.brand_custom_data.categories track by $index" bindonce bo-text="tag"></div>
+                                    </td>
+
+                                    <td class="cdt_sex_column">
+                                        <div class="tag" ng-repeat="tag in influencer.brand_custom_data.sex track by $index" bindonce bo-text="tag"></div>
+                                    </td>
+
+                                    <td class="cdt_ethnicity_column">
+                                        <div class="tag" ng-repeat="tag in influencer.brand_custom_data.ethnicity track by $index" bindonce bo-text="tag"></div>
+                                    </td>
+
+                                    <td class="cdt_language_column">
+                                        <div class="tag" ng-repeat="tag in influencer.brand_custom_data.language track by $index" bindonce bo-text="tag"></div>
+                                    </td>
+
+                                    <td class="cdt_representation_column">
+                                        <div>{{ influencer.brand_custom_data.representation || "---" }}</div>
+                                    </td>
+
+                                    <td class="cdt_rep_email_address_column">
+                                        <div>{{ influencer.brand_custom_data.repEmailAddress || "---" }}</div>
+                                    </td>
+
+                                    <td class="cdt_rep_phone_column">
+                                        <div>{{ influencer.brand_custom_data.repPhone || "---" }}</div>
+                                    </td>
+
+                                    <td class="cdt_tags_column">
+                                        <div class="tag" ng-repeat="tag in influencer.brand_custom_data.tags track by $index" bindonce bo-text="tag"></div>
+                                    </td>
+
+                                    <td class="cdt_notes_column">
+                                        <div>{{ influencer.brand_custom_data.notes || "---" }}</div>
+                                    </td>
+
+                                    <td class="cdt_age_column">
+                                        <div>{{ influencer.brand_custom_data.age || "---" }}</div>
+                                    </td>
+
+                                    <td class="cdt_date_of_birth_column">
+                                        <div>{{ influencer.brand_custom_data.dateOfBirth | date:'mediumDate' || "---" }}</div>
+                                    </td>
+
+                                    <td class="cdt_location_column">
+                                        <div>{{ influencer.brand_custom_data.locationData.location || "---" }}</div>
+                                        <!--
+                                        <div>{{ influencer.brand_custom_data.location_data.city }}</div>
+                                        <div>{{ influencer.brand_custom_data.location_data.state }}</div>
+                                        <div>{{ influencer.brand_custom_data.location_data.country || "---" }}</div>
+                                        -->
+                                    </td>
+
+                                    <td class="cdt_mailing_address_column">
+                                        <div>{{ influencer.brand_custom_data.mailingAddress || "---" }}</div>
+                                    </td>
+
+                                    <td class="cdt_zip_code_column">
+                                        <div>{{ influencer.brand_custom_data.zipCode || "---" }}</div>
+                                    </td>
+
+                                    <td class="cdt_cell_phone_column">
+                                        <div>{{ influencer.brand_custom_data.cellPhone || "---" }}</div>
+                                    </td>
+
+                                    <td class="cdt_email_column">
+                                        <div>{{ influencer.brand_custom_data.influencerData.email || "---" }}</div>
+                                    </td>
+
+                                    <td class="cdt_blog_url_column">
+                                        <div>{{ influencer.brand_custom_data.influencerData.blogUrl || "---" }}</div>
+                                    </td>
+
+                                    <td class="cdt_instagram_url_column">
+                                        <div>{{ influencer.brand_custom_data.influencerData.instaUrl || "---" }}</div>
+                                    </td>
+
+                                    <td class="cdt_youtube_url_column">
+                                        <div>{{ influencer.brand_custom_data.influencerData.youtubeUrl || "---" }}</div>
+                                    </td>
+
+                                    <td class="cdt_snapchat_column">
+                                        <div>{{ influencer.brand_custom_data.influencerData.snapchatUsername || "---" }}</div>
+                                    </td>
+
+                                    <td class="cdt_twitter_column">
+                                        <div>{{ influencer.brand_custom_data.influencerData.twUrl || "---" }}</div>
+                                    </td>
+
+                                    <td class="cdt_facebook_column">
+                                        <div>{{ influencer.brand_custom_data.influencerData.fbUrl || "---" }}</div>
+                                    </td>
+
+                                    <td class="cdt_pinterest_column">
+                                        <div>{{ influencer.brand_custom_data.influencerData.pinUrl || "---" }}</div>
+                                    </td>
+
+                                    <!--
+                                    <td>
+                                        <div platform-info platform-name="Twitter"></div>
+                                    </td>
+                                    <td>
+                                        <div platform-info platform-name="Pinterest"></div>
+                                    </td>
+                                    <td>
+                                        <div platform-info platform-name="Facebook"></div>
+                                    </td>
+                                    <td>
+                                        <div platform-info platform-name="Instagram"></div>
+                                    </td>
+                                    <td>
+                                        <div class="table_edit_boxes larger_box">
+                                            <div class="faux_textbox"></div>
+                                        </div>
+                                    </td>
+                                    -->
+
+                                    <!--
+                                    <td>
+                                        <div ng-hide="searchMetaData.approvalEnabled" send-invite-button force-invite="{{ campaignId }}">
+                                            <button ng-hide="influencer.invited_to && forceInvite && influencer.invited_to.indexOf(forceInvite) > -1" class="square_bt gray_bt sm" ng-click="message({userId: influencer.id, user: influencer, event: $event, reload: false, forceInvite: forceInvite, strictForce: true})">
+                                                <span>Send Message</span>
+                                            </button>
+                                            <div ng-show="influencer.invited_to && forceInvite && influencer.invited_to.indexOf(forceInvite) > -1">Sent</div>
+                                        </div>
+                                        <div ng-show="searchMetaData.approvalEnabled"
+                                            request-button
+                                                ng-click="requestButtonCtrl.doRequest({method: 'POST', successCb: null, url: '?add_to_approval_report=1', data: {inf_id: influencer.id}})">
+                                            <div ng-show="requestButtonCtrl.loaded || influencer.influencer_analytics_collections_in.indexOf(searchMetaData.influencerAnalyticsCollectionId) > -1">Added</div>
+                                            <button ng-hide="requestButtonCtrl.loaded || influencer.influencer_analytics_collections_in.indexOf(searchMetaData.influencerAnalyticsCollectionId) > -1" class="square_bt gray_bt sm">
+                                                <span ng-hide="requestButtonCtrl.loading">Add To Approval Report</span>
+                                                <span ng-show="requestButtonCtrl.loading">Adding...</span>
+                                            </button>
+                                        </div>
+                                    </td>
+                                    -->
+                                </tr>
+                            </tbody>
+                        </table>
+                    </scrollable-table>
+                </div>
+            </div>
+            <div main-loader ng-if="loader.isFetching()" style="position:fixed; top:240px; left:340px;"></div>
+            <div class="pagination" ng-hide="isLoading()" ng-if="has_pages">
+                <div class="page" ng-click="setPage(page-1)">Prev</div>
+                <div class="page" ng-repeat="page_no in pages1 track by $index" ng-click="setPage(page_no)" ng-class="{'current': page_no==page}">{{page_no}}</div>
+                <span ng-if="pages2.length && pages1[pages1.length-1]+1 != pages2[0]">...</span>
+                <div class="page" ng-repeat="page_no in pages2 track by $index" ng-click="setPage(page_no)" ng-class="{'current': page_no==page}">{{page_no}}</div>
+                <span ng-if="pages3.length && pages1[pages1.length-1]+1 != pages3[0] && pages2[pages2.length-1]+1 != pages3[0]">...</span>
+                <div class="page" ng-repeat="page_no in pages3 track by $index" ng-click="setPage(page_no)" ng-class="{'current': page_no==page}">{{page_no}}</div>
+                <div class="page" ng-click="setPage(page+1)">Next</div>
+            </div>
+            <!-- black overlay at the bottom of trial search results -->
+            <div class="black_non_paid_overlay" ng-if="query_limited" ng-hide="isLoading()">
+                <div class="overlay_txt">
+                    <div class="overlay_title">You are in Trial Mode</div>
+                    <div class="overlay_subtext">To see the other {{total_influencers}} results, you need to upgrade</div>
+                    <div><a href="/pricing/" class="square_bt teal_bt xl">Upgrade</a></div>
+                </div>
+            </div>
+        </span>
+        <span ng-switch-when="limit">
+            <div class="missing_content">
+                <div class="missing_text">Oh no... looks like you've hit your limit of search queries for the day! If you need help with this, you can contact us... or just check back tomorrow when your account is able to perform more searches.</div>
+                <a class="square_bt lg teal_bt launch-popup" data-popup-type="contact_us" broadcaster="openContactForm">contact us</a>
+            </div>
+        </span>
+        <span ng-switch-when="unauthorized">
+            <div class="missing_content">
+                <div class="missing_text">Oh no... looks like you're not logged in.</div>
+            </div>
+        </span>
+        <span ng-switch-when="error">
+            <div class="missing_content">
+                <div class="missing_text">Oh no... looks like some error occured.</div>
+            </div>
+        </span>
+    </div>
+    <!--div class="query_count_remaining" ng-if="context.onTrial">
+        <div class="trial_header">You are in Trial Mode</div>
+        <div class="trial_count"  ng-if="has_pages === false && remaining === 0">You have run out ouf your test queries.</div>
+        <div class="trial_count" ng-if="remaining>0">Remaining queries: {{remaining}}</div>
+    </div-->
+</div>

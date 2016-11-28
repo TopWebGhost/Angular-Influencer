@@ -1,0 +1,83 @@
+<div blank-popup ng-class="{tagging_popup: bookmarkPopupCtrl.type === 'tag', post_bookmarking_popup: bookmarkPopupCtrl.type === 'post'}">
+    <div class="black_overlay"></div>
+
+    <div class="lightbox dynamic bl_bg_lb">
+        <div class="container">
+            <div class="content_area">
+                <a class="close_button lightbox_close" ng-click="close()" ng-hide="no_close"><p class="icon-letter_x02"></p></a>
+                <div class="add_blogger_to_collection content_area_container" ng-class="{no_left_size: !bookmarkPopupCtrl.showLeftSide()}">
+
+                    <!-- LOADING CONTENT -->
+                    <div main-loader ng-if="state == 'opened' || state == 'adding_group' || state == 'uploading'"></div>
+
+                    <!-- ADD TO COLLECTION LIGHTBOX -->
+                    <div ng-if="state == 'loaded'" class="item_shelves">
+                        <!--div class="lb_title">Add To Campaign</div-->
+                        <!-- <div class="blogger_img" ng-show="img_url"><img ng-src="{{img_url}}"/></div> -->
+                        <div class="left_side_of_bookmarking" ng-if="bookmarkPopupCtrl.showLeftSide()">
+                            <div class="cropped_img" ng-show="bookmarkPopupCtrl.imgUrl" bg-image="{{bookmarkPopupCtrl.imgUrl}}"></div>
+                            <div>
+                                <textarea cols="25" rows="4" style="resize: none;" ng-model="bookmarkPopupCtrl.note" placeholder="Make a note..." ng-change="bookmarkPopupCtrl.saveNotesDebounced()" prevent-disablescrolling></textarea>
+                            </div>
+                        </div>
+                        <div class="right_side_of_bookmarking">
+                            <div class="bookmarking_main_header">
+                                <span ng-show="bookmarkPopupCtrl.showLeftSide()">Tag This Influencer</span>
+                                <span ng-hide="bookmarkPopupCtrl.showLeftSide()">Tag These Influencers</span>
+                            </div>
+                            <div class="nano-wrapper">
+                                <div class="nano" prevent-disablescrolling>
+                                    <div class="content">
+                                        <div class="bookmark_header" ng-if="bookmarkPopupCtrl.recentGroup">RECENT</div>
+                                        <div class="recent_bar_element" ng-if="bookmarkPopupCtrl.recentGroup">
+                                            <div class="bar_element" ng-class="{active: bookmarkPopupCtrl.recentGroup.selected}" ng-click="bookmarkPopupCtrl.toggleSelect(bookmarkPopupCtrl.recentGroup)">
+                                                <div class="square_pic"><img class="imgfit" ng-src="{{ bookmarkPopupCtrl.recentGroup.img }}" /></div>
+                                                <div class="shelf_name"><p>{{ bookmarkPopupCtrl.recentGroup.name }}</p></div>
+                                            </div>
+                                        </div>
+                                        <div class="bookmark_header">ALL TAG GROUPS</div>
+                                        <div class="bars">
+                                            <div ng-repeat="group in bookmarkPopupCtrl.groups" bindonce class="element_wrapper">
+                                                <div class="bar_element" bo-class="{active: group.selected}" ng-click="bookmarkPopupCtrl.toggleSelect(group)">
+                                                    <div class="square_pic"><img class="imgfit" bo-src="group.img" bo-if="group.img" /></div>
+                                                    <div class="shelf_name"><p bo-text="group.name"></p></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="btn_container centerer">
+                                <div>
+                                    <div class="typical_form small_field">
+                                        <span class="add_coll_form">
+                                            <input ng-model="new_group_name" name="name" maxlength="300" placeholder="{{ bookmarkPopupCtrl.placeholderText }}" type="text" class="req add_shelf" id="id_name" prevent-disablescrolling>
+                                        </span>
+                                        <button type="submit" class="square_bt sm gray_bt" ng-class="{disabled:!new_group_name}" ng-click="new_group_name && bookmarkPopupCtrl.addGroupAndBookmark(new_group_name)">Create &amp; Add</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- <div class="square_bt teal_bt lg done_btn" ng-click="upload()" ng-show="has_changes">Done</div> -->
+                        </div>
+                    </div>
+
+                    <!-- SAVING CHANGES / ERROR MESSAGES -->
+                    <div ng-if="state == 'load_error'">
+                        <div class="btn_container centerer white">Problem with loading collections</div>
+                    </div>
+                    <div ng-if="state == 'upload_error'">
+                        <div class="btn_container centerer white">Problem with saving changes</div>
+                    </div>
+                    <div ng-if="state == 'add_group_error'">
+                        <div class="btn_container centerer white">
+                            {{ errorMessage }}
+                            <!--
+                            <div class="square_bt blk_outline_white_inside rounded md" ng-click="setState('loaded')">Cancel</div>
+                            -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

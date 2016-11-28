@@ -1,0 +1,438 @@
+<fieldset class="typical_form search_keyword small_field">
+    <span mixed-autocomplete-input>
+    </span>
+</fieldset>
+
+
+<div class="search_section" ng-if="context.isSuperuser && source && shouldShowFilter('source')" ng-class="{toggle_section_open: toggledFilters['source']}">
+    <div class="disabler" click-emitter="featureLocked" ng-if="!canFilter('source')"></div>
+    <div class="mini_title" ng-click="toggleFilter('source')">
+        <span class="title">Sources</span>
+        <span class="question bs_tooltip" title="Find influencers by sources." data-placement="top">?</span>
+    </div>
+    <div class="filter_content" ng-if="toggledFilters['source']">
+        <div class="generic_search clearfix">
+            <div class="generic_search_box xsmall_field typical_form">
+                <input type="text" placeholder="Search for sources" class="autocomplete" ng-model="sourceSearch">
+            </div>
+        </div>
+        <div class="cb_or_rb_wrap">
+            <div class="nano">
+                <div class="content nano-content">
+                    <span ng-repeat="src in source track by $index | filter:sourceSearch">
+                        <input name="source_{{$index}}" type="checkbox" id="source_{{$index}}" name="cc" ng-click="toggleTypeFilter('source', src.value)" ng-checked="hasTypeFilter('source', src.value)" />
+                        <label for="source_{{$index}}">
+                            <span class="graphic plus_btn"></span>{{src.title}}
+                        </label>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div multi-select-filter filter-name="tags" filter-title="My Tags" filter-hint="" search-placeholder="Search for tags"></div>
+
+
+<div multi-select-filter filter-name="customCategories" filter-title="Custom Categories" filter-hint="" search-placeholder="Search for categories"></div>
+
+
+<div multi-select-filter filter-name="customOccupation" filter-title="Custom Occupation" filter-hint="" search-placeholder="Search for occupations"></div>
+
+
+<div multi-select-filter filter-name="customSex" filter-title="Custom Sex" filter-hint="" search-placeholder="Search for sex"></div>
+
+
+<div multi-select-filter filter-name="customEthnicity" filter-title="Custom Ethnicity" filter-hint="" search-placeholder="Search for ethnicity"></div>
+
+
+<div multi-select-filter filter-name="customTags" filter-title="Custom Tags" filter-hint="" search-placeholder="Search for tags"></div>
+
+
+<div multi-select-filter filter-name="customLanguage" filter-title="Custom Language" filter-hint="" search-placeholder="Search for language"></div>
+
+
+<div class="search_section" ng-show="shouldShowFilter('engagement')" ng-class="{toggle_section_open: toggledFilters['engagement']}">
+    <div class="disabler" click-emitter="featureLocked" ng-if="!canFilter('engagement')"></div>
+    <div class="mini_title" ng-click="toggleFilter('engagement')">
+        <span class="title">Avg. # of Comments</span>
+        <span class="question bs_tooltip" title="Filter by average number of comments/post." data-placement="top">?</span>
+    </div>
+    <div style="clear:both;" class="clearfix filter_content" ng-if="toggledFilters['engagement']">
+        <fieldset class="typical_form xsmall_field" style="float:left;">
+            <input style="width:70px;" name="engagement_min" ng-model="engagement_min" type="text" ng-change="updateRangeFilter('engagement', engagement_min, engagement_max)" min="0" max="{{engagement_max}}" placeholder="Min" sg-number-input>
+        </fieldset>
+        <div class="float_left serif_ital xxxsmall" style="padding:8px 8px 5px 5px;">to</div>
+        <fieldset class="typical_form xsmall_field" style="float:left;">
+            <input style="width:70px;" name="engagement_max" ng-model="engagement_max" type="text" ng-change="updateRangeFilter('engagement', engagement_min, engagement_max)" min="0" placeholder="Max" sg-number-input>
+        </fieldset>
+        <!-- <div class="xs square_bt gray_bt" style="margin-left:10px; padding:6px 11px;" ng-click="updateRangeFilter('engagement', engagement_min, engagement_max);applyRangeFilter('engagement')">Apply</div> -->
+    </div>
+</div>
+
+
+<div class="search_section" ng-show="shouldShowFilter('customAgeRange')" ng-class="{toggle_section_open: toggledFilters['customAgeRange']}">
+    <div class="disabler" click-emitter="featureLocked" ng-if="!canFilter('customAgeRange')"></div>
+    <div class="mini_title" ng-click="toggleFilter('customAgeRange')">
+        <span class="title">Custom Age</span>
+        <span class="question bs_tooltip" title="" data-placement="top">?</span>
+    </div>
+    <div style="clear:both;" class="clearfix filter_content" ng-if="toggledFilters['customAgeRange']">
+        <fieldset class="typical_form xsmall_field" style="float:left;">
+            <input style="width:70px;" name="customAgeRange_min" ng-model="customAgeRange_min" type="text" ng-change="updateRangeFilter('customAgeRange', customAgeRange_min, customAgeRange_max)" min="0" max="{{customAgeRange_max}}" placeholder="Min" sg-number-input>
+        </fieldset>
+        <div class="float_left serif_ital xxxsmall" style="padding:8px 8px 5px 5px;">to</div>
+        <fieldset class="typical_form xsmall_field" style="float:left;">
+            <input style="width:70px;" name="customAgeRange_max" ng-model="customAgeRange_max" type="text" ng-change="updateRangeFilter('customAgeRange', customAgeRange_min, customAgeRange_max)" min="0" placeholder="Max" sg-number-input>
+        </fieldset>
+        <!-- <div class="xs square_bt gray_bt" style="margin-left:10px; padding:6px 11px;" ng-click="updateRangeFilter('engagement', engagement_min, engagement_max);applyRangeFilter('engagement')">Apply</div> -->
+    </div>
+</div>
+
+
+<div class="search_section" ng-show="popularity && context.isSuperuser && shouldShowFilter('popularity')" ng-class="{toggle_section_open: toggledFilters['popularity']}">
+    <div class="disabler" click-emitter="featureLocked" ng-if="!canFilter('popularity')"></div>
+    <div class="mini_title" ng-click="toggleFilter('popularity')">
+        <span class="title">Popularity</span>
+        <span class="question bs_tooltip" title="Filter based on social media followers" data-placement="top">?</span>
+    </div>
+    <div class="cb_or_rb_wrap filter_content" ng-if="toggledFilters['popularity']">
+        <span ng-repeat="entry in popularity track by $index">
+            <input name="popularity_{{$index}}" type="checkbox" id="popularity_{{$index}}" name="cc" ng-click="toggleTypeFilter('popularity', entry.title)" ng-checked="hasTypeFilter('popularity', entry.title)" />
+            <label for="popularity_{{$index}}">
+                <span class="graphic plus_btn"></span>{{entry.title}}
+                <!--span class="num_count">&nbsp;{{entry.count}}</span-->
+            </label>
+        </span>
+    </div>
+</div>
+
+
+<div class="search_section" ng-show="socials && shouldShowFilter('socials')" ng-class="{toggle_section_open: toggledFilters['socials']}">
+    <div class="disabler" click-emitter="featureLocked" ng-if="!canFilter('socials')"></div>
+    <div class="mini_title" ng-click="toggleFilter('socials')">
+        <span class="title">Followers Count</span>
+        <span class="question bs_tooltip" title="Filter by a specific social platform" data-placement="top">?</span>
+    </div>
+    <div class="filter_content" ng-if="toggledFilters['socials']">
+        <div class="nav_subtext">Select the social network and then enter in a range for the number of followers.</div>
+        <div class="cb_or_rb_wrap clearfix filter_content">
+            <span ng-repeat="entry in socials track by $index">
+                <input name="socials_{{$index}}" type="radio" id="socials_{{$index}}" name="cc" ng-click="toggleRangeFilter('social', entry.value, social_min, social_max)" value="{{entry.value}}" ng-checked="rangeModels['social'] == entry.value || rangeModels['social'].value == entry.value" />
+                <label class="floater" for="socials_{{$index}}">
+                    <span class="{{entry.icon}}"></span><br/><span class="graphic"></span>
+                    <!--span class="num_count">&nbsp;{{entry.count}}</span-->
+                </label>
+            </span>
+        </div>
+        <div style="clear:both; margin:8px 0;" class="clearfix" ng-show="rangeModels['social']">
+            <fieldset class="typical_form xsmall_field" style="float:left;">
+                <input style="width:70px;" name="social_min" ng-model="social_min" type="text" ng-change="updateRangeFilter('social', social_min, social_max)" min="0" max="{{social_max}}" placeholder="Min" sg-number-input>
+            </fieldset>
+            <div class="float_left serif_ital xxxsmall" style="padding:8px 8px 5px 5px;">to</div>
+            <fieldset class="typical_form xsmall_field" style="float:left;">
+                <input style="width:70px;" name="social_max" ng-model="social_max" type="text" ng-change="updateRangeFilter('social', social_min, social_max)" min="{{social_min}}" placeholder="Max" sg-number-input>
+            </fieldset>
+            <!-- <div class="xs square_bt gray_bt" style="margin-left:10px; padding:6px 11px;" ng-click="applyRangeFilter('social')">Apply</div> -->
+        </div>
+    </div>
+</div>
+
+
+<div class="search_section" ng-show="socials && shouldShowFilter('likes')" ng-class="{toggle_section_open: toggledFilters['likes']}">
+    <div class="disabler" click-emitter="featureLocked" ng-if="!canFilter('likes')"></div>
+    <div class="mini_title" ng-click="toggleFilter('likes')">
+        <span class="title">Likes Count</span>
+        <span class="question bs_tooltip" title="Filter by a specific social platform" data-placement="top">?</span>
+    </div>
+    <div class="filter_content" ng-if="toggledFilters['likes']">
+        <div class="nav_subtext">Select the social network and then enter in a range for the number of likes.</div>
+        <div class="cb_or_rb_wrap clearfix filter_content">
+            <span ng-repeat="entry in socials track by $index">
+                <input name="likes_{{$index}}" type="radio" id="likes_{{$index}}" name="cc" ng-click="toggleRangeFilter('likes', entry.value, likes_min, likes_max)" value="{{entry.value}}" ng-checked="rangeModels['likes'] == entry.value || rangeModels['likes'].value == entry.value" />
+                <label class="floater" for="likes_{{$index}}">
+                    <span class="{{entry.icon}}"></span><br/><span class="graphic"></span>
+                    <!--span class="num_count">&nbsp;{{entry.count}}</span-->
+                </label>
+            </span>
+        </div>
+        <div style="clear:both; margin:8px 0;" class="clearfix" ng-show="rangeModels['likes']">
+            <fieldset class="typical_form xsmall_field" style="float:left;">
+                <input style="width:70px;" name="likes_min" ng-model="likes_min" type="text" ng-change="updateRangeFilter('likes', likes_min, likes_max)" min="0" max="{{likes_max}}" placeholder="Min" sg-number-input>
+            </fieldset>
+            <div class="float_left serif_ital xxxsmall" style="padding:8px 8px 5px 5px;">to</div>
+            <fieldset class="typical_form xsmall_field" style="float:left;">
+                <input style="width:70px;" name="likes_max" ng-model="likes_max" type="text" ng-change="updateRangeFilter('likes', likes_min, likes_max)" min="{{likes_min}}" placeholder="Max" sg-number-input>
+            </fieldset>
+            <!-- <div class="xs square_bt gray_bt" style="margin-left:10px; padding:6px 11px;" ng-click="applyRangeFilter('social')">Apply</div> -->
+        </div>
+    </div>
+</div>
+
+
+<div class="search_section" ng-show="context.ageDistributionOn && ageGroups && shouldShowFilter('avgAge')" ng-class="{toggle_section_open: toggledFilters['avgAge']}">
+    <div class="disabler" click-emitter="featureLocked" ng-if="!canFilter('avgAge')"></div>
+    <div class="mini_title" ng-click="toggleFilter('avgAge')">
+        <span class="title">Avg. Visitors Age</span>
+        <span class="question bs_tooltip" title="Filter by a specific social platform" data-placement="top">?</span>
+    </div>
+    <div class="filter_content" ng-if="toggledFilters['avgAge']">
+        <div class="nav_subtext"></div>
+        <div class="cb_or_rb_wrap clearfix filter_content">
+            <span ng-repeat="entry in ageGroups track by $index">
+                <input name="age_group_{{$index}}" type="checkbox" id="age_group_{{$index}}" name="cc" ng-click="toggleTypeFilter('avgAge', entry.value)" value="{{entry.value}}" ng-checked="hasTypeFilter('avgAge', entry.value)" />
+                <label for="age_group_{{$index}}">
+                    <span class="graphic plus_btn"></span>{{ entry.icon }}
+                    <!--span class="num_count">&nbsp;{{entry.count}}</span-->
+                </label>
+            </span>
+        </div>
+    </div>
+</div>
+
+<div class="search_section" ng-show="socials && shouldShowFilter('shares')" ng-class="{toggle_section_open: toggledFilters['shares']}">
+    <div class="disabler" click-emitter="featureLocked" ng-if="!canFilter('shares')"></div>
+    <div class="mini_title" ng-click="toggleFilter('shares')">
+        <span class="title">Shares Count</span>
+        <span class="question bs_tooltip" title="Filter by a specific social platform" data-placement="top">?</span>
+    </div>
+    <div class="filter_content" ng-if="toggledFilters['shares']">
+        <div class="nav_subtext">Select the social network and then enter in a range for the number of shares.</div>
+        <div class="cb_or_rb_wrap clearfix filter_content">
+            <span ng-repeat="entry in socials track by $index">
+                <input name="shares_{{$index}}" type="radio" id="shares_{{$index}}" name="cc" ng-click="toggleRangeFilter('shares', entry.value, shares_min, shares_max)" value="{{entry.value}}" ng-checked="rangeModels['shares'] == entry.value || rangeModels['shares'].value == entry.value" />
+                <label class="floater" for="shares_{{$index}}">
+                    <span class="{{entry.icon}}"></span><br/><span class="graphic"></span>
+                    <!--span class="num_count">&nbsp;{{entry.count}}</span-->
+                </label>
+            </span>
+        </div>
+        <div style="clear:both; margin:8px 0;" class="clearfix" ng-show="rangeModels['shares']">
+            <fieldset class="typical_form xsmall_field" style="float:left;">
+                <input style="width:70px;" name="shares_min" ng-model="shares_min" type="text" ng-change="updateRangeFilter('shares', shares_min, shares_max)" min="0" max="{{shares_max}}" placeholder="Min" sg-number-input>
+            </fieldset>
+            <div class="float_left serif_ital xxxsmall" style="padding:8px 8px 5px 5px;">to</div>
+            <fieldset class="typical_form xsmall_field" style="float:left;">
+                <input style="width:70px;" name="shares_max" ng-model="shares_max" type="text" ng-change="updateRangeFilter('shares', shares_min, shares_max)" min="{{shares_min}}" placeholder="Max" sg-number-input>
+            </fieldset>
+            <!-- <div class="xs square_bt gray_bt" style="margin-left:10px; padding:6px 11px;" ng-click="applyRangeFilter('social')">Apply</div> -->
+        </div>
+    </div>
+</div>
+
+<div class="search_section" ng-show="socials && shouldShowFilter('comments')" ng-class="{toggle_section_open: toggledFilters['comments']}">
+    <div class="disabler" click-emitter="featureLocked" ng-if="!canFilter('comments')"></div>
+    <div class="mini_title" ng-click="toggleFilter('comments')">
+        <span class="title">Comments Count</span>
+        <span class="question bs_tooltip" title="Filter by a specific social platform" data-placement="top">?</span>
+    </div>
+    <div class="filter_content" ng-if="toggledFilters['comments']">
+        <div class="nav_subtext">Select the social network and then enter in a range for the number of comments.</div>
+        <div class="cb_or_rb_wrap clearfix filter_content">
+            <span ng-repeat="entry in socials track by $index">
+                <input name="comments_{{$index}}" type="radio" id="comments_{{$index}}" name="cc" ng-click="toggleRangeFilter('comments', entry.value, comments_min, comments_max)" value="{{entry.value}}" ng-checked="rangeModels['comments'] == entry.value || rangeModels['comments'].value == entry.value" />
+                <label class="floater" for="comments_{{$index}}">
+                    <span class="{{entry.icon}}"></span><br/><span class="graphic"></span>
+                    <!--span class="num_count">&nbsp;{{entry.count}}</span-->
+                </label>
+            </span>
+        </div>
+        <div style="clear:both; margin:8px 0;" class="clearfix" ng-show="rangeModels['comments']">
+            <fieldset class="typical_form xsmall_field" style="float:left;">
+                <input style="width:70px;" name="comments_min" ng-model="comments_min" type="text" ng-change="updateRangeFilter('comments', comments_min, comments_max)" min="0" max="{{comments_max}}" placeholder="Min" sg-number-input>
+            </fieldset>
+            <div class="float_left serif_ital xxxsmall" style="padding:8px 8px 5px 5px;">to</div>
+            <fieldset class="typical_form xsmall_field" style="float:left;">
+                <input style="width:70px;" name="comments_max" ng-model="comments_max" type="text" ng-change="updateRangeFilter('comments', comments_min, comments_max)" min="{{comments_min}}" placeholder="Max" sg-number-input>
+            </fieldset>
+            <!-- <div class="xs square_bt gray_bt" style="margin-left:10px; padding:6px 11px;" ng-click="applyRangeFilter('social')">Apply</div> -->
+        </div>
+    </div>
+</div>
+
+<div class="search_section" ng-show="categories && categories.show() && shouldShowFilter('categories')" ng-class="{toggle_section_open: toggledFilters['categories']}">
+    <div class="disabler" click-emitter="featureLocked" ng-if="categories.disabled()"></div>
+    <div class="mini_title" ng-click="toggleFilter('categories')">
+        <span class="title">Categories</span>
+        <span class="extra_info" ng-show="categories.fetching()">filtering</span>
+        <span class="question bs_tooltip" title="Filter by categories to see results that contain only bloggers within those categories." data-placement="top">?</span>
+    </div>
+    <div style="clear:both;" class="clearfix filter_content" ng-if="toggledFilters['categories']">
+        <fieldset class="typical_form xsmall_field activity_levels">
+            <div class="cb_or_rb_wrap clearfix">
+                <div class="category_select"
+                    dropdown-select="categories.available"
+                    dropdown-model="categories.selected"
+                    dropdown-model-object="categories"
+                    dropdown-onchange="categories.update()">
+                </div>
+            </div>
+        </fieldset>
+    </div>
+    <div class="cb_or_rb_wrap"></div>
+</div>
+
+<div class="search_section" ng-show="debug && activity && shouldShowFilter('activity')" ng-class="{toggle_section_open: toggledFilters['activity']}">
+    <div class="mini_title" ng-click="toggleFilter('activity')">
+        <span class="title">Activity</span>
+        <span class="question bs_tooltip" title="Filter by how recent an influencer has been active." data-placement="top">?</span>
+    </div>
+    <div class="filter_content" ng-if="toggledFilters['activity']">
+        <div class="nav_subtext">First choose the platform.  Then select the span of time in which they needed to be active on that particular platform.</div>
+        <div class="cb_or_rb_wrap clearfix">
+            <span ng-repeat="entry in activity track by $index">
+                <input name="activity_{{$index}}" type="radio" id="activity_{{$index}}" name="cc" ng-click="toggleChoiceFilter('activity', entry.value, selectedActivityLevel)" value="{{entry.value}}" ng-checked="choiceModels['activity'].platform == entry.value"/>
+                <label class="floater" for="activity_{{$index}}">
+                    <span class="{{entry.icon}}"></span><br/><span class="graphic"></span>
+                    <!--span class="num_count">&nbsp;{{entry.count}}</span-->
+                </label>
+            </span>
+            <div style="clear:both; margin:8px 0;" class="clearfix" ng-show="choiceModels['activity']">
+                <fieldset class="typical_form xsmall_field activity_levels">
+                    <div class="mode_select wrap-dd-select"
+                        dropdown-select="activityLevelsDisplay"
+                        dropdown-model="selectedActivityLevel"
+                        dropdown-onchange="toggleActivityFilter(selected)">
+                    </div>
+                </fieldset>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<!-- <div class="search_section" ng-if="categories">
+    <div class="disabler" click-emitter="featureLocked" ng-if="!canFilter('categories')"></div>
+    <div class="mini_title">
+        <span class="title">Categories</span>
+        <span class="extra_info" ng-hide="showAllCategories||categorySearch">top 10</span>
+        <span class="extra_info" ng-show="showAllCategories">all</span>
+        <span class="extra_info" ng-show="categorySearch">filtered</span>
+        <span class="question bs_tooltip" title="Category filters allow you to filter based on the type of product (maternity, athletic, etc.) as well as the category of product (shoes, jewelry, etc.)" data-placement="top">?</span>
+    </div>
+    <div class="generic_search clearfix">
+        <div class="generic_search_box">
+            <input type="text" placeholder="Search for category" class="autocomplete" ng-model="categorySearch">
+            <div class="search_icon">
+                <span class="icon-misc_magnify2"></span>
+            </div>
+        </div>
+    </div>
+    <div class="cb_or_rb_wrap">
+        <div class="nano">
+            <div class="content nano-content">
+                <span ng-repeat="category in categories | filter:categorySearch | toptencat:!(showAllCategories||categorySearch)">
+                    <input name="category_{{$index}}" type="checkbox" id="category_{{$index}}" name="cc" ng-click="toggleTypeFilter('category', category.title)" ng-checked="hasTypeFilter('category', category.title)" />
+                    <label for="category_{{$index}}">
+                        <span class="graphic plus_btn"></span>{{category.title}}
+                        <span class="num_count">&nbsp;{{category.count}}</span>
+                    </label>
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="show_all_btn" ng-hide="showAllCategories||categorySearch" ng-click="showAllCategories=true; updateNano();">Show All</div>
+    <div class="show_all_btn less" ng-show="showAllCategories" ng-click="showAllCategories=false; updateNano();">Show Less</div>
+</div> -->
+
+<div class="search_section" ng-show="priceranges && shouldShowFilter('priceranges')" ng-class="{toggle_section_open: toggledFilters['priceranges']}">
+    <div class="disabler" click-emitter="featureLocked" ng-if="!canFilter('priceranges')"></div>
+    <div class="mini_title" ng-click="toggleFilter('priceranges')">
+        <span class="title">Items price range</span>
+        <span class="question bs_tooltip" title="If your products fall within a certain price range, you can use these to locate bloggers blogging about items in that same price range." data-placement="top">?</span>
+    </div>
+    <div class="cb_or_rb_wrap filter_content" ng-if="toggledFilters['priceranges']">
+        <span ng-repeat="entry in priceranges track by $index">
+            <input name="pricerange_{{$index}}" type="checkbox" id="pricerange_{{$index}}" name="cc" ng-click="toggleTypeFilter('priceranges', entry.title)" ng-checked="hasTypeFilter('priceranges', entry.title)" />
+            <label for="pricerange_{{$index}}">
+                <span class="graphic plus_btn"></span>{{entry.text}}
+            </label>
+        </span>
+    </div>
+</div>
+
+
+<div class="search_section" ng-show="genders && shouldShowFilter('genders')" ng-class="{toggle_section_open: toggledFilters['genders']}">
+    <div class="disabler" click-emitter="featureLocked" ng-if="!canFilter('genders')"></div>
+    <div class="mini_title" ng-click="toggleFilter('genders')">
+        <span class="title">Gender</span>
+        <span class="question bs_tooltip" title="" data-placement="top">?</span>
+    </div>
+    <div class="cb_or_rb_wrap filter_content" ng-if="toggledFilters['genders']">
+        <span ng-repeat="entry in genders track by $index">
+            <input name="gender_{{$index}}" type="checkbox" id="gender_{{$index}}" name="cc" ng-click="toggleTypeFilter('gender', entry.title)" ng-checked="hasTypeFilter('gender', entry.title)" />
+            <label for="gender_{{$index}}">
+                <span class="graphic plus_btn"></span>{{entry.title}}
+            </label>
+        </span>
+    </div>
+</div>
+
+<div class="search_section" ng-show="false && brands != null" ng-class="{toggle_section_open: toggledFilters['brands']}">
+    <div class="disabler" click-emitter="featureLocked" ng-if="!canFilter('brands')"></div>
+    <div class="mini_title" ng-click="toggleFilter('brands')">
+        <span class="title">Brands</span>
+        <span class="extra_info" ng-show="brandsFetching">filtering</span>
+        <span class="question bs_tooltip" title="Filter by brands that are similar to yours in order to find bloggers with the right audience." data-placement="top">?</span>
+    </div>
+    <div class="filter_content" ng-if="toggledFilters['brands']">
+        <div class="generic_search clearfix">
+            <div class="generic_search_box xsmall_field">
+                <input type="text" placeholder="Search for brand" class="autocomplete" ng-model="brandsSearch" ng-change="startAcTimeout(brandsSearch)">
+            </div>
+        </div>
+        <div class="cb_or_rb_wrap" ng-show="brands">
+            <div class="nano">
+                <div class="content nano-content">
+                    <span ng-repeat="brand in brands track by $index">
+                        <input name="brand_{{$index}}" type="checkbox" id="brand_{{$index}}" name="cc" ng-click="toggleTypeFilter('brand', brand)" ng-checked="hasTypeFilter('brand', brand)" />
+                        <label for="brand_{{$index}}">
+                            <span class="graphic plus_btn"></span>{{brand.text}}
+                            <span class="num_count">&nbsp;</span>
+                        </label>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- <div class="search_section" ng-if="brands != null">
+    <div class="disabler" click-emitter="featureLocked" ng-if="!canFilter('brands')"></div>
+    <div class="mini_title">
+        <span class="title">Brands</span>
+        <span class="extra_info" ng-hide="showAllBrands||brandsSearch">top 10</span>
+        <span class="extra_info" ng-show="showAllBrands">all</span>
+        <span class="extra_info" ng-show="brandsSearch">filtered</span>
+        <span class="question bs_tooltip" title="Filter by brands that are similar to yours in order to find bloggers with the right audience." data-placement="top">?</span>
+    </div>
+    <div class="generic_search clearfix">
+        <div class="generic_search_box">
+            <input type="text" placeholder="Search for brand" class="autocomplete" ng-model="brandsSearch" ng-change="startAcTimeout(brandsSearch)">
+            <div class="search_icon brand_search_icon">
+                <span class="icon-misc_magnify2"></span>
+            </div>
+        </div>
+    </div>
+    <div class="cb_or_rb_wrap">
+        <div class="nano">
+            <div class="content nano-content">
+                <span ng-repeat="brand in brands | topten:!(showAllBrands||brandsSearch) track by $index">
+                    <input name="brand_{{$index}}" type="checkbox" id="brand_{{$index}}" name="cc" ng-click="toggleTypeFilter('brand', brand)" ng-checked="hasTypeFilter('brand', brand)" />
+                    <label for="brand_{{$index}}">
+                        <span class="graphic plus_btn"></span>{{brand.text}}
+                        <span class="num_count">&nbsp;</span>
+                    </label>
+                </span>
+            </div>
+        </div>
+        <div class="show_all_btn" ng-hide="showAllBrands||brandsSearch" ng-click="showAllBrands=true; updateNano();">Show All</div>
+        <div class="show_all_btn less" ng-show="showAllBrands" ng-click="showAllBrands=false; updateNano();">Show Less</div>
+    </div>
+</div> -->
+
+
+<div multi-select-filter filter-name="location" filter-title="Locations" filter-hint="If a blogger has included her location on her blog or social platforms, you'll be able to find them using the location filter." search-placeholder="Search for location"></div>

@@ -1,0 +1,247 @@
+<div white-background-popup>
+    <div class="content_area_container px800 login_lb" ng-if="state=='opened'">
+        <h1 class="lb_title xxlarge" style="font-size:45px;">Are you a...</h1>
+        <div class="user_type_row sign_log_row clearfix">
+            <div class="user_type_itm next_btn" ng-click="setState('blogger')" style="margin-left: 130px;">
+                <div class="user_title">Blogger</div>
+                <div class="user_sub">Do you have a blog?
+                    <br/>Is your blog about fashion?</div>
+            </div>
+            <div class="user_type_itm next_btn" ng-click="setState('brand')">
+                <div class="user_title">Brand</div>
+                <div class="user_sub">Are you looking for bloggers
+                    <br/>to work with?</div>
+            </div>
+        </div>
+        <div class="user_type_row sign_log_row clearfix center_text serif_ital xxsmall">
+            <a href="#" class="txt_link gray" ng-click="login()">or, login here if you are already signed up</a>
+        </div>
+    </div>
+
+    <div class="content_area_container px700 login_lb" ng-if="state=='blogger'">
+        <div class="blogger_signup_form form_container">
+            <h1 class="lb_title login_title">Add Your Blog</h1>
+            <form name="blogger_signup" class="sign_log_form blogger" autocomplete="off">
+                <div class="sign_log_row clearfix">
+                    <fieldset class="typical_form sign_log_form_field third left">
+                        <div class="required">
+                            <input type="password" name="noautofill_1" style="display:none">
+                            <input ng-model="f1" id="blogger_signup_id_1" placeholder="Name" type="text" name="f_1" class="req" required autocomplete="off">
+                        </div>
+                    </fieldset>
+                    <fieldset class="typical_form sign_log_form_field third left">
+                        <div class="required">
+                            <input type="password" name="noautofill_2" style="display:none">
+                            <input ng-model="f2" name="f_2" maxlength="75" placeholder="email@gmail.com" type="email" class="required req email" id="blogger_signup_id_2" required autocomplete="off">
+                        </div>
+                    </fieldset>
+                    <fieldset class="typical_form sign_log_form_field third right">
+                        <div class="required">
+                            <input type="password" name="noautofill_3" style="display:none">
+                            <input ng-model="f3" name="f_3" placeholder="password" type="password" class="required req" id="blogger_signup_id_3" required autocomplete="off">
+                        </div>
+                    </fieldset>
+                </div>
+                <div class="sign_log_row clearfix">
+                    <fieldset class="typical_form sign_log_form_field third left">
+                        <div class="required">
+                            <input type="password" name="noautofill_4" style="display:none">
+                            <input ng-model="f4" id="blogger_signup_id_4" placeholder="Blog Name" type="text" name="f_4" class="req" required autocomplete="off">
+                        </div>
+                    </fieldset>
+                    <fieldset class="typical_form sign_log_form_field third">
+                        <div class="required">
+                            <input type="password" name="noautofill_5" style="display:none">
+                            <input ng-model="f5" id="blogger_signup_id_5" placeholder="Blog URL" type="text" name="f_5" class="req req-url" required autocomplete="off">
+                        </div>
+                    </fieldset>
+                    <fieldset class="typical_form terms third right">
+                        <p class="serif_ital lessgray xxsmall">
+                            <input ng-model="agree" type="checkbox" class="terms_agree">
+                            <span>Agree to <a href="/terms/" class="txt_link gray" target="_blank">terms</a>
+                            </span>
+                        </p>
+                    </fieldset>
+                </div>
+                <div class="sign_log_row clearfix">
+                    <div class="outer-center">
+                        <div class="inner-center">
+                            <fieldset class="typical_form center_text">
+                                <input id="blogger_signup_form_submit_btn" type="submit" value="{{message}}" class="square_bt lg cyan_bt submit_button" ng-click="agree&&blogger_signup.$valid&&signup_blogger()" ng-disabled="!agree||blogger_signup.$invalid" ng-class="{disabled: !agree||blogger_signup.$invalid}">
+                            </fieldset>
+                            <div class="user_type_row sign_log_row clearfix center_text serif_ital xxsmall" style="position: relative; top: 20px;">
+                                <a href="#" class="txt_link gray" ng-click="login()">switch to login</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="sign_log_row" ng-if="error">
+                    <fieldset class="typical_form">
+                        <div>
+                            <label class="server_error" ng-bind-html="error"></label>
+                        </div>
+                    </fieldset>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="content_area_container px700 login_lb" ng-if="state=='influenity'">
+        <div class="blogger_signup_form form_container">
+            <h1 class="lb_title login_title">Add Your Blog</h1>
+            <form name="blogger_signup" class="sign_log_form blogger" autocomplete="off">
+                <div class="sign_log_row clearfix">
+                    <fieldset class="typical_form sign_log_form_field halfer left">
+                        <div class="required">
+                            <input type="password" name="noautofill_1" style="display:none">
+                            <input ng-model="f1" id="blogger_signup_id_1" placeholder="Name" type="text" name="f_1" class="req" required autocomplete="off">
+                        </div>
+                    </fieldset>
+                    <fieldset class="typical_form sign_log_form_field halfer right">
+                        <div class="required">
+                            <input type="password" name="noautofill_2" style="display:none">
+                            <input ng-model="f2" name="f_2" maxlength="75" placeholder="email@gmail.com" type="email" class="required req email" id="blogger_signup_id_2" required autocomplete="off">
+                        </div>
+                    </fieldset>
+                </div>
+                <div class="sign_log_row clearfix">
+                    <fieldset class="typical_form sign_log_form_field third left">
+                        <div class="required">
+                            <input type="password" name="noautofill_4" style="display:none">
+                            <input ng-model="f4" id="blogger_signup_id_4" placeholder="Blog Name" type="text" name="f_4" class="req" required autocomplete="off">
+                        </div>
+                    </fieldset>
+                    <fieldset class="typical_form sign_log_form_field third">
+                        <div class="required">
+                            <input type="password" name="noautofill_5" style="display:none">
+                            <input ng-model="f5" id="blogger_signup_id_5" placeholder="Blog URL" type="text" name="f_5" class="req req-url" required autocomplete="off">
+                        </div>
+                    </fieldset>
+                    <fieldset class="typical_form terms third right">
+                        <p class="serif_ital lessgray xxsmall">
+                            <input ng-model="agree" type="checkbox" class="terms_agree">
+                            <span>Agree to <a href="/terms/" class="txt_link gray" target="_blank">terms</a>
+                            </span>
+                        </p>
+                    </fieldset>
+                </div>
+                <div class="sign_log_row clearfix">
+                    <div class="outer-center">
+                        <div class="inner-center">
+                            <fieldset class="typical_form center_text">
+                                <input id="blogger_signup_form_submit_btn" type="submit" value="{{message}}" class="square_bt lg cyan_bt submit_button" ng-click="agree&&blogger_signup.$valid&&signup_blogger()" ng-disabled="!agree||blogger_signup.$invalid" ng-class="{disabled: !agree||blogger_signup.$invalid}">
+                            </fieldset>
+                            <div class="user_type_row sign_log_row clearfix center_text serif_ital xxsmall" style="position: relative; top: 20px;">
+                                <a href="#" class="txt_link gray" ng-click="login()">switch to login</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="sign_log_row" ng-if="error">
+                    <fieldset class="typical_form">
+                        <div>
+                            <label class="server_error" ng-bind-html="error"></label>
+                        </div>
+                    </fieldset>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="content_area_container px500 login_lb" ng-if="state=='brand'">
+        <div class="brand_signup_form form_container">
+            <h1 class="lb_title login_title">Signup for a Demo</h1>
+            <div style='color:#13d1fa' class="subti_sm above_content">OR call (212) 655-9879 for a quick consultation.</div>
+            <form name="brand_signup" class="sign_log_form brand" autocomplete="off">
+                <div class="sign_log_row clearfix" style="margin-bottom:15px;">
+                    <fieldset class="typical_form small_field brand_sign_log_vertical">
+                        <div class="required">
+                            <input type="password" name="noautofill_6" style="display:none">
+                            <input ng-model="bf1" id="brand_signup_id_1" placeholder="First Name" type="text" name="f_6" class="req" required autocomplete="off">
+                        </div>
+                    </fieldset>
+                    <fieldset class="typical_form small_field brand_sign_log_vertical " ng-if="false">
+                        <div class="required">
+                            <input type="password" name="noautofill_6" style="display:none">
+                            <input ng-model="bf2" id="brand_signup_id_2" placeholder="Last Name" type="text" name="f_7" class="req" required autocomplete="off">
+                        </div>
+                    </fieldset>
+                    <fieldset class="typical_form small_field brand_sign_log_vertical">
+                        <div class="required">
+                            <input type="password" name="noautofill_7" style="display:none">
+                            <input ng-model="bf3" name="f_8" maxlength="75" placeholder="email@gmail.com" type="text" class="required req email" id="brand_signup_id_3" required autocomplete="off">
+                        </div>
+                    </fieldset>
+                    <fieldset class="typical_form small_field brand_sign_log_vertical " ng-if="false">
+                        <div class="required">
+                            <input type="password" name="noautofill_8" style="display:none">
+                            <input ng-model="bf4" name="f_9" placeholder="password" type="password" class="required req" id="brand_signup_id_4" required autocomplete="off">
+                        </div>
+                    </fieldset>
+                    <fieldset class="typical_form small_field brand_sign_log_vertical">
+                        <div class="required">
+                            <input type="password" name="noautofill_10" style="display:none">
+                            <input ng-model="bf6" id="brand_signup_id_6" placeholder="Brand URL" type="text" name="f_11" class="req req-url" required autocomplete="off">
+                            <div class="claim_url">
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                <div class="sign_log_row clearfix" ng-show="false">
+                    <fieldset class="typical_form small_field brand_sign_log_vertical " ng-if="false">
+                        <div class="required">
+                            <input type="password" name="noautofill_9" style="display:none">
+                            <input ng-model="bf5" id="brand_signup_id_5" placeholder="Brand Name" type="text" name="f_10" class="req" required autocomplete="off">
+                        </div>
+                    </fieldset>
+                    <fieldset class="typical_form small_field brand_sign_log_vertical " ng-if="false">
+                        <div class="required">
+                            <input type="password" name="noautofill_10" style="display:none">
+                            <input ng-model="bf6" id="brand_signup_id_6" placeholder="Brand URL" type="text" name="f_11" class="req req-url" required autocomplete="off">
+                            <div class="claim_url">
+                            </div>
+                        </div>
+                    </fieldset>
+                    <fieldset class="typical_form small_field brand_sign_log_vertical " ng-if="false">
+                        <div class="required">
+                            <input type="text"
+                                name="phone"
+                                required
+                                ng-model="sendData.phone"
+                                international-phone-number
+                                skip-util-script-download
+                                style="padding-left: 50px!important;">
+                        </div>
+                    </fieldset>
+                </div>
+                <div class="sign_log_row clearfix" style="margin-bottom:15px;">
+                    <fieldset class="typical_form terms">
+                        <p class="sans_type lessgray xsmall center_text">
+                            <input ng-model="agree" type="checkbox" class="terms_agree">
+                            <span>Agree to <a href="/terms/" class="txt_link lessgray" target="_blank">terms</a>
+                            </span>
+                        </p>
+                    </fieldset>
+                </div>
+                <div class="sign_log_row clearfix" style="margin-bottom:15px;">
+                    <div class="outer-center">
+                        <div class="inner-center">
+                            <fieldset class="typical_form center_text">
+                                <input id="brand_signup_form_submit_btn" type="submit" value="{{message}}" class="square_bt lg cyan_bt submit_button" ng-click="agree&&brand_signup.$valid&&signup_brand()" ng-disabled="!agree||brand_signup.$invalid" ng-class="{disabled: !agree||brand_signup.$invalid}">
+
+                            </fieldset>
+                            <div class="user_type_row sign_log_row clearfix center_text serif_ital xxsmall" style="position: relative; top: 20px;">
+                                <a href="#" class="txt_link lessergray" ng-click="login()">switch to login</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="sign_log_row" ng-if="error">
+                    <fieldset class="typical_form">
+                        <div>
+                            <label class="server_error" ng-bind-html="error"></label>
+                        </div>
+                    </fieldset>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

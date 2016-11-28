@@ -1,0 +1,83 @@
+<div blank-popup ng-class="{tagging_popup: taggingPopup, post_bookmarking_popup: postPopup}">
+    <div class="black_overlay"></div>
+    <!-- lightbox container -->
+    <div class="lightbox dynamic bl_bg_lb">
+        <div class="container">
+            <div class="content_area">
+                <a class="close_button lightbox_close" ng-click="close()" ng-hide="no_close"><p class="icon-letter_x02"></p></a>
+                <div class="add_blogger_to_collection content_area_container">
+                    <!-- LOADING CONTENT -->
+                    <div main-loader ng-if="state == 'opened' || state == 'adding_group' || state == 'uploading'"></div>
+                    <!-- ADD TO COLLECTION LIGHTBOX -->
+                    <div ng-if="state == 'loaded'" class="item_shelves">
+                        <!--div class="lb_title">Add To Campaign</div-->
+                        <!-- <div class="blogger_img" ng-show="img_url"><img ng-src="{{img_url}}"/></div> -->
+                        <div class="left_side_of_bookmarking">
+                            <div class="cropped_img" ng-show="img_url" bg-image="{{img_url}}"></div>
+                            <div ng-if="influencer">
+                                <textarea cols="25" rows="4" style="resize: none;" ng-model="favoritePopupCtrl.note" placeholder="Make a note..." prevent-disablescrolling></textarea>
+                            </div>
+                        </div>
+                        <div class="right_side_of_bookmarking">
+                            <div class="bookmarking_main_header">Tag This Influencer</div>
+                            <div class="nano-wrapper">
+                                <div class="nano" prevent-disablescrolling>
+                                    <div class="content">
+                                        <!--
+                                        <div class="bookmark_header">RECENT</div>
+                                        <div class="recent_bar_element">
+                                            <div class="bar_element">
+                                                <div class="square_pic"><img class="imgfit" src="https://s3.amazonaws.com/profile-images-theshelf/592_profile_img.jpg" /></div>
+                                                <div class="shelf_name"><p>My Newest Tag Group</p></div>
+                                            </div>
+                                        </div>
+                                        -->
+                                        <div class="bookmark_header">ALL TAG GROUPS</div>
+                                        <div class="bars">
+                                            <div ng-repeat="group in groups" class="element_wrapper">
+                                                <div class="bar_element" ng-class="{active: group.selected}" ng-click="favoritePopupCtrl.toggleSelect(group)">
+                                                    <div class="square_pic"><img class="imgfit" ng-src="{{group.img}}" ng-if="group.img" /></div>
+                                                    <div class="shelf_name"><p>{{group.name}}</p></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="btn_container centerer">
+                                <div>
+                                    <div class="typical_form small_field">
+                                        <span class="add_coll_form">
+                                            <input ng-model="new_group_name" name="name" maxlength="300" placeholder="{{ addNewGroupPlaceholderText }}" type="text" class="req add_shelf" id="id_name" prevent-disablescrolling>
+                                        </span>
+                                        <button type="submit" class="square_bt sm gray_bt" ng-class="{disabled:!new_group_name}" ng-click="new_group_name && addGroupAndBookmark(new_group_name)">Create &amp; Add</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- <div class="square_bt teal_bt lg done_btn" ng-click="upload()" ng-show="has_changes">Done</div> -->
+                        </div>
+                        
+                    </div>
+                    <!-- SAVING CHANGES / ERROR MESSAGES -->
+
+<!--                     <div ng-if="state == 'uploading'">
+                        <div class="btn_container centerer white">Saving your changes</div>
+                    </div>
+ -->
+                    <div ng-if="state == 'load_error'">
+                        <div class="btn_container centerer white">Problem with loading collections</div>
+                    </div>
+                    <div ng-if="state == 'upload_error'">
+                        <div class="btn_container centerer white">Problem with saving changes</div>
+                    </div>
+                    <div ng-if="state == 'add_group_error'">
+                        <div class="btn_container centerer white">
+                            <div>{{ errorMessage }}</div>
+                            <div class="square_bt blk_outline_white_inside rounded md" ng-click="setState('loaded')">Cancel</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

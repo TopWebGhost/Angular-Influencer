@@ -1,0 +1,81 @@
+<div ng-show="!postsList.loading && !postsList.loadingError">
+    <div ng-repeat="post in postsList.posts" class="post_row clearfix">
+        <!-- checkbox -->
+        <fieldset class="typical_form check_for_row" style="margin-top:25px;">
+            <div class="cb_or_rb_wrap">
+                <input name="remove_{{$index}}" type="checkbox" id="remove_{{$index}}" ng-click="post.select($event)" ng-checked="post.selected" ng-readonly="!post.saved" />
+                <label for="remove_{{$index}}">
+                    <span class="graphic plus_btn"></span>
+                </label>
+            </div>
+        </fieldset>
+        <!-- row of form fields -->
+        <fieldset class="row_o_forms clearfix" style="padding-bottom:15px;">
+            <fieldset class="typical_form fifth left type_column">
+                <label class="type_label">Type</label>
+                <div class="order_select blog_post_type_dropdown"
+                    dropdown-select="postsList.types"
+                    dropdown-model="post.type"
+                    dropdown-onchange="post.updateType(selected)"
+                    dropdown-disabled="!post.isEditable()">
+                </div>
+            </fieldset>
+            <fieldset class="typical_form fifth left">
+                <label>Url</label>
+                <input type="text" value="" ng-model="post.url" ng-readonly="!post.isEditable()" ng-change="post.onChange()" />
+            </fieldset>
+            <fieldset class="typical_form fifth left date_column">
+                <label>Date</label>
+                <input type="date" value="" ng-model="post.date" ng-readonly="!post.isEditable()" ng-change="post.onChange()" />
+            </fieldset>
+            <fieldset class="typical_form fifth left">
+                <label>Title</label>
+                <input type="text" value="" ng-model="post.title" ng-readonly="!post.isEditable()" ng-change="post.onChange()"/>
+            </fieldset>
+            <fieldset class="typical_form fifth left">
+                <label>&nbsp;</label><br/>
+                <button class="normal_bt md teal_bt action_button" ng-hide="post.saved" ng-class="{inactive: !post.canSave()}" ng-click="post.save()">
+                    <span ng-show="!post.saved && !post.saving && !post.savingError">Save</span>
+                    <span ng-show="post.saved">Saved</span>
+                    <span ng-show="post.saving">Saving...</span>
+                    <span ng-show="post.savingError">Error!</span>
+                </button>
+
+                <!--<button class="normal_bt md teal_bt action_button" ng-show="post.canVerify()" ng-class="{inactive: post.sendingVerify}" ng-click="post.verify()">
+                    <span ng-show="!post.sentVerify && !post.sendingVerify && !post.sendingVerifyError">Verify</span>
+                    <span ng-show="post.sentVerify">Sent</span>
+                    <span ng-show="post.sendingVerify">Sending...</span>
+                    <span ng-show="post.sendingVerifyError">Error!</span>
+                </button>-->
+
+                <div ng-show="post.sentVerify" class="status_wrapper" style="padding: 30px; padding-bottom: 0px!important;">
+                    <span class="status" ng-style="{color: post.verificationStatusColor}">{{ post.verificationStatus }}</span>
+                </div>
+
+                <!--<button class="icon_button icon-misc_files_trash4"></button>-->
+            </fieldset>
+        </fieldset>
+
+
+    </div>
+    <div class="post_controls_row clearfix">
+        <fieldset class="typical_form">
+            <button ng-if="postsList.loadOptions.postsAddingStatus != 2" class="normal_bt md teal_bt submit_button" ng-class="{inactive: postsList.doneSent}" ng-click="!postsList.doneSent && postsList.done()">
+                <span ng-show="!postsList.doneError && !postsList.doneLoading">Done</span>
+                <span ng-show="postsList.doneError">Error!</span>
+                <span ng-show="postsList.doneLoading">Sending...</span>
+            </button>
+            <button class="normal_bt md teal_bt submit_button" ng-class="{inactive: !postsList.canAddPost()}" ng-click="postsList.addPost()" style="margin-right: 20px;"><span>Add a New Post</span></button>
+            <button class="normal_bt md teal_bt submit_button remove_selected_button" ng-class="{inactive: postsList.selected().length < 1 || postsList.removing}" ng-click="postsList.removeSelected()" style="margin-right: 20px;">
+                <span ng-show="!postsList.removing && !postsList.removingError">Remove Selected</span>
+                <span ng-show="postsList.removing">Removing...</span>
+                <span ng-show="postsList.removingError">Error!</span>
+            </button>
+        </fieldset>
+        <div class="x_space x_70"></div>
+    </div>
+</div>
+<div main-loader ng-show="postsList.loading"></div>
+<div ng-show="postsList.loadingError">
+    <div class="account_title">Error!</div>
+</div>

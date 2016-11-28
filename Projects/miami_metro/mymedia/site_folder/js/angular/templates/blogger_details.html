@@ -1,0 +1,634 @@
+<div>
+    <div class="blogger_details_panel_overlay" ng-click="close()"></div>
+    <div class="blogger_details_panel_main" style="z-index: 6; position: relative">
+        <div class="blogger_details_panel_btns">
+            <div class="panel_btn close_panel" ng-click="close()"><span class="icon-letter_x02"></span></div>
+            <br/>
+            <span ng-if="loaded && !hideOutreach">
+                <div class="panel_btn big_btn message" ng-click="openFavoritePopup({influencer: user.id, user: user})">
+                    <span class="follow icon-misc_value_star2"></span><br/>
+                    <span class="overlay_btn_txt">Tag</span>
+                </div>
+                <br/>      
+                <div class="panel_btn big_btn message" ng-click="message({userId: user.id, user: user, reload: reload, event: $event, forceInvite: campaignId})" ng-if="context.nonCampaignMessagingEnabled">
+                    <a ng-href="{{ user.current_platform_page }}" target="_blank" style="color: inherit!important;">
+                        <span class="icon-social_envelope6"></span>
+                        <br/>
+                        <span class="panel_txt">Message</span>
+                    </a>
+                </div>
+            </span>
+        </div>
+        <div class="blogger_details_panel">
+            <div class="nano" prevent-disablescrolling>
+                <div ng-hide="loaded">
+                    <div main-loader style="top: 205px; position: relative"></div>
+                </div>
+                <div class="content nano-content" ng-show="loaded">
+                    <div class="cover">
+                        <div class="cover_img cropped" bg-image="{{ user.cover_pic}}"><!-- <img ng-src="{{ user.cover_pic}}"/> --></div>
+                        <div class="cover_txt">
+                            <div class="id_txt" >
+                                <span ng-show="user.name">
+                                    <div class="name dotdot" ng-show="user.blogname" ng-bind-html="user.blogname"></div>
+                                    <div class="blog">{{user.name}}</div>
+                                </span>
+                                <span ng-hide="user.name">
+                                    <div class="name dotdot" ng-show="user.blogname" ng-bind-html="user.blogname"></div>
+                                </span>
+                                <div class="location">
+                                    {{ user.demographics_location }}
+                                </div>
+                            </div>
+                            <div class="social_row" ng-hide="context.showDummyData">
+                                <a ng-if="user.profile.facebook_page" class="icon-social_facebook bs_tooltip" data-placement="top" track-me name="social-click" rel="tooltip" title="Facebook page" meta='{"platform": "Facebook", "url": "{{user.profile.facebook_page}}"}' event="click" href="{{user.profile.facebook_page}}" target="_blank"></a>
+                                <a ng-if="user.profile.twitter_page" class="icon-social_twitter bs_tooltip" data-placement="top" track-me name="social-click" title="Twitter" meta='{"platform": "Twitter", "url": "{{user.profile.twitter_page}}"}' event="click" href="{{user.profile.twitter_page}}" target="_blank"></a>
+                                <a ng-if="user.profile.pinterest_page" class="icon-social_pinterest bs_tooltip" data-placement="top" track-me name="social-click" title="Pinterest" meta='{"platform": "Pinterest", "url": "{{user.profile.pinterest_page}}"}' event="click" href="{{user.profile.pinterest_page}}" target="_blank"></a>
+                                <a ng-if="user.profile.blog_page && !user.has_artificial_blog_url" class="icon-social_blog bs_tooltip" data-placement="top" track-me name="social-click" title="Blog" meta='{"platform": "Blog", "url": "{{user.profile.blog_page}}"}' event="click" href="{{user.profile.blog_page}}" target="_blank"></a>
+                                <a ng-if="user.profile.web_page" class="icon-social_globe2 bs_tooltip" data-placement="top" track-me name="social-click" title="Website" meta='{"platform": "Website", "url": "{{user.profile.web_page}}"}' event="click" href="{{user.profile.web_page}}" target="_blank"></a>
+                                <a ng-if="user.profile.etsy_page" class="icon-social_store bs_tooltip" data-placement="top" track-me name="social-click" title="Store" meta='{"platform": "Etsy", "url": "{{user.profile.etsy_page}}"}' event="click" href="{{user.profile.etsy_page}}" target="_blank"></a>
+                                <a ng-if="user.profile.store_page" class="icon-social_store bs_tooltip" data-placement="top" track-me name="social-click" title="Store" meta='{"platform": "Store", "url": "{{user.profile.store_page}}"}' event="click" href="{{user.profile.store_page}}" target="_blank"></a>
+                                <a ng-if="user.profile.instagram_page" class="icon-social_instagram2 bs_tooltip" data-placement="top" track-me name="social-click" title="Photos" meta='{"platform": "Instagram", "url": "{{user.profile.instagram_page}}"}' event="click" href="{{user.profile.instagram_page}}" target="_blank"></a>
+                                <a ng-if="user.profile.bloglovin_page" class="icon-social_blog_lovin bs_tooltip" data-placement="top" track-me name="social-click" title="Blog Lovin" meta='{"platform": "Blog Lovin", "url": "{{user.profile.bloglovin_page}}"}' event="click" href="{{user.profile.bloglovin_page}}" target="_blank"></a>
+                                <a ng-if="user.profile.youtube_page" class="icon-social_youtube bs_tooltip" data-placement="top" track-me name="social-click" title="YouTube" meta='{"platform": "YouTube", "url": "{{user.profile.youtube_page}}"}' event="click" href="{{user.profile.youtube_page}}" target="_blank"></a>
+                            </div>
+                            <div class="social_row" ng-show="context.showDummyData">
+                                <a ng-if="user.profile.facebook_page" class="icon-social_facebook bs_tooltip" data-placement="top" track-me name="social-click" rel="tooltip" title="Facebook page" meta='{"platform": "Facebook", "url": "{{user.profile.facebook_page}}"}'target="_blank" click-emitter="featureLocked"></a>
+                                <a ng-if="user.profile.twitter_page" class="icon-social_twitter bs_tooltip" data-placement="top" track-me name="social-click" title="Twitter" meta='{"platform": "Twitter", "url": "{{user.profile.twitter_page}}"}' target="_blank" click-emitter="featureLocked"></a>
+                                <a ng-if="user.profile.pinterest_page" class="icon-social_pinterest bs_tooltip" data-placement="top" track-me name="social-click" title="Pinterest" meta='{"platform": "Pinterest", "url": "{{user.profile.pinterest_page}}"}' target="_blank" click-emitter="featureLocked"></a>
+                                <a ng-if="user.profile.blog_page && !user.has_artificial_blog_url" class="icon-social_blog bs_tooltip" data-placement="top" track-me name="social-click" title="Blog" meta='{"platform": "Blog", "url": "{{user.profile.blog_page}}"}' target="_blank" click-emitter="featureLocked"></a>
+                                <a ng-if="user.profile.web_page" class="icon-social_globe2 bs_tooltip" data-placement="top" track-me name="social-click" title="Website" meta='{"platform": "Website", "url": "{{user.profile.web_page}}"}' target="_blank" click-emitter="featureLocked"></a>
+                                <a ng-if="user.profile.etsy_page" class="icon-social_store bs_tooltip" data-placement="top" track-me name="social-click" title="Store" meta='{"platform": "Etsy", "url": "{{user.profile.etsy_page}}"}' target="_blank" click-emitter="featureLocked"></a>
+                                <a ng-if="user.profile.store_page" class="icon-social_store bs_tooltip" data-placement="top" track-me name="social-click" title="Store" meta='{"platform": "Store", "url": "{{user.profile.store_page}}"}' arget="_blank" click-emitter="featureLocked"></a>
+                                <a ng-if="user.profile.instagram_page" class="icon-social_instagram2 bs_tooltip" data-placement="top" track-me name="social-click" title="Photos" meta='{"platform": "Instagram", "url": "{{user.profile.instagram_page}}"}' target="_blank" click-emitter="featureLocked"></a>
+                                <a ng-if="user.profile.bloglovin_page" class="icon-social_blog_lovin bs_tooltip" data-placement="top" track-me name="social-click" title="Blog Lovin" meta='{"platform": "Blog Lovin", "url": "{{user.profile.bloglovin_page}}"}' target="_blank" click-emitter="featureLocked"></a>
+                                <a ng-if="user.profile.youtube_page" class="icon-social_youtube bs_tooltip" data-placement="top" track-me name="social-click" title="YouTube" meta='{"platform": "YouTube", "url": "{{user.profile.youtube_page}}"}' target="_blank" click-emitter="featureLocked"></a>
+                            </div>
+                        </div>
+                        <div class="profile_pic"><img keep-aspect class="imgfit" ng-src="{{ user.profile_pic_url }}"/></div>
+                    </div>
+                    <div class="body_content">
+                        <div style="display:none;" class="description">{{ user.description}}</div>
+
+
+                        
+
+                        <div class="content_chunk">
+
+                        <div class="divider_title">
+                            <div class="div_title_text">Social Followers &amp; Engagement</div>
+                        </div>
+                            <!--div class="divider_tag">
+                                <div ng-hide="user.has_artificial_blog_url" class="tag">Followers &amp; Engagement</div>
+                                <div ng-show="user.has_artificial_blog_url" class="tag">Social Followers &amp; Engagement</div>
+                            </div-->
+
+                            <!-- Social Table -->
+                            <div class="social_row_table social_row">
+                                <div class="social_block">
+                                    <span class="soc_tbl_row">
+                                        <span class="soc_tbl_item soc_tbl_header">Platform</span>
+                                        <span class="soc_tbl_item soc_tbl_header">Followers</span>
+                                        <span class="soc_tbl_item soc_tbl_header">Posts/Month</span>
+                                        <span class="soc_tbl_item soc_tbl_header">Av. Likes</span>
+                                        <span class="soc_tbl_item soc_tbl_header">Av. Comments</span>
+                                        <span class="soc_tbl_item soc_tbl_header">Av. Shares</span>
+                                        <span class="soc_tbl_item soc_tbl_header">Engage/Fol</span>
+                                    </span>
+                                </div>
+                                <div class="social_block social_wrapper" ng-repeat="platform in user.platforms" ng-if="platform.show_on_feed">
+                                    <span class="soc_tbl_row" ng-if="platform.platform_name == 'Twitter'">
+                                        <span class="soc_tbl_item icon-social_twitter"></span>
+                                        <span class="soc_tbl_item soc_tbl_num">
+                                            <span ng-if="platform.num_followers>0">{{ platform.num_followers | number:0 }}</span>
+                                        </span>
+                                        <span class="soc_tbl_item soc_tbl_num">
+                                            <span ng-if="platform.posting_rate>0">{{ platform.posting_rate | number:0 }}</span>
+                                        </span>
+                                        <span class="soc_tbl_item soc_tbl_num">
+                                            <span ng-if="platform.avg_numlikes_overall>0">{{ platform.avg_numlikes_overall | number:0 }}</span>
+                                        </span>
+                                        <span class="soc_tbl_item soc_tbl_num">--</span>
+                                        <span class="soc_tbl_item soc_tbl_num">
+                                            <span ng-if="platform.avg_numshares_overall>0">{{ platform.avg_numshares_overall | number:0 }}</span>
+                                        </span>
+                                        <span class="soc_tbl_item soc_tbl_num">
+                                            <span ng-if="platform.avg_numlikes_overall>0">{{ 100 * platform.avg_numlikes_overall / platform.num_followers | number:2 }}%</span>
+                                        </span>
+                                    </span>
+                                    <span class="soc_tbl_row" ng-if="platform.platform_name == 'Facebook'">
+                                        <span class="soc_tbl_item icon-social_facebook"></span>
+                                        <span class="soc_tbl_item soc_tbl_num">
+                                            <span ng-if="platform.num_followers>0">{{ platform.num_followers | number:0 }}</span>
+                                        </span>
+                                        <span class="soc_tbl_item soc_tbl_num">
+                                            <span ng-if="platform.posting_rate>0">{{ platform.posting_rate | number:0 }}</span>
+                                        </span>
+                                        <span class="soc_tbl_item soc_tbl_num">
+                                            <span ng-if="platform.avg_numlikes_overall>0">{{ platform.avg_numlikes_overall | number:0 }}</span>
+                                        </span>
+                                        <span class="soc_tbl_item soc_tbl_num">
+                                            <span ng-if="platform.avg_numcomments_overall>0">{{ platform.avg_numcomments_overall | number:0 }}</span>
+                                        </span>
+                                        <span class="soc_tbl_item soc_tbl_num">
+                                            <span ng-if="platform.avg_numshares_overall>0">{{ platform.avg_numshares_overall | number:0 }}</span>
+                                        </span>
+                                        <span class="soc_tbl_item soc_tbl_num">
+                                            <span ng-if="platform.avg_numlikes_overall>0">{{ 100 * platform.avg_numlikes_overall / platform.num_followers | number:2 }}%</span>
+                                        </span>
+                                    </span>
+                                    <span class="soc_tbl_row" ng-if="platform.platform_name == 'Instagram'">
+                                        <span class="soc_tbl_item icon-social_instagram2"></span>
+                                        <span class="soc_tbl_item soc_tbl_num">
+                                            <span ng-if="platform.num_followers>0">{{ platform.num_followers | number:0 }}</span>
+                                        </span>
+                                        <span class="soc_tbl_item soc_tbl_num">
+                                            <span ng-if="platform.posting_rate>0">{{ platform.posting_rate | number:0 }}</span>
+                                        </span>
+                                        <span class="soc_tbl_item soc_tbl_num">
+                                            <span ng-if="platform.avg_numlikes_overall>0">{{ platform.avg_numlikes_overall | number:0 }}<br/></span>
+                                        </span>
+                                        <span class="soc_tbl_item soc_tbl_num">
+                                            <span ng-if="platform.avg_numcomments_overall>0">{{ platform.avg_numcomments_overall | number:0 }}</span>
+                                        </span>
+                                        <span class="soc_tbl_item soc_tbl_num">--</span>
+                                        <span class="soc_tbl_item soc_tbl_num">
+                                            <span ng-if="platform.avg_numlikes_overall>0">{{ 100 * platform.avg_numlikes_overall / platform.num_followers | number:2 }}%</span>
+                                        </span>
+                                    </span>
+                                    <span class="soc_tbl_row" ng-if="platform.platform_name == 'Pinterest'">
+                                        <span class="soc_tbl_item icon-social_pinterest"></span>
+                                        <span class="soc_tbl_item soc_tbl_num">
+                                            <span ng-if="platform.num_followers>0">{{ platform.num_followers | number:0 }}</span>
+                                        </span>
+                                        <span class="soc_tbl_item soc_tbl_num">
+                                            <span ng-if="platform.posting_rate>0">{{ platform.posting_rate | number:0 }}</span>
+                                        </span>
+                                        <span class="soc_tbl_item soc_tbl_num">
+                                            <span ng-if="platform.avg_numlikes_overall>0">{{ platform.avg_numlikes_overall | number:0 }}</span>
+                                        </span>
+                                        <span class="soc_tbl_item soc_tbl_num">
+                                            <span ng-if="platform.avg_numcomments_overall>0">{{ platform.avg_numcomments_overall | number:0 }}</span>
+                                        </span>
+                                        <span class="soc_tbl_item soc_tbl_num">
+                                            <span ng-if="platform.avg_numshares_overall>0">{{ platform.avg_numshares_overall | number:0 }}</span>
+                                        </span>
+                                        <span class="soc_tbl_item soc_tbl_num">
+                                            <span ng-if="platform.avg_numlikes_overall>0">{{ 100 * platform.avg_numlikes_overall / platform.num_followers | number:2 }}%</span>
+                                        </span>
+                                    </span>
+                                    <span class="soc_tbl_row" ng-if="platform.platform_name == 'Youtube'">
+                                        <span class="soc_tbl_item icon-social_youtube"></span>
+                                        <span class="soc_tbl_item soc_tbl_num">
+                                            <span ng-if="platform.num_followers>0">{{ platform.num_followers | number:0 }}</span>
+                                        </span>
+                                        <span class="soc_tbl_item soc_tbl_num">
+                                            <span ng-if="platform.posting_rate>0">{{ platform.posting_rate | number:0 }}</span>
+                                        </span>
+                                        <span class="soc_tbl_item soc_tbl_num">
+                                            <span ng-if="platform.avg_numlikes_overall>0">{{ platform.avg_numlikes_overall | number:0 }}</span>
+                                        </span>
+                                        <span class="soc_tbl_item soc_tbl_num">
+                                            <span ng-if="platform.avg_numcomments_overall>0">{{ platform.avg_numcomments_overall | number:0 }}</span>
+                                        </span>
+                                        <span class="soc_tbl_item soc_tbl_num">
+                                            <span ng-if="platform.calculate_video_views>0">{{ platform.calculate_video_views | number:0 }} views<br></span>
+                                        </span>
+                                        <span class="soc_tbl_item soc_tbl_num">
+                                            <span ng-if="platform.avg_numlikes_overall>0">{{ 100 * platform.avg_numlikes_overall / platform.num_followers | number:2 }}%</span>
+                                        </span>
+                                    </span>
+                                </div>
+                                <div class="social_block social_wrapper" ng-if="!user.has_artificial_blog_url && user.average_num_comments_per_post>0">
+                                    <span class="soc_tbl_row">
+                                        <span class="soc_tbl_item icon-letter_quotes"></span>
+                                        <span class="soc_tbl_item soc_tbl_num">--</span>
+                                        <span class="soc_tbl_item soc_tbl_num">
+                                            <span>{{ user.average_num_posts | number:0 }}</span>
+                                        </span>
+                                        <span class="soc_tbl_item soc_tbl_num">--</span>
+                                        <span class="soc_tbl_item soc_tbl_num">
+                                            <span>{{user.average_num_comments_per_post | number:0 }}</span>
+                                        </span>
+                                        <span class="soc_tbl_item soc_tbl_num">--</span>
+                                        <span class="soc_tbl_item soc_tbl_num">--</span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                     
+                        <!--div class="social_row clearfix">
+                            <div class="outer-center">
+                                <div class="inner-center">
+                                    <div class="social_block" ng-repeat="platform in user.platforms" ng-if="platform.show_on_feed">
+                                        <span ng-if="platform.platform_name == 'Twitter'">
+                                            <div class="icon-social_twitter"></div>
+                                            <div class="items">
+                                                <span ng-if="platform.num_followers>0">{{ platform.num_followers | number:0 }} followers<br/></span>
+                                                <span ng-if="platform.posting_rate>0">{{ platform.posting_rate | number:0 }} tweets/month<br/></span>
+                                                <span ng-if="platform.avg_numshares_overall>0">{{ platform.avg_numshares_overall | number:0 }}  avg. retweet</span>
+                                                <span ng-if="platform.avg_numlikes_overall>0">{{ platform.avg_numlikes_overall | number:0 }} avg. likes</span>
+                                                <span ng-if="platform.avg_numlikes_overall>0">{{ 100 * platform.avg_numlikes_overall / platform.num_followers | number:2 }} Engage/Fol Ratio</span>
+                                            </div>
+                                        </span>
+                                        <span ng-if="platform.platform_name == 'Facebook'">
+                                            <div class="icon-social_facebook"></div>
+                                            <div class="items">
+                                                <span ng-if="platform.num_followers>0">{{ platform.num_followers | number:0 }} followers<br/></span>
+                                                <span ng-if="platform.posting_rate>0">{{ platform.posting_rate | number:0 }} posts/month<br/></span>
+                                                <span ng-if="platform.avg_numcomments_overall>0">{{ platform.avg_numcomments_overall | number:0 }} avg. comments<br/></span>
+                                                <span ng-if="platform.avg_numshares_overall>0">{{ platform.avg_numshares_overall | number:0 }} avg. shares<br/></span>
+                                                <span ng-if="platform.avg_numlikes_overall>0">{{ platform.avg_numlikes_overall | number:0 }} avg. likes</span>
+                                                <span ng-if="platform.avg_numlikes_overall>0">{{ 100 * platform.avg_numlikes_overall / platform.num_followers | number:2 }} Engage/Fol Ratio</span>
+                                            </div>
+                                        </span>
+                                        <span ng-if="platform.platform_name == 'Instagram'">
+                                            <div class="icon-social_instagram2"></div>
+                                            <div class="items">
+                                                <span ng-if="platform.num_followers>0">{{ platform.num_followers | number:0 }} followers<br/></span>
+                                                <span ng-if="platform.posting_rate>0">{{ platform.posting_rate | number:0 }} photos/month<br/></span>
+                                                <span ng-if="platform.avg_numlikes_overall>0">{{ platform.avg_numlikes_overall | number:0 }} avg. likes<br/></span>
+                                                <span ng-if="platform.avg_numcomments_overall>0">{{ platform.avg_numcomments_overall | number:0 }} avg. comments</span>
+                                                <span ng-if="platform.avg_numlikes_overall>0">{{ 100 * platform.avg_numlikes_overall / platform.num_followers | number:2 }} Engage/Fol Ratio</span>
+                                            </div>
+                                        </span>
+                                        <span ng-if="platform.platform_name == 'Pinterest'">
+                                            <div class="icon-social_pinterest"></div>
+                                            <div class="items">
+                                                <span ng-if="platform.num_followers>0">{{ platform.num_followers | number:0 }} followers<br/></span>
+                                                <span ng-if="platform.posting_rate>0">{{ platform.posting_rate | number:0 }} pins/month<br/></span>
+                                                <span ng-if="platform.avg_numshares_overall>0">{{ platform.avg_numshares_overall | number:0 }} avg. re-pins<br></span>
+                                                <span ng-if="platform.avg_numcomments_overall>0">{{ platform.avg_numcomments_overall | number:0 }} avg. comments</span>
+                                                <span ng-if="platform.avg_numlikes_overall>0">{{ platform.avg_numlikes_overall | number:0 }} avg. likes</span>
+                                                <span ng-if="platform.avg_numlikes_overall>0">{{ 100 * platform.avg_numlikes_overall / platform.num_followers | number:2 }} Engage/Fol Ratio</span>
+                                            </div>
+                                        </span>
+                                        <span ng-if="platform.platform_name == 'Youtube'">
+                                            <div class="icon-social_youtube"></div>
+                                            <div class="items">
+                                                <span ng-if="platform.num_followers>0">{{ platform.num_followers | number:0 }} followers<br/></span>
+                                                <span ng-if="platform.posting_rate>0">{{ platform.posting_rate | number:0 }} videos/month<br/></span>
+                                                <span ng-if="platform.calculate_video_views>0">{{ platform.calculate_video_views | number:0 }} avg. views<br></span>
+                                                <span ng-if="platform.avg_numcomments_overall>0">{{ platform.avg_numcomments_overall | number:0 }} avg. comments</span>
+                                                <span ng-if="platform.avg_numlikes_overall>0">{{ platform.avg_numlikes_overall | number:0 }} avg. likes</span>
+                                                <span ng-if="platform.avg_numlikes_overall>0">{{ 100 * platform.avg_numlikes_overall / platform.num_followers | number:2 }} Engage/Fol Ratio</span>
+                                            </div>
+                                        </span>
+                                    </div>
+                                    <div class="social_block" ng-if="!user.has_artificial_blog_url && user.average_num_comments_per_post>0">
+                                        <div class="icon-letter_quotes"></div>
+                                        <div class="items">
+                                            <span>{{user.average_num_comments_per_post | number:0 }} comments/post</span>
+                                            <span>{{ user.average_num_posts | number:0 }} posts/month</span>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div-->
+                        <div class="content_chunk ">
+                            <div class="divider_tag">
+                                <div ng-hide="user.has_artificial_blog_url" class="tag">Follower Growth
+                                    <div class="tag_subtext">The timeseries below is calculated at least weekly and reflects follower growth for each social network.</div>
+                                </div>
+                                <div ng-show="user.has_artificial_blog_url" class="tag">Follower Growth
+                                    <div class="tag_subtext">The timeseries below is calculated at least weekly and reflects follower growth for each social network.</div>
+                                </div>
+                            </div>
+                            <!-- BLOG AND SOCIAL ENGAGEMENT STATS -->
+                            <div ng-hide="statsLoaded">
+                                <div main-loader style="top: 205px; position: relative"></div> 
+                            </div>
+
+                            <div ng-show="statsLoaded">
+                                <div class="blog_stats_row clearfix" ng-show="false">
+                                    <div class="blog_stat_block" style="width: 230px" ng-if="stats.relfashion_stats">
+                                        <div id="blog_stat_relfashion" style="margin: -40px auto;"></div>
+                                    </div>
+                                    <div class="blog_stat_block" style="width: 230px" ng-if="stats.category_stats">
+                                        <div id="blog_stat_categories" style="margin: -40px auto;"></div>
+                                    </div>
+                                </div>
+
+                                <div class="blog_stats_row clearfix">
+                                    <div class="blog_stat_block" style="width: 800px" ng-show="stats.popularity_stats">
+                                        <div id="blog_stat_popularity_followers" style="margin: 0px auto;"></div>
+                                        <!-- <div morris-area></div> -->
+                                    </div>
+                                </div>
+
+                                <div class="blog_stats_row clearfix" ng-show="false">
+                                    <div class="blog_stat_block" style="width: 800px" ng-show="stats.popularity_stats">
+                                        <div id="blog_stat_popularity_comments" style="margin: 0px auto;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+                        <!-- R29 custom -->
+                        <div class="content_chunk clearfix">
+                            <div class="divider_title">
+                                <div class="div_title_text w_title_border">R29 Data</div>
+                            </div>
+                            <div class="content_chunk_half">
+                                <div class="divider_tag">
+                                    <div class="tag">Location / Contact
+                                        <div class="tag_subtext">Getting in touch with the influencer.</div>
+                                    </div>
+                                </div>
+
+
+                                <div>
+                                    <div class="blog_stats_row clearfix">
+                                        <!-- <h1 style="text-align: center; padding-top: 20px; padding-bottom: 20px;">Unique Monthly Visitors</h1> -->
+                                        <div class="blog_stat_block" style="width: 800px">
+                                            <div id="blog_stat_monthly_visits" style="margin: 0px auto;"></div>
+                                            <!-- <div morris-area></div> -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="content_chunk_half">
+                                <div class="divider_tag">
+                                    <div class="tag">Tags
+                                        <div class="tag_subtext">Categories and tags.</div>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <div main-loader style="top: 205px; position: relative"></div>
+                                </div>
+
+                                <div>
+                                    <div class="blog_stats_row clearfix">
+                                        <!-- <h1 style="text-align: center; padding-top: 20px; padding-bottom: 20px;">Unique Monthly Visitors</h1> -->
+                                        <div class="blog_stat_block" style="width: 800px">
+                                            <div id="blog_stat_monthly_visits" style="margin: 0px auto;"></div>
+                                            <!-- <div morris-area></div> -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+
+                        <!-- MONTHLY VISITS -->
+                        <div class="content_chunk" ng-hide="user.has_artificial_blog_url || visits.show.empty">
+                            <div class="divider_title">
+                                <div class="div_title_text w_title_border">Traffic &amp; Audience Data</div>
+                            </div>
+                            <div>
+                                <div class="divider_tag">
+                                    <div class="tag">Unique Monthly Visitors
+                                        <div class="tag_subtext">The timeseries below reflects blog traffic.</div>
+                                    </div>
+                                </div>
+
+                                <div ng-show="visits.loading">
+                                    <div main-loader style="top: 205px; position: relative"></div>
+                                </div>
+
+                                <div ng-show="visits.loaded && !visits.show.empty">
+                                    <div class="blog_stats_row clearfix">
+                                        <!-- <h1 style="text-align: center; padding-top: 20px; padding-bottom: 20px;">Unique Monthly Visitors</h1> -->
+                                        <div class="blog_stat_block" style="width: 800px">
+                                            <div id="blog_stat_monthly_visits" style="margin: 0px auto;"></div>
+                                            <!-- <div morris-area></div> -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!-- TRAFFIC SHARES -->
+
+                        <div class="content_chunk" ng-hide="user.has_artificial_blog_url">
+                            <div>
+                                <div class="divider_tag">
+                                    <div class="tag">Demographic Data
+                                        <div class="tag_subtext">The visualizations below display data about this influencer's audience and traffic origins.</div>
+                                    </div>
+                                    <div class="x_space x_40"></div>
+                                </div>
+                                <div class="divider_tag" ng-style="showAgeDistribution() ? {'width': '50%', 'float': 'left'} : {}" ng-hide="trafficShares.empty"></div>
+
+                                <div class="divider_tag" ng-style="trafficShares.empty ? {} : {'width': '50%', 'float': 'right'}" ng-if="showAgeDistribution()"></div>
+
+                                <div ng-show="trafficShares.loading">
+                                    <div main-loader style="top: 205px; position: relative"></div>
+                                </div>
+
+                                <div class="blog_stats_row clearfix" ng-show="trafficShares.loaded && !trafficShares.empty" ng-style="showAgeDistribution() ? {'width': '50%', 'display': 'inline-block'} : {}">
+                                    <!--<h1 style="text-align: center; padding-top: 20px; padding-bottom: 20px;">Traffic Sources</h1>-->
+                                    <div class="blog_stat_block" ng-style="showAgeDistribution() ? {'width': '300px', 'margin': 'auto'} : {'width': '425px', 'margin': 'auto'}">
+                                        <div id="blog_stat_traffic_shares" style="margin: 0px auto;"></div>
+                                    </div>
+                                </div>
+
+                                <div class="blog_stats_row clearfix" ng-style="trafficShares.empty ? {} : {'width': '49%', 'display': 'inline-block'}" ng-if="showAgeDistribution()">
+                                    <div class="blog_stat_block" ng-style="showAgeDistribution() ? {'width': '300px', 'margin': 'auto'} : {'width': '425px',  'margin': 'auto'}">
+                                        <div id="age_distribution_info" style="margin: 0px auto;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!-- <div class="divider_tag" ng-if="context.ageDistributionOn && user.age_distribution && user.age_distribution.length">
+                            <div class="tag">Average Visitors Age Distribution:</div>
+
+                            <div class="blog_stats_row clearfix" style="margin-top: 40px;">
+                                <div class="outer-center">
+                                    <div class="inner-center">
+                                        <div class="blog_stat_block" style="width: 0px">
+                                            <div id="age_distribution_info" style="margin: 0px auto;"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> -->
+
+
+                        <!-- TOP COUNTRY SHARES -->
+                        <!-- TOP COUNTRY SHARES -->
+                        <div class="content_chunk lt_gray_radial_2 map_divider" ng-if="topCountryShares.isVisible()">
+                            <div>
+                                <div class="divider_tag">
+                                    <div class="tag tag_smaller">Geographic Distribution of Audience
+                                        <div class="tag_subtext">The map below represents the global distribution of the influencer's audience.</div>
+                                    </div>
+                                </div>
+
+                                <div ng-show="topCountryShares.loading">
+                                    <div main-loader style="top: 205px; position: relative"></div>
+                                </div>
+
+                                <div ng-show="topCountryShares.loaded" class="blog_stats_row clearfix">
+                                    <!-- <h1 style="text-align: center; padding-top: 20px; padding-bottom: 20px;">Country Shares</h1> -->
+                                    <div class="blog_stat_block" style="width: 800px">
+                                        <div id="sharesMapContainer" style="margin: 0px auto;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <!-- BRAND MENTIONS -->
+                        <!-- BRAND MENTIONS -->
+                        <div class="content_chunk">
+                            <div ng-hide="brandMentionsLoaded">
+                                <div main-loader style="top: 205px; position: relative"></div>
+                            </div>
+
+                            <div ng-show="brandMentionsLoaded">
+                                <span ng-show="brandMentions.mentions_notsponsored.children.length">
+                                    <div class="divider_title">
+                                        <div class="div_title_text w_title_border">Shopping Habits & Subject Matter</div>
+                                    </div>
+                                    <div class="divider_tag">
+                                        <div class="tag">Brand Mentions
+                                            <div class="tag_subtext">If the influencer provides links to brands/products within his/her posts, this chart shows the distribution and frequency of those brand/product mentions.</div>
+                                        </div>
+                                    </div>
+                                    <div class="endorsed_brands">
+
+                                        <div id="endorsed_brands"></div>
+                                        <!-- <div class="brands">
+                                            <div class="brand" ng-class="{brand_relevant_highlight: mention.highlight}" ng-repeat="mention in endorsed_brands">{{mention.name}} <span class="number">({{mention.count}})</span></div>
+                                        </div>
+                                        <div ng-show="has_more_brands()" class="centerer">
+                                            <div style="margin-top: 20px;" ng-click="show_more_brands()">Expand more...</div>
+                                        </div> -->
+
+                                    </div>
+                                </span>
+
+                                <!--span ng-show="user.mentions_sponsored">
+                                    <div class="divider_tag">
+                                        <div class="tag">Brands who have sponsored content</div>
+                                    </div>
+                                    <div class="endorsed_brands">
+                                        <div class="brands">
+                                            <div class="brand" ng-repeat="mention in user.mentions_sponsored">{{mention.name}} <span class="number">({{mention.count}})</span></div>
+                                        </div>
+                                    </div>
+                                </span-->
+                            </div>
+                        </div>
+
+                        <!-- POST CATEGORIES -->
+                        <!-- POST CATEGORIES -->
+                        <div class="content_chunk" ng-if="!categoryInfo.empty">
+                            <!-- <div class="divider_tag">
+                                <div class="tag">Post Categories</div>
+                            </div> -->
+                            <div class="divider_tag with_bord">
+                                <div class="tag">Category Coverage (Beta Feature)
+                                    <div class="tag_subtext">The majority of influencers cross over into multiple verticals, making it difficult to understand which influencers will be relevant. The gauges below represent how the subject matter of this influencer spreads out across the various lifestyle verticals.</div>
+                                </div>
+                            </div>
+                            <div class="blog_stats_row clearfix" style="margin-left: 7%; width: 90%;">
+                                <!--
+                                <div class="blog_stat_block" ng-style="{'display': 'inline-block', 'width': (100 / categoryInfo.data.length) - 2 + '%', 'margin': '0 auto'}" ng-show="user.category_info" ng-repeat="items in categoryInfo.data">
+                                    <div id="blog_category_info_{{ $index }}" style="margin: 0px auto;"></div>
+                                    <div style="text-align: center; color: #656565; font-family: Arial, Helvetica, sans-serif; font-size: 15px;">{{ items[0] | capitalize }}</div>
+                                </div>
+                                -->
+                            </div>
+                        </div>
+
+
+                        
+
+                        <!-- ITEMS LIST -->
+                        <!-- ITEMS LIST -->
+                        <div class="content_chunk">
+                            <div ng-hide="itemsLoaded">
+                                <div main-loader style="top: 205px; position: relative"></div>
+                            </div>
+
+                            <span ng-show="itemsLoaded">
+                                <span ng-hide="hideItems">
+                                    <div class="divider_tag">
+                                        <div class="tag">Recently Featured Items</div>
+                                    </div>
+                                    <div class="extra_itms_container clearfix">
+                                        <div class="extra_itms salvattore_grid clearfix" data-columns>
+                                        </div>
+                                        <div class="bottom_btn_container">
+                                            <a href="{{user.profile.items_page}}" target="_blank" track-me event="click" name="profile-view" meta='{"url": "{{user.profile.items_page}}"}'>
+                                            <div class="centerer"><div class="lg square_bt solid_blk rounded">View All Items</div></div>
+                                            </a>
+                                            <div class="notation">This opens in another tab, so you don’t lose your place.</div>
+                                        </div>
+                                    </div>
+                                </span>
+                            </span>
+                        </div>
+
+                        <!-- POSTS LIST -->
+                        <!-- POSTS LIST -->
+                        <div class="content_chunk gray_bg_sect">
+                            <div ng-hide="postsLoaded">
+                                <div main-loader style="top: 205px; position: relative"></div>
+                            </div>
+
+                            <span ng-show="postsLoaded">
+                                <span>
+                                    <div class="divider_title">
+                                        <div class="div_title_text w_title_border">Recent Posts</div>
+                                    </div>
+                                    <div class="outer-center">
+                                        <div class="inner-center">
+                                            <div class="bottom_btn_container" ng-hide="user.has_artificial_blog_url">
+                                                <a href="{{user.profile.posts_page}}" target="_blank" track-me event="click" name="blog-view" meta='{"url": "{{user.profile.posts_page}}"}'>
+                                                    <div class="view_posts_btn">View All Blog Posts</div>
+                                                </a>
+                                            </div>
+                                            <div class="bottom_btn_container" ng-repeat="postType in socialPostTypes" ng-show="postCounts[postType] && !user.has_artificial_blog_url">
+                                                <a href="{{user.profile[postType + '_page']}}" target="_blank" track-me event="click" name="blog-view" meta='{"url": "{{user.profile[postType + '_page']}}"}'>
+                                                    <div class="view_posts_btn">View All {{ postType | capitalize }}</div>
+                                                </a>
+                                            </div>
+                                            <div ng-show="user.has_artificial_blog_url">
+                                                <a href="{{user.profile.any_social_page}}" target="_blank" track-me event="click" name="blog-view" meta='{"url": "{{user.profile.any_social_page}}"}'>
+                                                    <div class="view_posts_btn">View All Posts</div>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div ng-hide="hidePosts" class="divider_tag" style="margin-top:0;">
+                                        <div ng-hide="user.has_artificial_blog_url" class="tag"></div>
+                                        <div ng-show="user.has_artificial_blog_url" class="tag"></div>
+                                    </div>
+                                    <div ng-show="hidePosts" class="divider_tag" style="margin-top:0;">
+                                        <div ng-hide="user.has_artificial_blog_url" class="tag"></div>
+                                        <div ng-show="user.has_artificial_blog_url" class="tag"></div>
+                                    </div>
+                                    <div class="extra_blog_posts">
+                                        <div ng-hide="hidePosts" class="feed_wrapper new_feed_wrapper salvattore_grid clearfix" data-columns>
+                                        </div>
+                                    </div>
+                                </span>
+                            </span>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

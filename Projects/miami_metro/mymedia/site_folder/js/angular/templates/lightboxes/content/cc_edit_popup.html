@@ -1,0 +1,81 @@
+<div generic-popup>
+
+    <!-- ERROR WITH REGISTRATION -->
+    <div ng-if="state == 'error'">
+        <div class="content_area_container checkout px600">
+            <h1 class="lb_title">Error</h1>
+            <p class="instruction_txt">
+                <span class="smallermedium">{{error}}</span>
+            </p>
+            <input type="submit" value="Go back" class="square_bt md teal_bt submit_button rounded" ng-click="setState('opened')">
+            <br>
+        </div>
+    </div>
+    <!-- CHECKOUT WITH YOUR CREDIT CARD -->
+    <div ng-if="state == 'opened'">
+        <div class="content_area_container checkout px800">
+            <h1 class="lb_title" style="text-align: center;">Credit Card Info</h1>
+            <form name="stripe" class="stripe" style="margin: auto;">
+                <div class="form_row_40 clearfix">
+                    <div ng-if="card_placeholder&&!number_edit" ng-mouseover="editNumber()">
+                        <fieldset class="typical_form">
+                            <label class="section_label" style="font-size: 28px;">{{card_placeholder}}</label>
+                        </fieldset>
+                    </div>
+                    <div ng-if="!card_placeholder||number_edit">
+                        <fieldset class="typical_form third left" style="position: relative; z-index: 2">
+                            <label class="section_label">Credit Card Type</label>
+                            <div style="height:43px; width:100%;" dropdown-select="types" dropdown-model="cctype" dropdown-onchange="updateType(selected)"></div>
+                        </fieldset>
+                        <fieldset class="typical_form" style="position: relative">
+                            <label class="section_label">Credit Card Number</label>
+                            <input class="cc" type="text" ng-model="stripedata.number" ui-mask="{{ccmask}}">
+                            <span style="position: absolute;top: 37px;right: 10px;color: green;" ng-if="stripedata.number && card_valid">&#x2713;</span>
+                        </fieldset>
+                    </div>
+                </div>
+                <div class="form_row_40 clearfix">
+                    <fieldset class="typical_form third left">
+                        <label class="section_label">Exp Month</label>
+                        <div style="height:43px; width:100%;"
+                            dropdown-select="months"
+                            dropdown-model="exp_month"
+                            dropdown-onchange="updateExpMonth(selected)">
+                        </div>
+                    </fieldset>
+                    <fieldset class="typical_form third">
+                        <label class="section_label">Exp Year</label>
+                        <div style="height:43px; width:100%;"
+                            dropdown-select="years"
+                            dropdown-model="exp_year"
+                            dropdown-onchange="updateExpYear(selected)">
+                        </div>
+                    </fieldset>
+                    <fieldset class="typical_form third right">
+                        <label class="section_label">CVC code</label>
+                        <input name="cvc" type="text" ng-model="stripedata.cvc" ui-mask="{{cvcmask}}">
+                    </fieldset>
+                </div>
+                <div class="form_row_0 clearfix">
+                    <input type="submit" value="Submit" class="square_bt lg teal_bt submit_button rounded" ng-click="getToken()">
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- PROCESSING YOUR PAYMENT -->
+    <div ng-if="state == 'processing'">
+        <div class="content_area_container checkout px600">
+            <h1 class="lb_title">Processing</h1>
+            <p class="instruction_txt">
+                <span class="smallermedium">Please wait</span>
+            </p>
+        </div>
+    </div>
+    <!-- SUCCESSFUL REGISTRATION -->
+    <div ng-if="state == 'success'">
+        <div class="content_area_container checkout px600">
+            <h1 class="lb_title">Success!</h1>
+        </div>
+    </div>
+
+</div>

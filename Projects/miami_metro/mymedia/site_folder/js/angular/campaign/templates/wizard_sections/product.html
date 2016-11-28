@@ -1,0 +1,146 @@
+<div ng-controller="ProductCtrl as productCtrl">
+    <ng-form name="sectionForm" form-handler="product" novalidate>
+        <fieldset>
+            <div class="a_form_group padding_40_not_bottom clearfix">
+                <div class="form_instruction main_instructions">Using this feature makes it a lot easier to gather information from each blogger about product selection. If you’re not sending a physical product, skip ahead!<br/><br/><!--Will you be sending a physical product to the influencer?--></div>
+                <!--div class="form_instruction">{{ option.text }}</div-->
+                <!--<div class="switch-large" toggle-switch ng-model="wizardCtrl.campaignData.info.sendingProductOn" name="sendingProductOn"></div>-->
+            </div>
+
+
+            <!-- If the button is turned on... this stuff shows -->
+            <!-- If the button is turned on... this stuff shows -->
+            <!-- <div ng-if="wizardCtrl.campaignData.info.sendingProductOn"> -->
+            <div>
+                <div class="form_divider w_0_0_pad_mag"></div>
+
+
+                <div class="a_form_group padding_40_all clearfix">
+                    
+
+
+
+
+                    <div class="form_mid_title"></div>
+
+                    <!-- shipping address -->
+                    <!-- shipping address -->
+                    <!-- shipping address -->
+                    <fieldset class="typical_form w_100 clearfix">
+                        <div class="inner_section w_100">
+                            <div class="switch-small floated_left" toggle-switch ng-model="wizardCtrl.campaignData.info.shippingAddressOn" name="shippingAddressOn"></div>
+                            <div class="form_instruction floated_left next_to_toggle_small">Do you need to collect a shipping address?<br/></div>
+                        </div>
+                        <div class="form_divider w_45_45_pad_mag"></div>
+                    </fieldset>
+
+                    <fieldset class="typical_form w_100 clearfix">
+                        
+
+                        <!-- first mini toggle switch -->
+                        <!-- first mini toggle switch -->
+                        <div class="inner_section w_100">
+                            <div class="switch-small floated_left" toggle-switch ng-model="wizardCtrl.campaignData.info.productLinksOn" name="productLinksOn"></div>
+                            <div class="form_instruction floated_left next_to_toggle_small">Will your sponsored posts include a product url in addition to the main url?</div>
+                        </div>
+                        
+
+
+
+                        <!-- 2nd mini toggle section -->
+                        <!-- 2nd mini toggle section -->
+                        <div class="inner_section w_100 indent_this_70px" ng-if="wizardCtrl.campaignData.info.productLinksOn">
+                            <div class="switch-small floated_left" toggle-switch ng-model="wizardCtrl.campaignData.info.sameProductUrl" name="sameProductUrl"></div>
+                            <div class="form_instruction floated_left next_to_toggle_small">Will all influencers use the same product url?</div>
+
+                            <!-- 3rd mini section -- form if there is going to be one unique url. -->
+                            <!-- 3rd mini section -- form if there is going to be one unique url. -->
+                            <div class="inner_section w_100" ng-if="wizardCtrl.campaignData.info.productLinksOn && wizardCtrl.campaignData.info.sameProductUrl" multiple-inputs ng-init="multipleInputsCtrl.init({values: wizardCtrl.campaignData.productUrls})">
+                                <div class="form_instruction form_instruct_lesser_margin">
+                                    What is the product URL that every influencer should use?
+                                    <span class="small_hint">(They will not get the option to change this. Only you will have editing priveledges.)</span>
+                                </div>
+
+                                <!--<fieldset class="typical_form two_third">
+                                    <input type="url" ng-model="wizardCtrl.campaignData.info.productUrl" placeholder="Product URL" name="productUrl" required>
+                                    <span ng-show="sectionForm.productUrl.$dirty && sectionForm.productUrl.$error.required" class="pav_validation">Enter non-empty URL</span>
+                                    <span ng-show="sectionForm.productUrl.$dirty && sectionForm.productUrl.$error.url" class="pav_validation">Enter correct URL (don't forget to include 'http://' prefix)</span>
+                                    <div class="normal_bt sm gray_bt" style="display: none;">Add Another URL</div>
+                                </fieldset>-->
+
+                                <fieldset style="padding: 10px 0;" class="typical_form two_third" ng-repeat="productUrl in wizardCtrl.campaignData.productUrls track by $index">
+                                    <div ng-form="productUrlForm" novalidate>
+                                        <input type="url" ng-model="wizardCtrl.campaignData.productUrls[$index]" unique-in="multipleInputsCtrl.uniqueSet" placeholder="Product URL" name="productUrl" ng-required="($last && $first) || !$last" ng-change="multipleInputsCtrl.onChange({$index: $index, $last: $last, form: productUrlForm, values: wizardCtrl.campaignData.productUrls})" />
+                                        <span ng-show="productUrlForm.productUrl.$dirty && productUrlForm.productUrl.$error.unique" class="pav_validation">Duplicated URL</span>
+                                        <span ng-show="$first && $last && productUrlForm.productUrl.$error.required" class="pav_validation">Enter at least one non-empty URL</span>
+                                        <span ng-show="productUrlForm.productUrl.$dirty && productUrlForm.productUrl.$error.url" class="pav_validation">Enter correct URL (don't forget to include 'http://' prefix)</span>
+                                    </div>
+                                </fieldset>
+                                <!--
+                                <fieldset class="typical_form">
+                                    <div class="normal_bt sm gray_bt" ng-click="productCtrl.addAnotherUrl('')">Add Another URL</div>
+                                </fieldset>
+                                -->
+
+                            </div>
+                        </div>
+                        
+
+
+
+
+
+
+                        <!-- 4th mini -- section on whether or no the influencer should enter in their url -->
+                        <!-- 4th mini -- section on whether or no the influencer should enter in their url -->
+                        <div class="inner_section w_100 indent_this_70px" ng-if="wizardCtrl.campaignData.info.productLinksOn && !wizardCtrl.campaignData.info.sameProductUrl">
+                            <!-- <fieldset class="typical_form" ng-class="{halfer: productSendingSection.doSelectUrl, left: productSendingSection.doSelectUrl}"> -->
+                            <fieldset class="typical_form ">
+                                <div class="form_divider w_45_0_pad_mag"></div>
+                                <div class="switch-small floated_left" toggle-switch ng-model="wizardCtrl.campaignData.info.doSelectUrl" name="doSelectUrl"></div>
+                                <div class="form_instruction floated_left next_to_toggle_small">
+                                    Are the influencers choosing a product from your website? If so, you can get them to add the url to their Campaign Dashboard. <br/> 
+                                    <span class="small_hint">Hint: if you want to be in charge of entering the urls, then be sure to handle the product selection over email. You will be able to enter the product url in later.</span>
+                                </div>
+
+                                <fieldset class="typical_form two_third" ng-if="wizardCtrl.campaignData.info.doSelectUrl">
+                                    <div class="x_space x_30"></div>
+                                    <div class="form_instruction form_instruct_lesser_margin">Product selection criteria <span class="small_hint">Are you focusing on a particular product line or launch? Are there any types of products that are off limits?</span></div>
+                                    <textarea cols="25" rows="3" placeholder="" style="resize: none;" ng-model="wizardCtrl.campaignData.info.restrictions" name="restrictions"></textarea>
+                                </fieldset>
+                            </fieldset>
+                        </div>
+                        <div class="form_divider w_45_45_pad_mag"></div>
+
+                    </fieldset>
+
+                    <!-- product preferences -->
+                    <!-- product preferences -->
+                    <!-- product preferences -->
+                    <fieldset class="typical_form w_100 clearfix">
+
+                        <div class="inner_section w_100">
+                            <div class="switch-small floated_left" toggle-switch ng-model="wizardCtrl.campaignData.info.bloggerAdditionalInfoOn" name="bloggerAdditionalInfoOn"></div>
+                            <div class="form_instruction floated_left next_to_toggle_small">Do you need to collect any info from the blogger about product preferences?<br/><span class="small_hint">Color/size  |  Dietary requirements  |  Other preferences that might affect what you send them?</span></div>
+                            
+                        </div>
+
+
+                        <!-- form field for product preferences -->
+                        <!-- form field for product preferences -->
+                        <fieldset class="typical_form two_third inner_section" ng-if="wizardCtrl.campaignData.info.bloggerAdditionalInfoOn">
+                            <div class="x_space x_30"></div>
+                            <div class="form_instruction form_instruct_lesser_margin">Product Preferences Instructions for the influencer</div>
+                            <textarea cols="25" rows="3" style="resize: none;" ng-model="wizardCtrl.campaignData.info.bloggerAdditionalInfo" name="bloggerAdditionalInfo"></textarea>
+                        </fieldset>
+
+                    </fieldset>
+
+                </div>
+
+            
+            </div>
+        </fieldset>
+        <div class="form_divider w_0_30_pad_mag"></div>
+    </ng-form>
+</div>

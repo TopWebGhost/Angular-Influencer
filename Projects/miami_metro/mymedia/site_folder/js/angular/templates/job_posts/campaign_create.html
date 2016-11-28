@@ -1,0 +1,292 @@
+<div>
+    <div class="content_area_container setup_wizard centered_block">
+
+        <div ng-if="state == 'error'">
+            <h1 class="lb_title lg">{{ errorMessage }}</h1>
+        </div>
+
+        <div ng-if="state == 'display_message'">
+            <h1 class="lb_title lg">{{ message_text }}</h1>
+        </div>
+
+        <div ng-if="state == 'loading'">
+            <div main-loader></div>
+        </div>
+
+        <div ng-if="state == 'saving'">
+            <div main-loader></div>
+        </div>
+
+        <div ng-if="state == 'after_report_added'">
+            <h1 class="lb_title lg">{{ afterReportAddedText }}</h1>
+            <a href="/">Go to the Main Search</a>
+        </div>
+
+        <div ng-if="state == 'opened'">
+            <div class="report-edit-content">
+                <div class="report-wizard">
+                  <accordion close-others="oneAtATime">
+
+                    <accordion-group is-open="status[0]['is_open']" is-disabled="status[0]['can_edit'] == false" ng-class="{ 'current-step': current_step == 0, 'completed-step': status[0]['is_completed'] }">
+                        <accordion-heading>
+                            <div class="wizard-head-wrapper" ng-click="moveStep(0)">
+                                <span class="step-number">1</span>
+                                <span class="step_name">Name This Campaign</span>
+                                <button type="button" ng-show="status[0]['is_open']" ng-click="$event.stopPropagation(); $event.preventDefault(); moveNextStep(0)" class="next-step-button">
+                                    <span>Next Step</span>
+                                </button>
+                            </div>
+                        </accordion-heading>
+                        <p class="step_instruction_txt">Select a name for your Campaign.</p>
+                        <fieldset class="typical_form halfer left">
+                            <input ng-model="nameSection.campaignName" type="name" required class="ng-pristine ng-invalid ng-invalid-required" style="float: left; width: 300px;" placeholder="Campaign Name" style="width: 100%!important;">
+                            <span ng-hide="true" class="pav_validation">Enter non-empty name</span>
+                        </fieldset>
+                        <fieldset class="typical_form halfer right">
+                            <input ng-model="nameSection.clientName" type="name" required class="ng-pristine ng-invalid ng-invalid-required" style="float: left; width: 300px;" placeholder="Client Name" style="width: 100%!important;">
+                            <span ng-hide="true" class="pav_validation">Enter non-empty name</span>
+                        </fieldset>
+                    </accordion-group>
+
+                    <accordion-group is-open="status[1]['is_open']" is-disabled="status[1]['can_edit'] == false" ng-class="{ 'current-step': current_step == 1, 'completed-step': status[1]['is_completed'] }">
+
+                        <accordion-heading>
+                            <div class="wizard-head-wrapper" ng-click="moveStep(1)">
+                                <span class="step-number">2</span>
+                                <span class="step_name">Influencer Approval Report</span>
+                                <button type="button" ng-show="status[1]['is_open']" ng-click="$event.stopPropagation(); $event.preventDefault(); moveNextStep(1)" class="next-step-button">
+                                    <span>Next Step</span>
+                                </button>
+                            </div>
+                        </accordion-heading>
+
+                        <p class="step_instruction_txt">You'll use the influencer approval report to get your client's sign-off on the influencers you've chosen. And you can view your list within the <a href="">first stage</a> of your campaign pipeline. Use this Setup box to configure it. When you are ready to send, use the link above to view your final list, as well as preview your report. When you are satisfied you will Send the report from there. Not here.</p>
+
+                        <fieldset class="typical_form" ng-hide="approvalReportSection.enabled">
+                            <p class="step_instruction_txt">You haven't enabled this feature. If you want to utilize this approval report, you need to turn it on.</p>
+                            <button class="square_bt md teal_bt" ng-click="approvalReportSection.toggle()">
+                                <span>Turn on this feature</span>
+                            </button>
+                        </fieldset>
+
+                        <fieldset class="typical_form" ng-show="approvalReportSection.enabled">
+                            <p class="step_instruction_txt">You have enabled this step. If you wish to disable this step: </p>
+                            <button class="square_bt md teal_bt" style="background-color: #F5154B;" ng-click="approvalReportSection.toggle()">
+                                <span>Turn off this feature</span>
+                            </button>
+                        </fieldset>
+
+                        <fieldset class="typical_form" ng-show="approvalReportSection.enabled">
+                            <fieldset class="typical_form third left">
+                                <h2>Add Recipients</h2>
+                                <input
+                                    ng-model="approvalReportSection.newRecipient"
+                                    ng-keypress="$event.keyCode == 13 && approvalReportSection.addRecipient()"
+                                    type="text" placeholder="Recipient Email">
+                                <button class="square_bt md teal_bt" ng-click="approvalReportSection.addRecipient()">
+                                    <span>+</span>
+                                </button>
+                                <div ng-repeat="recipient in approvalReportSection.recipients track by $index">
+                                    <span>{{ recipient }}</span><span ng-click="approvalReportSection.removeRecipient($index)">x</span>
+                                </div>
+                            </fieldset>
+
+                            <fieldset class="typical_form third left">
+                                <h2>Settings</h2>
+                                <div>
+                                    <div ng-repeat="setting in approvalReportSection.settings">
+                                        <label>{{ setting.text }}</label>
+                                        <div class="cb_or_rb_wrap">
+                                            <input type="radio" id="{{ setting.name }}_yes" name="{{ setting.name }}" ng-click="setting.value = true" ng-checked="setting.value">
+                                            <label for="{{ setting.name }}_yes">
+                                                <span class="graphic plus_btn"></span>Yes
+                                            </label>
+                                            <input type="radio" id="{{ setting.name }}_no" name="{{ setting.name }}" ng-click="setting.value = false" ng-checked="!setting.value">
+                                            <label for="{{ setting.name }}_no">
+                                                <span class="graphic plus_btn"></span>No
+                                            </label>
+                                        </div>
+                                    </div>
+                            </fieldset>
+
+                            <fieldset class="typical_form third right">
+                                <h2>Column Visibility</h2>
+                                <div>
+                                    <div class="cb_or_rb_wrap">
+                                        <input type="checkbox" id="allow_comments" name="allow_comments" checked />
+                                        <label for="allow_comments">
+                                            <span class="graphic plus_btn"></span>Influencer follower counts
+                                        </label>
+                                    </div>
+                                    <div class="cb_or_rb_wrap">
+                                        <input type="checkbox" id="allow_comments" name="allow_comments" checked />
+                                        <label for="allow_comments">
+                                            <span class="graphic plus_btn"></span>Twitter Engagement
+                                        </label>
+                                    </div>
+                                    <div class="cb_or_rb_wrap">
+                                        <input type="checkbox" id="allow_comments" name="allow_comments" checked />
+                                        <label for="allow_comments">
+                                            <span class="graphic plus_btn"></span>Pinterest Engagement
+                                        </label>
+                                    </div>
+                                    <div class="cb_or_rb_wrap">
+                                        <input type="checkbox" id="allow_comments" name="allow_comments" checked />
+                                        <label for="allow_comments">
+                                            <span class="graphic plus_btn"></span>Instagram Engagement
+                                        </label>
+                                    </div>
+                                    <div class="cb_or_rb_wrap">
+                                        <input type="checkbox" id="allow_comments" name="allow_comments" checked />
+                                        <label for="allow_comments">
+                                            <span class="graphic plus_btn"></span>FB Engagement
+                                        </label>
+                                    </div>
+                                    <div class="cb_or_rb_wrap">
+                                        <input type="checkbox" id="allow_comments" name="allow_comments" checked />
+                                        <label for="allow_comments">
+                                            <span class="graphic plus_btn"></span>Virality Score
+                                        </label>
+                                    </div>
+                                    <div class="cb_or_rb_wrap">
+                                        <input type="checkbox" id="allow_comments" name="allow_comments" checked />
+                                        <label for="allow_comments">
+                                            <span class="graphic plus_btn"></span>Blog Post Comments
+                                        </label>
+                                    </div>
+                                    <div class="cb_or_rb_wrap">
+                                        <input type="checkbox" id="allow_comments" name="allow_comments" checked />
+                                        <label for="allow_comments">
+                                            <span class="graphic plus_btn"></span>Etc.
+                                        </label>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </fieldset>
+
+                        <fieldset class="typical_form" ng-show="approvalReportSection.enabled">
+                            <button class="square_bt md teal_bt">
+                                <span>View Pipeline Stage</span>
+                            </button>
+                            <button class="square_bt md teal_bt">
+                                <span>View Client Preview</span>
+                            </button>
+                            <button class="square_bt md teal_bt">
+                                <span>Send Approval Report</span>
+                            </button>
+                        </fieldset>
+
+                    </accordion-group>
+
+                    <accordion-group is-open="status[2]['is_open']" is-disabled="status[1]['can_edit'] == false" ng-class="{ 'current-step': current_step == 2, 'completed-step': status[2]['is_completed'] }">
+                        <accordion-heading>
+                            <div class="wizard-head-wrapper" ng-click="moveStep(2)">
+                                <span class="step-number">3</span>
+                                <span class="step_name">
+                                    <span ng-show="reportData.newCollectionName">Create new "{{ reportData.newCollectionName }}" collection</span>
+                                </span>
+                                <span class="step_name">Outreach Configuration</span>
+                                <button type="button" ng-show="status[2]['is_open']" ng-click="$event.stopPropagation(); $event.preventDefault(); moveNextStep(2)" class="next-step-button">
+                                    <span>Next Step</span>
+                                </button>
+                            </div>
+                        </accordion-heading>
+                        <p class="step_instruction_txt">When you send out emails, you can start with a template that you compose here... then, for each influencer, all you need to do is customize the intro. And everything after that intro will already be written. Which avoides mistakes with copying and pasting... and what not.</p>
+
+                        <fieldset class="typical_form halfer left">
+                            <form name="email_form" class="clearfix">
+                                <label>Message Editor</label>
+                                <div wysiwyg-editor tabindex="2"></div>
+                                <button class="square_bt md teal_bt">
+                                    <span>Send Test Email</span>
+                                </button>
+                            </form>
+
+                        </fieldset>
+                            
+                        <fieldset class="typical_form halfer right">
+                            <h2>Click to Add More Merge Tags</h2>
+                            <button class="square_bt md teal_bt">
+                                <span>Influencer's Name</span>
+                            </button>
+                            <button class="square_bt md teal_bt">
+                                <span>Blog Name</span>
+                            </button>
+                        </fieldset>
+                    </accordion-group>
+
+                    <accordion-group is-open="status[3]['is_open']" is-disabled="status[3]['can_edit'] == false" ng-class="{ 'current-step': current_step == 3, 'completed-step': status[3]['is_completed'] }">
+                        <accordion-heading>
+                            <div class="wizard-head-wrapper" ng-click="moveStep(3)">
+                                <span class="step-number">4</span>
+                                <span class="step_name">Campaign Specifics</span>
+                                <span class="step_details">Ca</span>
+                                <button type="button" ng-show="status[3]['is_open']" ng-click="$event.stopPropagation(); $event.preventDefault(); moveNextStep(3)" class="next-step-button">
+                                    <span>Done</span>
+                                </button>
+                            </div>
+                        </accordion-heading>
+                        <p class="step_instruction_txt">Use this to set all campaign criteria that will remain consistent across influencers because we will then insert this data into the terms for each influencers. Which means you won't have to paste a term in for each and every person. You can just do it once here. And if edits are needed, you can spot-edit. If the criteria is going to vary a lot... then leave that checkbox unselected.</p>
+
+                        <fieldset class="typical_form">
+                            <div class="step_section">
+                                <div class="step_section_title">Deliverables</div>
+                                <div class="step_section_instruction_txt">Select the post types / counts in order to set post requirements for each person.</div>
+                            </div>
+                        </fieldset>
+
+                        <fieldset class="typical_form halfer left">
+                            <div class="step_section">
+                                <div class="step_section_title">Description of Objective</div>
+                                <div class="step_section_instruction_txt">Give the influencer an idea of what you're trying to achieve. Your goals.</div>
+                                <div wysiwyg-editor tabindex="2"></div>
+                            </div>
+                        </fieldset>
+
+                        <fieldset class="typical_form halfer right">
+                            <div class="step_section">
+                                <div class="step_section_title">Info About Your Company</div>
+                                <div class="step_section_instruction_txt">Explain to them your selling points. Indicate which ones you'd like worked in.</div>
+                                <div wysiwyg-editor tabindex="2"></div>
+                            </div>
+                        </fieldset>
+
+                        <fieldset class="typical_form third left">
+                            <div class="step_section">
+                                <div class="step_section_title">Date Range</div>
+                                <div class="step_section_instruction_txt">Do you have Date Requirements, that the post must go up by?</div>
+                                <div ng-date-range bind="dateRangeModel" opens="center" class="date_range_field" no-max-date=""></div>
+                            </div>
+                        </fieldset>
+
+                        <fieldset class="typical_form third left">
+                            <div class="step_section">
+                                <div class="step_section_title">Hashtags & Mentions</div>
+                                <div class="step_section_instruction_txt">Which hashtags and mentions do you want?</div>
+                                <fieldset class="typical_form">
+                                    <label>Mentions Required (comma-separated)</label>
+                                    <input type="text" placeholder="@mention1, @mention2">
+                                </fieldset>
+                                <fieldset class="typical_form">
+                                    <label>Hashtags Required (comma-separated)</label>
+                                    <input type="text" placeholder="#hashtag1, #hashtag2">
+                                </fieldset>
+                            </div>
+                        </fieldset>
+
+                        <fieldset class="typical_form third right">
+                            <div class="step_section">
+                                <div class="step_section_title">Other Details</div>
+                                <div class="step_section_instruction_txt">Describe how they should select their products. And what info you need from them... Product URL? Size? Color? Etc.</div>
+                                <div wysiwyg-editor tabindex="2"></div>
+                            </div>
+                        </fieldset>
+
+                    </accordion-group>
+
+                </accordion>
+            </div>
+        </div>
+
+    </div>
+</div>

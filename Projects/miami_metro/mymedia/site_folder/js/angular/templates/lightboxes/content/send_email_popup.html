@@ -1,0 +1,55 @@
+<div generic-popup generic-uploading layer="20">
+
+    <div ng-if="state == 'sending'" class="add_blogger_to_collection content_area_container">
+        <div main-loader></div>
+    </div>
+
+    <div ng-if="state != 'sending'" class="content_area_container px900">
+
+        <div ng-if="state == 'opened'">
+
+            <div class="form_row_40 clearfix" style="padding-top:30px;">
+
+                <fieldset class="typical_form smaller_field halfer">
+                    <input ng-model="sendEmailPopupCtrl.sendOptions.subject" type="text" name="subject" tabindex="1" readonly />
+                </fieldset>
+
+            </div>
+
+            <form name="email_form" class="clearfix">
+                <!-- message editor in popup -->
+                <div wysiwyg-editor ng-model="sendEmailPopupCtrl.sendOptions.template" tabindex="2"></div>
+                <!-- that row of buttons -->
+                <div class="x_space x_30"></div>
+                <div upload-panel>
+                    <button class="normal_bt rounded md teal_bt" ng-click="sendEmailPopupCtrl.send()">Send Message</button> &nbsp; 
+
+                    <button class="normal_bt rounded md teal_bt inactive" style="float:right;" ng-click="$parent.close()">Cancel</button>
+
+                    <a class="txt_link rale_3 darker_teal" ng-if="sendEmailPopupCtrl.bloggerPagePreviewUrl" a-href="{{ sendEmailPopupCtrl.bloggerPagePreviewUrl }}"><span>Preview Blogger's Page</span></a>
+
+                    <span ng-repeat="urlItem in sendEmailPopupCtrl.extraUrls">
+                        <a class="txt_link rale_3 darker_teal" ng-if="urlItem.type == 'broadcast'" broadcaster ng-click="broadcasterCtrl.broadcast(urlItem.eventName, urlItem.eventOptions)">{{ urlItem.name }}</a>
+                        <a class="txt_link rale_3 darker_teal" ng-if="urlItem.type == 'link'" a-href="{{ urlItem.url }}">{{ urlItem.name }}</a>
+                    </span>
+                </div>
+                <div class="x_space x_20"></div>
+            </form>
+
+        </div>
+
+
+        <div ng-if="state == 'error'">
+            <h1 class="lb_title lg">Error</h1>
+            <p class="instruction_txt">
+                There was a problem with sending your email. It was probably just a small hiccop. If you'd like to try again, click the button below. <!--Or if you'd like to contact us, click the other button.-->
+            </p>
+            <a class="square_bt md teal_bt" ng-click="sendEmailPopupCtrl.send()">Re-send</a>
+            <!-- <a class="square_bt md teal_bt" data-popup-type="contact_us" ng-click="close(); openContactForm()">contact us</a> -->
+        </div>
+
+    </div>
+</div>
+
+
+

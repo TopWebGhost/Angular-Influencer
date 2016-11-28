@@ -1,0 +1,9 @@
+<fieldset class="typical_form smaller_field brand_matcher_input">
+    <input class="brand_name" type="text" placeholder="{{placeholder}}" ng-model="brand_url">
+    <div class="brand-autocomplete-message" ng-if="autocomplete_message">
+        {{autocomplete_message}}
+    </div>
+    <ul class="brand-autocomplete" ng-show="autocomplete_results">
+        <li ng-repeat="result in autocomplete_results track by $index" ng-click="selectResult(result)">{{result.url}}</li>
+    </ul>
+</fieldset>

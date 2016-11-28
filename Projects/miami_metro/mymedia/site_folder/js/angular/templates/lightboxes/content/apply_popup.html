@@ -1,0 +1,54 @@
+<div generic-popup>
+    <div class="content_area_container px900">
+        <div ng-if="state == 'opened'">
+            <h1 class="lb_title lg">Apply to campaign</h1>
+            <div class="instruction_txt">
+                <span class="small">Edit the email below (if you want to) then click Send.  The campaign page will indicate when the email has been opened.  And it will update again when you receive a response.  (Bloggers tend to respond only if they are interested...  so cast a wide net.)</span><br/>
+            </div>
+            <form name="email_form" class="clearfix">
+                <fieldset class="typical_form clearit">
+                    <div>
+
+                        <div class="btn-toolbar" data-role="editor-toolbar" data-target="#editor">
+                            <div class="btn-group">
+                                <a class="btn" data-edit="bold" title="Bold (Ctrl/Cmd+B)"><i class="icon-ribbon_bold"></i></a>
+                                <a class="btn" data-edit="underline" title="Underline (Ctrl/Cmd+U)"><i class="icon-ribbon_underline"></i></a>
+                            </div>
+                            <div class="btn-group">
+                                <a class="btn" data-edit="justifyleft" title="Align Left (Ctrl/Cmd+L)"><i class="icon-ribbon_left_align"></i></a>
+                                <a class="btn" data-edit="justifycenter" title="Center (Ctrl/Cmd+E)"><i class="icon-ribbon_center_align"></i></a>
+                                <a class="btn" data-edit="justifyright" title="Align Right (Ctrl/Cmd+R)"><i class="icon-ribbon_right_align"></i></a>
+                            </div>
+                            <div class="btn-group">
+                                <a class="btn" data-edit="undo" title="Undo (Ctrl/Cmd+Z)"><i class="icon-arrow_0_curve_down"></i></a>
+                                <a class="btn" data-edit="redo" title="Redo (Ctrl/Cmd+Y)"><i class="icon-arrow_0_curve_down_right"></i></a>
+                            </div>
+                        </div>
+                        <div id="editor" class="typical_form" style="overflow:scroll; height: 200px;"></div>
+                    </div>
+                </fieldset>
+                <br/>
+                <button class="square_bt md teal_bt" ng-click="send(template)">Send</button>
+                <button class="square_bt md teal_bt inactive" ng-click="close()">Cancel</button>
+            </form>
+        </div>
+        <div ng-if="state == 'sending'">
+            <h1 class="lb_title lg">Sending</h1>
+            <p class="instruction_txt">
+                <span class="smallermedium">Please wait</span>
+            </p>
+        </div>
+        <div ng-if="state == 'done'">
+            <h1 class="lb_title lg">Invitation applied</h1>
+            <p class="instruction_txt">
+                <span class="smallermedium">Success</span>
+            </p>
+        </div>
+        <div ng-if="state == 'error'">
+            <h1 class="lb_title lg">Error</h1>
+        </div>
+    </div>
+</div>
+
+
+

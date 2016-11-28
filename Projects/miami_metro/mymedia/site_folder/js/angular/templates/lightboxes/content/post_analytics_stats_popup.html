@@ -1,0 +1,40 @@
+<div generic-popup>
+    <div class="content_area_container px1000">
+
+        <div ng-if="state == 'opened'">
+            <h1 class="lb_title lg">Campaign Tracking Stats</h1>
+            <div class="instruction_txt"></div>
+
+            <div ng-show="loading" main-loader></div>
+
+            <div ng-hide="loading" style="height: 500px;">
+                <div class="nano">
+                    <div class="content nano-content">
+                        <div class="blog_stats_row clearfix">
+                            <h1 ng-show="clicksChart.loaded" style="text-align: center; padding-top: 20px; padding-bottom: 20px; color: #949494;">{{ clicksChart.title }}</h1>
+                            <div class="outer-center">
+                                <div class="inner-center">
+                                    <div class="blog_stat_block" style="width: 700px">
+                                        <div id="clicks_stats_chart" style="margin: 0px auto;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="blog_stats_row clearfix">
+                            <h1 ng-show="viewsChart.loaded" style="text-align: center; padding-top: 20px; padding-bottom: 20px; color: #949494;">{{ viewsChart.title }}</h1>
+                            <div class="outer-center">
+                                <div class="inner-center">
+                                    <div class="blog_stat_block" style="width: 700px">
+                                        <div id="views_stats_chart" style="margin: 0px auto;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

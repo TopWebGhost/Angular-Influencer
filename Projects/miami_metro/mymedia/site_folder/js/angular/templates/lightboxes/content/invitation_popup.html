@@ -1,0 +1,105 @@
+<div generic-popup generic-uploading>
+
+    <div ng-if="state == 'sending'" class="add_blogger_to_collection content_area_container">
+        <div main-loader></div>
+    </div>
+
+    <div ng-if="state != 'sending'" class="content_area_container px900">
+
+        <div ng-if="state == 'opened'">
+
+            <!-- <h1 class="lb_title lg">Send Email</h1> -->
+
+            <!-- <div class="instruction_txt" style="margin-bottom:40px;"> 
+                <div class="extra_row">If you want to change the template for all influencers, please return to your Campaign Settings.</div>
+            </div>-->
+
+            <div class="form_row_40 clearfix" style="padding-top:30px;">
+
+                <fieldset class="typical_form smaller_field halfer" ng-if="can_set_subject">
+                    <!--label>Email Subject : </label-->
+                    <input ng-model="sendOptions.subject" type="text" name="subject" tabindex="1" />
+                </fieldset>
+
+                <span ng-if="forceInvite && strictForce">
+                    <fieldset class="typical_form smaller_field halfer right" style="margin-top:2px;">
+                        <label style="float:left; margin-right:5px; position:relative; top:11px;">&nbsp; &nbsp; &nbsp; Campaign:</label>
+                        <div class="non_editable_form_text">{{job.text}}</div>
+                    </fieldset>
+                </span>
+
+                <span ng-if="!(forceInvite && strictForce)">
+
+                    <fieldset class="typical_form smaller_field halfer right" ng-if="possible_campaigns.length>1">
+                        <label>Add link to following campaign</label>
+                        <div
+                            class="associate_campaign"
+                            dropdown-select="possible_campaigns"
+                            dropdown-model="job"
+                            dropdown-onchange="campaignLinkChanged(selected)"
+                            dropdown-disabled="forceInvite && strictForce"
+                        ></div>
+                        <div class="serif_ital xsmall lessgray" ng-if="alreadyInvited">You have already sent an invitation to this campaign for this user</div>
+                    </fieldset>
+
+                    <fieldset class="typical_form smaller_field halfer right" ng-if="possible_campaigns.length == 1">
+                        <label>
+                            Invite to a Collection
+                        </label>
+                        <div class="serif_ital xsmall lessgray">You haven't created any campaigns yet...<br/>so this will just be a message to the blogger.</div>
+                    </fieldset>
+
+                </span>
+
+            </div>
+
+            <form name="email_form" class="clearfix">
+                <!-- message editor in popup -->
+                <div wysiwyg-editor ng-model="sendOptions.template" tabindex="2"></div>
+                <!-- that row of buttons -->
+                <div class="x_space x_30"></div>
+                <div upload-panel></div>
+                <div class="x_space x_20"></div>
+            </form>
+
+        </div>
+
+        <div ng-if="state == 'all_camps'">
+            <h1 class="lb_title lg">You have invited this blogger to every campaign you have created!</h1>
+        </div>
+
+        <div ng-if="state == 'done'">
+            <h1 class="lb_title lg">Invitation sent</h1>
+            <p class="instruction_txt">
+                <span class="smallermedium">{{status}} Changes might be visible after few seconds.</span>
+            </p>
+        </div>
+
+        <div ng-if="state == 'error'">
+            <h1 class="lb_title lg">Error</h1>
+            <p class="instruction_txt">
+                There was a problem with sending your email. It was probably just a small hiccop. If you'd like to try again, click the button below. <!--Or if you'd like to contact us, click the other button.-->
+            </p>
+            <a class="square_bt md teal_bt" ng-click="send({reload: reload})">Re-send</a>
+            <!-- <a class="square_bt md teal_bt" data-popup-type="contact_us" ng-click="close(); openContactForm()">contact us</a> -->
+        </div>
+
+        <div ng-if="state == 'confirm'">
+            <h1 class="lb_title lg">Please confirm</h1>
+            <p class="instruction_txt">
+                <span class="smallermedium">Do you really want to send message without adding link to campaign?</span>
+            </p>
+            <button class="square_bt md teal_bt" ng-click="confirm(true)">Yes</button>
+            <button class="square_bt md teal_bt inactive" ng-click="confirm(false)">No</button>
+        </div>
+
+        <div ng-if="state == 'alreadyInvited'">
+            <h1 class="lb_title lg">You have already sent an invitation to this campaign for this user. Please, choose another campaign.</h1>
+            <button class="square_bt md teal_bt" ng-click="confirm(false)">Back</button>
+        </div>
+
+    </div>
+</div>
+
+
+

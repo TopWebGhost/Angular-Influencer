@@ -1,0 +1,242 @@
+<!-- buttons -->
+<div class="save_btns">
+    <button class="square_bt xs gray_bt .save_search" ng-click="canSwitchMode() && openSaveSearchPopup()" ng-class="{'inactive': isLoading()}" ng-if="!savedSearch.isActive()" ng-disabled="!canSwitchMode()">Save Search</button>
+
+    <button class="square_bt xs gray_bt" ng-click="canSwitchMode() && openSaveSearchPopup()" ng-class="{'inactive': isLoading()}" ng-disabled="!canSwitchMode()" ng-if="savedSearch.isActive()">Save New</button>
+    <button class="square_bt xs gray_bt" ng-click="canSwitchMode() && openSaveSearchPopup(true)" ng-class="{'inactive': isLoading()}" ng-if="savedSearch.isChanged()" ng-disabled="!canSwitchMode()" resave>Resave</button>
+
+    <p class="serif_ital xxxsmall lessergray">
+        <span class="txt_link" ng-click="!isLoading() && removeAllFilters()">Remove All Filters</span>
+    </p>
+</div>
+
+<div class="applied_filters clearfix">
+
+    <!-- filters -->
+    <div class="the_filters">
+        <div class="filter_group">
+            <div class="filter_title" ng-if="showAppliedKeywords()">Keywords<span ng-show="ms.isAndOrFilterOn() && !kwExpr.isComplete()">(editing)</span>:</div>
+
+            <span ng-if="!ms.isAndOrFilterOn()">
+                <span ng-repeat="kw in ms.params.keywords track by ($index + kw)" bindonce>
+                    <div class="filter">
+                        <span class="filt_label" bo-if="ms.findType(ms.params.keywordTypes[$index]).value !== 'all'" bo-text="ms.findType(ms.params.keywordTypes[$index]).text + ':'"></span> <span bo-text="kw"></span>
+                        <!--<span bo-text="kw"></span><span>{{ $index }}</span>-->
+                        <span class="x_btn" ng-click="remove_or_element($index)">x</span>
+                    </div>
+                </span>
+            </span>
+
+            <span ng-if="ms.isAndOrFilterOn()">
+                <span ng-repeat="group in kwExpr.groups" ng-if="!group.isEmpty()">
+                    <span ng-show="!$first" class="group_concatenator_label">AND</span>
+                    <span ng-show="group.showParenthesis()">(</span>
+                    <span ng-repeat="kw in group.keywords">
+                        <span ng-show="!$first && !$last" class="keyword_concatenator_label">OR</span>
+                        <div class="filter" style="margin-right: 0;" ng-if="!kw.isEmpty()">
+                            <span class="filt_label">{{ kw.type.text || ms.findType(kw.type).text }}:</span> {{ kw.value }}
+                            <span class="x_btn" ng-click="!isLoading() && removeKeyword({group: group, index: $index})">x</span>
+                        </div>
+                    </span>
+                    <span ng-show="group.showParenthesis()">)</span>
+                </span>
+            </span>
+
+        </div>
+
+        <div class="filter_group" ng-if="filters.source.length > 0">
+            <div class="filter_title">Sources: </div>    
+
+            <div class="filter" ng-repeat="entry in filters.source track by ($index + entry)" bindonce>
+                <span bo-text="sourceMapping[entry]"></span>
+                <span class="x_btn" ng-click="toggleTypeFilter('source', entry)">x</span>
+            </div>
+        </div>
+
+        <div class="filter_group" ng-if="filters.tags.length > 0">
+            <div class="filter_title">My Tags: </div>    
+
+            <div class="filter" ng-repeat="entry in filters.tags track by ($index + entry)" bindonce>
+                <span bo-text="tagsService.getTagById(entry).name"></span>
+                <span class="x_btn" ng-click="toggleTypeFilter('tags', entry)">x</span>
+            </div>
+        </div>
+
+        <div class="filter_group" ng-if="filters.customCategories.length > 0">
+            <div class="filter_title">Custom Categories: </div>    
+
+            <div class="filter" ng-repeat="entry in filters.customCategories track by ($index + entry)" bindonce>
+                <span bo-text="entry"></span>
+                <span class="x_btn" ng-click="toggleTypeFilter('customCategories', entry)">x</span>
+            </div>
+        </div>
+
+        <div class="filter_group" ng-if="filters.customOccupation.length > 0">
+            <div class="filter_title">Custom Occupation: </div>    
+
+            <div class="filter" ng-repeat="entry in filters.customOccupation track by ($index + entry)" bindonce>
+                <span bo-text="entry"></span>
+                <span class="x_btn" ng-click="toggleTypeFilter('customOccupation', entry)">x</span>
+            </div>
+        </div>
+
+        <div class="filter_group" ng-if="filters.customSex.length > 0">
+            <div class="filter_title">Custom Sex: </div>    
+
+            <div class="filter" ng-repeat="entry in filters.customSex track by ($index + entry)" bindonce>
+                <span bo-text="entry"></span>
+                <span class="x_btn" ng-click="toggleTypeFilter('customSex', entry)">x</span>
+            </div>
+        </div>
+
+        <div class="filter_group" ng-if="filters.customEthnicity.length > 0">
+            <div class="filter_title">Custom Ethnicity: </div>    
+
+            <div class="filter" ng-repeat="entry in filters.customEthnicity track by ($index + entry)" bindonce>
+                <span bo-text="entry"></span>
+                <span class="x_btn" ng-click="toggleTypeFilter('customEthnicity', entry)">x</span>
+            </div>
+        </div>
+
+        <div class="filter_group" ng-if="filters.customTags.length > 0">
+            <div class="filter_title">Custom Tags: </div>    
+
+            <div class="filter" ng-repeat="entry in filters.customTags track by ($index + entry)" bindonce>
+                <span bo-text="entry"></span>
+                <span class="x_btn" ng-click="toggleTypeFilter('customTags', entry)">x</span>
+            </div>
+        </div>
+
+        <div class="filter_group" ng-if="filters.customLanguage.length > 0">
+            <div class="filter_title">Custom Language: </div>    
+
+            <div class="filter" ng-repeat="entry in filters.customLanguage track by ($index + entry)" bindonce>
+                <span bo-text="entry"></span>
+                <span class="x_btn" ng-click="toggleTypeFilter('customLanguage', entry)">x</span>
+            </div>
+        </div>
+
+        <!-- <div class="filter_title" ng-show="hasFilters()">You've filtered by:</div> -->
+        <div class="filter_group" ng-if="filters.popularity.length > 0">
+            <div class="filter_title">Popularity: </div>
+
+            <div class="filter" ng-repeat="entry in filters.popularity track by ($index + entry)" bindonce>
+                <span bo-text="entry"></span>
+                <span class="x_btn" ng-click="toggleTypeFilter('popularity', entry)">x</span>
+            </div>
+        </div>
+
+        <div class="filter_group" ng-if="filters.brand.length > 0">
+            <div class="filter_title">Brand: </div>
+
+            <div class="filter" ng-repeat="brand in filters.brand" bindonce>
+                <span bo-text="brand.text"></span>
+                <span class="x_btn" ng-click="toggleTypeFilter('brand', brand)">x</span>
+            </div>
+        </div>
+
+        <div class="filter_group" ng-if="filters.location.length > 0">
+            <div class="filter_title">Location: </div>
+
+            <div class="filter" ng-repeat="location in filters.location track by ($index + location)" bindonce>
+                <span bo-text="location"></span>
+                <span class="x_btn" ng-click="toggleTypeFilter('location', location)">x</span>
+            </div>
+        </div>
+
+        <div class="filter_group" ng-if="filters.priceranges.length > 0">
+            <div class="filter_title">Pricing: </div>
+
+            <div class="filter" ng-repeat="entry in filters.priceranges track by ($index + entry)" bindonce>
+                <span bo-text="pricerangesMapping[entry]"></span>
+                <span class="x_btn" ng-click="toggleTypeFilter('priceranges', entry)">x</span>
+            </div>
+        </div>
+
+        <div class="filter_group" ng-if="filters.gender.length > 0">
+            <div class="filter_title">Gender: </div>
+
+            <div class="filter" ng-repeat="entry in filters.gender track by ($index + entry)" bindonce>
+                <span bo-text="entry"></span>
+                <span class="x_btn" ng-click="toggleTypeFilter('gender', entry)">x</span>
+            </div>
+        </div>
+
+        <div class="filter_group" ng-if="categories.applied">
+            <div class="filter_title">Categories: </div>
+
+            <div class="filter" ng-repeat="entry in categories.applied track by ($index + entry)" bindonce>
+                <span bo-text="entry"></span>
+                <span class="x_btn" ng-click="categories.remove(entry)">x</span>
+            </div>
+        </div>
+
+        <div class="filter_group" ng-if="filters.social">
+            <div class="filter_title">Social Follower Count: </div>
+
+            <div class="filter">
+                <span class="filt_label">{{filters.social.value}}:</span> {{ (filters.social.range_min | number:0) || '0'}} - {{ (filters.social.range_max | number:0) || '&#8734;'}}
+                <span class="x_btn" ng-click="clearRangeFilter('social')">x</span>
+            </div>
+        </div>
+
+        <div class="filter_group" ng-if="filters.avgAge.length">
+            <div class="filter_title">Avg. Visitors Age: </div>
+
+            <div class="filter" ng-repeat="entry in filters.avgAge track by ($index + entry)" bindonce>
+                <span class="filt_label" bo-text="avgAgeMapping[entry]"></span>
+                <span class="x_btn" ng-click="toggleTypeFilter('avgAge', entry)">x</span>
+            </div>
+        </div>
+
+        <div class="filter_group" ng-if="filters.likes">
+            <div class="filter_title">Likes Count: </div>
+
+            <div class="filter"><span class="filt_label">{{filters.likes.value}}:</span> {{ (filters.likes.range_min | number:0) || '0'}} - {{ (filters.likes.range_max | number:0) || '&#8734;'}}
+                <span class="x_btn" ng-click="clearRangeFilter('likes')">x</span>
+            </div>
+        </div>
+
+        <div class="filter_group" ng-if="filters.shares">
+            <div class="filter_title">Shares Count: </div>
+
+            <div class="filter"><span class="filt_label">{{filters.shares.value}}:</span> {{ (filters.shares.range_min | number:0) || '0'}} - {{ (filters.shares.range_max | number:0) || '&#8734;'}}
+                <span class="x_btn" ng-click="clearRangeFilter('shares')">x</span>
+            </div>
+        </div>
+
+        <div class="filter_group" ng-if="filters.comments">
+            <div class="filter_title">Comments Count: </div>
+
+            <div class="filter"><span class="filt_label">{{filters.comments.value}}:</span> {{ (filters.comments.range_min | number:0) || '0'}} - {{ (filters.comments.range_max | number:0) || '&#8734;'}}
+                <span class="x_btn" ng-click="clearRangeFilter('comments')">x</span>
+            </div>
+        </div>
+
+        <div class="filter_group" ng-if="filters.activity">
+            <div class="filter_title">Activity: </div>
+
+            <div class="filter"><span class="filt_label">{{filters.activity.platform}}:</span> {{filters.activity.activity_level_text || 'no activity level selected'}}
+                <span class="x_btn" ng-click="clearRangeFilter('activity')">x</span>
+            </div>
+        </div>
+        
+        <div class="filter_group" ng-if="filters.engagement">
+            <div class="filter_title">Number of Comments: </div>
+
+            <div class="filter"><span class="filt_label">Avg. comments:</span>  {{ (filters.engagement.range_min | number:0) || '0'}} - {{ (filters.engagement.range_max | number:0) || '&#8734;'}}
+                <span class="x_btn" ng-click="clearRangeFilter('engagement')">x</span>
+            </div>
+        </div>
+
+        <div class="filter_group" ng-if="filters.customAgeRange">
+            <div class="filter_title">Custom Age: </div>
+
+            <div class="filter">{{ (filters.customAgeRange.range_min | number:0) || '0'}} - {{ (filters.customAgeRange.range_max | number:0) || '&#8734;'}}
+                <span class="x_btn" ng-click="clearRangeFilter('customAgeRange')">x</span>
+            </div>
+        </div>
+
+    </div>
+
+</div>

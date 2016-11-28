@@ -1,0 +1,60 @@
+<span class="autocomplete_input">
+    <input type="text" ng-model="keyword" placeholder="Search..." style="display: inline" />
+    <div class="search_dropdown_results clearfix" ng-if="open">
+        <div class="search_section" ng-if="loading">
+            <div class="txt_area">
+                <div class="title">Loading...</div>
+            </div>
+        </div>
+        <div class="search_section" ng-if="!loading">
+            <div class="txt_area">
+                <div class="title">Bloggers</div>
+                <div class="entry" ng-repeat="option in options.name" ng-click="search(option.value, 'name')" ng-class="{selected: keyword==option.value && type=='name'}">
+                    <div class="photo"><img ng-src="{{option.photo}}" /></div>
+                    <div class="search_term">{{option.label}}</div>
+                </div>
+                <div class="entry" ng-repeat="option in options.blogname" ng-click="search(option.value, 'blogname')" ng-class="{selected: keyword==option.value && type=='blogname'}">
+                    <div class="photo"><img ng-src="{{option.photo}}" /></div>
+                    <div class="search_term">{{option.label}}</div>
+                </div>
+                <div class="entry" ng-repeat="option in options.blogurl" ng-click="search(option.value, 'blogurl')" ng-class="{selected: keyword==option.value && type=='blogurl'}">
+                    <div class="photo"><img ng-src="{{option.photo}}" /></div>
+                    <div class="search_term">{{option.label}}</div>
+                </div>
+                <div class="btn_holder">
+                    <div class="square_bt xxs gray_bt" ng-class="{disabled: type == 'name'}" ng-click="search(keyword, 'name')">All Blogger Names containing "{{keyword}}"</div>
+                </div>
+                <div class="btn_holder">
+                    <div class="square_bt xxs gray_bt" ng-class="{disabled: type == 'blogname'}" ng-click="search(keyword, 'blogname')">All Blog Names containing "{{keyword}}"</div>
+                </div>
+                <div class="btn_holder">
+                    <div class="square_bt xxs gray_bt" ng-class="{disabled: type == 'blogurl'}" ng-click="search(keyword, 'blogurl')">All Blog Urls containing "{{keyword}}"</div>
+                </div>
+            </div>
+        </div>
+        <div class="search_section" ng-if="!loading">
+            <div class="txt_area">
+                <div class="title">Brands</div>
+                <div class="entry" ng-repeat="option in options.brand" ng-click="search(option.value, 'brand')" ng-class="{selected: keyword==option.value && type=='brand'}">
+                    <div class="search_term">{{option.label}}</div>
+                </div>
+                <div class="entry" ng-repeat="option in options.brandurl" ng-click="search(option.value, 'brand')" ng-class="{selected: keyword==option.value && type=='brand'}">
+                    <div class="search_term">{{option.label}}</div>
+                </div>
+                <div class="btn_holder">
+                    <div class="square_bt xxs gray_bt" ng-class="{disabled: type == 'brand'}" ng-click="search(keyword, 'brand')">All Brand Mentions containing "{{keyword}}"</div>
+                </div>
+            </div>
+        </div>
+        <div class="search_section">
+            <div class="txt_area">
+                <div class="title">Other uses</div>
+                <div class="btn_holder">
+                    <div class="square_bt xxs gray_bt" ng-class="{disabled: type == 'all'}" ng-click="search(keyword, 'all')">Anything containing "{{keyword}}"</div>
+                    <div class="square_bt xxs gray_bt" ng-class="{disabled: type == 'keyword'}" ng-click="search(keyword, 'keyword')">Keyword containing "{{keyword}}"</div>
+                    <div class="square_bt xxs gray_bt" ng-class="{disabled: type == 'location'}" ng-click="search(keyword, 'location')">Location containing "{{keyword}}"</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</span>

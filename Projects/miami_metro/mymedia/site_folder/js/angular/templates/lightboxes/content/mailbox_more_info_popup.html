@@ -1,0 +1,100 @@
+<div generic-popup>
+    <div class="content_area_container px900 edit_contract_popup">
+        <div ng-if="state == 'opened'">
+          <div ng-show="extraLoading" main-loader></div>
+          <div ng-hide="extraLoading" style="height: 500px;">
+            <div class="nano">
+              <div class="content nano-content">
+              
+                <div ng-show="showContractInfo">
+                  <h1 class="lb_title lg">Edit Contract Info</h1>
+                  <!-- <p class="instruction_txt small"></p> -->
+                  <div class="form_row_30 clearfix">
+                    <fieldset class="typical_form smaller_field halfer left" style="padding: 10px 0px;">
+                      <label>Starting Price:</label>
+                      <input type="number" ng-model="values.startingPrice">
+                    </fieldset>
+
+                    <fieldset class="typical_form smaller_field halfer right" style="padding: 10px 0px;">
+                      <label>Negotiation Price:</label>
+                      <input type="number" ng-model="values.negotiatedPrice">
+                    </fieldset>
+
+                    <fieldset class="typical_form smaller_field halfer left" style="padding: 10px 0px;">
+                      <label>Deliverables:</label>
+                      <textarea rows="6" cols="60" ng-model="values.deliverables" style="resize: none;"></textarea>
+                    </fieldset>
+
+                    <fieldset class="typical_form smaller_field halfer right" style="padding: 10px 0px;">
+                      <label>Extra Details:</label>
+                      <textarea rows="6" cols="60" ng-model="values.extraDetails" style="resize: none;"></textarea>
+                    </fieldset>
+
+                    <fieldset class="typical_form smaller_field halfer left" style="padding: 10px 0px;">
+                      <label>Address:</label>
+                      <textarea rows="6" cols="60" ng-model="values.bloggerAddress" style="resize: none;"></textarea>
+                    </fieldset>
+
+                    <fieldset class="typical_form smaller_field halfer right">
+                      <fieldset class="typical_form smaller_field" style="padding: 10px 0px;">
+                        <label>Start Date:</label>
+                        <input type="date" ng-model="values.startDate">
+                      </fieldset>
+                      <fieldset class="typical_form smaller_field" style="padding: 10px 0px;">
+                        <label>End Date:</label>
+                        <input type="date" ng-model="values.latestDate">
+                      </fieldset>
+                    </fieldset>
+
+                  </div>
+
+                  <div class="x_space x_30"></div>
+
+                  <button class="square_bt gray_bt lg" ng-click="!loading && update()">
+                    <span ng-hide="loading">Update</span>
+                    <span ng-show="loading">Updating...</span>
+                  </button>
+
+                  <div class="x_space x_30"></div>
+                </div>
+
+                <div>
+                  <h1 class="lb_title lg">Edit Document Specific Info</h1>
+                  <div ng-repeat="document in documents" class="document_fields">
+                    <h2>{{ document.name }}</h2>
+                    <div class="form_row_30 clearfix">
+                      <fieldset class="typical_form smaller_field halfer" ng-class-odd="'left'" ng-class-even="'right'" style="padding: 10px 0px;" ng-repeat="field in document.fields">
+                        <label ng-hide="field.changed">{{ field.name }}:</label>
+                        <label ng-show="field.changed">{{ field.name }} (changed):</label>
+                        <input type="text" ng-model="field.value" ng-change="field.changed = true">
+                        <button class="square_bt gray_bt xs field_update_button" ng-click="!field.loading && extraUpdate.update({field: field, doc: document})">
+                          <span ng-hide="field.loading">Update</span>
+                          <span ng-show="field.loading">Updating...</span>
+                        </button>
+                      </fieldset>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="x_space x_30"></div>
+
+<!--                 <button class="square_bt gray_bt lg" ng-click="!extraUpdate.loading && extraUpdate.update()">
+  <span ng-hide="extraUpdate.loading">Update</span>
+  <span ng-show="extraUpdate.loading">Updating...</span>
+</button> -->
+
+<!--                 <button class="square_bt gray_bt lg" ng-click="!extraUpdate.loading && extraUpdate.update()">
+  <span ng-hide="extraUpdate.loading">Update</span>
+  <span ng-show="extraUpdate.loading">Updating...</span>
+</button> -->
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div ng-if="state == 'error'">
+          <h1 class="lb_title lg">Error</h1>
+        </div>
+
+    </div>
+</div>

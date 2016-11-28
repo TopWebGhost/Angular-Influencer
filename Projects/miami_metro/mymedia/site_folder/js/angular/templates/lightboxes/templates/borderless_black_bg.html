@@ -1,0 +1,24 @@
+
+<div ng-cloak>
+    <div ng-if="visible" style="z-index: {{layer}}; position: relative;">
+
+
+        <!-- GENERIC LIGHTBOX -->
+        <!-- GENERIC LIGHTBOX -->
+        <!-- black overlay -->
+        <div class="black_overlay"></div>
+        <!-- lightbox container -->
+        <!-- why doesnt fixed have display block? -->
+        <div class="lightbox fixed bl_bg_lb" style="display: block">
+            <div class="content_area">
+                <a class="close_button lightbox_close" ng-click="close()" ng-hide="no_close"><p class="icon-letter_x02"></p></a>
+                <!-- load content here -->
+                <div ng-transclude></div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+

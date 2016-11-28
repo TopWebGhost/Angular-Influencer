@@ -1,0 +1,34 @@
+<div generic-popup generic-uploading>
+
+    <div ng-if="state == 'sending'" class="add_blogger_to_collection content_area_container">
+        <div main-loader></div>
+    </div>
+
+    <div ng-if="state != 'sending'" class="content_area_container px900">
+        <div ng-if="state == 'opened'">
+            <h1 class="lb_title lg">Send Response</h1>
+            <form name="email_form" class="clearfix">
+                <fieldset class="typical_form clearit">
+                    <!-- <input ng-model="subject" type="text" name="subject" required tabindex="1" /> -->
+                    <div>
+                        <div wysiwyg-editor ng-model="sendOptions.template" tabindex="2"></div>
+                        <div upload-panel></div>
+                    </div>
+                </fieldset>
+
+            </form>
+        </div>
+        <div ng-if="state == 'done'">
+            <h1 class="lb_title lg">Response sent</h1>
+            <p class="instruction_txt">
+                <span class="smallermedium">{{status}}</span>
+            </p>
+        </div>
+        <div ng-if="state == 'error'">
+            <h1 class="lb_title lg">Error</h1>
+        </div>
+    </div>
+</div>
+
+
+

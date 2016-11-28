@@ -1,0 +1,23 @@
+<div generic-popup>
+    <div class="content_area_container px800">
+        <div ng-if="state == 'verify'">
+            <h1 class="lb_title lg">Sending brand membership verification request</h1>
+        </div>
+
+        <div ng-if="state == 'error'">
+            <h1 class="lb_title lg">Network error. Try again later.</h1>
+        </div>
+
+        <div ng-if="state == 'success'">
+            <h1 class="lb_title lg">Your membership is being verified now. We will email you with results in few minutes.</h1>
+        </div>
+
+        <div ng-if="state == 'verified'">
+            <h1 class="lb_title lg">Your membership is already verified. You can log in as brand member now.</h1>
+        </div>
+
+    </div>
+</div>
+
+
+

@@ -1,0 +1,24 @@
+<div generic-popup>
+    <div class="content_area_container px600">
+
+        <div ng-if="state == 'add_group'">
+            <h1 class="lb_title lg">{{ popup_title || "Create a Collection" }}</h1>
+            <div class="instruction_txt">{{ popup_instruction }}</div>
+            <fieldset class="typical_form larger_field px300" ng-show="!redirect_url">
+                <div class="required">
+                    <input name="name" maxlength="300" placeholder="what do you want to name it?" type="text" class="req add_shelf" ng-model="new_group_name">
+                </div>
+            </fieldset>
+            <div class="x_space x_50"></div>
+            <input ng-if="!redirect_url" ng-class="{disabled:!new_group_name}" type="submit" value="Submit!" class="square_bt xl teal_bt submit_button" ng-click="new_group_name&&addGroup(new_group_name)">
+            <button ng-if="redirect_url" class="square_bt xl teal_bt submit_button" ng-click="redirect()">{{ redirect_btn_text }}</button>
+        </div>
+
+        <div ng-if="state == 'add_group_error'">
+            <h1 class="lb_title lg">{{ errorMessage }}</h1>
+        </div>
+
+        <div ng-if="state == 'adding_group'"><h1 class="lb_title lg">{{ adding_text || "Adding a collection" }}</h1></div>
+
+    </div>
+</div>

@@ -1,0 +1,28 @@
+<div generic-popup>
+    <div class="content_area_container px800">
+        <div ng-if="state == 'opened'">
+            <h1 class="lb_title lg">Requesting data export</h1>
+            <p class="instruction_txt small">Please wait...</p>
+        </div>
+
+        <div ng-if="state == 'waiting'">
+            <h1 class="lb_title lg">Data is being generated</h1>
+            <p class="instruction_txt small">Please wait... {{progress}}%</p>
+        </div>
+
+        <div ng-if="state == 'ready'">
+            <h1 class="lb_title lg">Data is ready</h1>
+            <p class="instruction_txt small">
+                CSV File: <a ng-href="{{csv_link}}" download>Click to download <small>(or right click this link and select "Save as")</small></a><br>
+                Excel File: <a ng-href="{{xls_link}}" download>Click to download <small>(or right click this link and select "Save as")</small></a>
+            </p>
+        </div>
+
+        <div ng-if="state == 'error'">
+            <h1 class="lb_title lg">Error</h1>
+            <p class="instruction_txt small">
+                Something bad happened when we gathered data, please try again later
+            </p>
+        </div>
+    </div>
+</div>

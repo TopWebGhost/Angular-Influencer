@@ -1,0 +1,42 @@
+<div fixed-white-background-popup>
+    <div class="content_area_container px800">
+
+        <div ng-if="state == 'opened'">
+            <h1 class="lb_title lg">Invite to The Campaign Report Page</h1>
+            <p class="instruction_txt"></p>
+            <form ng-submit="inviteClient()" name="inviteForm">
+                <div class="form_row_20 clearfix">
+                    <fieldset class="typical_form third left">
+                        <input type="text" placeholder="Name" name="name" ng-model="messageData.name" required />
+                    </fieldset>
+                    <fieldset class="typical_form third left">    
+                        <input type="email" placeholder="Email" name="email" ng-model="messageData.email" required />
+                    </fieldset>
+                    <fieldset class="typical_form third">
+                        <input class="last_child" type="text" placeholder="Subject" name="subject" ng-model="messageData.subject" required />
+                    </fieldset>
+                </div>
+                <fieldset class="typical_form form_row_20">
+                    <div wysiwyg-editor ng-model="messageData.message"></div>
+                </fieldset>
+                <fieldset class="typical_form">
+                    <input type="submit" class="square_bt md teal_bt" style="float: left; margin-right: 15px;" value="Send Email" />
+                </fieldset>
+            </form>
+        </div>
+
+        <div ng-if="state == 'loading'">
+            <div main-loader></div>
+        </div>
+
+        <div ng-if="state == 'invited'">
+            <h1 class="lb_title lg">Invitation is sent!</h1>
+            <p class="instruction_txt slightly_larger_instructions"></p>
+        </div>
+
+        <div ng-if="state == 'error'">
+            <h1 class="lb_title lg">Error!</h1>
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,57 @@
+<div class="social_block" ng-show="platform">
+    <span ng-if="platform.platform_name == 'Blog'">
+        <div class="items">
+            <span class="table_engagement_metrics"><strong>{{ influencer.average_num_comments_per_post | float }}</strong> comments/post</span>
+            <span class="table_engagement_metrics"><strong>{{ influencer.average_num_posts | float }}</strong> posts/m</span>
+        </div>
+    </span>
+    <span ng-if="platform.platform_name == 'Twitter'">
+        <!-- <div class="icon-social_twitter"></div> --> 
+        <div class="items">
+            <!-- <span class="table_engagement_metrics" ng-if="platform.num_followers>0"><strong>{{ platform.num_followers | number:0 }} followers<br/></span> -->
+            <span class="table_engagement_metrics" ng-if="platform.posting_rate>0"><strong>{{ platform.posting_rate | float }}</strong> tweets/m<br/></span>
+            <span class="table_engagement_metrics" ng-if="platform.avg_numshares_overall>0"><strong>{{ platform.avg_numshares_overall | float }}</strong> retweet<br/></span>
+            <span class="table_engagement_metrics" ng-if="platform.avg_numlikes_overall>0"><strong>{{ platform.avg_numlikes_overall | float }}</strong> likes<br/></span>
+        </div>
+    </span>
+    <span ng-if="platform.platform_name == 'Facebook'">
+        <!-- <div class="icon-social_facebook"></div> -->
+        <div class="items">
+            <!-- <span class="table_engagement_metrics" ng-if="platform.num_followers>0">{{ platform.num_followers | number:0 }} followers<br/></span> -->
+            <span class="table_engagement_metrics" ng-if="platform.posting_rate>0"><strong>{{ platform.posting_rate | float }}</strong> posts/m<br/></span>
+            <span class="table_engagement_metrics" ng-if="platform.avg_numshares_overall>0"><strong>{{ platform.avg_numshares_overall | float }}</strong> shares<br/></span>
+            <span class="table_engagement_metrics" ng-if="platform.avg_numlikes_overall>0"><strong>{{ platform.avg_numlikes_overall | float }}</strong> likes<br/></span>
+            <span class="table_engagement_metrics" ng-if="platform.avg_numcomments_overall>0"><strong>{{ platform.avg_numcomments_overall | float }}</strong> comments<br/></span>
+        </div>
+    </span>
+    <span ng-if="platform.platform_name == 'Instagram'">
+        <!-- <div class="icon-social_instagram2"></div> -->
+        <div class="items">
+            <!-- <span class="table_engagement_metrics" ng-if="platform.num_followers>0">{{ platform.num_followers | number:0 }} followers<br/></span> -->
+            <span class="table_engagement_metrics" ng-if="platform.posting_rate>0"><strong>{{ platform.posting_rate | float }}</strong> photos/m<br/></span>
+            <span class="table_engagement_metrics" ng-if="platform.avg_numlikes_overall>0"><strong>{{ platform.avg_numlikes_overall | float }}</strong> likes<br/></span>
+            <span class="table_engagement_metrics" ng-if="platform.avg_numcomments_overall>0"><strong>{{ platform.avg_numcomments_overall | float }}</strong> comments<br/></span>
+        </div>
+    </span>
+    <span ng-if="platform.platform_name == 'Pinterest'">
+        <!-- <div class="icon-social_pinterest"></div> -->
+        <div class="items">
+            <!-- <span class="table_engagement_metrics" ng-if="platform.num_followers>0">{{ platform.num_followers | number:0 }} followers<br/></span> -->
+            <span class="table_engagement_metrics" ng-if="platform.posting_rate>0"><strong>{{ platform.posting_rate | float }}</strong> pins/m<br/></span>
+            <span class="table_engagement_metrics" ng-if="platform.avg_numshares_overall>0"><strong>{{ platform.avg_numshares_overall | float }}</strong> repins<br></span>
+            <span class="table_engagement_metrics" ng-if="platform.avg_numcomments_overall>0"><strong>{{ platform.avg_numcomments_overall | float }}</strong> comments<br/></span>
+            <span class="table_engagement_metrics" ng-if="platform.avg_numlikes_overall>0"><strong>{{ platform.avg_numlikes_overall | float }}</strong> likes<br/></span>
+        </div>
+    </span>
+    <span ng-if="platform.platform_name == 'Youtube'">
+        <!-- <div class="icon-social_youtube"></div> -->
+        <div class="items">
+            <!-- <span class="table_engagement_metrics" ng-if="platform.num_followers>0">{{ platform.num_followers | number:0 }} followers<br/></span> -->
+            <span class="table_engagement_metrics" ng-if="platform.posting_rate>0"><strong>{{ platform.posting_rate | float }}</strong> videos/m<br/></span>
+            <span class="table_engagement_metrics" ng-if="platform.calculate_video_views>0"><strong>{{ platform.calculate_video_views | float }}</strong> views<br></span>
+            <span class="table_engagement_metrics" ng-if="platform.avg_numcomments_overall>0"><strong>{{ platform.avg_numcomments_overall | float }}</strong> comments<br/></span>
+            <span class="table_engagement_metrics" ng-if="platform.avg_numlikes_overall>0"><strong>{{ platform.avg_numlikes_overall | float }}</strong> likes<br/></span>
+        </div>
+    </span>
+</div>
+<div ng-hide="platform">---</div>

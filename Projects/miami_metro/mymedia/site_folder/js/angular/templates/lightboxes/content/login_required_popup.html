@@ -1,0 +1,38 @@
+<div generic-popup>
+    <div class="content_area_container px900 clearfix">
+        <div ng-if="state == 'opened'">
+            <h1 class="lb_title lg">Login required...</h1>
+
+            <div class="subsection">
+	            <div class="sub_title small" style="border-bottom:1px solid #c4c4c4; padding:30px 0 10px;">If you are a BRAND :</div>
+		        <div class="instruction_txt small">
+		        	<ul>
+		        		<li>Access to tens of thousands of relevant fashion bloggers.</li>
+		        		<li>Find bloggers to work with using fine-grained filters.</li>
+		        		<li>Keep track of everything using outreach lists.</li>
+		        	</ul>
+		        </div>
+		        <a href="#" class="square_bt teal_bt md" ng-click="signupPopup('brand')">Signup as a brand</a><br/>
+		        <a href="#" class="txt_link teal serif_ital xsmall" style="position:relative; top:8px;" ng-click="loginPopup()">or Login</a>
+		    </div>
+
+		    <div class="subsection right">
+	            <div class="sub_title small" style="border-bottom:1px solid #c4c4c4; padding:30px 0 10px;">If you are a BLOGGER :</div>
+		        <div class="instruction_txt small">
+		        	<ul>
+		        		<li>Customize your virtual media kit.</li>
+		        		<li>View which brands have been checking out your profile.</li>
+		        		<li>Network with other bloggers and brands.</li>
+		        	</ul>
+		        </div>
+		        <a href="#" class="square_bt teal_bt md" ng-click="signupPopup('blogger')">Add Your Blog</a><br/>
+		        <a href="#" class="txt_link teal serif_ital xsmall" style="position:relative; top:8px;" ng-click="loginPopup()">or Login</a>
+		    </div>
+
+
+        </div>
+    </div>
+</div>
+
+
+

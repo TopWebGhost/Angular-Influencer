@@ -1,0 +1,127 @@
+<div bindonce="user" class="blogger_box search_item dashboard_block">
+
+    <div blogger-more-info ng-click="bloggerMoreInfoCtrl.show(user.details_url)">
+        <!-- ACTION BUTTONS .. show on hover -->
+        
+        <div class="cover" style="overflow: hidden;">
+            <div ng-if="has_collections_in" ng-style="hover ? {'display': 'block'} : {}" class="search-page-marks collections-in" ng-class="{'long-list': isLongList()}" style="overflow: hidden;">
+                <ul class="collections-list">
+                    <li ng-repeat="(id, name) in user.collections_in track by $index" bindonce>
+                        <a bo-href="'/campaigns/groups/' + id" ng-click="$event.stopPropagation();">
+                            <div class="wtf_why_wont_you_style" bo-text="name"></div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="more-info" ng-show="hover && isLongList()">Click to see more...</div>
+
+            <!--
+            <div class="search-page-marks collections-in" ng-if="has_collections_in">
+                <ul class="collections-list" ng-if="has_collections_in">
+                    <li ng-repeat="(id, name) in user.collections_in">
+                        <a ng-href="/campaigns/groups/{{ id }}" ng-click="$event.stopPropagation();">
+                            <div>{{ name }}</div>
+                        </a>
+                    </li>
+                </ul>
+            </div-->
+
+            <div class="cover_img">
+                <img bo-src="user.profile_pic_url" notify-on-load="itemBlock:resize" init-counter/>
+            </div>
+        </div>
+        <div class="body_content">
+
+            <div class="clearfix btn_row" blogger-buttons ng-mouseenter="hover = true" ng-mouseleave="hover = false"></div>
+
+            <div class="id_txt">
+                <span ng-show="user.blogname" class="name" ng-bind-html="user.blogname"></span>
+                <span ng-show="user.name" class="blog">{{ user.name }}</span>
+                <div class="location">{{ user.demographics_location }}</div>
+                <div bo-show="user.has_artificial_blog_url && user.description" class="location" bo-text="user.description"></div>
+            </div>
+        </div>
+        <div class="body_content">
+            <!--div class="blog_stats_row clearfix">
+                <div class="blog_stats" ng-if="user.average_num_posts>0">
+                    <span class="icon-social_speech2"></span>
+                    <span class="title">{{ user.average_num_posts }} posts/month</span>
+                </div>
+            </div-->
+            <div class="social_row">
+                <div class="social_block" ng-repeat="platform in user.platforms" bindonce>
+                    <span bo-if="platform.platform_name == 'Twitter' && platform.num_followers>0 && platform.show_on_feed">
+                        <div class="icon-social_twitter"></div>
+                        <span class="follow_count" bo-text="platform.num_followers | number:0"></span>
+                    </span>
+                    <span bo-if="platform.platform_name == 'Facebook' && platform.num_followers>0 && platform.show_on_feed">
+                        <div class="icon-social_facebook"></div>
+                        <span class="follow_count" bo-text="platform.num_followers | number:0"></span>
+                    </span>
+                    <span bo-if="platform.platform_name == 'Instagram' && platform.num_followers>0 && platform.show_on_feed">
+                        <div class="icon-social_instagram2"></div>
+                        <span class="follow_count" bo-text="platform.num_followers | number:0"></span>
+                    </span>
+                    <span bo-if="platform.platform_name == 'Pinterest' && platform.num_followers>0 && platform.show_on_feed">
+                        <div class="icon-social_pinterest"></div>
+                        <span class="follow_count" bo-text="platform.num_followers | number:0"></span>
+                    </span>
+                    <span bo-if="platform.platform_name == 'Youtube' && platform.num_followers>0 && platform.show_on_feed">
+                        <div class="icon-social_youtube"></div>
+                        <span class="follow_count" bo-text="platform.num_followers | number:0"></span>
+                    </span>
+                </div>
+                <span class="social_block" bo-if="user.average_num_comments_per_post>0">
+                    <span class="icon-letter_quotes"></span>
+                    <span class="follow_count" bo-text="(user.average_num_comments_per_post | number:0) + '/post'"></span>
+                </span>
+            </div>
+
+            <div class="social_row extra_info" ng-if="platform">
+                <span ng-if="platform.platform_name == 'Twitter'">
+                    <div class="icon-social_twitter"></div>
+                    <div class="items">
+                        <span ng-if="platform.posting_rate>0">{{ platform.posting_rate | number:2 }} tweets/month<br/></span>
+                        <span ng-if="platform.avg_numshares_overall>0">{{ platform.avg_numshares_overall | number:2 }}  avg. retweet</span>
+                        <span ng-if="platform.avg_numlikes_overall>0">{{ platform.avg_numlikes_overall | number:2 }} avg. likes</span>
+                    </div>
+                </span>
+                <span ng-if="platform.platform_name == 'Facebook'">
+                    <div class="icon-social_facebook"></div>
+                    <div class="items">
+                        <span ng-if="platform.posting_rate>0">{{ platform.posting_rate | number:2 }} posts/month<br/></span>
+                        <span ng-if="platform.avg_numcomments_overall>0">{{ platform.avg_numcomments_overall | number:2 }} avg. comments<br/></span>
+                        <span ng-if="platform.avg_numshares_overall>0">{{ platform.avg_numshares_overall | number:2 }} avg. shares<br/></span>
+                        <span ng-if="platform.avg_numlikes_overall>0">{{ platform.avg_numlikes_overall | number:2 }} avg. likes</span>
+                    </div>
+                </span>
+                <span ng-if="platform.platform_name == 'Instagram'">
+                    <div class="icon-social_instagram2"></div>
+                    <div class="items">
+                        <span ng-if="platform.posting_rate>0">{{ platform.posting_rate | number:2 }} photos/month<br/></span>
+                        <span ng-if="platform.avg_numlikes_overall>0">{{ platform.avg_numlikes_overall | number:2 }} avg. likes<br/></span>
+                        <span ng-if="platform.avg_numcomments_overall>0">{{ platform.avg_numcomments_overall | number:2 }} avg. comments</span>
+                    </div>
+                </span>
+                <span ng-if="platform.platform_name == 'Pinterest'">
+                    <div class="icon-social_pinterest"></div>
+                    <div class="items">
+                        <span ng-if="platform.posting_rate>0">{{ platform.posting_rate | number:2 }} pins/month<br/></span>
+                        <span ng-if="platform.avg_numshares_overall>0">{{ platform.avg_numshares_overall | number:2 }} avg. re-pins<br></span>
+                        <span ng-if="platform.avg_numcomments_overall>0">{{ platform.avg_numcomments_overall | number:2 }} avg. comments</span>
+                        <span ng-if="platform.avg_numlikes_overall>0">{{ platform.avg_numlikes_overall | number:2 }} avg. likes</span>
+                    </div>
+                </span>
+                <span ng-if="platform.platform_name == 'Youtube'">
+                    <div class="icon-social_youtube"></div>
+                    <div class="items">
+                        <span ng-if="platform.posting_rate>0">{{ platform.posting_rate | number:2 }} videos/month<br/></span>
+                        <span ng-if="platform.calculate_video_views>0">{{ platform.calculate_video_views | number:2 }} avg. views<br></span>
+                        <span ng-if="platform.avg_numcomments_overall>0">{{ platform.avg_numcomments_overall | number:2 }} avg. comments</span>
+                        <span ng-if="platform.avg_numlikes_overall>0">{{ platform.avg_numlikes_overall | number:2 }} avg. likes</span>
+                    </div>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>

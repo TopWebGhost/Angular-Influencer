@@ -1,0 +1,67 @@
+<span ng-show="state=='ok'">
+
+    <!-- <div style="position: fixed; top:0; left: 0; background: white; z-index:99">{{currentPage}}, {{lastPageEmpty}}</div> -->
+    
+    <!--<div class="salvattore_grid feed_wrapper new_feed_wrapper clearfix" data-columns>
+    </div>-->
+
+    <div
+        ng-if="!loader.isFetching()"
+        masonry
+        item-selector=".masonry-grid-sizer"
+        column-width=".masonry-grid-sizer"
+        masonry-options="{ percentPosition: true, columnWidth: '.masonry-grid-sizer', transitionDuration: '0.8s', gutter: '.gutter-size' }"
+        class="feed_wrapper new_feed_wrapper"
+        preserve-order
+        reload-on-show
+    >
+        <div class="gutter-size"></div>
+        <!--<div class="masonry-grid-sizer"></div>-->
+        <div masonry-brick class="masonry-grid-sizer" bindonce ng-repeat="post in feeds">
+            <div feed-item item="post" options="postFeedCtrl.itemOptions"></div>
+        </div>
+    </div>
+
+    <div main-loader ng-if="loader.isFetching()" style="position:fixed; top:240px; left:340px;"></div>
+    <div class="pagination" ng-if="!isLoading()">
+        <div class="page" ng-click="setPage(page-1)">Prev</div>
+        <div class="page" ng-repeat="page_no in pages1" ng-click="setPage(page_no)" ng-class="{'current': page_no==page}">{{page_no}}</div>
+        <span ng-if="pages2.length && pages1[pages1.length-1]+1 != pages2[0]">...</span>
+        <div class="page" ng-repeat="page_no in pages2" ng-click="setPage(page_no)" ng-class="{'current': page_no==page}">{{page_no}}</div>
+        <span ng-if="pages3.length && pages1[pages1.length-1]+1 != pages3[0] && pages2[pages2.length-1]+1 != pages3[0]">...</span>
+        <span ng-if="plus100">... (over 100 pages)</span>
+        <div class="page" ng-repeat="page_no in pages3" ng-click="setPage(page_no)" ng-class="{'current': page_no==page}">{{page_no}}</div>
+        <div class="page" ng-click="setPage(page+1)">Next</div>
+    </div>
+    <!-- <div scroll-watch></div>-->
+</span>
+<div class="bloggers_container_wrapper" ng-show="state=='no result'" style="margin:30px 30px 60px 30px">
+    <div class="missing_content">
+        <div class="missing_text">Your search didn't return any results... sorry!
+            <br>If you think there's a mistake, contact us so that we can look into it.</div>
+        <a class="square_bt lg teal_bt launch-popup" data-popup-type="contact_us" broadcaster="openContactForm">contact us</a>
+    </div>
+</div>
+<div class="bloggers_container_wrapper" ng-show="state=='timeouted'" style="margin:30px 30px 60px 30px">
+    <div class="missing_content">
+        <div class="missing_text">The site is a bit slow right now, so please re-try in a bit.</div>
+        <!--<a class="square_bt lg teal_bt launch-popup" data-popup-type="contact_us" broadcaster="openContactForm">contact us</a>-->
+        <a class="square_bt lg teal_bt launch-popup" ng-click="$state.transitionTo($state.current, $stateParams, {reload: true})">Try Again</a>
+    </div>
+</div>
+<div class="bloggers_container_wrapper" ng-show="state=='limit'" style="margin:30px 30px 60px 30px">
+    <div class="missing_content">
+        <div class="missing_text">Oh no... looks like you've hit your limit of search queries for the day! If you need help with this, you can contact us... or just check back tomorrow when your account is able to perform more searches.</div>
+        <a class="square_bt lg teal_bt launch-popup" data-popup-type="contact_us" broadcaster="openContactForm">contact us</a>
+    </div>
+</div>
+<div class="bloggers_container_wrapper" ng-show="state=='unauthorized'" style="margin:30px 30px 60px 30px">
+    <div class="missing_content">
+        <div class="missing_text">Oh no... looks like you're not logged in.</div>
+    </div>
+</div>
+<div class="bloggers_container_wrapper" ng-show="state=='error'" style="margin:30px 30px 60px 30px">
+    <div class="missing_content">
+        <div class="missing_text">Oh no... looks like some error occured.</div>
+    </div>
+</div>

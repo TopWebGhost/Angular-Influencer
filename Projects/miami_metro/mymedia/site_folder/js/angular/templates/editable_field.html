@@ -1,0 +1,37 @@
+<div>
+    <div
+        class="table_edit_boxes"
+        ng-class="{'larger_box': fieldCtrl.fieldType === 'textarea', 'number_box': fieldCtrl.fieldType === 'number'}"
+    >
+        
+    </div>
+</div>
+
+
+
+<div mailbox-table-cell propagate-name="{{ field_data.field_name }}_column">
+    <div class="table_edit_boxes{% if field_data.field_type == 'textarea' %} larger_box{% elif field_data.field_type == 'number' %} number_box{% endif %}">
+        {% verbatim %}
+        <div ng-hide="showEdit" class="faux_textbox">{{ values.fieldValue || "---" }}</div>
+        {% endverbatim %}
+
+        <div post-analytics-update class="edit_field_in_table" values-list='{"fieldValue": "{{ field_data.field_value|default_if_none:''|escapejs }}"}'>
+            <div class="editing_area clearfix">
+                <fieldset>
+                    {% if field_data.field_type == 'textarea' %}
+                        <textarea cols="25" rows="3" ng-model="values.fieldValue"></textarea>
+                    {% else %}
+                        <input type="text" ng-model="values.fieldValue" />
+                    {% endif %}
+                </fieldset>
+
+                <button request-button class="update_btn" ng-click="requestButtonCtrl.doRequest({method: 'POST', successCb: save, url: '/update_model/', data: {modelName: '{{ field_data.model_name }}', id: {{ field_data.id }}, values: {'{{ field_data.field_name }}': values.fieldValue}}})">
+                    <span ng-hide="requestButtonCtrl.loading">Update</span>
+                    <span ng-show="requestButtonCtrl.loading">Updating...</span>
+                </button>
+
+            </div>
+        </div>
+
+    </div>
+</div>

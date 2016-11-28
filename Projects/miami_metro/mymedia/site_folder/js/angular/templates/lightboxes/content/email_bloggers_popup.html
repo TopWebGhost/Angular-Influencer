@@ -1,0 +1,50 @@
+<div generic-popup>
+    <div class="content_area_container px800">
+        <div ng-if="state == 'opened'">
+            <h1 class="lb_title lg">Email selected bloggers</h1>
+            <p class="instruction_txt">
+                <span class="smallermedium">You can use {{markers}}. These markers will be raplaced with name and blog name of each blogger.</span>
+            </p>
+            <form name="email_form" class="form_row_40 clearfix">
+                <fieldset class="typical_form halfer right">
+                    <div>
+                        <label >From email</label>
+                        <input name="email" ng-model="email" type="email" placeholder="Your email" required>
+                    </div>
+                </fieldset>
+                <fieldset class="typical_form halfer right">
+                    <div>
+                        <label >Subject</label>
+                        <input name="subject" ng-model="subject" type="text" placeholder="Email subject" required>
+                    </div>
+                </fieldset>
+                <fieldset class="typical_form clearit">
+                    <div>
+                        <label>Email content</label>
+                        <textarea name="template" ng-model="template" class="comment_field" required></textarea>
+                    </div>
+                </fieldset>
+                <button class="square_bt md teal_bt" ng-class="{inactive: email_form.$invalid}" ng-click="email_form.$valid&&send(subject, template)">Send</button>
+                <button class="square_bt md teal_bt inactive" ng-click="close()">Cancel</button>
+            </form>
+        </div>
+        <div ng-if="state == 'sending'">
+            <h1 class="lb_title lg">Sending</h1>
+            <p class="instruction_txt">
+                <span class="smallermedium">Please wait</span>
+            </p>
+        </div>
+        <div ng-if="state == 'done'">
+            <h1 class="lb_title lg">Email sent</h1>
+            <p class="instruction_txt">
+                <span class="smallermedium">Success</span>
+            </p>
+        </div>
+        <div ng-if="state == 'error'">
+            <h1 class="lb_title lg">Error</h1>
+        </div>
+    </div>
+</div>
+
+
+

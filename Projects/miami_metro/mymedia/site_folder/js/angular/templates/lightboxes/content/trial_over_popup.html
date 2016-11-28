@@ -1,0 +1,16 @@
+<div generic-popup>
+    <div class="content_area_container px600">
+        <div ng-if="state == 'opened'">
+            <h1 class="lb_title lg">Thanks for signing up!</h1>
+            <div class="x_space x_20"></div>
+            <div class="instruction_txt">You can contact us for a demo and a discount...
+            <br/>or you can go ahead and upgrade to a paid plan.</div>
+            <div class="x_space x_20"></div>
+            <button class="square_bt lg teal_bt" ng-click="requestDemo()">Request Demo</button>
+            <a href="{{pricing_url}}" ng-if="!on_pricing" class="square_bt lg teal_bt">Upgrade</a>
+        </div>
+    </div>
+</div>
+
+
+

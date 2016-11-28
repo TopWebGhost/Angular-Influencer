@@ -1,0 +1,34 @@
+<div style="-moz-user-select: none;-webkit-user-select: none;-ms-user-select: none;user-select: none;">
+    <div ng-show="!saving">
+        <div ng-show="editing">
+            <input ng-model="tmpValue" ng-show="type == 'text'" />
+            <input ng-model="tmpValue" type="checkbox" ng-show="type == 'bool'" />
+            <select ng-model="tmpValue" ng-show="type == 'select'">
+                <option ng-repeat="(key, value) in column.choices" value="{{key}}" ng-selected="{{key == tmpValue}}">{{value}}</option>
+            </select>
+            <div comma-separated-field editing="editing" values="tmpValue" ng-show="type == 'comma_separated'" ></div>
+<!--             <button class="btn btn-mini" ng-click="doSave()">save</button> -->
+            <!-- <button class="btn btn-mini" ng-click="doCancel()">cancel</button> -->
+            <div ng-show="error">Error while saving: {{error}}</div>
+        </div>
+        <div ng-hide="editing" ng-dblclick="doEdit()">
+            <div ng-show="type == 'bool'">
+                <i class="icon-question-sign" ng-show="edit[column.field]===null"></i>
+                <i style="border: #666 2px solid;border-radius: 3px;width: 14px;height: 14px;display: block;margin: 3px;" ng-show="edit[column.field]===false"></i>
+                <i style="border: #666 2px solid;border-radius: 3px;width: 14px;height: 14px;display: block;margin: 3px; background: #999" ng-show="edit[column.field]===true"></i>
+            </div>
+            <div ng-show="type == 'text'">
+                <div style="text-overflow: ellipsis; overflow: hidden">
+                    {{edit[column.field]}}&nbsp;
+                </div>
+            </div>
+            <div ng-show="type == 'select'">
+                <div style="text-overflow: ellipsis; overflow: hidden">
+                    {{column.choices[edit[column.field]]}}&nbsp;
+                </div>
+            </div>
+            <div comma-separated-field editing="editing" values="edit[column.field]" ng-show="type == 'comma_separated'" ></div>
+        </div>
+    </div>
+    <div ng-show="saving">Saving now...</div>
+</div>

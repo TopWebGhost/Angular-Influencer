@@ -1,0 +1,35 @@
+<div ng-controller="SavedSearchAssociationCtrl as savedSearchAssociationCtrl">
+    <ng-form name="sectionForm" form-handler="savedSearchAssociation" novalidate>
+        <div class="a_form_group padding_40_all clearfix">
+        <!-- section for approval report -->
+            <div class="form_mid_title">Influencer Approval Form</div>
+            <div class="form_instruction">Before you start outreach, does anyone need to approve your list of influencers? This setting is helpful if you’re an agency and what to give your client the final go-ahead...or if you happen to have a micro-manager for a boss. You can use this feature to send them a quick yes/no form, where they can approve their final selections.</div>
+            <!--p class="step_instruction_txt">You'll use the influencer approval report to get your client's sign-off on the influencers you've chosen. And you can view your list within the <span ng-show="campaignId"><a class="txt_link darker_teal" target="_blank" ng-href="{{ campaignCreateData.viewPipelineUrl }}">first stage</a></span><span ng-hide="campaignId">first stage</span> of your campaign pipeline. Use this Setup box to configure it. When you are ready to send, use the link above to view your final list, as well as preview your report. When you are satisfied you will Send the report from there. Not here.</p-->
+            <fieldset class="typical_form clearfix">
+                <div class="floated_left"><div class="switch-large" toggle-switch ng-model="wizardCtrl.campaignData.info.approvalReportEnabled" name="approvalReportEnabled" is-disabled="wizardCtrl.campaignData.hasAlreadyLoadedInfluencers"></div></div>
+                <p class="form_instruction small_hint floated_left next_to_toggle_large" ng-hide="wizardCtrl.campaignData.info.approvalReportEnabled">You haven't enabled this feature. If you want to utilize this approval report, you need to turn it on.</p>
+                <p class="form_instruction small_hint floated_left next_to_toggle_large" ng-show="wizardCtrl.campaignData.info.approvalReportEnabled">You have enabled this step. If you wish to disable this step:</p>
+            </fieldset>
+        </div>
+
+        <div ng-if="wizardCtrl.campaignData.info.approvalReportEnabled" class="training_wheels">Turning the approval form on and off becomes locked after you load your influencers into the campaign. So make sure you have it set correctly.</div>
+
+        <div ng-if="wizardCtrl.campaignData.info.approvalReportEnabled" ng-hide="savedSearchAssociationCtrl.loading" class="a_form_group padding_40_all clearfix">
+            <div class="form_mid_title">Do you want to associate your approval form with a search?</div>
+            <div class="form_instruction">Applying a saved search to your approval form will allow you to showcase relevant post examples within the profile panels of the influencers in your report. (Without a search applied the influencer's most recent 8 posts will show up instead). This feature is most useful if you are working with a client that has a slightly more niche focus. CAUTION : If you choose to enable this, we recommend having a very large set of search queries within the saved search to make sure that enough content is pulled into the profiles. It is also a good idea to review the approval form profile panels to make sure that the saved search is pulling in the right type of content. You will most likely need to fiddle around with the saved search a few times before getting the right combination. (Your account manager will be happy to help with this.)</div>
+            <fieldset class="typical_form halfer special_bar_form sort_by_dd">
+                <div class="order_select"
+                    dropdown-form-adapter
+                    options="savedSearchAssociationCtrl.options"
+                    selected="savedSearchAssociationCtrl.selected"
+                    onchange="savedSearchAssociationCtrl.update(selected)"
+                    ng-model="wizardCtrl.campaignData.postsSavedSearch">
+                </div>
+            </fieldset>
+            <!-- <div class="switch-large" toggle-switch ng-model="wizardCtrl.campaignData.info.trackingCodesOn" name="trackingCodesOn"></div> -->
+        </div>
+        <div ng-if="wizardCtrl.campaignData.info.approvalReportEnabled" ng-show="savedSearchAssociationCtrl.loading" main-loader></div>
+
+        <div class="form_divider w_0_30_pad_mag"></div>
+    </ng-form>
+</div>

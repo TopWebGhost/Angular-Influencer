@@ -1,0 +1,50 @@
+<div class="new_feed_itm feed_post feed_with_buttons" data-id="{{ item.id }}">
+    <div class="overlay_btns clearfix">
+        <div class="overlay_button more_info bs_tooltip" title="View More Info" data-placement="right" blogger-more-info ng-click="show(item.user.details_url)">
+            <span class="icon-misc_magnify2"></span>
+        </div>
+        <div class="follow_prof overlay_button" ng-show="item.user.can_favorite&&bookmarks" ng-if="!trial" ng-click="openFavoritePopup({influencer: item.user.id})">
+            <span class="unfollow icon-misc_value_star" ng-class="{'hidden': !item.user.is_favoriting}"></span>
+            <span class="follow icon-misc_value_star2" ng-class="{'hidden': item.user.is_favoriting}"></span>
+            <span class="overlay_btn_txt">Tag</span>
+        </div>
+        <div class="overlay_button" ng-click="message({userId: item.user.id, item: item})" ng-if="debug" ng-show="item.user.can_favorite" >
+            <span class="follow icon-social_envelope6"></span>
+            <span class="overlay_btn_txt">Message or Invite</span>
+        </div>
+    </div>
+    <a class="hoverable_area clearfix" href="{{ item.url }}" target="_blank">
+        <div class="hoverable_contents clearfix">
+            <div class="post_content">
+                <div class="post_title">{{item.collab_type}}</div>
+                <div class="post_date">{{item.brand_name}}</div>
+                <div class="post_date">{{item.timestamp}}</div>
+                <div class="post_text">{{item.details}}</div>
+            </div>
+        </div>
+        <div class="view_details_btn">
+            <div class="outer-center">
+                <div class="inner-center">
+                    <div class="icon-misc_magnify2"></div>
+                    <div class="btn_txt">Open post in new tab</div>
+                </div>
+            </div>
+        </div>
+    </a>
+
+    <div class="who_footer clearfix" blogger-more-info ng-click="show(item.user.details_url)">
+        <div class="pic_label">
+            <div class="circ_pic">
+                <img ng-src="{{ item.user.pic }}" />
+            </div>
+            <div class="bar_elem_txt dotdot">
+                <span class="blogger_name">{{ item.user.user_name }}</span>
+                <span ng-show="item.user.blog_name">
+                    <span class="of_txt">of</span>
+                    <span class="blog_name">{{ item.user.blog_name }}</span>
+                </span>
+            </div>
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,236 @@
+<div bindonce="itemCtrl" class="dashboard_block" bo-class="{brand_relevant_highlight: itemCtrl.item.highlight, instagram_block: itemCtrl.item.platform == 'photos', twitter_block: itemCtrl.item.platform == 'tweets', pinterest_block: itemCtrl.item.platform == 'pins' || itemCtrl.item.platform == 'youtube', blog_post_block: itemCtrl.item.platform == 'blog' || itemCtrl.item.platform == 'facebook', facebook_block: itemCtrl.item.platform == 'facebook', product_block: itemCtrl.item.platform == 'products'}">
+    <a class="hoverable_area clearfix">
+        <!--<div class="view_details_btn" bo-if="!itemCtrl.options.noheader">
+            <div class="outer-center">
+                <div class="inner-center">
+                    <div class="icon-misc_magnify2"></div>
+                    <div class="btn_txt" bo-text="'View' + itemCtrl.item.user.user_name"></div>
+                </div>
+            </div>
+        </div>-->
+
+        <div class="hoverable_contents clearfix" blogger-more-info ng-click="$event.stopPropagation(); itemCtrl.postRedirect() && bloggerMoreInfoCtrl.show(itemCtrl.item.user.details_url)">
+            <div class="social_label" bo-if="itemCtrl.options.showSocialLabel()">
+                <div bo-class="{'icon-social_instagram2': itemCtrl.item.platform == 'photos', 'icon-social_twitter': itemCtrl.item.platform == 'tweets', 'icon-social_pinterest2': itemCtrl.item.platform == 'pins', 'icon-letter_quotes2': itemCtrl.item.platform == 'blog', 'icon-social_facebook2': itemCtrl.item.platform == 'facebook', 'icon-social_youtube': itemCtrl.item.platform == 'youtube'}"></div>
+            </div>
+            <div class="dash_row clearfix universal_block_header item_owner_row" bo-if="!itemCtrl.options.noheader" bo-style="!itemCtrl.options.showSocials() && !itemCtrl.options.showButtons() ? {'border-bottom': '1px solid #c4c4c4'} : {}">
+                <div class="search-page-marks collections-in" ng-if="feedItemCtrl.hasCollectionsIn && feedItemCtrl.hovered" style="overflow: hidden; display: block;">
+                    <ul class="collections-list">
+                        <li ng-repeat="(id, name) in feedItemCtrl.item.user.collections_in" bindonce>
+                            <a bo-href="'/campaigns/groups/' + id" ng-click="$event.stopPropagation();">
+                                <div class="wtf_why_wont_you_style" bo-text="name"></div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="profile_pic">
+                    <div bo-style="{'background-image': 'url(' + itemCtrl.item.user.pic + ')'}"></div>
+                </div>
+                <div class="profile_info">
+                    <span bo-show="itemCtrl.item.user.user_name" class="name" bo-text="itemCtrl.item.user.user_name"></span> &nbsp;
+                    <span bo-show="itemCtrl.item.user.user_name && itemCtrl.item.user.blog_name" class="of_text">of</span>
+                    <br bo-show="itemCtrl.item.user.user_name && itemCtrl.item.user.blog_name"/>
+                    <span bo-show="itemCtrl.item.user.blog_name" class="site" bo-text="itemCtrl.item.user.blog_name"></span>
+                </div>
+            </div>
+            <div class="dash_row clearfix universal_block_header" bo-if="itemCtrl.options.showSocials()">
+                <div class="follower_row">
+
+                    <div class="icon_block" bo-if="itemCtrl.item.user.Twitter_fol"><span class="icon-social_twitter"></span><span class="count" bo-text="' ' + (itemCtrl.item.user.Twitter_fol | number:0)"></span></div>
+
+                    <div class="icon_block" bo-if="itemCtrl.item.user.Instagram_fol"><span class="icon-social_instagram2"></span><span class="count" bo-text="' ' + (itemCtrl.item.user.Instagram_fol | number:0)"></span></div>
+
+                    <div class="icon_block" bo-if="itemCtrl.item.user.Facebook_fol"><span class="icon-social_facebook"></span><span class="count" bo-text="' ' + (itemCtrl.item.user.Facebook_fol | number:0)"></span></div>
+
+                    <div class="icon_block" bo-if="itemCtrl.item.user.Pinterest_fol"><span class="icon-social_pinterest"></span><span class="count" bo-text="' ' + (itemCtrl.item.user.Pinterest_fol | number:0)"></span></div>
+
+                    <div class="icon_block" bo-if="itemCtrl.item.user.Youtube_fol"><span class="icon-social_youtube"></span><span class="count" bo-text="' ' + (itemCtrl.item.user.Youtube_fol | number:0)"></span></div>
+
+                    <div class="icon_block" bo-if="itemCtrl.item.user.coms"><span class="icon-letter_quotes"></span><span class="count" bo-text="' ' + (itemCtrl.item.user.coms|float)"></span></div>
+                </div>
+            </div>
+            <div class="dash_row clearfix universal_block_header" style="display: block;" bo-if="itemCtrl.options.showButtons()">
+                <div class="clearfix btn_row" post-buttons ng-mouseenter="feedItemCtrl.hover(true)" ng-mouseleave="feedItemCtrl.hover(false)">
+                </div>
+            </div>
+
+            <div bo-if="itemCtrl.item.platform == 'products'">
+                <div class="dash_row clearfix product_img" bo-show="itemCtrl.item.img_url_panel_view && itemCtrl.item.img_url_panel_view !== 'Nil'">
+                    <img bo-src="itemCtrl.item.img_url_panel_view" />
+                </div>
+                <div class="dash_row clearfix product_info_row">
+                    <div class="store info_item" bo-text="itemCtrl.item.brand_name"></div>
+                    <div bo-if="itemCtrl.item.orig_price > 0" class="price info_item">
+                        <span>
+                            <span bo-if="itemCtrl.item.orig_price > itemCtrl.item.price && itemCtrl.item.price > 0">
+                                <span class="sale" bo-text="itemCtrl.item.price | currency:'$':0"></span>
+                                <span class="discount" bo-text="itemCtrl.item.orig_price | currency:'$':0"></span>
+                            </span>
+                            <span bo-if="itemCtrl.item.orig_price <= itemCtrl.item.price || itemCtrl.item.price<0">
+                                <span class="regular" bo-text="itemCtrl.item.orig_price | currency:'$':0"></span>
+                            </span>
+                        </span>
+                    </div>
+                </div>
+                <div class="dash_row last_child">
+                    <div class="date_info">
+                        <span bo-if="itemCtrl.item.description" bo-text="itemCtrl.item.description"><br/></span>
+                        <span bo-text="itemCtrl.item.create_date"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div bo-if="itemCtrl.item.platform == 'photos'">
+                <div class="dash_row clearfix instagram_img" bindonce="itemImage">
+                    <img bo-src="itemImage" bo-if="itemImage" imageonload notify-on-load="itemBlock:resize" init-counter />
+                </div>
+                <div class="dash_row clearfix">
+                    <div class="content_desc">
+                        <div class="description" bo-html="itemCtrl.item.content_safe"></div>
+                        <div class="ext_row clearfix">
+                            <div class="dash_label">Date : </div>
+                            <div class="field_text" bo-text="itemCtrl.item.create_date"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div bo-if="itemCtrl.item.platform == 'blog' || itemCtrl.item.platform == 'facebook'">
+                <div class="post_content">
+                    <div class="post_title" bo-if="itemCtrl.item.title" bo-html="itemCtrl.item.title_safe"></div>
+                    <div class="post_date" bo-if="itemCtrl.item.create_date" bo-text="itemCtrl.item.create_date"></div>
+                    <div class="post_text" bo-html="itemCtrl.item.content_safe"></div>
+                </div>
+                <div bindonce="itemImage">
+                    <div class="post_pic" bo-if="itemImage">
+                        <img bo-src="itemImage" imageonload notify-on-load="itemBlock:resize" init-counter />
+                    </div>
+                </div>
+            </div>
+
+            <div bo-if="itemCtrl.item.platform == 'youtube'">
+                <div bindonce="itemImage" class="dash_row clearfix pinterest_img">
+                    <img bo-src="itemImage" bo-if="itemImage" imageonload notify-on-load="itemBlock:resize" />
+                </div>
+                <div class="dash_row clearfix">
+                    <div class="content_desc">
+                        <div class="description" bo-html="itemCtrl.item.content_safe"></div>
+                        <div class="ext_row clearfix">
+                            <div class="dash_label">Date : </div>
+                            <div class="field_text" bo-text="itemCtrl.item.create_date"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div bo-if="itemCtrl.item.platform == 'pins'">
+                <div bindonce="itemImage" class="dash_row clearfix pinterest_img">
+                    <img bo-src="itemImage" bo-if="itemImage" imageonload notify-on-load="itemBlock:resize" init-counter />
+                </div>
+                <div class="dash_row clearfix">
+                    <div class="content_desc">
+                        <div class="description" bo-html="itemCtrl.item.content_safe"></div>
+                        <div class="ext_row clearfix">
+                            <div class="dash_label">Date : </div>
+                            <div class="field_text" bo-text="itemCtrl.item.create_date"></div>
+                        </div>
+                        <div class="ext_row clearfix" bo-if="!itemCtrl.options.skipSocial">
+                            <div class="dash_label">Pinned To :</div>
+                            <div class="field_text" bo-text="itemCtrl.board"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div bo-if="itemCtrl.item.platform == 'tweets'">
+                <div class="dash_row clearfix">
+                    <div class="content_desc">
+                        <div class="description" bo-html="itemCtrl.item.content_safe"></div>
+                        <div class="ext_row clearfix">
+                            <div class="dash_label">Date : </div>
+                            <div class="field_text" bo-text="itemCtrl.item.create_date"></div>
+                        </div>
+                    </div>
+                </div>
+                <div bindonce="itemImage" class="dash_row clearfix twitter_img last_child">
+                    <img bo-src="itemImage" bo-if="itemImage" imageonload notify-on-load="itemBlock:resize" init-counter />
+                </div>
+            </div>
+        </div>
+    </a>
+
+    <div bo-if="itemCtrl.item.platform == 'pins'">
+        <div class="dash_row actions_row clearfix last_child" bo-if="!itemCtrl.context.showDummyData && !itemCtrl.options.skipSocial">
+            <span class="actions_btn repin" ng-click="itemCtrl.repin()">
+                <span class="icon-arrow_l_arr_3"></span><br/>
+                <span class="btn_text">&nbsp;Repin</span>
+            </span>
+            <a bo-if="itemCtrl.item.handle" class="actions_btn follow" target="_blank" bo-href="'http://www.pinterest.com/' + itemCtrl.item.handle">
+                <span class="icon-misc_value_star2"></span><br/>
+                <span class="btn_text">&nbsp;Follow</span>
+            </a>
+        </div>
+
+        <div class="dash_row actions_row clearfix last_child" bo-if="itemCtrl.context.showDummyData && !itemCtrl.options.skipSocial">
+            <span class="actions_btn repin" click-emitter="featureLocked">
+                <span class="icon-arrow_l_arr_3"></span><br/>
+                <span class="btn_text">&nbsp;Repin</span>
+            </span>
+            <span class="actions_btn follow" click-emitter="featureLocked">
+                <span class="icon-misc_value_star2"></span><br/>
+                <span class="btn_text">&nbsp;Follow</span>
+            </span>
+        </div>
+        
+        <span class="pinit" style="display: none">
+            <a data-pin-do="embedPin" bo-href="itemCtrl.item.url"></a>
+        </span>
+    </div>
+
+    <div bo-if="itemCtrl.item.platform == 'tweets'">
+        <div class="dash_row actions_row clearfix last_child" bo-if="!itemCtrl.context.showDummyData && !itemCtrl.options.skipSocial">
+            <a bo-href="'https://twitter.com/intent/tweet?in_reply_to=' + itemCtrl.item.tweet_id" target="_blank" ng-click="$event.stopPropagation()" class="actions_btn">
+                <span class="icon-arrow_l_arr_3"></span><br/>
+                <span class="btn_text">&nbsp;Reply</span>
+            </a>
+            <a bo-href="'https://twitter.com/intent/retweet?tweet_id=' + itemCtrl.item.tweet_id" target="_blank" ng-click="$event.stopPropagation()" class="actions_btn">
+                <span class="icon-arrow_0_reload"></span><br/>
+                <span class="btn_text">&nbsp;Retweet</span>
+            </a>
+            <a bo-href="'https://twitter.com/intent/favorite?tweet_id=' + itemCtrl.item.tweet_id" target="_blank" ng-click="$event.stopPropagation()" class="actions_btn">
+                <span class="icon-misc_value_star2"></span><br/>
+                <span class="btn_text">&nbsp;Favorite</span>
+            </a>
+            <a bo-href="'https://twitter.com/intent/user?screen_name=' + itemCtrl.item.handle" target="_blank" ng-click="$event.stopPropagation()" class="actions_btn">
+                <span class="icon-people_followers"></span><br/>
+                <span class="btn_text">&nbsp;Follow</span>
+            </a>
+        </div>
+
+        <div class="dash_row actions_row clearfix last_child" bo-if="itemCtrl.context.showDummyData && !itemCtrl.options.skipSocial">
+            <a click-emitter="featureLocked" ng-click="$event.stopPropagation()" class="actions_btn">
+                <span class="icon-arrow_l_arr_3"></span><br/>
+                <span class="btn_text">&nbsp;Reply</span>
+            </a>
+            <a click-emitter="featureLocked" ng-click="$event.stopPropagation()" class="actions_btn">
+                <span class="icon-arrow_0_reload"></span><br/>
+                <span class="btn_text">&nbsp;Retweet</span>
+            </a>
+            <a click-emitter="featureLocked" ng-click="$event.stopPropagation()" class="actions_btn">
+                <span class="icon-misc_value_star2"></span><br/>
+                <span class="btn_text">&nbsp;Favorite</span>
+            </a>
+            <a click-emitter="featureLocked" ng-click="$event.stopPropagation()" class="actions_btn">
+                <span class="icon-people_followers"></span><br/>
+                <span class="btn_text">&nbsp;Follow</span>
+            </a>
+        </div>
+    </div>
+
+    <div class="sm_product_images" bo-if="itemCtrl.item.products">
+        <a bindonce ng-repeat="product in itemCtrl.item.products" class="bs_tooltip sm_product_img" bo-href="product.url" target="_blank" data-placement="top" bo-title="product.brand_name" style="width: 65px; height: 65px">
+            <!--<img ng-src="{{ product.pic }}" class="imgfit" />-->
+            <img bo-src="product.pic" bo-if="product.pic" imageonload notify-on-load="itemBlock:resize" init-counter />
+        </a>
+    </div>
+</div>

@@ -1,0 +1,15 @@
+<div>
+    <div class="triangle"></div>
+    <div class="ns-popover-tooltip">
+        <div ng-hide="loading" class="cb_or_rb_wrap">
+            <div ng-repeat="(key, header) in headers|orderObjectBy:'order':false">
+                <input name="toggle_column_{{$index}}" type="checkbox" id="toggle_column_{{$index}}" ng-checked="header.visible" ng-click="toggleVisibility(header)" />
+                <label for="toggle_column_{{$index}}">
+                    <span class="graphic plus_btn"></span>{{ header.text }}
+                </label>
+            </div>
+            <button class="square_bt sm teal_bt" ng-click="toggleVisibility()">Apply</button>
+        </div>
+        <div ng-show="loading" main-loader></div>
+    </div>
+</div>

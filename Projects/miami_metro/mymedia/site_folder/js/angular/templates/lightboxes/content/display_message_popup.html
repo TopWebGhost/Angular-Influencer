@@ -1,0 +1,11 @@
+<div generic-popup>
+    <div class="content_area_container px800">
+        <div ng-if="state == 'opened'">
+            <h1 class="lb_title lg">{{ message }}</h1>
+            <p class="instruction_txt">{{ instructionText }}</p>      
+        </div>
+        <div ng-if="state == 'loading'">
+            <div main-loader></div>
+        </div>
+    </div>
+</div>

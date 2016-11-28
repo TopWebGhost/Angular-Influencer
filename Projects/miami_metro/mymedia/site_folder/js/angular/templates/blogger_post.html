@@ -1,0 +1,12 @@
+<div class="dashboard_block blog_post_block" a-href="{{item.url}}">
+    <div class="hoverable_contents clearfix">
+        <div class="post_content">
+            <div class="post_title" ng-bind-html="item.title_safe"></div>
+            <div class="post_date">{{ item.create_date }}</div>
+            <div class="post_text" ng-bind-html="item.content_safe"></div>
+        </div>
+        <div class="post_pic">
+            <img ng-src="{{item.post_img}}"/>
+        </div>
+    </div>
+</div>

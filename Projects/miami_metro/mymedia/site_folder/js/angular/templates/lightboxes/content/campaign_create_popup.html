@@ -1,0 +1,54 @@
+<div generic-popup>
+
+    <div ng-if="state != 'loading'" class="content_area_container px500">
+
+        <div ng-if="state == 'opened'">
+
+            <h1 class="lb_title lg">Create Campaign</h1>
+            <p class="instruction_txt small"></p>
+
+            <form name="form" novalidate>
+                <fieldset class="typical_form">
+                    <div class="required">
+                        <label>Campaign Name</label>
+                        <input maxlength="300" placeholder="Campaign Name" type="text" class="req add_shelf" required ng-model="campaignName" name="campaignName">
+                        <span ng-show="form.$dirty && form.campaignName.$error.required" class="pav_validation">Enter non-empty name</span>
+                    </div>
+                </fieldset>
+
+                <!--p class="instruction_txt small">If this campaign is for a client, fill in the two fields below:</p>
+                <fieldset class="typical_form">
+                    <fieldset class="typical_form halfer left">
+                        <label>Client Name (optional)</label>
+                        <input maxlength="300" placeholder="Client Name" type="text" class="add_shelf" ng-model="clientName" name="clientName">
+                    </fieldset>
+                    <fieldset class="typical_form halfer right">
+                        <label>Client URL (optional)</label>
+                        <input maxlength="300" placeholder="Client URL" type="url" class="add_shelf" ng-model="clientURL" name="clientURL">
+                        <span ng-show="form.clientURL.$error.url" class="pav_validation">Enter a valid URL</span>
+                    </fieldset>
+                </fieldset-->
+
+                <div class="x_space x_30"></div>
+                <div
+                  class="square_bt md teal_bt submit_button"
+                  ng-class="{inactive: requestButtonCtrl.loading || !form.$valid}"
+                  request-button
+                  ng-click="form.$valid && !requestButtonCtrl.loading && requestButtonCtrl.doRequest({method: 'POST', successCb: redirect, url: updateUrl, data: {campaign: {modelName: 'BrandJobPost', values: {title: campaignName, client_name: clientName, client_url: clientURL, creator_id: context.visitorBrandId, oryg_creator_id: context.visitorBrandId}}}})"
+                >
+                  <span ng-hide="requestButtonCtrl.loading">Save</span>
+                  <span ng-show="requestButtonCtrl.loading">Saving...</span>
+                </div>
+            </form>
+        </div>
+
+        <div ng-if="state == 'error'">
+            <h1 class="lb_title lg">{{ errorMessage }}</h1>
+        </div>
+
+    </div>
+
+    <div ng-if="state == 'loading'" class="add_blogger_to_collection content_area_container">
+        <div main-loader></div>
+    </div>
+</div>

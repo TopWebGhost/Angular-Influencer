@@ -1,0 +1,27 @@
+<div generic-popup>
+    <div class="content_area_container px800">
+        <div ng-if="state == 'opened'">
+            <h1 class="lb_title lg">Loading</h1>
+        </div>
+
+        <div ng-if="state == 'saving'">
+            <h1 class="lb_title lg">Saving</h1>
+        </div>
+
+        <div ng-if="state == 'loaded'">
+            <h1 class="lb_title lg">Link to a Custom Collection</h1>
+            <div class="instruction_txt">
+                Users tend to link campaigns to a CUSTOM Collection if they are planning on using that same set of bloggers in multiple campaigns.  By using the CUSTOM collection, you only need to create your outreach list once, instead of for each individual campaign.  If you choose not to link your campaign to a CUSTOM collection, you can simply bookmark bloggers directly to this campaign.
+            </div>
+            <fieldset class="typical_form">
+                <div dropdown-select="all" dropdown-model="current" dropdown-onchange="currentUpdate(selected)"></div>
+            </fieldset>
+            <div class="square_bt teal_bt lg done_btn" ng-click="save()">Save</div>
+            <div class="square_bt teal_bt lg done_btn" ng-click="close()">Cancel</div>
+        </div>
+
+    </div>
+</div>
+
+
+

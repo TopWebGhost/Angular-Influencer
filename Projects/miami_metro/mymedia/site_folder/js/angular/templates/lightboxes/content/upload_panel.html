@@ -1,0 +1,40 @@
+<div>
+    <input type="file" nv-file-select="" uploader="uploader" multiple  style="display: none;" ng-if="uploader" />
+
+    
+    <table class="upload-table">
+        <tbody>
+            <tr ng-repeat="item in uploader.queue">
+                <td style="width: 50%;"><strong>{{ item.file.name }}</strong></td>
+                <td style="width: 20%;" ng-show="uploader.isHTML5" nowrap>{{ item.file.size|bytes:3 }}</td>
+                <td style="width: 20%;" ng-show="uploader.isHTML5">
+                    <div class="upload-progress-box">
+                        <div class="upload-progress" ng-style="{ 'width': item.progress + '%' }"></div>
+                    </div>
+                </td>
+                <td style="padding-left: 4%;" nowrap>
+                    <span class="icon-letter_x03" style="cursor: pointer;" ng-click="item.remove()"></span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    
+
+    <div ng-transclude>
+    </div>
+
+    <div ng-if="defaultUploadPanel" class="row_of_dirty_buttons">
+
+        <button class="normal_bt rounded md teal_bt" ng-class="{'inactive': uploader.isUploading }" ng-disabled="uploader.isUploading" ng-click="uploader.isUploading || send({reload: reload})">Send Message</button>
+
+        <button class="normal_bt rounded md teal_bt inactive" style="float:right;" ng-click="$parent.close()">Cancel</button>
+        <button class="txt_link rale_3 darker_teal" ng-click="selectFile()" ng-if="uploader">Add Attachment</button>
+
+        <!-- <button class="txt_link rale_3 darker_teal"  ng-class="{'inactive': uploader.isUploading }" ng-disabled="{{ uploader.isUploading }}" ng-click="uploader.isUploading || send({sendMode: 'dev_test'})" ng-show="context.isSuperuser">Send DEV Test Email</button> -->
+
+        <button ng-hide="hideSendTest" class="txt_link rale_3 darker_teal" ng-class="{'inactive': uploader.isUploading }" ng-disabled="uploader.isUploading" ng-click="uploader.isUploading || send({sendMode: 'test'})">Send Test Email</button>
+
+    </div>
+
+</div>

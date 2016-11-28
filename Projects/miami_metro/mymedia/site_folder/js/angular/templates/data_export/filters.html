@@ -1,0 +1,237 @@
+<div class="edit_account" ng-controller="AboutEditCtrl">
+    <div class="account_wrapper">
+        <div class="account_title">Campaign Details</div>
+        <div class="account_hint">Fill in these campaign details with info about your campaign.</div>
+
+        <form name="collab_form">
+            <div class="content_wrapper clearfix">
+                <fieldset class="typical_form smaller_field third left">
+                    <label>Title of Campaign</label>
+                    <input name="posturl" ng-model="last_collab_data.post_url" type="text" required>
+                </fieldset>
+                <fieldset class="typical_form smaller_field third">
+                    <label for="id_brandname">Brand name</label>
+                    <input id="id_brandname" name="brandname" ng-model="last_collab_data.brand_name" type="text" required>
+                </fieldset>
+                <fieldset class="typical_form smaller_field third right">
+                    <label>Brand url</label>
+                    <input name="brandurl" ng-model="last_collab_data.brand_url" type="text" required>
+                </fieldset>
+                <fieldset class="typical_form smaller_field third left">
+                    <label>Collaboration Type</label>
+                    <select name="collab_type" ng-model="last_collab_data.collab_type" required>
+                        {% for type in collab_types %}
+                            <option value="{{type.1}}">{{type.1}}</option>
+                        {% endfor %}
+                    </select>
+                </fieldset>
+                <fieldset class="typical_form smaller_field third">
+                    <label>Campaign date</label>
+                    <input id="campaign_date" type="text" />
+                </fieldset>
+
+                <fieldset class="typical_form smaller_field third right">
+                    <label>Campaign date</label>
+                    <input id="campaign_date" type="text" />
+                </fieldset>
+                <fieldset class="typical_form smaller_field clearit">
+                    <label>Details (what type of campaign, extra details, how did it go, etc.)</label>
+                    <textarea name="details" rows="3" ng-model="last_collab_data.details" class="comment_field" required></textarea>
+                </fieldset>
+                <fieldset class="typical_form smaller_field clearit">
+                    <label>Who Should Apply </label>
+                    <textarea name="details" rows="3" ng-model="last_collab_data.details" class="comment_field" required></textarea>
+                </fieldset>
+            </div>
+        </form>
+
+
+
+
+
+        <div class="sect_divider"></div>
+        <div class="account_title">Describe your Brand</div>
+        <div class="account_hint" style="margin-bottom:40px;">Select the tags that best represent what you are looking for and what type of brand you are.<br/></div>
+        <div class="content_wrapper clearfix">
+
+
+
+
+
+
+        </div>
+
+
+
+
+        <div class="sect_divider"></div>
+        <div class="account_title">What Kind of Blogger do you want</div>
+        <div class="account_hint" style="margin-bottom:40px;">Select the Comment Range and Gender to specify what type of blogger you are looking for.<br/></div>
+        <div class="content_wrapper clearfix">
+
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <div style="clear:both;">
+            <br/><br/><br/><br/><br/><br/><br/><br/><br/>
+            <div edit-profile-popup save-url="{{influencer.edit_page}}" success-url="{{influencer.about_page}}"></div>
+            <button class="square_bt md teal_bt" ng-click="save()">Save</button>
+            <a href="{{influencer.about_page}}"><button class="square_bt md teal_bt inactive">Cancel</button></a>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+<div class="le_campaign_block">
+    <div class="campaign_row">
+        <div class="campaign_block">
+            <div class="brand_name">Gloss 48</div>
+            <div class="campaign_name">Summer Time Fun In the Sun!</div>
+        </div>
+    </div>
+    <div class="campaign_row">
+        <div class="campaign_block left">
+            <div class="label">Post Type</div>
+            <div class="text_input">Sponsored Post</div>
+        </div>
+        <div class="campaign_block">
+            <div class="label">Dates <span>(for applying)</span></div>
+            <div class="text_input">1/27/2014 &nbsp;-&nbsp; 4/27/2014</div>
+        </div>
+    </div>
+    <div class="campaign_row">
+        <div class="campaign_block full_width">
+            <div class="label">Details <span>(about the campaign)</span></div>
+            <div class="text_para">We’ll send you an outfit of your choice out of spring collection.  We’ll just want a post with pictures in the outfit.  And a small writeup about how our company is ethical.  We want to increase awareness of our products.  And conversions are important too.</div>
+        </div>
+        <div class="campaign_block full_width">
+            <div class="label">Who Should Apply</div>
+            <div class="text_para">We want bloggers with an edgy style, and who blog about items that are cheap.  We’re don’t care about price...  but we want to make sure that we’re spending a certain amount for the amount of traffic that you send.  We can negotiate.</div>
+        </div>
+    </div>
+    <div class="campaign_row last_child">
+        <div class="square_bt black_bt md">Apply to Campaign</div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--div class="applied_filters" ng-show="hasFilters()">
+    <div class="filter_title">You've filtered by:</div>
+
+    <div class="filter" ng-repeat="category in filters.category">{{category}}
+        <span class="x_btn" ng-click="toggleTypeFilter('category', category)">x</span>
+    </div>
+
+    <div class="filter" ng-repeat="entry in filters.popularity">{{entry}}
+        <span class="x_btn" ng-click="toggleTypeFilter('popularity', entry)">x</span>
+    </div>
+
+    <div class="filter" ng-repeat="brand in filters.brand">{{brand}}
+        <span class="x_btn" ng-click="toggleTypeFilter('brand', brand)">x</span>
+    </div>
+
+    <div class="filter" ng-repeat="location in filters.location">{{location}}
+        <span class="x_btn" ng-click="toggleTypeFilter('location', location)">x</span>
+    </div>
+
+    <div class="filter" ng-repeat="entry in filters.priceranges">{{entry}}
+        <span class="x_btn" ng-click="toggleTypeFilter('priceranges', entry)">x</span>
+    </div>
+
+    <div class="filter" ng-repeat="entry in filters.gender">{{entry}}
+        <span class="x_btn" ng-click="toggleTypeFilter('gender', entry)">x</span>
+    </div>
+
+    <div class="filter" ng-if="filters.social">{{filters.social.value}}, {{filters.social.range_min || '0'}} - {{filters.social.range_max || '&#8734;'}}
+        <span class="x_btn" ng-click="toggleRangeFilter('social'); applyRangeFilter('social')">x</span>
+    </div>
+
+    <div class="filter" ng-if="filters.engagement">Avg. comments:  {{filters.engagement.range_min || '0'}} - {{filters.engagement.range_max || '&#8734;'}}
+        <span class="x_btn" ng-click="toggleRangeFilter('engagement'); applyRangeFilter('engagement')">x</span>
+    </div>
+
+    <p class="serif_ital xxxsmall lessergray">
+        <span class="txt_link" ng-click="clearAllFilters()">Remove All Filters</span>
+    </p>
+</div>
+
+
+
+<div class="search_section" ng-if="popularity">
+    <div class="disabler" click-emitter="featureLocked" ng-if="!canFilter('popularity')"></div>
+    <div class="mini_title">
+        <span class="title">Popularity</span>
+        <span class="question bs_tooltip" title="Filter based on social media followers" data-placement="top">?</span>
+    </div>
+    <div class="cb_or_rb_wrap">
+        <span ng-repeat="entry in popularity">
+            <input type="checkbox" id="popularity_{{$index}}" name="cc" ng-click="toggleTypeFilter('popularity', entry.title)" ng-checked="hasTypeFilter('popularity', entry.title)" />
+            <label for="popularity_{{$index}}">
+                <span class="graphic plus_btn"></span>{{entry.title}}
+            </label>
+        </span>
+    </div>
+</div>
+
+<div class="search_section" ng-if="socials">
+    <div class="disabler" click-emitter="featureLocked" ng-if="!canFilter('socials')"></div>
+    <div class="mini_title">
+        <span class="title">Social Followers Count</span>
+        <span class="question bs_tooltip" title="Filter by a specific social platform" data-placement="top">?</span>
+        <div class="serif_ital xxxsmall" style="padding:10px 20px 10px 0;">Select the social network and then enter in a range for the number of followers.</div>
+    </div>
+    <div class="cb_or_rb_wrap clearfix">
+        <span ng-repeat="entry in socials">
+            <input type="radio" id="socials_{{$index}}" name="cc" ng-click="toggleRangeFilter('social', entry.value, social_min, social_max)" value="{{entry.value}}" ng-model="rangeModels['social']"/>
+            <label class="floater" for="socials_{{$index}}">
+                <span class="graphic"></span><span class="{{entry.icon}}"></span>
+            </label>
+        </span>
+    </div>
+    <div style="clear:both; margin:8px 0;" class="clearfix">
+        <fieldset class="typical_form quarter smaller_field lt_outline"><input style="padding:4px 11px; line-height:0;" ng-model="social_min" ng-change="updateRangeFilter('social', social_min, social_max)"> </fieldset>
+        <div class="float_left serif_ital xxxsmall" style="padding:5px 8px 5px 0;">to</div>
+        <fieldset class="typical_form quarter smaller_field lt_outline"><input style="padding:4px 11px; line-height:0;" ng-model="social_max" ng-change="updateRangeFilter('social', social_min, social_max)"> </fieldset>
+        <div class="xs square_bt gray_bt" style="padding:6px 11px;" ng-click="applyRangeFilter('social')">Apply</div>
+    </div>
+</div-->
+
+
+
+
+
+

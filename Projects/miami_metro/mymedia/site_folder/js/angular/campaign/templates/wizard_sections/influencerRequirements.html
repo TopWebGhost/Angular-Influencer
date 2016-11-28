@@ -1,0 +1,87 @@
+<div ng-controller="InfluencerRequirementsCtrl as vm">
+    <ng-form name="sectionForm" form-handler="influencerRequirements" novalidate>
+        <div class="a_form_group padding_40_all clearfix">
+            <div class="form_instruction main_instructions">Next, fill in your campaign guidelines and requirements. You can edit these fields for each influencer separately if you determine different requirements. That can be done once the influencers are in the pipeline. The deliverables below will act as your default settings for the campaign.<br/><span class="small_hint">The details you fill in here can be edited at any point before the influencers sign contracts. If you make a change here, to the setup page, it will update all influencers whose requirements have NOT been edited on an individual basis. Influencers whose requirements have been edited will not reflect changes made to that particular section in this setup page.</span></div>
+        </div>
+        
+
+
+        <div class="form_divider w_30_0_pad_mag"></div>
+
+
+
+        <div class="a_form_group padding_40_all clearfix">
+            <div class="form_mid_title">Deliverables</div>
+            <div class="form_instruction">Select the post types / counts in order to set post requirements for each person.</div>
+            <div class="x_space x_10"></div>
+
+            <div class="inner_section clearfix">
+                <fieldset class="typical_form w_100">
+                    <div deliverables-form deliverables="wizardCtrl.campaignData.info.deliverables"></div>
+                </fieldset>
+            </div>
+        </div>
+
+
+
+        <div class="form_divider w_60_30_pad_mag"></div>
+
+
+
+
+        <div class="a_form_group padding_40_sides clearfix">
+            <div class="inner_section">
+                <div class="form_mid_title">Post Requirements</div>
+                <div class="form_instruction">List out the requirements for the post/s as they will be included in the influencer’s contract. Examples include: product must be included in frame of photos, product must be worn in photos, 4+ images must be included in the post....</div>
+                <fieldset class="typical_form two_third">
+                    <textarea rows="6" cols="60" ng-model="wizardCtrl.campaignData.info.postRequirements" tabindex="12" name="postRequirements"></textarea>
+                </fieldset>
+            </div>
+        </div>
+
+
+
+        <div class="form_divider w_0_60_pad_mag"></div>
+
+        
+
+
+
+
+        
+
+
+
+
+        
+
+
+        <div class="a_form_group padding_40_sides clearfix">
+            <div class="flex_row_steps">
+                <fieldset class="typical_form step_container halfer left">
+                    <div class="step_section">
+                        <div class="form_mid_title">Date Range</div>
+                        <div class="form_instruction">Are the influencers required to post all content by a certain date?</div>
+
+                        <div date-range-picker ng-model="wizardCtrl.campaignData.dateRange" name="dateRange"></div>
+                        <!--
+                        <div ng-if="vm.dateStart && vm.dateEnd" ng-date-range bind="dateRangeModel" start-date="{{ vm.dateStart }}" end-date="{{ vm.dateEnd }}" opens="center" class="date_range_field" no-max-date="" tabindex="11"></div>
+                        <div ng-if="!(vm.dateStart && vm.dateEnd)" ng-date-range bind="dateRangeModel" opens="center" class="date_range_field" no-max-date="" tabindex="11"></div>-->
+                    </div>
+                </fieldset>
+
+                <fieldset class="typical_form step_container halfer right">
+                    <div class="step_section">
+                        <div class="form_mid_title">Date Requirements</div>
+                        <div class="form_instruction">Would you like to request that the influencers enter in a date for their first blog post to go live?</div>
+                        <div class="form_instruction">If you turn this on, our system will automatically send out a reminder three days in advance along with a checklist of requirements.</div>
+                        <div class="switch-small" toggle-switch ng-model="wizardCtrl.campaignData.info.dateRequirementsOn" name="dateRequirementsOn"></div>
+                    </div>
+                    <div class="x_space x_30"></div>
+                </fieldset>
+            </div>
+        </div>
+
+        <div class="form_divider w_0_0_pad_mag"></div>
+    </ng-form>
+</div>

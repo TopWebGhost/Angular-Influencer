@@ -1,0 +1,50 @@
+<div>
+    <div class="image_upload_overlay" style="background:#000; width: 100%; height: 100%; overflow: hidden; z-index: 9000; position: absolute; top: 0; left: 0">
+    </div>
+    <div class="lightbox image-upload-popup fixed bl_bg_lb" style="display: block; z-index: 9001; overflow: hidden">
+        <div class="container">
+            <div class="content_area">
+                <a class="close_button lightbox_close" ng-click="close()" ng-hide="state == 'uploading'"><p class="icon-letter_x02"></p></a>
+                <div class="content_area_container px800 signup-choice center_box">
+
+                    <div style="display: none">
+                        <input class="input_image" type="file" />
+                    </div>
+                    <div class="dropzone">
+                        <div class="dz-default dz-message">
+                                <h2 class="upload_instructions" ng-show="state == 'error'">
+                                    <span class="title">There was problem with your image!</span>
+                                    <br><br><br>
+                                    <span class="up_button" ng-click="select_img()" style="cursor:pointer">Browse for another photo</span>
+                                </h2>
+                                <h2 class="upload_instructions" ng-show="state == 'start'">
+                                    <span class="title">Browse for a photo on your computer</span>
+                                    <br><br><br>
+                                    <span class="up_button" ng-click="select_img()" style="cursor:pointer">Browse for photo</span>
+                                </h2>
+                                <h2 class="upload_instructions" ng-show="state == 'crop'">
+                                    <span class="title">Now crop your photo</span>
+                                    <br>
+                                    <span class='instruct'>By clicking and dragging over the image until its the desired dimensions.  Then click upload.</span>
+                                    <br>
+                                    <span class="up_button" ng-click="upload()" style="cursor:pointer" ng-hide="upload_blocked">Upload</span>
+                                </h2>
+                                <h2 class="upload_instructions" ng-show="state == 'uploading'">
+                                    <span class="title">Uploading your photo...</span>
+                                    <br>
+                                    <span class='instruct'>Please stand by for a sec :)</span>
+                                </h2>
+                                <h2 class="upload_instructions" ng-show="state == 'success'">
+                                    <span class="title">Done :)</span>
+                                    <br>
+                                    <span class='instruct'>Reloading page</span>
+                                </h2>
+
+                        </div>
+                    </div>
+                    <img skip class="profile_image" ng-show="state == 'crop'" style="position: fixed;top: 270px;"/>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

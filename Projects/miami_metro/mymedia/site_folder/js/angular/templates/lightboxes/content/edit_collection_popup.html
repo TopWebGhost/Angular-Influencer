@@ -1,0 +1,43 @@
+<div generic-popup>
+    <div class="content_area_container px400">
+        <div ng-if="state == 'edit_group'">
+
+            <h1 class="lb_title lg">Edit Name</h1>
+            <p class="instruction_txt small">Enter in a new name for this collection or group in the form field below.</p>
+            <fieldset class="typical_form">
+                <div class="required">
+                    <input name="name" maxlength="300" placeholder="Name" type="text" class="req add_shelf" ng-model="new_name">
+                    <!-- <input name="desc" maxlength="300" placeholder="Description" type="text" class="req add_shelf" ng-model="new_desc"> -->
+                </div>
+            </fieldset>
+            <div class="x_space x_30"></div>
+            <!-- hide jobs select box -->
+           <!--  <fieldset class="typical_form larger_field px300" ng-if="jobs.length>0">
+               <div checkbox-select options="jobs">
+                   <span ng-if="selectedJobsCount == 0">Select associated campaigns</span>
+                   <span ng-if="selectedJobsCount == 1">One campaign is selected</span>
+                   <span ng-if="selectedJobsCount > 1">{{ selectedJobsCount }} campaigns are selected</span>
+               </div>
+           </fieldset> 
+           <fieldset class="typical_form larger_field px300" ng-if="jobs.length == 0">
+               <label>
+                   Invite to a Collection
+               </label>
+               <div class="serif_ital xsmall lessgray">You haven't created any campaigns yet...<br/>so this will just be a message to the blogger.</div>
+           </fieldset>
+           <div class="x_space x_30"></div> -->
+            <input type="submit" value="Submit!" class="square_bt md teal_bt submit_button" ng-click="editGroup(new_name, '')">
+        </div>
+
+        <div ng-if="state == 'upload_error'">
+            <h1 class="lb_title lg">{{ errorMessage }}</h1>
+        </div>
+
+        <div ng-if="state == 'uploading'">
+            <h1 class="lb_title lg">
+                Saving your changes
+            </h1>
+        </div>
+
+    </div>
+</div>

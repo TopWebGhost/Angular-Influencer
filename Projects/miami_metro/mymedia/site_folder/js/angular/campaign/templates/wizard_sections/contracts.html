@@ -1,0 +1,69 @@
+<div ng-controller="ContractsCtrl as contractsCtrl">
+    <ng-form name="sectionForm" form-handler="contracts" novalidate>
+        
+
+        <div class="a_form_group padding_40_all clearfix">
+            <div class="inner_section">
+                <div class="form_instruction main_instructions">If you’re compensating your influencers, we recommend using contracts. These will protect you from any mishaps on the influencers’ part. All contracts are signed via electronic signature. If you require an alternate solution, please contact your account manager. <br/> <br/> View the contract <a broadcaster ng-click="broadcasterCtrl.broadcast('openPdfDocumentPopup', {url: wizardCtrl.campaignData.contractPreviewUrl})" class="txt_link darker_teal">here</a>.</div>
+                <div class="switch-large" toggle-switch ng-model="wizardCtrl.campaignData.info.signingContractOn" name="signingContractOn"></div>
+            </div>
+            <!-- <div class="form_divider w_0_30_pad_mag"></div> -->
+            <fieldset class="typical_form inner_section" ng-if="wizardCtrl.campaignData.info.signingContractOn" ng-class="{'right': wizardCtrl.campaignData.info.paymentDetailsOn}" style="float:left!important;">
+            <!-- I THINK THIS "NG-CLASS RIGHT" STUFF IS HOW TO MOVE THINGS AROUND IF A CERTAIN SECTION IS MISSING . USE ON OTHER STUFF. -->
+            <!-- I THINK THIS "NG-CLASS RIGHT" STUFF IS HOW TO MOVE THINGS AROUND IF A CERTAIN SECTION IS MISSING . USE ON OTHER STUFF. -->
+            <!-- I THINK THIS "NG-CLASS RIGHT" STUFF IS HOW TO MOVE THINGS AROUND IF A CERTAIN SECTION IS MISSING . USE ON OTHER STUFF. -->
+            <!-- <fieldset class="typical_form inner_section" ng-if="wizardCtrl.campaignData.info.signingContractOn" ng-class="{'right': wizardCtrl.campaignData.info.paymentDetailsOn}"> -->
+                <div class="inner_section">
+                    <!-- <div class="form_mid_title">Payment Terms</div> -->
+                    <div class="x_space x_20"></div>
+                    <fieldset class="typical_form three_quarter">
+                        <div class="form_instruction ">If the final rate for the collaboration is MORE THAN $0, we will use the data below to populate your contract with your payment terms. Simply define the terms around when/how you plan on paying the influencers (keeping in mind that this data will be inserted into your contract, so it's best to keep it relatively generic).</div>
+                        <textarea rows="6" cols="60" ng-model="wizardCtrl.campaignData.info.paymentTerms" tabindex="12" name="paymentTerms"></textarea>
+                    </fieldset>
+                </div>
+                <div class="x_space x_20"></div>
+
+                <!--
+                <div id="object-container">
+                    <object data="{{ wizardCtrl.campaignData.contractPreviewUrl }}?r={{ random }}" type="application/pdf" width="100%" height="100%">
+                        <p>Alternative text - include a link <a href="myfile.pdf">to the PDF!</a></p>
+                    </object>
+                </div>-->
+            </fieldset>
+        </div>
+        <div class="form_divider w_0_0_pad_mag"></div>
+
+
+    
+
+        <div class="a_form_group padding_40_not_bottom clearfix">
+            <div class="x_space x_10"></div>
+            <div class="inner_section">
+                <div class="form_instruction main_instructions">If you're compensating any of your influencers, you should turn on the Payment Features here. This will provide you with 2 additional Payment related features described below (if this is enabled).</div>
+                <div class="switch-large" toggle-switch ng-model="wizardCtrl.campaignData.info.paymentDetailsOn" name="paymentDetailsOn"></div>
+            </div>
+            <div ng-show="wizardCtrl.campaignData.info.paymentDetailsOn || wizardCtrl.campaignData.info.signingContractOn"></div>
+            <div class="x_space x_30" ng-hide="wizardCtrl.campaignData.info.paymentDetailsOn || wizardCtrl.campaignData.info.signingContractOn"></div>
+            <fieldset class="typical_form inner_section" ng-if="wizardCtrl.campaignData.info.paymentDetailsOn">
+                <div class="inner_section">
+                    <!-- <div class="form_mid_title">Payment Details Request</div> -->
+                    <div class="x_space x_20"></div>
+                    <fieldset class="typical_form three_quarter">
+                        <div class="form_instruction ">
+                            If the final rate for the collaboration is MORE THAN $0, we provide a field for the blogger to submit their payment info (whether it be a Paypal account, wiring instructions, etc.). Use the text field below to provide instructions for them about what payment forms you are comfortable providing.
+                            <span class="small_hint">(We recommend : Paypal, wire transfers, and checks.)</span>
+                        </div>
+                        <textarea rows="6" cols="60" ng-model="wizardCtrl.campaignData.info.paymentInstructions" name="paymentInstructions"></textarea>
+                    </fieldset>
+                </div>
+            </fieldset>
+            <div class="x_space x_50"></div>
+        </div>
+        <div class="form_divider w_0_0_pad_mag"></div>
+
+
+
+
+        
+    </ng-form>
+</div>

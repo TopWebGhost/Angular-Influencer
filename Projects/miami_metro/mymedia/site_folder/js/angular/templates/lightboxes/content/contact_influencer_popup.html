@@ -1,0 +1,40 @@
+<div generic-popup generic-uploading>
+    <div class="content_area_container px900">
+        <div ng-if="state == 'opened'">
+            <h1 class="lb_title lg">Send Message or Invite</h1>
+            <form name="email_form" class="clearfix">
+                <fieldset class="typical_form clearit">
+                    <input ng-model="subject" type="text" name="subject" required / tabindex="1">
+                    <div>
+                        <div wysiwyg-toolbar data-target="#editor"></div>
+                        <div id="editor" class="typical_form" style="overflow:scroll; height: 200px;" tabindex="2"></div>
+                    </div>
+                </fieldset>
+                <br/>
+                <button class="square_bt md teal_bt" ng-class="{'inactive': isLoading }" ng-disabled="{{ isLoading }}" ng-click="isLoading || send(template, subject)">Send</button>
+                <button  ng-if="context.isSuperuser" class="square_bt md teal_bt" ng-click="selectFile()">Add Attachment</button>
+                <button class="square_bt md teal_bt inactive" ng-click="close()">Cancel</button>
+
+                <div upload-list ng-if="context.isSuperuser"></div>
+            </form>
+        </div>
+        <div ng-if="state == 'sending'">
+            <h1 class="lb_title lg">Sending</h1>
+            <p class="instruction_txt">
+                <span class="smallermedium">Please wait</span>
+            </p>
+        </div>
+        <div ng-if="state == 'done'">
+            <h1 class="lb_title lg">Sent</h1>
+            <p class="instruction_txt">
+                <span class="smallermedium">{{status}}</span>
+            </p>
+        </div>
+        <div ng-if="state == 'error'">
+            <h1 class="lb_title lg">Error</h1>
+        </div>
+    </div>
+</div>
+
+
+

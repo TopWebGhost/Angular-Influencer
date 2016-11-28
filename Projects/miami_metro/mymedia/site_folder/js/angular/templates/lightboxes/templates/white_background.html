@@ -1,0 +1,26 @@
+
+<div ng-cloak>
+    <div ng-if="visible" style="z-index: {{layer}}; position: relative;">
+
+
+        <!-- GENERIC LIGHTBOX -->
+        <!-- GENERIC LIGHTBOX -->
+        <!-- white overlay -->
+        <div class="white_overlay"></div>
+        <!-- lightbox container -->
+        <!-- wh_bg_lb does not work -->
+        <div class="lightbox bl_bg_lb dynamic">
+            <div class="container">
+                <div class="content_area">
+                    <a class="close_button lightbox_close" ng-click="close()" ng-hide="no_close"><p class="icon-letter_x02"></p></a>
+                    <!-- load content here -->
+                    <div ng-transclude></div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+

@@ -1,0 +1,332 @@
+<div fixed-white-background-popup>
+    <div class="content_area_container px1000 a_form_page with_lb_nav_bar">
+
+        <div ng-if="state == 'opened'" class="a_form_page_content">
+
+            <div class="row_of_lb_links">
+                <div class="lb_nav_link" ng-class="{selected: customPopupCtrl.tab == 1}" ng-click="customPopupCtrl.setTab(1)">Influencer Data</div>
+                <div class="lb_nav_link" ng-class="{selected: customPopupCtrl.tab == 2}" ng-click="customPopupCtrl.setTab(2)">Team Notes</div>
+            </div>
+
+            <div ng-if="customPopupCtrl.tab == 1">
+
+                <form name="influencerDataForm">
+                    <div class="a_form_group padding_40_sides clearfix">                        
+                        <div class="form_title">Blogger Details</div>
+                        <div class="form_instruction main_instructions"></div>
+                    </div>
+
+
+
+
+                    <div class="a_form_group padding_40_sides clearfix">  
+                        
+                        
+                        <div class="flex_row_steps">
+
+                            <fieldset ng-form="locationForm" class="typical_form step_container third left" requester>
+                                <div class="form_small_title">Influencers Details</div>
+                                <div class="step_section padding_40_right_only">
+
+                                    <div class="form_row_10">
+                                        <div class="lb_minier width_120px">Date of Birth</div>
+                                        <fieldset class="typical_form xsmall_field  ">
+                                            <div single-date-picker name="dateOfBirth" ng-model="infDataPopupCtrl.blogger.data.dateOfBirth" autosave model="infDataPopupCtrl.blogger.data.dateOfBirth" class="date_range_field" opens="center"></div>
+                                        </fieldset>
+                                    </div>
+
+                                    <div class="form_row_10">
+                                        <div class="lb_minier width_120px">Age</div>
+                                        <fieldset class="typical_form xsmall_field  ">
+                                            <input type="text" ng-model="infDataPopupCtrl.blogger.data.age" name="age" autosave model="infDataPopupCtrl.blogger.data.age" />
+                                        </fieldset>
+                                    </div>
+
+                                    <div class="form_row_10">
+                                        <div class="lb_minier width_120px">Language</div>
+                                        <fieldset class="typical_form xsmall_field">
+                                            <div
+                                                isteven-multi-select
+                                                input-model="infDataPopupCtrl.blogger.data.metadata.languageChoices"
+                                                output-model="infDataPopupCtrl.blogger.data.language"
+                                                item-label="name"
+                                                button-label="name"
+                                                tick-property="selected"
+                                                max-height="250px"
+                                                on-close="infDataPopupCtrl.blogger.save()"
+                                            ></div>
+                                            <!--<div tag-bubbles choices="infDataPopupCtrl.blogger.data.metadata.languageChoices" output="infDataPopupCtrl.blogger.data.language" blogger="infDataPopupCtrl.blogger"></div>-->
+                                        </fieldset>
+                                    </div>
+
+
+                                    <div class="form_row_10">
+                                        <div class="lb_minier width_120px">Location</div>
+                                        <fieldset class="typical_form xsmall_field  ">
+                                            <input type="text" id="location" location use-long-names ng-model="infDataPopupCtrl.blogger.data.locationData.location" name="location" autosave model="infDataPopupCtrl.blogger.data.locationData.location" set-default-to="{{ infDataPopupCtrl.blogger.data.locationData.location }}"/>
+                                        </fieldset>
+                                    </div>
+                                    <div class="form_row_10">
+                                        <div class="lb_minier">Influencer Name</div>
+                                        <fieldset class="typical_form xsmall_field  ">
+                                            <input type="text" ng-model="infDataPopupCtrl.blogger.data.influencerData.name" name="name" autosave model="infDataPopupCtrl.blogger.data.influencerData.name" />
+                                        </fieldset>
+                                    </div>
+                                    <div class="form_row_10">
+                                        <div class="lb_minier">Blog Name</div>
+                                        <fieldset class="typical_form xsmall_field  ">
+                                            <input type="text" ng-model="infDataPopupCtrl.blogger.data.influencerData.blogname" name="blogname" autosave model="infDataPopupCtrl.blogger.data.influencerData.blogname" />
+                                        </fieldset>
+                                    </div>
+
+
+                                    <!--
+                                    <div class="form_row_10">
+                                        <div class="lb_minier width_120px">Country</div>
+                                        <fieldset class="typical_form xsmall_field  ">
+                                            <input type="text" ng-model="infDataPopupCtrl.blogger.data.locationData.country" name="country" autosave model="infDataPopupCtrl.blogger.data.locationData.country" />
+                                        </fieldset>
+                                    </div>
+
+                                    <div class="form_row_10">
+                                        <div class="lb_minier width_120px">State</div>
+                                        <fieldset class="typical_form xsmall_field  ">
+                                            <input type="text" ng-model="infDataPopupCtrl.blogger.data.locationData.state" name="state" autosave model="infDataPopupCtrl.blogger.data.locationData.state" />
+                                        </fieldset>
+                                    </div>
+
+                                    <div class="form_row_10">
+                                        <div class="lb_minier width_120px">City</div>
+                                        <fieldset class="typical_form xsmall_field  ">
+                                            <input type="text" ng-model="infDataPopupCtrl.blogger.data.locationData.city" name="city" autosave model="infDataPopupCtrl.blogger.data.locationData.city" />
+                                        </fieldset>
+                                    </div>
+                                    -->
+
+                                </div>
+                            </fieldset>
+
+
+                            <!-- CONTACT -->
+                            <!-- CONTACT -->
+                            <!-- CONTACT -->
+                            <!-- CONTACT -->
+                            <fieldset ng-form="locationForm" class="typical_form step_container third left social_form" requester>
+                            <div class="form_small_title">Contact Details</div>
+                                <div class="step_section padding_40_right_only">
+
+                                    
+                                    <div class="form_row_10">
+                                        <div class="lb_minier width_120px">Zip Code</div>
+                                        <fieldset class="typical_form xsmall_field  ">
+                                            <input type="text" ng-model="infDataPopupCtrl.blogger.data.zipCode" name="zipCode" autosave model="infDataPopupCtrl.blogger.data.zipCode" />
+                                        </fieldset>
+                                    </div>
+
+                                    <div class="form_row_10">
+                                        <div class="lb_minier width_120px">Address</div>
+                                        <fieldset class="typical_form xsmall_field  ">
+                                            <input type="text" ng-model="infDataPopupCtrl.blogger.data.mailingAddress" name="address" autosave model="infDataPopupCtrl.blogger.data.mailingAddress" />
+                                        </fieldset>
+                                    </div>
+                                    <div class="form_row_10">
+                                        <div class="lb_minier width_120px">Email</div>
+                                        <fieldset class="typical_form xsmall_field">
+                                            <input type="text" ng-model="infDataPopupCtrl.blogger.data.influencerData.email" name="email" autosave model="infDataPopupCtrl.blogger.data.influencerData.email" />
+                                        </fieldset>
+                                    </div>
+                                    <div class="form_row_10">
+                                        <div class="lb_minier width_120px">Cell</div>
+                                        <fieldset class="typical_form xsmall_field  ">
+                                            <input type="text" ng-model="infDataPopupCtrl.blogger.data.cellPhone" name="cellPhone" autosave model="infDataPopupCtrl.blogger.data.cellPhone" />
+                                        </fieldset>
+                                    </div>
+                                    <div class="form_row_10">
+                                        <div class="lb_minier width_120px">Representation</div>
+                                        <fieldset class="typical_form xsmall_field">
+                                            <input type="text" ng-model="infDataPopupCtrl.blogger.data.representation" name="representation" autosave model="infDataPopupCtrl.blogger.data.representation" />
+                                        </fieldset>
+                                    </div>
+                                    <div class="form_row_10">
+                                        <div class="lb_minier width_120px">Rep Email</div>
+                                        <fieldset class="typical_form xsmall_field">
+                                            <input type="text" ng-model="infDataPopupCtrl.blogger.data.repEmailAddress" name="repEmailAddress" autosave model="infDataPopupCtrl.blogger.data.repEmailAddress" />
+                                        </fieldset>
+                                    </div>
+                                    <div class="form_row_10">
+                                        <div class="lb_minier width_120px">Rep Phone</div>
+                                        <fieldset class="typical_form xsmall_field">
+                                            <input type="text" ng-model="infDataPopupCtrl.blogger.data.repPhone" name="repPhone" autosave model="infDataPopupCtrl.blogger.data.repPhone" />
+                                        </fieldset>
+                                    </div>
+                                </div>
+                            </fieldset>
+
+
+
+
+                            <!-- SOCIAL STUFF -->
+                            <!-- SOCIAL STUFF -->
+                            <!-- SOCIAL STUFF -->
+                            <!-- SOCIAL STUFF -->
+                            <fieldset ng-form="locationForm" class="typical_form step_container third right social_form" requester>
+                            <div class="form_small_title">Social &amp; URLs</div>
+                                <div class="step_section padding_40_right_only">
+
+                                    <div class="form_row_10 social_globe3">
+                                        <div class="lb_minier"><span class="icon_for_social"></span>Blog URL</div>
+                                        <fieldset class="typical_form xsmall_field  ">
+                                            <input type="text" ng-model="infDataPopupCtrl.blogger.data.influencerData.blogUrl" name="blogUrl" autosave model="infDataPopupCtrl.blogger.data.influencerData.blogUrl" />
+                                        </fieldset>
+                                    </div>
+                                    <div class="form_row_10 social_instagram2">
+                                        <div class="lb_minier"><span class="icon_for_social"></span>Instagram</div>
+                                        <fieldset class="typical_form xsmall_field  ">
+                                            <input type="text" ng-model="infDataPopupCtrl.blogger.data.influencerData.instaUrl" name="instaUrl" autosave model="infDataPopupCtrl.blogger.data.influencerData.instaUrl" />
+                                        </fieldset>
+                                    </div>
+                                    <div class="form_row_10 social_youtube">
+                                        <div class="lb_minier"><span class="icon_for_social"></span>YouTube</div>
+                                        <fieldset class="typical_form xsmall_field  ">
+                                            <input type="text" ng-model="infDataPopupCtrl.blogger.data.influencerData.youtubeUrl" name="youtubeUrl" autosave model="infDataPopupCtrl.blogger.data.influencerData.youtubeUrl" />
+                                        </fieldset>
+                                    </div>
+                                    <div class="form_row_10">
+                                        <div class="lb_minier"><span class="icon_for_social"></span>Snapchat</div>
+                                        <fieldset class="typical_form xsmall_field">
+                                            <input type="text" ng-model="infDataPopupCtrl.blogger.data.influencerData.snapchatUsername" name="snapchatUsername" autosave model="infDataPopupCtrl.blogger.data.influencerData.snapchatUsername" />
+                                        </fieldset>
+                                    </div>
+                                    <div class="form_row_10 social_twitter">
+                                        <div class="lb_minier"><span class="icon_for_social"></span>Twitter</div>
+                                        <fieldset class="typical_form xsmall_field  ">
+                                            <input type="text" ng-model="infDataPopupCtrl.blogger.data.influencerData.twUrl" name="twUrl" autosave model="infDataPopupCtrl.blogger.data.influencerData.twUrl" />
+                                        </fieldset>
+                                    </div>
+                                    <div class="form_row_10 social_facebook">
+                                        <div class="lb_minier"><span class="icon_for_social"></span>Facebook</div>
+                                        <fieldset class="typical_form xsmall_field  ">
+                                            <input type="text" ng-model="infDataPopupCtrl.blogger.data.influencerData.fbUrl" name="fbUrl" autosave model="infDataPopupCtrl.blogger.data.influencerData.fbUrl" />
+                                        </fieldset>
+                                    </div>
+                                    <div class="form_row_10 social_pinterest">
+                                        <div class="lb_minier"><span class="icon_for_social"></span>Pinterest</div>
+                                        <fieldset class="typical_form xsmall_field  ">
+                                            <input type="text" ng-model="infDataPopupCtrl.blogger.data.influencerData.pinUrl" name="pinUrl" autosave model="infDataPopupCtrl.blogger.data.influencerData.pinUrl" />
+                                        </fieldset>
+                                    </div>
+
+                                </div>
+                            </fieldset>
+
+
+                        </div>
+                    </div>
+
+
+                    <!-- TAGS -->
+                    <!-- TAGS -->
+                    <!-- TAGS -->
+                    <!-- TAGS -->
+                    <div class="a_form_group padding_40_sides clearfix" style="padding-top:40px!important; margin-top:40px; border-top:1px solid #c4c4c4;">
+                        <fieldset ng-form="characteristicsForm" class="typical_form" requester>
+                            <div class="form_small_title">Tags</div>
+                            <div class="step_section padding_40_right_only">
+                                
+                                <div class="form_row_10">
+                                    <div class="lb_minier">Occupation</div>
+                                    <fieldset class="typical_form xsmall_field">
+                                        <div class="r29_tags">
+                                            <div tag-bubbles choices="infDataPopupCtrl.blogger.data.metadata.occupationChoices" output="infDataPopupCtrl.blogger.data.occupation" blogger="infDataPopupCtrl.blogger"></div>
+                                        </div>
+                                        <!--<div isteven-multi-select input-model="infDataPopupCtrl.metadata.occupation_choices" output-model="infDataPopupCtrl.blogger.data.occupation" item-label="name" button-label="name" tick-property="ticked" max-height="250px"></div>-->
+                                    </fieldset>
+                                </div>
+                                <div class="form_row_10 clearfix">
+                                    <div class="lb_minier">Category</div>
+                                    <!--fieldset class="typical_form xsmall_field  ">
+                                        <div isteven-multi-select input-model="infDataPopupCtrl.blogger.categories" output-model="infDataPopupCtrl.blogger.category" item-label="name" button-label="name" tick-property="ticked"></div>
+                                    </fieldset-->
+                                    <div class="r29_tags">
+                                        <div tag-bubbles choices="infDataPopupCtrl.blogger.data.metadata.categoryChoices" output="infDataPopupCtrl.blogger.data.categories" blogger="infDataPopupCtrl.blogger"></div>
+                                    </div>
+                                </div>
+                                <div class="x_space x_30"></div>
+                                <div class="form_row_10 clearfix">
+                                    <div class="lb_minier">Sex</div>
+                                    <!--fieldset class="typical_form xsmall_field  ">
+                                        <div isteven-multi-select input-model="infDataPopupCtrl.blogger.categories" output-model="infDataPopupCtrl.blogger.category" item-label="name" button-label="name" tick-property="ticked"></div>
+                                    </fieldset-->
+                                    <div class="r29_tags">
+                                        <div tag-bubbles choices="infDataPopupCtrl.blogger.data.metadata.sexChoices" output="infDataPopupCtrl.blogger.data.sex" blogger="infDataPopupCtrl.blogger"></div>
+                                    </div>
+                                </div>
+                                <div class="x_space x_30"></div>
+                                <div class="form_row_10 clearfix">
+                                    <div class="lb_minier">Ethnicity</div>
+                                    <!--fieldset class="typical_form xsmall_field  ">
+                                        <div isteven-multi-select input-model="infDataPopupCtrl.blogger.categories" output-model="infDataPopupCtrl.blogger.category" item-label="name" button-label="name" tick-property="ticked"></div>
+                                    </fieldset-->
+                                    <div class="r29_tags">
+                                        <div tag-bubbles choices="infDataPopupCtrl.blogger.data.metadata.ethnicityChoices" output="infDataPopupCtrl.blogger.data.ethnicity" blogger="infDataPopupCtrl.blogger"></div>
+                                    </div>
+                                </div>
+                                <div class="x_space x_30"></div>
+
+
+                                <div class="form_row_10 clearfix">
+                                    <div class="lb_minier">Tags</div>
+                                    <!--fieldset class="typical_form xsmall_field  ">
+                                        <div isteven-multi-select input-model="infDataPopupCtrl.blogger.categories" output-model="infDataPopupCtrl.blogger.category" item-label="name" button-label="name" tick-property="ticked"></div>
+                                    </fieldset-->
+                                    <div class="r29_tags">
+                                        <div tag-bubbles choices="infDataPopupCtrl.blogger.data.metadata.tagsChoices" output="infDataPopupCtrl.blogger.data.tags" blogger="infDataPopupCtrl.blogger"></div>
+                                    </div>
+                                </div>
+
+
+                                <div class="x_space x_20"></div>
+                                <br/>
+                            </div>
+                        </fieldset>
+                    </div>
+                </form>
+            </div>
+
+            <div ng-if="customPopupCtrl.tab == 2">
+                <form name="productInfoForm">
+                    <div class="a_form_group padding_40_sides clearfix">                        
+                        <div class="form_title">Team Notes</div>
+                        <div class="form_instruction main_instructions"></div>
+                    </div>
+
+
+
+
+
+                    <div class="form_divider w_0_20_pad_mag"></div>
+                    <div class="a_form_group padding_40_sides clearfix">
+                        <div class="flex_row_steps">
+                            <fieldset ng-form="teamNotesForm" class="typical_form step_container halfer left">
+                                <div class="form_small_title">Team Notes</div>
+                                <div class="step_section padding_40_right_only">
+                                    <div class="form_row_10">
+                                        <div class="lb_minier width_120px"></div>
+                                        <fieldset class="typical_form xsmall_field">
+                                            <textarea type="text" ng-model="infDataPopupCtrl.blogger.data.notes" name="notes" autosave model="infDataPopupCtrl.blogger.data.notes" cols="25" rows="3"></textarea>
+                                        </fieldset>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+
+        <div ng-if="state == 'loading'" class="a_form_page_content">
+            <div main-loader></div>
+        </div>
+    </div>
+</div>

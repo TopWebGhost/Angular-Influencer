@@ -1,0 +1,4 @@
+<div>
+    <button class="square_bt teal_bt xxs rounded less_pad" ng-repeat="value in values track by $index">{{value}}<span ng-show="editing" ng-click="removeValue($index)">&nbsp;x</span></button>
+    <input ng-show="editing" ng-model="cval"/>
+</div>

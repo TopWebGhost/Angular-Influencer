@@ -1,0 +1,39 @@
+<div borderless-black-popup auto-open-delay="500">
+    <div class="content_area_container px800 center_box white">
+        <div style="display: none">
+            <input class="input_image" type="file" accept="image/*" />
+        </div>
+        <h2 class="upload_instructions" ng-show="state == 'error'">
+            <span class="title">There was problem with your image!</span>
+            <br>
+            <br>
+            <br>
+            <span class="square_bt md teal_bt" ng-click="select_img()" style="cursor:pointer">Browse for another photo</span>
+        </h2>
+        <h2 class="upload_instructions" ng-show="state == 'opened'">
+            <span class="title">Browse for a photo on your computer</span>
+            <br>
+            <br>
+            <br>
+            <span class="square_bt md teal_bt" ng-click="select_img()" style="cursor:pointer">Browse for photo</span>
+        </h2>
+        <h2 class="upload_instructions" ng-show="state == 'crop'">
+            <span class="title">Now crop your photo</span>
+            <br>
+            <span class='instruct'>By clicking and dragging over the image until its the desired dimensions. Then click upload.</span>
+            <br>
+            <span class="square_bt md teal_bt" ng-click="upload()" style="cursor:pointer" ng-hide="upload_blocked">Upload</span>
+        </h2>
+        <h2 class="upload_instructions" ng-show="state == 'uploading'">
+            <span class="title">Uploading your photo...</span>
+            <br>
+            <span class='instruct'>Please stand by for a sec :)</span>
+        </h2>
+        <h2 class="upload_instructions" ng-show="state == 'success'">
+            <span class="title">Done :)</span>
+            <br>
+            <span class='instruct'>Reloading page</span>
+        </h2>
+        <img class="profile_image" ng-show="state == 'crop'" style="position: fixed;top: 200px;" />
+    </div>
+</div>

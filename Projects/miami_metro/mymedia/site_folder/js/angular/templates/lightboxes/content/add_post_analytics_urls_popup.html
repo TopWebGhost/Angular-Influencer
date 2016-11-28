@@ -1,0 +1,210 @@
+<div>
+    <div class="centered_block setup_wizard">
+
+        <div ng-if="state == 'error'">
+            <h1 class="lb_title lg">{{ errorMessage }}</h1>
+        </div>
+
+        <div ng-if="state == 'display_message'">
+            <h1 class="lb_title lg">{{ message_text }}</h1>
+        </div>
+
+        <div ng-if="state == 'loading'">
+            <div main-loader></div>
+        </div>
+
+        <div ng-if="state == 'saving'">
+            <div main-loader></div>
+        </div>
+
+        <div ng-if="state == 'after_report_added'">
+            <h1 class="lb_title lg">{{ afterReportAddedText }}</h1>
+            <a href="/">Go to the Main Search</a>
+        </div>
+
+        <div ng-if="state == 'opened'">
+            <div class="report-edit-content">
+                <div class="report-wizard">
+                  <accordion close-others="oneAtATime">
+
+                    <accordion-group is-open="status[0]['is_open']" is-disabled="status[0]['can_edit'] == false" ng-class="{ 'current-step': current_step == 0, 'completed-step': status[0]['is_completed'] }">
+                        <accordion-heading>
+                            <div class="wizard-head-wrapper" ng-click="moveStep(0)">
+                                <span class="step-number">1</span>
+                                <span class="step_name" ng-show="isStepValid(0) && !status[0]['is_open']">{{ reportData.name }}</span>
+                                <span class="step_name" ng-hide="isStepValid(0) && !status[0]['is_open']">{{ namePlaceholder() }}</span>
+                            </div>
+                        </accordion-heading>
+
+                        <div class="a_form_group padding_40_all clearfix">
+                            <div class="form_instruction main_instructions" ng-show="isReport()">Select a name for your report. This is not the name that will show up on the report you download. It's for your internal use only.</div>
+                            <div class="form_instruction main_instructions" ng-hide="isReport()">Select a name for your collection.</div>
+                            
+
+                            <div class="inner_sect">
+                                <form name="forms.form_step1" ng-submit="submitStep(0)">
+                                    <fieldset class="typical_form">
+                                        <input name="report_name" ng-model="reportData.name" type="name" required class="ng-pristine ng-invalid ng-invalid-required" style="float: left; width: 300px;" placeholder="Report Name" style="width: 100%!important;">
+                                        <span ng-hide="true || !isChanged || reportData.name" class="pav_validation">Enter non-empty name</span>
+                                    </fieldset>
+                                </form>
+                            </div>
+                        </div>
+
+                        <div class="form_divider"></div>
+
+                        <button class="next-step-button" type="button" ng-click="submitStep(0)">
+                            <span ng-show="isEdit()">Done</span>
+                            <span ng-hide="isEdit()">Next</span>
+                        </button>
+                    </accordion-group>
+
+                    <accordion-group ng-if="!isReport() || reportId" is-open="status[1]['is_open']" is-disabled="status[1]['can_edit'] == false" ng-class="{ 'current-step': current_step == 1, 'completed-step': status[1]['is_completed'] }">
+                        <accordion-heading>
+                            <div class="wizard-head-wrapper" ng-click="moveStep(1)">
+                                <span class="step-number">2</span>
+                                <span class="step_name" ng-show="isStepValid(1) && !status[1]['is_open']">
+                                    <span>{{ reportData.enteredUrls.length }} posts are already entered</span>
+                                    <span ng-show="reportData.extractedUrls().length > 0">, about to add {{ reportData.extractedUrls().length }} new posts</span>
+                                </span>
+                                <span class="step_name" ng-hide="isStepValid(1) && !status[1]['is_open']">Add Posts</span>
+                            </div>
+                        </accordion-heading>
+                        <div class="a_form_group padding_40_all clearfix">
+
+                            <div class="form_instruction main_instructions" ng-show="isReport()">To run your report, you need to add a set of post urls to the text box below. <br/>IMPORTANT : Before you SAVE, make sure that you have entered actual BLOG POST urls (not just the blog domain), because this will cause your analytics to be much higher than the correct counts.</div>
+                            <div class="form_instruction main_instructions" ng-hide="isReport()">Before running your report, make sure that you have added actual url (not just the blog domain). This is important because it will cause a delay in your report. (The blog posts you've added in the past are listed to the right.) </div>
+                        </div>
+
+
+                        <div class="form_divider"></div>
+
+
+
+                        <div class="a_form_group padding_40_sides clearfix">
+                            <form class="flex_row_steps" name="forms.form_step2" ng-submit="submitStep(1)">
+                                <fieldset class="typical_form step_container halfer left">
+                                    <div class="step_section">
+                                        <div class="form_mid_title">Enter URLs</div>
+                                        <div class="form_instruction">Add your list here. Put ONE PER LINE.</div>
+                                        <textarea class="form_row_40" name="postUrls" ng-model="reportData.urls" cols="30" rows="10" placeholder="Enter in your blog urls" style="resize: none!important;"></textarea>
+                                        <button type="button" ng-click="submitStep(1)" class="normal_bt md teal_bt">
+                                            <span ng-show="isEdit()">Done</span>
+                                            <span ng-hide="isEdit()">Finish</span>
+                                        </button>
+                                    </div>
+                                </fieldset>
+                                <fieldset class="typical_form step_container halfer right">
+                                    <div class="step_section">
+                                        <div class="form_mid_title">URLs in This Report</div>
+                                        <div class="form_instruction">After you add urls and save the report they will show up here. You can also remove them using the X.</div>
+                                        <div class="form_divider w_20_0_pad_mag"></div>
+                                        <div ng-show="reportData.enteredUrls && reportData.enteredUrls.length > 0" class="nano" style="height: 225px;">
+                                            <div class="content nano-content" style="margin-right: 25px;">
+                                                <span ng-repeat="pa in reportData.enteredUrls track by $index" style="display: block; margin-bottom: 5px;">
+                                                    <span><a class="darker_teal one_line_inline sans_type" style="width:90%; margin-bottom:5px; font-size:13px;" ng-href="{{ pa.post_url }}" target="_blank" ng-class="{temp_delete: pa.removed}">{{ pa.post_url }}</a></span>
+                                                    <!--<span ng-click="removePostAnalytics(pa.remove_url, $index)">x</span>-->
+                                                    <span class="tiny_action_bt" ng-hide="pa.removed" ng-click="toggleRemoved(pa)">x</span>
+                                                    <span class="tiny_action_bt" ng-show="pa.removed" ng-click="toggleRemoved(pa)">+</span>
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                        <div ng-show="false && reportData.enteredUrls && reportData.enteredUrls.length > 0">
+                                            <input type="checkbox" name="showOnlyUnique" ng-model="reportData.showOnlyUnique" />
+                                            <label for="showOnlyUnique">Only Unique</label>
+                                        </div>
+
+                                        <div ng-hide="reportData.enteredUrls && reportData.enteredUrls.length > 0">
+                                            <span class="text_alert_message nice_alert">(No urls entered so far)</span>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </form>
+                        </div>
+
+                        <div class="form_divider"></div>
+                    </accordion-group>
+
+
+
+
+
+
+
+                    <accordion-group ng-if="isReport() && !reportId" is-open="status[1]['is_open']" is-disabled="status[1]['can_edit'] == false" ng-class="{ 'current-step': current_step == 1, 'completed-step': status[1]['is_completed'] }">
+                        <accordion-heading>
+                            <div class="wizard-head-wrapper" ng-click="moveStep(1)">
+                                <span class="step-number">2</span>
+                                <span class="step_name" ng-show="isStepValid(1) && !status[1]['is_open']">
+                                    <span ng-show="reportData.newCollectionName">Create new "{{ reportData.newCollectionName }}" collection</span>
+                                    <span ng-show="reportData.selectedCollection.value">Select existing "{{ reportData.selectedCollection.text }}" collection</span>
+                                </span>
+                                <span class="step_name" ng-hide="isStepValid(1) && !status[1]['is_open']">Link to a Post-Collection</span>
+                            </div>
+                        </accordion-heading>
+                        <div class="a_form_group padding_40_all clearfix">
+                            <div class="form_instruction main_instructions">ROI prediction reports are based on historical post data. To run the most accurate report possible, we have you bookmark the actual posts that you want analyzed. Then we'll run the report over the influencers as well as their specific posts so that you have a more accurate idea of what a post with them would generate in terms of ROI. You can do this one of two ways.</div>
+                            
+                        </div>
+
+                        <div class="form_divider"></div>
+
+                        <div class="a_form_group padding_40_sides clearfix">
+
+                            <form class="flex_row_steps" name="forms.form_step2" ng-submit="submitStep(1)">
+                                <fieldset class="typical_form step_container halfer left">
+                                    <div class="step_section">
+                                        <div class="form_mid_title">1. If you have not created a list of posts:</div>
+                                        <div class="form_instruction">You can name your Post collection here. Then go back to the Search page, perform a search, and bookmark posts from the blog post page.</div>
+                                        <fieldset class="typical_form">
+                                            <input name="collection_name" ng-disabled="reportData.selectedCollection.value" ng-model="reportData.newCollectionName" type="name" required class="ng-pristine ng-invalid ng-invalid-required" placeholder="Post Collection Name" style="width: 100%!important;">
+                                        </fieldset>
+                                        <fieldset ng-show="reportData.newCollectionName" class="typical_form" >
+                                            <button type="button" ng-click="reportData.clearCollectionName()" class="square_bt md teal_bt"><span>Clear</span></button>
+                                        </fieldset>
+                                        <div class="x_space x_30"></div>
+                                    </div>
+                                </fieldset>
+                                <fieldset class="typical_form step_container halfer right">
+                                    <div class="step_section">
+                                        <div class="form_mid_title">2. If you already have a collection of posts:</div>
+                                        <div class="form_instruction">Select it from the dropdown of collections below.</div>
+                                        <fieldset class="typical_form" >
+                                            <div class="post_collection_select"
+                                                dropdown-select="reportData.collections"
+                                                dropdown-model="reportData.selectedCollection"
+                                                dropdown-model-object="reportData"
+                                                dropdown-onchange="reportData.updateCollection(selected)"
+                                                dropdown-disabled="reportData.newCollectionName"
+                                            ></div>
+                                        </fieldset>
+                                        <fieldset ng-show="reportData.selectedCollection.value" class="typical_form  quarter" >
+                                            <button type="button" ng-click="reportData.clearCollectionSelect()" class="square_bt xs teal_bt">Clear</button>
+                                        </fieldset>
+                                        <div class="x_space x_30"></div>
+                                    </div>
+                                </fieldset>                                
+                            </form>
+                        </div>
+
+
+                        <div class="form_divider"></div>
+                        <button class="next-step-button" type="button" ng-click="submitStep(1)" class="square_bt md teal_bt">
+                            <span ng-show="isEdit()">Done</span>
+                            <span ng-hide="isEdit()">Finish</span>
+                        </button>
+                    </accordion-group>        
+
+                </accordion>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+
+

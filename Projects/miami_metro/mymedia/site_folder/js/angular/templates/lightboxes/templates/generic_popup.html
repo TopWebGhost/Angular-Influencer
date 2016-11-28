@@ -1,0 +1,24 @@
+<div ng-cloak>
+    <div ng-if="visible" style="z-index: {{layer}}; position: relative;">
+
+
+        <!-- GENERIC LIGHTBOX -->
+        <!-- GENERIC LIGHTBOX -->
+        <!-- black overlay -->
+        <div class="black_overlay"></div>
+        <!-- lightbox container -->
+        <div class="lightbox dynamic" ng-class="{bl_bg_lb: backgroundType == 'black'}">
+            <div class="container">
+                <div class="content_area">
+                    <a class="close_button lightbox_close" ng-click="close()" ng-hide="hideCloseButton || no_close"><p class="icon-letter_x02"></p></a>
+                    <!-- load content here -->
+                    <div ng-transclude></div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+

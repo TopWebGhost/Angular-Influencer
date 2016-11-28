@@ -1,0 +1,45 @@
+<div bindonce="multiSelectCtrl">
+
+    <div bo-if="multiSelectCtrl.isVisible()" class="search_section" ng-class="{toggle_section_open: bloggerSearchFiltersCtrl.toggledFilters[multiSelectFilterCtrl.filterName]}">
+
+        <div bo-if="multiSelectCtrl.isDisabled()" class="disabler" click-emitter="featureLocked"></div>
+        <div class="mini_title" ng-click="bloggerSearchFiltersCtrl.toggleFilter(multiSelectFilterCtrl.filterName)">
+            <span class="title" bo-text="multiSelectCtrl.filterTitle"></span>
+            <span class="question bs_tooltip" bo-title="multiSelectCtrl.filterHint" data-placement="top">?</span>
+        </div>
+
+        <div class="filter_content" ng-if="bloggerSearchFiltersCtrl.toggledFilters[multiSelectFilterCtrl.filterName]">
+            <div class="generic_search clearfix">
+                <div class="generic_search_box xsmall_field typical_form">
+                    <input type="text" bo-attr bo-attr-placeholder="multiSelectCtrl.searchPlaceholder" class="autocomplete" ng-model="multiSelectFilterCtrl.searchModel" ng-change="multiSelectFilterCtrl.updateResults()">
+                </div>
+            </div>
+            <div class="cb_or_rb_wrap">
+                <div ng-show="multiSelectFilterCtrl.loading" main-loader style="margin-left: -15px;"></div>
+                <div ng-hide="multiSelectFilterCtrl.loading" class="nano">
+
+                    <div bo-if="!multiSelectCtrl.config.remoteSearch" class="content nano-content">
+                        <span ng-repeat="opt in multiSelectFilterCtrl.filterOptions | filter:multiSelectFilterCtrl.searchModel" bindonce>
+                            <input bo-attr bo-attr-name="multiSelectCtrl.filterName + '_' + opt.value" type="checkbox" bo-id="multiSelectCtrl.filterName + '_' + opt.value" name="cc" ng-click="bloggerSearchFiltersCtrl.toggleTypeFilter(multiSelectFilterCtrl.filterName, opt.value)" ng-checked="bloggerSearchFiltersCtrl.hasTypeFilter(multiSelectFilterCtrl.filterName, opt.value)" />
+                            <label bo-attr bo-attr-for="multiSelectCtrl.filterName + '_' + opt.value">
+                                <span class="graphic plus_btn"></span><span bo-text="opt.title"></span>
+                                <!--<span ng-if="context.isSuperuser" class="num_count">&nbsp;{{opt.count}}</span>-->
+                            </label>
+                        </span>
+                    </div>
+
+                    <div bo-if="multiSelectCtrl.config.remoteSearch" class="content nano-content">
+                        <span ng-repeat="opt in multiSelectFilterCtrl.filterOptions" bindonce>
+                            <input bo-attr bo-attr-name="multiSelectCtrl.filterName + '_' + opt.value" type="checkbox" bo-id="multiSelectCtrl.filterName + '_' + opt.value" name="cc" ng-click="bloggerSearchFiltersCtrl.toggleTypeFilter(multiSelectFilterCtrl.filterName, opt.value, $event)" ng-checked="bloggerSearchFiltersCtrl.hasTypeFilter(multiSelectFilterCtrl.filterName, opt.value)" />
+                            <label bo-attr bo-attr-for="multiSelectCtrl.filterName + '_' + opt.value">
+                                <span class="graphic plus_btn"></span><span bo-text="opt.title"></span>
+                                <!--<span ng-if="context.isSuperuser" class="num_count">&nbsp;{{opt.count}}</span>-->
+                            </label>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

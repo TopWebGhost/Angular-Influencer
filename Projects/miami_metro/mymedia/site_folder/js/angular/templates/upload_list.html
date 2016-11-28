@@ -1,0 +1,9 @@
+<ul class="upload_list">
+    <li ng-repeat="item in files" ng-show="!_.isEmpty(item)">
+        <span class="upload_file_name">{{ item.name }}</span>
+        <span class="upload_file_size">({{ item.size }})</span>
+        <a class="upload_cancel_button" ng-click="unselectFile($index)">
+            <span class="icon-letter_x03"></span>
+        </a>
+    </li>
+</ul>

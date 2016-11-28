@@ -1,0 +1,816 @@
+<div fixed-white-background-popup>
+    <div class="content_area_container px1000 a_form_page with_lb_nav_bar">
+
+        <div ng-if="state == 'opened'" class="a_form_page_content">
+
+            <div class="row_of_lb_links">
+                <div class="lb_nav_link" ng-class="{selected: customPopupCtrl.tab == 1}" ng-click="customPopupCtrl.setTab(1)">Blogger Details/Contract</div>
+                <div class="lb_nav_link" ng-class="{selected: customPopupCtrl.tab == 2}" ng-click="customPopupCtrl.setTab(2)" ng-if="customPopupCtrl.openOptions.pipelineData.info.sending_product_on">Product Shipping</div>
+                <!--<div class="lb_nav_link" ng-class="{selected: customPopupCtrl.tab == 3}" ng-click="customPopupCtrl.tab = 3" ng-if="customPopupCtrl.openOptions.pipelineData.info.tracking_codes_on">Posts/Tracking</div>-->
+                <div class="lb_nav_link" ng-class="{selected: customPopupCtrl.tab == 3}" ng-click="customPopupCtrl.setTab(3)">Posts</div>
+                <div class="lb_nav_link" ng-class="{selected: customPopupCtrl.tab == 5}" ng-click="customPopupCtrl.setTab(5)" ng-if="customPopupCtrl.openOptions.pipelineData.info.tracking_codes_on">Tracking</div>
+                <div class="lb_nav_link" ng-class="{selected: customPopupCtrl.tab == 4}" ng-click="customPopupCtrl.setTab(4)">Payment</div>
+                <div class="lb_nav_link" ng-if="customPopupCtrl.openOptions.pipelineData.postApprovalEnabled" ng-class="{selected: customPopupCtrl.tab == 6}" ng-click="customPopupCtrl.setTab(6)">Post Approval</div>
+            </div>
+
+            <div ng-if="customPopupCtrl.tab == 1">
+
+                <!-- WHEN THE CONTRACT IS ON -->
+                <!-- WHEN THE CONTRACT IS ON -->
+                <!-- WHEN THE CONTRACT IS ON -->
+                <div ng-if="customPopupCtrl.openOptions.signingContractOn">
+                    <form name="contractDetailsForm">
+
+                        <div class="a_form_group padding_40_sides clearfix">                        
+                            <div class="form_title">Blogger Details &amp; Contract</div>
+                            <!--<div class="form_instruction main_instructions">Please review the details below before you collect details (and the contract, if enabled). You can view the <a ng-href="{{ customPopupCtrl.openOptions.values.contractPreviewUrl }}" target="_blank">contract</a> before sending.</div>-->
+                            <div class="form_instruction main_instructions">Please review the details below before you collect details (and the contract, if enabled). <span ng-if="customPopupCtrl.openOptions.values.contractStatus.value < 3">You can view the <a class="txt_link darker_teal" broadcaster ng-click="broadcasterCtrl.broadcast('openPdfDocumentPopup', {url: customPopupCtrl.openOptions.values.contractPreviewUrl})">contract</a> before sending.</span><span ng-if="customPopupCtrl.openOptions.values.contractStatus.value == 3">You can view the signed <a class="txt_link darker_teal" broadcaster ng-click="broadcasterCtrl.broadcast('openPdfDocumentPopup', {url: customPopupCtrl.openOptions.values.downloadContractUrl})">contract</a>.</span> Here is a link to the page that they will be viewing: <a ng-show="customPopupCtrl.openOptions.values.collectDetailsStatus.value > 0" class="txt_link darker_teal" ng-href="{{ customPopupCtrl.openOptions.values.bloggerPageUrl }}" target="_blank">collect details page</a><a ng-show="customPopupCtrl.openOptions.values.collectDetailsStatus.value == 0" class="txt_link darker_teal" ng-href="{{ customPopupCtrl.openOptions.values.bloggerPagePreviewUrl }}" target="_blank">collect details page</a>.</div>
+                        </div>
+                        <!-- actions section -->
+                        <!-- actions section -->
+                        <div class="form_divider w_20_0_pad_mag"></div>
+                        <div class="a_form_group padding_40_sides clearfix">    
+                            <div class="brand_actions">
+                                <div class="individual_brand_action" ng-if="customPopupCtrl.openOptions.values.collectDetailsStatus.value == 0">
+
+                                    <button class="normal_bt sm teal_bt" broadcaster ng-click="broadcasterCtrl.broadcast('openSendEmailPopup', {url: customPopupCtrl.openOptions.sendCollectDataUrl, template: customPopupCtrl.openOptions.pipelineData.info.collect_details_template.template, subject: customPopupCtrl.openOptions.pipelineData.info.collect_details_template.subject, templateContext: customPopupCtrl.openOptions.templateContext, successCb: customPopupCtrl.updatedCb, status: customPopupCtrl.openOptions.values.collectDetailsStatus, templateContextUrl: customPopupCtrl.openOptions.templateContextUrl, bloggerPagePreviewUrl: customPopupCtrl.openOptions.bloggerPagePreviewUrl, extraUrls: [{type: 'broadcast', name: 'View Contract', eventName: 'openPdfDocumentPopup', eventOptions: {url: customPopupCtrl.openOptions.values.contractStatus.value == 3 ? customPopupCtrl.openOptions.values.downloadContractUrl : customPopupCtrl.openOptions.values.contractPreviewUrl}}]})">
+                                        <span>Collect Details &amp; Contract</span>
+                                    </button>
+
+                                </div>
+                                <div ng-if="customPopupCtrl.openOptions.values.collectDetailsStatus.value > 0">
+                                    <div class="individual_brand_action" ng-class="{'brand_not_sent_yet': customPopupCtrl.openOptions.values.collectDetailsStatus.value == 0, 'brand_pending': customPopupCtrl.openOptions.values.collectDetailsStatus.value == 1, 'brand_complete': customPopupCtrl.openOptions.values.collectDetailsStatus.value == 2}">
+                                        <span class="brand_action_label">Collect Details: </span>
+                                        <span class="brand_action_status">{{ customPopupCtrl.openOptions.values.collectDetailsStatus.name }}</span>&nbsp;
+                                        
+                                        <span class="mini_action_btn" broadcaster ng-click="broadcasterCtrl.broadcast('openSendEmailPopup', {url: customPopupCtrl.openOptions.sendCollectDataUrl, template: customPopupCtrl.openOptions.pipelineData.info.collect_details_template.template, subject: customPopupCtrl.openOptions.pipelineData.info.collect_details_template.subject, templateContext: customPopupCtrl.openOptions.templateContext, successCb: customPopupCtrl.updatedCb, status: customPopupCtrl.openOptions.values.collectDetailsStatus, templateContextUrl: customPopupCtrl.openOptions.templateContextUrl, bloggerPagePreviewUrl: customPopupCtrl.openOptions.bloggerPagePreviewUrl})" ng-if="customPopupCtrl.openOptions.values.collectDetailsStatus.value == 1">Send Reminder</span>
+                                    </div>
+                                    <div class="individual_brand_action" ng-class="{'brand_not_sent_yet': customPopupCtrl.openOptions.values.contractStatus.value == 0, 'brand_pending': customPopupCtrl.openOptions.values.contractStatus.value > 0 && customPopupCtrl.openOptions.values.contractStatus.value != 3, 'brand_complete': customPopupCtrl.openOptions.values.contractStatus.value == 3}">
+                                        <span class="brand_action_label">Contract: </span>
+                                        <span class="brand_action_status" >{{ customPopupCtrl.openOptions.values.contractStatus.name }}</span>&nbsp;
+
+                                        <span class="mini_action_btn" broadcaster ng-click="broadcasterCtrl.broadcast('openSendEmailPopup', {url: customPopupCtrl.openOptions.sendContractReminderUrl, template: customPopupCtrl.openOptions.pipelineData.info.collect_details_template.template, subject: customPopupCtrl.openOptions.pipelineData.info.collect_details_template.subject, templateContext: customPopupCtrl.openOptions.templateContext, successCb: customPopupCtrl.updatedCb, status: customPopupCtrl.openOptions.values.contractStatus, templateContextUrl: customPopupCtrl.openOptions.templateContextUrl,})" ng-if="customPopupCtrl.openOptions.values.contractStatus.value > 0 && customPopupCtrl.openOptions.values.contractStatus.value != 3">Send Reminder</span>
+
+                                        <span ng-if="customPopupCtrl.openOptions.values.contractStatus.value == 3" broadcaster ng-click="broadcasterCtrl.broadcast('openPdfDocumentPopup', {url: customPopupCtrl.openOptions.downloadContractUrl})" class="mini_action_btn">View Contract</span>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        
+
+
+                        <!-- GLOBAL DETAILS -->
+                        <!-- GLOBAL DETAILS -->
+                        <div class="form_divider w_20_20_pad_mag"></div>
+                        <div class="x_space x_20"></div>
+                        <div ng-form="deliverablesForm" class="a_form_group padding_40_sides clearfix" requester attached-form="deliverablesForm" on-form-dirty="requesterCtrl.doRequest({method: 'POST', url: '/update_model/', successCb: customPopupCtrl.updatedCb, data: {modelName: 'Contract', id: customPopupCtrl.openOptions.contractId, values: {deliverables: customPopupCtrl.openOptions.values.deliverables}}}); deliverablesForm.$setPristine()">  
+                            <div class="inner_section">
+                                <div class="form_small_title">Deliverables <span ng-show="requesterCtrl.loading">(Updating)</span></div>
+                                <div class="deliverables ns-popover-tooltip">
+                                    <div class="deliverable popover_form" ng-class="platformWrappers(name)" ng-repeat="(name, data) in customPopupCtrl.openOptions.values.deliverables">
+                                        <div class="deliverable_text">
+                                            <span class="popover_icon" ng-class="platformIcons(name)"></span><span class="popover_label">{{ name | capitalize }}</span>
+                                        </div>
+                                        <select ng-options="number for number in range10" ng-model="data.value" ng-disabled="requesterCtrl.loading"></select>
+                                    </div>
+                                </div>
+                                <div class="x_space x_30"></div>
+                            </div>
+                        </div>
+                        <div class="form_divider w_0_0_pad_mag"></div>
+                        <div class="a_form_group padding_40_sides clearfix">  
+                            <div class="flex_row_steps">
+                                <fieldset ng-form="postRequirementsForm" class="typical_form step_container halfer left" requester>
+                                    <div class="step_section padding_40">
+                                        <div class="short_stacked_row">
+                                            <div class="form_small_title">Post Requirements</div>
+                                            <fieldset class="typical_form">
+                                                <textarea rows="6" cols="60" ng-model="customPopupCtrl.openOptions.values.requirements" name="requirements" style="resize: none;"></textarea>
+                                            </fieldset>
+                                        </div>
+                                        <button class="normal_bt sm teal_bt" ng-class="{'inactive': postRequirementsForm.$pristine || requester.loading}" ng-click="requesterCtrl.doRequest({method: 'POST', url: '/update_model/', successCb: customPopupCtrl.updatedCb, data: {modelName: 'Contract', id: customPopupCtrl.openOptions.contractId, values: {extra_details: customPopupCtrl.openOptions.values.requirements}}}); postRequirementsForm.$setPristine()" ng-disabled="postRequirementsForm.$pristine || requesterCtrl.loading">
+                                            <span ng-hide="requesterCtrl.loading">Save</span>
+                                            <span ng-show="requesterCtrl.loading">Saving...</span>
+                                        </button>
+                                    </div>
+                                </fieldset>
+                                <fieldset ng-form="dateRangeForm" class="typical_form step_container halfer right" requester attached-form="dateRangeForm" on-form-dirty="requesterCtrl.doRequest({method: 'POST', successCb: customPopupCtrl.updatedCb, url: '/update_model/', data: {modelName: 'Contract', id: customPopupCtrl.openOptions.contractId, values: {start_date: customPopupCtrl.openOptions.values.dateRange.startDate, latest_date: customPopupCtrl.openOptions.values.dateRange.endDate}}}); dateRangeForm.$setPristine()">
+                                    <div class="step_section padding_40">
+                                        <div class="short_stacked_row">
+                                            <div class="form_small_title">Date Range <span ng-show="requesterCtrl.loading">(Updating)</span></div>
+                                            <div date-range-picker ng-model="customPopupCtrl.openOptions.values.dateRange" name="dateRange" ng-disabled="requesterCtrl.loading"></div>
+                                        </div>
+                                        <div class="x_space x_20"></div>
+                                        <br/>
+                                    </div>
+                                </fieldset>
+                            </div>
+                        </div>
+
+
+
+                       
+
+                        <div class="form_divider w_0_0_pad_mag"></div>
+                        <div class="a_form_group padding_40_sides clearfix">  
+                            <div class="flex_row_steps">
+                                <fieldset class="typical_form step_container halfer left">
+                                    <div class="step_section padding_40">
+                                        <div class="short_stacked_row">
+                                            <div class="form_floated_title">Company Name:</div>
+                                            <div class="form_floated_data">{{ customPopupCtrl.openOptions.values.clientName || "---" }}</div>
+                                        </div>
+                                        <div class="short_stacked_row">
+                                            <div class="form_floated_title">Company URL:</div>
+                                            <div class="form_floated_data"><a href='{{ customPopupCtrl.openOptions.values.clientUrl || "---" }}' target="_blank">{{ customPopupCtrl.openOptions.values.clientUrl || "---" }}</a></div>
+                                        </div>
+                                        <div class="short_stacked_row">
+                                            <div class="form_floated_title">Campaign Name:</div>
+                                            <div class="form_floated_data">{{ customPopupCtrl.openOptions.values.campaignName || "---" }}</div>
+                                        </div>
+                                        <div class="short_stacked_row">
+                                            <div class="form_floated_title">Mentions Required:</div>
+                                            <div class="form_floated_data">{{ customPopupCtrl.openOptions.values.mentionsRequired || "---" }}</div>
+                                        </div>
+                                        <div class="short_stacked_row">
+                                            <div class="form_floated_title">Hashtags Required:</div>
+                                            <div class="form_floated_data">{{ customPopupCtrl.openOptions.values.hashtagsRequired || "---" }}</div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                                <fieldset class="typical_form step_container halfer right">
+                                    <div ng-form="bloggerDetailsForm" class="step_section padding_40" requester>
+                                        <div class="short_stacked_row beside_text">
+                                            <div class="lb_mini_title width_120px">Final Rate</div>
+                                            <fieldset class="typical_form smaller_field floated_form_field ">
+                                                <input type="number" ng-model="customPopupCtrl.openOptions.values.finalRate" name="finalRate" min="0">
+                                            </fieldset>
+                                        </div>
+
+                                        <div class="short_stacked_row beside_text">
+                                            <div class="lb_mini_title width_120px">Displayed Rate</div>
+                                            <fieldset class="typical_form smaller_field floated_form_field ">
+                                                <textarea ng-model="customPopupCtrl.openOptions.values.displayedRate" name="displayedRate" style="resize:none;" rows="1"></textarea>
+                                            </fieldset>
+                                        </div>
+
+                                        <div class="short_stacked_row beside_text">
+                                            <div class="lb_mini_title width_120px">Full Name</div>
+                                            <fieldset class="typical_form smaller_field floated_form_field ">
+                                                <input type="text" ng-model="customPopupCtrl.openOptions.values.influencerName" name="influencerName" />
+                                            </fieldset>
+                                        </div>
+
+                                        <div class="short_stacked_row beside_text">
+                                            <div class="lb_mini_title width_120px">Blog Name</div>
+                                            <fieldset class="typical_form smaller_field floated_form_field ">
+                                                <input type="text" ng-model="customPopupCtrl.openOptions.values.blogName" name="blogName" />
+                                            </fieldset>
+                                        </div>
+
+                                        <div class="short_stacked_row beside_text">
+                                            <div class="lb_mini_title width_120px">Entity Name</div>
+                                            <fieldset class="typical_form smaller_field floated_form_field ">
+                                                <input type="text" ng-model="customPopupCtrl.openOptions.values.entityName" name="entityName" />
+                                            </fieldset>
+                                        </div>
+
+                                        <div class="short_stacked_row beside_text">
+                                            <div class="lb_mini_title width_120px">Agent Name</div>
+                                            <fieldset class="typical_form smaller_field floated_form_field ">
+                                                <input type="text" ng-model="customPopupCtrl.openOptions.values.agentName" name="agentName" />
+                                            </fieldset>
+                                        </div>
+
+                                        <div class="short_stacked_row beside_text">
+                                            <div class="lb_mini_title width_120px">Phone Number</div>
+                                            <fieldset class="typical_form smaller_field floated_form_field ">
+                                                <input type="text" ng-model="customPopupCtrl.openOptions.values.phoneNumber" name="phoneNumber" />
+                                            </fieldset>
+                                        </div>
+
+                                        <button class="normal_bt sm teal_bt" ng-class="{'inactive': bloggerDetailsForm.$pristine || requester.loading}" ng-click="requesterCtrl.doRequest({method: 'POST', url: '/update_model/', successCb: customPopupCtrl.updatedCb, data: {list: [{modelName: 'Contract', id: customPopupCtrl.openOptions.contractId, values: {negotiated_price: customPopupCtrl.openOptions.values.finalRate}, json_fields: {info: {publisher_name: customPopupCtrl.openOptions.values.entityName, displayed_rate: customPopupCtrl.openOptions.values.displayedRate, agent_name: customPopupCtrl.openOptions.values.agentName, additional_data: {phone_number: customPopupCtrl.openOptions.values.phoneNumber}}}}, {modelName: 'Influencer', id: customPopupCtrl.openOptions.influencerId, values: {name: customPopupCtrl.openOptions.values.influencerName, blogname: customPopupCtrl.openOptions.values.blogName}}]}}); bloggerDetailsForm.$setPristine()" ng-disabled="bloggerDetailsForm.$pristine || requesterCtrl.loading">
+                                            <span ng-hide="requesterCtrl.loading">Save</span>
+                                            <span ng-show="requesterCtrl.loading">Saving...</span>
+                                        </button>
+
+                                        <br/>
+                                    </div>
+                                </fieldset>
+                            </div>
+                        </div>
+
+
+
+
+                        <div class="form_divider w_60_0_pad_mag" ng-if="customPopupCtrl.openOptions.pipelineData.info.product_links_on && !customPopupCtrl.openOptions.pipelineData.info.same_product_url && customPopupCtrl.openOptions.pipelineData.info.do_select_url"></div>
+
+                        <div class="a_form_group padding_40_sides clearfix" ng-if="customPopupCtrl.openOptions.pipelineData.info.product_links_on && !customPopupCtrl.openOptions.pipelineData.info.same_product_url && customPopupCtrl.openOptions.pipelineData.info.do_select_url">                        
+                            <!--div class="form_title">Blogger Details &amp; Contract</div-->
+                            <div class="form_instruction main_instructions">These instructions are provided to the influencer when collecting their product and payment info. You can edit these here for this one influencer. OR, you can change the requirements in the setup page in order to have the changes affect everyone.</div>
+                        </div>
+
+                        <div class="a_form_group padding_40_sides clearfix" ng-if="customPopupCtrl.openOptions.pipelineData.info.product_links_on && !customPopupCtrl.openOptions.pipelineData.info.same_product_url && customPopupCtrl.openOptions.pipelineData.info.do_select_url">  
+                            <div class="flex_row_steps">
+                                <fieldset ng-form="productSelectionForm" class="typical_form step_container halfer left" requester>
+                                    <div class="step_section">
+                                        <div class="short_stacked_row">
+                                            <div class="form_small_title">Product Selection Instructions</div>
+                                            <fieldset class="typical_form">
+                                                <textarea rows="6" cols="60" style="resize: none;" ng-model="customPopupCtrl.openOptions.values.restrictions" name="restrictions"></textarea>
+                                            </fieldset>
+                                        </div>
+                                        <button class="normal_bt sm teal_bt" ng-class="{'inactive': productSelectionForm.$pristine || requester.loading}" ng-click="requesterCtrl.doRequest({method: 'POST', url: '/update_model/', successCb: customPopupCtrl.updatedCb, data: {list: [{modelName: 'Contract', id: customPopupCtrl.openOptions.contractId, json_fields: {info: {restrictions: customPopupCtrl.openOptions.values.restrictions}}}]}}); productSelectionForm.$setPristine()" ng-disabled="productSelectionForm.$pristine || requesterCtrl.loading">
+                                            <span ng-hide="requesterCtrl.loading">Save</span>
+                                            <span ng-show="requesterCtrl.loading">Saving...</span>
+                                        </button>
+                                    </div>
+
+                                </fieldset>
+                                <fieldset ng-form="paymentTermsForm" requester class="typical_form step_container halfer right">
+                                    <div class="step_section">
+                                        <div class="short_stacked_row">
+
+                                            <div class="form_small_title">Payment Terms</div>
+                                            <fieldset class="typical_form smaller_field">
+                                                <textarea ng-model="customPopupCtrl.openOptions.values.paymentTerms" name="paymentTerms" style="resize:none;" rows="6"></textarea>
+                                            </fieldset>
+                                        </div>
+                                        <button class="normal_bt sm teal_bt" ng-class="{'inactive': paymentTermsForm.$pristine || requester.loading}" ng-click="requesterCtrl.doRequest({method: 'POST', url: '/update_model/', successCb: customPopupCtrl.updatedCb, data: {list: [{modelName: 'Contract', id: customPopupCtrl.openOptions.contractId, values: {negotiated_price: customPopupCtrl.openOptions.values.finalRate}, json_fields: {info: {payment_terms: customPopupCtrl.openOptions.values.paymentTerms}}}]}}); paymentTermsForm.$setPristine()" ng-disabled="paymentTermsForm.$pristine || requesterCtrl.loading">
+                                            <span ng-hide="requesterCtrl.loading">Save</span>
+                                            <span ng-show="requesterCtrl.loading">Saving...</span>
+                                        </button>
+
+                                    </div>
+                                </fieldset>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <!-- WHEN THE CONTRACT IS OFF -->
+                <!-- WHEN THE CONTRACT IS OFF -->
+                <!-- WHEN THE CONTRACT IS OFF -->
+                <div ng-if="!customPopupCtrl.openOptions.signingContractOn">
+                    <form name="contractDetailsForm">
+
+                        <div class="a_form_group padding_40_sides clearfix">                        
+                            <div class="form_title">Blogger Details &amp; Contract</div>
+                            <div class="form_instruction main_instructions">Please review the details below. If you are utilizing our Contracts feature, all data in this popup will be flowed in automatically into your contract. If you are not using Contracts, the data contained in this form will be made available to your influencers in their Campaign Overview page. Here is a link to the page that they will be viewing: <a ng-show="customPopupCtrl.openOptions.values.collectDetailsStatus.value > 0" class="txt_link darker_teal" ng-href="{{ customPopupCtrl.openOptions.values.bloggerPageUrl }}" target="_blank">collect details page</a><a ng-show="customPopupCtrl.openOptions.values.collectDetailsStatus.value == 0" class="txt_link darker_teal" ng-href="{{ customPopupCtrl.openOptions.values.bloggerPagePreviewUrl }}" target="_blank">collect details page</a>.</div>
+                        </div>
+
+                        <div class="a_form_group padding_40_sides clearfix">
+                            <div ng-if="customPopupCtrl.openOptions.values.collectDetailsStatus.value == 0">
+
+                                <button class="normal_bt sm teal_bt" broadcaster ng-click="broadcasterCtrl.broadcast('openSendEmailPopup', {url: customPopupCtrl.openOptions.sendCollectDataUrl, template: customPopupCtrl.openOptions.pipelineData.info.collect_details_template.template, subject: customPopupCtrl.openOptions.pipelineData.info.collect_details_template.subject, templateContext: customPopupCtrl.openOptions.templateContext, successCb: customPopupCtrl.updatedCb, status: customPopupCtrl.openOptions.values.collectDetailsStatus, templateContextUrl: customPopupCtrl.openOptions.templateContextUrl, bloggerPagePreviewUrl: customPopupCtrl.openOptions.bloggerPagePreviewUrl})">
+                                    <span>Collect Details &amp; Contract</span>
+                                </button>
+
+                            </div>
+                            <div ng-if="customPopupCtrl.openOptions.values.collectDetailsStatus.value > 0">
+                                <div>
+                                    <span>Collect Details: </span><span ng-class="{'brand_not_sent_yet': customPopupCtrl.openOptions.values.collectDetailsStatus.value == 0, 'brand_pending': customPopupCtrl.openOptions.values.collectDetailsStatus.value == 1, 'brand_complete': customPopupCtrl.openOptions.values.collectDetailsStatus.value == 2}">{{ customPopupCtrl.openOptions.values.collectDetailsStatus.name }}</span>&nbsp;
+                                    
+                                    <span class="txt_link lessergray" broadcaster ng-click="broadcasterCtrl.broadcast('openSendEmailPopup', {url: customPopupCtrl.openOptions.sendCollectDataUrl, template: customPopupCtrl.openOptions.pipelineData.info.collect_details_template.template, subject: customPopupCtrl.openOptions.pipelineData.info.collect_details_template.subject, templateContext: customPopupCtrl.openOptions.templateContext, successCb: customPopupCtrl.updatedCb, status: customPopupCtrl.openOptions.values.collectDetailsStatus, templateContextUrl: customPopupCtrl.openOptions.templateContextUrl, bloggerPagePreviewUrl: customPopupCtrl.openOptions.bloggerPagePreviewUrl})" ng-if="customPopupCtrl.openOptions.values.collectDetailsStatus.value == 1">Send Reminder</span>
+                                </div>
+                                <!--
+                                <div>
+                                    <span>Contract: </span><span ng-class="{'brand_not_sent_yet': customPopupCtrl.openOptions.values.contractStatus.value == 0, 'brand_pending': customPopupCtrl.openOptions.values.contractStatus.value > 0 && customPopupCtrl.openOptions.values.contractStatus.value != 3, 'brand_complete': customPopupCtrl.openOptions.values.contractStatus.value == 3}">{{ customPopupCtrl.openOptions.values.contractStatus.name }}</span>&nbsp;
+
+                                    <span class="txt_link lessergray" broadcaster ng-click="broadcasterCtrl.broadcast('openSendEmailPopup', {url: customPopupCtrl.openOptions.sendContractReminderUrl, template: customPopupCtrl.openOptions.pipelineData.info.collect_details_template.template, subject: customPopupCtrl.openOptions.pipelineData.info.collect_details_template.subject, templateContext: customPopupCtrl.openOptions.templateContext, successCb: customPopupCtrl.updatedCb, status: customPopupCtrl.openOptions.values.contractStatus, templateContextUrl: customPopupCtrl.openOptions.templateContextUrl,})" ng-if="customPopupCtrl.openOptions.values.contractStatus.value > 0 && customPopupCtrl.openOptions.values.contractStatus.value != 3">Send Reminder</span>
+
+                                    <span ng-if="customPopupCtrl.openOptions.values.contractStatus.value == 3" a-href="{{ customPopupCtrl.openOptions.downloadContractUrl }}" class="txt_link lessergray">Download Contract</span>
+                                </div>
+                                -->
+                            </div>
+
+                        </div>
+
+
+                        <!-- GLOBAL DETAILS -->
+                        <!-- GLOBAL DETAILS -->
+                        <div class="form_divider w_30_0_pad_mag"></div>
+                        <div ng-form="deliverablesForm" class="a_form_group padding_40_sides clearfix" requester attached-form="deliverablesForm" on-form-dirty="requesterCtrl.doRequest({method: 'POST', url: '/update_model/', successCb: customPopupCtrl.updatedCb, data: {modelName: 'Contract', id: customPopupCtrl.openOptions.contractId, values: {deliverables: customPopupCtrl.openOptions.values.deliverables}}}); deliverablesForm.$setPristine()">  
+                            <div class="inner_section">
+                                <div class="form_small_title">Deliverables <span ng-show="requesterCtrl.loading">(Updating)</span></div>
+                                <div class="deliverables ns-popover-tooltip">
+                                    <div class="deliverable popover_form" ng-class="platformWrappers(name)" ng-repeat="(name, data) in customPopupCtrl.openOptions.values.deliverables">
+                                        <div class="deliverable_text">
+                                            <span class="popover_icon" ng-class="platformIcons(name)"></span><span class="popover_label">{{ name | capitalize }}</span>
+                                        </div>
+                                        <select ng-options="number for number in range10" ng-model="data.value" ng-disabled="requesterCtrl.loading"></select>
+                                    </div>
+                                </div>
+                                <div class="x_space x_30"></div>
+                            </div>
+                        </div>
+                        <div class="form_divider w_0_0_pad_mag"></div>
+                        <div class="a_form_group padding_40_sides clearfix">  
+                            <div class="flex_row_steps">
+                                <fieldset ng-form="postRequirementsForm" class="typical_form step_container halfer left" requester>
+                                    <div class="step_section padding_40">
+                                        <div class="short_stacked_row">
+                                            <div class="form_small_title">Post Requirements</div>
+                                            <fieldset class="typical_form">
+                                                <textarea rows="6" cols="60" ng-model="customPopupCtrl.openOptions.values.requirements" name="requirements" style="resize: none;"></textarea>
+                                            </fieldset>
+                                        </div>
+                                        <button class="normal_bt sm teal_bt" ng-class="{'inactive': postRequirementsForm.$pristine || requester.loading}" ng-click="requesterCtrl.doRequest({method: 'POST', url: '/update_model/', successCb: customPopupCtrl.updatedCb, data: {modelName: 'Contract', id: customPopupCtrl.openOptions.contractId, values: {extra_details: customPopupCtrl.openOptions.values.requirements}}}); postRequirementsForm.$setPristine()" ng-disabled="postRequirementsForm.$pristine || requesterCtrl.loading">
+                                            <span ng-hide="requesterCtrl.loading">Save</span>
+                                            <span ng-show="requesterCtrl.loading">Saving...</span>
+                                        </button>
+                                    </div>
+                                </fieldset>
+                                <fieldset ng-form="dateRangeForm" class="typical_form step_container halfer right" requester attached-form="dateRangeForm" on-form-dirty="requesterCtrl.doRequest({method: 'POST', successCb: customPopupCtrl.updatedCb, url: '/update_model/', data: {modelName: 'Contract', id: customPopupCtrl.openOptions.contractId, values: {start_date: customPopupCtrl.openOptions.values.dateRange.startDate, latest_date: customPopupCtrl.openOptions.values.dateRange.endDate}}}); dateRangeForm.$setPristine()">
+                                    <div class="step_section padding_40">
+                                        <div class="short_stacked_row">
+                                            <div class="form_small_title">Date Range <span ng-show="requesterCtrl.loading">(Updating)</span></div>
+                                            <div date-range-picker ng-model="customPopupCtrl.openOptions.values.dateRange" name="dateRange" ng-disabled="requesterCtrl.loading"></div>
+                                        </div>
+                                        <div class="x_space x_20"></div>
+                                        <br/>
+                                    </div>
+                                </fieldset>
+                            </div>
+                        </div>
+
+
+
+                       
+
+                        <div class="form_divider w_0_0_pad_mag"></div>
+                        <div class="a_form_group padding_40_sides clearfix">  
+                            <div class="flex_row_steps">
+                                <fieldset class="typical_form step_container halfer left">
+                                    <div class="step_section padding_40">
+                                        <div class="short_stacked_row">
+                                            <div class="form_floated_title">Company Name:</div>
+                                            <div class="form_floated_data">{{ customPopupCtrl.openOptions.values.clientName || "---" }}</div>
+                                        </div>
+                                        <div class="short_stacked_row">
+                                            <div class="form_floated_title">Company URL:</div>
+                                            <div class="form_floated_data"><a href='{{ customPopupCtrl.openOptions.values.clientUrl || "---" }}' target="_blank">{{ customPopupCtrl.openOptions.values.clientUrl || "---" }}</a></div>
+                                        </div>
+                                        <div class="short_stacked_row">
+                                            <div class="form_floated_title">Campaign Name:</div>
+                                            <div class="form_floated_data">{{ customPopupCtrl.openOptions.values.campaignName || "---" }}</div>
+                                        </div>
+                                        <div class="short_stacked_row">
+                                            <div class="form_floated_title">Mentions Required:</div>
+                                            <div class="form_floated_data">{{ customPopupCtrl.openOptions.values.mentionsRequired || "---" }}</div>
+                                        </div>
+                                        <div class="short_stacked_row">
+                                            <div class="form_floated_title">Hashtags Required:</div>
+                                            <div class="form_floated_data">{{ customPopupCtrl.openOptions.values.hashtagsRequired || "---" }}</div>
+                                        </div>
+                                        <div class="x_space x_50"></div>
+                                    </div>
+                                </fieldset>
+                                <!--
+                                <fieldset ng-form="bloggerDetailsForm" class="typical_form step_container halfer right" requester >
+                                    <div class="step_section padding_40">
+                                        <div class="short_stacked_row beside_text">
+                                            <div class="form_small_title width_120px">Final Rate</div>
+                                            <fieldset class="typical_form floated_form_field ">
+                                                <input type="number" ng-model="customPopupCtrl.openOptions.values.finalRate" name="finalRate" min="0">
+                                            </fieldset>
+                                        </div>
+
+
+                                        <div class="short_stacked_row beside_text">
+                                            <div class="form_small_title width_120px">Full Name</div>
+                                            <fieldset class="typical_form floated_form_field ">
+                                                <input type="text" ng-model="customPopupCtrl.openOptions.values.influencerName" name="influencerName" />
+                                            </fieldset>
+                                        </div>
+
+                                        <div class="short_stacked_row beside_text">
+                                            <div class="form_small_title width_120px">Blog Name</div>
+                                            <fieldset class="typical_form floated_form_field ">
+                                                <input type="text" ng-model="customPopupCtrl.openOptions.values.blogName" name="blogName" />
+                                            </fieldset>
+                                        </div>
+
+                                        <div class="short_stacked_row beside_text">
+                                            <div class="form_small_title width_120px">Entity Name</div>
+                                            <fieldset class="typical_form floated_form_field ">
+                                                <input type="text" ng-model="customPopupCtrl.openOptions.values.entityName" name="entityName" />
+                                            </fieldset>
+                                        </div>
+                                        <br/>
+
+                                        <button class="normal_bt sm teal_bt" ng-class="{'inactive': bloggerDetailsForm.$pristine || requester.loading}" ng-click="requesterCtrl.doRequest({method: 'POST', url: '/update_model/', successCb: customPopupCtrl.updatedCb, data: {list: [{modelName: 'Contract', id: customPopupCtrl.openOptions.contractId, values: {negotiated_price: customPopupCtrl.openOptions.values.finalRate}, json_fields: {info: {publisher_name: customPopupCtrl.openOptions.values.entityName}}}, {modelName: 'Influencer', id: customPopupCtrl.openOptions.influencerId, values: {name: customPopupCtrl.openOptions.values.influencerName, blogname: customPopupCtrl.openOptions.values.blogName}}]}}); bloggerDetailsForm.$setPristine()" ng-disabled="bloggerDetailsForm.$pristine || requesterCtrl.loading">
+                                            <span ng-hide="requesterCtrl.loading">Save</span>
+                                            <span ng-show="requesterCtrl.loading">Saving...</span>
+                                        </button>
+
+                                        <br/>
+                                    </div>
+                                </fieldset>
+                                -->
+                            </div>
+                        </div>
+
+
+
+
+                        <div class="form_divider w_60_0_pad_mag" ng-if="customPopupCtrl.openOptions.pipelineData.info.product_links_on && !customPopupCtrl.openOptions.pipelineData.info.same_product_url && customPopupCtrl.openOptions.pipelineData.info.do_select_url"></div>
+
+                        <div class="a_form_group padding_40_sides clearfix" ng-if="customPopupCtrl.openOptions.pipelineData.info.product_links_on && !customPopupCtrl.openOptions.pipelineData.info.same_product_url && customPopupCtrl.openOptions.pipelineData.info.do_select_url">                        
+                            <div class="form_title">Blogger Details &amp; Contract</div>
+                            <div class="form_instruction main_instructions">These instructions are provided to the blogger when collecting their product and payment info. You can edit these here for this one influencers. OR, you can change the requirements in the setup page in order to have the changes affect everyone.</div>
+                        </div>
+
+                        <div class="a_form_group padding_40_sides clearfix" ng-if="customPopupCtrl.openOptions.pipelineData.info.product_links_on && !customPopupCtrl.openOptions.pipelineData.info.same_product_url && customPopupCtrl.openOptions.pipelineData.info.do_select_url">  
+                            <div class="flex_row_steps">
+                                <fieldset ng-form="productSelectionForm" class="typical_form step_container halfer left" requester>
+                                    <div class="step_section">
+                                        <div class="short_stacked_row">
+                                            <div class="form_small_title">Product Selection Instructions</div>
+                                            <fieldset class="typical_form">
+                                                <textarea rows="6" cols="60" style="resize: none;" ng-model="customPopupCtrl.openOptions.values.restrictions" name="restrictions"></textarea>
+                                            </fieldset>
+                                        </div>
+                                            <button class="normal_bt sm teal_bt" ng-class="{'inactive': productSelectionForm.$pristine || requester.loading}" ng-click="requesterCtrl.doRequest({method: 'POST', url: '/update_model/', successCb: customPopupCtrl.updatedCb, data: {list: [{modelName: 'Contract', id: customPopupCtrl.openOptions.contractId, json_fields: {info: {restrictions: customPopupCtrl.openOptions.values.restrictions}}}]}}); productSelectionForm.$setPristine()" ng-disabled="productSelectionForm.$pristine || requesterCtrl.loading">
+                                            <span ng-hide="requesterCtrl.loading">Save</span>
+                                            <span ng-show="requesterCtrl.loading">Saving...</span>
+                                        </button>
+                                    </div>
+
+                                </fieldset>
+                                <fieldset class="typical_form step_container halfer right">
+                                    <div class="step_section padding_40">
+                                        <div class="short_stacked_row beside_text">
+                                            
+                                        </div>
+
+                                    </div>
+                                </fieldset>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div ng-if="customPopupCtrl.tab == 2">
+                <form name="productInfoForm">
+                    <div class="a_form_group padding_40_sides clearfix">                        
+                        <div class="form_title">Product Info</div>
+                        <div class="form_instruction main_instructions">The form fields below contain info about products, product preferences, and shipping addresses. If you have these enabled, they will most likely be filled in by the influencer when you’re in the “Collect Details” stage. If you prefer to edit/add this info yourself, you can do that here. <span ng-show="customPopupCtrl.openOptions.values.collectDetailsStatus.value == 2">Here is a link to the page that they will be viewing: <a class="txt_link darker_teal" ng-href="{{ customPopupCtrl.openOptions.values.bloggerShipmentUrl }}" target="_blank">product &amp; shipping page</a>.</span></div>
+                    </div>
+
+
+
+
+                    <!-- actions section -->
+                    <!-- actions section -->
+                    <div class="form_divider w_20_0_pad_mag"></div>
+                    <div class="a_form_group padding_40_sides clearfix">    
+                        <div class="brand_actions">
+                            <div class="individual_brand_action" ng-if="customPopupCtrl.openOptions.values.shipmentStatus.value == 0">
+                                <button class="normal_bt sm teal_bt" broadcaster ng-click="broadcasterCtrl.broadcast('openSendEmailPopup', {url: customPopupCtrl.openOptions.sendShipmentNotificationUrl, template: customPopupCtrl.openOptions.pipelineData.info.shipping_template.template, subject: customPopupCtrl.openOptions.pipelineData.info.shipping_template.subject, templateContext: customPopupCtrl.openOptions.templateContext, successCb: customPopupCtrl.updatedCb, status: customPopupCtrl.openOptions.values.shipmentStatus, templateContextUrl: customPopupCtrl.openOptions.templateContextUrl,})">
+                                    <span>Send Shipment Notification</span>
+                                </button>  
+                            </div>
+                            <div class="individual_brand_action" ng-if="customPopupCtrl.openOptions.values.shipmentStatus.value > 0" ng-class="{'brand_not_sent_yet': customPopupCtrl.openOptions.values.shipmentStatus.value == 0, 'brand_pending': customPopupCtrl.openOptions.values.shipmentStatus.value == 1, 'brand_complete': customPopupCtrl.openOptions.values.shipmentStatus.value == 2}">
+                                <div>
+                                    <span class="brand_action_label">Shipment Info: </span>
+                                    <span class="brand_action_status">{{ customPopupCtrl.openOptions.values.shipmentStatus.name }}</span>&nbsp;
+                                    <span class="mini_action_btn" broadcaster ng-click="broadcasterCtrl.broadcast('openSendEmailPopup', {url: customPopupCtrl.openOptions.sendShipmentNotificationUrl, template: customPopupCtrl.openOptions.pipelineData.info.shipping_template.template, subject: customPopupCtrl.openOptions.pipelineData.info.shipping_template.subject, templateContext: customPopupCtrl.openOptions.templateContext, successCb: customPopupCtrl.updatedCb, status: customPopupCtrl.openOptions.values.shipmentStatus, templateContextUrl: customPopupCtrl.openOptions.templateContextUrl,})" ng-if="customPopupCtrl.openOptions.values.shipmentStatus.value == 1">Send Reminder</span>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="form_divider w_0_20_pad_mag"></div>
+                    <div ng-form="collectDetailsForm" class="a_form_group padding_40_sides clearfix" requester>
+                        <div class="inner_section">
+                            <!-- <div class="form_small_title">This is the info the influencer will fill in.</div> -->
+
+                            <div class="flex_row_steps">
+                                <fieldset class="typical_form step_container halfer left">
+                                    <div class="step_section padding_40">
+                                        <div ng-form="productUrlForm" requester class="short_stacked_row" ng-if="customPopupCtrl.openOptions.pipelineData.info.product_links_on" multiple-inputs ng-init="multipleInputsCtrl.init({values: customPopupCtrl.openOptions.values.productUrls})">
+                                            <div class="short_stacked_row">
+                                                <div class="form_small_title">Product URL</div>
+                                                <fieldset class="typical_form" style="padding: 10px 0;" ng-repeat="productUrl in customPopupCtrl.openOptions.values.productUrls track by $index">
+                                                    <div ng-form="productUrlFieldForm" novalidate>
+                                                        <input type="url" ng-model="customPopupCtrl.openOptions.values.productUrls[$index]" name="productUrl" unique-in="multipleInputsCtrl.uniqueSet" ng-required="($last && $first) || !$last || productUrlFieldForm.isFocused" ng-focus="multipleInputsCtrl.setFocus(true, productUrlFieldForm)" ng-blur="multipleInputsCtrl.setFocus(false, productUrlFieldForm)" ng-change="multipleInputsCtrl.onChange({$index: $index, $last: $last, form: productUrlFieldForm, values: customPopupCtrl.openOptions.values.productUrls})" ng-model-options="{allowInvalid: true}" ng-readonly="customPopupCtrl.openOptions.pipelineData.info.same_product_url" />
+                                                        <span ng-show="productUrlFieldForm.productUrl.$dirty && productUrlFieldForm.productUrl.$error.unique" class="pav_validation">Duplicated URL</span>
+                                                        <span ng-show="productUrlFieldForm.productUrl.$dirty && productUrlFieldForm.productUrl.$error.url" class="pav_validation">Enter correct URL (don't forget to include 'http://' prefix)</span>
+                                                        <span ng-show="$first && $last && productUrlFieldForm.productUrl.$dirty && productUrlFieldForm.productUrl.$error.required" class="pav_validation">Enter at least one non-empty URL</span>
+                                                    </div>
+                                                </fieldset>
+                                            </div>
+                                            <button class="normal_bt sm teal_bt" ng-class="{'inactive': productUrlForm.$pristine || productUrlForm.$invalid || requester.loading}" ng-click="requesterCtrl.doRequest({method: 'POST', successCb: customPopupCtrl.updatedCb, url: '/update_model/', data: {modelName: 'Contract', id: customPopupCtrl.openOptions.contractId, values: {product_urls: customPopupCtrl.openOptions.values.productUrls}}}); productUrlForm.$setPristine()" ng-disabled="productUrlForm.$pristine || productUrlForm.$invalid || requesterCtrl.loading" ng-hide="customPopupCtrl.openOptions.pipelineData.info.same_product_url">
+                                                <span ng-hide="requesterCtrl.loading">Save</span>
+                                                <span ng-show="requesterCtrl.loading">Saving...</span>
+                                            </button>
+                                        </div>
+                                        <div class="x_space x_30"></div>
+                                        <div ng-form="shippingAddressForm" requester class="short_stacked_row" ng-if="customPopupCtrl.openOptions.pipelineData.info.shipping_address_on">
+                                            <div class="short_stacked_row">
+                                                <div class="form_small_title">Shipping</div>
+                                                <fieldset class="typical_form">
+                                                    <textarea rows="3" cols="60" ng-model="customPopupCtrl.openOptions.values.shippingAddress" name="shippingAddress" style="resize: none;"></textarea>
+                                                </fieldset>
+                                            </div>
+                                            <button class="normal_bt sm teal_bt" ng-class="{'inactive': shippingAddressForm.$pristine || requester.loading}" ng-click="requesterCtrl.doRequest({method: 'POST', successCb: customPopupCtrl.updatedCb, url: '/update_model/', data: {modelName: 'Contract', id: customPopupCtrl.openOptions.contractId, values: {blogger_address: customPopupCtrl.openOptions.values.shippingAddress}}}); shippingAddressForm.$setPristine()" ng-disabled="shippingAddressForm.$pristine || requesterCtrl.loading">
+                                                <span ng-hide="requesterCtrl.loading">Save</span>
+                                                <span ng-show="requesterCtrl.loading">Saving...</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                                <fieldset class="typical_form step_container halfer right" ng-if="customPopupCtrl.openOptions.pipelineData.info.blogger_additional_info_on">
+                                    <div class="step_section padding_40">
+                                        <div ng-form="preferencesForm" requester class="short_stacked_row">
+                                            <div class="short_stacked_row">
+                                                <div class="form_small_title">Influencer Preferences</div>
+                                                <fieldset class="typical_form">
+                                                    <textarea rows="6" cols="60" ng-model="customPopupCtrl.openOptions.values.productPreferences" name="productPreferences" style="resize: none;"></textarea>
+                                                </fieldset>
+                                            </div>
+                                            <button class="normal_bt sm teal_bt" ng-class="{'inactive': preferencesForm.$pristine || requester.loading}" ng-click="requesterCtrl.doRequest({method: 'POST', successCb: customPopupCtrl.updatedCb, url: '/update_model/', data: {modelName: 'Contract', id: customPopupCtrl.openOptions.contractId, json_fields: {info: {product_preferences: customPopupCtrl.openOptions.values.productPreferences}}}}); preferencesForm.$setPristine()" ng-disabled="preferencesForm.$pristine || requesterCtrl.loading">
+                                                <span ng-hide="requesterCtrl.loading">Save</span>
+                                                <span ng-show="requesterCtrl.loading">Saving...</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form_divider w_30_0_pad_mag" ng-if="customPopupCtrl.openOptions.pipelineData.info.shipping_address_on"></div>
+                    <div class="a_form_group padding_40_sides clearfix" ng-if="customPopupCtrl.openOptions.pipelineData.info.shipping_address_on">  
+                        <div class="inner_section">
+                            <div class="form_instruction main_instructions">The fields below can be used to manage your shipping process. The date will automatically default to the date when a tracking code is entered if you decide to handle tracking from the main table.</div>
+
+                            <div class="flex_row_steps">
+
+                                <fieldset ng-form="shipmentTrackingCodeForm" class="typical_form step_container halfer left" requester>
+                                    <div class="step_section padding_40">
+                                        <div class="short_stacked_row">
+                                            <div class="form_small_title">Tracking Code</div>
+                                            <input type="text" ng-model="customPopupCtrl.openOptions.values.shipmentTrackingCode" name="shipmentTrackingCode" />
+                                        </div>
+                                        <button class="normal_bt sm teal_bt" ng-class="{'inactive': shipmentTrackingCodeForm.$pristine || requester.loading}" ng-click="requesterCtrl.doRequest({method: 'POST', successCb: customPopupCtrl.updatedCb, url: '/update_model/', data: {modelName: 'Contract', id: customPopupCtrl.openOptions.contractId, values: {shipment_tracking_code: customPopupCtrl.openOptions.values.shipmentTrackingCode}}}); shipmentTrackingCodeForm.$setPristine()" ng-disabled="shipmentTrackingCodeForm.$pristine || requesterCtrl.loading">
+                                            <span ng-hide="requesterCtrl.loading">Save</span>
+                                            <span ng-show="requesterCtrl.loading">Saving...</span>
+                                        </button>
+                                    </div>
+                                </fieldset>
+
+                                <fieldset ng-form="shipDateForm" class="typical_form step_container halfer right" requester attached-form="shipDateForm" on-form-dirty="requesterCtrl.doRequest({method: 'POST', successCb: customPopupCtrl.updatedCb, url: '/update_model/', data: {modelName: 'Contract', id: customPopupCtrl.openOptions.contractId, values: {ship_date: customPopupCtrl.openOptions.values.shipDate}}}); shipDateForm.$setPristine()">
+                                    <div class="step_section padding_40">
+                                        <div class="short_stacked_row">
+                                            <div class="form_small_title">Ship Date <span ng-show="requesterCtrl.loading">(Updating)</span></div>
+                                            <fieldset class="typical_form">
+                                                <div single-date-picker ng-model="customPopupCtrl.openOptions.values.shipDate" name="shipDate"></div>
+                                            </fieldset>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+
+
+
+            <div ng-if="customPopupCtrl.tab == 3">
+                <form name="postsInfoForm">
+                    <div class="a_form_group padding_40_sides clearfix">                        
+                        <div class="form_title">Posts</div>
+                        <div class="form_instruction main_instructions">Blogger's will be installing tracking codes, pixels, hashtags, and brand mentions within their posts so that we can track automatically. Please make sure to remind them about the tracking codes otherwise we can't track. <span ng-show="customPopupCtrl.openOptions.values.collectDetailsStatus.value == 2">Here is a link to the page that they will be viewing: <a class="txt_link darker_teal" ng-href="{{ customPopupCtrl.openOptions.values.bloggerPostsPageUrl}}" target="_blank">blogger posts page</a>.</span></div>
+                    </div>
+
+
+                    <!-- actions section -->
+                    <!-- actions section -->
+                    <div class="form_divider w_20_0_pad_mag"></div>
+                    <div class="a_form_group padding_40_sides clearfix">    
+                        <div class="brand_actions">
+                            <div class="individual_brand_action" ng-if="customPopupCtrl.openOptions.values.postsAddingStatus.value == 0">
+
+                                <button class="normal_bt sm teal_bt" broadcaster ng-click="broadcasterCtrl.broadcast('openSendEmailPopup', {url: customPopupCtrl.openOptions.sendPostsAddingUrl, template: customPopupCtrl.openOptions.pipelineData.info.posts_adding_template.template, subject: customPopupCtrl.openOptions.pipelineData.info.posts_adding_template.subject, templateContext: customPopupCtrl.openOptions.templateContext, successCb: customPopupCtrl.updatedCb, status: customPopupCtrl.openOptions.values.postsAddingStatus, templateContextUrl: customPopupCtrl.openOptions.templateContextUrl,})">
+                                    <span>Send Posts Adding Notification</span>
+                                </button>
+
+                            </div>
+                            
+                            <div class="individual_brand_action" ng-if="customPopupCtrl.openOptions.values.postsAddingStatus.value > 0">
+                                <div>
+                                    <span class="brand_action_label">Posts Adding Status: </span>
+                                    <span class="brand_action_status" ng-class="{'brand_not_sent_yet': customPopupCtrl.openOptions.values.postsAddingStatus.value == 0, 'brand_pending': customPopupCtrl.openOptions.values.postsAddingStatus.value == 1, 'brand_complete': customPopupCtrl.openOptions.values.postsAddingStatus.value == 2}">{{ customPopupCtrl.openOptions.values.postsAddingStatus.name }}</span>&nbsp;
+
+                                    <span class="mini_action_btn" broadcaster ng-click="broadcasterCtrl.broadcast('openSendEmailPopup', {url: customPopupCtrl.openOptions.sendPostsAddingUrl, template: customPopupCtrl.openOptions.pipelineData.info.posts_adding_template.template, subject: customPopupCtrl.openOptions.pipelineData.info.posts_adding_template.subject, templateContext: customPopupCtrl.openOptions.templateContext, successCb: customPopupCtrl.updatedCb, status: customPopupCtrl.openOptions.values.postsAddingStatus, templateContextUrl: customPopupCtrl.openOptions.templateContextUrl,})" ng-if="customPopupCtrl.openOptions.values.postsAddingStatus.value == 1">Send Reminder</span>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                
+                    <div class="form_divider w_0_20_pad_mag"></div>
+                    <div ng-form="collectDetailsForm" class="a_form_group padding_40_sides clearfix" requester>  
+                        <div class="inner_section">
+                            <div class="form_small_title"></div>
+
+                            <div class="flex_row_steps">
+                                <fieldset ng-form="dateRequirementsForm" class="typical_form step_container third left" requester attached-form="dateRequirementsForm" on-form-dirty="requesterCtrl.doRequest({method: 'POST', successCb: customPopupCtrl.updatedCb, url: '/update_model/', data: {modelName: 'Contract', id: customPopupCtrl.openOptions.contractId, values: {date_requirements: customPopupCtrl.openOptions.values.dateRequirements}}}); dateRequirementsForm.$setPristine()">
+                                    <div class="step_section padding_40">
+                                        <div class="short_stacked_row">
+                                            <div class="form_small_title">Tentative Date <span ng-show="requesterCtrl.loading">(Updating)</span></div>
+                                            <div single-date-picker ng-model="customPopupCtrl.openOptions.values.dateRequirements" name="dateRequirements"></div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                                <fieldset class="typical_form step_container two_third right">
+                                    <div class="step_section padding_40">
+                                        <div class="short_stacked_row">
+                                            <div class="form_small_title">Deliverables</div>
+                                            <div class="deliverables ns-popover-tooltip">
+                                                <div class="deliverable popover_form" ng-class="platformWrappers(name)" ng-repeat="(name, data) in customPopupCtrl.openOptions.values.deliverables">
+                                                    <div class="deliverable_text">
+                                                        <span class="popover_icon" ng-class="platformIcons(name)"></span><span class="popover_label">{{ name |capitalize }}</span>
+                                                    </div>
+                                                    <select ng-options="number for number in range10" ng-model="data.value" disabled></select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form_divider w_45_0_pad_mag"></div>
+                    <div class="a_form_group padding_40_sides clearfix">
+                        <div class="inner_section">
+                            <div class="form_small_title">Post Links</div>
+
+                            <div class="flex_row_steps">
+                                <fieldset class="typical_form">
+                                    <ul style="list-style: none;" ng-if="customPopupCtrl.openOptions.values.postLinks">
+                                        <li ng-repeat="link in customPopupCtrl.openOptions.values.postLinks">
+                                            <span ng-class="platformIcons('{{ link.platform }}')"></span>
+                                            <a ng-href="{{ link.url }}" target="_blank">{{ link.title || link.url }}</a>
+                                        </li>
+                                    </ul>
+                                    <div class="form_instruction" ng-if="!customPopupCtrl.openOptions.values.postLinks.length">When posts start to go up, the links will appear here as well as the main campaign table for easy access. They will also flow automatically into your report.</div>
+                                </fieldset>
+                            </div>
+                        </div>
+                        <div class="inner_section">
+                            <div class="form_small_title">Add Posts</div>
+                            <div class="flex_row_steps">
+                                <div add-posts-widget></div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+
+
+            <div ng-if="customPopupCtrl.tab == 5">
+                <form name="trackingInfoForm">
+                    <div class="a_form_group padding_40_sides clearfix">                        
+                        <div class="form_title">Tracking</div>
+                        <div class="form_instruction main_instructions">Blogger's will be installing tracking codes, pixels, hashtags, and brand mentions within their posts so that we can track automatically. Please make sure to remind them about the tracking codes otherwise we can't track. <span ng-show="customPopupCtrl.openOptions.values.collectDetailsStatus.value == 2">Here is a link to the page that they will be viewing: <a class="txt_link darker_teal" ng-href="{{ customPopupCtrl.openOptions.values.trackingPageUrl}}" target="_blank">blogger tracking link codes page</a>.</span></div>
+                    </div>
+
+                    <div class="form_divider w_0_20_pad_mag"></div>
+                    <div class="a_form_group padding_40_sides clearfix">
+                        <div class="inner_section">
+                            <div class="flex_row_steps">
+                                <fieldset class="typical_form step_container">
+                                    <div class="step_section padding_40">
+                                        <div ng-form="productUrlForm" requester class="short_stacked_row" ng-if="customPopupCtrl.openOptions.pipelineData.info.product_links_on" multiple-inputs ng-init="multipleInputsCtrl.init({values: customPopupCtrl.openOptions.values.productUrls})">
+                                            <div class="short_stacked_row">
+                                                <div class="form_small_title">Product URL</div>
+                                                <fieldset class="typical_form" style="padding: 10px 0;" ng-repeat="productUrl in customPopupCtrl.openOptions.values.productUrls track by $index">
+                                                    <div ng-form="productUrlFieldForm" novalidate>
+                                                        <input type="url" ng-model="customPopupCtrl.openOptions.values.productUrls[$index]" name="productUrl" unique-in="multipleInputsCtrl.uniqueSet" ng-required="($last && $first) || !$last || productUrlFieldForm.isFocused" ng-focus="multipleInputsCtrl.setFocus(true, productUrlFieldForm)" ng-blur="multipleInputsCtrl.setFocus(false, productUrlFieldForm)" ng-change="multipleInputsCtrl.onChange({$index: $index, $last: $last, form: productUrlFieldForm, values: customPopupCtrl.openOptions.values.productUrls})" ng-model-options="{allowInvalid: true}" ng-readonly="customPopupCtrl.openOptions.pipelineData.info.same_product_url" />
+                                                        <span ng-show="productUrlFieldForm.productUrl.$dirty && productUrlFieldForm.productUrl.$error.unique" class="pav_validation">Duplicated URL</span>
+                                                        <span ng-show="productUrlFieldForm.productUrl.$dirty && productUrlFieldForm.productUrl.$error.url" class="pav_validation">Enter correct URL (don't forget to include 'http://' prefix)</span>
+                                                        <span ng-show="$first && $last && productUrlFieldForm.productUrl.$dirty && productUrlFieldForm.productUrl.$error.required" class="pav_validation">Enter at least one non-empty URL</span>
+                                                    </div>
+                                                </fieldset>
+                                            </div>
+                                            <button class="normal_bt sm teal_bt" ng-class="{'inactive': productUrlForm.$pristine || productUrlForm.$invalid || requester.loading}" ng-click="requesterCtrl.doRequest({method: 'POST', successCb: customPopupCtrl.updatedCb, url: '/update_model/', data: {modelName: 'Contract', id: customPopupCtrl.openOptions.contractId, values: {product_urls: customPopupCtrl.openOptions.values.productUrls}}}); productUrlForm.$setPristine()" ng-disabled="productUrlForm.$pristine || productUrlForm.$invalid || requesterCtrl.loading" ng-hide="customPopupCtrl.openOptions.pipelineData.info.same_product_url">
+                                                <span ng-hide="requesterCtrl.loading">Save</span>
+                                                <span ng-show="requesterCtrl.loading">Saving...</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+
+
+
+            <div ng-if="customPopupCtrl.tab == 4">
+                <form name="paymentInfoForm">
+                    <div class="a_form_group padding_40_sides clearfix">                        
+                        <div class="form_title">Payments</div>
+                        <div class="form_instruction main_instructions"></div>
+                    </div>
+
+                    <div class="form_divider w_30_0_pad_mag"></div>
+                    <div class="a_form_group padding_40_sides clearfix">  
+                        <div class="flex_row_steps">
+                            <fieldset class="typical_form step_container halfer left">
+                                <div class="step_section padding_40">
+                                    <div class="short_stacked_row" ng-if="customPopupCtrl.openOptions.pipelineData.info.payment_details_on">
+                                        <div class="form_small_title">Amount</div>
+                                        <fieldset class="typical_form">
+                                            <input type="text" name="amount" readonly ng-model="customPopupCtrl.openOptions.values.finalRate" />
+                                        </fieldset>
+                                    </div>
+                                    <br ng-if="customPopupCtrl.openOptions.pipelineData.info.payment_details_on" />
+                                    <div class="short_stacked_row" ng-if="false">
+                                        <button class="normal_bt sm teal_bt">
+                                            <span>Send Template</span>
+                                        </button>
+                                    </div>
+                                    <br/>
+                                    <div class="short_stacked_row" requester>
+                                        <div class="form_small_title">Rating <span ng-show="requesterCtrl.loading">(Updating)</span></div>
+                                        <fieldset class="typical_form">
+                                            <div star-rating ng-model="customPopupCtrl.openOptions.values.rating" max="5" on-rating-select="requesterCtrl.doRequest({method: 'POST', url: '/update_model/', successCb: customPopupCtrl.updatedCb, data: {modelName: 'Contract', id: customPopupCtrl.openOptions.contractId, values: {rating: customPopupCtrl.openOptions.values.rating}}})" readonly="requesterCtrl.loading" name="rating"></div>
+                                        </fieldset>
+                                    </div>
+                                    <br/>
+                                    <div class="short_stacked_row" ng-form="reviewsForm" requester>
+                                        <div class="form_small_title">Review</div>
+                                        <fieldset class="typical_form">
+                                            <textarea rows="6" cols="60" style="resize: none;" name="reviews" ng-model="customPopupCtrl.openOptions.values.reviews"></textarea>
+                                        </fieldset>
+                                        <fieldset class="typical_form">
+                                            <button class="normal_bt sm teal_bt" ng-class="{'inactive': reviewsForm.$pristine || requester.loading}" ng-click="requesterCtrl.doRequest({method: 'POST', successCb: customPopupCtrl.updatedCb, url: '/update_model/', data: {modelName: 'Contract', id: customPopupCtrl.openOptions.contractId, values: {review: customPopupCtrl.openOptions.values.reviews}}}); reviewsForm.$setPristine()" ng-disabled="reviewsForm.$pristine || requesterCtrl.loading">
+                                                <span ng-hide="requesterCtrl.loading">Save</span>
+                                                <span ng-show="requesterCtrl.loading">Saving...</span>
+                                            </button>
+                                        </fieldset>
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <fieldset class="typical_form step_container halfer right">
+                                <div class="step_section padding_40">
+                                    <div class="short_stacked_row" ng-if="customPopupCtrl.openOptions.pipelineData.info.payment_details_on">
+                                        <div class="form_small_title">Payment instructions from blogger</div>
+                                        <fieldset class="typical_form">
+                                            <textarea rows="6" cols="60" name="paymentInstructions" style="resize: none;" readonly value="{{ customPopupCtrl.openOptions.values.paymentDetails }}"></textarea>
+                                        </fieldset>
+                                    </div>
+                                    <div class="short_stacked_row" ng-if="customPopupCtrl.openOptions.pipelineData.info.shipping_address_on">
+                                        <div class="form_small_title">Shipping Address</div>
+                                        <fieldset class="typical_form">
+                                            <textarea rows="6" cols="60" name="shippingAddress" style="resize: none;" readonly ng-model="customPopupCtrl.openOptions.values.shippingAddress"></textarea>
+                                        </fieldset>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+        
+            <div ng-if="customPopupCtrl.tab == 6">
+                <div>
+                    <div class="a_form_group padding_40_sides clearfix">
+                        <div class="form_title"></div>
+                        <div class="form_instruction main_instructions"></div>
+                    </div>
+
+
+
+
+                    <!-- actions section -->
+                    <!-- actions section -->
+                    <div class="form_divider w_20_0_pad_mag"></div>
+                    <div class="a_form_group padding_40_sides clearfix">
+                        <div iframe-renderer height="600px" width="100%"></div>
+                        <!-- <iframe src="{{ customPopupCtrl.openOptions.values.googleDocUrl }}" frameborder="0" height="600px" width="100%"></iframe>-->
+                    </div>
+                </div>>
+            </div>
+        </div>
+    </div>
+</div>

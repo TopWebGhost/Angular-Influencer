@@ -1,0 +1,15 @@
+<div ng-show="docState == 'loading'" main-loader></div>
+<div ng-hide="docState == 'loading'">
+    <nav class="pdf-controls">
+        <button ng-click="goPrevious()" class="icon-arrow_l_arr_6"></button>
+        <span>Page :</span>
+        <!-- <input type="text" min=1 ng-model="pageNum">-->
+        <span><strong>{{pageNum}}</strong> of <strong>{{pageCount}}</strong></span>
+        <button ng-click="goNext()" class="icon-arrow_r_arr_6"></button>
+        &nbsp;&nbsp;&nbsp;
+        <button a-href="{{ pdfUrl }}">Download</button>
+    </nav>
+    <hr>
+
+    <canvas id="pdf"></canvas>
+</div>

@@ -1,0 +1,285 @@
+<div ng-controller="OutreachCtrl as outreachCtrl">
+    <ng-form name="sectionForm" form-handler="outreach" novalidate>
+
+        <!--<div class="a_form_group padding_40_all clearfix">
+            <div class="inner_section">
+                <div class="form_mid_title">Campaign Overview Page</div>
+                <div class="form_instruction">Make sure you’re all set with the information being sent to the influencers. This influencer dashboard will act as their guide as they set up their posts, so it should contain all necessary information.</div>
+                <div class="square_bt md teal_bt" a-href="{{ wizardCtrl.campaignData.overviewPageUrl }}">View Campaign Overview</div>
+            </div>
+        </div>
+        <div class="form_divider w_60_0_pad_mag"></div>-->
+
+        <!-- <div class="form_divider w_20_0_pad_mag" ng-if="wizardCtrl.campaignData.hasAlreadyLoadedInfluencers"></div> -->
+
+        <div class="a_form_group padding_40_not_bottom clearfix">
+        <div class="form_instruction main_instructions">When you’re doing influencer outreach, templates are so much easier! That’s why we’ve created six that you can use for each step of the way. Review and edit them here as they will become your default templates. Once you’re ready for outreach, simply hit “Send” and the associated template will get sent out. If you want to edit the template to a particular influencer during outreach, you can do that right from the pipeline.</div>
+        </div>
+
+
+        <div class="form_divider"></div>
+        <div class="training_wheels">Please be careful about the "merge tags". Merge tags are the words contained in double brackets. These function like variables and will load in things like the influencer's name, their blog name, links to their contract and campaign overview. All of these merge tags fill in data that is specific to the influencer. They can be moved. But if they are edited, they will no longer work. (Please ask your account manager to review anything you’re unsure of.)</div>
+
+
+
+
+        <div class="form_divider w_45_0_pad_mag"></div>
+
+
+        <div class="a_form_group padding_40_all clearfix">
+            <div class="x_space x_10"></div>
+            <div class="typical_form third left">
+                <div class="form_mid_title">Initial Outreach</div>
+                <div class="form_instruction" style="padding-right:50px;">This template will be the first email sent to influencers asking them if they would be interested in collaborating. The template to the right is very generic and we encourage you to rewrite it with more specific details.<br/><br/> If you’re new to influencer marketing, your account manager can send you a suggested template or review yours before you start sending it out. Initial impressions are everything!</div>
+            </div>
+            
+
+
+            <div class="typical_form two_third right">
+                <div class="form_row_30 clearfix">
+                    <fieldset class="typical_form smaller_field halfer">
+                        <label>Email Subject : </label>
+                        <input ng-model="wizardCtrl.campaignData.outreachTemplate.subject" type="text" name="initialOutreachSubject" tabindex="1" />
+                    </fieldset>
+                </div>
+                <div class="wysiwyg_editor wysiwyg_editor_on_wizard" wysiwyg-editor ng-model="wizardCtrl.campaignData.outreachTemplate.template" name="initialOutreachBody" tabindex="2"></div>
+                <div class="x_space x_20"></div>
+                <div upload-panel>
+                    <button class="square_bt sm teal_bt" ng-class="{'inactive': outreachCtrl.uploader.isUploading }" ng-disabled="{{ outreachCtrl.uploader.isUploading }}" ng-click="!outreachCtrl.uploader.isUploading && outreachCtrl.invitationTemplate.sendTestEmail(outreachCtrl.sendEmailUrl, {body: wizardCtrl.campaignData.outreachTemplate.template, subject: wizardCtrl.campaignData.outreachTemplate.subject, context: outreachCtrl.templateContext})">
+                        <span ng-hide="outreachCtrl.invitationTemplate.sendingTestEmail">Send Test Email</span>
+                        <span ng-show="outreachCtrl.invitationTemplate.sendingTestEmail">Sending...</span>
+                    </button>
+                    <button ng-if="false" class="square_bt sm teal_bt" ng-click="selectFile()"><span>Add Attachment</span></button>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="form_divider w_45_0_pad_mag"></div>
+
+
+        <div class="a_form_group padding_40_all clearfix">
+            <div class="x_space x_10"></div>
+            <div class="typical_form third left">
+                <div class="form_mid_title">Follow Up Emails</div>
+                <div class="form_instruction" style="padding-right:50px;">The majority of influencers don’t respond until your second email. We’ve made it easy to keep track of these people by adding them to the Follow Up stage of your pipeline. From there you can use this template as a gentle reminder to see if they’re interested in your campaign.</div>
+            </div>
+            
+
+
+            <div class="typical_form two_third right">
+                <!--<div class="form_row_30 clearfix">
+                    <fieldset class="typical_form smaller_field halfer">
+                        <label>Email Subject : </label>
+                        <input ng-model="wizardCtrl.campaignData.info.followupTemplate.subject" type="text" name="followupSubject" tabindex="2" />
+                    </fieldset>
+                </div>-->
+                <div class="wysiwyg_editor wysiwyg_editor_on_wizard" wysiwyg-editor ng-model="wizardCtrl.campaignData.info.followupTemplate.template" name="followupBody" tabindex="3"></div>
+                <div class="x_space x_20"></div>
+                <div upload-panel>
+                    <button class="square_bt sm teal_bt" ng-class="{'inactive': outreachCtrl.uploader.isUploading }" ng-disabled="{{ outreachCtrl.uploader.isUploading }}" ng-click="!outreachCtrl.uploader.isUploading && outreachCtrl.followupTemplate.sendTestEmail(outreachCtrl.sendEmailUrl, {body: wizardCtrl.campaignData.info.followupTemplate.template, subject: wizardCtrl.campaignData.outreachTemplate.subject, context: outreachCtrl.templateContext})">
+                        <span ng-hide="outreachCtrl.followupTemplate.sendingTestEmail">Send Test Email</span>
+                        <span ng-show="outreachCtrl.followupTemplate.sendingTestEmail">Sending...</span>
+                    </button>
+                    <button ng-if="false" class="square_bt sm teal_bt" ng-click="selectFile()"><span>Add Attachment</span></button>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="form_divider w_30_30_pad_mag"></div>
+
+
+
+        <div class="a_form_group padding_40_all clearfix">
+            <div class="x_space x_10"></div>
+            <div class="typical_form third left">
+                <div class="form_mid_title">Details + Contracts</div>
+                <div class="form_instruction" style="padding-right:50px;">Once you’ve worked out the logistics of your campaign, it’s time to collect details from the influencer. This template should work for most campaigns but please review and make edits as need be.<br/><br/>The details you collect from the influencers are determined by your settings below, but in most cases, the details collected will feed into your contracts, the influencer’s overview page, and their product selections.</div>
+            </div>
+
+            <div class="typical_form two_third right">
+                <!--<div class="form_row_30 clearfix">
+                    <fieldset class="typical_form smaller_field halfer">
+                        <label>Email Subject : </label>
+                        <input ng-model="wizardCtrl.campaignData.info.collectDetailsTemplate.subject" type="text" name="collectDetailsSubject" tabindex="4" />
+                    </fieldset>
+                </div>-->
+                <div class="wysiwyg_editor wysiwyg_editor_on_wizard" wysiwyg-editor ng-model="wizardCtrl.campaignData.info.collectDetailsTemplate.template" name="collectDetailsBody" tabindex="5"></div>
+                <div class="x_space x_20"></div>
+                <div upload-panel>
+                    <button class="square_bt sm teal_bt" ng-class="{'inactive': outreachCtrl.uploader.isUploading }" ng-disabled="{{ outreachCtrl.uploader.isUploading }}" ng-click="!outreachCtrl.uploader.isUploading && outreachCtrl.collectDetailsTemplate.sendTestEmail(outreachCtrl.sendEmailUrl, {body: wizardCtrl.campaignData.info.collectDetailsTemplate.template, subject: wizardCtrl.campaignData.outreachTemplate.subject, context: outreachCtrl.templateContext})">
+                        <span ng-hide="outreachCtrl.collectDetailsTemplate.sendingTestEmail">Send Test Email</span>
+                        <span ng-show="outreachCtrl.collectDetailsTemplate.sendingTestEmail">Sending...</span>
+                    </button>
+                    <button ng-if="false" class="square_bt sm teal_bt" ng-click="selectFile()"><span>Add Attachment</span></button>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="form_divider w_30_30_pad_mag"></div>
+
+
+
+        <div class="a_form_group padding_40_all clearfix">
+            <div class="x_space x_10"></div>
+            <div class="typical_form third left">
+                <div class="form_mid_title">Shipping</div>
+                <div class="form_instruction" style="padding-right:50px;">If you’re sending out packages to influencers, you’ll want to know they’ve received them and are on their way to creating content. By adding the shipping tracking code in your influencer pipeline, you can then send out this email in case they need to track their packages. Plus, once they click on that link, you’ll be notified that they’ve received their packages. Done and done!</div>
+            </div>
+
+            <div class="typical_form two_third right">
+                <!--<div class="form_row_30 clearfix">
+                    <fieldset class="typical_form smaller_field halfer">
+                        <label>Email Subject : </label>
+                        <input ng-model="wizardCtrl.campaignData.info.shippingTemplate.subject" type="text" name="shippingSubject" tabindex="6" />
+                    </fieldset>
+                </div>-->
+                <div class="wysiwyg_editor wysiwyg_editor_on_wizard" wysiwyg-editor ng-model="wizardCtrl.campaignData.info.shippingTemplate.template" name="shippingBody" tabindex="7"></div>
+                <div class="x_space x_20"></div>
+                <div upload-panel>
+                    <button class="square_bt sm teal_bt" ng-class="{'inactive': outreachCtrl.uploader.isUploading }" ng-disabled="{{ outreachCtrl.uploader.isUploading }}" ng-click="!outreachCtrl.uploader.isUploading && outreachCtrl.shippingTemplate.sendTestEmail(outreachCtrl.sendEmailUrl, {body: wizardCtrl.campaignData.info.shippingTemplate.template, subject: wizardCtrl.campaignData.outreachTemplate.subject, context: outreachCtrl.templateContext})">
+                        <span ng-hide="outreachCtrl.shippingTemplate.sendingTestEmail">Send Test Email</span>
+                        <span ng-show="outreachCtrl.shippingTemplate.sendingTestEmail">Sending...</span>
+                    </button>
+                    <button ng-if="false" class="square_bt sm teal_bt" ng-click="selectFile()"><span>Add Attachment</span></button>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="form_divider w_30_30_pad_mag"></div>
+
+
+
+        <div class="a_form_group padding_40_all clearfix">
+            <div class="x_space x_10"></div>
+            <div class="typical_form third left">
+                <div class="form_mid_title">Posts Adding</div>
+                <div class="form_instruction" style="padding-right:50px;">If you’re sending out packages to influencers, you’ll want to know they’ve received them and are on their way to creating content. By adding the shipping tracking code in your influencer pipeline, you can then send out this email in case they need to track their packages. Plus, once they click on that link, you’ll be notified that they’ve received their packages. Done and done!</div>
+            </div>
+
+            <div class="typical_form two_third right">
+                <!--<div class="form_row_30 clearfix">
+                    <fieldset class="typical_form smaller_field halfer">
+                        <label>Email Subject : </label>
+                        <input ng-model="wizardCtrl.campaignData.info.shippingTemplate.subject" type="text" name="shippingSubject" tabindex="6" />
+                    </fieldset>
+                </div>-->
+                <div class="wysiwyg_editor wysiwyg_editor_on_wizard" wysiwyg-editor ng-model="wizardCtrl.campaignData.info.postsAddingTemplate.template" name="postsAddingBody" tabindex="7"></div>
+                <div class="x_space x_20"></div>
+                <div upload-panel>
+                    <button class="square_bt sm teal_bt" ng-class="{'inactive': outreachCtrl.uploader.isUploading }" ng-disabled="{{ outreachCtrl.uploader.isUploading }}" ng-click="!outreachCtrl.uploader.isUploading && outreachCtrl.postsAddingTemplate.sendTestEmail(outreachCtrl.sendEmailUrl, {body: wizardCtrl.campaignData.info.postsAddingTemplate.template, subject: wizardCtrl.campaignData.outreachTemplate.subject, context: outreachCtrl.templateContext})">
+                        <span ng-hide="outreachCtrl.postsAddingTemplate.sendingTestEmail">Send Test Email</span>
+                        <span ng-show="outreachCtrl.postsAddingTemplate.sendingTestEmail">Sending...</span>
+                    </button>
+                    <button ng-if="false" class="square_bt sm teal_bt" ng-click="selectFile()"><span>Add Attachment</span></button>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="form_divider w_30_30_pad_mag"></div>
+
+
+
+        <div class="a_form_group padding_40_all clearfix">
+            <div class="x_space x_10"></div>
+            <div class="typical_form third left">
+                <div class="form_mid_title">Reminder + Tracking Links</div>
+                <div class="form_instruction" style="padding-right:50px;">Before your campaign goes live, you can send your influencers a reminder. This email should encourage them to review their campaign overview page and requirements one last time. <br/><br/>Additionally, it provides them with a link to their tracking codes, which they’ll need to add to their blog post (if you enable this feature). Tracking codes allow us to track blog engagement, impressions, and click-throughs. If you have any questions about tracking codes, please contact your account manager.</div>
+            </div>
+
+            <div class="typical_form two_third right">
+                <!--<div class="form_row_30 clearfix">
+                    <fieldset class="typical_form smaller_field halfer">
+                        <label>Email Subject : </label>
+                        <input ng-model="wizardCtrl.campaignData.info.reminderTemplate.subject" type="text" name="reminderSubject" tabindex="6" />
+                    </fieldset>
+                </div>-->
+                <div class="wysiwyg_editor wysiwyg_editor_on_wizard" wysiwyg-editor ng-model="wizardCtrl.campaignData.info.reminderTemplate.template" name="reminderBody" tabindex="7"></div>
+                <div class="x_space x_20"></div>
+                <div upload-panel>
+                    <button class="square_bt sm teal_bt" ng-class="{'inactive': outreachCtrl.uploader.isUploading }" ng-disabled="{{ outreachCtrl.uploader.isUploading }}" ng-click="!outreachCtrl.uploader.isUploading && outreachCtrl.reminderTemplate.sendTestEmail(outreachCtrl.sendEmailUrl, {body: wizardCtrl.campaignData.info.reminderTemplate.template, subject: wizardCtrl.campaignData.outreachTemplate.subject, context: outreachCtrl.templateContext})">
+                        <span ng-hide="outreachCtrl.reminderTemplate.sendingTestEmail">Send Test Email</span>
+                        <span ng-show="outreachCtrl.reminderTemplate.sendingTestEmail">Sending...</span>
+                    </button>
+                    <button ng-if="false" class="square_bt sm teal_bt" ng-click="selectFile()"><span>Add Attachment</span></button>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="form_divider w_30_30_pad_mag"></div>
+
+
+
+        <div class="a_form_group padding_40_all clearfix">
+            <div class="x_space x_10"></div>
+            <div class="typical_form third left">
+                <div class="form_mid_title">Payment Complete</div>
+                <div class="form_instruction" style="padding-right:50px;">This email will simply allow you to notify the influencers that you’ve paid them for the campaign.</div>
+            </div>
+
+            <div class="typical_form two_third right">
+                <!--<div class="form_row_30 clearfix">
+                    <fieldset class="typical_form smaller_field halfer">
+                        <label>Email Subject : </label>
+                        <input ng-model="wizardCtrl.campaignData.info.paymentCompleteTemplate.subject" type="text" name="paymentSubject" tabindex="6" />
+                    </fieldset>
+                </div>-->
+                <div class="wysiwyg_editor wysiwyg_editor_on_wizard" wysiwyg-editor ng-model="wizardCtrl.campaignData.info.paymentCompleteTemplate.template" name="paymentBody" tabindex="7"></div>
+                <div class="x_space x_20"></div>
+                <div upload-panel>
+                    <button class="square_bt sm teal_bt" ng-class="{'inactive': outreachCtrl.uploader.isUploading }" ng-disabled="{{ outreachCtrl.uploader.isUploading }}" ng-click="!outreachCtrl.uploader.isUploading && outreachCtrl.paymentCompleteTemplate.sendTestEmail(outreachCtrl.sendEmailUrl, {body: wizardCtrl.campaignData.info.paymentCompleteTemplate.template, subject: wizardCtrl.campaignData.outreachTemplate.subject, context: outreachCtrl.templateContext})">
+                        <span ng-hide="outreachCtrl.paymentCompleteTemplate.sendingTestEmail">Send Test Email</span>
+                        <span ng-show="outreachCtrl.paymentCompleteTemplate.sendingTestEmail">Sending...</span>
+                    </button>
+                    <button ng-if="false" class="square_bt sm teal_bt" ng-click="selectFile()"><span>Add Attachment</span></button>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="a_form_group padding_40_all clearfix" ng-if="wizardCtrl.campaignData.postApprovalEnabled">
+            <div class="x_space x_10"></div>
+            <div class="typical_form third left">
+                <div class="form_mid_title">Post Approval</div>
+                <div class="form_instruction" style="padding-right:50px;"></div>
+            </div>
+
+            <div class="typical_form two_third right">
+                <!--<div class="form_row_30 clearfix">
+                    <fieldset class="typical_form smaller_field halfer">
+                        <label>Email Subject : </label>
+                        <input ng-model="wizardCtrl.campaignData.info.paymentCompleteTemplate.subject" type="text" name="paymentSubject" tabindex="6" />
+                    </fieldset>
+                </div>-->
+                <div class="wysiwyg_editor wysiwyg_editor_on_wizard" wysiwyg-editor ng-model="wizardCtrl.campaignData.info.postApprovalTemplate.template" name="postApprovalBody" tabindex="7"></div>
+                <div class="x_space x_20"></div>
+                <div upload-panel>
+                    <button class="square_bt sm teal_bt" ng-class="{'inactive': outreachCtrl.uploader.isUploading }" ng-disabled="{{ outreachCtrl.uploader.isUploading }}" ng-click="!outreachCtrl.uploader.isUploading && outreachCtrl.postApprovalTemplate.sendTestEmail(outreachCtrl.sendEmailUrl, {body: wizardCtrl.campaignData.info.postApprovalTemplate.template, subject: wizardCtrl.campaignData.outreachTemplate.subject, context: outreachCtrl.templateContext})">
+                        <span ng-hide="outreachCtrl.postApprovalTemplate.sendingTestEmail">Send Test Email</span>
+                        <span ng-show="outreachCtrl.postApprovalTemplate.sendingTestEmail">Sending...</span>
+                    </button>
+                    <button ng-if="false" class="square_bt sm teal_bt" ng-click="selectFile()"><span>Add Attachment</span></button>
+                </div>
+            </div>
+        </div>
+
+        <!--fieldset class="typical_form halfer right" style="display: none;">
+            <h2>Click to Add More Merge Tags</h2>
+            <button class="square_bt md teal_bt">
+                <span>Influencer's Name</span>
+            </button>
+            <button class="square_bt md teal_bt">
+                <span>Blog Name</span>
+            </button>
+        </fieldset-->
+        <div class="form_divider w_0_0_pad_mag"></div>
+     
+    </ng-form>
+</div>

@@ -1,0 +1,29 @@
+<span>
+    <span class="transcluded" ng-transclude></span>
+    <div generic-popup>
+        <div class="content_area_container px400">
+            <div ng-if="state == 'working'">
+                <h1 class="lb_title">Working</h1>
+                <p class="instruction_txt">
+                    <span class="small message">Please wait.</span>
+                </p>
+            </div>
+            <div ng-if="state == 'done'">
+                <h1 class="lb_title">Done</h1>
+            </div>
+            <div ng-if="state == 'error'">
+                <h1 class="lb_title">Try again</h1>
+            </div>
+            <div ng-if="state == 'opened'">
+                <h1 class="lb_title">{{ title }}</h1>
+                <p class="instruction_txt">
+                    <span class="small message">{{ message }}</span>
+                </p>
+                <div class="button_row">
+                    <button class="square_bt teal_bt md confirm_selection" ng-click="yes()">Yes</button>
+                    <button class="square_bt teal_bt md negate_selection" ng-click="no()">No</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</span>
